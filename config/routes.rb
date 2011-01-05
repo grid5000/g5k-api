@@ -1,4 +1,4 @@
-BrokerApi::Application.routes.draw do
+Api::Application.routes.draw do
   # The priority is based upon order of creation:
   # first created -> highest priority.
 

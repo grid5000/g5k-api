@@ -17,7 +17,7 @@ require 'rack/fiber_pool'
 
 require 'grid5000/repository'
 
-module BrokerApi  
+module Api  
   
   class Application < Rails::Application
     

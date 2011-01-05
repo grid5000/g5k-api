@@ -1,5 +1,5 @@
-puts "Looking for defaults configuration file in #{BrokerApi::Application::BONFIRE_API_DEFAULTS_CONFIG_PATHS.inspect}..."
-config_file = BrokerApi::Application::BONFIRE_API_DEFAULTS_CONFIG_PATHS.find { |path|
+puts "Looking for defaults configuration file in #{Api::Application::BONFIRE_API_DEFAULTS_CONFIG_PATHS.inspect}..."
+config_file = Api::Application::BONFIRE_API_DEFAULTS_CONFIG_PATHS.find { |path|
   fullpath = File.expand_path(path)
   File.exist?(fullpath) && File.readable?(fullpath)
 }
