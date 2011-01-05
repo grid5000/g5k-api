@@ -3,9 +3,8 @@ module Grid5000
   
     # Return a collection of resources
     def index
-      collection = EM::Synchrony.sync Resource.async_find(
+      collection = EM::Synchrony.sync repository.async_find(
         collection_path, 
-        :in => repository, 
         :branch => params[:branch],
         :version => params[:version]
       )
@@ -14,19 +13,18 @@ module Grid5000
         item['links'] = links_for_item(item)
       }
       respond_to do |format|
-        format.json { render :json => resource }
+        format.json { render :json => collection }
       end
     end
 
     def show
-      resource_path = "#{collection_path}/#{params[:id]}"
-      resource = EM::Synchrony.sync Resource.find(
-        resource_path, 
-        :in => repository,
+      path = resource_path(params[:id])
+      resource = EM::Synchrony.sync repository.async_find(
+        path, 
         :branch => params[:branch],
         :version => params[:version]
       )
-      raise NotFound, "Cannot find resource #{resource_path}" if resource.nil?
+      raise NotFound, "Cannot find resource #{path}" if resource.nil?
       resource['links'] = links_for_item(resource)
       respond_to do |format|
         format.json { render :json => resource }
@@ -35,24 +33,64 @@ module Grid5000
   
     protected
   
+    # Must be overwritten by descendants
     def collection_path
       raise NotImplemented
     end
     
+    def resource_path(id)
+      File.join(collection_path, id)
+    end
+    
+    def parent_path
+      collection_path.gsub(/\/(.+)$/, "")
+    end
+    
     def repository
       @repository ||= Grid5000::Repository.new(
-        reference_repository_path, 
-        reference_repository_path_prefix
+        File.expand_path(
+          my_config(:reference_repository_path),
+          Rails.root
+        ), 
+        my_config(:reference_repository_path_prefix)
       )
     end
     
     # Should be overwritten
     def links_for_item(item)
-      []
+      links = []
+      links.push({
+        "rel" => "self",
+        "type" => media_type(:json),
+        "href" => uri_to(resource_path(item["uid"]))
+      })
+      links.push({
+        "rel" => "parent",
+        "type" => media_type(:json),
+        "href" => uri_to(parent_path)
+      }) unless parent_path.blank?
+      links.push({
+        "rel" => "versions",
+        "type" => media_type(:json_collection),
+        "href" => uri_to(File.join(resource_path(item["uid"]), "versions"))
+      })
+      links
     end
-  
-    def links_for_collection
-  
+    
+    # Should be overwritten
+    def links_for_collection(collection)
+      links = []
+      links.push({
+        "rel" => "self",
+        "type" => media_type(:json_collection),
+        "href" => uri_to(collection_path)
+      })
+      links.push({
+        "rel" => "parent",
+        "type" => media_type(:json),
+        "href" => uri_to(parent_path)
+      }) unless parent_path.blank?
+      links
     end
     
   end

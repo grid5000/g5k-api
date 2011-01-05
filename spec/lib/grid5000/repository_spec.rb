@@ -1,24 +1,8 @@
 require 'spec_helper'
 
 describe Grid5000::Repository do
-  before(:all) do
-    @repository_path_prefix = "data"
+  before do
     @latest_commit = "5b02702daa827f7e39ebf7396af26735c9d2aacd"
-    # INIT TESTING GIT REPOSITORY
-    @repository_path = File.expand_path(
-      '../../../fixtures/reference-repository',
-      __FILE__
-    )
-    if File.exist?( File.join(@repository_path, 'git.rename') )
-      cmd = "mv #{File.join(@repository_path, 'git.rename')} #{File.join(@repository_path, '.git')}"
-      system cmd
-    end
-  end
-  
-  after(:all) do
-    if File.exist?( File.join(@repository_path, '.git') )
-      system "mv #{File.join(@repository_path, '.git')} #{File.join(@repository_path, 'git.rename')}"
-    end
   end
   
   it "should instantiate a new repository object with the correct settings" do

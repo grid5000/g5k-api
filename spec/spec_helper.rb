@@ -16,17 +16,39 @@ def fixture(filename)
   File.read(File.join(File.dirname(__FILE__), "fixtures", filename))
 end
 
-def authenticate_as(username)
-  @request.env['HTTP_X_BONFIRE_ASSERTED_ID'] = username
+# def authenticate_as(username)
+#   @request.env['HTTP_X_BONFIRE_ASSERTED_ID'] = username
+# end
+
+
+def json
+  @json ||= JSON.parse(response.body)
 end
 
 RSpec.configure do |config|
   include ConfigurationHelper
   
   config.before(:each) do
+    @json = nil
   end
   
-  config.after(:each) do
+  config.before(:all) do
+    @repository_path_prefix = "data"
+    # INIT TESTING GIT REPOSITORY
+    @repository_path = File.expand_path(
+      '../fixtures/reference-repository',
+      __FILE__
+    )
+    if File.exist?( File.join(@repository_path, 'git.rename') )
+      cmd = "mv #{File.join(@repository_path, 'git.rename')} #{File.join(@repository_path, '.git')}"
+      system cmd
+    end
+  end
+  
+  config.after(:all) do
+    if File.exist?( File.join(@repository_path, '.git') )
+      system "mv #{File.join(@repository_path, '.git')} #{File.join(@repository_path, 'git.rename')}"
+    end
   end
 
   # == Mock Framework

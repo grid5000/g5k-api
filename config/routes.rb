@@ -29,18 +29,12 @@ Api::Application.routes.draw do
   namespace :grid5000 do
     resources :sites do
       resources :clusters do
-        resources :nodes do
-          
-        end
+        resources :nodes
       end
       
-      resources :jobs do
-        
-      end
-      
-      resources :deployments do
-        
-      end
+      resources :jobs
+      resources :deployments
+      resources :environments
     end
   end
   
