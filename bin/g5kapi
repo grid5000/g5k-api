@@ -1,0 +1,28 @@
+#!/usr/bin/env ruby
+
+# Launcher for the Grid5000 API
+# Run <tt>g5kapi -h</tt> to get more usage.
+
+require File.dirname(__FILE__)+"/../config/boot"
+
+supported_commands = ["server", "rake"]
+command = ARGV.shift
+
+case command
+when "rake"
+  ENV['RACK_ENV'] ||= "production"
+  ARGV << "-f" << File.expand_path(File.dirname(__FILE__)+"/../Rakefile")
+  require 'rake'
+  Rake.application.run
+when "server"
+  require 'thin'
+  rackup_file = ::File.expand_path('../../config.ru',  __FILE__)
+  argv = ARGV
+  argv << ["-R", rackup_file] unless ARGV.include?("-R")
+  argv << ["-p", "8000"] unless ARGV.include?("-p")
+  argv << ["-e", "production"] unless ARGV.include?("-e")
+  Thin::Runner.new(argv.flatten).run!
+else
+  STDERR.puts "You must choose one of the following commands: #{supported_commands.inspect}"
+  exit(1)
+end

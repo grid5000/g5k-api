@@ -1,0 +1,17 @@
+defaults: &defaults
+  header_user_cn: X-BonFIRE-Asserted-ID
+  default_media_type: application/vnd.bonfire+xml
+  default_xml_namespace: http://api.bonfire-project.eu/doc/schemas/occi
+  threads: 5
+  superuser: __su__
+  enactor_uri: http://localhost:8090/Enactor/webresources
+  # enactor_uri: http://igor:8080/Enactor/webresources
+
+development:
+  <<: *defaults
+
+test:
+  <<: *defaults
+
+production:
+  <<: *defaults

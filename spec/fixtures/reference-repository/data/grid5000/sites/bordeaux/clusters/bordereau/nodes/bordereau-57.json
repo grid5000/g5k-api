@@ -1,0 +1,57 @@
+{
+  "architecture": {
+    "platform_type": "x86_64",
+    "smp_size": 2,
+    "smt_size": 4
+  },
+  "main_memory": {
+    "ram_size": 4294967296,
+    "virtual_size": null
+  },
+  "network_adapters": [
+    {
+      "driver": "tg3",
+      "enabled": true,
+      "interface": "Ethernet",
+      "rate": 1000000000,
+      "vendor": "Broadcom",
+      "version": "BCM5704"
+    },
+    {
+      "driver": "tg3",
+      "enabled": true,
+      "interface": "Ethernet",
+      "rate": 1000000000,
+      "vendor": "Broadcom",
+      "version": "BCM5704"
+    }
+  ],
+  "operating_system": {
+    "name": null,
+    "release": null,
+    "version": null
+  },
+  "processor": {
+    "cache_l1": null,
+    "cache_l1d": null,
+    "cache_l1i": null,
+    "cache_l2": 2097152,
+    "clock_speed": 2600000000.0,
+    "instruction_set": "",
+    "model": "AMD Opteron",
+    "other_description": "",
+    "vendor": "AMD",
+    "version": "2218"
+  },
+  "storage_devices": [
+    {
+      "driver": "sata_svw",
+      "interface": "SATA",
+      "size": 74505805969.2383,
+      "vendor": "Hitachi",
+      "version": "HDS72168"
+    }
+  ],
+  "type": "node",
+  "uid": "bordereau-57"
+}

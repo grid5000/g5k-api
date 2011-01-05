@@ -1,0 +1,7 @@
+{
+  "date_of_arrival": null,
+  "misc": "Motherboard Bios Version 1.33;IPMI version 1.5: Firware version 1.46",
+  "model": "IBM eServer 325",
+  "type": "cluster",
+  "uid": "bordemer"
+}

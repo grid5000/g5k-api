@@ -1,0 +1,11 @@
+0000000000000000000000000000000000000000 f772f5120d1f961c0b2ab33517e2726ec72edb2b Cyril Rohr <cyril.rohr@irisa.fr> 1236961370 +0100	commit (initial): Grid5000 creation
+f772f5120d1f961c0b2ab33517e2726ec72edb2b 0e524ec143ae723d0623b312dec9ec38f6c1bba3 Cyril Rohr <cyril.rohr@irisa.fr> 1236961396 +0100	commit: Added first site: rennes
+0e524ec143ae723d0623b312dec9ec38f6c1bba3 172e05707e7e68b9708b611bbef84eb996f74840 Cyril Rohr <cyril.rohr@irisa.fr> 1236961412 +0100	commit: Added site: grenoble
+172e05707e7e68b9708b611bbef84eb996f74840 c8a83927f6a51ea812aee9f456e6e24a804e99a4 Cyril Rohr <cyril.rohr@irisa.fr> 1236961437 +0100	commit: added bordeaux site
+c8a83927f6a51ea812aee9f456e6e24a804e99a4 b00bd30bf69c322ffe9aca7a9f6e3be0f29e20f4 Cyril Rohr <cyril.rohr@irisa.fr> 1236961458 +0100	commit: Added bordeaux's environments
+b00bd30bf69c322ffe9aca7a9f6e3be0f29e20f4 e07895a4b480aaa8e11c35549a97796dcc4a307d Cyril Rohr <cyril.rohr@irisa.fr> 1236961487 +0100	commit: Added first cluster to bordeaux: bordemer
+e07895a4b480aaa8e11c35549a97796dcc4a307d 9e85da218150246abb0885e644e6e24863eaa4a3 Cyril Rohr <cyril.rohr@irisa.fr> 1236961509 +0100	commit: added 3 other clusters to bordeaux site
+9e85da218150246abb0885e644e6e24863eaa4a3 ae5c7e2e8d298690c7917ed129b210f9c4bdbf90 Cyril Rohr <cyril.rohr@irisa.fr> 1236961540 +0100	commit: add grid environments
+ae5c7e2e8d298690c7917ed129b210f9c4bdbf90 5a5bdfcfa33b5a025677591815f4b024524c81a4 Cyril Rohr <cyril.rohr@gmail.com> 1256215832 +0200	commit: rennes env is now a symlink
+5a5bdfcfa33b5a025677591815f4b024524c81a4 729d479d0dd550b256cfc34171a701247f16b235 Cyril Rohr <cyril.rohr@gmail.com> 1256215857 +0200	commit: added .gitignore
+729d479d0dd550b256cfc34171a701247f16b235 5b02702daa827f7e39ebf7396af26735c9d2aacd Cyril Rohr <cyril.rohr@irisa.fr> 1294243789 +0100	commit: Add synlinks for environments.

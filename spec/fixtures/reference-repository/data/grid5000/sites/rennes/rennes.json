@@ -1,0 +1,14 @@
+{
+  "description": "",
+  "email_contact": null,
+  "latitude": 48.114722,
+  "location": "Rennes, France",
+  "longitude": -1.679444,
+  "name": "Rennes",
+  "security_contact": null,
+  "sys_admin_contact": null,
+  "type": "site",
+  "uid": "rennes",
+  "user_support_contact": null,
+  "web": "http:\/\/www.irisa.fr"
+}
