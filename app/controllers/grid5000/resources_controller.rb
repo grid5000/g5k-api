@@ -40,7 +40,7 @@ module Grid5000
     end
     
     def repository
-      @repository ||= Repository.new(
+      @repository ||= Grid5000::Repository.new(
         reference_repository_path, 
         reference_repository_path_prefix
       )

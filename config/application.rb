@@ -21,17 +21,17 @@ module Api
   
   class Application < Rails::Application
     
-    BONFIRE_API_DATABASE_CONFIG_PATHS = [
-      ENV['BONFIRE_API_DATABASE_CONFIG'],
-      "~/.bonfire-broker-api/database.yml",
-      "/usr/etc/bonfire-broker-api/database.yml",
+    DATABASE_CONFIG_PATHS = [
+      ENV['G5KAPI_DATABASE_CONFIG'],
+      "~/.g5kapi/database.yml",
+      "/opt/local/etc/g5kapi/database.yml",
       Rails.root.join("config/options/database.yml").to_path
     ].compact
 
-    BONFIRE_API_DEFAULTS_CONFIG_PATHS = [
-      ENV['BONFIRE_API_DEFAULTS_CONFIG'],
-      "~/.bonfire-broker-api/defaults.yml",
-      "/usr/etc/bonfire-broker-api/defaults.yml",
+    DEFAULTS_CONFIG_PATHS = [
+      ENV['G5KAPI_DEFAULTS_CONFIG'],
+      "~/.g5kapi/defaults.yml",
+      "/opt/local/etc/g5kapi/defaults.yml",
       Rails.root.join("config/options/defaults.yml").to_path
     ].compact
     
@@ -72,8 +72,8 @@ module Api
     # Configure sensitive parameters which will be filtered from the log file.
     config.filter_parameters += [:password]
     
-    puts "Looking for database configuration file in #{BONFIRE_API_DATABASE_CONFIG_PATHS.inspect}..."
-    paths.config.database = BONFIRE_API_DATABASE_CONFIG_PATHS.find { |path|
+    puts "Looking for database configuration file in #{DATABASE_CONFIG_PATHS.inspect}..."
+    paths.config.database = DATABASE_CONFIG_PATHS.find { |path|
       fullpath = File.expand_path(path)
       File.exist?(fullpath) && File.readable?(fullpath)
     }
