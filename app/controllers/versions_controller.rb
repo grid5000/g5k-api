@@ -1,0 +1,78 @@
+class VersionsController < ApplicationController
+  MAX_AGE = 60
+  
+  
+  def index
+    resource_path = params[:resource]
+    versions = repository.versions_for(resource_path, :branch => params[:branch], :offset => params[:offset], :limit => params[:limit])
+    
+    raise NotFound, "#{resource_path} does not exist." if versions["total"] == 0
+    
+    versions["items"].map!{|commit|
+      metadata_for_commit(commit, resource_path)
+    }
+    versions["links"] = [
+      {
+        "rel" => "self", 
+        "href" => uri_to("#{resource_path}/versions"), 
+        "type" => media_type(:json_collection)
+      },
+      {
+        "rel" => "parent", 
+        "href" => uri_to("#{resource_path.split("/")[0..-2].join("/")}"), 
+        "type" => media_type(:json)
+      }
+    ]
+    response.headers['Vary'] = 'Accept'
+    response.headers['Allow'] = "GET"
+    response.headers['Cache-Control'] = "public, max-age=#{MAX_AGE}"
+    response.headers['Expires'] = (Time.now+MAX_AGE).httpdate
+    # TODO: ETag
+    # etag compute_etag(resource_uri, commits, response['Content-Type'], options.release_hash)   
+    
+    respond_to do |format|
+      format.json { render :json => versions }
+    end
+  end
+  
+  def show
+    resource_path, version = params.values_at(:resource, :id)
+    
+    versions = repository.versions_for(resource_path, :branch => version, :offset => 0, :limit => 1)
+    raise NotFound, "The requested version '#{version}' does not exist or the resource '#{resource_path}' does not exist." if versions["total"] == 0
+    # etag compute_etag(commit.id, resource_uri, response['Content-Type'], options.release_hash)
+    
+    output = metadata_for_commit(versions["items"][0], resource_path)
+    response.headers['Allow'] = "GET"
+    response.headers['Cache-Control'] = "public, max-age=#{MAX_AGE}"
+    response.headers['Expires'] = (Time.now+MAX_AGE).httpdate
+    response.headers['Vary'] = 'Accept'
+    
+    respond_to do |format|
+      format.json { render :json => output }
+    end
+  end
+  
+  protected
+  def metadata_for_commit(commit, resource_path)
+    { 
+      'uid' => commit.id,
+      'date' => commit.committed_date.httpdate,
+      'message' => commit.message,
+      'author' => commit.author,
+      'type' => 'version',
+      'links' => [
+        {
+          "rel" => "self", 
+          "href" => uri_to("#{resource_path}/versions/#{commit.id}"), 
+          "type" => media_type(:json)
+        },
+        {
+          "rel" => "parent", 
+          "href" => uri_to(resource_path), 
+          "type" => media_type(:json)
+        }
+      ] 
+    }
+  end
+end

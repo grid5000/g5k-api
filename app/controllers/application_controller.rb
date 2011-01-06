@@ -20,10 +20,6 @@ class ApplicationController < ActionController::Base
   before_filter :log, :only => [:create, :update]
   
   protected
-  def ensure_occi_payload
-    supported_content_types = [default_media_type]
-    raise UnsupportedMediaType, "Content-Type #{request.media_type.inspect} is not supported. Please try with #{supported_content_types.inspect}" unless supported_content_types.include?(request.media_type)
-  end
   
   def lookup_credentials
     invalid_values = ["", "unknown", "(unknown)"]
@@ -63,35 +59,51 @@ class ApplicationController < ActionController::Base
     end
   end
   
-  # ===============
-  # = HTTP Errors =
-  # ===============
-  def unsupported_media_type(exception)
+  def render_error(exception, options = {})
     log_exception(exception)
-    render :text => exception.message+"\n", :status => :unsupported_media_type
-  end
-  
-  def bad_request(exception)
-    log_exception(exception)
-    render :text => exception.message+"\n", :status => :bad_request
-  end
-  
-  def not_found(exception)
-    log_exception(exception)
-    render :text => exception.message+"\n", :status => :not_found
-  end
-  
-  def server_error(exception)
-    log_exception(exception)
-    render :text => exception.message+"\n", :status => 500
-  end
-  
-  def forbidden(exception)
-    log_exception(exception)
-    render :text => "You are not authorized to access this resource\n", :status => :forbidden
+    message = options[:message] || exception.message
+    respond_to do |format|
+      format.json {
+        render :json => {
+          :message => message,
+          :code => options[:status],
+          :title => exception.class.name
+        },
+        :status => options[:status]
+      }
+      format.text {
+        render :text => [exception.class.name,message].join(": "), :status => options[:status]
+      }
+    end
   end
   
   def log_exception(exception)
     Rails.logger.debug exception.message
   end
+  
+  # ===============
+  # = HTTP Errors =
+  # ===============
+  def unsupported_media_type(exception)
+    render_error(exception, :status => 415)
+  end
+  
+  def bad_request(exception)
+    render_error(exception, :status => 400)
+  end
+  
+  def not_found(exception)
+    render_error(exception, :status => 404)
+  end
+  
+  def server_error(exception)
+    render_error(exception, :status => 500)
+  end
+  
+  def forbidden(exception)
+    opts = {:status => 403}
+    opts[:message] = "You are not authorized to access this resource" if exception.message.blank?
+    render_error(exception, opts)
+  end
+  
 end

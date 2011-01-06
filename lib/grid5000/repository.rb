@@ -7,6 +7,7 @@ module Grid5000
     attr_reader :repository_path, :repository_path_prefix, :instance
     
     def initialize(repository_path, repository_path_prefix = nil)
+      @reloading = false
       @repository_path_prefix = repository_path_prefix ? repository_path_prefix.gsub(/^\//,'') : repository_path_prefix
       @repository_path = File.expand_path repository_path
       @instance = Grit::Repo.new(repository_path)
@@ -113,6 +114,39 @@ module Grid5000
       }
       EM.defer(proc{ find(*args) }, callback)
       self
+    end
+    
+    def versions_for(path, options = {})
+      branch, offset, limit = options.values_at(:branch, :offset, :limit)
+      branch ||= 'master'
+      offset = (offset || 0).to_i
+      limit = (limit || 100).to_i
+      commits = instance.log(
+        branch, 
+        path_to(path)
+      )
+      commits = instance.log(
+        branch, 
+        path_to(path)+".json"
+      ) if commits.empty?
+      {
+        "total" => commits.length,
+        "offset" => offset,
+        "items" => commits.slice(offset, limit)
+      }
+    end
+    
+    # Fetches the latest changes from the origin repo 
+    def reload
+      return if reloading?
+      @reloading = true
+      # TODO: async code to reload repo
+    ensure
+      @reloading = false
+    end
+    
+    def reloading?
+      @reloading == true
     end
     
   end

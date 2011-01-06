@@ -46,16 +46,6 @@ module Grid5000
       collection_path.gsub(/\/(.+)$/, "")
     end
     
-    def repository
-      @repository ||= Grid5000::Repository.new(
-        File.expand_path(
-          my_config(:reference_repository_path),
-          Rails.root
-        ), 
-        my_config(:reference_repository_path_prefix)
-      )
-    end
-    
     # Should be overwritten
     def links_for_item(item)
       links = []

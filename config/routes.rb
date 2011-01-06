@@ -38,6 +38,9 @@ Api::Application.routes.draw do
     end
   end
   
+  match '*resource/versions' => 'versions#index'
+  match '*resource/versions/:id' => 'versions#show'
+  
   # match '/enactor/locations/:location/:type', :to => Enactor
   # 
   # match '/enactor/locations/:location/:type/:resource_id', :to => Enactor

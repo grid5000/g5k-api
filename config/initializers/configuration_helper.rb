@@ -22,6 +22,16 @@ module ConfigurationHelper
     my_config(:base_uri)
   end
   
+  def repository
+    @repository ||= Grid5000::Repository.new(
+      File.expand_path(
+        my_config(:reference_repository_path),
+        Rails.root
+      ), 
+      my_config(:reference_repository_path_prefix)
+    )
+  end
+  
   def media_type(type)
     case type
     when :json
