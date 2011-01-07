@@ -143,9 +143,9 @@ describe SitesController do
         EM.stop
       end
     end
-    it "should fail if the site or platform does not exist" do
-      pending "this will be taken care of at the api-proxy layer"
-    end
+    # it "should fail if the site or platform does not exist" do
+    #   pending "this will be taken care of at the api-proxy layer"
+    # end
   end # "GET /platforms/{{platform_id}}/sites/{{site_id}}/status"
   
 end
