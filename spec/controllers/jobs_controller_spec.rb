@@ -80,4 +80,168 @@ describe JobsController do
       end
     end
   end # describe "GET /platforms/{{platform_id}}/sites/{{site_id}}/jobs/{{:id}}"
+  
+  describe "POST /platforms/{{platform_id}}/sites/{{site_id}}/jobs" do
+    before do
+      @valid_job_attributes = {"command" => "sleep 3600"}
+    end
+    it "should return 403 if the user is not authenticated" do
+      EM.synchrony do
+        authenticate_as("")
+        post :create, :platform_id => "grid5000", :site_id => "rennes", :format => :json
+        response.status.should == 403
+        json['message'].should == "You are not authorized to access this resource"
+        EM.stop
+      end
+    end
+    it "should fail if the OAR api does not return 201 or 202" do
+      EM.synchrony do
+        payload = @valid_job_attributes
+        authenticate_as("crohr")
+        send_payload(payload, :json)
+        
+        expected_url = "http://api-out.local:80/platforms/grid5000/sites/rennes/internal/oarapi/jobs.json"
+        stub_request(:post, expected_url).
+          with(
+            :headers => {
+              'Accept' => media_type(:json), 
+              'Content-Type' => media_type(:json), 
+              my_config(:header_user_cn) => "crohr"
+            },
+            :body => Job.new(payload).to_hash(:destination => "oar-2.4-submission").to_json
+          ).
+          to_return(
+            :status => 400,
+            :body => "some error"
+          )
+        
+        post :create, :platform_id => "grid5000", :site_id => "rennes", :format => :json
+        response.status.should == 500
+        json['message'].should == "Request to #{expected_url} failed with status 400"
+        EM.stop
+      end
+    end
+    
+    it "should return 201, and the Location header" do
+      EM.synchrony do
+        payload = @valid_job_attributes
+        authenticate_as("crohr")
+        send_payload(payload, :json)
+        
+        expected_url = "http://api-out.local:80/platforms/grid5000/sites/rennes/internal/oarapi/jobs.json"
+        stub_request(:post, expected_url).
+          with(
+            :headers => {
+              'Accept' => media_type(:json), 
+              'Content-Type' => media_type(:json), 
+              my_config(:header_user_cn) => "crohr"
+            },
+            :body => Job.new(payload).to_hash(:destination => "oar-2.4-submission").to_json
+          ).
+          to_return(
+            :status => 201,
+            :body => fixture("oarapi-submitted-job.json")
+          )
+        
+        post :create, :platform_id => "grid5000", :site_id => "rennes", :format => :json
+        response.status.should == 201
+        response.body.should be_empty
+        response.location.should == "http://api-in.local/platforms/grid5000/sites/rennes/jobs/961722"
+        response.content_length.should be_nil
+        EM.stop
+      end
+    end
+  end # describe "POST /platforms/{{platform_id}}/sites/{{site_id}}/jobs"
+  
+  
+  describe "DELETE /platforms/{{platform_id}}/sites/{{site_id}}/jobs/{{id}}" do
+    before do
+      @job = OAR::Job.first
+      @expected_url = "http://api-out.local:80/platforms/grid5000/sites/rennes/internal/oarapi/jobs/#{@job.uid}.json"
+      @expected_headers = {
+        'Accept' => media_type(:json), 
+        my_config(:header_user_cn) => @job.user
+      }
+    end
+    
+    it "should return 403 if the user is not authenticated" do
+      EM.synchrony do
+        authenticate_as("")
+        post :create, :platform_id => "grid5000", :site_id => "rennes", :id => @job.uid, :format => :json
+        response.status.should == 403
+        json['message'].should == "You are not authorized to access this resource"
+        EM.stop
+      end
+    end
+    
+    it "should return 404 if the job does not exist" do
+      EM.synchrony do
+        authenticate_as("crohr")
+        delete :destroy, :platform_id => "grid5000", :site_id => "rennes", :id => "doesnotexist", :format => :json
+        response.status.should == 404
+        json['message'].should == "Couldn't find OAR::Job with ID=doesnotexist"
+        EM.stop
+      end
+    end
+    
+    it "should return 403 if the requester does not own the job" do
+      EM.synchrony do
+        authenticate_as(@job.user+"whatever")
+        delete :destroy, :platform_id => "grid5000", :site_id => "rennes", :id => @job.uid, :format => :json
+        response.status.should == 403
+        json['message'].should == "You are not authorized to access this resource"
+        EM.stop
+      end
+    end
+    
+    it "should return 404 if the OAR api returns 404" do
+      EM.synchrony do
+        authenticate_as(@job.user)
+        stub_request(:delete, @expected_url).
+          with(:headers => @expected_headers).
+          to_return(
+            :status => 404, :body => "not found"
+          )
+        delete :destroy, :platform_id => "grid5000", :site_id => "rennes", :id => @job.uid, :format => :json
+        response.status.should == 404
+        json['message'].should == "Cannot find job#374172 on the OAR server"
+        EM.stop
+      end
+    end
+    
+    it "should fail if the OAR api does not return 200, 202 or 204" do
+      EM.synchrony do
+        authenticate_as(@job.user)
+        stub_request(:delete, @expected_url).
+          with(:headers => @expected_headers).
+          to_return(
+            :status => 400, :body => "some error"
+          )
+        
+        delete :destroy, :platform_id => "grid5000", :site_id => "rennes", :id => @job.uid, :format => :json
+        response.status.should == 500
+        json['message'].should == "Request to #{@expected_url} failed with status 400"
+        EM.stop
+      end
+    end
+    
+    it "should return 202, and the Location header if successful" do
+      EM.synchrony do
+        authenticate_as(@job.user)
+        stub_request(:delete, @expected_url).
+          with(:headers => @expected_headers).
+          to_return(
+            :status => 202, :body => fixture("oarapi-deleted-job.json")
+          )
+        
+        delete :destroy, :platform_id => "grid5000", :site_id => "rennes", :id => @job.uid, :format => :json
+        response.status.should == 202
+        response.body.should be_empty
+        response.location.should == "http://api-in.local/platforms/grid5000/sites/rennes/jobs/#{@job.uid}"
+        response.headers['X-Oar-Info'].should =~ /Deleting the job/
+        response.content_length.should be_nil
+        EM.stop
+      end
+    end
+  end # describe "DELETE /platforms/{{platform_id}}/sites/{{site_id}}/jobs/{{id}}"
 end

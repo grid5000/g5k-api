@@ -1,7 +1,9 @@
 class ApplicationController < ActionController::Base
   include ConfigurationHelper
   
-  # before_filter :lookup_credentials, :ensure_authenticated
+  before_filter :lookup_credentials
+  before_filter :log, :only => [:create, :update, :destroy]
+  before_filter :parse_json_payload, :only => [:create, :update, :destroy]
   
   class ClientError < ActionController::ActionControllerError; end
   class ServerError < ActionController::ActionControllerError; end
@@ -19,13 +21,12 @@ class ApplicationController < ActionController::Base
   rescue_from ServerError, :with => :server_error
   rescue_from ActiveRecord::RecordNotFound, :with => :not_found
   
-  before_filter :log, :only => [:create, :update]
   
   protected
   
   def lookup_credentials
     invalid_values = ["", "unknown", "(unknown)"]
-    cn = request.env["HTTP_#{header_user_cn.gsub("-","_").upcase}"]
+    cn = request.env["HTTP_#{my_config(:header_user_cn).gsub("-","_").upcase}"]
     if cn.nil? || invalid_values.include?(cn)
       @credentials = {
         :cn => nil,
@@ -42,10 +43,11 @@ class ApplicationController < ActionController::Base
   def log
     Rails.logger.debug [:received_headers, request.env]
     Rails.logger.debug [:received_body, request.body.read]
+  ensure
     request.body.rewind
   end
   
-  def ensure_authenticated
+  def ensure_authenticated!
     @credentials[:cn] || raise(Forbidden)
   end
   
@@ -72,6 +74,17 @@ class ApplicationController < ActionController::Base
       Rails.logger.error [msg, http.response].join(": ")
       raise ServerError, msg
     end
+  end
+  
+  # Automatically parse JSON payload when request content type is JSON
+  def parse_json_payload
+    if request.content_type =~ /application\/.*json/i
+      json = JSON.parse(request.body.read)
+      json.symbolize_keys!
+      params.merge!(json)
+    end
+  ensure
+    request.body.rewind
   end
   
   def render_error(exception, options = {})
@@ -121,7 +134,7 @@ class ApplicationController < ActionController::Base
   
   def forbidden(exception)
     opts = {:status => 403}
-    opts[:message] = "You are not authorized to access this resource" if exception.message.blank?
+    opts[:message] = "You are not authorized to access this resource" if exception.message == exception.class.name
     render_error(exception, opts)
   end
   

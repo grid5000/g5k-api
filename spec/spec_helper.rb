@@ -51,6 +51,21 @@ module HeaderHelper
     values.should include("public") if options[:public]
     values.should include("max-age=#{seconds}")
   end
+  
+  def authenticate_as(username)
+    header = "HTTP_"+my_config(:header_user_cn).gsub("-","_").upcase
+    @request.env[header] = username
+  end
+  
+  def send_payload(h, type)
+    case type
+    when :json
+      @request.env['RAW_POST_DATA'] = JSON.dump(h)
+      @request.env['CONTENT_TYPE'] = media_type(type)
+    else
+      raise StandardError, "Don't know how to send payload of type #{type.inspect}"
+    end
+  end
 end
 
 RSpec.configure do |config|

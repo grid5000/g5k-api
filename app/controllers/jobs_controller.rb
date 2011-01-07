@@ -2,6 +2,7 @@ class JobsController < ApplicationController
   DEFAULT_LIMIT = 100
   MAX_LIMIT = 1000
   
+  # List jobs
   def index
     allow :get, :post; vary_on :accept
     jobs = OAR::Job.expanded.order("job_id DESC")
@@ -27,6 +28,7 @@ class JobsController < ApplicationController
     end
   end
   
+  # Display the details of a job
   def show
     allow :get, :delete; vary_on :accept
     job = OAR::Job.expanded.find(params[:id])
@@ -36,12 +38,86 @@ class JobsController < ApplicationController
     end
   end
   
+  # Delete a job. Client must be authenticated and must own the job.
+  # 
+  # Delegates to the OAR API.
   def destroy
-    # forward to OAR API
+    ensure_authenticated!
+    job = OAR::Job.find(params[:id])
+    authorize!(job.user)
+    
+    url = uri_to(
+      platform_site_path(
+        params[:platform_id], 
+        params[:site_id]
+      )+"/internal/oarapi/jobs/#{params[:id]}.json", 
+      :out
+    )
+    http = EM::HttpRequest.new(url).delete(
+      :timeout => 5,
+      :head => {
+        my_config(:header_user_cn) => @credentials[:cn],
+        'Accept' => media_type(:json)
+      }
+    )
+    
+    continue_if!(http, :is => [200,202,204,404])
+    
+    if http.response_header.status == 404
+      raise NotFound, "Cannot find job##{params[:id]} on the OAR server"
+    else
+      response.headers['X-Oar-Info'] = (
+        JSON.parse(http.response)['oardel_output'] || ""
+      ).split("\n").join(" ") rescue "-"
+      
+      location_uri = uri_to(
+        platform_site_job_path(
+          params[:platform_id], params[:site_id], params[:id]
+        ), 
+        :in, :absolute
+      )
+      
+      render  :text => "", 
+              :head => :ok, 
+              :location => location_uri, 
+              :status => 202
+    end
   end
   
+  # Create a new Job. Client must be authenticated.
+  # 
+  # Delegates the request to the OAR API.
   def create
-    # forward to OAR API
+    ensure_authenticated!
+    
+    job = Job.new(params)
+    Rails.logger.info "Received job = #{job.inspect}"
+    raise BadRequest, "The job you are trying to submit is not valid: #{job.errors.join("; ")}" unless job.valid?
+    job_to_send = job.to_hash(:destination => "oar-2.4-submission")
+    Rails.logger.info "Submitting #{job_to_send.inspect}"
+    
+    url = uri_to(
+      platform_site_path(params[:platform_id], params[:site_id])+"/internal/oarapi/jobs.json", :out)
+    http = EM::HttpRequest.new(url).post(
+      :timeout => 20,
+      :body => job_to_send.to_json,
+      :head => {
+        my_config(:header_user_cn) => @credentials[:cn],
+        'Content-Type' => media_type(:json),
+        'Accept' => media_type(:json)
+      }
+    )
+    continue_if!(http, :is => [201,202])
+    
+    job_uid = JSON.parse(http.response)['id']
+    location_uri = uri_to(
+      platform_site_job_path(params[:platform_id], params[:site_id], job_uid), 
+      :in, :absolute
+    )
+    render  :text => "", 
+            :head => :ok, 
+            :location => location_uri, 
+            :status => 201
   end
   
   protected

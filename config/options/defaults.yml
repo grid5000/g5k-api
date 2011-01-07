@@ -1,4 +1,5 @@
 defaults: &defaults
+  header_user_cn: X-Api-User-CN
   reference_repository_path: ~/.g5kapi/reference-repository
   reference_repository_path_prefix: data
   base_uri_in: https://api.grid5000.fr
