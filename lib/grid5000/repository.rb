@@ -4,9 +4,10 @@ require 'json'
 
 module Grid5000
   class Repository
-    attr_reader :repository_path, :repository_path_prefix, :instance
+    attr_reader :repository_path, :repository_path_prefix, :instance, :commit
     
     def initialize(repository_path, repository_path_prefix = nil)
+      @commit = nil
       @reloading = false
       @repository_path_prefix = repository_path_prefix ? repository_path_prefix.gsub(/^\//,'') : repository_path_prefix
       @repository_path = File.expand_path repository_path
@@ -14,11 +15,12 @@ module Grid5000
     end
     
     def find(path, options = {})
-      commit = find_commit_for(options)
-      return nil if commit.nil?
-      object = find_object_at(path, commit)
+      @commit = nil
+      @commit = find_commit_for(options)
+      return nil if @commit.nil?
+      object = find_object_at(path, @commit)
       return nil if object.nil?
-      result = expand_object(object, path, commit)
+      result = expand_object(object, path, @commit)
     end
     
     def expand_object(object, path, commit)
@@ -30,7 +32,7 @@ module Grid5000
       
       case object
       when Grit::Blob
-        JSON.parse(object.data)
+        JSON.parse(object.data).merge("version" => commit.id)
       when Grit::Tree
         groups = object.contents.group_by{|content| content.class}
         blobs, trees = [groups[Grit::Blob] || [], groups[Grit::Tree] || []]
@@ -58,7 +60,8 @@ module Grid5000
           result = {
             "total" => items.length, 
             "offset" => 0,
-            "items" => items
+            "items" => items,
+            "version" => commit.id
           }
           result
         end

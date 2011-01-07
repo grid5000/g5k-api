@@ -1,9 +1,9 @@
 class VersionsController < ApplicationController
-  MAX_AGE = 60
+  MAX_AGE = 60.seconds
   
   
   def index
-    resource_path = params[:resource]
+    vary_on :accept; allow :get
     versions = repository.versions_for(resource_path, :branch => params[:branch], :offset => params[:offset], :limit => params[:limit])
     
     raise NotFound, "#{resource_path} does not exist." if versions["total"] == 0
@@ -23,12 +23,9 @@ class VersionsController < ApplicationController
         "type" => media_type(:json)
       }
     ]
-    response.headers['Vary'] = 'Accept'
-    response.headers['Allow'] = "GET"
-    response.headers['Cache-Control'] = "public, max-age=#{MAX_AGE}"
-    response.headers['Expires'] = (Time.now+MAX_AGE).httpdate
-    # TODO: ETag
-    # etag compute_etag(resource_uri, commits, response['Content-Type'], options.release_hash)   
+    
+    etag versions.hash
+    expires_in MAX_AGE, :public => true
     
     respond_to do |format|
       format.json { render :json => versions }
@@ -36,17 +33,17 @@ class VersionsController < ApplicationController
   end
   
   def show
-    resource_path, version = params.values_at(:resource, :id)
+    vary_on :accept; allow :get
+    version = params[:id]
     
     versions = repository.versions_for(resource_path, :branch => version, :offset => 0, :limit => 1)
     raise NotFound, "The requested version '#{version}' does not exist or the resource '#{resource_path}' does not exist." if versions["total"] == 0
     # etag compute_etag(commit.id, resource_uri, response['Content-Type'], options.release_hash)
     
     output = metadata_for_commit(versions["items"][0], resource_path)
-    response.headers['Allow'] = "GET"
-    response.headers['Cache-Control'] = "public, max-age=#{MAX_AGE}"
-    response.headers['Expires'] = (Time.now+MAX_AGE).httpdate
-    response.headers['Vary'] = 'Accept'
+
+    etag versions.hash
+    expires_in MAX_AGE, :public => true
     
     respond_to do |format|
       format.json { render :json => output }
@@ -54,6 +51,10 @@ class VersionsController < ApplicationController
   end
   
   protected
+  def resource_path
+    @resource_path ||= params[:resource].gsub(/\/?platforms/, '')
+  end
+  
   def metadata_for_commit(commit, resource_path)
     { 
       'uid' => commit.id,

@@ -2,78 +2,26 @@ Api::Application.routes.draw do
   # The priority is based upon order of creation:
   # first created -> highest priority.
 
-  # Sample of regular route:
-  #   match 'products/:id' => 'catalog#view'
-  # Keep in mind you can assign values other than :controller and :action
-
-  # Sample of named route:
-  #   match 'products/:id/purchase' => 'catalog#purchase', :as => :purchase
-  # This route can be invoked with purchase_url(:id => product.id)
-
-  # Sample resource route (maps HTTP verbs to controller actions automatically):
-  #   resources :products
-
-  # Sample resource route with options:
-  #   resources :products do
-  #     member do
-  #       get 'short'
-  #       post 'toggle'
-  #     end
-  #
-  #     collection do
-  #       get 'sold'
-  #     end
-  #   end
-
-  
-  namespace :grid5000 do
-    resources :sites do
-      resources :clusters do
-        resources :nodes
+  resources :platforms, :only => [:index, :show] do
+    resources :environments, :only => [:index, :show]
+    resources :sites, :only => [:index, :show] do
+      member do
+        get :status
       end
-      
+      resources :environments, :only => [:index, :show]
+      resources :clusters, :only => [:index, :show] do
+        resources :nodes, :only => [:index, :show]
+      end
       resources :jobs
       resources :deployments
-      resources :environments
     end
   end
-  
-  match '*resource/versions' => 'versions#index'
-  match '*resource/versions/:id' => 'versions#show'
-  
-  # match '/enactor/locations/:location/:type', :to => Enactor
-  # 
-  # match '/enactor/locations/:location/:type/:resource_id', :to => Enactor
-
-  # resources :experiments do
-  #   resources :networks, :computes, :storages, :only => [:create, :index]
-  # end
-  # 
-  # match 'experiments' => 'experiments#purge', :via => :delete
-  # 
-  # resources :locations do
-  #   resources :networks, :computes, :storages, :only => [:update, :index, :show, :destroy]
-  # end
-  
-
-  # Sample resource route with more complex sub-resources
-  #   resources :products do
-  #     resources :comments
-  #     resources :sales do
-  #       get 'recent', :on => :collection
-  #     end
-  #   end
-
-  # Sample resource route within a namespace:
-  #   namespace :admin do
-  #     # Directs /admin/products/* to Admin::ProductsController
-  #     # (app/controllers/admin/products_controller.rb)
-  #     resources :products
-  #   end
+  match '*resource/versions' => 'versions#index', :via => [:get]
+  match '*resource/versions/:id' => 'versions#show', :via => [:get]
 
   # You can have the root of your site routed with "root"
   # just remember to delete public/index.html.
-  # root :to => "root#index"
+  root :to => "root#index"
 
   # See how all your routes lay out with "rake routes"
 

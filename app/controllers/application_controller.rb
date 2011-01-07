@@ -9,9 +9,11 @@ class ApplicationController < ActionController::Base
   class BadRequest < ClientError; end
   class Forbidden < ClientError; end
   class NotFound < ClientError; end
+  class BadGateway < ServerError; end
   
   rescue_from UnsupportedMediaType, :with => :unsupported_media_type
   rescue_from BadRequest, :with => :bad_request
+  rescue_from BadGateway, :with => :bad_gateway
   rescue_from Forbidden, :with => :forbidden
   rescue_from NotFound, :with => :not_found
   rescue_from ServerError, :with => :server_error
@@ -51,11 +53,24 @@ class ApplicationController < ActionController::Base
     raise Forbidden if user_id != @credentials[:cn]
   end
   
-  def status(http)
-    if http.response_header.status == 0
-      502 # bad gateway
+  # Analyses the response status of the given HTTP response.
+  # 
+  # Raise BadGateway if status is 0.
+  # Raise ServerError if status is not in the expected status codes given via <tt>options[:is]</tt>.
+  def continue_if!(http, options = {})
+    allowed_status = [options[:is] || (200..299).to_a].flatten
+    status = http.response_header.status
+    case status
+    when *allowed_status
+      true
+    when 0
+      raise BadGateway
     else
-      http.response_header.status
+      # http.method always returns nil. Bug?
+      # msg = "#{http.method} #{http.uri} failed with status #{status}"
+      msg = "Request to #{http.uri.to_s} failed with status #{status}"
+      Rails.logger.error [msg, http.response].join(": ")
+      raise ServerError, msg
     end
   end
   
@@ -96,6 +111,10 @@ class ApplicationController < ActionController::Base
     render_error(exception, :status => 404)
   end
   
+  def bad_gateway(exception)
+    render_error(exception, :status => 502)
+  end
+  
   def server_error(exception)
     render_error(exception, :status => 500)
   end
@@ -104,6 +123,26 @@ class ApplicationController < ActionController::Base
     opts = {:status => 403}
     opts[:message] = "You are not authorized to access this resource" if exception.message.blank?
     render_error(exception, opts)
+  end
+  
+  # ================
+  # = HTTP Headers =
+  # ================
+  def allow(*args)
+    response.headers['Allow'] = args.flatten.map{|m| m.to_s.upcase}.join(",")
+  end
+  def vary_on(*args)
+    response.headers['Vary'] ||= ''
+    response.headers['Vary'] = [
+      response.headers['Vary'].split(","), 
+      args
+    ].flatten.join(",")
+  end
+  def etag(*args)
+    response.etag = args.join(".")
+  end
+  def last_modified(time)
+    response.last_modified = time.utc
   end
   
 end

@@ -1,0 +1,198 @@
+{
+  "items": [
+    {
+      "model": "Carry System",
+      "created_at": "Sat, 31 Jan 2009 23:00:00 GMT",
+      "uid": "paradent",
+      "type": "cluster",
+      "version": "74638098d6267d695936977990b4531a7e084bb2",
+      "links": [
+        {
+          "href": "/sid/grid5000/sites/rennes/clusters/paradent/versions/74638098d6267d695936977990b4531a7e084bb2",
+          "title": "version",
+          "rel": "member",
+          "type": "application/vnd.fr.grid5000.api.Version+json;level=1"
+        },
+        {
+          "href": "/sid/grid5000/sites/rennes/clusters/paradent/versions",
+          "title": "versions",
+          "rel": "collection",
+          "type": "application/vnd.fr.grid5000.api.Collection+json;level=1"
+        },
+        {
+          "href": "/sid/grid5000/sites/rennes/clusters/paradent",
+          "rel": "self",
+          "type": "application/vnd.fr.grid5000.api.Cluster+json;level=1"
+        },
+        {
+          "href": "/sid/grid5000/sites/rennes/clusters/paradent/nodes",
+          "title": "nodes",
+          "rel": "collection",
+          "type": "application/vnd.fr.grid5000.api.Collection+json;level=1"
+        },
+        {
+          "href": "/sid/grid5000/sites/rennes",
+          "rel": "parent",
+          "type": "application/vnd.fr.grid5000.api.Site+json;level=1"
+        },
+        {
+          "href": "/sid/grid5000/sites/rennes/clusters/paradent/status",
+          "title": "status",
+          "rel": "collection",
+          "type": "application/vnd.fr.grid5000.api.Collection+json;level=1"
+        }
+      ]
+    },
+    {
+      "model": "Dell PowerEdge 1950",
+      "created_at": "Fri, 31 Aug 2007 22:00:00 GMT",
+      "uid": "paramount",
+      "type": "cluster",
+      "version": "74638098d6267d695936977990b4531a7e084bb2",
+      "links": [
+        {
+          "href": "/sid/grid5000/sites/rennes/clusters/paramount/versions/74638098d6267d695936977990b4531a7e084bb2",
+          "title": "version",
+          "rel": "member",
+          "type": "application/vnd.fr.grid5000.api.Version+json;level=1"
+        },
+        {
+          "href": "/sid/grid5000/sites/rennes/clusters/paramount/versions",
+          "title": "versions",
+          "rel": "collection",
+          "type": "application/vnd.fr.grid5000.api.Collection+json;level=1"
+        },
+        {
+          "href": "/sid/grid5000/sites/rennes/clusters/paramount",
+          "rel": "self",
+          "type": "application/vnd.fr.grid5000.api.Cluster+json;level=1"
+        },
+        {
+          "href": "/sid/grid5000/sites/rennes/clusters/paramount/nodes",
+          "title": "nodes",
+          "rel": "collection",
+          "type": "application/vnd.fr.grid5000.api.Collection+json;level=1"
+        },
+        {
+          "href": "/sid/grid5000/sites/rennes",
+          "rel": "parent",
+          "type": "application/vnd.fr.grid5000.api.Site+json;level=1"
+        },
+        {
+          "href": "/sid/grid5000/sites/rennes/clusters/paramount/status",
+          "title": "status",
+          "rel": "collection",
+          "type": "application/vnd.fr.grid5000.api.Collection+json;level=1"
+        }
+      ]
+    },
+    {
+      "model": "SUN FIRE X2270",
+      "created_at": "Sun, 24 Jan 2010 23:00:00 GMT",
+      "uid": "parapide",
+      "type": "cluster",
+      "version": "74638098d6267d695936977990b4531a7e084bb2",
+      "links": [
+        {
+          "href": "/sid/grid5000/sites/rennes/clusters/parapide/versions/74638098d6267d695936977990b4531a7e084bb2",
+          "title": "version",
+          "rel": "member",
+          "type": "application/vnd.fr.grid5000.api.Version+json;level=1"
+        },
+        {
+          "href": "/sid/grid5000/sites/rennes/clusters/parapide/versions",
+          "title": "versions",
+          "rel": "collection",
+          "type": "application/vnd.fr.grid5000.api.Collection+json;level=1"
+        },
+        {
+          "href": "/sid/grid5000/sites/rennes/clusters/parapide",
+          "rel": "self",
+          "type": "application/vnd.fr.grid5000.api.Cluster+json;level=1"
+        },
+        {
+          "href": "/sid/grid5000/sites/rennes/clusters/parapide/nodes",
+          "title": "nodes",
+          "rel": "collection",
+          "type": "application/vnd.fr.grid5000.api.Collection+json;level=1"
+        },
+        {
+          "href": "/sid/grid5000/sites/rennes",
+          "rel": "parent",
+          "type": "application/vnd.fr.grid5000.api.Site+json;level=1"
+        },
+        {
+          "href": "/sid/grid5000/sites/rennes/clusters/parapide/status",
+          "title": "status",
+          "rel": "collection",
+          "type": "application/vnd.fr.grid5000.api.Collection+json;level=1"
+        }
+      ]
+    },
+    {
+      "model": "HP ProLiant DL165 G7",
+      "created_at": "Mon, 01 Nov 2010 23:00:00 GMT",
+      "uid": "parapluie",
+      "type": "cluster",
+      "version": "74638098d6267d695936977990b4531a7e084bb2",
+      "links": [
+        {
+          "href": "/sid/grid5000/sites/rennes/clusters/parapluie/versions/74638098d6267d695936977990b4531a7e084bb2",
+          "title": "version",
+          "rel": "member",
+          "type": "application/vnd.fr.grid5000.api.Version+json;level=1"
+        },
+        {
+          "href": "/sid/grid5000/sites/rennes/clusters/parapluie/versions",
+          "title": "versions",
+          "rel": "collection",
+          "type": "application/vnd.fr.grid5000.api.Collection+json;level=1"
+        },
+        {
+          "href": "/sid/grid5000/sites/rennes/clusters/parapluie",
+          "rel": "self",
+          "type": "application/vnd.fr.grid5000.api.Cluster+json;level=1"
+        },
+        {
+          "href": "/sid/grid5000/sites/rennes/clusters/parapluie/nodes",
+          "title": "nodes",
+          "rel": "collection",
+          "type": "application/vnd.fr.grid5000.api.Collection+json;level=1"
+        },
+        {
+          "href": "/sid/grid5000/sites/rennes",
+          "rel": "parent",
+          "type": "application/vnd.fr.grid5000.api.Site+json;level=1"
+        },
+        {
+          "href": "/sid/grid5000/sites/rennes/clusters/parapluie/status",
+          "title": "status",
+          "rel": "collection",
+          "type": "application/vnd.fr.grid5000.api.Collection+json;level=1"
+        }
+      ]
+    }
+  ],
+  "total": 4,
+  "version": "74638098d6267d695936977990b4531a7e084bb2",
+  "links": [
+    {
+      "href": "/sid/grid5000/sites/rennes/clusters/versions/74638098d6267d695936977990b4531a7e084bb2",
+      "title": "version",
+      "rel": "member",
+      "type": "application/vnd.fr.grid5000.api.Version+json;level=1"
+    },
+    {
+      "href": "/sid/grid5000/sites/rennes/clusters/versions",
+      "title": "versions",
+      "rel": "collection",
+      "type": "application/vnd.fr.grid5000.api.Collection+json;level=1"
+    },
+    {
+      "href": "/sid/grid5000/sites/rennes/clusters",
+      "rel": "self",
+      "type": "application/vnd.fr.grid5000.api.Collection+json;level=1"
+    }
+  ],
+  "offset": 0
+}

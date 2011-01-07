@@ -37,9 +37,26 @@ module MediaTypeHelper
   end
 end
 
+module HeaderHelper
+  class HeaderError < StandardError; end
+  
+  def assert_vary_on(*args)
+    (response.headers['Vary'] || "").downcase.split(/\s*,\s*/).sort.should == args.map{|v| v.to_s.dasherize}.sort
+  end
+  def assert_allow(*args)
+    (response.headers['Allow'] || "").downcase.split(/\s*,\s*/).sort.should == args.map{|v| v.to_s.dasherize}.sort
+  end
+  def assert_expires_in(seconds, options = {})
+    values = (response.headers['Cache-Control'] || "").downcase.split(/\s*,\s*/)
+    values.should include("public") if options[:public]
+    values.should include("max-age=#{seconds}")
+  end
+end
+
 RSpec.configure do |config|
   include ConfigurationHelper
   include MediaTypeHelper
+  include HeaderHelper
   
   config.before(:each) do
     @json = nil

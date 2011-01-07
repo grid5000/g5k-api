@@ -1,14 +1,38 @@
 defaults: &defaults
   reference_repository_path: ~/.g5kapi/reference-repository
   reference_repository_path_prefix: data
-  base_uri: https://api.grid5000.fr
-
+  base_uri_in: https://api.grid5000.fr
+  base_uri_out: http://localhost:8888
+  oar: &oar
+    adapter: mysql
+    host: mysql
+    port: 3306
+    username: oarreader
+    password:
+    database: oar2
+    
 development:
   <<: *defaults
+  base_uri_in: http://localhost:3000
+  base_uri_out: http://localhost:3000
+  oar:
+    <<: *oar
+    host: 127.0.0.1
+    port: 13306
 
 test:
   <<: *defaults
+  base_uri_in: http://api-in.local
+  base_uri_out: http://api-out.local
   reference_repository_path: spec/fixtures/reference-repository
+  oar:
+    <<: *oar
+    host: 127.0.0.1
+    port: 3306
+    username: root
+    password:
+    database: oar2
+    
 
 production:
   <<: *defaults
