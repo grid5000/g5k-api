@@ -51,7 +51,7 @@ module ConfigurationHelper
     when :json
       "application/json"
     when :json_collection
-      "application/collection+json"
+      "application/json"
     end
   end
 end

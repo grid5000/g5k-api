@@ -30,7 +30,7 @@ module MediaTypeHelper
     when :txt
       %r{text/plain}
     when :json_collection
-      %r{application/collection+json}
+      %r{application/json}
     else
       raise MediaTypeError, "Media type #{type.inspect} was not expected."
     end

@@ -27,7 +27,16 @@ Please send an email to <cyril.rohr@inria.fr> if you cannot access the code.
         $ bundle exec rake -T
 
 ## Testing
-* Launch the tests (do not forget to create the MySQL database first with `bundle exec rake db:reset RACK_ENV=test`):
+* You must have a working MySQL installation.
+
+* Source the file in `spec/fixtures/oar2_2011-01-07.sql` in a local database (e.g. `oar2`, see `config/defaults.yml`). 
+  Must be done only once to create a replica of the OAR database with production data.
+  
+* If not already done, create the application test database with:
+
+        $ bundle exec rake db:reset RACK_ENV=test`
+
+* Launch the tests:
 
         $ bundle exec rake
 
@@ -60,7 +69,7 @@ Please send an email to <cyril.rohr@inria.fr> if you cannot access the code.
         
 ## Packaging
 
-* Package the app as a DEB (the DEB will be available in `build/DEBIAN/`):
+* [TODO] Package the app as a DEB (the DEB will be available in `build/DEBIAN/`):
 
         $ rake -f dist/tasks package:all
 

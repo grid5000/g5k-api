@@ -4,12 +4,15 @@ defaults: &defaults
   base_uri_in: https://api.grid5000.fr
   base_uri_out: http://localhost:8888
   oar: &oar
-    adapter: mysql
+    adapter: em_mysqlplus
+    encoding: utf8
+    pool: 200
+    timeout: 5000
+    database: oar2
     host: mysql
     port: 3306
     username: oarreader
     password:
-    database: oar2
     
 development:
   <<: *defaults
@@ -31,7 +34,6 @@ test:
     port: 3306
     username: root
     password:
-    database: oar2
     
 
 production:
