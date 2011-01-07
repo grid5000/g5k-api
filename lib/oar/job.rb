@@ -3,21 +3,7 @@ module OAR
     set_table_name "jobs"
     set_primary_key :job_id
     
-    QUERY_ACTIVE_JOBS = %{
-      SELECT 
-        jobs.job_id, jobs.state, jobs.queue_name, jobs.start_time,
-        jobs.job_name, jobs.project, jobs.job_user,
-        moldable_job_descriptions.moldable_walltime AS walltime,
-        moldable_job_descriptions.moldable_id 
-      FROM 
-        jobs
-      INNER JOIN 
-        moldable_job_descriptions 
-        ON jobs.job_id = moldable_job_descriptions.moldable_job_id 
-        AND moldable_job_descriptions.moldable_index = 'CURRENT'
-      WHERE jobs.state 
-        NOT IN ('Terminated', 'Error')
-    }
+    attr_accessor :links
     
     def state
       value = read_attribute(:state)
@@ -53,18 +39,31 @@ module OAR
       h = {}
       [
         :uid,
-        :user, :start_time, :walltime, :queue, 
-        :state, :project, :name
+        :user, :start_time, :predicted_start_time,
+        :walltime, :queue, 
+        :state, :project, :name,
+        :links
       ].each do |k|
-        value = send(k)
+        value = send(k) rescue nil
         h[k] = value unless value.nil?
       end
       h
     end
     
+    def as_json(*args)
+      to_reservation
+    end
+    
+
+    
     class << self
       def active
-        Job.find_by_sql(QUERY_ACTIVE_JOBS)
+        expanded.where("state NOT IN ('Terminated', 'Error')")
+      end
+      def expanded
+        Job.select("jobs.*, moldable_job_descriptions.moldable_walltime AS walltime, gantt_jobs_predictions.start_time AS predicted_start_time,  moldable_job_descriptions.moldable_id").
+          joins("LEFT OUTER JOIN moldable_job_descriptions ON jobs.job_id = moldable_job_descriptions.moldable_job_id").
+          joins("LEFT OUTER JOIN gantt_jobs_predictions ON gantt_jobs_predictions.moldable_job_id = moldable_job_descriptions.moldable_id")
       end
     end
   end

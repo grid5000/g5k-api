@@ -6,7 +6,6 @@ module OAR
     set_inheritance_column :_type_disabled
     
     QUERY_ASSIGNED_RESOURCES = "SELECT moldable_job_id, resource_id FROM %TABLE% WHERE moldable_job_id IN (%MOLDABLE_IDS%)"
-    QUERY_PREDICTED_START_TIMES = "SELECT moldable_job_id, start_time FROM %TABLE% WHERE moldable_job_id IN (%MOLDABLE_IDS%)"
     
     def dead?
       state && state == "dead"
@@ -38,17 +37,6 @@ module OAR
         
         moldable_ids = active_jobs_by_moldable_id.keys.
           map{|moldable_id| "'#{moldable_id}'"}.join(",")
-        
-        # get the REAL predicted start times of the moldable jobs
-        self.connection.execute(
-          QUERY_PREDICTED_START_TIMES.gsub(
-            /%TABLE%/, 'gantt_jobs_predictions'
-          ).gsub(
-            /%MOLDABLE_IDS%/, moldable_ids
-          )
-        ).each do |(moldable_job_id, start_time)|
-          active_jobs_by_moldable_id[moldable_job_id].start_time = start_time.to_i
-        end
         
         # get all resources assigned to these jobs
         %w{assigned_resources gantt_jobs_resources}.each do |table|
