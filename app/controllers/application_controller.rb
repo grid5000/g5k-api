@@ -1,5 +1,5 @@
 class ApplicationController < ActionController::Base
-  include ConfigurationHelper
+  include ApplicationHelper
   
   before_filter :lookup_credentials
   before_filter :log, :only => [:create, :update, :destroy]
@@ -26,7 +26,7 @@ class ApplicationController < ActionController::Base
   
   def lookup_credentials
     invalid_values = ["", "unknown", "(unknown)"]
-    cn = request.env["HTTP_#{my_config(:header_user_cn).gsub("-","_").upcase}"]
+    cn = request.env["HTTP_#{Rails.my_config(:header_user_cn).gsub("-","_").upcase}"]
     if cn.nil? || invalid_values.include?(cn)
       @credentials = {
         :cn => nil,

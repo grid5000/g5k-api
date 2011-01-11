@@ -1,7 +1,7 @@
 development:
   adapter: em_mysqlplus
   encoding: utf8
-  database: bonfire_broker_development
+  database: g5kapi_development
   pool: 250
   timeout: 5000
   username: root
@@ -14,7 +14,7 @@ development:
 test:
   adapter: em_mysqlplus
   encoding: utf8
-  database: bonfire_broker_test
+  database: g5kapi_test
   pool: 50
   timeout: 5000
   username: root
@@ -24,7 +24,7 @@ test:
 production:
   adapter: em_mysqlplus
   encoding: utf8
-  database: broker
+  database: g5kapi_production
   pool: 200
   timeout: 5000
   username: root

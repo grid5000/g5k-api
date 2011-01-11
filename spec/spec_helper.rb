@@ -53,7 +53,7 @@ module HeaderHelper
   end
   
   def authenticate_as(username)
-    header = "HTTP_"+my_config(:header_user_cn).gsub("-","_").upcase
+    header = "HTTP_"+Rails.my_config(:header_user_cn).gsub("-","_").upcase
     @request.env[header] = username
   end
   
@@ -69,9 +69,9 @@ module HeaderHelper
 end
 
 RSpec.configure do |config|
-  include ConfigurationHelper
   include MediaTypeHelper
   include HeaderHelper
+  include ApplicationHelper
   
   config.before(:each) do
     @json = nil

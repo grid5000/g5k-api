@@ -56,7 +56,7 @@ class JobsController < ApplicationController
     http = EM::HttpRequest.new(url).delete(
       :timeout => 5,
       :head => {
-        my_config(:header_user_cn) => @credentials[:cn],
+        'X-Remote-Ident' => @credentials[:cn],
         'Accept' => media_type(:json)
       }
     )
@@ -102,7 +102,7 @@ class JobsController < ApplicationController
       :timeout => 20,
       :body => job_to_send.to_json,
       :head => {
-        my_config(:header_user_cn) => @credentials[:cn],
+        'X-Remote-Ident' => @credentials[:cn],
         'Content-Type' => media_type(:json),
         'Accept' => media_type(:json)
       }
