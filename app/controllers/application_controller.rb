@@ -13,12 +13,12 @@ class ApplicationController < ActionController::Base
   class NotFound < ClientError; end
   class BadGateway < ServerError; end
   
+  rescue_from ServerError, Exception, :with => :server_error
   rescue_from UnsupportedMediaType, :with => :unsupported_media_type
   rescue_from BadRequest, :with => :bad_request
   rescue_from BadGateway, :with => :bad_gateway
   rescue_from Forbidden, :with => :forbidden
   rescue_from NotFound, :with => :not_found
-  rescue_from ServerError, :with => :server_error
   rescue_from ActiveRecord::RecordNotFound, :with => :not_found
   
   
@@ -80,7 +80,6 @@ class ApplicationController < ActionController::Base
   def parse_json_payload
     if request.content_type =~ /application\/.*json/i
       json = JSON.parse(request.body.read)
-      json.symbolize_keys!
       params.merge!(json)
     end
   ensure
@@ -158,4 +157,10 @@ class ApplicationController < ActionController::Base
     response.last_modified = time.utc
   end
   
+  # ===========
+  # = Payload =
+  # ===========
+  def payload
+    params.reject{ |k,v| %w{platform_id site_id id format controller action}.include?(k) }
+  end
 end

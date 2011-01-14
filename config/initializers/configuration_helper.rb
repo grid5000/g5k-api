@@ -11,6 +11,17 @@ module ConfigurationHelper
   def my_config(key)
     APP_CONFIG[key.to_sym] || APP_CONFIG[key.to_s]
   end
+  
+  def tmp
+    Rails.root.join(my_config(:tmp_path))
+  end
+  
+  # Returns a string specific to the machine/cluster 
+  # where this server is hosted
+  def whoami
+    ENV['WHOAMI'] || `hostname`.split(".")[1]
+  end
+  
 end
 
 Rails.extend ConfigurationHelper

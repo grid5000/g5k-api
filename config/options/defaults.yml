@@ -1,4 +1,5 @@
 defaults: &defaults
+  tmp_path: /tmp
   header_user_cn: X-Api-User-CN
   reference_repository_path: ~/.g5kapi/reference-repository
   reference_repository_path_prefix: data
@@ -20,6 +21,7 @@ development:
   <<: *defaults
   base_uri_in: http://localhost:3000
   base_uri_out: http://localhost:3000
+  kadeploy_uri: druby://localhost:25300
   oar:
     <<: *oar
     host: 127.0.0.1
@@ -40,3 +42,4 @@ test:
 
 production:
   <<: *defaults
+  

@@ -74,7 +74,7 @@ describe SitesController do
   describe "GET /platforms/{{platform_id}}/sites/{{site_id}}/status" do
     it "should fail if the list of valid clusters cannot be fetched" do
       EM.synchrony do
-        expected_url = "http://api-out.local:80/platforms/grid5000/sites/rennes/clusters"
+        expected_url = "http://api-out.local:80/platforms/grid5000/sites/rennes/clusters?branch=testing"
         stub_request(:get, expected_url).
           with(
             :headers => {'Accept' => media_type(:json_collection)}
@@ -83,7 +83,7 @@ describe SitesController do
             :status => 400, 
             :body => "some error"
           )
-        get :status, :platform_id => "grid5000", :id => "rennes", :format => :json
+        get :status, :branch => 'testing', :platform_id => "grid5000", :id => "rennes", :format => :json
         response.status.should == 500
         json['code'].should == 500
         json['message'].should == "Request to #{expected_url} failed with status 400"
@@ -92,7 +92,7 @@ describe SitesController do
     end
     it "should return 200 and the site status" do
       EM.synchrony do
-        expected_url = "http://api-out.local:80/platforms/grid5000/sites/rennes/clusters"
+        expected_url = "http://api-out.local:80/platforms/grid5000/sites/rennes/clusters?branch=master"
         stub_request(:get, expected_url).
           with(
             :headers => {'Accept' => media_type(:json_collection)}

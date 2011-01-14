@@ -1,21 +1,27 @@
 class JobsController < ApplicationController
-  DEFAULT_LIMIT = 100
-  MAX_LIMIT = 1000
+  LIMIT = 50
+  LIMIT_MAX = 500
   
   # List jobs
   def index
     allow :get, :post; vary_on :accept
+    
+    offset = [(params[:offset] || 0).to_i, 0].max
+    limit = [(params[:limit] || LIMIT).to_i, LIMIT_MAX].min
+    
     jobs = OAR::Job.expanded.order("job_id DESC")
-    total = jobs.count
-    offset = (params[:offset] || 0).to_i
-    limit = [(params[:limit] || DEFAULT_LIMIT).to_i, MAX_LIMIT].min
-    jobs = jobs.offset(offset).limit(limit)
     jobs = jobs.where(:job_user => params[:user]) if params[:user]  
     jobs = jobs.where(:state => params[:state].capitalize) unless params[:state].blank?
     jobs = jobs.where(:queue_name => params[:queue]) if params[:queue]
+    
+    total = jobs.count
+    
+    jobs = jobs.offset(offset).limit(limit)
+    
     jobs.each{|job|
       job.links = links_for_item(job)
     }
+    
     result = {
       "total" => total,
       "offset" => offset,
@@ -71,9 +77,7 @@ class JobsController < ApplicationController
       ).split("\n").join(" ") rescue "-"
       
       location_uri = uri_to(
-        platform_site_job_path(
-          params[:platform_id], params[:site_id], params[:id]
-        ), 
+        resource_path(params[:id]),
         :in, :absolute
       )
       
@@ -90,7 +94,7 @@ class JobsController < ApplicationController
   def create
     ensure_authenticated!
     
-    job = Job.new(params)
+    job = Job.new(payload)
     Rails.logger.info "Received job = #{job.inspect}"
     raise BadRequest, "The job you are trying to submit is not valid: #{job.errors.join("; ")}" unless job.valid?
     job_to_send = job.to_hash(:destination => "oar-2.4-submission")
@@ -111,7 +115,7 @@ class JobsController < ApplicationController
     
     job_uid = JSON.parse(http.response)['id']
     location_uri = uri_to(
-      platform_site_job_path(params[:platform_id], params[:site_id], job_uid), 
+      resource_path(job_uid),
       :in, :absolute
     )
     render  :text => "", 

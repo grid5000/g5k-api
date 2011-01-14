@@ -14,6 +14,8 @@ require 'timeout'
 require 'uri'
 require 'logger'
 
+require 'eventmachine'
+
 module ConfigInformation
   class Config
     def Config.load_client_config_file
@@ -33,30 +35,10 @@ end
 Socket.do_not_reverse_lookup = true
 
 module Kadeploy
-  DEFAULT_TIMEOUT = 15
+  DEFAULT_TIMEOUT = 10
   
   class << self
     attr_accessor :config
-    
-    def connect!(options = {})
-      DRb.start_service
-      server = Server.new(config)
-      if block_given?
-        begin
-          Timeout.timeout(options[:timeout] || DEFAULT_TIMEOUT) do
-            yield server
-          end
-        ensure
-          disconnect!
-        end
-      else
-        server
-      end
-    end
-    
-    def disconnect!
-      DRb.stop_service
-    end
     
     def logger=(logger)
       @logger = logger
@@ -99,11 +81,63 @@ module Kadeploy
   
   
   class Server
-    attr_reader :handler, :errors
     
-    def initialize(uri)
-      @errors = []
-      @handler = DRbObject.new(nil, uri)
+    include EM::Deferrable
+      
+    attr_reader :handler, :options, :exception
+    
+    def initialize(options = {})
+      @options = options
+      @handler = nil
+    end
+    
+    def connect!(options = {})
+      DRb.start_service
+      @handler = DRbObject.new(nil, Kadeploy.config)
+      if block_given?
+        begin
+          yield self
+        ensure
+          disconnect!
+        end
+      else
+        self
+      end
+    end
+    
+    def disconnect!
+      @handler = nil
+      DRb.stop_service
+    end
+    
+    def method_missing(method, *args)
+      if method =~ /^async_(.+)/
+        # reset exception variable
+        @exception = nil
+        # set up timeout
+        timeout(options[:timeout] || Kadeploy::DEFAULT_TIMEOUT)
+        # define the operation to launch
+        operation = proc {
+          begin
+            [ok=true, connect!.send($1.to_sym, *args)]
+          rescue Exception => e
+            @exception = e
+            Kadeploy.logger.error "Error when executing #{method}: #{e.class.name} - #{e.message}: #{e.backtrace.join("; ")}"
+            ok=false
+          ensure
+            disconnect!
+          end
+        }
+        # succeed or fail depending on the result of the scheduled operation
+        callback = proc { |ok, *args|
+          ok ? succeed(*args) : fail
+        }
+        # schedule the operation in a Deferrable.
+        EM.defer(operation, callback)
+        self
+      else
+        super(method, *args)
+      end
     end
     
     # Submit a new deployment on the kadpeloy server
@@ -126,7 +160,7 @@ module Kadeploy
       if workflow_uid.nil?
         case error
         when KadeployAsyncError::NODES_DISCARDED
-          raise InvalidDeployment, "All the nodes of your deployment have been discarded, hence your deployment cannot be run"
+          raise InvalidDeployment, "The nodes are already involved in a deployment, hence your deployment cannot be run"
         when KadeployAsyncError::NO_RIGHT_TO_DEPLOY
           raise InvalidDeployment, "You do not have the right to deploy on the nodes"
         when KadeployAsyncError::UNKNOWN_NODE_IN_SINGULARITY_FILE
@@ -151,9 +185,10 @@ module Kadeploy
     
     
     # Get the status of a deployment on the kadeploy server
-    # Returns an array of [status, results].
+    # Returns an array of [status, results, output].
     # <tt>:status</tt> being one of: :processing, :terminated, :canceled, :error
     # <tt>results</tt> being a hash as returned by the results! method.
+    # <tt>output</tt> being a string.
     # 
     # This method automatically frees the deployment on the kadeploy-server if no longer processing.
     # 
@@ -170,43 +205,44 @@ module Kadeploy
           free!(uid)
           [
             :terminated,
-            results
+            results,
+            nil
           ]
         else
-          case error
+          output = case error
           when FetchFileError::INVALID_ENVIRONMENT_TARBALL
-            errors.push("Your environment tarball cannot be fetched")
+            "Your environment tarball cannot be fetched"
           when FetchFileError::INVALID_PREINSTALL
-            errors.push("Your pre-install cannot be fetched")
+            "Your pre-install cannot be fetched"
           when FetchFileError::PREINSTALL_TOO_BIG
-            errors.push("Your pre-install is too big")
+            "Your pre-install is too big"
           when FetchFileError::INVALID_POSTINSTALL
-            errors.push("Your post-install cannot be fetched")
+            "Your post-install cannot be fetched"
           when FetchFileError::POSTINSTALL_TOO_BIG
-            errors.push("Your post-install is too big")
+            "Your post-install is too big"
           when FetchFileError::INVALID_KEY
-            errors.push("Your key cannot be fetched")
+            "Your key cannot be fetched"
           when FetchFileError::INVALID_CUSTOM_FILE
-            errors.push("Your custom file cannot be fetched")
+            "Your custom file cannot be fetched"
           when FetchFileError::INVALID_PXE_FILE
-            errors.push("Your PXE file cannot be fetched")
+            "Your PXE file cannot be fetched"
           when FetchFileError::TEMPFILE_CANNOT_BE_CREATED_IN_CACHE
-            errors.push("An error occurred when fetching your environment. Kadeploy3 cache is probably full")
+            "An error occurred when fetching your environment. Kadeploy3 cache is probably full"
           when FetchFileError::FILE_CANNOT_BE_MOVED_IN_CACHE
-            errors.push("An error occurred when fetching your environment. The tarball file cannot be moved to Kadeploy3 cache")
+            "An error occurred when fetching your environment. The tarball file cannot be moved to Kadeploy3 cache"
           else
-            errors.push("An unknown error occured (#{error}). Please contact your administrator")
+            "An unknown error occured (#{error}). Please contact your administrator"
           end
-          Kadeploy.logger.info "Deployment ##{workflow_uid} encountered an error (#{error.inspect}): #{errors.join(" ")}"
-          [:error, nil]
+          Kadeploy.logger.info "Deployment ##{workflow_uid} encountered an error (#{error.inspect}): #{output}"
+          free!(uid)
+          [:error, nil, output]
         end
       when NilClass
-        # Deployment no longer exists, this is probably an error
-        errors.push("Deployment no longer exists on the Kadeploy server")
-        [:canceled, nil]
+        # Deployment no longer exists, this is probably not expected
+        [:canceled, nil, "Deployment no longer exists on the Kadeploy server"]
       else
         # Deployment still in progress
-        [:processing, nil]
+        [:processing, nil, nil]
       end      
     end # def status!
     
@@ -237,7 +273,12 @@ module Kadeploy
     
     # Free the memory associated to the deployment on the kadeploy server
     def free!(uid)
-      handler.async_deploy_free(uid)
+      begin
+        handler.async_deploy_free(uid)
+      rescue Exception => e
+        # Catch but ignore any exception that can be raised when freeing
+        Kadeploy.logger.warn "Tried to free #{uid} => Received #{e.class.name} - #{e.message}: #{e.backtrace.join("; ")}"
+      end
       true
     end # def free!
     
@@ -245,7 +286,6 @@ module Kadeploy
     # Delete a deployment on the kadeploy server
     def cancel!(uid)
       handler.async_deploy_kill(uid)
-      true
     end # def cancel!
     
   end # class Server

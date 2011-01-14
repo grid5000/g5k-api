@@ -5,49 +5,60 @@ require 'fileutils'
 # that is launched using the Kadeploy3 tool.
 class Deployment < ActiveRecord::Base
   
-  set_primary_key :job_id
+  set_primary_key :uid
   
-  # unrestrict_primary_key
-  # plugin :serialization
-  # serialize_attributes :json, :nodes, :notifications, :result
+  attr_accessor :links
   
   SERIALIZED_ATTRIBUTES = [:nodes, :notifications, :result]
   
-  validates_presence_of :user_id, :site_id, :environment, :nodes
+  validates_presence_of :user_uid, :site_uid, :environment, :nodes
+  validates_uniqueness_of :uid
   
   before_save :json_serialize
   after_save :json_deserialize
   after_find :json_deserialize
   
+  
   before_create do
-    self.created_at = Time.now.to_i
+    self.created_at ||= Time.now.to_i
   end
   
   before_save do
     self.updated_at = Time.now.to_i
+    errors.add(:uid, "must be set") if uid.nil?
+    errors.empty?
   end
   
+  
+  # Experiment states
+  state_machine :status, :initial => :processing do
+    
+    after_transition :processing => :canceled, :do => :deliver_notification
+    after_transition :processing => :error, :do => :deliver_notification
+    after_transition :processing => :terminated, :do => :deliver_notification
 
-  def json_serialize    
-    SERIALIZED_ATTRIBUTES.each do |att|
-      value = send(att)
-      send("#{att}=", value.to_json) unless value.nil?
+    event :process do
+      transition :processing => :processing
+    end
+    event :cancel do
+      transition :processing => :canceled
+    end
+    event :terminate do
+      transition :processing => :terminated
+    end
+    event :fail do
+      transition :processing => :error
     end
   end
-
-  def json_deserialize
-    SERIALIZED_ATTRIBUTES.each do |att|
-      value = send(att)
-      send("#{att}=", JSON.parse(value)) unless value.nil?
-    end
+  
+  def active?
+    status?(:processing)
   end
   
   validate do
     errors.add :nodes, "must be a non-empty list of node FQDN" unless (nodes.kind_of?(Array) && nodes.length > 0)
     errors.add :notifications, "must be a list of notification URIs" unless (notifications.nil? || notifications.kind_of?(Array))
   end
-  
-  def uid; id; end
   
   # Transforms deployment into command-line arguments
   def to_a
@@ -67,7 +78,7 @@ class Deployment < ActiveRecord::Base
     args << "-b" << block_device if block_device
     args << "-r" << reformat_tmp if reformat_tmp
     args << "--vlan" << vlan.to_s if vlan
-    args << "--env-version" << version if version
+    args << "--env-version" << version.to_s if version
     args << "--disable-disk-partitioning" if disable_disk_partitioning
     args << "--disable-bootloader-install" if disable_bootloader_install
     args << "--ignore-nodes-deploying" if ignore_nodes_deploying
@@ -79,41 +90,13 @@ class Deployment < ActiveRecord::Base
     status.nil? || status == "processing"
   end
   
-  # Launches a connection to the Kadeploy server
-  # 
-  # Can reuse an existing connection if passed as the first argument.
-  # Yields a Kadeploy3::Server object
-  def connect!(kserver = nil, &block)
-    if kserver.nil?
-      Kadeploy3.connect!(Grid5000.configuration["kadeploy"], &block)
-    else
-      block.call(kserver)
-    end
-  end
   
-  # Launches the deployment
-  # 
-  # Returns self in case of success (and sets the :uid and :status to "processing")
-  # Returns false in case of failure (and cancel the deployment if needed)
-  def launch!(kserver = nil)
-    connect!(kserver) do |kserver|
-      set(:uid => kserver.launch!(self), :status => :processing)
-      if save
-        self
-      else
-        kserver.cancel!(self) rescue nil
-        false
-      end
-    end
-  end
-  
-  # Cancels the deployment
-  # 
-  # Returns self in case of success (and sets the :status to "canceled")
-  # Returns false in case of failure
-  def cancel!(kserver = nil)
-    connect!(kserver) do |kserver|
-      update(:status => kserver.cancel!(self))
+  def deliver_notification
+    unless notifications.nil?
+      Notification.new(
+        self.as_json, 
+        :to => notifications
+      ).deliver!
     end
   end
   
@@ -122,40 +105,29 @@ class Deployment < ActiveRecord::Base
   # 
   # Returns self in case of success (and updates the :status, as well as the :output and :result attributes)
   # Returns false in case of failure
-  def touch!(kserver = nil)
-    if processing?
-      connect!(kserver) do |kserver|
-        kstatus = kserver.status!(self)
-        set(:status => kstatus)
-        case kstatus
-        when :terminated
-          set(:result => kserver.results!(self))
-          free!(kserver)
-        when :canceled
-          set(:output => kserver.errors.join(" "))
-        when :error
-          set(:output => kserver.errors.join(" "))
-          free!(kserver)
-        else
-          # do nothing
-        end
-      end  
-      save
-    else
-      self
-    end
-  end
-  
-  def free!(kserver = nil)
-    connect!(kserver) do |kserver|
-      begin 
-        kserver.free!(self)
-      rescue => e
-        Grid5000.logger.warn "Received #{e.class.name}: #{e.message} "+
-          "when trying to free the deployment ##{uid}."
-      end
-    end
-  end
+  # def touch!(kserver = nil)
+  #   if processing?
+  #     connect!(kserver) do |kserver|
+  #       kstatus = kserver.status!(self)
+  #       set(:status => kstatus)
+  #       case kstatus
+  #       when :terminated
+  #         set(:result => kserver.results!(self))
+  #         free!(kserver)
+  #       when :canceled
+  #         set(:output => kserver.errors.join(" "))
+  #       when :error
+  #         set(:output => kserver.errors.join(" "))
+  #         free!(kserver)
+  #       else
+  #         # do nothing
+  #       end
+  #     end  
+  #     save
+  #   else
+  #     self
+  #   end
+  # end
   
   # When some attributes such as :key are passed as text strings,
   # we must transform such strings into files 
@@ -163,8 +135,8 @@ class Deployment < ActiveRecord::Base
   # where the original content can be accessed.
   # This is required since Kadeploy3 does not allow to directly
   # pass the content string for such attributes.
-  def transform_blobs_into_files!(base_uri)
-    tmpfiles_dir = Grid5000.configuration["tmpfiles"]
+  def transform_blobs_into_files!(storage_path, base_uri)
+    tmpfiles_dir = File.expand_path(storage_path)
     [:key].each do |attribute|
       value = send(attribute)
       next if value.nil?
@@ -178,22 +150,28 @@ class Deployment < ActiveRecord::Base
         # and write the file to that location
         File.open("#{tmpfiles_dir}/#{filename}", "w") { |f| f.write(value) }
         uri = "#{base_uri}/#{filename}"
-        set(attribute => uri)
+        send("#{attribute}=".to_sym, uri)
       end
     end
   end # def transform_blobs_into_files!
+  
+  def as_json(*args)
+    attributes.merge(:links => links).reject{|k,v| v.nil?}
+  end
 
-  # Export the properties to the JSON format
-  def to_json(*args)
-    values_to_export = values.reject{|k,v| v.nil?}
-    serialized_columns = self.class.serialization_map.keys
-    serialized_columns.each do |column|
-      value = values_to_export[column]
-      unless value.nil? || value.empty?
-        values_to_export[column] = JSON.parse(value) 
-      end
+  
+  def json_serialize    
+    SERIALIZED_ATTRIBUTES.each do |att|
+      value = send(att)
+      send("#{att}=".to_sym, value.to_json) unless value.blank?
     end
-    values_to_export.to_json(*args)
-  end # def to_json
-
+  end
+  
+  def json_deserialize
+    SERIALIZED_ATTRIBUTES.each do |att|
+      value = send(att) rescue nil
+      send("#{att}=".to_sym, (JSON.parse(value) rescue value)) unless value.blank?
+    end
+  end
+  
 end # class Deployment

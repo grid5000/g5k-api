@@ -7,6 +7,7 @@ class SitesController < ResourcesController
       :out
     )
     http = EM::HttpRequest.new(url).get(
+      :query   => {'branch' => params[:branch] || 'master'},
       :timeout => 5,
       :head    => {'Accept' => media_type(:json_collection)}
     )

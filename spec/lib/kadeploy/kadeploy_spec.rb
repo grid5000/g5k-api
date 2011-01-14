@@ -33,50 +33,57 @@ describe Kadeploy do
     end
   end # describe "configuration"
   
-  describe "connection" do
-    before do
-      Kadeploy.config = @uri
-    end
-    it "should return the server object if no block given" do
-      server = Kadeploy.connect!
-      server.should be_a(Kadeploy::Server)
-    end
-    it "should yield the server object if block given" do
-      Kadeploy.connect! do |server|
-        server.should be_a(Kadeploy::Server)
-      end
-    end
-    it "should close the connection at the end of block, if block given" do
-      Kadeploy.should_receive(:disconnect!).once
-      Kadeploy.connect! {|server| }
-    end
-    it "should not close the connection if no block given" do
-      Kadeploy.should_not_receive(:disconnect!)
-      Kadeploy.connect!
-    end
-    it "should still close the connection even if an exception is raised [block given]" do
-      Kadeploy.should_receive(:disconnect!).once
-      lambda{Kadeploy.connect!{ |server|
-        raise Exception
-      }}.should raise_error(Exception)
-    end
-  end # describe "connection"
-  
   
   describe Kadeploy::Server do
-    it "should correctly initialize the handler" do
-      DRbObject.should_receive(:new).with(nil, @uri).
-        and_return(handler = mock(DRbObject))
-      server = Kadeploy::Server.new(@uri)
-      server.handler.should == handler
+    before do
+      Kadeploy.logger = Rails.logger
     end
+    
+    describe "connection" do
+      before do
+        Kadeploy.config = @uri
+        @server = Kadeploy::Server.new
+      end
+      it "should return the server object if no block given" do
+        @server.connect!.should be_a(Kadeploy::Server)
+      end
+      it "should yield the server object if block given" do
+        @server.connect! do |server|
+          server.should == @server
+        end
+      end
+      it "should close the connection at the end of block, if block given" do
+        @server.should_receive(:disconnect!).once
+        @server.connect! {|server| }
+      end
+      it "should not close the connection if no block given" do
+        @server.should_not_receive(:disconnect!)
+        @server.connect!
+      end
+      it "should still close the connection even if an exception is raised [block given]" do
+        @server.should_receive(:disconnect!).once
+        lambda{@server.connect!{ |server|
+          raise Exception
+        }}.should raise_error(Exception)
+      end
+      
+      it "should correctly initialize the handler" do
+        DRbObject.should_receive(:new).with(nil, @uri).
+          and_return(handler = mock(DRbObject))
+        @server.connect! {|server|
+          server.handler.should == handler
+        }
+      end
+    end # describe "connection"
+    
     
     describe "operations" do
       
       before do
-        DRbObject.should_receive(:new).with(nil, @uri).
-          and_return(@handler = mock(DRbObject))
-        @server = Kadeploy::Server.new(@uri)
+        @handler = mock(DRbObject)
+        @server = Kadeploy::Server.new
+        @server.stub!(:handler).and_return @handler
+        
         @args = [
           "-e", "lenny-x64-base",
           "-m", "paradent-1.rennes.grid5000.fr"
@@ -119,29 +126,28 @@ describe Kadeploy do
         before do
           @uid = "1234"
         end
-        it "should return [:processing, nil] if deployment is not in a terminated state" do
+        it "should return [:processing, nil, nil] if deployment is not in a terminated state" do
           @handler.should_receive(:async_deploy_ended?).
             with(@uid).
             and_return(false)
-          @server.touch!(@uid).should == [:processing, nil]
+          @server.touch!(@uid).should == [:processing, nil, nil]
         end
-        it "should return [:canceled, nil] if the deployment does no longer exist on the kadeploy-server" do
+        it "should return [:canceled, nil, output] if the deployment does no longer exist on the kadeploy-server" do
           @handler.should_receive(:async_deploy_ended?).
             with(@uid).
             and_return(nil)
-          @server.touch!(@uid).should == [:canceled, nil]
+          @server.touch!(@uid).should == [:canceled, nil, "Deployment no longer exists on the Kadeploy server"]
         end
-        it "should return [:error, nil] if an error occurred during the deployment" do
+        it "should return [:error, nil, output] if an error occurred during the deployment" do
           @handler.should_receive(:async_deploy_ended?).
             with(@uid).
             and_return(true)
           @handler.should_receive(:async_deploy_file_error?).
             with(@uid).
             and_return(FetchFileError::INVALID_ENVIRONMENT_TARBALL)
-          @server.touch!(@uid).should == [:error, nil]
-          @server.errors.should == ["Your environment tarball cannot be fetched"]
+          @server.touch!(@uid).should == [:error, nil, "Your environment tarball cannot be fetched"]
         end
-        it "should return [:terminated, results] if the deployment was successful" do         
+        it "should return [:terminated, results, nil] if the deployment was successful" do         
           @handler.should_receive(:async_deploy_ended?).
             with(@uid).
             and_return(true)
@@ -155,7 +161,8 @@ describe Kadeploy do
             with(@uid)
           @server.touch!(@uid).should == [
             :terminated,
-            results
+            results,
+            nil
           ]
         end
       end # describe touch!
@@ -178,6 +185,32 @@ describe Kadeploy do
       end
       
     end # describe "operations"
+    
+    describe "asynchronous operations" do
+      it "should correctly set up the connection and launch the requested method" do
+        server = Kadeploy::Server.new
+        server.should_receive(:connect!).and_return(server)
+        server.should_receive(:submit!).and_return("result")
+        EM.synchrony do
+          result = EM::Synchrony.sync server.async_submit!(["some", "args"])
+          result.should == "result"
+          server.exception.should be_nil
+          EM.stop
+        end
+      end
+      it "should correctly raise errors (if any) in asynchronous operation" do
+        server = Kadeploy::Server.new
+        server.should_receive(:connect!).and_return(server)
+        server.should_receive(:disconnect!)
+        server.should_receive(:submit!).and_raise(e = Exception.new("some exception"))
+        EM.synchrony do
+          result = EM::Synchrony.sync server.async_submit!(["some", "args"]) 
+          result.should be_nil
+          server.exception.should == e
+          EM.stop
+        end
+      end
+    end # describe "asynchronous operations"
     
   end # describe Kadeploy::Server
 

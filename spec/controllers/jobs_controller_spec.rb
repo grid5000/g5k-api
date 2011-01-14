@@ -56,7 +56,7 @@ describe JobsController do
     end
   end # describe "GET /platforms/{{platform_id}}/sites/{{site_id}}/jobs"
   
-  describe "GET /platforms/{{platform_id}}/sites/{{site_id}}/jobs/{{:id}}" do
+  describe "GET /platforms/{{platform_id}}/sites/{{site_id}}/jobs/{{id}}" do
     it "should return 404 if the job does not exist" do
       EM.synchrony do
         get :show, :platform_id => "grid5000", :site_id => "rennes", :id => "doesnotexist", :format => :json
@@ -79,7 +79,7 @@ describe JobsController do
         EM.stop
       end
     end
-  end # describe "GET /platforms/{{platform_id}}/sites/{{site_id}}/jobs/{{:id}}"
+  end # describe "GET /platforms/{{platform_id}}/sites/{{site_id}}/jobs/{{id}}"
   
   describe "POST /platforms/{{platform_id}}/sites/{{site_id}}/jobs" do
     before do
@@ -167,7 +167,7 @@ describe JobsController do
     it "should return 403 if the user is not authenticated" do
       EM.synchrony do
         authenticate_as("")
-        post :create, :platform_id => "grid5000", :site_id => "rennes", :id => @job.uid, :format => :json
+        delete :destroy, :platform_id => "grid5000", :site_id => "rennes", :id => @job.uid, :format => :json
         response.status.should == 403
         json['message'].should == "You are not authorized to access this resource"
         EM.stop
