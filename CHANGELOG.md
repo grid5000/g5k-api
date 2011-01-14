@@ -5,5 +5,7 @@
 * Upon creating a job or deployment, the details of the newly created job or deployment are not returned in the response. 
   Only the `Location` header is present, which must be dereferenced to fetch the job or deployment details.
 
+* Deployment notifications now contain the full detail of the deployment. What was previously sent is available in the `result`.
+
 ## 2.x
-Previously split into lots of small APIs. Changelog will start from here.
+Previously split into lots of small APIs. CHANGELOG will start from here.

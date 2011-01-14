@@ -56,18 +56,8 @@ class DeploymentsController < ApplicationController
     deployment = Deployment.find(params[:id])
     authorize!(deployment.user_uid)
     
-    if deployment.active?
-      kserver = Kadeploy::Server.new
-      ok = EM::Synchrony.sync kserver.async_cancel!(params[:id])
-      
-      raise kserver.exception unless kserver.exception.nil?
-      
-      if ok
-        deployment.cancel!
-      else
-        deployment.output = "Cannot cancel deployment"
-        deployment.fail!
-      end
+    if deployment.can_cancel?
+      deployment.cancel!
     end
     
     location_uri = uri_to(
@@ -103,15 +93,11 @@ class DeploymentsController < ApplicationController
       # FIXME: this is a blocking call as it creates a file on disk. 
       # we may want to defer it or implement it natively with EventMachine
       deployment.transform_blobs_into_files!(Rails.tmp, files_base_uri)
-      
-      kserver = Kadeploy::Server.new
-      deployment.uid = EM::Synchrony.sync(
-        kserver.async_submit!(deployment.to_a, :user => deployment.user_uid)
+
+      deployment.launch || raise(
+        ServerError, 
+        "Cannot launch deployment: #{deployment.errors.full_messages.join("; ")}"
       )
-      
-      raise kserver.exception unless kserver.exception.nil?
-      
-      deployment.save!
       
       location_uri = uri_to(
         resource_path(deployment.uid),
@@ -134,26 +120,7 @@ class DeploymentsController < ApplicationController
     deployment = Deployment.find(params[:id])
     
     if deployment.active?
-      kserver = Kadeploy::Server.new
-      status, result, output = EM::Synchrony.sync(
-        kserver.async_touch!(params[:id])
-      )
-      
-      raise kserver.exception unless kserver.exception.nil?
-      
-      deployment.result = result
-      deployment.output = output
-      
-      case status
-      when :terminated
-        deployment.terminate!
-      when :processing
-        deployment.process!
-      when :canceled
-        deployment.cancel!
-      else
-        deployment.fail!
-      end
+      deployment.touch!
     end
     
     location_uri = uri_to(

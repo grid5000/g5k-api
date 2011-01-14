@@ -1,6 +1,8 @@
 require 'json'
 require 'fileutils'
 
+require 'kadeploy'
+
 # The Deployment class represents a deployment 
 # that is launched using the Kadeploy3 tool.
 class Deployment < ActiveRecord::Base
@@ -31,12 +33,18 @@ class Deployment < ActiveRecord::Base
   
   
   # Experiment states
-  state_machine :status, :initial => :processing do
+  state_machine :status, :initial => :waiting do
     
     after_transition :processing => :canceled, :do => :deliver_notification
     after_transition :processing => :error, :do => :deliver_notification
     after_transition :processing => :terminated, :do => :deliver_notification
+    
+    before_transition :processing => :canceled, :do => :kcancel!
+    before_transition :waiting => :processing, :do => :launch_workflow!
 
+    event :launch do
+      transition :waiting => :processing
+    end
     event :process do
       transition :processing => :processing
     end
@@ -92,42 +100,15 @@ class Deployment < ActiveRecord::Base
   
   
   def deliver_notification
-    unless notifications.nil?
+    unless notifications.blank?
       Notification.new(
         self.as_json, 
         :to => notifications
       ).deliver!
+    else
+      true
     end
   end
-  
-  # Refreshes the deployment by checking its status 
-  # against the kadeploy server
-  # 
-  # Returns self in case of success (and updates the :status, as well as the :output and :result attributes)
-  # Returns false in case of failure
-  # def touch!(kserver = nil)
-  #   if processing?
-  #     connect!(kserver) do |kserver|
-  #       kstatus = kserver.status!(self)
-  #       set(:status => kstatus)
-  #       case kstatus
-  #       when :terminated
-  #         set(:result => kserver.results!(self))
-  #         free!(kserver)
-  #       when :canceled
-  #         set(:output => kserver.errors.join(" "))
-  #       when :error
-  #         set(:output => kserver.errors.join(" "))
-  #         free!(kserver)
-  #       else
-  #         # do nothing
-  #       end
-  #     end  
-  #     save
-  #   else
-  #     self
-  #   end
-  # end
   
   # When some attributes such as :key are passed as text strings,
   # we must transform such strings into files 
@@ -154,6 +135,56 @@ class Deployment < ActiveRecord::Base
       end
     end
   end # def transform_blobs_into_files!
+  
+  
+  def kcancel!
+    kserver = Kadeploy::Server.new
+    ok = EM::Synchrony.sync kserver.async_cancel!(uid)
+    
+    raise kserver.exception unless kserver.exception.nil?
+    
+    ok || fail!
+  end
+  
+  # we split ksubmit! in 2 phases, for easier testing.
+  # FIXME: there is probably a more elegant way to do that
+  def launch_workflow!
+    update_attribute(:uid, ksubmit!)
+  end
+  
+  def ksubmit!
+    kserver = Kadeploy::Server.new
+    workflow_id = EM::Synchrony.sync(
+      kserver.async_submit!(to_a, :user => user_uid)
+    )
+    
+    raise kserver.exception unless kserver.exception.nil?
+    
+    workflow_id
+  end
+  
+  def touch!
+    kserver = Kadeploy::Server.new
+    _status, _result, _output = EM::Synchrony.sync(
+      kserver.async_touch!(uid)
+    )
+    
+    raise kserver.exception unless kserver.exception.nil?
+    
+    self.result = _result
+    self.output = _output
+        
+    case _status
+    when :terminated
+      terminate
+    when :processing
+      process
+    when :canceled
+      fail
+    else
+      fail
+    end
+  end
   
   def as_json(*args)
     attributes.merge(:links => links).reject{|k,v| v.nil?}

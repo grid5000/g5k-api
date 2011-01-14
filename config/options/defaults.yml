@@ -22,6 +22,7 @@ development:
   base_uri_in: http://localhost:3000
   base_uri_out: http://localhost:3000
   kadeploy_uri: druby://localhost:25300
+  notifications_uri: https://localhost:3443/sid/notifications
   oar:
     <<: *oar
     host: 127.0.0.1
@@ -32,6 +33,7 @@ test:
   base_uri_in: http://api-in.local
   base_uri_out: http://api-out.local
   reference_repository_path: spec/fixtures/reference-repository
+  notifications_uri: http://fake.api/sid/notifications
   oar:
     <<: *oar
     host: 127.0.0.1
@@ -42,4 +44,5 @@ test:
 
 production:
   <<: *defaults
+  notifications_uri: http://localhost:8888/sid/notifications
   

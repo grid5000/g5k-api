@@ -224,5 +224,216 @@ describe Deployment do
       @deployment.updated_at.should == @now.to_i
     end
   end
+  
+  describe "state transitions" do
+    before do
+      @deployment.uid = "some-uid"
+      @deployment.save!
+    end
+    it "should be able to go from waiting to processing" do
+      @deployment.should_not_receive(:deliver_notification)
+      @deployment.should_receive(:ksubmit!).and_return(true)
+      @deployment.status?(:waiting).should be_true
+      @deployment.launch.should be_true
+      @deployment.status?(:processing).should be_true
+    end
+    it "should not be able to go from waiting to processing if an exception is raised when ksubmitting" do
+      @deployment.should_not_receive(:deliver_notification)
+      @deployment.should_receive(:ksubmit!).
+        and_raise(Exception.new("some error"))
+      @deployment.status?(:waiting).should be_true
+      lambda{
+        @deployment.launch!
+      }.should raise_error(Exception, "some error")
+      @deployment.status?(:processing).should be_false
+    end
+    
+    describe "once it is in the :processing state" do
+      before do
+        @deployment.stub!(:ksubmit!).and_return(true)
+        @deployment.launch!
+        @deployment.status?(:processing).should be_true
+      end
+      it "should be able to go from processing to processing" do
+        @deployment.should_not_receive(:deliver_notification)
+        @deployment.process.should be_true
+        @deployment.status?(:processing).should be_true
+      end
+      it "should be able to go from processing to terminated, and should call :deliver_notification" do
+        @deployment.should_receive(:deliver_notification)
+        @deployment.terminate.should be_true
+        @deployment.status?(:terminated).should be_true
+      end
+      it "should be able to go from processing to canceled, and should call :deliver_notification" do
+        @deployment.should_receive(:kcancel!).and_return(true)
+        @deployment.should_receive(:deliver_notification)
+        @deployment.cancel.should be_true
+        @deployment.status?(:canceled).should be_true
+      end
+      it "should not be able to go from processing to canceled if an exception is raised when kcanceling" do
+        @deployment.should_receive(:kcancel!).
+          and_raise(Exception.new("some error"))
+        @deployment.should_not_receive(:deliver_notification)
+        lambda{
+          @deployment.cancel
+        }.should raise_error(Exception, "some error")
+        @deployment.status?(:canceled).should be_false
+      end
+      it "should be able to go from processing to error, and should call :deliver_notification" do
+        @deployment.should_receive(:deliver_notification)
+        @deployment.fail.should be_true
+        @deployment.status?(:error).should be_true
+      end
+      it "should not be able to go from canceled to terminated" do
+        @deployment.should_receive(:deliver_notification)
+        @deployment.should_receive(:kcancel!).and_return(true)
+        @deployment.cancel!
+        @deployment.terminate.should be_false
+        @deployment.status?(:canceled).should be_true
+      end
+    end
+  end
+  
+  describe "calls to kadeploy server" do
+    before do  
+      @kserver = Kadeploy::Server.new
+      Kadeploy::Server.stub!(:new).and_return(@kserver)
+    end
+    
+    describe "ksubmit!" do
+      it "should raise an exception if an error occurred when trying to contact the kadeploy server" do
+        @kserver.should_receive(:submit!).
+          and_raise(Exception.new("some error"))
+        EM.synchrony do
+          lambda {
+            @deployment.ksubmit!
+          }.should raise_error(Exception, "some error")
+          @deployment.uid.should be_nil
+          EM.stop
+        end
+      end
+      it "should return the deployment uid if submission successful" do
+        @kserver.should_receive(:submit!).
+          and_return("some-uid")
+        EM.synchrony do
+          @deployment.ksubmit!.should == "some-uid"
+          EM.stop
+        end
+      end
+    end
+    
+    describe "with a deployment in the :processing state" do
+   
+      before do
+        @deployment.stub!(:ksubmit!).and_return("some-uid")
+        @deployment.launch!
+        @deployment.status?(:processing).should be_true
+      end
+      
+      describe "kcancel!" do
+        it "should raise an exception if an error occurred when trying to contact the kadeploy server" do
+          @kserver.should_receive(:cancel!).
+            and_raise(Exception.new("some error"))
+          EM.synchrony do
+            lambda {
+              @deployment.kcancel!
+            }.should raise_error(Exception, "some error")
+            EM.stop
+          end
+        end
+        it "should return true if correctly canceled on the kadeploy-server" do
+          @kserver.should_receive(:cancel!).and_return(true)
+          EM.synchrony do
+            @deployment.kcancel!.should be_true
+            EM.stop
+          end
+        end
+        it "should transition to the error state if not correctly canceled on the kadeploy-server" do
+          @kserver.should_receive(:cancel!).and_return(false)
+          EM.synchrony do
+            @deployment.kcancel!.should be_true
+            @deployment.reload.status?(:error).should be_true
+            EM.stop
+          end
+        end
+      end
+    
+      describe "touch!" do
+        before do
+          @result = {"x" => "y"}
+          @output = "some string"
+        end
+        
+        it "should raise an exception if an error occurred when trying to contact the kadeploy server" do
+          @kserver.should_receive(:touch!).
+            and_raise(Exception.new("some error"))
+          EM.synchrony do
+            lambda {
+              @deployment.touch!
+            }.should raise_error(Exception, "some error")
+            EM.stop
+          end
+        end
+        
+        it "should set the status to :terminated if deployment is finished" do
+          @kserver.should_receive(:touch!).
+            and_return([:terminated, @result, @output])
+          EM.synchrony do
+            @deployment.touch!.should be_true
+            @deployment.reload
+            @deployment.status.should == "terminated"
+            @deployment.result.should == @result
+            @deployment.output.should == @output
+            EM.stop
+          end
+        end
+        it "should set the status to :error if an error occurred while trying to fetch the results from the kadeploy server" do
+          @kserver.should_receive(:touch!).
+            and_return([:error, nil, @output])
+          
+          EM.synchrony do
+            @deployment.touch!.should be_true
+            @deployment.reload
+            @deployment.status.should == "error"
+            @deployment.output.should == @output
+            
+            EM.stop
+          end
+        end
+        it "should set the status to :error if the deployment no longer exist on the kadeploy server" do
+          @kserver.should_receive(:touch!).
+            and_return([:canceled, nil, @output])
+          
+          EM.synchrony do
+            @deployment.touch!.should be_true
+            @deployment.reload
+            @deployment.status.should == "error"
+            @deployment.output.should == @output
+            
+            EM.stop
+          end
+        end
+        
+      end # describe "touch!"
+    end # describe "with a deployment in the :processing state"
+  end # describe "calls to kadeploy server"
+  
+  describe "notification delivery" do
+    
+    it "should not deliver a notification if notifications is blank" do
+      @deployment.notifications = nil
+      Notification.should_not_receive(:new)
+      @deployment.deliver_notification.should be_true
+    end
+    
+    it "should deliver a notification if notifications is not empty" do
+      @deployment.notifications = ["xmpp:crohr@jabber.grid5000.fr"]
+      Notification.should_receive(:new).
+        with(@deployment.as_json, :to => ["xmpp:crohr@jabber.grid5000.fr"]).
+        and_return(notif = mock("notif"))
+      notif.should_receive(:deliver!).and_return(true)
+      @deployment.deliver_notification.should be_true
+    end
+  end
     
 end

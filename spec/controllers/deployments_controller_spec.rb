@@ -8,9 +8,7 @@ describe DeploymentsController do
     10.times do |i|
       Factory.create(:deployment, :uid => "uid#{i}", :created_at => (@now+i).to_i).should_not be_nil
     end
-    
-    @kserver = Kadeploy::Server.new
-    Kadeploy::Server.stub!(:new).and_return(@kserver)
+
   end
   
   describe "GET /platforms/{{platform_id}}/sites/{{site_id}}/deployments" do
@@ -100,6 +98,7 @@ describe DeploymentsController do
         "nodes" => ["paradent-1.rennes.grid5000.fr"],
         "environment" => "lenny-x64-base"
       }
+      @deployment = Deployment.new(@valid_attributes)
     end
     
     it "should return 403 if the user is not authenticated" do
@@ -125,9 +124,10 @@ describe DeploymentsController do
       end
     end
     
-    it "should raise an error if an error occurred when contacting the kadeploy server" do
-      @kserver.should_receive(:submit!).
-        and_raise(Exception.new("some error message"))
+    it "should raise an error if an error occurred when launching the deployment" do
+      Deployment.should_receive(:new).with(@valid_attributes).
+        and_return(@deployment)
+      @deployment.should_receive(:ksubmit!).and_raise(Exception.new("some error message"))
       
       EM.synchrony do
         authenticate_as("crohr")
@@ -142,21 +142,36 @@ describe DeploymentsController do
       end
     end
     
-    it "should call transform_blobs_into_files! before sending the deployment, and return 201 if OK" do      
-      deployment = Deployment.new(@valid_attributes)
+    it "should return 500 if the deploymet cannot be launched" do
       Deployment.should_receive(:new).with(@valid_attributes).
-        and_return(deployment)
-
-      deployment.should_receive(:transform_blobs_into_files!).
+        and_return(@deployment)
+        
+      @deployment.should_receive(:ksubmit!).and_return(nil)
+      
+      EM.synchrony do
+        authenticate_as("crohr")
+        send_payload(@valid_attributes, :json)
+        
+        post :create, :platform_id => "grid5000", :site_id => "rennes", :format => :json
+        
+        response.status.should == 500
+        json['message'].should == "Cannot launch deployment: Uid must be set"
+        
+        EM.stop
+      end
+    end
+    
+    it "should call transform_blobs_into_files! before sending the deployment, and return 201 if OK" do      
+      Deployment.should_receive(:new).with(@valid_attributes).
+        and_return(@deployment)
+        
+      @deployment.should_receive(:transform_blobs_into_files!).
         with(
           Rails.tmp, 
           "http://api-in.local/platforms/grid5000/sites/rennes/files"
         )
 
-      @kserver.should_receive(:submit!).with(
-        ["-e", "lenny-x64-base", "-m", "paradent-1.rennes.grid5000.fr"], 
-        :user => "crohr"
-      ).and_return("some-uid")
+      @deployment.should_receive(:ksubmit!).and_return("some-uid")
       
       EM.synchrony do
         
@@ -164,12 +179,14 @@ describe DeploymentsController do
         send_payload(@valid_attributes, :json)
         
         post :create, :platform_id => "grid5000", :site_id => "rennes", :format => :json
-        
+
         response.status.should == 201
         response.headers['Location'].should == "http://api-in.local/platforms/grid5000/sites/rennes/deployments/some-uid"
         response.body.should be_empty
         
-        Deployment.find_by_uid("some-uid").should_not be_nil
+        dep = Deployment.find_by_uid("some-uid")
+        dep.should_not be_nil
+        dep.status?(:processing).should be_true
         
         EM.stop
       end
@@ -217,7 +234,7 @@ describe DeploymentsController do
         Deployment.should_receive(:find).with(@deployment.uid).
           and_return(@deployment)
           
-        @deployment.should_receive(:active?).and_return(false)
+        @deployment.should_receive(:can_cancel?).and_return(false)
         
         authenticate_as(@deployment.user_uid)
         
@@ -231,8 +248,12 @@ describe DeploymentsController do
       end
     end
     
-    it "should set the status to :canceled if deployment active and cancellation is successful" do
-      @kserver.should_receive(:cancel!).and_return(true)
+    it "should call Deployment#cancel! if deployment active" do
+      Deployment.should_receive(:find).with(@deployment.uid).
+        and_return(@deployment)
+        
+      @deployment.should_receive(:can_cancel?).and_return(true)
+      @deployment.should_receive(:cancel!).and_return(true)
       
       EM.synchrony do
         authenticate_as(@deployment.user_uid)
@@ -241,54 +262,16 @@ describe DeploymentsController do
         
         response.status.should == 204
         response.body.should be_empty
-        response.headers['Location'].should == "http://api-in.local/platforms/grid5000/sites/rennes/deployments/#{@deployment.uid}"
-        @deployment.reload.status.should == "canceled"
-        
+        response.headers['Location'].should == "http://api-in.local/platforms/grid5000/sites/rennes/deployments/#{@deployment.uid}"        
         EM.stop
       end
     end
     
-    it "should set the status to :error if deployment active and cancellation fails" do
-      @kserver.should_receive(:cancel!).and_return(false)
-      
-      EM.synchrony do
-        authenticate_as(@deployment.user_uid)
-        
-        delete :destroy, :platform_id => "grid5000", :site_id => "rennes", :id => @deployment.uid, :format => :json
-        
-        response.status.should == 204
-        response.body.should be_empty
-        response.headers['Location'].should == "http://api-in.local/platforms/grid5000/sites/rennes/deployments/#{@deployment.uid}"
-        @deployment.reload.status.should == "error"
-        
-        EM.stop
-      end
-    end
-    
-    it "should raise an error if an error occurred when contacting the kadeploy server" do
-      @kserver.should_receive(:cancel!).
-        and_raise(Exception.new("some error message"))
-      
-      EM.synchrony do
-        authenticate_as(@deployment.user_uid)
-        
-        delete :destroy, :platform_id => "grid5000", :site_id => "rennes", :id => @deployment.uid, :format => :json
-        
-        response.status.should == 500
-        json['message'].should == "some error message"
-        
-        @deployment.reload.status.should == "processing"
-        
-        EM.stop
-      end
-    end
   end # describe "DELETE /platforms/{{platform_id}}/sites/{{site_id}}/deployments/{{id}}"
   
   describe "PUT /platforms/{{platform_id}}/sites/{{site_id}}/deployments/{{id}}" do
     before do
       @deployment = Deployment.first
-      @result = {"x" => "y"}
-      @output = "some string"
     end
     
     it "should return 404 if the deployment does not exist" do
@@ -301,8 +284,13 @@ describe DeploymentsController do
       end
     end
     
-    it "should keep the status to :processing if deployment is not finished" do
-      @kserver.should_receive(:touch!).and_return([:processing, nil, nil])
+    it "should call Deployment#touch!" do
+      Deployment.should_receive(:find).with(@deployment.uid).
+        and_return(@deployment)
+        
+        
+      @deployment.should_receive(:active?).and_return(true)
+      @deployment.should_receive(:touch!)
       
       EM.synchrony do
         
@@ -311,71 +299,10 @@ describe DeploymentsController do
         response.status.should == 204
         response.body.should be_empty
         response.headers['Location'].should == "http://api-in.local/platforms/grid5000/sites/rennes/deployments/#{@deployment.uid}"
-        @deployment.reload.status.should == "processing"
         
         EM.stop
       end
     end
-    it "should set the status to :terminated if deployment is finished" do
-      @kserver.should_receive(:touch!).and_return([:terminated, @result, @output])
-      
-      EM.synchrony do
-        
-        put :update, :platform_id => "grid5000", :site_id => "rennes", :id => @deployment.uid, :format => :json
-        
-        response.status.should == 204
-        @deployment.reload
-        @deployment.status.should == "terminated"
-        @deployment.result.should == @result
-        @deployment.output.should == @output
-        
-        EM.stop
-      end
-    end
-    it "should set the status to :error if an error occurred while trying to fetch the results from the kadeploy server" do
-      @kserver.should_receive(:touch!).and_return([:error, nil, @output])
-      
-      EM.synchrony do
-        
-        put :update, :platform_id => "grid5000", :site_id => "rennes", :id => @deployment.uid, :format => :json
-        
-        response.status.should == 204
-        @deployment.reload
-        @deployment.status.should == "error"
-        @deployment.output.should == @output
-        
-        EM.stop
-      end
-    end
-    it "should set the status to :canceled if the deployment no longer exist on the kadeploy server" do
-      @kserver.should_receive(:touch!).and_return([:canceled, nil, @output])
-      
-      EM.synchrony do
-        
-        put :update, :platform_id => "grid5000", :site_id => "rennes", :id => @deployment.uid, :format => :json
-        
-        response.status.should == 204
-        @deployment.reload
-        @deployment.status.should == "canceled"
-        @deployment.output.should == @output
-        
-        EM.stop
-      end
-    end
-    
-    it "should raise an error if an error occurred when contacting the kadeploy server" do
-      @kserver.should_receive(:touch!).
-        and_raise(Exception.new("some error message"))
-      
-      EM.synchrony do
-        
-        put :update, :platform_id => "grid5000", :site_id => "rennes", :id => @deployment.uid, :format => :json
-        
-        response.status.should == 500
-        json['message'].should == "some error message"
-        @deployment.reload.status.should == "processing"
-        EM.stop
-      end
-    end
+
   end # describe "PUT /platforms/{{platform_id}}/sites/{{site_id}}/deployments/{{id}}"
 end
