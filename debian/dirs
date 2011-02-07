@@ -1,2 +1,2 @@
-usr/bin
-usr/sbin
+var/log/g5kapi
+var/db/g5kapi

@@ -1,4 +1,6 @@
 require 'time'
+
+module Grid5000
 # Class representing a Grid5000 job.
 class Job
   
@@ -81,4 +83,5 @@ class Job
     @errors.empty?
   end
   
+end
 end

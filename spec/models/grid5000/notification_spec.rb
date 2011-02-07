@@ -1,13 +1,13 @@
 require 'spec_helper'
 
-describe Notification do
+describe Grid5000::Notification do
   before do
     @body = "some message"
     @recipients = ["xmpp:crohr@jabber.grid5000.fr", "mailto:cyril.rohr@inria.fr"]
   end
   
   it "should correcty populate the attributes" do
-    notif = Notification.new(@body, :to => @recipients)
+    notif = Grid5000::Notification.new(@body, :to => @recipients)
     notif.message.should == @body
     notif.recipients.should == @recipients
   end
@@ -25,7 +25,7 @@ describe Notification do
       ).
       to_return(:status => 202)
     EM.synchrony do
-      notif = Notification.new(@body, :to => @recipients)
+      notif = Grid5000::Notification.new(@body, :to => @recipients)
       notif.deliver!.should be_true
       EM.stop
     end
@@ -44,7 +44,7 @@ describe Notification do
       ).
       to_return(:status => 500)
     EM.synchrony do
-      notif = Notification.new(@body, :to => @recipients)
+      notif = Grid5000::Notification.new(@body, :to => @recipients)
       notif.deliver!.should be_false
       EM.stop
     end

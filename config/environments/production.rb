@@ -19,10 +19,10 @@ Api::Application.configure do
   # just comment this out and Rails will serve the files
 
   # See everything in the log (default is :info)
-  # config.log_level = :debug
+  config.log_level = :debug
 
   # Use a different logger for distributed setups
-  # config.logger = SyslogLogger.new
+  config.logger = Syslogger.new("g5kapi-#{Api::VERSION}", Syslog::LOG_PID, Syslog::LOG_LOCAL0)
 
   # Use a different cache store in production
   # config.cache_store = :mem_cache_store

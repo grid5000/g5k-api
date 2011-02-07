@@ -1,7 +1,7 @@
 defaults: &defaults
   tmp_path: /tmp
   header_user_cn: X-Api-User-CN
-  reference_repository_path: ~/.g5kapi/reference-repository
+  reference_repository_path: /var/db/g5kapi/reference-repository
   reference_repository_path_prefix: data
   base_uri_in: https://api.grid5000.fr
   base_uri_out: http://localhost:8888
@@ -23,6 +23,7 @@ development:
   base_uri_out: http://localhost:3000
   kadeploy_uri: druby://localhost:25300
   notifications_uri: https://localhost:3443/sid/notifications
+  reference_repository_path: ~/dev/g5k-api/reference-repository
   oar:
     <<: *oar
     host: 127.0.0.1

@@ -14,6 +14,8 @@ class ResourcesController < ApplicationController
   protected
   def fetch(path)
     allow :get; vary_on :accept
+    Rails.logger.info "Fetching #{path}"
+    Rails.logger.info "Repository=#{repository.inspect}"
     object = EM::Synchrony.sync repository.async_find(
       path.gsub(/\/?platforms/,''), 
       :branch => params[:branch],

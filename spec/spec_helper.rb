@@ -74,7 +74,7 @@ RSpec.configure do |config|
   include ApplicationHelper
   
   config.before(:each) do
-    Deployment.delete_all
+    Grid5000::Deployment.delete_all
     @json = nil
   end
   

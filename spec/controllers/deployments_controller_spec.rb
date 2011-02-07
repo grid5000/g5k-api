@@ -15,7 +15,6 @@ describe DeploymentsController do
 
     it "should return the list of deployments with the correct links, in created_at DESC order" do
       EM.synchrony do
-
         get :index, :platform_id => "grid5000", :site_id => "rennes", :format => :json
         response.status.should == 200
         json['total'].should == 10
@@ -73,7 +72,7 @@ describe DeploymentsController do
       EM.synchrony do
         get :show, :platform_id => "grid5000", :site_id => "rennes", :id => "doesnotexist", :format => :json
         response.status.should == 404
-        json['message'].should == "Couldn't find Deployment with ID=doesnotexist"
+        json['message'].should == "Couldn't find Grid5000::Deployment with ID=doesnotexist"
         EM.stop
       end
     end
@@ -98,7 +97,7 @@ describe DeploymentsController do
         "nodes" => ["paradent-1.rennes.grid5000.fr"],
         "environment" => "lenny-x64-base"
       }
-      @deployment = Deployment.new(@valid_attributes)
+      @deployment = Grid5000::Deployment.new(@valid_attributes)
     end
     
     it "should return 403 if the user is not authenticated" do
@@ -125,7 +124,7 @@ describe DeploymentsController do
     end
     
     it "should raise an error if an error occurred when launching the deployment" do
-      Deployment.should_receive(:new).with(@valid_attributes).
+      Grid5000::Deployment.should_receive(:new).with(@valid_attributes).
         and_return(@deployment)
       @deployment.should_receive(:ksubmit!).and_raise(Exception.new("some error message"))
       
@@ -143,7 +142,7 @@ describe DeploymentsController do
     end
     
     it "should return 500 if the deploymet cannot be launched" do
-      Deployment.should_receive(:new).with(@valid_attributes).
+      Grid5000::Deployment.should_receive(:new).with(@valid_attributes).
         and_return(@deployment)
         
       @deployment.should_receive(:ksubmit!).and_return(nil)
@@ -162,7 +161,7 @@ describe DeploymentsController do
     end
     
     it "should call transform_blobs_into_files! before sending the deployment, and return 201 if OK" do      
-      Deployment.should_receive(:new).with(@valid_attributes).
+      Grid5000::Deployment.should_receive(:new).with(@valid_attributes).
         and_return(@deployment)
         
       @deployment.should_receive(:transform_blobs_into_files!).
@@ -184,7 +183,7 @@ describe DeploymentsController do
         response.headers['Location'].should == "http://api-in.local/platforms/grid5000/sites/rennes/deployments/some-uid"
         response.body.should be_empty
         
-        dep = Deployment.find_by_uid("some-uid")
+        dep = Grid5000::Deployment.find_by_uid("some-uid")
         dep.should_not be_nil
         dep.status?(:processing).should be_true
         
@@ -196,7 +195,7 @@ describe DeploymentsController do
   
   describe "DELETE /platforms/{{platform_id}}/sites/{{site_id}}/deployments/{{id}}" do
     before do
-      @deployment = Deployment.first
+      @deployment = Grid5000::Deployment.first
     end
     
     it "should return 403 if the user is not authenticated" do
@@ -214,7 +213,7 @@ describe DeploymentsController do
         authenticate_as("crohr")
         delete :destroy, :platform_id => "grid5000", :site_id => "rennes", :id => "doesnotexist", :format => :json
         response.status.should == 404
-        json['message'].should == "Couldn't find Deployment with ID=doesnotexist"
+        json['message'].should == "Couldn't find Grid5000::Deployment with ID=doesnotexist"
         EM.stop
       end
     end
@@ -231,7 +230,7 @@ describe DeploymentsController do
     
     it "should do nothing and return 204 if the deployment is not in an active state" do
       EM.synchrony do
-        Deployment.should_receive(:find).with(@deployment.uid).
+        Grid5000::Deployment.should_receive(:find).with(@deployment.uid).
           and_return(@deployment)
           
         @deployment.should_receive(:can_cancel?).and_return(false)
@@ -248,8 +247,8 @@ describe DeploymentsController do
       end
     end
     
-    it "should call Deployment#cancel! if deployment active" do
-      Deployment.should_receive(:find).with(@deployment.uid).
+    it "should call Grid5000::Deployment#cancel! if deployment active" do
+      Grid5000::Deployment.should_receive(:find).with(@deployment.uid).
         and_return(@deployment)
         
       @deployment.should_receive(:can_cancel?).and_return(true)
@@ -271,7 +270,7 @@ describe DeploymentsController do
   
   describe "PUT /platforms/{{platform_id}}/sites/{{site_id}}/deployments/{{id}}" do
     before do
-      @deployment = Deployment.first
+      @deployment = Grid5000::Deployment.first
     end
     
     it "should return 404 if the deployment does not exist" do
@@ -279,13 +278,13 @@ describe DeploymentsController do
         authenticate_as("crohr")
         put :update, :platform_id => "grid5000", :site_id => "rennes", :id => "doesnotexist", :format => :json
         response.status.should == 404
-        json['message'].should == "Couldn't find Deployment with ID=doesnotexist"
+        json['message'].should == "Couldn't find Grid5000::Deployment with ID=doesnotexist"
         EM.stop
       end
     end
     
-    it "should call Deployment#touch!" do
-      Deployment.should_receive(:find).with(@deployment.uid).
+    it "should call Grid5000::Deployment#touch!" do
+      Grid5000::Deployment.should_receive(:find).with(@deployment.uid).
         and_return(@deployment)
         
         

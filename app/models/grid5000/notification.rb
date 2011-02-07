@@ -1,3 +1,4 @@
+module Grid5000
 class Notification
   class << self
     attr_accessor :uri
@@ -36,4 +37,5 @@ class Notification
       :body => message
     })
   end
+end
 end

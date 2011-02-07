@@ -11,7 +11,7 @@ class DeploymentsController < ApplicationController
     order = "DESC"
     order = "ASC" if params[:reverse] && params[:reverse].to_s == "true"
     
-    items = Deployment.order("created_at #{order}")
+    items = Grid5000::Deployment.order("created_at #{order}")
     items = items.where(:user_uid => params[:user]) if params[:user]
     items = items.where(:status => params[:status]) if params[:status]
     
@@ -41,7 +41,7 @@ class DeploymentsController < ApplicationController
     allow :get, :delete, :put; vary_on :accept
     expires_in 60.seconds
     
-    item = Deployment.find(params[:id])
+    item = Grid5000::Deployment.find(params[:id])
     item.links = links_for_item(item)
     
     respond_to do |format|
@@ -53,7 +53,7 @@ class DeploymentsController < ApplicationController
   # Execution is made in a deferrable.
   def destroy
     ensure_authenticated!
-    deployment = Deployment.find(params[:id])
+    deployment = Grid5000::Deployment.find(params[:id])
     authorize!(deployment.user_uid)
     
     if deployment.can_cancel?
@@ -79,7 +79,7 @@ class DeploymentsController < ApplicationController
   def create
     ensure_authenticated!
 
-    deployment = Deployment.new(payload)
+    deployment = Grid5000::Deployment.new(payload)
     deployment.user_uid = @credentials[:cn]
     deployment.site_uid = Rails.whoami
     
@@ -117,7 +117,7 @@ class DeploymentsController < ApplicationController
   # If the deployment is in the "canceled", "error", or "terminated" state, return the deployment from DB
   # Otherwise, fetches the deployment status from the kadeploy-server, and update the <tt>result</tt> attribute if the deployment has finished.
   def update
-    deployment = Deployment.find(params[:id])
+    deployment = Grid5000::Deployment.find(params[:id])
     
     if deployment.active?
       deployment.touch!

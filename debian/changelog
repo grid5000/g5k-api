@@ -1,6 +1,6 @@
 g5kapi (2.0.0-1) unstable; urgency=low
 
-  * Initial release (Closes: #nnnn)  <nnnn is the bug number of your ITP>
+  * Initial release.
 
  -- Cyril Rohr <cyril.rohr@inria.fr>  Tue, 25 Jan 2011 18:50:38 +0100
 

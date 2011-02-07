@@ -1,11 +1,11 @@
 require 'spec_helper'
 
-describe Deployment do
+describe Grid5000::Deployment do
   
   before do
     @now = Time.now
     Time.stub!(:now).and_return(@now)
-    @deployment = Deployment.new({
+    @deployment = Grid5000::Deployment.new({
       :environment => "lenny-x64-base",
       :user_uid => "crohr",
       :site_uid => "rennes",
@@ -209,7 +209,7 @@ describe Deployment do
     it "should not allow to create a deployment if uid already exists" do
       @deployment.uid = "whatever"
       @deployment.save
-      dep = Deployment.new(@deployment.attributes)
+      dep = Grid5000::Deployment.new(@deployment.attributes)
       dep.uid = "whatever"
       dep.save.should_not be_true
       dep.errors[:uid].should == ["has already been taken"]
@@ -422,13 +422,13 @@ describe Deployment do
     
     it "should not deliver a notification if notifications is blank" do
       @deployment.notifications = nil
-      Notification.should_not_receive(:new)
+      Grid5000::Notification.should_not_receive(:new)
       @deployment.deliver_notification.should be_true
     end
     
     it "should deliver a notification if notifications is not empty" do
       @deployment.notifications = ["xmpp:crohr@jabber.grid5000.fr"]
-      Notification.should_receive(:new).
+      Grid5000::Notification.should_receive(:new).
         with(@deployment.as_json, :to => ["xmpp:crohr@jabber.grid5000.fr"]).
         and_return(notif = mock("notif"))
       notif.should_receive(:deliver!).and_return(true)

@@ -108,7 +108,7 @@ describe JobsController do
               'Content-Type' => media_type(:json), 
               'X-Remote-Ident' => "crohr"
             },
-            :body => Job.new(payload).to_hash(:destination => "oar-2.4-submission").to_json
+            :body => Grid5000::Job.new(payload).to_hash(:destination => "oar-2.4-submission").to_json
           ).
           to_return(
             :status => 400,
@@ -136,7 +136,7 @@ describe JobsController do
               'Content-Type' => media_type(:json), 
               'X-Remote-Ident' => "crohr"
             },
-            :body => Job.new(payload).to_hash(:destination => "oar-2.4-submission").to_json
+            :body => Grid5000::Job.new(payload).to_hash(:destination => "oar-2.4-submission").to_json
           ).
           to_return(
             :status => 201,

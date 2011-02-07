@@ -1,10 +1,10 @@
 require 'spec_helper'
 
-describe Job do
+describe Grid5000::Job do
   describe "normalization" do
     it "should transform into integers a few properties" do
       now = Time.now
-      job = Job.new(:exit_code => "0", :submitted_at => "12345", :started_at => "6789", :reservation => now, :signal => "1", :uid => "12321", :anterior => "34543", :scheduled_at => "56765", :walltime => "3600", :checkpoint => "7200")
+      job = Grid5000::Job.new(:exit_code => "0", :submitted_at => "12345", :started_at => "6789", :reservation => now, :signal => "1", :uid => "12321", :anterior => "34543", :scheduled_at => "56765", :walltime => "3600", :checkpoint => "7200")
       job.exit_code.should == 0
       job.submitted_at.should == 12345
       job.started_at.should == 6789
@@ -20,7 +20,7 @@ describe Job do
   
   describe "Exporting to a hash" do
     before do
-      @job = Job.new(
+      @job = Grid5000::Job.new(
         "walltime"=>32304, 
         "submitted_at"=>1258105888, 
         "mode" => "INTERACTIVE",
@@ -48,7 +48,7 @@ describe Job do
       )
     end
     it "should export only non-null attributes" do
-      job = Job.new(:uid => 123)
+      job = Grid5000::Job.new(:uid => 123)
       job.to_hash.should == {"uid" => 123}
     end
     it "should return all the attributes given at creation in a hash" do
@@ -73,7 +73,7 @@ describe Job do
     end
     it "should export to a hash structure valid for submitting a job to the oarapi" do
       reservation = Time.parse("2009-11-10 14:54:56Z")
-      job = Job.new(:resources => "/nodes=1", :reservation => reservation, :command => "id", :types => ["deploy", "idempotent"], :walltime => 3600, :checkpoint => 40)
+      job = Grid5000::Job.new(:resources => "/nodes=1", :reservation => reservation, :command => "id", :types => ["deploy", "idempotent"], :walltime => 3600, :checkpoint => 40)
       job.should be_valid
       job.to_hash(:destination => "oar-2.4-submission").should == {
         "script"=>"id", 
@@ -86,7 +86,7 @@ describe Job do
     end
     it "should not export the type or reservation attribute if nil or empty" do
       reservation = Time.parse("2009-11-10 14:54:56Z")
-      job = Job.new(:resources => "/nodes=1", :reservation => nil, :command => "id", :types => nil, :walltime => 3600, :checkpoint => 40)
+      job = Grid5000::Job.new(:resources => "/nodes=1", :reservation => nil, :command => "id", :types => nil, :walltime => 3600, :checkpoint => 40)
       job.should be_valid
       job.to_hash(:destination => "oar-2.4-submission").should == {
         "script"=>"id", 
@@ -103,7 +103,7 @@ describe Job do
       @valid_properties = {:resources => '/nodes=1', :reservation => @at, :walltime => 3600, :command => "id", :directory => '/home/crohr'}
     end
     it "should correctly define the required entries for a job to be submitted" do
-      job = Job.new(@valid_properties)
+      job = Grid5000::Job.new(@valid_properties)
       job.should be_valid
       job.resources.should == '/nodes=1'
       job.reservation.should == @at
@@ -113,37 +113,37 @@ describe Job do
       job.types.should == nil
     end
     it "should be valid if the reservation property is a Time" do
-      job = Job.new(@valid_properties.merge(:reservation => Time.at(@at)))
+      job = Grid5000::Job.new(@valid_properties.merge(:reservation => Time.at(@at)))
       job.should be_valid
       job.reservation.should == @at
     end
     it "should be valid if the reservation property is a parseable date" do
-      job = Job.new(@valid_properties.merge(:reservation => "2009/11/10 15:45:00 GMT+0100"))
+      job = Grid5000::Job.new(@valid_properties.merge(:reservation => "2009/11/10 15:45:00 GMT+0100"))
       job.should be_valid
       job.reservation.should == Time.parse("2009/11/10 15:45:00 GMT+0100").to_i
     end
     it "should should be valid if no command is passed, but this is a reservation" do
-      job = Job.new(@valid_properties.merge(:command => ""))
+      job = Grid5000::Job.new(@valid_properties.merge(:command => ""))
       job.should be_valid
-      job = Job.new(@valid_properties.merge(:command => nil))
+      job = Grid5000::Job.new(@valid_properties.merge(:command => nil))
       job.should be_valid
     end
     it "should not be valid if there is nothing to do on launch, and this is a submission" do
-      job = Job.new(@valid_properties.merge(:command => "", :reservation => nil))
+      job = Grid5000::Job.new(@valid_properties.merge(:command => "", :reservation => nil))
       job.should_not be_valid
       job.errors.first.should == "you must give a :command to execute on launch"
-      job = Job.new(@valid_properties.merge(:command => nil, :reservation => nil))
+      job = Grid5000::Job.new(@valid_properties.merge(:command => nil, :reservation => nil))
       job.should_not be_valid
       job.errors.first.should == "you must give a :command to execute on launch"
     end
     it "should correctly export the property attribute, if specified" do
-      job = Job.new(@valid_properties.merge(:properties => "cluster='genepi'", :queue => "admin"))
+      job = Grid5000::Job.new(@valid_properties.merge(:properties => "cluster='genepi'", :queue => "admin"))
       job.properties.should == "cluster='genepi'"
       job.queue.should == "admin"
       job.to_hash(:destination => "oar-2.4-submission").values_at('property', 'queue').should == ["cluster='genepi'", "admin"]
     end
     it "should correctly export the std* attributes, if specified" do
-      job = Job.new(@valid_properties.merge(:stdout => "/home/crohr/stdout", :stderr => "/home/crohr/stderr"))
+      job = Grid5000::Job.new(@valid_properties.merge(:stdout => "/home/crohr/stdout", :stderr => "/home/crohr/stderr"))
       job.stdout.should == "/home/crohr/stdout"
       job.stderr.should == "/home/crohr/stderr"
       job.to_hash(:destination => "oar-2.4-submission").values_at('stdout', 'stderr').should == ["/home/crohr/stdout", "/home/crohr/stderr"]

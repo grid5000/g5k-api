@@ -1,3 +1,5 @@
+require 'grid5000/repository'
+
 module ApplicationHelper
   
   def link_attributes_for(attributes = {})
@@ -35,7 +37,8 @@ module ApplicationHelper
         Rails.my_config(:reference_repository_path),
         Rails.root
       ), 
-      Rails.my_config(:reference_repository_path_prefix)
+      Rails.my_config(:reference_repository_path_prefix),
+      Rails.logger
     )
   end
 

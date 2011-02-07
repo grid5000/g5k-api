@@ -1,26 +1,33 @@
 require 'grid5000/extensions/grit'
 require 'json'
-
+require 'logger'
 
 module Grid5000
   class Repository
-    attr_reader :repository_path, :repository_path_prefix, :instance, :commit
+    attr_reader :repository_path, :repository_path_prefix, :instance, :commit, :logger
     
-    def initialize(repository_path, repository_path_prefix = nil)
+    def initialize(repository_path, repository_path_prefix = nil, logger = nil)
       @commit = nil
       @reloading = false
       @repository_path_prefix = repository_path_prefix ? repository_path_prefix.gsub(/^\//,'') : repository_path_prefix
       @repository_path = File.expand_path repository_path
+      @logger = logger || Logger.new(STDOUT)
       @instance = Grit::Repo.new(repository_path)
     end
     
     def find(path, options = {})
+      logger.info "Repository path = #{repository_path.inspect}"
+      logger.info "path = #{path.inspect}, options = #{options.inspect}"
       @commit = nil
       @commit = find_commit_for(options)
+      logger.info "commit = #{@commit.inspect}"
       return nil if @commit.nil?
       object = find_object_at(path, @commit)
+      logger.debug "object = #{object.inspect}"
       return nil if object.nil?
       result = expand_object(object, path, @commit)
+      logger.debug "result = #{result.inspect}"
+      result
     end
     
     def expand_object(object, path, commit)
@@ -115,7 +122,10 @@ module Grid5000
       callback = proc { |result|
         set_deferred_status :succeeded, result
       }
-      EM.defer(proc{ find(*args) }, callback)
+      logger.info [:callback, callback]
+      EM.defer(proc{ 
+        result = find(*args) 
+      }, callback)
       self
     end
     
