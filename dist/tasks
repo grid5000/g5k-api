@@ -1,0 +1,32 @@
+# rm -rf vendor/ruby/1.9.1/{bin,gems,doc,specifications} && bundle install
+ROOT_DIR = File.expand_path("../..", __FILE__)
+BUILD_DIR = File.join(ROOT_DIR, "build", "debian")
+
+namespace :package do
+  desc "Generates the .deb"
+  task :deb => [:bundle, :build]
+  
+  desc "Bundle the dependencies for the current platform"
+  task :bundle do
+    rm_rf "vendor"
+    system "PATH=/var/lib/gems/1.9.1/bin:$PATH bundle install"
+  end
+
+  desc "Build the binary package"
+  task :build do
+    system "dpkg-buildpackage -us -uc -d"
+  end
+
+  desc "Copy the application code to a machine called `debian-build`"
+  task :upload do
+    system "ssh debian-build 'mkdir -p ~/dev/g5kapi'"
+    system "rsync -r -p . debian-build:~/dev/g5kapi"
+  end
+
+  desc "Execute the build process on a machine called `debian-build`"
+  task :remote_build => :upload do
+    system "ssh debian-build 'cd ~/dev/g5kapi && PATH=/var/lib/gems/1.9.1/bin:$PATH rake -f dist/tasks package:deb'"
+    system "scp debian-build:~/dev/*.deb pkg/" if $?.exitstatus==0
+  end
+end
+
