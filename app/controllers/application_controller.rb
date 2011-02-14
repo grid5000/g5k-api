@@ -105,7 +105,8 @@ class ApplicationController < ActionController::Base
   end
   
   def log_exception(exception)
-    Rails.logger.debug exception.message
+    Rails.logger.warn exception.message
+    Rails.logger.debug exception.backtrace.join(";")
   end
   
   # ===============

@@ -26,7 +26,6 @@ module Grid5000
       logger.debug "object = #{object.inspect}"
       return nil if object.nil?
       result = expand_object(object, path, @commit)
-      logger.debug "result = #{result.inspect}"
       result
     end
     

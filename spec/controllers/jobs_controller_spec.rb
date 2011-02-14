@@ -3,7 +3,7 @@ require 'spec_helper'
 describe JobsController do
   render_views
   before do
-    @job_uids = [374191, 374190, 374189, 374188, 374187, 374186, 374185, 374184, 374183, 374182, 374181, 374180, 374179, 374178, 374177, 374176, 374175, 374174, 374173, 374172]
+    @job_uids = [374191, 374190, 374189, 374188, 374187, 374185, 374186, 374184, 374183, 374182, 374181, 374180, 374179, 374178, 374177, 374176, 374175, 374174, 374173, 374172]
   end
   
   describe "GET /platforms/{{platform_id}}/sites/{{site_id}}/jobs" do
@@ -72,8 +72,9 @@ describe JobsController do
         json["uid"].should == @job_uids[0]
         json["links"].should be_a(Array)
         json.keys.sort.should == [
+          "assigned_nodes",
           "links", "predicted_start_time", "project", 
-          "queue", "start_time", "state", "uid", 
+          "queue", "resources_by_type", "start_time", "state", "uid", 
           "user", "walltime"
         ]
         EM.stop

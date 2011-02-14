@@ -128,8 +128,8 @@ describe Grid5000::Repository do
           "grid5000/sites"
         )
         result["items"].map{|i| 
-          i['uid']}
-        .should == ['bordeaux', 'grenoble', 'rennes']
+          i['uid']
+        }.should == ['bordeaux', 'grenoble', 'rennes']
         result["total"].should == 3
         result["offset"].should == 0
       end
