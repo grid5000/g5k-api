@@ -12,7 +12,7 @@
 #
 
 PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
-DAEMON=/usr/sbin/g5kapi
+DAEMON=/usr/bin/g5kapi
 NAME=g5kapi
 DESC=g5kapi
 
@@ -20,7 +20,7 @@ test -x $DAEMON || exit 0
 
 LOGDIR=/var/log/g5kapi
 PIDFILE=/var/run/$NAME.pid
-DODTIME=1                   # Time to wait for the server to die, in seconds
+DODTIME=5                   # Time to wait for the server to die, in seconds
                             # If this value is set too low you might not
                             # let some servers to die gracefully and
                             # 'restart' will not work
@@ -32,29 +32,14 @@ fi
 
 set -e
 
-running_pid()
-{
-    # Check if a given process pid's cmdline matches a given name
-    pid=$1
-    name=$2
-    [ -z "$pid" ] && return 1
-    [ ! -d /proc/$pid ] &&  return 1
-    cmd=`cat /proc/$pid/cmdline | tr "\000" "\n"|head -n 1 |cut -d : -f 1`
-    # Is this the expected child?
-    [ "$cmd" != "$name" ] &&  return 1
-    return 0
-}
-
 running()
 {
 # Check if the process is running looking at /proc
 # (works for all users)
-
     # No pidfile, probably no daemon present
     [ ! -f "$PIDFILE" ] && return 1
-    # Obtain the pid and check it against the binary name
+    # Obtain the pid
     pid=`cat $PIDFILE`
-    running_pid $pid $DAEMON || return 1
     return 0
 }
 
@@ -69,7 +54,7 @@ force_stop() {
             kill -9 $pid
             [ -n "$DODTIME" ] && sleep "$DODTIME"s
             if running ; then
-                echo "Cannot kill $LABEL (pid=$pid)!"
+                echo "Cannot kill $NAME (pid=$pid)!"
                 exit 1
             fi
         fi
@@ -81,28 +66,30 @@ force_stop() {
 case "$1" in
   start)
 	echo -n "Starting $DESC: "
-	start-stop-daemon --start --quiet --pidfile $PIDFILE \
-		--exec $DAEMON -- $DAEMON_OPTS
-        if running ; then
-            echo "$NAME."
-        else
-            echo " ERROR."
-        fi
+	if running ; then
+	  echo "already running."
+  else
+  	$DAEMON $DAEMON_OPTS start
+    if running ; then
+        echo "OK."
+    else
+        echo "ERROR."
+    fi
+  fi
 	;;
   stop)
 	echo -n "Stopping $DESC: "
-	start-stop-daemon --stop --quiet --pidfile $PIDFILE \
-		--exec $DAEMON
-	echo "$NAME."
+	$DAEMON $DAEMON_OPTS stop
+	echo "OK."
 	;;
   force-stop)
 	echo -n "Forcefully stopping $DESC: "
-        force_stop
-        if ! running ; then
-            echo "$NAME."
-        else
-            echo " ERROR."
-        fi
+    force_stop
+    if ! running ; then
+        echo "OK."
+    else
+        echo "ERROR."
+    fi
 	;;
   #reload)
 	#
@@ -123,27 +110,21 @@ case "$1" in
 	#	just the same as "restart" except that it does nothing if the
 	#   daemon isn't already running.
 	# check wether $DAEMON is running. If so, restart
-	start-stop-daemon --stop --test --quiet --pidfile \
-		/var/run/$NAME.pid --exec $DAEMON \
-	&& $0 restart \
-	|| exit 0
+	  if running ;  then
+      $0 restart
+    fi
 	;;
   restart)
-    echo -n "Restarting $DESC: "
-	start-stop-daemon --stop --quiet --pidfile \
-		/var/run/$NAME.pid --exec $DAEMON
-	[ -n "$DODTIME" ] && sleep $DODTIME
-	start-stop-daemon --start --quiet --pidfile \
-		/var/run/$NAME.pid --exec $DAEMON -- $DAEMON_OPTS
-	echo "$NAME."
+    echo "Restarting $DESC..."
+    $0 stop && $0 start
 	;;
   status)
-    echo -n "$LABEL is "
+    echo -n "$NAME is "
     if running ;  then
-        echo "running"
+      echo "running."
     else
-        echo " not running."
-        exit 1
+      echo "not running."
+      exit 1
     fi
     ;;
   *)

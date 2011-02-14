@@ -19,7 +19,7 @@ set -e
 
 case "$1" in
     remove|upgrade|deconfigure)
-        /usr/bin/g5kapi server stop || true
+        /etc/init.d/g5kapi stop || true
         rm /usr/bin/g5kapi
         rm /opt/local/g5kapi/log
         mv /opt/local/g5kapi/bin/g5kapi.rb /opt/local/g5kapi/bin/g5kapi

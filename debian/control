@@ -8,6 +8,6 @@ Homepage: https://api.grid5000.fr
 
 Package: g5kapi
 Architecture: amd64
-Depends: ${shlibs:Depends}, ${misc:Depends}, rubygem-bundler, ruby1.9.1-full
+Depends: ${shlibs:Depends}, ${misc:Depends}, ruby1.9.1-full, git-core, rubygem-bundler
 Description: Grid'5000 API
  The API built on top of the Grid'5000 tools.

@@ -4,6 +4,22 @@ This application is in charge of providing the core APIs for Grid'5000.
 The project is hosted at <ssh://git.grid5000.fr/srv/git/repos/g5kapi>. 
 Please send an email to <cyril.rohr@inria.fr> if you cannot access the code.
 
+## Installation
+* The app requires `ruby1.9.1-full`. You can get them from the lenny-backports. You should add the following to `/etc/apt/sources.list`:
+
+        deb http://Backports.Debian.Org/debian-backports lenny-backports main contrib non-free
+        deb-src http://Backports.Debian.Org/debian-backports lenny-backports main contrib non-free
+
+  Then:
+
+        sudo apt-get update
+        sudo apt-get install ruby1.9.1-full git-core
+
+* Install `bundler` dependency:
+
+        wget http://git.grid5000.fr/pub/rubygem-bundler
+
+
 ## Development
 * You MUST have a working installation of `ruby` 1.9.2+.
 * You MUST have the `bundler` gem installed (1.0.0+):
@@ -68,10 +84,20 @@ Please send an email to <cyril.rohr@inria.fr> if you cannot access the code.
         $ open coverage/index.html
         
 ## Packaging
+In the following, we assume you have SSH access to a machine with the debian packaging tools. Let's call it `debian-build`.
 
-* [TODO] Package the app as a DEB (the DEB will be available in `build/DEBIAN/`):
+* Since we're using `bundler` in our app, let's create a package for the `bundler` gem (to be done only once):
 
-        $ rake -f dist/tasks package:all
+        $ gem install fpm
+        $ fpm -s gem -t deb bundler
+
+* Add an entry to the changelog (`debian/changelog`).
+* Now, let's package the app:
+
+        $ rake -f dist/tasks package:remote_build
+
+This will copy the project to the `debian-build` machine, and launch the build. 
+The generated `.deb` will be copied back at the end of the process.
 
 ## Authors
 * Cyril Rohr <cyril.rohr@inria.fr>
