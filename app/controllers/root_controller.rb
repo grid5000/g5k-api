@@ -12,6 +12,11 @@ class RootController < ApplicationController
               :type => media_type(:json)
             },
             {
+              :rel => "environments",
+              :href => uri_to(environments_path),
+              :type => media_type(:json_collection)
+            },
+            {
               :rel => "sites",
               :href => uri_to(sites_path),
               :type => media_type(:json_collection)

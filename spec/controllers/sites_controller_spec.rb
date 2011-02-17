@@ -11,7 +11,7 @@ describe SitesController do
         json['total'].should == 3
         json['items'].length.should == 3
         json['items'][0]['uid'].should == 'bordeaux'
-        json['items'][0]['links'].length.should == 9
+        json['items'][0]['links'].length.should == 10
         EM.stop
       end
     end
@@ -63,8 +63,24 @@ describe SitesController do
         get :show, :id => "rennes", :format => :json
         response.status.should == 200
         json['uid'].should == 'rennes'
-        json['links'].map{|l| l['rel']}.sort.should == ["clusters", "deployments", "environments", "jobs", "metrics", "parent", "self", "status", "versions"]
-        json['links'].find{|l| l['rel'] == 'self'}['href'].should == "/sites/rennes"
+        json['links'].map{|l| l['rel']}.sort.should == [
+          "clusters", 
+          "deployments", 
+          "environments", 
+          "jobs", 
+          "metrics", 
+          "parent", 
+          "self", 
+          "status",
+          "version",
+          "versions"
+        ]
+        json['links'].find{|l| 
+          l['rel'] == 'self'
+        }['href'].should == "/sites/rennes"
+        json['links'].find{|l| 
+          l['rel'] == 'version'
+        }['href'].should == "/sites/rennes/versions/5b02702daa827f7e39ebf7396af26735c9d2aacd"
         EM.stop
       end
     end

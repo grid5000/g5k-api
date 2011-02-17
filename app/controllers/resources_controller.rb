@@ -35,6 +35,8 @@ class ResourcesController < ApplicationController
       object['links'] = links_for_item(object)
     end
     
+    object["version"] = repository.commit.id
+    
     last_modified [repository.commit.committed_date, File.mtime(__FILE__)].max
     expires_in MAX_AGE, :public => true, :must_revalidate => true, :proxy_revalidate => true, :s_maxage => MAX_AGE
     etag object.hash
@@ -69,6 +71,11 @@ class ResourcesController < ApplicationController
       "rel" => "parent",
       "type" => media_type(:json),
       "href" => uri_to(parent_path)
+    })
+    links.push({
+      "rel" => "version",
+      "type" => media_type(:json),
+      "href" => uri_to(File.join(resource_path(item["uid"]), "versions", item["version"]))
     })
     links.push({
       "rel" => "versions",

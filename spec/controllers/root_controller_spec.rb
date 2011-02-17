@@ -10,6 +10,7 @@ describe RootController do
       "uid"=>"grid5000", 
       "links"=>[
         {"rel"=>"self", "href"=>"/", "type"=>"application/json"}, 
+        {"rel"=>"environments", "href"=>"/environments", "type"=>"application/json"},
         {"rel"=>"sites", "href"=>"/sites", "type"=>"application/json"}
       ]
     }
@@ -23,6 +24,7 @@ describe RootController do
       "uid"=>"grid5000", 
       "links"=>[
         {"rel"=>"self", "href"=>"/sid/", "type"=>"application/json"}, 
+        {"rel"=>"environments", "href"=>"/sid/environments", "type"=>"application/json"},
         {"rel"=>"sites", "href"=>"/sid/sites", "type"=>"application/json"}
       ]
     }
