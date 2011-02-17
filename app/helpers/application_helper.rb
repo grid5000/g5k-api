@@ -46,7 +46,8 @@ module ApplicationHelper
     case type
     when :json
       "application/json"
-    when :json_collection
+    when :json_collection  
+      # "application/vnd.grid5000+json"
       "application/json"
     end
   end

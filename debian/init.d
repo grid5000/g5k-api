@@ -32,14 +32,29 @@ fi
 
 set -e
 
+
+running_pid()
+{
+    # Check if a given process status name matches a given name
+    pid=$1
+    name=$2
+    [ -z "$pid" ] && return 1
+    [ ! -d /proc/$pid ] &&  return 1
+    cmd=`cat /proc/$pid/status | grep Name: | cut -f 2`
+    # Is this the expected child?
+    [ "$cmd" != "$name" ] &&  return 1
+    return 0
+}
+
 running()
 {
-# Check if the process is running looking at /proc
-# (works for all users)
+  # Check if the process is running looking at /proc
+  # (works for all users)
     # No pidfile, probably no daemon present
     [ ! -f "$PIDFILE" ] && return 1
     # Obtain the pid
     pid=`cat $PIDFILE`
+    running_pid $pid $NAME || return 1
     return 0
 }
 

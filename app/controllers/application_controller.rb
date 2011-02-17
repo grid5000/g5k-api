@@ -1,8 +1,9 @@
 class ApplicationController < ActionController::Base
   include ApplicationHelper
   
+  before_filter :log_head
+  before_filter :log_body, :only => [:create, :update, :destroy]
   before_filter :lookup_credentials
-  before_filter :log, :only => [:create, :update, :destroy]
   before_filter :parse_json_payload, :only => [:create, :update, :destroy]
   
   class ClientError < ActionController::ActionControllerError; end
@@ -40,8 +41,11 @@ class ApplicationController < ActionController::Base
     end
   end
   
-  def log
+  def log_head
     Rails.logger.debug [:received_headers, request.env]
+  end
+  
+  def log_body
     Rails.logger.debug [:received_body, request.body.read]
   ensure
     request.body.rewind

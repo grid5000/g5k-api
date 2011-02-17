@@ -25,3 +25,5 @@ module ConfigurationHelper
 end
 
 Rails.extend ConfigurationHelper
+
+Rails.logger.level = Logger.const_get(Rails.my_config(:logger_level) || "INFO")

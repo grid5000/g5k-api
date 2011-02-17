@@ -8,8 +8,6 @@ module Grid5000
   # that is launched using the Kadeploy3 tool.
   class Deployment < ActiveRecord::Base
   
-    set_primary_key :uid
-  
     attr_accessor :links
   
     SERIALIZED_ATTRIBUTES = [:nodes, :notifications, :result]
@@ -32,6 +30,9 @@ module Grid5000
       errors.empty?
     end
   
+    def to_param
+      uid
+    end
   
     # Experiment states
     state_machine :status, :initial => :waiting do
@@ -188,7 +189,7 @@ module Grid5000
     end
   
     def as_json(*args)
-      attributes.merge(:links => links).reject{|k,v| v.nil?}
+      attributes.merge(:links => links).reject{|k,v| v.nil? || k=="id"}
     end
 
   

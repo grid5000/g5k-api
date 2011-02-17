@@ -1,4 +1,5 @@
 defaults: &defaults
+  logger_level: DEBUG
   tmp_path: /tmp
   header_user_cn: X-Api-User-CN
   reference_repository_path: /var/db/g5kapi/reference-repository

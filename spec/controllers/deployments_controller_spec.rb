@@ -230,7 +230,8 @@ describe DeploymentsController do
     
     it "should do nothing and return 204 if the deployment is not in an active state" do
       EM.synchrony do
-        Grid5000::Deployment.should_receive(:find).with(@deployment.uid).
+        Grid5000::Deployment.should_receive(:find_by_uid).
+          with(@deployment.uid).
           and_return(@deployment)
           
         @deployment.should_receive(:can_cancel?).and_return(false)
@@ -248,7 +249,8 @@ describe DeploymentsController do
     end
     
     it "should call Grid5000::Deployment#cancel! if deployment active" do
-      Grid5000::Deployment.should_receive(:find).with(@deployment.uid).
+      Grid5000::Deployment.should_receive(:find_by_uid).
+        with(@deployment.uid).
         and_return(@deployment)
         
       @deployment.should_receive(:can_cancel?).and_return(true)
@@ -284,7 +286,8 @@ describe DeploymentsController do
     end
     
     it "should call Grid5000::Deployment#touch!" do
-      Grid5000::Deployment.should_receive(:find).with(@deployment.uid).
+      Grid5000::Deployment.should_receive(:find_by_uid).
+        with(@deployment.uid).
         and_return(@deployment)
         
         

@@ -41,7 +41,7 @@ class DeploymentsController < ApplicationController
     allow :get, :delete, :put; vary_on :accept
     expires_in 60.seconds
     
-    item = Grid5000::Deployment.find(params[:id])
+    item = find_item(params[:id])
     item.links = links_for_item(item)
     
     respond_to do |format|
@@ -53,7 +53,7 @@ class DeploymentsController < ApplicationController
   # Execution is made in a deferrable.
   def destroy
     ensure_authenticated!
-    deployment = Grid5000::Deployment.find(params[:id])
+    deployment = find_item(params[:id])
     authorize!(deployment.user_uid)
     
     if deployment.can_cancel?
@@ -117,7 +117,7 @@ class DeploymentsController < ApplicationController
   # If the deployment is in the "canceled", "error", or "terminated" state, return the deployment from DB
   # Otherwise, fetches the deployment status from the kadeploy-server, and update the <tt>result</tt> attribute if the deployment has finished.
   def update
-    deployment = Grid5000::Deployment.find(params[:id])
+    deployment = find_item(params[:id])
     
     if deployment.active?
       deployment.touch!
@@ -177,6 +177,12 @@ class DeploymentsController < ApplicationController
         "type" => media_type(:json)
       }      
     ]
+  end
+  
+  def find_item(id)
+    item = Grid5000::Deployment.find_by_uid(id)
+    raise NotFound, "Couldn't find #{Grid5000::Deployment} with ID=#{id}" if item.nil?
+    item
   end
    
 end
