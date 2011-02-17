@@ -12,29 +12,25 @@ module OAR
       (
         SELECT resources.*
         FROM resources
+        INNER JOIN jobs
+          ON jobs.job_id = \'#{id}\'
         INNER JOIN assigned_resources
           ON assigned_resources.resource_id = resources.resource_id
         INNER JOIN moldable_job_descriptions
           ON assigned_resources.moldable_job_id = moldable_job_descriptions.moldable_id
-        INNER JOIN gantt_jobs_predictions
-          ON gantt_jobs_predictions.moldable_job_id = moldable_job_descriptions.moldable_id
-        INNER JOIN jobs
-          ON jobs.job_id = moldable_job_descriptions.moldable_job_id
-          AND jobs.job_id = \'#{id}\'
+          AND jobs.job_id = moldable_job_descriptions.moldable_job_id
       )
       UNION
       (
         SELECT resources.*
         FROM resources
+        INNER JOIN jobs
+          ON jobs.job_id = \'#{id}\'
         INNER JOIN gantt_jobs_resources
           ON gantt_jobs_resources.resource_id = resources.resource_id
         INNER JOIN moldable_job_descriptions
           ON gantt_jobs_resources.moldable_job_id = moldable_job_descriptions.moldable_id
-        INNER JOIN gantt_jobs_predictions
-          ON gantt_jobs_predictions.moldable_job_id = moldable_job_descriptions.moldable_id
-        INNER JOIN jobs
-          ON jobs.job_id = moldable_job_descriptions.moldable_job_id
-          AND jobs.job_id = \'#{id}\'
+          AND jobs.job_id = moldable_job_descriptions.moldable_job_id
       )
     '
 
@@ -70,7 +66,7 @@ module OAR
     end
     def directory; launching_directory; end
     def events; job_events; end
-    
+
     def types
       job_types.map(&:name)
     end
@@ -107,7 +103,10 @@ module OAR
           h['vlans'].push(resource.vlan)
         when /subnet/
           h['subnets'] ||= []
-          h['subnets'].push([resource.ip, resource.range].join("/"))
+          h['subnets'].push([
+            resource.subnet_address,
+            resource.prefix
+          ].join("/"))
         end
       end
       h
@@ -120,23 +119,23 @@ module OAR
       [
         :uid,
         :user_uid, # deprecated. to remove.
-        :user, 
-        :walltime, 
+        :user,
+        :walltime,
         :queue,
-        :state, 
-        :project, 
-        :name, 
-        :types, 
-        :mode, 
+        :state,
+        :project,
+        :name,
+        :types,
+        :mode,
         :command,
-        :submitted_at, 
+        :submitted_at,
         :scheduled_at,
-        :started_at, 
+        :started_at,
         :stopped_at,
         :message,
         :exit_code,
         :properties,
-        :directory, 
+        :directory,
         :events,
         :links
       ].each do |k|
@@ -144,7 +143,7 @@ module OAR
         value = send(k) rescue nil
         h[k] = value unless value.nil?
       end
-      
+
       h
     end
 

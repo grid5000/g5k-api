@@ -2,7 +2,7 @@
  * This class abstracts asynchronous HTTP requests
  */
 
-Http = function(options) {
+function Http(options) {
   this.options = options || {}
   this.count = 0;
 }
