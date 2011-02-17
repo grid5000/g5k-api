@@ -3,7 +3,7 @@ class SitesController < ResourcesController
   def status
     # fetch valid clusters
     url = uri_to(
-      platform_site_clusters_path(params[:platform_id], params[:id]),
+      site_clusters_path(params[:id]),
       :out
     )
     http = EM::HttpRequest.new(url).get(
@@ -19,16 +19,12 @@ class SitesController < ResourcesController
       "links" => [
         {
           "rel" => "self",
-          "href" => uri_to(status_platform_site_path(
-            params[:platform_id], params[:id]
-          )),
+          "href" => uri_to(status_site_path(params[:id])),
           "type" => media_type(:json)
         },
         {
           "rel" => "parent",
-          "href" => uri_to(platform_site_path(
-            params[:platform_id], params[:id]
-          )),
+          "href" => uri_to(site_path(params[:id])),
           "type" => media_type(:json)
         }
       ]
@@ -43,7 +39,7 @@ class SitesController < ResourcesController
   protected
   
   def collection_path
-    platform_sites_path(params[:platform_id])
+    sites_path
   end
   
   def links_for_item(item)

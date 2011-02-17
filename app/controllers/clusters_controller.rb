@@ -3,7 +3,7 @@ class ClustersController < ResourcesController
   protected
   
   def collection_path
-    platform_site_clusters_path(params[:platform_id], params[:site_id])
+    site_clusters_path(params[:site_id])
   end
   
   def links_for_item(item)

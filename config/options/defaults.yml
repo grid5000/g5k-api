@@ -3,7 +3,7 @@ defaults: &defaults
   tmp_path: /tmp
   header_user_cn: X-Api-User-CN
   reference_repository_path: /var/db/g5kapi/reference-repository
-  reference_repository_path_prefix: data
+  reference_repository_path_prefix: data/grid5000
   base_uri_in: https://api.grid5000.fr
   base_uri_out: http://localhost:8888
   kadeploy_uri: druby://kadeploy-server:25300

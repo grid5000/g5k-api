@@ -11,11 +11,11 @@ describe DeploymentsController do
 
   end
   
-  describe "GET /platforms/{{platform_id}}/sites/{{site_id}}/deployments" do
+  describe "GET /sites/{{site_id}}/deployments" do
 
     it "should return the list of deployments with the correct links, in created_at DESC order" do
       EM.synchrony do
-        get :index, :platform_id => "grid5000", :site_id => "rennes", :format => :json
+        get :index, :site_id => "rennes", :format => :json
         response.status.should == 200
         json['total'].should == 10
         json['offset'].should == 0
@@ -28,24 +28,24 @@ describe DeploymentsController do
         json['items'][0]['links'].should == [
           {
             "rel"=> "self", 
-            "href"=> "/platforms/grid5000/sites/rennes/deployments/uid9", 
+            "href"=> "/sites/rennes/deployments/uid9", 
             "type"=> media_type(:json)
           }, 
           {
             "rel"=> "parent", 
-            "href"=> "/platforms/grid5000/sites/rennes", 
+            "href"=> "/sites/rennes", 
             "type"=> media_type(:json)
           }
         ]
         json['links'].should == [
           {
             "rel"=>"self", 
-            "href"=>"/platforms/grid5000/sites/rennes/deployments", 
+            "href"=>"/sites/rennes/deployments", 
             "type"=>media_type(:json_collection)
           }, 
           {
             "rel"=>"parent", 
-            "href"=>"/platforms/grid5000/sites/rennes", 
+            "href"=>"/sites/rennes", 
             "type"=>media_type(:json)
           }
         ]
@@ -55,7 +55,7 @@ describe DeploymentsController do
     end
     it "should correctly deal with pagination filters" do
       EM.synchrony do
-        get :index, :platform_id => "grid5000", :site_id => "rennes", :offset => 3, :limit => 5, :format => :json
+        get :index, :site_id => "rennes", :offset => 3, :limit => 5, :format => :json
         response.status.should == 200
         json['total'].should == 10
         json['offset'].should == 3
@@ -64,13 +64,13 @@ describe DeploymentsController do
         EM.stop
       end
     end
-  end # describe "GET /platforms/{{platform_id}}/sites/{{site_id}}/deployments"
+  end # describe "GET /sites/{{site_id}}/deployments"
   
   
-  describe "GET /platforms/{{platform_id}}/sites/{{site_id}}/deployments/{{id}}" do
+  describe "GET /sites/{{site_id}}/deployments/{{id}}" do
     it "should return 404 if the deployment does not exist" do
       EM.synchrony do
-        get :show, :platform_id => "grid5000", :site_id => "rennes", :id => "doesnotexist", :format => :json
+        get :show, :site_id => "rennes", :id => "doesnotexist", :format => :json
         response.status.should == 404
         json['message'].should == "Couldn't find Grid5000::Deployment with ID=doesnotexist"
         EM.stop
@@ -79,7 +79,7 @@ describe DeploymentsController do
     it "should return 200 and the deployment" do
       EM.synchrony do
         expected_uid = "uid1"
-        get :show, :platform_id => "grid5000", :site_id => "rennes", :id => expected_uid, :format => :json
+        get :show, :site_id => "rennes", :id => expected_uid, :format => :json
         response.status.should == 200
         json["uid"].should == expected_uid
         json["links"].should be_a(Array)
@@ -87,11 +87,11 @@ describe DeploymentsController do
         EM.stop
       end
     end
-  end # describe "GET /platforms/{{platform_id}}/sites/{{site_id}}/deployments/{{id}}"
+  end # describe "GET /sites/{{site_id}}/deployments/{{id}}"
   
   
   
-  describe "POST /platforms/{{platform_id}}/sites/{{site_id}}/deployments" do
+  describe "POST /sites/{{site_id}}/deployments" do
     before do
       @valid_attributes = {
         "nodes" => ["paradent-1.rennes.grid5000.fr"],
@@ -103,7 +103,7 @@ describe DeploymentsController do
     it "should return 403 if the user is not authenticated" do
       EM.synchrony do
         authenticate_as("")
-        post :create, :platform_id => "grid5000", :site_id => "rennes", :format => :json
+        post :create, :site_id => "rennes", :format => :json
         response.status.should == 403
         json['message'].should == "You are not authorized to access this resource"
         EM.stop
@@ -115,7 +115,7 @@ describe DeploymentsController do
         authenticate_as("crohr")
         send_payload(@valid_attributes.merge("nodes" => []), :json)
         
-        post :create, :platform_id => "grid5000", :site_id => "rennes", :format => :json
+        post :create, :site_id => "rennes", :format => :json
         
         response.status.should == 400
         json['message'].should =~ /The deployment you are trying to submit is not valid/
@@ -132,7 +132,7 @@ describe DeploymentsController do
         authenticate_as("crohr")
         send_payload(@valid_attributes, :json)
         
-        post :create, :platform_id => "grid5000", :site_id => "rennes", :format => :json
+        post :create, :site_id => "rennes", :format => :json
         
         response.status.should == 500
         json['message'].should == "some error message"
@@ -151,7 +151,7 @@ describe DeploymentsController do
         authenticate_as("crohr")
         send_payload(@valid_attributes, :json)
         
-        post :create, :platform_id => "grid5000", :site_id => "rennes", :format => :json
+        post :create, :site_id => "rennes", :format => :json
         
         response.status.should == 500
         json['message'].should == "Cannot launch deployment: Uid must be set"
@@ -167,7 +167,7 @@ describe DeploymentsController do
       @deployment.should_receive(:transform_blobs_into_files!).
         with(
           Rails.tmp, 
-          "http://api-in.local/platforms/grid5000/sites/rennes/files"
+          "http://api-in.local/sites/rennes/files"
         )
 
       @deployment.should_receive(:ksubmit!).and_return("some-uid")
@@ -177,10 +177,10 @@ describe DeploymentsController do
         authenticate_as("crohr")
         send_payload(@valid_attributes, :json)
         
-        post :create, :platform_id => "grid5000", :site_id => "rennes", :format => :json
+        post :create, :site_id => "rennes", :format => :json
 
         response.status.should == 201
-        response.headers['Location'].should == "http://api-in.local/platforms/grid5000/sites/rennes/deployments/some-uid"
+        response.headers['Location'].should == "http://api-in.local/sites/rennes/deployments/some-uid"
         response.body.should be_empty
         
         dep = Grid5000::Deployment.find_by_uid("some-uid")
@@ -190,10 +190,10 @@ describe DeploymentsController do
         EM.stop
       end
     end
-  end # describe "POST /platforms/{{platform_id}}/sites/{{site_id}}/deployments"
+  end # describe "POST /sites/{{site_id}}/deployments"
   
   
-  describe "DELETE /platforms/{{platform_id}}/sites/{{site_id}}/deployments/{{id}}" do
+  describe "DELETE /sites/{{site_id}}/deployments/{{id}}" do
     before do
       @deployment = Grid5000::Deployment.first
     end
@@ -201,7 +201,7 @@ describe DeploymentsController do
     it "should return 403 if the user is not authenticated" do
       EM.synchrony do
         authenticate_as("")
-        delete :destroy, :platform_id => "grid5000", :site_id => "rennes", :id => @deployment.uid, :format => :json
+        delete :destroy, :site_id => "rennes", :id => @deployment.uid, :format => :json
         response.status.should == 403
         json['message'].should == "You are not authorized to access this resource"
         EM.stop
@@ -211,7 +211,7 @@ describe DeploymentsController do
     it "should return 404 if the deployment does not exist" do
       EM.synchrony do
         authenticate_as("crohr")
-        delete :destroy, :platform_id => "grid5000", :site_id => "rennes", :id => "doesnotexist", :format => :json
+        delete :destroy, :site_id => "rennes", :id => "doesnotexist", :format => :json
         response.status.should == 404
         json['message'].should == "Couldn't find Grid5000::Deployment with ID=doesnotexist"
         EM.stop
@@ -221,7 +221,7 @@ describe DeploymentsController do
     it "should return 403 if the requester does not own the deployment" do
       EM.synchrony do
         authenticate_as(@deployment.user_uid+"whatever")
-        delete :destroy, :platform_id => "grid5000", :site_id => "rennes", :id => @deployment.uid, :format => :json
+        delete :destroy, :site_id => "rennes", :id => @deployment.uid, :format => :json
         response.status.should == 403
         json['message'].should == "You are not authorized to access this resource"
         EM.stop
@@ -238,10 +238,10 @@ describe DeploymentsController do
         
         authenticate_as(@deployment.user_uid)
         
-        delete :destroy, :platform_id => "grid5000", :site_id => "rennes", :id => @deployment.uid, :format => :json
+        delete :destroy, :site_id => "rennes", :id => @deployment.uid, :format => :json
 
         response.status.should == 204
-        response.headers['Location'].should == "http://api-in.local/platforms/grid5000/sites/rennes/deployments/#{@deployment.uid}"
+        response.headers['Location'].should == "http://api-in.local/sites/rennes/deployments/#{@deployment.uid}"
         response.body.should be_empty
         
         EM.stop
@@ -259,18 +259,18 @@ describe DeploymentsController do
       EM.synchrony do
         authenticate_as(@deployment.user_uid)
         
-        delete :destroy, :platform_id => "grid5000", :site_id => "rennes", :id => @deployment.uid, :format => :json
+        delete :destroy, :site_id => "rennes", :id => @deployment.uid, :format => :json
         
         response.status.should == 204
         response.body.should be_empty
-        response.headers['Location'].should == "http://api-in.local/platforms/grid5000/sites/rennes/deployments/#{@deployment.uid}"        
+        response.headers['Location'].should == "http://api-in.local/sites/rennes/deployments/#{@deployment.uid}"        
         EM.stop
       end
     end
     
-  end # describe "DELETE /platforms/{{platform_id}}/sites/{{site_id}}/deployments/{{id}}"
+  end # describe "DELETE /sites/{{site_id}}/deployments/{{id}}"
   
-  describe "PUT /platforms/{{platform_id}}/sites/{{site_id}}/deployments/{{id}}" do
+  describe "PUT /sites/{{site_id}}/deployments/{{id}}" do
     before do
       @deployment = Grid5000::Deployment.first
     end
@@ -278,7 +278,7 @@ describe DeploymentsController do
     it "should return 404 if the deployment does not exist" do
       EM.synchrony do
         authenticate_as("crohr")
-        put :update, :platform_id => "grid5000", :site_id => "rennes", :id => "doesnotexist", :format => :json
+        put :update, :site_id => "rennes", :id => "doesnotexist", :format => :json
         response.status.should == 404
         json['message'].should == "Couldn't find Grid5000::Deployment with ID=doesnotexist"
         EM.stop
@@ -296,15 +296,15 @@ describe DeploymentsController do
       
       EM.synchrony do
         
-        put :update, :platform_id => "grid5000", :site_id => "rennes", :id => @deployment.uid, :format => :json
+        put :update, :site_id => "rennes", :id => @deployment.uid, :format => :json
         
         response.status.should == 204
         response.body.should be_empty
-        response.headers['Location'].should == "http://api-in.local/platforms/grid5000/sites/rennes/deployments/#{@deployment.uid}"
+        response.headers['Location'].should == "http://api-in.local/sites/rennes/deployments/#{@deployment.uid}"
         
         EM.stop
       end
     end
 
-  end # describe "PUT /platforms/{{platform_id}}/sites/{{site_id}}/deployments/{{id}}"
+  end # describe "PUT /sites/{{site_id}}/deployments/{{id}}"
 end

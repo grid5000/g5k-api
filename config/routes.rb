@@ -2,20 +2,22 @@ Api::Application.routes.draw do
   # The priority is based upon order of creation:
   # first created -> highest priority.
 
-  resources :platforms, :only => [:index, :show] do
-    resources :environments, :only => [:index, :show]
-    resources :sites, :only => [:index, :show] do
-      member do
-        get :status
-      end
-      resources :environments, :only => [:index, :show]
-      resources :clusters, :only => [:index, :show] do
-        resources :nodes, :only => [:index, :show]
-      end
-      resources :jobs
-      resources :deployments
+  resources :environments, :only => [:index, :show]
+  resources :sites, :only => [:index, :show] do
+    member do
+      get :status
     end
+    resources :environments, :only => [:index, :show]
+    resources :clusters, :only => [:index, :show] do
+      resources :nodes, :only => [:index, :show]
+    end
+    resources :jobs
+    resources :deployments
   end
+  # resources :notifications
+
+  match '/versions' => 'versions#index', :via => [:get]
+  match '/versions/:id' => 'versions#show', :via => [:get]
   match '*resource/versions' => 'versions#index', :via => [:get]
   match '*resource/versions/:id' => 'versions#show', :via => [:get]
 

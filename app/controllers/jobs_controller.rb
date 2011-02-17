@@ -56,8 +56,7 @@ class JobsController < ApplicationController
     authorize!(job.user)
 
     url = uri_to(
-      platform_site_path(
-        params[:platform_id],
+      site_path(
         params[:site_id]
       )+"/internal/oarapi/jobs/#{params[:id]}.json",
       :out
@@ -104,7 +103,8 @@ class JobsController < ApplicationController
     Rails.logger.info "Submitting #{job_to_send.inspect}"
 
     url = uri_to(
-      platform_site_path(params[:platform_id], params[:site_id])+"/internal/oarapi/jobs.json", :out)
+      site_path(params[:site_id])+"/internal/oarapi/jobs.json", :out
+    )
     http = EM::HttpRequest.new(url).post(
       :timeout => 20,
       :body => job_to_send.to_json,
@@ -129,11 +129,11 @@ class JobsController < ApplicationController
 
   protected
   def collection_path
-    platform_site_jobs_path(params[:platform_id], params[:site_id])
+    site_jobs_path(params[:site_id])
   end
 
   def parent_path
-    platform_site_path(params[:platform_id], params[:site_id])
+    site_path(params[:site_id])
   end
 
   def resource_path(id)

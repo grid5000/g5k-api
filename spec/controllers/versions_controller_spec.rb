@@ -6,7 +6,7 @@ describe VersionsController do
   describe "GET {{resource}}/versions" do
     it "should get the list of versions" do
       EM.synchrony do
-        get :index, :resource => "/platforms/grid5000/sites", :format => :json
+        get :index, :resource => "/sites", :format => :json
         response.status.should == 200
         json["total"].should == 8
         json["offset"].should == 0
@@ -30,10 +30,10 @@ describe VersionsController do
   describe "GET {{resource}}/versions/{{version_id}}" do
     it "should fail if the version does not exist" do
       EM.synchrony do
-        get :show, :resource => "/platforms/grid5000", :id => "doesnotexist", :format => :json
+        get :show, :resource => "/", :id => "doesnotexist", :format => :json
         response.status.should == 404
         assert_vary_on :accept
-        json['message'].should =~ %r{The requested version 'doesnotexist' does not exist or the resource '/grid5000' does not exist.}
+        json['message'].should =~ %r{The requested version 'doesnotexist' does not exist or the resource '/' does not exist.}
         EM.stop
       end
     end
@@ -41,7 +41,7 @@ describe VersionsController do
     it "should return the version" do
       version = "b00bd30bf69c322ffe9aca7a9f6e3be0f29e20f4"
       EM.synchrony do
-        get :show, :resource => "/platforms/grid5000", :id => version, :format => :json
+        get :show, :resource => "/", :id => version, :format => :json
         response.status.should == 200
         assert_media_type(:json)
         assert_vary_on :accept
@@ -52,6 +52,6 @@ describe VersionsController do
         EM.stop
       end
     end
-  end # describe "GET /grid5000/sites/{{site_id}}"
+  end # describe "GET {{resource}}/versions/{{version_id}}"
   
 end

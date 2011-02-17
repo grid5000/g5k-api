@@ -166,6 +166,6 @@ class ApplicationController < ActionController::Base
   # = Payload =
   # ===========
   def payload
-    params.reject{ |k,v| %w{platform_id site_id id format controller action}.include?(k) }
+    params.reject{ |k,v| %w{site_id id format controller action}.include?(k) }
   end
 end

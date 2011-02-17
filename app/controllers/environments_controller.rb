@@ -4,9 +4,9 @@ class EnvironmentsController < ResourcesController
   
   def collection_path
     if params[:site_id]
-      platform_site_environments_path(params[:platform_id], params[:site_id])
+      site_environments_path(params[:site_id])
     else
-      platform_environments_path(params[:platform_id])
+      environments_path
     end
   end
   

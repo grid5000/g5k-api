@@ -4,7 +4,12 @@ class VersionsController < ApplicationController
   
   def index
     vary_on :accept; allow :get
-    versions = repository.versions_for(resource_path, :branch => params[:branch], :offset => params[:offset], :limit => params[:limit])
+    versions = repository.versions_for(
+      resource_path, 
+      :branch => params[:branch], 
+      :offset => params[:offset], 
+      :limit => params[:limit]
+    )
     
     raise NotFound, "#{resource_path} does not exist." if versions["total"] == 0
     
@@ -36,7 +41,12 @@ class VersionsController < ApplicationController
     vary_on :accept; allow :get
     version = params[:id]
     
-    versions = repository.versions_for(resource_path, :branch => version, :offset => 0, :limit => 1)
+    versions = repository.versions_for(
+      resource_path, 
+      :branch => version, 
+      :offset => 0, 
+      :limit => 1
+    )
     raise NotFound, "The requested version '#{version}' does not exist or the resource '#{resource_path}' does not exist." if versions["total"] == 0
     # etag compute_etag(commit.id, resource_uri, response['Content-Type'], options.release_hash)
     

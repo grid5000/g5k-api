@@ -138,11 +138,11 @@ class DeploymentsController < ApplicationController
   protected
   
   def collection_path
-    platform_site_deployments_path(params[:platform_id], params[:site_id])
+    site_deployments_path(params[:site_id])
   end
   
   def parent_path
-    platform_site_path(params[:platform_id], params[:site_id])
+    site_path(params[:site_id])
   end
   
   def resource_path(id)

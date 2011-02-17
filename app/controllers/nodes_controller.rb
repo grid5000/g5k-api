@@ -4,7 +4,7 @@ class NodesController < ResourcesController
   
   def collection_path
     
-    platform_site_cluster_nodes_path(params[:platform_id], params[:site_id], params[:cluster_id])
+    site_cluster_nodes_path(params[:site_id], params[:cluster_id])
   end
   
   def links_for_item(item)
