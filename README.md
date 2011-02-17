@@ -94,7 +94,7 @@ In the following, we assume you have SSH access to a machine with the debian pac
 * Add an entry to the changelog (`debian/changelog`).
 * Now, let's package the app:
 
-        $ rake -f dist/tasks package:remote_build
+        $ rake -f lib/tasks/packaging.rake package:remote_build
 
 This will copy the project to the `debian-build` machine, and launch the build. 
 The generated `.deb` will be copied back at the end of the process.
