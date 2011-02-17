@@ -3,6 +3,10 @@ module OAR
     set_table_name "jobs"
     set_primary_key :job_id
 
+    has_many :job_types
+    has_many :job_events, :order => 'date ASC'
+    belongs_to :gantt, :foreign_key => 'assigned_moldable_job', :class_name => 'Gantt'
+
     # There may be a way to do that more cleanly ;-)
     QUERY_RESOURCES = '
       (
@@ -54,9 +58,29 @@ module OAR
     end
 
     def user; job_user; end
+    def user_uid; user; end
     def name; job_name; end
     def queue; queue_name; end
     def uid; job_id; end
+    def mode; job_type; end
+    def submitted_at; submission_time; end
+    def started_at; start_time; end
+    def stopped_at
+      stop_time && stop_time == 0 ? nil : stop_time
+    end
+    def directory; launching_directory; end
+    def events; job_events; end
+    
+    def types
+      job_types.map(&:name)
+    end
+
+    def scheduled_at
+      # time = gantt.start_time
+      # time = nil if time.nil? || time == 0
+      # time
+      nil
+    end
 
     def besteffort?
       queue && queue == "besteffort"
@@ -68,7 +92,7 @@ module OAR
 
 
     def assigned_nodes
-      resources_by_type['nodes'].uniq
+      (resources_by_type['nodes'] || []).uniq
     end
 
     def resources_by_type
@@ -89,24 +113,44 @@ module OAR
       h
     end
 
-    def to_reservation
+
+    def to_reservation(options = {})
+      without = [options[:without] || []].flatten
       h = {}
       [
         :uid,
-        :user, :start_time, :predicted_start_time,
-        :walltime, :queue,
-        :state, :project, :name,
+        :user_uid, # deprecated. to remove.
+        :user, 
+        :walltime, 
+        :queue,
+        :state, 
+        :project, 
+        :name, 
+        :types, 
+        :mode, 
+        :command,
+        :submitted_at, 
+        :scheduled_at,
+        :started_at, 
+        :stopped_at,
+        :message,
+        :exit_code,
+        :properties,
+        :directory, 
+        :events,
         :links
       ].each do |k|
+        next if without.include?(k)
         value = send(k) rescue nil
         h[k] = value unless value.nil?
       end
+      
       h
     end
 
     def as_json(options = {})
       h = to_reservation
-      options[:methods] && options[:methods].each do |method|
+      ((options && options[:methods]) || []).each do |method|
         value = send(method)
         h[method] = value unless value.nil?
       end

@@ -1,0 +1,28 @@
+- content_for :head do
+  %script{:src => relative_path_to("/javascripts/lib/gantt.js")}
+  
+%h1{:title => "gantt"} Gantt
+
+#content
+  %p 
+    This page displays a Gantt chart of all jobs currently <b>waiting</b> or <b>running</b> on Grid5000 (<b>no past</b> jobs).
+    %br
+    DoubleClick to <b>zoom in</b>, SHIFT-DoubleClick to <b>zoom out</b>. <b>Drag</b> the chart left/right/up/down to access hidden content. Holding the SHIFT key while dragging will <b>move faster</b>.
+    %br
+    You may <b>resize</b> the chart by dragging the bottom-right corner.
+  
+  %form{:method => "get", :action => "", :id => "customize-form"}
+    %input{:type => "text", :id => "link-to-self", :size => 100, :style => "float: left"}
+    %input{:type => "submit", :value => "OK", :style => "float: left"}
+    .canvas
+    %canvas#gantt{:width => 800, :height => 600}
+
+#sidebar
+  %ul#actions
+    %li
+      %a{:href => "?width=800&height=600&relativeSpeed=1&resolution=3600000&startDate=now&resourcesOffset=0&barWidth=20", :title => "Reset"} Reset
+    %li
+      %a{:href => "?width=800&height=1000", :title => "Increase the size of the graph"} Make Bigger
+  #facets
+    %h2 Jump to
+    %ul#siteFacet

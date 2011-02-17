@@ -1,0 +1,124 @@
+status_widget_callback({
+  "id": "status",
+  "title": "Grid Status",
+  "description": "Displays the hardware status of the Grid'5000 nodes.",
+  "display": function(container, options) {
+    var sites_already_loaded  = 0,
+        hardware_colors       = this.options.hardware_colors,
+        system_colors         = this.options.system_colors,
+        total                 = {hstats:{}, sstats:{}, hcolors:[], scolors:[], legend: []},
+        sites_count           = 0
+    var options = $.extend(this.options, options);
+    container.addClass('loading');
+    $(".content", container).html('<ul style="list-style-type: none;"></ul>')
+    for (var state in hardware_colors) {
+      total.hstats[state] = 0;
+      total.hcolors.push(hardware_colors[state])
+      total.legend.push(state)
+    }
+    for (var state in system_colors) {
+      total.sstats[state] = 0;
+      total.scolors.push(system_colors[state])
+      total.legend.push(state)
+    }
+    $.ajax({
+      url: options.api_base_uri+"/sites", 
+      dataType: "jsonp", type: "GET", cache: true, global: false,
+      success: function(sites_collection) {
+        sites_count = sites_collection.items.length;
+        for(var i=0; i < sites_count; i++) {
+          var site = sites_collection.items[i];
+          var site_status_link = $.grep(site.links, function(link, i) { 
+            return link.title == 'status';
+            })[0];
+          $(".content ul", container).append('<li id="status-for-'+site.uid+'" style="float:left; text-align: center"></li>')
+          $.ajax({
+            url: site_status_link.href, 
+            dataType: "script", type: "GET", cache: true, global: false, 
+            site_uid: site.uid,
+            dataFilter: function(data) { return JSON.parse(data); },
+            success: function(site_status, textStatus2) {
+              system_state_stats = {}
+              hardware_state_stats = {}
+              $.each(site_status.items, function(i, node_status) {
+                total.sstats[node_status.system_state] += 1;
+                total.hstats[node_status.hardware_state] += 1;
+                system_state_stats[node_status.system_state] = (system_state_stats[node_status.system_state] || 0) + 1;
+                hardware_state_stats[node_status.hardware_state] = (hardware_state_stats[node_status.hardware_state] || 0) + 1;
+              })
+              var hardware_serie = [];  var system_serie = [];  var legends = [];  var scolors = []; var hcolors = []
+              for (var state in hardware_colors) {
+                hardware_serie.push(hardware_state_stats[state] || 0)
+                legends.push(state)
+                hcolors.push(hardware_colors[state])
+              }
+              for (var state in system_colors) {
+                system_serie.push(system_state_stats[state] || 0)
+                legends.push(state)
+                scolors.push(system_colors[state])
+              }
+              var img_href = "http://chart.apis.google.com/chart?cht=pc&chd=t:"+
+                hardware_serie.join(",")+
+                "|"+
+                system_serie.join(",")+
+                "&chds=0,"+_(hardware_serie).max()+",0,"+_(system_serie).max()+
+                "&chs=100x95"+
+                "&chco="+
+                hcolors.join("|")+','+scolors.join("|")+
+                "";
+              var serie = $.merge(hardware_serie, system_serie)
+              $("li#status-for-"+this.site_uid, container).
+                html(this.site_uid+'<br/><img src="'+img_href+'" />')
+                  // .simpletip({content: [
+                  //   'Hardware: '+_(hardware_colors).map(function(color, state) { return '<span style="width: 40px;padding: 2px 4px;text-transform: uppercase; background:#'+color+'">'+state+'</span>:'+(hardware_state_stats[state] || 0)  }).join("  "),
+                  //   'System: '+_(system_colors).map(function(color, state) { return '<span style="padding: 2px 4px; text-transform: uppercase; background:#'+color+'">'+state+'</span>:'+(system_state_stats[state] || 0)  }).join("  ")
+                  // ].join("<br />")+"<br/><div class=\"right small date\">generated at "+new Date(site_status.generated_at*1000).toUTCString()+"</div>", persistent: false});
+            },  // success
+            complete: function(xOptions, textStatus) {
+              sites_already_loaded += 1;
+              if (sites_already_loaded == sites_count) { 
+                container.removeClass('loading'); 
+                if (options.total) {
+                  var total_hard = []; for (var state in total.hstats) { total_hard.push(total.hstats[state]) }
+                  var total_syst = []; for (var state in total.sstats) { total_syst.push(total.sstats[state]) }
+                  var img_href = "http://chart.apis.google.com/chart?cht=pc&chd=t:"+
+                    total_hard.join(",")+
+                    "|"+
+                    total_syst.join(",")+
+                    "&chds=0,"+_(total_hard).max()+",0,"+_(total_syst).max()+
+                    "&chs=250x100"+
+                    "&chl="+total.legend.join("|")+
+                    "&chco="+
+                    total.hcolors.join("|")+','+total.scolors.join("|")+
+                    "";
+                  $("ul", container).append('<li style="float:left; text-align: center">total<br/><img src="'+img_href+'" /></li>').children("li:last")
+                  // .
+                  //   simpletip({content: [
+                  //       'Hardware: '+_(total.hstats).map(function(value, state) { return '<span style="width: 40px;padding: 2px 4px;text-transform: uppercase; background:#'+hardware_colors[state]+'">'+state+'</span>:'+value  }).join("  "),
+                  //       'System: '+_(total.sstats).map(function(value, state) { return '<span style="padding: 2px 4px; text-transform: uppercase; background:#'+system_colors[state]+'">'+state+'</span>:'+value  }).join("  ")
+                  //     ].join("<br />"), persistent: false});
+                } // if total
+              } // if loaded
+            }   // complete
+          }); // $.ajax
+        }   // for
+      },  // success
+    })  // $.ajax
+  },
+  "options": {
+    "total": true,
+    "hardware_colors": {
+      'dead': 'B11623',
+      'alive': '00AA00',
+      'absent': 'EA4581',
+      'suspected': '28A3C2'
+    },
+    "system_colors": {
+      'unknown': 'B11623',
+      'free': '00FF00',
+      'busy': 'FF7722',
+      'besteffort': 'FFFA80'
+    }
+  },
+  "stylesheet": false
+})

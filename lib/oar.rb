@@ -1,3 +1,6 @@
 require 'oar/base'
+require 'oar/gantt'
+require 'oar/job_type'
+require 'oar/job_event'
 require 'oar/job'
 require 'oar/resource'

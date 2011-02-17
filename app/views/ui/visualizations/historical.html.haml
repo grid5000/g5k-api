@@ -1,0 +1,26 @@
+- content_for :before_js do
+  %script{:src => "http://api.simile-widgets.org/exhibit/2.2.0/exhibit-api.js?autoCreate=false"}
+  %script{:src => relative_path_to("/javascripts/lib/exhibit.js")}
+  %script{:src => "http://static.simile.mit.edu/exhibit/extensions-2.0/time/time-extension.js"}
+  
+%h1{:title => "historical"} Historical
+
+#content
+  %p On this page you should be able to see a timeline of all the changes brought to the platform. Drag the timeline left to see older changes. You may also choose to filter the changes based on their target site, or by author.
+
+  %div{"ex:role" => "viewPanel", :class => "panel"}
+    %div{"ex:role" => "view", "ex:viewClass" => "Timeline", "ex:start" => ".date_iso", "ex:topBandUnit" => "week", "ex:topBandPixelsPerUnit" => 500, "ex:bottomBandUnit" => "month"}
+      %div{"ex:role" => "lens", :class => "version-timeline-lens", :style => "display: none; text-align: left"}
+        %div{:class => "title"}
+          %span{"ex:content" => ".label"}
+        %div
+          %span{"ex:content" => ".author", :class => "author"}
+          %br
+          %span{"ex:content" => ".date", :class => "date"}
+    %div{"ex:role" => "view", "ex:viewClass" => "Tile", "ex:label" => "Details", "ex:orders" => ".site", "ex:possibleOrders" => ".author, .site, .date_iso"}
+
+#sidebar
+  %h2 Facets  
+  %div{"ex:role" => "facet", "ex:facetClass" => "TextSearch", "ex:facetLabel" => "Search", "ex:expressions" => ".message"}
+  %div#tag{"ex:role" => "facet", "ex:sortMode" => "count", "ex:showMissing" => "false", "ex:expression" => ".tags", "ex:facetLabel" => "Tags"}
+  %div#author{"ex:role" => "facet", "ex:expression" => ".author", "ex:sortMode" => "count", "ex:showMissing" => "false", "ex:facetLabel" => "Author"}

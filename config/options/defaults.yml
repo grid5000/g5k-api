@@ -20,8 +20,8 @@ defaults: &defaults
     
 development:
   <<: *defaults
-  base_uri_in: http://localhost:3000
-  base_uri_out: http://localhost:3000
+  base_uri_in: http://localhost:8000
+  base_uri_out: http://localhost:8000
   kadeploy_uri: druby://localhost:25300
   notifications_uri: https://localhost:3443/sid/notifications
   reference_repository_path: ~/dev/g5k-api/reference-repository

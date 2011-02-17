@@ -34,7 +34,9 @@ module OAR
         resources = resources.index_by(&:resource_id)
 
         active_jobs_by_moldable_id = {}
-        Job.expanded.active.each{|job|
+        Job.expanded.active.
+          find(:all, :include => [:job_types]).
+          each{|job|
           active_jobs_by_moldable_id[job.moldable_id] = {
             :resources => Set.new, 
             :job => job
@@ -80,8 +82,10 @@ module OAR
                 "busy"
               end
             end
+            # do not include events 
+            # (otherwise the Set does not work with nested hash)
             result[resource.network_address][:reservations].add(
-              h[:job].to_reservation
+              h[:job].to_reservation(:without => :events)
             )
           end
         end

@@ -1,0 +1,32 @@
+twitter_widget_callback({
+  "id": "twitter",
+  "title": "Latest News",
+  "description": "Displays the latest news of Grid5000 APIs published on twitter.",
+  "display": function(container, options) {
+    $(".content", container).html("<ol></ol>");
+    var options = $.extend(this.options, options);
+    var already_displayed = 0;
+    container.addClass('loading');
+    (".title .link_to_twitter", container).hide();
+    $.getJSON("http://twitter.com/statuses/user_timeline/71249717.json?callback=?", function(data) {
+      $.each(data, function(i, item) {
+        var tags = item.text.match(/#[\w\d-]+/g)
+        if ($.inArray(true, $.map(tags || [], function(tag, i) { return $.inArray(tag, options.allowed_tags) != -1})) != -1) {
+          var text = item.text.replace(/#[\w\d-]+/, "").replace(/((https?|s?ftp|ssh)\:\/\/[^"\s\<\>]*[^.,;'">\:\s\<\>\)\]\!])/g, function(url) {
+            return '<a href="'+url+'">'+url+'</a>';
+          })
+          date = item.created_at
+          $(".content ol", container).append('<li>'+text+'<div class="meta"><span class="date">'+date+'</span><span class="tags">'+(tags || []).join(", ")+'</span><div></li>');
+          already_displayed += 1;
+        }
+        if (already_displayed >= options.limit) { return false; }
+      });
+      
+      $(".content li:last", container).addClass('last');
+      container.removeClass('loading');
+      (".title .link_to_twitter", container).show();
+    });
+  },
+  "options": { limit: 6, allowed_tags: ['#apis', '#web'] },
+  "stylesheet": false
+})

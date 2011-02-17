@@ -1,0 +1,44 @@
+- content_for :head do
+  %script{:src => "javascripts/vendor/jquery-query.js"}
+  %script{:src => "javascripts/lib/helpers/helper.js"}
+  %script{:src => "javascripts/vendor/protovis.js"}
+  %script{:src => "javascripts/vendor/protovis-tipsy.js"}
+  %script{:src => "javascripts/lib/protovis/box-and-whisker.js"}
+
+
+%h1{:title => @title}= @title
+
+#flash
+  &nbsp;
+
+
+#content
+  %p Use this page to graph the metrics of the jobs you want to analyze. Graphs are generated as <a href="http://en.wikipedia.org/wiki/Box_plot">Box plots</a>, with the addition of a line connecting all the medians.
+  %p <b>Please NOTE that jobs of type "deploy" do NOT send metrics by default.</b> You need to explicitly enable them by installing the <code>ganglia-monitor</code> package on all the nodes of your job.
+  %p Also, data is stored in <a href="http://en.wikipedia.org/wiki/RRDtool">Round Robin Databases</a> and will lose in accuracy over time. Thus, if you want to see your graphs at the best resolution available (min: 15s), do not wait too long after your job is finished.
+  %p Interested users are strongly encouraged to have a look at the <a href="https://api.grid5000.fr/">Metrology API Documentation</a> and the <a href="https://www.grid5000.fr/mediawiki/index.php/API_Metrology_Practical">Metrology API Practical</a> to understand how they can <b>programmatically</b> get access to the data and generate graphs using the tool of their choice (<code>rrdtool</code>, <code>gnuplot</code>, etc.).
+  %p Finally, this page probably does <b>NOT</b> work on Internet Explorer, unless you install some kind of plugin to see SVG graphs. Actually this is a feature, please use a <a href="http://www.google.fr/chrome/">modern</a> browser.
+  #charts
+
+
+#sidebar
+  %form#control{:action => "", :method => "GET", :onsubmit => "return false;"}
+    %fieldset
+      %legend Jobs
+      .field.inline
+        %label{:for => "jobs"} Enter a comma separated list of jobs under the form: <code>site:job[@resolution]</code> (e.g. <code>lyon:383380@360</code>)
+        %input.text{:type => "text", :name => "jobs", :size => 45}
+        %div 
+          (you may use the 
+          %a{:href => "../jobs.html"} Jobs
+          page to easily select your jobs)
+    %fieldset
+      %legend Select your metrics
+      %div.selectors
+        %a{:rel => "select-all-metrics", :href => "#"} ALL
+        %a{:rel => "deselect-all-metrics", :href => "#"} NONE
+        %a{:rel => "add-custom-metric", :href => "#"} Add custom metric
+      %ul.fields#metrics-list  
+      %ul.fields#metrics-list2
+    .buttons
+      %input.button{:type => "submit", :value => "Submit"}

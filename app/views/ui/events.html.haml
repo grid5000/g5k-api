@@ -1,0 +1,17 @@
+- content_for :head do
+  %script{:src => "javascripts/vendor/date.js"}
+  %script{:src => "javascripts/vendor/mustache.js"}
+  
+
+%h1{:title => "events"} Events
+
+#content
+  #events
+  #hidden
+
+#sidebar
+  #syndication
+    %a{:href => "../grid5000/events.atom", :title => "Click to get the syndication feed"}
+      %img{:src => relative_path_to("/images/rss-icon.png")}
+  #facets
+    %ul

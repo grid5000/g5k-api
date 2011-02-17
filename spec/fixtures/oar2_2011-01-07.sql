@@ -4,7 +4,7 @@
 #
 # Host: localhost (MySQL 5.1.46)
 # Database: oar2
-# Generation Time: 2011-01-07 12:00:42 +0100
+# Generation Time: 2011-02-17 14:19:14 +0100
 # ************************************************************
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -1817,6 +1817,75 @@ VALUES
 	(379619,871,'CURRENT');
 
 /*!40000 ALTER TABLE `assigned_resources` ENABLE KEYS */;
+UNLOCK TABLES;
+
+
+# Dump of table event_logs
+# ------------------------------------------------------------
+
+DROP TABLE IF EXISTS `event_logs`;
+
+CREATE TABLE `event_logs` (
+  `event_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `type` varchar(50) NOT NULL,
+  `job_id` int(10) unsigned NOT NULL,
+  `date` int(10) unsigned NOT NULL,
+  `description` varchar(255) NOT NULL,
+  `to_check` enum('YES','NO') NOT NULL DEFAULT 'YES',
+  PRIMARY KEY (`event_id`),
+  KEY `event_type` (`type`),
+  KEY `event_check` (`to_check`),
+  KEY `event_job_id` (`job_id`)
+) ENGINE=MyISAM AUTO_INCREMENT=957263 DEFAULT CHARSET=latin1;
+
+LOCK TABLES `event_logs` WRITE;
+/*!40000 ALTER TABLE `event_logs` DISABLE KEYS */;
+INSERT INTO `event_logs` (`event_id`,`type`,`job_id`,`date`,`description`,`to_check`)
+VALUES
+	(950567,'FRAG_JOB_REQUEST',374172,1294383691,'User aguermouche requested to frag the job 374172','NO'),
+	(950568,'FRAG_JOB_REQUEST',374176,1294388550,'User vgabillon requested to frag the job 374176','NO'),
+	(950569,'REDUCE_RESERVATION_WALLTIME',374179,1294389080,'Change walltime from 27000 to 26996','NO'),
+	(950570,'SWITCH_INTO_TERMINATE_STATE',374177,1294389166,'[bipbip 374177] Ask to change the job state','NO'),
+	(950571,'SWITCH_INTO_TERMINATE_STATE',374178,1294389890,'[bipbip 374178] Ask to change the job state','NO'),
+	(950572,'FRAG_JOB_REQUEST',374174,1294390088,'User slhernane requested to frag the job 374174','NO'),
+	(950573,'SEND_KILL_JOB',374174,1294390088,'[Leon] Send kill signal to oarexec on parapluie-9.rennes.grid5000.fr for the job 374174','NO'),
+	(950574,'SWITCH_INTO_ERROR_STATE',374174,1294390090,'[bipbip 374174] Ask to change the job state','NO'),
+	(950575,'FRAG_JOB_REQUEST',374175,1294391362,'User root requested to frag the job 374175','NO'),
+	(950576,'WALLTIME',374175,1294391362,'[sarko] Job [374175] from 1294387750 with 3600; current time=1294391362 (Elapsed)','NO'),
+	(950577,'SEND_KILL_JOB',374175,1294391362,'[Leon] Send kill signal to oarexec on frontend.rennes.grid5000.fr for the job 374175','NO'),
+	(950578,'SWITCH_INTO_TERMINATE_STATE',374175,1294391371,'[bipbip 374175] Ask to change the job state','NO'),
+	(950579,'SWITCH_INTO_TERMINATE_STATE',374181,1294392098,'[bipbip 374181] Ask to change the job state','NO'),
+	(950580,'SWITCH_INTO_TERMINATE_STATE',374182,1294392099,'[bipbip 374182] Ask to change the job state','NO'),
+	(950581,'SWITCH_INTO_TERMINATE_STATE',374183,1294392258,'[bipbip 374183] Ask to change the job state','NO'),
+	(950582,'SWITCH_INTO_TERMINATE_STATE',374184,1294392260,'[bipbip 374184] Ask to change the job state','NO'),
+	(950583,'SWITCH_INTO_TERMINATE_STATE',374187,1294392912,'[bipbip 374187] Ask to change the job state','NO'),
+	(950584,'SWITCH_INTO_TERMINATE_STATE',374188,1294392934,'[bipbip 374188] Ask to change the job state','NO'),
+	(950585,'SWITCH_INTO_TERMINATE_STATE',374189,1294392943,'[bipbip 374189] Ask to change the job state','NO'),
+	(950598,'FRAG_JOB_REQUEST',374173,1294399478,'User aguermouche requested to frag the job 374173','NO'),
+	(950599,'SEND_KILL_JOB',374173,1294399479,'[Leon] Send kill signal to oarexec on frontend.rennes.grid5000.fr for the job 374173','NO'),
+	(950600,'SWITCH_INTO_ERROR_STATE',374173,1294399500,'[bipbip 374173] Ask to change the job state','NO'),
+	(950608,'FRAG_JOB_REQUEST',374191,1294403214,'User root requested to frag the job 374191','NO'),
+	(950609,'WALLTIME',374191,1294403214,'[sarko] Job [374191] from 1294395995 with 7200; current time=1294403214 (Elapsed)','NO'),
+	(950610,'SEND_KILL_JOB',374191,1294403215,'[Leon] Send kill signal to oarexec on frontend.rennes.grid5000.fr for the job 374191','NO'),
+	(950611,'SWITCH_INTO_ERROR_STATE',374191,1294403225,'[bipbip 374191] Ask to change the job state','NO'),
+	(950620,'FRAG_JOB_REQUEST',374180,1294408882,'User slhernane requested to frag the job 374180','NO'),
+	(950621,'SEND_KILL_JOB',374180,1294408882,'[Leon] Send kill signal to oarexec on parapluie-9.rennes.grid5000.fr for the job 374180','NO'),
+	(950622,'SWITCH_INTO_ERROR_STATE',374180,1294408884,'[bipbip 374180] Ask to change the job state','NO'),
+	(950660,'FRAG_JOB_REQUEST',374179,1294416095,'User root requested to frag the job 374179','NO'),
+	(950661,'WALLTIME',374179,1294416095,'[sarko] Job [374179] from 1294389080 with 26996; current time=1294416095 (Elapsed)','NO'),
+	(950662,'SEND_KILL_JOB',374179,1294416095,'[Leon] Send kill signal to oarexec on frontend.rennes.grid5000.fr for the job 374179','NO'),
+	(950663,'SWITCH_INTO_ERROR_STATE',374179,1294416116,'[bipbip 374179] Ask to change the job state','NO'),
+	(950681,'SWITCH_INTO_TERMINATE_STATE',374190,1294419341,'[bipbip 374190] Ask to change the job state','NO'),
+	(950682,'FRAG_JOB_REQUEST',374185,1294421075,'User root requested to frag the job 374185','NO'),
+	(950683,'WALLTIME',374185,1294421075,'[sarko] Job [374185] from 1294392259 with 28800; current time=1294421075 (Elapsed)','NO'),
+	(950684,'FRAG_JOB_REQUEST',374186,1294421075,'User root requested to frag the job 374186','NO'),
+	(950685,'WALLTIME',374186,1294421075,'[sarko] Job [374186] from 1294392261 with 28800; current time=1294421075 (Elapsed)','NO'),
+	(950686,'SEND_KILL_JOB',374185,1294421075,'[Leon] Send kill signal to oarexec on frontend.rennes.grid5000.fr for the job 374185','NO'),
+	(950687,'SEND_KILL_JOB',374186,1294421075,'[Leon] Send kill signal to oarexec on frontend.rennes.grid5000.fr for the job 374186','NO'),
+	(950688,'SWITCH_INTO_ERROR_STATE',374186,1294421088,'[bipbip 374186] Ask to change the job state','NO'),
+	(950689,'SWITCH_INTO_ERROR_STATE',374185,1294421088,'[bipbip 374185] Ask to change the job state','NO');
+
+/*!40000 ALTER TABLE `event_logs` ENABLE KEYS */;
 UNLOCK TABLES;
 
 

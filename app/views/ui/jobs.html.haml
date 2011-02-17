@@ -1,0 +1,57 @@
+- content_for :head do
+  %script{:src => "javascripts/vendor/mustache.js"}
+  %script{:src => "javascripts/vendor/jquery-tablesorter.js"}
+  %script{:src => "javascripts/vendor/jquery-tablesorter-metadata.js"}
+  %link{:href => "stylesheets/vendor/jquery-tablesorter.css", :rel => "stylesheet", :type => "text/css", :media => "screen, projection"}
+  / = javascript_include_tag "lib/date.js"
+    
+
+%h1{:title => "jobs"} Jobs
+
+
+#content
+  %p This page will display the list of all jobs currently waiting or running on Grid5000. The list of jobs will be automatically refreshed every 10 minutes.
+  #jobs
+    %form#experiment{:action => "", :method => "get", :onsubmit => "return false;"}
+      %ul.actions
+        %li
+          %a.badge{:href => "#info", :title => "Details", :rel => "details"}
+            %span Details
+        %li
+          %a.badge{:href => "#metrics", :title => "Metrics", :rel => "metrics"}
+            %span Metrics
+        %li
+          %a.badge{:href => "#kill", :title => "Kill", :rel => "kill"}
+            %span Kill
+      %table.tablesorter
+        %thead
+          %tr
+            %th{:width => "40px", :class => "{sorter: false} center"}
+              %a{:href => "#deselect", :title => "deselect all", :rel => "deselect"} X
+            %th{:width => "50px"} Id
+            %th Site
+            %th User
+            %th State
+            %th Queue
+            / %th Types
+            / %th Nodes
+            / %th From
+            / %th To
+            / %th Walltime
+        %tbody
+        
+
+#sidebar
+  %ul.actions
+    %li.action
+      = link_to "stop automatic refresh", "#toggle-refresh", :id => "action-toggle-refresh"
+    %li.action
+      = link_to "force refresh now", "#refresh", :id => "action-refresh"
+
+  #facets
+    %h2 Filter by sites
+    %ul.sites{:rel => "site_uid"}
+    %h2 Filter by states
+    %ul.states{:rel => "state"}
+    %h2 Filter by users
+    %ul.users{:rel => "user_uid"}

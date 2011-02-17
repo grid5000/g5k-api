@@ -1,0 +1,57 @@
+- content_for :before_js do
+  %script{:src => "http://api.simile-widgets.org/exhibit/2.2.0/exhibit-api.js?autoCreate=false"}
+  %script{:src => relative_path_to("/javascripts/lib/exhibit.js")}
+
+%h1{:title => @title}= @title
+
+%ul
+  %li
+    Please remember that you must create a ~/public directory in your home directory of each site you want to use.
+#console.clear.small
+  %h2 Console
+  .log
+    %table
+      %tbody
+
+#actions
+
+#resources
+  %h2 Resources
+  .display
+    %form.bp{:method => "POST", :action => ""}
+      %div{"ex:role" => "viewPanel"}
+        %div{"ex:role" => "lens", :class => "node"}
+          %div{"ex:content" => ".label"}
+        %div{"ex:role" => "view", "ex:grouped" => "true", "ex:orders" => ".site_uid, .cluster_uid", "ex:possibleOrders" => ".site_uid", "ex:showAll" => "true", "ex:showSummary" => "true"}
+      %div.buttons{:style => "display: none"}
+        %input{:type => "submit", :value => "Launch"} 
+
+  .facets
+    %h3 Facets
+    %div{"ex:role" => "facet", "ex:facetClass" => "TextSearch", "ex:facetLabel" => "Search"}
+    %div#site{"ex:role" => "facet", "ex:expression" => ".site_uid", "ex:scroll" => "true", "ex:facetLabel" => "Site"}
+    %div#cluster{"ex:role" => "facet", "ex:expression" => ".cluster_uid", "ex:scroll" => "true", "ex:facetLabel" => "Cluster"}
+    #facets1.float
+      %div#hard_state{"ex:role" => "facet", "ex:expression" => ".hard_state", "ex:sortMode" => "count", "ex:showMissing" => "false", "ex:scroll" => "false", "ex:facetLabel" => "Hardware State"}
+      %div#soft_state{"ex:role" => "facet", "ex:expression" => ".syst_state", "ex:sortMode" => "count", "ex:showMissing" => "false", "ex:scroll" => "false", "ex:facetLabel" => "System State"}
+      %div#available_for{"ex:role" => "facet", "ex:facetClass" => "Slider", "ex:expression" => ".available_for", "ex:interval" => "1", "ex:scroll" => "true", "ex:facetLabel" => "Available for (Hours)", "ex:histogram" => "false", "ex:horizontal" => "true", "ex:width" => "100"}
+      %div#architecture_smp_size{"ex:role" => "facet", "ex:expression" => ".architecture_smp_size", "ex:sortMode" => "value", "ex:scroll" => "true", "ex:facetLabel" => "# CPUs"}
+      %div#architecture_smt_size{"ex:role" => "facet", "ex:expression" => ".architecture_smt_size", "ex:sortMode" => "value", "ex:scroll" => "true", "ex:facetLabel" => "# Cores"}
+      %div#main_memory_ram_size{"ex:role" => "facet", "ex:expression" => ".main_memory_ram_size", "ex:sortMode" => "value", "ex:scroll" => "true", "ex:facetLabel" => "RAM (MiB)"}
+      %div#processor_clock_speed{"ex:role" => "facet", "ex:expression" => ".processor_clock_speed", "ex:sortMode" => "value", "ex:scroll" => "true", "ex:facetLabel" => "CPU Clock Speed (GHz)"}
+      %div#processor_model{"ex:role" => "facet", "ex:expression" => ".processor_model", "ex:sortMode" => "count", "ex:scroll" => "false", "ex:facetLabel" => "Processor model"}
+      %div#processor_cache_l1d{"ex:role" => "facet", "ex:expression" => ".processor_cache_l1d", "ex:sortMode" => "value", "ex:scroll" => "false", "ex:facetLabel" => "Processor cache l1d (KiB)"}
+      %div#processor_cache_l1i{"ex:role" => "facet", "ex:expression" => ".processor_cache_l1i", "ex:height" => 80, "ex:sortMode" => "value", "ex:scroll" => "false", "ex:facetLabel" => "Processor cache l1i (KiB)"}
+      %div#processor_cache_l2{"ex:role" => "facet", "ex:expression" => ".processor_cache_l2", "ex:height" => 80, "ex:sortMode" => "value", "ex:scroll" => "false", "ex:facetLabel" => "Processor cache l2 (KiB)"}
+    #facets2.float
+      %div#supported_job_types_virtual{"ex:role" => "facet", "ex:expression" => ".supported_job_types_virtual", "ex:height" => 80, "ex:sortMode" => "count", "ex:scroll" => "false", "ex:facetLabel" => "Virtualization support"}
+      %div{"ex:role" => "facet", "ex:expression" => ".supported_job_types_besteffort", "ex:height" => 80, "ex:sortMode" => "count", "ex:scroll" => "false", "ex:facetLabel" => "Besteffort support"}
+      %div#supported_job_types_deploy{"ex:role" => "facet", "ex:expression" => ".supported_job_types_deploy", "ex:height" => 80, "ex:sortMode" => "count", "ex:scroll" => "false", "ex:facetLabel" => "Deploy support"}
+      %div#network_adapters_0_rate{"ex:role" => "facet", "ex:expression" => ".network_adapters_0_rate", "ex:height" => 80, "ex:sortMode" => "value", "ex:scroll" => "false", "ex:facetLabel" => "Network adapter #1 - Rate (Gb/s)"}
+      %div#network_adapters_0_interface{"ex:role" => "facet", "ex:expression" => ".network_adapters_0_interface", "ex:height" => 80, "ex:sortMode" => "count", "ex:scroll" => "false", "ex:facetLabel" => "Network adapter #1 - Interface"}
+      %div#network_adapters_1_rate{"ex:role" => "facet", "ex:expression" => ".network_adapters_1_rate", "ex:height" => 80, "ex:sortMode" => "value", "ex:scroll" => "false", "ex:facetLabel" => "Network adapter #2 - Rate (Gb/s)"}
+      %div#network_adapters_1_interface{"ex:role" => "facet", "ex:expression" => ".network_adapters_1_interface", "ex:height" => 80, "ex:sortMode" => "count", "ex:scroll" => "false", "ex:facetLabel" => "Network adapter #2 - Interface"}
+      %div#network_adapters_2_rate{"ex:role" => "facet", "ex:expression" => ".network_adapters_2_rate", "ex:height" => 80, "ex:sortMode" => "value", "ex:scroll" => "false", "ex:facetLabel" => "Network adapter #3 - Rate (Gb/s)"}
+      %div#network_adapters_2_interface{"ex:role" => "facet", "ex:expression" => ".network_adapters_2_interface", "ex:height" => 80, "ex:sortMode" => "count", "ex:scroll" => "false", "ex:facetLabel" => "Network adapter #3 - Interface"}
+      %div#storage_devices_0_interface{"ex:role" => "facet", "ex:expression" => ".storage_devices_0_interface", "ex:height" => 80, "ex:sortMode" => "count", "ex:scroll" => "false", "ex:facetLabel" => "Main storage device interface"}
+      %div#storage_devices_0_size{"ex:role" => "facet", "ex:expression" => ".storage_devices_0_size", "ex:height" => 80, "ex:sortMode" => "value", "ex:scroll" => "false", "ex:facetLabel" => "Main storage device size (GB)"}

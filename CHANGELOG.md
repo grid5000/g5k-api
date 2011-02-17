@@ -7,5 +7,9 @@
 
 * Deployment notifications now contain the full detail of the deployment. What was previously sent is available in the `result`.
 
+* IN job description:
+  `user_uid` is replaced by `user`. `user_uid` is still available but is going to be deprecated and removed in a future revision.
+  `site_uid` is removed
+
 ## 2.x
 Previously split into lots of small APIs. CHANGELOG will start from here.

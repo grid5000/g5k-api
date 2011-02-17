@@ -17,6 +17,7 @@ gem('state_machine', '~> 0.9')
 gem 'sinatra'
 gem 'grit'
 gem 'syslogger'
+gem 'haml'
 
 group :test, :development do
   gem 'webmock'
