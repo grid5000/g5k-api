@@ -15,7 +15,6 @@ require 'em-http'
 require 'addressable/uri'
 require 'rack/fiber_pool'
 require 'rack/jsonp'
-require 'rack/pretty_json'
 require 'rack/lint'
 
 module Api
@@ -39,22 +38,22 @@ module Api
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration should go into files in config/initializers
     # -- all .rb files in that directory are automatically loaded.
-    
-    config.middleware.use Rack::PrettyJSON, :warning => true
-    config.middleware.use Rack::JSONP, :carriage_return => true
-    
-    
+
     # config.middleware.insert_before Rack::Runtime, Rack::FiberPool
 
     # Custom directories with classes and modules you want to be autoloadable.
     config.autoload_paths += Dir["#{config.root}/lib/**/"]
+
+    require 'rack/pretty_json'
+    config.middleware.use Rack::PrettyJSON, :warning => true
+    config.middleware.use Rack::JSONP, :carriage_return => true
 
     # Only load the plugins named here, in the order given (default is alphabetical).
     # :all can be used as a placeholder for all plugins not explicitly named.
     # config.plugins = [ :exception_notification, :ssl_requirement, :all ]
 
     # Activate observers that should always be running.
-    # config.active_record.observers = :cacher, :garbage_collector, :forum_observer
+    # config.active_record.observers = :garbage_collector
 
     config.generators do |g|
       g.fixture_replacement :factory_girl, :dir => "spec/factories"
