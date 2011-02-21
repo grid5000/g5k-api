@@ -32,8 +32,8 @@ module Rack
           head['Content-Length'] = body.size.to_s
           body = [body]
         elsif @warning
-          head['Warning'] ||= []
-          head['Warning'].push('Use `?pretty=yes` or add the HTTP header `X-Rack-PrettyJSON: yes` if you want pretty output.')
+          head['X-Info'] ||= []
+          head['X-Info'].push('Use `?pretty=yes` or add the HTTP header `X-Rack-PrettyJSON: yes` if you want pretty output.')
         end
       end
 
