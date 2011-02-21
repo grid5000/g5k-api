@@ -40,7 +40,7 @@ module Api
     # Application configuration should go into files in config/initializers
     # -- all .rb files in that directory are automatically loaded.
     
-    config.middleware.use Rack::PrettyJSON, :unless => 'X-Rack-PrettyJSON-Skip'
+    config.middleware.use Rack::PrettyJSON, :warning => true
     config.middleware.use Rack::JSONP, :carriage_return => true
     
     

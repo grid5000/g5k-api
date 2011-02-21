@@ -13,5 +13,7 @@
   `user_uid` is replaced by `user`. `user_uid` is still available but is going to be deprecated and removed in a future revision.
   `site_uid` is removed
 
+* JSON payloads are no longer pretty by default. Use `?pretty=yes` or add the HTTP headers `X-Rack-PrettyJSON: yes` to your requests if you want pretty output.
+
 ## 2.x
 Previously split into lots of small APIs. CHANGELOG will start from here.
