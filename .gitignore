@@ -1,6 +1,9 @@
 db/*.sqlite3
+pkg
+doc
 log/*.log
 tmp/**/*
 vendor
 coverage
 .rvmrc
+.DS_Store

@@ -27,7 +27,7 @@ describe OAR::Job do
   
   it "should dump the job" do
     result = JSON.parse(
-      OAR::Job.active.find(:last, :include => [:gantt, :job_events, :job_types]).to_json
+      OAR::Job.expanded.active.find(:last, :include => [:gantt, :job_events, :job_types]).to_json
     )
     result.should == {
       "uid"=>374191, 
@@ -39,8 +39,9 @@ describe OAR::Job do
       "types"=>["deploy"], 
       "mode"=>"INTERACTIVE", 
       "command"=>"", 
+      "walltime" => 7200,
       "submitted_at"=>1294395993, 
-      # "scheduled_at"=>1294395995, 
+      "scheduled_at"=>1294395995, 
       "started_at"=>1294395995, 
       "message"=>"FIFO scheduling OK", 
       "properties"=>"((cluster='paramount') AND deploy = 'YES') AND maintenance = 'NO'", 

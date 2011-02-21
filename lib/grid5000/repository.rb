@@ -11,13 +11,19 @@ module Grid5000
       @reloading = false
       @repository_path_prefix = repository_path_prefix ? repository_path_prefix.gsub(/^\//,'') : repository_path_prefix
       @repository_path = File.expand_path repository_path
-      @logger = logger || Logger.new(STDOUT)
+      if logger
+        @logger = logger
+      else
+        @logger = Logger.new(STDOUT)
+        @logger.level = Logger::WARN
+      end
       @instance = Grit::Repo.new(repository_path)
     end
     
     def find(path, options = {})
       logger.info "Repository path = #{repository_path.inspect}"
       logger.info "path = #{path.inspect}, options = #{options.inspect}"
+      path = full_path(path)
       @commit = nil
       @commit = find_commit_for(options)
       logger.info "commit = #{@commit.inspect}"
@@ -27,6 +33,10 @@ module Grid5000
       return nil if object.nil?
       result = expand_object(object, path, @commit)
       result
+    end
+    
+    def full_path(path)
+      File.join(repository_path_prefix, path)
     end
     
     def expand_object(object, path, commit)
@@ -97,13 +107,13 @@ module Grid5000
     end
     
     def find_object_at(path, commit, relative_to = nil)
-      path = path_to(path, relative_to)
+      path = relative_path_to(path, relative_to) unless relative_to.nil?
       object = commit.tree/path || commit.tree/(path+".json")
     end
     
     # Return the physical path within the repository
     # Takes care of symbolic links
-    def path_to(path, relative_to = nil)
+    def relative_path_to(path, relative_to = nil)
       if relative_to
         path = File.expand_path( 
           # symlink, e.g. "../../../../grid5000/environments/etch-x64-base-1.0.json"
@@ -112,7 +122,7 @@ module Grid5000
           File.join('/', File.dirname(relative_to)) 
         ).gsub(/^\//, "")
       end
-      File.join(repository_path_prefix, path)
+      path
     end
     
     def async_find(*args)
@@ -133,32 +143,20 @@ module Grid5000
       branch ||= 'master'
       offset = (offset || 0).to_i
       limit = (limit || 100).to_i
+      path = full_path(path)
       commits = instance.log(
         branch, 
-        path_to(path)
+        path
       )
       commits = instance.log(
         branch, 
-        path_to(path)+".json"
+        path+".json"
       ) if commits.empty?
       {
         "total" => commits.length,
         "offset" => offset,
         "items" => commits.slice(offset, limit)
       }
-    end
-    
-    # Fetches the latest changes from the origin repo 
-    def reload
-      return if reloading?
-      @reloading = true
-      # TODO: async code to reload repo
-    ensure
-      @reloading = false
-    end
-    
-    def reloading?
-      @reloading == true
     end
     
   end

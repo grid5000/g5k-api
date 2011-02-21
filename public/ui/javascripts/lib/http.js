@@ -10,7 +10,7 @@ function Http(options) {
 Http.prototype.setup = function(options) {
   var params = {
     cache: true,
-    timeout: 10000,
+    timeout: 15000,
     dataType: "json", 
     global: true,
     ifModified: false,

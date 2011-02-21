@@ -1,7 +1,7 @@
 class ResourcesController < ApplicationController
 
   MAX_AGE = 60.seconds
-  
+
   # Return a collection of resources
   def index
     fetch(collection_path)
@@ -10,21 +10,22 @@ class ResourcesController < ApplicationController
   def show
     fetch(resource_path(params[:id]))
   end
-  
+
   protected
   def fetch(path)
     allow :get; vary_on :accept
     Rails.logger.info "Fetching #{path}"
     Rails.logger.info "Repository=#{repository.inspect}"
-    
+
     branch = params[:branch] || 'master'
     branch = ['origin', branch].join("/") unless Rails.env == "test"
-    
+
     object = EM::Synchrony.sync repository.async_find(
-      path.gsub(/\/?platforms/,''), 
+      path.gsub(/\/?platforms/,''),
       :branch => branch,
       :version => params[:version]
     )
+
     raise NotFound, "Cannot find resource #{path}" if object.nil?
     if object.has_key?('items')
       object['links'] = links_for_collection(object)
@@ -34,13 +35,13 @@ class ResourcesController < ApplicationController
     else
       object['links'] = links_for_item(object)
     end
-    
+
     object["version"] = repository.commit.id
-    
+
     last_modified [repository.commit.committed_date, File.mtime(__FILE__)].max
     expires_in MAX_AGE, :public => true, :must_revalidate => true, :proxy_revalidate => true, :s_maxage => MAX_AGE
     etag object.hash
-    
+
     respond_to do |format|
       format.json { render :json => object }
     end
@@ -50,15 +51,15 @@ class ResourcesController < ApplicationController
   def collection_path
     raise NotImplemented
   end
-  
+
   def resource_path(id)
     File.join(collection_path, id)
   end
-  
+
   def parent_path
     collection_path.gsub(/\/[^\/]+$/, "")
   end
-  
+
   # Should be overwritten
   def links_for_item(item)
     links = []
@@ -84,7 +85,7 @@ class ResourcesController < ApplicationController
     })
     links
   end
-  
+
   # Should be overwritten
   def links_for_collection(collection)
     links = []
@@ -100,5 +101,5 @@ class ResourcesController < ApplicationController
     }) unless parent_path.blank?
     links
   end
-  
+
 end

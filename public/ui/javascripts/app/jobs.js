@@ -2,8 +2,8 @@ var jobRowTemplate = '\
   <tr id="{{uuid}}" class="job-row">\
     <td class="center"><input type="checkbox" name="jobs[]" value="{{uuid}}" /></td>\
     <td class="right">{{uid}}</td>\
-    <td>{{site_uid}}</td>\
-    <td>{{user_uid}}</td>\
+    <td>{{site}}</td>\
+    <td>{{user}}</td>\
     <td>{{state}}</td>\
     <td>{{queue}}</td>\
   </tr>\
@@ -19,7 +19,7 @@ var jobTemplate = '\
   <div class="job-details">\
     <h2>{{uuid}}</h2>\
     <table>\
-      <tr><th>User</th><td>{{user_uid}}</td></tr>\
+      <tr><th>User</th><td>{{user}}</td></tr>\
       <tr><th>State</th><td>{{state}}</td></tr>\
       <tr><th>Queue</th><td>{{queue}}</td></tr>\
       <tr><th>Types</th><td>{{types}}</td></tr>\
@@ -123,7 +123,7 @@ $(document).ready(function() {
               html.push(
                 Mustache.to_html(jobTemplate, {
                   uuid: job.uuid,
-                  user_uid: job.user_uid,
+                  user: job.user,
                   state: job.state,
                   queue: job.queue,
                   nodes: job.assigned_nodes,
@@ -247,14 +247,14 @@ $(document).ready(function() {
     job.uuid = [grid.uid, site.uid, job.uid].join(":")
     // job.from = (job.started_at && job.started_at > 0) ? new Date(job.started_at * 1000) : null
     // job.to = (job.from && job.walltime) ? new Date((job.started_at + job.walltime)*1000) : null
-    job.site_uid = site.uid
-    job.grid_uid = grid.uid
+    job.site = site.uid
+    job.grid = grid.uid
     
     var row = Mustache.to_html(jobRowTemplate, {
       uuid: job.uuid,
       uid: job.uid,
-      site_uid: site.uid,
-      user_uid: job.user_uid,
+      site: site.uid,
+      user: job.user,
       state: job.state,
       queue: job.queue,
       // nodes_count: job.assigned_nodes.length,
@@ -283,11 +283,31 @@ $(document).ready(function() {
   })
   
   
+  function drawQueryFilters() {
+    _.each(['state', 'site', 'user'], function(facet) {
+      var filters = $.query.get(facet)
+      if (filters instanceof Array) {
+        // do nothing
+      } else {
+        filters = filters.split(",")
+      }
+      _.each(filters, function(filter) {
+        $("ul[rel='"+facet+"'] li a[title='"+filter+"']").addClass('selected')
+      })
+    })
+  }
+  
   /**
    * Filters jobs based on selected facets
    * TODO: clean up, refactor
    */
+  var startupFiltersTakenIntoAccount = false;
   $(document).bind("filter", function(event) {
+    if (!startupFiltersTakenIntoAccount) {
+      startupFiltersTakenIntoAccount = true;
+      drawQueryFilters()
+    }
+    
     var facets = []
     $.each($("#facets ul li a"), function(i, element) {
       facets.push({
@@ -303,9 +323,9 @@ $(document).ready(function() {
         job = $(element).data("job")
         var selected = _(facets).any(function(facet) { 
           return facet.selected && _([
-            job.site_uid, 
+            job.site, 
             job.state, 
-            job.user_uid
+            job.user
           ]).include(facet.name); 
         })
         if (selected) {
@@ -331,8 +351,8 @@ $(document).ready(function() {
     
     $.each($("#jobs table tbody tr"), function(i, element) {
       job = $(element).data("job")
-      facets.sites[job.site_uid] = (facets.sites[job.site_uid] || 0) + 1
-      facets.users[job.user_uid] = (facets.users[job.user_uid] || 0) + 1
+      facets.sites[job.site] = (facets.sites[job.site] || 0) + 1
+      facets.users[job.user] = (facets.users[job.user] || 0) + 1
       facets.states[job.state] = (facets.states[job.state] || 0) + 1
     })
     

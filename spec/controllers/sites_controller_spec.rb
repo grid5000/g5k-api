@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe SitesController do
   render_views
-  
+
   describe "GET /sites" do
     it "should get the correct collection of sites" do
       EM.synchrony do
@@ -15,7 +15,7 @@ describe SitesController do
         EM.stop
       end
     end
-    
+
     it "should correctly set the URIs when X-Api-Path-Prefix is present" do
       EM.synchrony do
         @request.env['HTTP_X_API_PATH_PREFIX'] = 'sid'
@@ -25,7 +25,7 @@ describe SitesController do
         EM.stop
       end
     end
-    
+
     it "should correctly set the URIs when X-Api-Mount-Path is present" do
       EM.synchrony do
         @request.env['HTTP_X_API_MOUNT_PATH'] = '/sites'
@@ -35,7 +35,7 @@ describe SitesController do
         EM.stop
       end
     end
-    
+
     it "should correctly set the URIs when X-Api-Mount-Path and X-Api-Path-Prefix are present" do
       EM.synchrony do
         @request.env['HTTP_X_API_PATH_PREFIX'] = 'sid'
@@ -48,7 +48,7 @@ describe SitesController do
     end
 
   end # describe "GET /sites"
-  
+
   describe "GET /sites/{{site_id}}" do
     it "should fail if the site does not exist" do
       EM.synchrony do
@@ -57,36 +57,36 @@ describe SitesController do
         EM.stop
       end
     end
-    
+
     it "should return the site" do
       EM.synchrony do
         get :show, :id => "rennes", :format => :json
         response.status.should == 200
         json['uid'].should == 'rennes'
         json['links'].map{|l| l['rel']}.sort.should == [
-          "clusters", 
-          "deployments", 
-          "environments", 
-          "jobs", 
-          "metrics", 
-          "parent", 
-          "self", 
+          "clusters",
+          "deployments",
+          "environments",
+          "jobs",
+          "metrics",
+          "parent",
+          "self",
           "status",
           "version",
           "versions"
         ]
-        json['links'].find{|l| 
+        json['links'].find{|l|
           l['rel'] == 'self'
         }['href'].should == "/sites/rennes"
-        json['links'].find{|l| 
+        json['links'].find{|l|
           l['rel'] == 'version'
         }['href'].should == "/sites/rennes/versions/5b02702daa827f7e39ebf7396af26735c9d2aacd"
         EM.stop
       end
     end
   end # describe "GET /sites/{{site_id}}"
-  
-  
+
+
   describe "GET /sites/{{site_id}}/status" do
     it "should fail if the list of valid clusters cannot be fetched" do
       EM.synchrony do
@@ -96,7 +96,7 @@ describe SitesController do
             :headers => {'Accept' => media_type(:json_collection)}
           ).
           to_return(
-            :status => 400, 
+            :status => 400,
             :body => "some error"
           )
         get :status, :branch => 'testing', :id => "rennes", :format => :json
@@ -116,7 +116,7 @@ describe SitesController do
           to_return(:body => fixture("grid5000-rennes-clusters.json"))
         get :status, :id => "rennes", :format => :json
         response.status.should == 200
-        
+
         json['nodes'].length.should == 162
         json['nodes'].keys.map{|k| k.split('-')[0]}.uniq.sort.should == [
           'paradent',
@@ -124,37 +124,7 @@ describe SitesController do
           'parapide',
           'parapluie'
         ]
-        
-        expected_statuses = {}
 
-        OAR::Resource.all.each{|resource|
-          state = resource.state.downcase
-          expected_statuses[resource.network_address] ||= {
-            :hard => state,
-            :soft => (state == "dead" ? "unknown" : "free"),
-            :reservations => []
-          }
-        }
-        
-        fixture('grid5000-rennes-status').
-          split("\n").reject{|line| line[0] == "#" || line =~ /^\s*$/}.
-          uniq.map{|line| line.split(/\s/)}.
-          each {|(job_id,job_queue,job_state,node,node_state)|
-            if job_state =~ /running/i
-              expected_statuses[node][:soft] = (job_queue == "besteffort" ? "besteffort" : "busy")
-            end
-            expected_statuses[node][:reservations].push(job_id.to_i)
-          }
-
-        json['nodes'].each do |node, status|
-          expected_status = expected_statuses[node]
-          expected_jobs = expected_status[:reservations].sort
-          reservations = status["reservations"].map{|r| r["uid"]}.sort
-          reservations.should == expected_jobs
-          status["soft"].should == expected_status[:soft]
-          status["hard"].should == expected_status[:hard]
-        end
-        
         EM.stop
       end
     end
@@ -162,5 +132,5 @@ describe SitesController do
     #   pending "this will be taken care of at the api-proxy layer"
     # end
   end # "GET /sites/{{site_id}}/status"
-  
+
 end

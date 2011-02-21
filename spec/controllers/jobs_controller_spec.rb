@@ -71,8 +71,9 @@ describe JobsController do
         response.status.should == 200
         json["uid"].should == @job_uids[0]
         json["links"].should be_a(Array)
-        json.keys.sort.should == ["assigned_nodes", "command", "directory", "events", "links", "message", "mode", "project", "properties", "queue", "resources_by_type", "started_at", "state", "submitted_at", "types", "uid", "user", "user_uid", "walltime"]
+        json.keys.sort.should == ["assigned_nodes", "command", "directory", "events", "links", "message", "mode", "project", "properties", "queue", "resources_by_type", "scheduled_at", "started_at", "state", "submitted_at", "types", "uid", "user", "user_uid", "walltime"]
         json['types'].should == ['deploy']
+        json['scheduled_at'].should == 1294395995
         EM.stop
       end
     end

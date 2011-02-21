@@ -36,13 +36,13 @@ $(document).ready(function() {
   
   $(document).bind("grid:site:status", function(event, grid, site, status) {
     var stats = { soft: {},  hard: {} }
-    var split
-    _.each(status.items, function(nodeStatus) {
-      split = nodeStatus.node_uid.split("-")
-      if (!tree[site.uid][split[0]]) {
-        tree[site.uid][split[0]] = {}
+    var cluster;
+    _.each(status.nodes, function(nodeStatus,node_uid) {
+      cluster = node_uid.split("-")[0]
+      if (!tree[site.uid][cluster]) {
+        tree[site.uid][cluster] = {}
       }
-      tree[site.uid][split[0]][nodeStatus.node_uid] = nodeStatus.system_state
+      tree[site.uid][cluster][node_uid] = nodeStatus.soft
     });
   })
   
@@ -140,6 +140,7 @@ $(document).ready(function() {
   /**
    * Main trigger
    */
+   console.log("here")
   http.get("../../", {
     before: function() {
       $("#main").addClass("loading")

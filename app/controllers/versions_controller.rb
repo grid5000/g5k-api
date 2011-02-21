@@ -70,7 +70,7 @@ class VersionsController < ApplicationController
       'uid' => commit.id,
       'date' => commit.committed_date.httpdate,
       'message' => commit.message,
-      'author' => commit.author,
+      'author' => commit.author.name,
       'type' => 'version',
       'links' => [
         {

@@ -70,7 +70,7 @@ Payload.prototype.toHash = function() {
       command: job.command,
       debug: "debug"
     }
-    payload.command = "export CHUNKY='"+$.base64Encode(JSON.stringify(chunky))+"'; curl -k https://api.grid5000.fr/sid/grid5000/sites/rennes/public/crohr/chunky.rb | ruby";
+    payload.command = "export CHUNKY='"+$.base64Encode(JSON.stringify(chunky))+"'; curl -k http://public.rennes.grid5000.fr/~crohr/chunky.rb | ruby";
     payload.types = ["deploy"]
   } else {
     payload.command = job.command
@@ -320,27 +320,27 @@ $(document).ready(function() {
       ok: function(data) {
         var hostname, resa, available_for;
         var now = new Date().getTime()/1000;
-        _.each(data.items, function(node_status) {
-          hostname = [node_status.node_uid, site.uid, grid.uid].join(".")
+        _.each(data.nodes, function(node_status, node_uid) {
+          hostname = node_uid
           reference[hostname] = reference[hostname] || {
             id: hostname,
-            label: node_status.node_uid,
+            label: hostname.split(".")[0],
             grid_uid: grid.uid,
             site_uid: site.uid,
             cluster_uid: hostname.split("-")[0]
           }
           resa = node_status.reservations[0] || {
-            start_time: Infinity, 
+            started_at: Infinity, 
             walltime: 0
           }
-          if (resa.start_time < now && (resa.start_time+resa.walltime) >= now) {
+          if (resa.started_at < now && (resa.started_at+resa.walltime) >= now) {
             available_for = 0;
           } else {  
-            available_for = Math.min((resa.start_time-now)/3600, 23).toFixed(2);
+            available_for = Math.min((resa.started_at-now)/3600, 23).toFixed(2);
           }
           $.extend(reference[hostname], {
-            hard_state: node_status.hardware_state,
-            syst_state: node_status.system_state,
+            hard_state: node_status.hard,
+            syst_state: node_status.soft,
             available_for: available_for
           })
         })

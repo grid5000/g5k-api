@@ -1,3 +1,4 @@
+var http = new Http();
 
 var now = new Date().getTime()
 
@@ -44,35 +45,37 @@ $(document).ready(function() {
       $.each(data.items, function(i, site) {
         resources_by_site[site.uid] = {}
         
-        var status_link = Http.linkTo(site.links, 'status')
+        var status_link = http.linkTo(site.links, 'status')
         $.ajax({
           url: status_link+"?reservations_limit=100",
           dataType: "json", type: "GET", global: true,
           success: function(data) {
-            $.each(data.items, function(i, item) {
-              var node_uid = item.node_uid.split(".")[0].split("-")
-              if (!resources_by_site[site.uid][node_uid[0]]) {
-                resources_by_site[site.uid][node_uid[0]] = []
+            $.each(data.nodes, function(node_uid, item) {
+              var short_node_uid = node_uid.split(".")[0]
+              var cluster = short_node_uid.split("-")[0]
+              var index = short_node_uid.split("-")[1]
+              if (!resources_by_site[site.uid][cluster]) {
+                resources_by_site[site.uid][cluster] = []
               }
-              resources_by_site[site.uid][node_uid[0]].push({
-                id: [item.node_uid, site.uid, "grid5000", "fr"].join("."),
-                index: parseInt(node_uid[1]),
-                enabled: (item.hardware_state == "alive")
+              resources_by_site[site.uid][cluster].push({
+                id: node_uid,
+                index: parseInt(index),
+                enabled: (item.hard == "alive")
               })
               $.each(item.reservations, function(i, resa) {
-                if (resa.start_time) {
-                  resa.from = resa.start_time*1000
+                if (resa.started_at) {
+                  resa.from = resa.started_at*1000
                   if (resa.queue == "besteffort" && resa.from < now) {
                     resa.to = now
                   } else {
-                    resa.to = (resa.start_time+resa.walltime)*1000
+                    resa.to = (resa.started_at+resa.walltime)*1000
                   }
-                  resa.resource = [item.node_uid, site.uid, "grid5000", "fr"].join(".")
+                  resa.resource = node_uid
                   resa.tooltip = {
-                    title: site.uid + " / " + resa.user + " / " +resa.batch_id,
+                    title: site.uid + " / " + resa.user + " / " +resa.uid,
                     content: [
                       "From  : " + new Date(resa.from).toLocaleString(), 
-                      "To    : " + new Date((resa.start_time+resa.walltime)*1000).toLocaleString(),
+                      "To    : " + new Date((resa.started_at+resa.walltime)*1000).toLocaleString(),
                       "State : " + resa.state,
                       "Queue : " + resa.queue
                     ]
@@ -122,7 +125,7 @@ $(document).ready(function() {
                     {relativeHeight: 3/5, relativeResolution: 1, backgroundColor: "rgb(51,51,51)", color: "rgb(255,255,255)"}
                   ],
                   resourceId: "resource",
-                  jobId: "batch_id",
+                  jobId: "uid",
                   resources: resources,
                   jobs: jobs
                 })

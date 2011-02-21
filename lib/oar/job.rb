@@ -66,16 +66,14 @@ module OAR
     end
     def directory; launching_directory; end
     def events; job_events; end
+    def scheduled_at
+      time = predicted_start_time ? predicted_start_time.to_i : nil
+      time = nil if time == 0
+      time
+    end
 
     def types
       job_types.map(&:name)
-    end
-
-    def scheduled_at
-      # time = gantt.start_time
-      # time = nil if time.nil? || time == 0
-      # time
-      nil
     end
 
     def besteffort?
@@ -105,7 +103,7 @@ module OAR
           h['subnets'] ||= []
           h['subnets'].push([
             resource.subnet_address,
-            resource.prefix
+            resource.subnet_prefix
           ].join("/"))
         end
       end

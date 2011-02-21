@@ -1,6 +1,7 @@
 class UiController < ApplicationController
   
   def show
+    params[:page] ||= "dashboard"
     @id = params[:page].downcase.gsub(/[^a-z]/,'_').squeeze('_')
     @title = params[:page]
     

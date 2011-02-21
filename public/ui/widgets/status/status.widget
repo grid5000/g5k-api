@@ -21,15 +21,17 @@ status_widget_callback({
       total.scolors.push(system_colors[state])
       total.legend.push(state)
     }
+        console.log("display")
     $.ajax({
       url: options.api_base_uri+"/sites", 
       dataType: "jsonp", type: "GET", cache: true, global: false,
       success: function(sites_collection) {
+        console.log(sites_collection)
         sites_count = sites_collection.items.length;
         for(var i=0; i < sites_count; i++) {
           var site = sites_collection.items[i];
           var site_status_link = $.grep(site.links, function(link, i) { 
-            return link.title == 'status';
+            return link.rel == 'status';
             })[0];
           $(".content ul", container).append('<li id="status-for-'+site.uid+'" style="float:left; text-align: center"></li>')
           $.ajax({
@@ -40,11 +42,11 @@ status_widget_callback({
             success: function(site_status, textStatus2) {
               system_state_stats = {}
               hardware_state_stats = {}
-              $.each(site_status.items, function(i, node_status) {
-                total.sstats[node_status.system_state] += 1;
-                total.hstats[node_status.hardware_state] += 1;
-                system_state_stats[node_status.system_state] = (system_state_stats[node_status.system_state] || 0) + 1;
-                hardware_state_stats[node_status.hardware_state] = (hardware_state_stats[node_status.hardware_state] || 0) + 1;
+              $.each(site_status.nodes, function(i, node_status) {
+                total.sstats[node_status.soft] += 1;
+                total.hstats[node_status.hard] += 1;
+                system_state_stats[node_status.soft] = (system_state_stats[node_status.soft] || 0) + 1;
+                hardware_state_stats[node_status.hard] = (hardware_state_stats[node_status.hard] || 0) + 1;
               })
               var hardware_serie = [];  var system_serie = [];  var legends = [];  var scolors = []; var hcolors = []
               for (var state in hardware_colors) {

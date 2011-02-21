@@ -2,6 +2,11 @@ Api::Application.routes.draw do
   # The priority is based upon order of creation:
   # first created -> highest priority.
 
+  match '/versions' => 'versions#index', :via => [:get]
+  match '/versions/:id' => 'versions#show', :via => [:get]
+  match '*resource/versions' => 'versions#index', :via => [:get]
+  match '*resource/versions/:id' => 'versions#show', :via => [:get]
+  
   resources :environments, :only => [:index, :show]
   resources :sites, :only => [:index, :show] do
     member do
@@ -16,11 +21,8 @@ Api::Application.routes.draw do
   end
   # resources :notifications
 
-  match '/versions' => 'versions#index', :via => [:get]
-  match '/versions/:id' => 'versions#show', :via => [:get]
-  match '*resource/versions' => 'versions#index', :via => [:get]
-  match '*resource/versions/:id' => 'versions#show', :via => [:get]
-  
+  match '/ui' => redirect('/ui/dashboard')
+  match '/ui/index' => redirect('/ui/dashboard')
   match '/ui/:page' => 'ui#show', :via => [:get]
   match '/ui/visualizations/:page' => 'ui#visualization', :via => [:get]
 

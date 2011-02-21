@@ -9,6 +9,7 @@ namespace :package do
   task :bundle do
     rm_rf "vendor"
     system "PATH=/var/lib/gems/1.9.1/bin:$PATH bundle install"
+    rm_rf "vendor/ruby/1.9.1/cache"
   end
 
   desc "Build the binary package"

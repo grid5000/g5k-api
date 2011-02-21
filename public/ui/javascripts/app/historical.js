@@ -7,6 +7,7 @@ function jsonConverter( items ) {
               items:[]
             }
   $.each(items, function(i, version) {
+    console.log(version)
     version['label'] = version.message//.substring(0, 20)
     version['author'] = version.author.replace(' <>', '')
     version['date_iso'] = new Date(Date.parse(version['date'])).toISOString()

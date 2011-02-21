@@ -1,3 +1,5 @@
+var http = new Http();
+
 function jsonConverter( site ) {
   output = {  properties:{'nodes_count': { valueType: "number"} }, 
               types:{'site': {pluralLabel: 'sites'}}, 
@@ -31,7 +33,7 @@ $(document).ready(function() {
     success: function(sites_collection, textStatus) {
       $.each(sites_collection.items, function(i, site) {
         sites.push(site)
-        var site_clusters_href = Http.linkTo(site.links, 'clusters');
+        var site_clusters_href = http.linkTo(site.links, 'clusters');
         $.ajax({
           url: site_clusters_href+"?version="+site.version,
           dataType: "json", type: "GET", cache: true, global: false, ifModified: true,
@@ -41,7 +43,7 @@ $(document).ready(function() {
             $.each(clusters_collection.items, function(i, cluster) {
               clusters.push(cluster.uid)
               
-              var cluster_nodes_href = Http.linkTo(cluster.links, 'nodes');
+              var cluster_nodes_href = http.linkTo(cluster.links, 'nodes');
               $.ajax({
                 url: cluster_nodes_href+"?version="+cluster.version,
                 dataType: "json", type: "GET", cache: true, global: false, ifModified: true,

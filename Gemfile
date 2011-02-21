@@ -18,6 +18,7 @@ gem 'sinatra'
 gem 'grit'
 gem 'syslogger'
 gem 'haml'
+gem 'rack-jsonp'
 
 group :test, :development do
   gem 'webmock'

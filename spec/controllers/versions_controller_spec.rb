@@ -49,6 +49,7 @@ describe VersionsController do
         assert_expires_in 60.seconds, :public => true
         json["uid"].should == version
         json.keys.sort.should == ["author", "date", "links", "message", "type", "uid"]
+        json["author"].should == "Cyril Rohr"
         EM.stop
       end
     end

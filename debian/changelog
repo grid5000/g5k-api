@@ -1,6 +1,23 @@
+g5kapi (2.0.3-1) unstable; urgency=low
+
+  * Added UI.
+
+ -- Cyril Rohr <cyril.rohr@inria.fr>  Mon, 21 Feb 2011 10:02:20 +0100
+
+g5kapi (2.0.2-1) unstable; urgency=low
+
+  * Renamed `prefix` as `subnet_prefix` in OAR::Resource
+
+ -- Cyril Rohr <cyril.rohr@inria.fr>  Mon, 21 Feb 2011 09:20:57 +0100
+
+g5kapi (2.0.1-1) unstable; urgency=low
+
+  * Working version.
+
+ -- Cyril Rohr <cyril.rohr@inria.fr>  Fri, 18 Feb 2011 13:08:29 +0100
+
 g5kapi (2.0.0-1) unstable; urgency=low
 
   * Initial release.
 
- -- Cyril Rohr <cyril.rohr@inria.fr>  Tue, 25 Jan 2011 18:50:38 +0100
-
+ -- Cyril Rohr <crohr@debian-vanilla.localdomain>  Fri, 28 Jan 2011 15:24:42 +0100

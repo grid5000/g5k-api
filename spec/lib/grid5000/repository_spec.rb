@@ -72,7 +72,7 @@ describe Grid5000::Repository do
         )
         commit.should be_nil
       end
-
+  
     end # describe "finding a specific version"
     
     describe "finding a specific object" do
@@ -81,12 +81,15 @@ describe Grid5000::Repository do
       end
       
       it "should find a tree object" do
-        object = @repository.find_object_at('grid5000', @commit)
+        object = @repository.find_object_at(
+          @repository.full_path('grid5000'), @commit)
         object.should be_a(Grit::Tree)
       end
       
       it "should find a relative object (symlink)" do
-        relative_to='grid5000/sites/rennes/environments/sid-x64-base-1.0.json'
+        relative_to=@repository.full_path(
+          'grid5000/sites/rennes/environments/sid-x64-base-1.0.json'
+        )
         object = @repository.find_object_at(
           '../../../../grid5000/environments/sid-x64-base-1.0.json', 
           @commit, 
@@ -97,7 +100,9 @@ describe Grid5000::Repository do
       
       it "should find a blob" do
         object = @repository.find_object_at(
-          'grid5000/environments/sid-x64-base-1.0.json', 
+          @repository.full_path(
+            'grid5000/environments/sid-x64-base-1.0.json'
+          ), 
           @commit
         )
         object.should be_a(Grit::Blob)
@@ -106,7 +111,7 @@ describe Grid5000::Repository do
       
       it "should return nil if the object cannot be found" do
         object = @repository.find_object_at(
-          'grid5000/does/not/exist', 
+          @repository.full_path('grid5000/does/not/exist'), 
           @commit
         )
         object.should be_nil
@@ -123,7 +128,7 @@ describe Grid5000::Repository do
         result["total"].should == 48
         result["items"].map{|i| i['uid']}.first.should ==  "bordemer-1"
       end
-      it "should expand a tree of trees into a collection" do
+      it "should expand a tree of trees into a collection [sites]" do
         result = @repository.find(
           "grid5000/sites"
         )
@@ -132,6 +137,14 @@ describe Grid5000::Repository do
         }.should == ['bordeaux', 'grenoble', 'rennes']
         result["total"].should == 3
         result["offset"].should == 0
+      end
+      it "should expand a tree of trees into a collection [environments]" do
+        result = @repository.find(
+          "grid5000/sites/rennes/environments"
+        )
+        result["items"].map{|i| 
+          i['uid']
+        }.should == ["sid-x64-base-1.0"]
       end
       it "should expand a tree of blobs and trees into a resource hash resulting from the agregation of the blob's contents only" do
         result = @repository.find(
@@ -165,6 +178,15 @@ describe Grid5000::Repository do
         end
       end
     end
+    
+    describe "versions_for" do
+      it "find the versions for a resource" do
+        @repository.versions_for("grid5000/sites")["total"].should == 8
+      end
+      it "should return an empty list if the resource does not exist" do
+        @repository.versions_for("grid5000/doesnotexist").should == {"total"=>0, "offset"=>0, "items"=>[]}
+      end
+    end # describe versions_for
   end # describe "with a working repository"
   
   

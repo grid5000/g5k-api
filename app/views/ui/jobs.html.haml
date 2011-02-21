@@ -1,4 +1,5 @@
 - content_for :head do
+  %script{:src => "javascripts/vendor/jquery-query.js"}
   %script{:src => "javascripts/vendor/mustache.js"}
   %script{:src => "javascripts/vendor/jquery-tablesorter.js"}
   %script{:src => "javascripts/vendor/jquery-tablesorter-metadata.js"}
@@ -50,8 +51,8 @@
 
   #facets
     %h2 Filter by sites
-    %ul.sites{:rel => "site_uid"}
+    %ul.sites{:rel => "site"}
     %h2 Filter by states
     %ul.states{:rel => "state"}
     %h2 Filter by users
-    %ul.users{:rel => "user_uid"}
+    %ul.users{:rel => "user"}

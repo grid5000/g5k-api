@@ -1,3 +1,4 @@
+var http = new Http();
 
 var facets = []
 var selected_facets = [];

@@ -14,6 +14,9 @@ require 'em-activerecord'
 require 'em-http'
 require 'addressable/uri'
 require 'rack/fiber_pool'
+require 'rack/jsonp'
+require 'rack/pretty_json'
+require 'rack/lint'
 
 module Api
 
@@ -36,7 +39,11 @@ module Api
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration should go into files in config/initializers
     # -- all .rb files in that directory are automatically loaded.
-
+    
+    config.middleware.use Rack::PrettyJSON, :unless => 'X-Rack-PrettyJSON-Skip'
+    config.middleware.use Rack::JSONP, :carriage_return => true
+    
+    
     # config.middleware.insert_before Rack::Runtime, Rack::FiberPool
 
     # Custom directories with classes and modules you want to be autoloadable.

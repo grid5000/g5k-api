@@ -63,9 +63,9 @@
     #container.container
       %header#header
         %ul
-          %li= link_to "Dashboard", relative_path_to("/"), :title => "dashboard"
+          %li= link_to "Dashboard", relative_path_to("/dashboard"), :title => "dashboard"
           %li= link_to "Quick Start", relative_path_to("/quick-start.html"), :title => "quick-start"
-          %li= link_to "Jobs", relative_path_to("/jobs.html"), :title => "jobs"
+          %li= link_to "Jobs", relative_path_to("/jobs.html?state=running,waiting"), :title => "jobs"
           %li= link_to "Metrics",relative_path_to("/metrics.html"), :title => "metrics"
           %li= link_to "Visualizations", relative_path_to("/visualizations.html"), :title => "visualizations"
           %li= link_to "Events", relative_path_to("/events.html"), :title => "events"
