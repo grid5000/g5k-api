@@ -3,6 +3,8 @@ ROOT_DIR = File.expand_path("../..", __FILE__)
 namespace :package do
   task :setup do
     mkdir_p "pkg"
+    # remove previous versions
+    rm "pkg/g5kapi_*.deb"
   end
   
   desc "Bundle the dependencies for the current platform"
