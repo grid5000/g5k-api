@@ -39,7 +39,13 @@ class ResourcesController < ApplicationController
     object["version"] = repository.commit.id
 
     last_modified [repository.commit.committed_date, File.mtime(__FILE__)].max
-    expires_in MAX_AGE, :public => true, :must_revalidate => true, :proxy_revalidate => true, :s_maxage => MAX_AGE
+    expires_in(
+      MAX_AGE, 
+      :public => true, 
+      'must-revalidate' => true, 
+      'proxy-revalidate' => true, 
+      's-maxage' => MAX_AGE
+    )
     etag object.hash
 
     respond_to do |format|
