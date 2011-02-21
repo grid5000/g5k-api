@@ -1,3 +1,9 @@
+g5kapi (2.0.4-1) unstable; urgency=low
+
+  * Better PrettyJSON middleware.
+
+ -- Cyril Rohr <cyril.rohr@inria.fr>  Mon, 21 Feb 2011 10:17:21 +0100
+
 g5kapi (2.0.3-1) unstable; urgency=low
 
   * Added UI.
