@@ -62,12 +62,15 @@ namespace :package do
   end
 
   namespace :bump do
+    desc "Increment the patch fragment of the version number by 1"
     task :patch do
       bump(2)
     end
+    desc "Increment the minor fragment of the version number by 1"
     task :minor do
       bump(1)
     end
+    desc "Increment the major fragment of the version number by 1"
     task :major do
       bump(0)
     end
