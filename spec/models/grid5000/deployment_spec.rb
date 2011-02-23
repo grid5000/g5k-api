@@ -49,8 +49,7 @@ describe Grid5000::Deployment do
       end
     end
     
-    it "should not be valid if :notifications is not null 
-      but is not a list" do
+    it "should not be valid if :notifications is not null but is not a list" do
       @deployment.notifications = ""
       @deployment.should_not be_valid
       @deployment.errors[:notifications].
@@ -130,8 +129,7 @@ describe Grid5000::Deployment do
 
   
   describe "transform blobs into files" do
-    it "should transform a plain text key into a URI 
-      pointing to a physical file that contains the key content" do
+    it "should transform a plain text key into a URI pointing to a physical file that contains the key content" do
       expected_filename = "crohr-key-d971f6c5dfeeaf64c9699e2a81f6d4cb5532ed96"
       @deployment.key = "ssh-dsa XMKSFNJCNJSJNJDNJSBCJSJ"
       @deployment.transform_blobs_into_files!(
@@ -183,6 +181,10 @@ describe Grid5000::Deployment do
           "state" => "OK"
         }
       }
+    end
+    
+    it "correctly build the attributes hash for JSON export" do
+      @deployment.as_json.should == {"created_at"=>@now.to_i, "disable_bootloader_install"=>false, "disable_disk_partitioning"=>false, "environment"=>"lenny-x64-base", "ignore_nodes_deploying"=>false, "nodes"=>["paradent-1.rennes.grid5000.fr"], "notifications"=>["xmpp:crohr@jabber.grid5000.fr", "mailto:cyril.rohr@irisa.fr"], "result"=>{"paradent-1.rennes.grid5000.fr"=>{"state"=>"OK"}}, "site_uid"=>"rennes", "status"=>"waiting", "uid"=>"1234", "updated_at"=>@now.to_i, "user_uid"=>"crohr"}
     end
     
     it "should correctly export to json" do
@@ -428,8 +430,9 @@ describe Grid5000::Deployment do
     
     it "should deliver a notification if notifications is not empty" do
       @deployment.notifications = ["xmpp:crohr@jabber.grid5000.fr"]
+      @deployment.stub!(:notification_message).and_return(msg = "msg")
       Grid5000::Notification.should_receive(:new).
-        with(@deployment.as_json, :to => ["xmpp:crohr@jabber.grid5000.fr"]).
+        with(msg, :to => ["xmpp:crohr@jabber.grid5000.fr"]).
         and_return(notif = mock("notif"))
       notif.should_receive(:deliver!).and_return(true)
       @deployment.deliver_notification.should be_true
@@ -437,11 +440,17 @@ describe Grid5000::Deployment do
     
     it "should always return true even if the notification delivery failed" do
       @deployment.notifications = ["xmpp:crohr@jabber.grid5000.fr"]
+      @deployment.stub!(:notification_message).and_return(msg = "msg")
       Grid5000::Notification.should_receive(:new).
-        with(@deployment.as_json, :to => ["xmpp:crohr@jabber.grid5000.fr"]).
+        with(msg, :to => ["xmpp:crohr@jabber.grid5000.fr"]).
         and_return(notif = mock("notif"))
       notif.should_receive(:deliver!).and_raise(Exception.new("message"))
       @deployment.deliver_notification.should be_true
+    end
+    
+    it "build the correct notification message" do
+      @deployment.notifications = ["xmpp:crohr@jabber.grid5000.fr"]
+      @deployment.notification_message.should == JSON.pretty_generate(@deployment.as_json)
     end
   end
     

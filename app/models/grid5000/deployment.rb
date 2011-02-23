@@ -4,8 +4,7 @@ require 'fileutils'
 require 'kadeploy'
 
 module Grid5000
-  # The Deployment class represents a deployment 
-  # that is launched using the Kadeploy3 tool.
+  # The Deployment class represents a deployment that is launched using the Kadeploy3 tool.
   class Deployment < ActiveRecord::Base
   
     attr_accessor :links
@@ -105,7 +104,7 @@ module Grid5000
       unless notifications.blank?
         begin
           Grid5000::Notification.new(
-            self.as_json, 
+            notification_message, 
             :to => notifications
           ).deliver!
         rescue Exception => e
@@ -195,6 +194,9 @@ module Grid5000
       attributes.merge(:links => links).reject{|k,v| v.nil? || k=="id"}
     end
 
+    def notification_message
+      ::JSON.pretty_generate(as_json)
+    end
   
     def json_serialize    
       SERIALIZED_ATTRIBUTES.each do |att|
