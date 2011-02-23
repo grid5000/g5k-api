@@ -1,3 +1,14 @@
+g5kapi (2.0.8-1) unstable; urgency=low
+
+  * 3631472 Added rake tasks to bump version and generate debian changelog.
+  * 3a180c5 Add a large expiration date to resources asked with a specific version.
+  * ca65901 Fixed notification message for deployment.
+  * 4a00890 Deployment#deliver_notification must always return true.
+  * b064cf0 Test notifications URI.
+  * a2dca0a Force use of Sych YAML engine instead of Psych, since the latter has issues with merge keys.
+
+ -- Cyril Rohr <cyril.rohr@inria.fr>  Wed, 23 Feb 2011 17:08:17 +0100
+
  -- Cyril Rohr <cyril.rohr@inria.fr>  Wed, 23 Feb 2011 17:03:07 +0100
 
 g5kapi (2.0.7-1) unstable; urgency=low
