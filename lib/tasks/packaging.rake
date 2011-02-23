@@ -51,7 +51,7 @@ namespace :package do
   task :setup do
     mkdir_p "pkg"
     # remove previous versions
-    rm "pkg/#{NAME}_*.deb"
+    rm_f "pkg/#{NAME}_*.deb"
   end
 
   desc "Bundle the dependencies for the current platform"

@@ -9,8 +9,6 @@ g5kapi (2.0.8-1) unstable; urgency=low
 
  -- Cyril Rohr <cyril.rohr@inria.fr>  Wed, 23 Feb 2011 17:08:17 +0100
 
- -- Cyril Rohr <cyril.rohr@inria.fr>  Wed, 23 Feb 2011 17:03:07 +0100
-
 g5kapi (2.0.7-1) unstable; urgency=low
 
   * 7a8f794 No longer Warning HTTP header in Rack::PrettyJSON. Use X-Info instead.

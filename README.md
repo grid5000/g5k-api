@@ -91,13 +91,17 @@ In the following, we assume you have SSH access to a machine with the debian pac
         $ gem install fpm
         $ fpm -s gem -t deb bundler
 
+* Bump the version number (a new changelog entry is automatically generated in `debian/changelog`):
+
+        $ rake package:bump:patch # or package:bump:minor or package:bump:major
+  
 * Add an entry to the changelog (`debian/changelog`).
 * Now, let's package the app:
 
-        $ rake -f lib/tasks/packaging.rake package:remote_build
+        $ rake package:remote_build
 
 This will copy the project to the `debian-build` machine, and launch the build. 
-The generated `.deb` will be copied back at the end of the process.
+The generated `.deb` will be copied back at the end of the process in `pkg/`.
 
 ## Authors
 * Cyril Rohr <cyril.rohr@inria.fr>
