@@ -43,8 +43,14 @@ def bump(index)
   puts "Generated changelog for version #{new_version}."
   unless ENV['NOCOMMIT']
     puts "Committing changelog and version file..."
-    system "git commit -m 'v#{new_version}' #{CHANGELOG_FILE} #{VERSION_FILE}"
+    run "git commit -m 'v#{new_version}' #{CHANGELOG_FILE} #{VERSION_FILE}"
   end
+end
+
+
+def run(cmd)
+  puts cmd
+  system cmd
 end
 
 namespace :package do
@@ -57,7 +63,8 @@ namespace :package do
   desc "Bundle the dependencies for the current platform"
   task :bundle do
     rm_rf "vendor"
-    system "PATH=/var/lib/gems/1.9.1/bin:$PATH bundle install"
+    run "PATH=/var/lib/gems/1.9.1/bin:$PATH bundle install"
+    run "gem install bundler --version 1.0.9 -i vendor/ruby/1.9.1/"
     rm_rf "vendor/ruby/1.9.1/cache"
   end
 
@@ -78,33 +85,27 @@ namespace :package do
 
   desc "Build the binary package"
   task :build do
-    system "dpkg-buildpackage -us -uc -d"
+    run "dpkg-buildpackage -us -uc -d"
   end
 
   desc "Generates the .deb"
-  task :debian => [:bundle, :build]
+  task :debian => [:setup, :bundle, :build]
 
   desc "Execute the build process on a machine called `#{BUILD_MACHINE}`"
   task :remote_build => :setup do
-    system "ssh #{BUILD_MACHINE} 'mkdir -p ~/dev/#{NAME}'"
-    system "rsync -r -p . #{BUILD_MACHINE}:~/dev/#{NAME}"
-    system "ssh #{BUILD_MACHINE} 'cd ~/dev/#{NAME} && PATH=/var/lib/gems/1.9.1/bin:$PATH rake -f lib/tasks/packaging.rake package:debian'"
-    system "scp #{BUILD_MACHINE}:~/dev/*.deb pkg/" if $?.exitstatus==0
-  end
-
-  desc "Package the required dependencies as .deb"
-  task :dependencies => :setup do
-    system "ssh #{BUILD_MACHINE} 'sudo gem install fpm && PATH=/var/lib/gems/1.9.1/bin:$PATH fpm -s gem -t deb bundler'"
-    system "scp #{BUILD_MACHINE}:~/rubygem-bundler*.deb pkg/" if $?.exitstatus==0
+    run "ssh #{BUILD_MACHINE} 'mkdir -p ~/dev/#{NAME}; sudo date -s \"#{Time.now.to_s}\"'"
+    run "rsync -r -p . #{BUILD_MACHINE}:~/dev/#{NAME}"
+    run "ssh #{BUILD_MACHINE} 'cd ~/dev/#{NAME} && PATH=/var/lib/gems/1.9.1/bin:$PATH rake -f lib/tasks/packaging.rake package:debian'"
+    run "scp #{BUILD_MACHINE}:~/dev/*.deb pkg/" if $?.exitstatus==0
   end
 
   desc "Uploads the .deb on apt.grid5000.fr and generate the index"
   task :release do
-    system "scp pkg/*.deb apt.grid5000.fr:/var/www/#{NAME}/"
-    system "ssh apt.grid5000.fr 'cd /var/www/#{NAME} && sudo dpkg-scanpackages . | gzip -f9 > Packages.gz'" if $?.exitstatus==0
+    run "scp pkg/*.deb apt.grid5000.fr:/var/www/#{NAME}/"
+    run "ssh apt.grid5000.fr 'cd /var/www/#{NAME} && sudo dpkg-scanpackages . | gzip -f9 > Packages.gz'" if $?.exitstatus==0
   end
 
-  desc "Remotely build the app and its dependencies, then release them on apt.grid5000.fr"
-  task :full => [:dependencies, :remote_build, :release]
+  desc "Remotely build the app, then release them on apt.grid5000.fr"
+  task :full => [:remote_build, :release]
 end
 
