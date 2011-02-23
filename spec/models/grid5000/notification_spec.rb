@@ -6,6 +6,10 @@ describe Grid5000::Notification do
     @recipients = ["xmpp:crohr@jabber.grid5000.fr", "mailto:cyril.rohr@inria.fr"]
   end
   
+  it "should have the correct URI" do
+    Grid5000::Notification.uri.should == "http://fake.api/sid/notifications"
+  end
+  
   it "should correcty populate the attributes" do
     notif = Grid5000::Notification.new(@body, :to => @recipients)
     notif.message.should == @body
