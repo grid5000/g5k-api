@@ -5,6 +5,9 @@ config_file = Api::Application::DEFAULTS_CONFIG_PATHS.find { |path|
 }
 puts "=> Using defaults configuration file located at: #{config_file}"
 
+require 'yaml'
+YAML::ENGINE.yamler = "syck"
+
 APP_CONFIG = YAML.load_file(config_file)[Rails.env]
 
 module ConfigurationHelper
