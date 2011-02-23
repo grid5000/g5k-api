@@ -1,3 +1,9 @@
+g5kapi (2.0.9-1) unstable; urgency=low
+
+  * 22c85fc Minor fixes to packaging tasks. Updated README.
+
+ -- Cyril Rohr <cyril.rohr@inria.fr>  Wed, 23 Feb 2011 17:14:51 +0100
+
 g5kapi (2.0.8-1) unstable; urgency=low
 
   * 3631472 Added rake tasks to bump version and generate debian changelog.
