@@ -57,7 +57,7 @@ namespace :package do
   task :setup do
     mkdir_p "pkg"
     # remove previous versions
-    rm_f "pkg/#{NAME}_*.deb"
+    rm_rf "pkg/#{NAME}_*.deb"
   end
 
   desc "Bundle the dependencies for the current platform"
@@ -93,7 +93,7 @@ namespace :package do
 
   desc "Execute the build process on a machine called `#{BUILD_MACHINE}`"
   task :remote_build => :setup do
-    run "ssh #{BUILD_MACHINE} 'mkdir -p ~/dev/#{NAME}; sudo date -s \"#{Time.now.to_s}\"'"
+    run "ssh #{BUILD_MACHINE} 'mkdir -p ~/dev/#{NAME}; rm ~/dev/*.deb; sudo date -s \"#{Time.now.to_s}\"'"
     run "rsync -r -p . #{BUILD_MACHINE}:~/dev/#{NAME}"
     run "ssh #{BUILD_MACHINE} 'cd ~/dev/#{NAME} && PATH=/var/lib/gems/1.9.1/bin:$PATH rake -f lib/tasks/packaging.rake package:debian'"
     run "scp #{BUILD_MACHINE}:~/dev/*.deb pkg/" if $?.exitstatus==0

@@ -77,10 +77,15 @@ module Api
     config.filter_parameters += [:password]
 
     puts "Looking for database configuration file in #{DATABASE_CONFIG_PATHS.inspect}..."
-    paths.config.database = DATABASE_CONFIG_PATHS.find { |path|
+    found = DATABASE_CONFIG_PATHS.find { |path|
       fullpath = File.expand_path(path)
       File.exist?(fullpath) && File.readable?(fullpath)
     }
-    puts "=> Using database configuration file located at: #{paths.config.database.paths[0]}"
+    if found.nil?
+      fail "=> Cannot find an existing and readable file in #{DATABASE_CONFIG_PATHS.inspect}"
+    else
+      paths.config.database = found
+      puts "=> Using database configuration file located at: #{paths.config.database.paths[0]}"
+    end
   end
 end

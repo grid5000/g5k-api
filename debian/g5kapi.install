@@ -6,7 +6,10 @@ config.ru opt/local/g5kapi
 Rakefile opt/local/g5kapi
 app opt/local/g5kapi
 bin opt/local/g5kapi
-config opt/local/g5kapi
+config/*.rb opt/local/g5kapi/config
+config/environments opt/local/g5kapi/config
+config/initializers opt/local/g5kapi/config
+config/locales opt/local/g5kapi/config
 db opt/local/g5kapi
 lib opt/local/g5kapi
 public opt/local/g5kapi

@@ -3,7 +3,11 @@ config_file = Api::Application::DEFAULTS_CONFIG_PATHS.find { |path|
   fullpath = File.expand_path(path)
   File.exist?(fullpath) && File.readable?(fullpath)
 }
-puts "=> Using defaults configuration file located at: #{config_file}"
+if config_file.nil?
+  fail "=> Cannot find an existing and readable file in #{DEFAULTS_CONFIG_PATHS.inspect}"
+else
+  puts "=> Using defaults configuration file located at: #{config_file}"
+end
 
 require 'yaml'
 YAML::ENGINE.yamler = "syck"
