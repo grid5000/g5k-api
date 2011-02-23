@@ -434,6 +434,15 @@ describe Grid5000::Deployment do
       notif.should_receive(:deliver!).and_return(true)
       @deployment.deliver_notification.should be_true
     end
+    
+    it "should always return true even if the notification delivery failed" do
+      @deployment.notifications = ["xmpp:crohr@jabber.grid5000.fr"]
+      Grid5000::Notification.should_receive(:new).
+        with(@deployment.as_json, :to => ["xmpp:crohr@jabber.grid5000.fr"]).
+        and_return(notif = mock("notif"))
+      notif.should_receive(:deliver!).and_raise(Exception.new("message"))
+      @deployment.deliver_notification.should be_true
+    end
   end
     
 end

@@ -103,13 +103,16 @@ module Grid5000
   
     def deliver_notification
       unless notifications.blank?
-        Grid5000::Notification.new(
-          self.as_json, 
-          :to => notifications
-        ).deliver!
-      else
-        true
+        begin
+          Grid5000::Notification.new(
+            self.as_json, 
+            :to => notifications
+          ).deliver!
+        rescue Exception => e
+          Rails.logger.warn "Unable to deliver notification to #{notifications.inspect} for deployment ##{uid}: #{e.class.name} - #{e.message} - #{e.backtrace.join("; ")}"
+        end
       end
+      true
     end
   
     # When some attributes such as :key are passed as text strings,
