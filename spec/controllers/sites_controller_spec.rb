@@ -62,6 +62,7 @@ describe SitesController do
       EM.synchrony do
         get :show, :id => "rennes", :format => :json
         response.status.should == 200
+        assert_expires_in(60, :public => true)
         json['uid'].should == 'rennes'
         json['links'].map{|l| l['rel']}.sort.should == [
           "clusters",
@@ -81,6 +82,20 @@ describe SitesController do
         json['links'].find{|l|
           l['rel'] == 'version'
         }['href'].should == "/sites/rennes/versions/5b02702daa827f7e39ebf7396af26735c9d2aacd"
+        EM.stop
+      end
+    end
+    
+    it "should return the specified version, and the max-age value in the Cache-Control header should be big" do
+      EM.synchrony do
+        get :show, :id => "rennes", :format => :json, :version => "b00bd30bf69c322ffe9aca7a9f6e3be0f29e20f4"
+        response.status.should == 200
+        assert_expires_in(24*3600*30, :public => true)
+        json['uid'].should == 'rennes'
+        json['version'].should == 'b00bd30bf69c322ffe9aca7a9f6e3be0f29e20f4'
+        json['links'].find{|l|
+          l['rel'] == 'version'
+        }['href'].should == "/sites/rennes/versions/b00bd30bf69c322ffe9aca7a9f6e3be0f29e20f4"
         EM.stop
       end
     end

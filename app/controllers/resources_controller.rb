@@ -39,13 +39,22 @@ class ResourcesController < ApplicationController
     object["version"] = repository.commit.id
 
     last_modified [repository.commit.committed_date, File.mtime(__FILE__)].max
-    expires_in(
-      MAX_AGE, 
-      :public => true, 
-      'must-revalidate' => true, 
-      'proxy-revalidate' => true, 
-      's-maxage' => MAX_AGE
-    )
+    
+    # If client asked for a specific version, it won't change anytime soon
+    if params[:version] && params[:version] == object["version"]
+      expires_in(
+        24*3600*30,
+        :public => true
+      )
+    else
+      expires_in(
+        MAX_AGE, 
+        :public => true, 
+        'must-revalidate' => true, 
+        'proxy-revalidate' => true, 
+        's-maxage' => MAX_AGE
+      )
+    end
     etag object.hash
 
     respond_to do |format|
