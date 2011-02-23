@@ -20,7 +20,7 @@ Api::Application.configure do
 
   # Use a different logger for distributed setups
   config.logger = Syslogger.new(
-    "g5kapi-#{Api::VERSION}", 
+    "g5kapi-#{Grid5000::VERSION}", 
     Syslog::LOG_PID, 
     Syslog::LOG_LOCAL0
   )
