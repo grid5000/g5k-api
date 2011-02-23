@@ -1,3 +1,10 @@
+g5kapi (2.0.10-1) unstable; urgency=low
+
+  * ab1688c Bundle bundler as well, to avoid having to build another debian package.
+  * e3fcb3c Added description for bump tasks.
+
+ -- Cyril Rohr <cyril.rohr@inria.fr>  Wed, 23 Feb 2011 20:59:12 +0100
+
 g5kapi (2.0.9-1) unstable; urgency=low
 
   * 22c85fc Minor fixes to packaging tasks. Updated README.
