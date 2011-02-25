@@ -1,5 +1,5 @@
 #!/bin/sh
-# prerm script for g5k-api
+# prerm script for $NAME
 #
 # see: dh_installdeb(1)
 
@@ -16,13 +16,15 @@ set -e
 # for details, see http://www.debian.org/doc/debian-policy/ or
 # the debian-policy package
 
+NAME="g5k-api"
 
 case "$1" in
     remove|upgrade|deconfigure)
-        /etc/init.d/g5k-api stop || true
-        rm /usr/bin/g5k-api
-        rm /opt/local/g5k-api/log
-        mv /opt/local/g5k-api/bin/g5k-api.rb /opt/local/g5k-api/bin/g5k-api
+        /etc/init.d/$NAME stop || true
+        rm /usr/bin/$NAME
+        rm /opt/local/$NAME/log
+        mv /opt/local/$NAME/bin/$NAME.rb /opt/local/$NAME/bin/$NAME
+        deluser --remove-all-files $NAME || true
     ;;
 
     failed-upgrade)

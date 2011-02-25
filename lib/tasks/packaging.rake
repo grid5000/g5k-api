@@ -101,6 +101,7 @@ namespace :package do
 
   desc "Uploads the .deb on apt.grid5000.fr and generate the index"
   task :release do
+    run "ssh apt.grid5000.fr 'sudo mkdir -p /var/www/#{NAME} && sudo chown g5kadmin /var/www/#{NAME}'"
     run "scp pkg/*.deb apt.grid5000.fr:/var/www/#{NAME}/"
     run "ssh apt.grid5000.fr 'cd /var/www/#{NAME} && sudo dpkg-scanpackages . | gzip -f9 > Packages.gz'" if $?.exitstatus==0
   end

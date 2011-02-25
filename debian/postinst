@@ -1,5 +1,5 @@
 #!/bin/sh
-# postinst script for g5k-api
+# postinst script for $NAME
 #
 # see: dh_installdeb(1)
 
@@ -17,14 +17,20 @@ set -e
 # for details, see http://www.debian.org/doc/debian-policy/ or
 # the debian-policy package
 
+NAME="g5k-api"
 
 case "$1" in
     configure)
-        ln -sf /var/log/g5k-api /opt/local/g5k-api/log
-        mv /opt/local/g5k-api/bin/g5k-api /opt/local/g5k-api/bin/g5k-api.rb
-        echo '#!/usr/bin/ruby1.9.1
-        require "/opt/local/g5k-api/bin/g5k-api"
-        ' > /usr/bin/g5k-api && chmod a+x /usr/bin/g5k-api
+        ln -sf /var/log/$NAME /opt/local/$NAME/log
+        mv /opt/local/$NAME/bin/$NAME /opt/local/$NAME/bin/$NAME.rb
+        echo "#!/usr/bin/ruby1.9.1
+        require '/opt/local/$NAME/bin/$NAME'
+        " > /usr/bin/$NAME && chmod a+x /usr/bin/$NAME
+        # Creating the user if it does not exist
+        if ! getent passwd $NAME > /dev/null; then
+          adduser --no-create-home --system --group $NAME
+        fi
+        chown $NAME.$NAME /etc/$NAME/*
     ;;
 
     abort-upgrade|abort-remove|abort-deconfigure)
