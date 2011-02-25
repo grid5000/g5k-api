@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe Grid5000::Deployment do
   
-  before do
+  before(:each) do
     @now = Time.now
     Time.stub!(:now).and_return(@now)
     @deployment = Grid5000::Deployment.new({
@@ -233,9 +233,9 @@ describe Grid5000::Deployment do
       @deployment.save!
     end
     it "should be able to go from waiting to processing" do
+      @deployment.status?(:waiting).should be_true
       @deployment.should_not_receive(:deliver_notification)
       @deployment.should_receive(:ksubmit!).and_return(true)
-      @deployment.status?(:waiting).should be_true
       @deployment.launch.should be_true
       @deployment.status?(:processing).should be_true
     end
@@ -287,9 +287,7 @@ describe Grid5000::Deployment do
         @deployment.status?(:error).should be_true
       end
       it "should not be able to go from canceled to terminated" do
-        @deployment.should_receive(:deliver_notification)
-        @deployment.should_receive(:kcancel!).and_return(true)
-        @deployment.cancel!
+        @deployment.update_attribute(:status, "canceled")
         @deployment.terminate.should be_false
         @deployment.status?(:canceled).should be_true
       end

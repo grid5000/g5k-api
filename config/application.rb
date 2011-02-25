@@ -48,27 +48,11 @@ module Api
     config.middleware.use Rack::PrettyJSON, :warning => true
     config.middleware.use Rack::JSONP, :carriage_return => true
 
-    # Only load the plugins named here, in the order given (default is alphabetical).
-    # :all can be used as a placeholder for all plugins not explicitly named.
-    # config.plugins = [ :exception_notification, :ssl_requirement, :all ]
-
-    # Activate observers that should always be running.
-    # config.active_record.observers = :garbage_collector
-
     config.generators do |g|
       g.fixture_replacement :factory_girl, :dir => "spec/factories"
     end
 
-    # Set Time.zone default to the specified zone and make Active Record auto-convert to this zone.
-    # Run "rake -D time" for a list of tasks for finding time zone names. Default is UTC.
     config.time_zone = 'UTC'
-
-    # The default locale is :en and all translations from config/locales/*.rb,yml are auto loaded.
-    # config.i18n.load_path += Dir[Rails.root.join('my', 'locales', '*.{rb,yml}').to_s]
-    # config.i18n.default_locale = :de
-
-    # JavaScript files you want as :defaults (application.js is always included).
-    config.action_view.javascript_expansions[:defaults] = %w()
 
     # Configure the default encoding used in templates for Ruby 1.9.
     config.encoding = "utf-8"
@@ -87,5 +71,6 @@ module Api
       paths.config.database = found
       puts "=> Using database configuration file located at: #{paths.config.database.paths[0]}"
     end
+
   end
 end

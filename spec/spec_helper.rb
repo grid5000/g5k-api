@@ -21,7 +21,7 @@ end
 
 module MediaTypeHelper
   class MediaTypeError < StandardError; end
-  
+
   def assert_media_type(type)
     response.headers['Content-Type'].should =~ case type
     when :json
@@ -38,7 +38,7 @@ end
 
 module HeaderHelper
   class HeaderError < StandardError; end
-  
+
   def assert_vary_on(*args)
     (response.headers['Vary'] || "").downcase.split(/\s*,\s*/).sort.should == args.map{|v| v.to_s.dasherize}.sort
   end
@@ -50,12 +50,12 @@ module HeaderHelper
     values.should include("public") if options[:public]
     values.should include("max-age=#{seconds}")
   end
-  
+
   def authenticate_as(username)
     header = "HTTP_"+Rails.my_config(:header_user_cn).gsub("-","_").upcase
     @request.env[header] = username
   end
-  
+
   def send_payload(h, type)
     case type
     when :json
@@ -68,15 +68,13 @@ module HeaderHelper
 end
 
 RSpec.configure do |config|
-  include MediaTypeHelper
-  include HeaderHelper
-  include ApplicationHelper
-  
+
+
   config.before(:each) do
     Grid5000::Deployment.delete_all
     @json = nil
   end
-  
+
   config.before(:all) do
     @repository_path_prefix = "data"
     # INIT TESTING GIT REPOSITORY
@@ -89,7 +87,7 @@ RSpec.configure do |config|
       system cmd
     end
   end
-  
+
   config.after(:all) do
     if File.exist?( File.join(@repository_path, '.git') )
       system "mv #{File.join(@repository_path, '.git')} #{File.join(@repository_path, 'git.rename')}"
@@ -106,5 +104,10 @@ RSpec.configure do |config|
   # examples within a transaction, remove the following line or assign false
   # instead of true.
   config.use_transactional_fixtures = false
-  
+
+  include MediaTypeHelper
+  include HeaderHelper
+  # FIXME: this is bad, this should be removed.
+  include ApplicationHelper
+
 end

@@ -1,3 +1,5 @@
+require 'resources_controller'
+
 class SitesController < ResourcesController
 
   def status
