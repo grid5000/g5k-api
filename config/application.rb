@@ -22,16 +22,16 @@ module Api
   class Application < Rails::Application
 
     DATABASE_CONFIG_PATHS = [
-      ENV['G5KAPI_DATABASE_CONFIG'],
-      "~/.g5kapi/database.yml",
-      "/etc/g5kapi/database.yml",
+      ENV['G5K_API_DATABASE_CONFIG'],
+      "~/.g5k-api/database.yml",
+      "/etc/g5k-api/database.yml",
       Rails.root.join("config/options/database.yml").to_path
     ].compact
 
     DEFAULTS_CONFIG_PATHS = [
-      ENV['G5KAPI_DEFAULTS_CONFIG'],
-      "~/.g5kapi/defaults.yml",
-      "/etc/g5kapi/defaults.yml",
+      ENV['G5K_API_DEFAULTS_CONFIG'],
+      "~/.g5k-api/defaults.yml",
+      "/etc/g5k-api/defaults.yml",
       Rails.root.join("config/options/defaults.yml").to_path
     ].compact
 

@@ -1,6 +1,6 @@
-# Defaults for g5kapi initscript
-# sourced by /etc/init.d/g5kapi
-# installed at /etc/default/g5kapi by the maintainer scripts
+# Defaults for g5k-api initscript
+# sourced by /etc/init.d/g5k-api
+# installed at /etc/default/g5k-api by the maintainer scripts
 
 #
 # This is a POSIX shell fragment

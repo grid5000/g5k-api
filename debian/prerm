@@ -1,5 +1,5 @@
 #!/bin/sh
-# prerm script for g5kapi
+# prerm script for g5k-api
 #
 # see: dh_installdeb(1)
 
@@ -19,10 +19,10 @@ set -e
 
 case "$1" in
     remove|upgrade|deconfigure)
-        /etc/init.d/g5kapi stop || true
-        rm /usr/bin/g5kapi
-        rm /opt/local/g5kapi/log
-        mv /opt/local/g5kapi/bin/g5kapi.rb /opt/local/g5kapi/bin/g5kapi
+        /etc/init.d/g5k-api stop || true
+        rm /usr/bin/g5k-api
+        rm /opt/local/g5k-api/log
+        mv /opt/local/g5k-api/bin/g5k-api.rb /opt/local/g5k-api/bin/g5k-api
     ;;
 
     failed-upgrade)

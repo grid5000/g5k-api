@@ -1,5 +1,5 @@
 #!/bin/sh
-# postinst script for g5kapi
+# postinst script for g5k-api
 #
 # see: dh_installdeb(1)
 
@@ -20,11 +20,11 @@ set -e
 
 case "$1" in
     configure)
-        ln -sf /var/log/g5kapi /opt/local/g5kapi/log
-        mv /opt/local/g5kapi/bin/g5kapi /opt/local/g5kapi/bin/g5kapi.rb
+        ln -sf /var/log/g5k-api /opt/local/g5k-api/log
+        mv /opt/local/g5k-api/bin/g5k-api /opt/local/g5k-api/bin/g5k-api.rb
         echo '#!/usr/bin/ruby1.9.1
-        require "/opt/local/g5kapi/bin/g5kapi"
-        ' > /usr/bin/g5kapi && chmod a+x /usr/bin/g5kapi
+        require "/opt/local/g5k-api/bin/g5k-api"
+        ' > /usr/bin/g5k-api && chmod a+x /usr/bin/g5k-api
     ;;
 
     abort-upgrade|abort-remove|abort-deconfigure)

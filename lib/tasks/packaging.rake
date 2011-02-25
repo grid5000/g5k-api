@@ -2,7 +2,7 @@ ROOT_DIR = File.expand_path("../../..", __FILE__)
 CHANGELOG_FILE = File.join(ROOT_DIR, "debian", "changelog")
 VERSION_FILE = File.join(ROOT_DIR, "lib", "grid5000", "version.rb")
 
-NAME = "g5kapi"
+NAME = "g5k-api"
 BUILD_MACHINE = ENV['BUILD_MACHINE'] || "debian-build"
 USER_NAME = `git config --get user.name`.chomp
 USER_EMAIL = `git config --get user.email`.chomp
@@ -96,7 +96,7 @@ namespace :package do
     run "ssh #{BUILD_MACHINE} 'mkdir -p ~/dev/#{NAME}; rm ~/dev/*.deb; sudo date -s \"#{Time.now.to_s}\"'"
     run "rsync -r -p . #{BUILD_MACHINE}:~/dev/#{NAME}"
     run "ssh #{BUILD_MACHINE} 'cd ~/dev/#{NAME} && PATH=/var/lib/gems/1.9.1/bin:$PATH rake -f lib/tasks/packaging.rake package:debian'"
-    run "scp #{BUILD_MACHINE}:~/dev/*.deb pkg/" if $?.exitstatus==0
+    run "scp #{BUILD_MACHINE}:~/dev/#{NAME}_*.deb pkg/" if $?.exitstatus==0
   end
 
   desc "Uploads the .deb on apt.grid5000.fr and generate the index"

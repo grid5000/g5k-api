@@ -1,4 +1,4 @@
-Source: g5kapi
+Source: g5k-api
 Section: unknown
 Priority: extra
 Maintainer: Cyril Rohr <cyril.rohr@inria.fr>
@@ -6,8 +6,8 @@ Build-Depends: debhelper (>= 7), libmysqlclient15-dev
 Standards-Version: 3.7.3
 Homepage: https://api.grid5000.fr
 
-Package: g5kapi
+Package: g5k-api
 Architecture: amd64
-Depends: ${shlibs:Depends}, ${misc:Depends}, ruby1.9.1-full, git-core
+Depends: ${shlibs:Depends}, ${misc:Depends}, ruby1.9.1-full, git-core, monit
 Description: Grid'5000 API
  The API built on top of the Grid'5000 tools.

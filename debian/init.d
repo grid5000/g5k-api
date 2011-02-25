@@ -12,22 +12,22 @@
 #
 
 PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
-DAEMON=/usr/bin/g5kapi
-NAME=g5kapi
-DESC=g5kapi
+DAEMON=/usr/bin/g5k-api
+NAME=g5k-api
+DESC=g5k-api
 
 test -x $DAEMON || exit 0
 
-LOGDIR=/var/log/g5kapi
+LOGDIR=/var/log/g5k-api
 PIDFILE=/var/run/$NAME.pid
 DODTIME=5                   # Time to wait for the server to die, in seconds
                             # If this value is set too low you might not
                             # let some servers to die gracefully and
                             # 'restart' will not work
 
-# Include g5kapi defaults if available
-if [ -f /etc/default/g5kapi ] ; then
-	. /etc/default/g5kapi
+# Include g5k-api defaults if available
+if [ -f /etc/default/g5k-api ] ; then
+	. /etc/default/g5k-api
 fi
 
 set -e

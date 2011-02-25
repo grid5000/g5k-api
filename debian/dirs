@@ -1,2 +1,2 @@
-var/log/g5kapi
-var/db/g5kapi
+var/log/g5k-api
+var/db/g5k-api

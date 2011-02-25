@@ -1,7 +1,7 @@
 #!/usr/bin/env ruby
 
 # Launcher for the Grid5000 API
-# Run <tt>g5kapi -h</tt> to get more usage.
+# Run <tt>g5k-api -h</tt> to get more usage.
 
 require File.dirname(__FILE__)+"/../config/boot"
 
