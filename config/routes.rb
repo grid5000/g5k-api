@@ -20,11 +20,14 @@ Api::Application.routes.draw do
     resources :deployments
   end
   # resources :notifications
-
+  
+  match '/ui/events' => redirect('https://www.grid5000.fr/status')
+  
   match '/ui' => redirect('/ui/dashboard')
   match '/ui/index' => redirect('/ui/dashboard')
   match '/ui/:page' => 'ui#show', :via => [:get]
   match '/ui/visualizations/:page' => 'ui#visualization', :via => [:get]
+  
 
   # You can have the root of your site routed with "root"
   # just remember to delete public/index.html.
