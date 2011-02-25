@@ -1,3 +1,10 @@
+g5k-api (2.1.11-1) unstable; urgency=low
+
+  * 639fa0c Create g5k-api user, and launch daemon as g5k-api.
+  * 5bc4020 Renamed g5kapi into g5k-api.
+
+ -- Cyril Rohr <cyril.rohr@inria.fr>  Fri, 25 Feb 2011 11:32:52 +0100
+
 g5k-api (2.0.11-1) unstable; urgency=low
 
   * 7304f99 Better handling of configuration files.
