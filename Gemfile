@@ -8,9 +8,9 @@ gem 'eventmachine',
   :git => 'git://github.com/eventmachine/eventmachine.git'
 gem('rack-fiber_pool', '~> 0.9')
 gem('em-synchrony', '~> 0.2')
-gem('mysqlplus', '~> 0.1')
-gem('em-mysqlplus', '~> 0.1')
 gem('em-http-request', '~> 0.2')
+gem "mysql2", "~>0.2.0"
+gem "ruby-mysql", :require => "mysql"
 gem('addressable', '~> 2.2')
 gem('thin', '~> 1.2.7')
 gem('state_machine', '~> 0.9')

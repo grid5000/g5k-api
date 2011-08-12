@@ -8,9 +8,9 @@ defaults: &defaults
   base_uri_out: http://localhost:8888
   kadeploy_uri: druby://kadeploy-server:25300
   oar: &oar
-    adapter: em_mysqlplus
+    adapter: em_mysql2
     encoding: utf8
-    pool: 200
+    pool: 20
     timeout: 5000
     database: oar2
     host: mysql
@@ -39,7 +39,7 @@ test:
   oar:
     <<: *oar
     host: 127.0.0.1
-    port: 3306
+    port: 13306
     username: root
     password:
     

@@ -48,8 +48,6 @@ GEM
       addressable (>= 2.0.0)
       escape_utils
       eventmachine (>= 0.12.9)
-    em-mysqlplus (0.1.5)
-      eventmachine (>= 0.12.9)
     em-synchrony (0.2.0)
       eventmachine (>= 0.12.9)
     erubis (2.6.6)
@@ -70,7 +68,7 @@ GEM
       mime-types (~> 1.16)
       treetop (~> 1.4.8)
     mime-types (1.16)
-    mysqlplus (0.1.2)
+    mysql2 (0.2.11)
     polyglot (0.3.1)
     rack (1.2.1)
     rack-fiber_pool (0.9.1)
@@ -108,6 +106,7 @@ GEM
       activesupport (~> 3.0)
       railties (~> 3.0)
       rspec (~> 2.5.0)
+    ruby-mysql (2.9.4)
     state_machine (0.9.4)
     syslogger (1.2.4)
     thin (1.2.7)
@@ -130,13 +129,12 @@ DEPENDENCIES
   autotest
   autotest-growl
   em-http-request (~> 0.2)
-  em-mysqlplus (~> 0.1)
   em-synchrony (~> 0.2)
   eventmachine!
   factory_girl_rails
   grit
   haml
-  mysqlplus (~> 0.1)
+  mysql2 (~> 0.2.0)
   rack-fiber_pool (~> 0.9)
   rack-jsonp
   rails (~> 3.0)
@@ -144,6 +142,7 @@ DEPENDENCIES
   rcov
   rspec
   rspec-rails
+  ruby-mysql
   state_machine (~> 0.9)
   syslogger
   thin (~> 1.2.7)

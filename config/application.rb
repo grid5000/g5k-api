@@ -1,6 +1,8 @@
 require File.expand_path('../boot', __FILE__)
 
-require 'rails/all'
+# Avoid loading all of rails with require 'rails/all':
+require "active_record/railtie"
+require "action_controller/railtie"
 
 # If you have a Gemfile, require the gems listed there, including any gems
 # you've limited to :test, :development, or :production.
@@ -10,7 +12,6 @@ Bundler.require(:default, Rails.env) if defined?(Bundler)
 # Explicitly require libs when gem name is not sufficient
 require 'em-synchrony'
 require 'em-synchrony/em-http'
-require 'em-activerecord'
 require 'em-http'
 require 'addressable/uri'
 require 'rack/fiber_pool'
@@ -23,14 +24,14 @@ module Api
 
     DATABASE_CONFIG_PATHS = [
       ENV['G5K_API_DATABASE_CONFIG'],
-      "~/.g5k-api/database.yml",
+      ENV['HOME'] ? "~/.g5k-api/database.yml" : nil,
       "/etc/g5k-api/database.yml",
       Rails.root.join("config/options/database.yml").to_path
     ].compact
 
     DEFAULTS_CONFIG_PATHS = [
       ENV['G5K_API_DEFAULTS_CONFIG'],
-      "~/.g5k-api/defaults.yml",
+      ENV['HOME'] ? "~/.g5k-api/defaults.yml" : nil,
       "/etc/g5k-api/defaults.yml",
       Rails.root.join("config/options/defaults.yml").to_path
     ].compact
@@ -60,17 +61,26 @@ module Api
     # Configure sensitive parameters which will be filtered from the log file.
     config.filter_parameters += [:password]
 
+
     puts "Looking for database configuration file in #{DATABASE_CONFIG_PATHS.inspect}..."
-    found = DATABASE_CONFIG_PATHS.find { |path|
+    paths.config.database = DATABASE_CONFIG_PATHS.find { |path|
       fullpath = File.expand_path(path)
       File.exist?(fullpath) && File.readable?(fullpath)
     }
-    if found.nil?
-      fail "=> Cannot find an existing and readable file in #{DATABASE_CONFIG_PATHS.inspect}"
+    puts "=> Using database configuration file located at: #{paths.config.database.paths[0]}"
+    
+    
+    puts "Looking for defaults configuration file in #{Api::Application::DEFAULTS_CONFIG_PATHS.inspect}..."
+    config_file = Api::Application::DEFAULTS_CONFIG_PATHS.find { |path|
+      fullpath = File.expand_path(path)
+      File.exist?(fullpath) && File.readable?(fullpath)
+    }
+    if config_file.nil?
+      fail "=> Cannot find an existing and readable file in #{DEFAULTS_CONFIG_PATHS.inspect}"
     else
-      paths.config.database = found
-      puts "=> Using database configuration file located at: #{paths.config.database.paths[0]}"
+      puts "=> Using defaults configuration file located at: #{config_file}"
     end
 
+    CONFIG = YAML.load_file(config_file)[Rails.env]
   end
 end

@@ -1,22 +1,6 @@
-puts "Looking for defaults configuration file in #{Api::Application::DEFAULTS_CONFIG_PATHS.inspect}..."
-config_file = Api::Application::DEFAULTS_CONFIG_PATHS.find { |path|
-  fullpath = File.expand_path(path)
-  File.exist?(fullpath) && File.readable?(fullpath)
-}
-if config_file.nil?
-  fail "=> Cannot find an existing and readable file in #{DEFAULTS_CONFIG_PATHS.inspect}"
-else
-  puts "=> Using defaults configuration file located at: #{config_file}"
-end
-
-require 'yaml'
-YAML::ENGINE.yamler = "syck"
-
-APP_CONFIG = YAML.load_file(config_file)[Rails.env]
-
 module ConfigurationHelper
   def my_config(key)
-    APP_CONFIG[key.to_sym] || APP_CONFIG[key.to_s]
+    Api::Application::CONFIG[key.to_sym] || Api::Application::CONFIG[key.to_s]
   end
 
   def tmp
