@@ -63,7 +63,7 @@ namespace :package do
   desc "Bundle the dependencies for the current platform"
   task :bundle do
     rm_rf "vendor"
-    run "PATH=/var/lib/gems/1.9.1/bin:$PATH bundle install"
+    run "PATH=/var/lib/gems/1.9.1/bin:$PATH bundle install --without test development"
     run "gem install bundler --version 1.0.9 -i vendor/ruby/1.9.1/"
     rm_rf "vendor/ruby/1.9.1/cache"
   end

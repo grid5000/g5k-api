@@ -5,7 +5,7 @@
 
 require File.dirname(__FILE__)+"/../config/boot"
 
-supported_commands = ["server", "rake"]
+supported_commands = ["server", "rake", "console"]
 command = ARGV.shift
 
 case command
@@ -14,6 +14,12 @@ when "rake"
   ARGV << "-f" << File.expand_path(File.dirname(__FILE__)+"/../Rakefile")
   require 'rake'
   Rake.application.run
+when "console"
+  APP_PATH = File.expand_path('../../config/application',  __FILE__)
+  require File.expand_path('../../config/boot',  __FILE__)
+  ARGV.push("production") if ARGV.empty?
+  ARGV.unshift("console")
+  require 'rails/commands'
 when "server"
   require 'thin'
   rackup_file = ::File.expand_path('../../config.ru',  __FILE__)

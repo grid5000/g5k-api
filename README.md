@@ -1,30 +1,35 @@
 # g5kapi
+
 This application is in charge of providing the core APIs for Grid'5000.
 
 The project is hosted at <ssh://git.grid5000.fr/srv/git/repos/g5kapi>. 
 Please send an email to <cyril.rohr@inria.fr> if you cannot access the code.
 
+
 ## Installation
-* The app requires `ruby1.9.1-full`. You can get them from the lenny-backports. You should add the following to `/etc/apt/sources.list`:
 
-        deb http://Backports.Debian.Org/debian-backports lenny-backports main contrib non-free
-        deb-src http://Backports.Debian.Org/debian-backports lenny-backports main contrib non-free
+The app is packaged for Debian Squeeze. Therefore installation is as follows:
 
-  Then:
+    sudo apt-get update
+    sudo apt-get install g5k-api
 
-        sudo apt-get update
-        sudo apt-get install ruby1.9.1-full git-core
-
-* Install `bundler` dependency:
-
-        wget http://git.grid5000.fr/pub/rubygem-bundler
+In particular, runtime dependencies of the app include `ruby1.9.1-full` and `git-core`.
 
 
 ## Development
-* You MUST have a working installation of `ruby` 1.9.2+.
-* You MUST have the `bundler` gem installed (1.0.0+):
-  
+
+* This app does not work with `ruby` 1.8. Therefore you need to have a working
+  installation of `ruby` 1.9.2+. We recommend using `rvm` to manage your ruby
+  installations.
+
+* As with every Rails app, it uses the `bundler` gem to manage dependencies:
+
         $ gem install bundler --no-ri --no-rdoc
+
+  Note: in the next sections we'll run `rake` or `cap` executables. If you're
+  using an old version of bundler and are not using `rvm` to manage your ruby
+  installations, you will probably need to prefix every executable with
+  `bundle exec`. E.g. `rake -T` will become `bundle exec rake -T`.
 
 * From the application root, install the application dependencies:
 
@@ -34,27 +39,66 @@ Please send an email to <cyril.rohr@inria.fr> if you cannot access the code.
 
 * [optional] Setup the database:
 
-        $ bundle exec rake db:create RACK_ENV=development
-        $ bundle exec rake db:migrate RACK_ENV=development
+        $ rake db:create RACK_ENV=development
+        $ rake db:migrate RACK_ENV=development
 
-* If you're not too familiar with `rails` 3, have a look at <http://guides.rubyonrails.org/>.
+  Note that if you don't want to install a mysql server and other dependencies
+  on your machine, you can use one of the `capistrano` tasks that are bundled
+  with the app.
+  
+  For instance, doing a `cap develop` will launch and configure a machine on
+  Grid'5000 with everything required to have a working development
+  environment (adapt the `database.yml` file in consequence).
+
+* If you're not too familiar with `rails` 3, have a look at
+  <http://guides.rubyonrails.org/>.
+
 * Look up the list of available rake tasks:
 
-        $ bundle exec rake -T
+        $ rake -T
+
 
 ## Testing
-* You must have a working MySQL installation.
 
-* Source the file in `spec/fixtures/oar2_2011-01-07.sql` in a local database (e.g. `oar2`, see `config/defaults.yml`). 
-  Must be done only once to create a replica of the OAR database with production data.
+Assuming you have your development environment setup, the only missing step is
+to create a test database, and a fake OAR database.
+
+* Create the test database as follows:
+
+        $ RACK_ENV=test rake db:setup
+
+* Create the fake OAR database as follows:
+
+        $ RACK_ENV=test rake db:oar:setup
   
-* If not already done, create the application test database with:
-
-        $ bundle exec rake db:reset RACK_ENV=test`
+  or `RACK_ENV=test rake db:oar:seed` if the OAR database already exists.
 
 * Launch the tests:
 
-        $ bundle exec rake
+        $ RACK_ENV=test rake
+        
+## Packaging
+
+* Bumping the version number is done as follows (a new changelog entry is
+  automatically generated in `debian/changelog`):
+
+        $ rake package:bump:patch # or: package:bump:minor, package:bump:major
+
+* Building the `.deb` package is easy, since we kindly provide a `capistrano`
+  recipe that will automatically reserve a machine on Grid'5000, deploy a
+  squeeze-based image, upload the latest committed code (`HEAD`) in the
+  current branch, generate a `.deb` package, and download the generated
+  package back to your machine, in the `pkg/` directory.
+
+  Just execute:
+
+        $ cap package
+
+  You can also pass a specific HOST if you wish (in this case it won't reserve
+  a node on Grid'5000):
+
+        $ cap package HOST=...
+
 
 ## Statistics
 * Generate general statistics:
@@ -82,26 +126,6 @@ Please send an email to <cyril.rohr@inria.fr> if you cannot access the code.
 
         $ bundle exec rake test:rcov
         $ open coverage/index.html
-        
-## Packaging
-In the following, we assume you have SSH access to a machine with the debian packaging tools. Let's call it `debian-build`.
-
-* Since we're using `bundler` in our app, let's create a package for the `bundler` gem (to be done only once):
-
-        $ gem install fpm
-        $ fpm -s gem -t deb bundler
-
-* Bump the version number (a new changelog entry is automatically generated in `debian/changelog`):
-
-        $ rake package:bump:patch # or package:bump:minor or package:bump:major
-  
-* Add an entry to the changelog (`debian/changelog`).
-* Now, let's package the app:
-
-        $ rake package:remote_build
-
-This will copy the project to the `debian-build` machine, and launch the build. 
-The generated `.deb` will be copied back at the end of the process in `pkg/`.
 
 ## Authors
 * Cyril Rohr <cyril.rohr@inria.fr>
