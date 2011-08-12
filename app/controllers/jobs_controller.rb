@@ -127,10 +127,20 @@ class JobsController < ApplicationController
       resource_path(job_uid),
       :in, :absolute
     )
-    render  :text => "",
-            :head => :ok,
-            :location => location_uri,
-            :status => 201
+    
+    job = OAR::Job.expanded.find(
+      job_uid, 
+      :include => [:job_types, :job_events, :gantt]
+    )
+    job.links = links_for_item(job)
+    respond_to do |format|
+      format.json {
+        render :json => job,
+        :methods => [:resources_by_type, :assigned_nodes],
+        :location => location_uri,
+        :status => 201
+      }
+    end
   end
 
   protected

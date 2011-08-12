@@ -170,12 +170,9 @@ describe Grid5000::Repository do
     
     describe "async find" do
       it "should defer the execution and return the result" do
-        EM.synchrony do
-          result = EM::Synchrony.sync @repository.async_find(
-            "grid5000/sites/bordeaux/clusters/bordemer/nodes/bordemer-1"
-          )
-          EM.stop
-        end
+        result = EM::Synchrony.sync @repository.async_find(
+          "grid5000/sites/bordeaux/clusters/bordemer/nodes/bordemer-1"
+        )
       end
     end
     

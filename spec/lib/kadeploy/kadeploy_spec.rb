@@ -191,24 +191,20 @@ describe Kadeploy do
         server = Kadeploy::Server.new
         server.should_receive(:connect!).and_return(server)
         server.should_receive(:submit!).and_return("result")
-        EM.synchrony do
-          result = EM::Synchrony.sync server.async_submit!(["some", "args"])
-          result.should == "result"
-          server.exception.should be_nil
-          EM.stop
-        end
+        
+        result = EM::Synchrony.sync server.async_submit!(["some", "args"])
+        result.should == "result"
+        server.exception.should be_nil
       end
       it "should correctly raise errors (if any) in asynchronous operation" do
         server = Kadeploy::Server.new
         server.should_receive(:connect!).and_return(server)
         server.should_receive(:disconnect!)
         server.should_receive(:submit!).and_raise(e = Exception.new("some exception"))
-        EM.synchrony do
-          result = EM::Synchrony.sync server.async_submit!(["some", "args"]) 
-          result.should be_nil
-          server.exception.should == e
-          EM.stop
-        end
+
+        result = EM::Synchrony.sync server.async_submit!(["some", "args"]) 
+        result.should be_nil
+        server.exception.should == e
       end
     end # describe "asynchronous operations"
     

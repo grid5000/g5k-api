@@ -5,14 +5,14 @@ set :puppet, "/tmp/puppet"
 
 set :scm, :git
 
-set :gateway, "crohr@access.lille.grid5000.fr"
+set :gateway, "crohr@access.rennes.grid5000.fr"
 set :user, "root"
 set :ssh_options, {
-  :port => 22, :keys => ["~/.ssh/id_rsa"]
+  :port => 22, :keys => ["~/.ssh/id_rsa"], :forward_agent => true
 }
 set :authorized_keys, "~/.ssh/id_rsa.pub"
 
-set :provisioner, "bundle exec g5k-campaign --site #{ENV['SITE'] || 'rennes'} -a #{authorized_keys} -k #{ssh_options[:keys][0]} -e squeeze-x64-base --no-cleanup -w #{ENV['WALLTIME'] || 7200}"
+set :provisioner, "bundle exec g5k-campaign --site #{ENV['SITE'] || 'rennes'} -a #{authorized_keys} -k #{ssh_options[:keys][0]} -e squeeze-x64-base --name \"#{application}-#{ARGV[0]}\" --dev -w #{ENV['WALLTIME'] || 7200}"
 
 set :pkg_dependencies, %w{libmysqlclient-dev ruby1.9.1-full}
 
@@ -82,5 +82,31 @@ task :develop, :roles => :dev do
   puts "Port forwarding will be cleaned up once you kill this terminal. Please open a new terminal if you want to work on this repo."
   puts "======================================"
   sleep
+end
+
+desc "Launch a development machine."
+task :install, :roles => :app do
+  run "rm -rf #{puppet}"
+  upload "puppet", puppet, :recursive => true, :force => true
+  run "apt-get update && \
+        apt-get install puppet -y && \
+        export http_proxy=proxy:3128 && \
+        puppet #{puppet}/install.pp --modulepath #{puppet}/modules/"
+  
+  remote = roles[:app].servers[0]
+  gateway = connection_factory.gateway_for(remote)
+  canibalized = "api-server.rennes.grid5000.fr"
+  # WARN: this is a bit of a hack, and it can be unsecure to propagate your
+  # g5kadmin key (via the SSH agent) on a Grid'5000 node.
+  puts "======================================"
+  puts "Setting up port forwarding between #{remote}:8888 and #{canibalized}:8888 so that API on #{remote} is able to connect to production api-proxy..."
+   puts "If this process hangs, just kill it. The tunnel will still be created."
+  cmd = "\
+  (ps aux | grep \"ssh -NL 8888:localhost:8888\" | grep -v grep) || \
+  (ssh -NL 8888:localhost:8888 g5kadmin@#{canibalized}) \
+  "
+  puts cmd
+  puts gateway.ssh(remote, user, :forward_agent => true).exec!(cmd)
+  puts "======================================"
 end
 

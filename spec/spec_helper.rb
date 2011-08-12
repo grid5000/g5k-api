@@ -94,6 +94,16 @@ RSpec.configure do |config|
       system "mv #{File.join(@repository_path, '.git')} #{File.join(@repository_path, 'git.rename')}"
     end
   end
+  
+  config.around(:each) do |example|
+    Rails.logger.debug example.metadata[:full_description]
+    EM.synchrony do
+      ActiveRecord::Base.connection_pool.with_connection do
+        example.run
+      end
+      EM.stop
+    end
+  end
 
   # == Mock Framework
   config.mock_with :rspec
