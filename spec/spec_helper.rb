@@ -97,17 +97,12 @@ RSpec.configure do |config|
   
   config.around(:each) do |example|
     Rails.logger.debug example.metadata[:full_description]
-    catched = nil
     EM.synchrony do
       ActiveRecord::Base.connection_pool.with_connection do
-        # catched = catch(:pending_declared_in_example) do
-          example.run
-        # end
+        example.run
       end
       EM.stop
     end
-    # p [:catched, catched]
-    # pending catched if catched.kind_of?(String)
   end
 
   # == Mock Framework
