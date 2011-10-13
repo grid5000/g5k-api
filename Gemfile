@@ -2,7 +2,7 @@ source 'http://rubygems.org'
 source 'http://g5k-campaign.gforge.inria.fr/pkg'
 
 gem 'rake', '~> 0.8.7'
-gem 'rails', '~> 3.0'
+gem 'rails', '~> 3.0.0'
 gem 'eventmachine', 
   # '~> 0.12', 
   # Due to a bug on Debian, we need to use the edge version (~>1.0)

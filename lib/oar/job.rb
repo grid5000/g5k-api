@@ -8,7 +8,7 @@ module OAR
     belongs_to :gantt, :foreign_key => 'assigned_moldable_job', :class_name => 'Gantt'
 
     # There may be a way to do that more cleanly ;-)
-    QUERY_RESOURCES = '
+    QUERY_RESOURCES = Proc.new{ "
       (
         SELECT resources.*
         FROM resources
@@ -31,13 +31,10 @@ module OAR
         INNER JOIN moldable_job_descriptions
           ON gantt_jobs_resources.moldable_job_id = moldable_job_descriptions.moldable_id
           AND jobs.job_id = moldable_job_descriptions.moldable_job_id
-      )
-    '
+      )"
+    }
 
     has_many :resources, :finder_sql => QUERY_RESOURCES
-
-
-
 
     attr_accessor :links
 

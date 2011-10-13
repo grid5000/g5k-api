@@ -100,13 +100,14 @@ RSpec.configure do |config|
     catched = nil
     EM.synchrony do
       ActiveRecord::Base.connection_pool.with_connection do
-        catched = catch(:pending_declared_in_example) do
+        # catched = catch(:pending_declared_in_example) do
           example.run
-        end
+        # end
       end
       EM.stop
     end
-    pending catched if catched.kind_of?(String)
+    # p [:catched, catched]
+    # pending catched if catched.kind_of?(String)
   end
 
   # == Mock Framework
