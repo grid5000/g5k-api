@@ -28,6 +28,7 @@ Api::Application.routes.draw do
   match '/ui/:page' => 'ui#show', :via => [:get]
   match '/ui/visualizations/:page' => 'ui#visualization', :via => [:get]
   
+  match '/notifications' => "notifications#create", :via => [:post]
 
   # You can have the root of your site routed with "root"
   # just remember to delete public/index.html.

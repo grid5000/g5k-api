@@ -7,6 +7,8 @@ defaults: &defaults
   base_uri_in: https://api.grid5000.fr
   base_uri_out: http://localhost:8888
   kadeploy_uri: druby://kadeploy-server:25300
+  xmpp_jid: anotifier@conference.jabber.grid5000.fr
+  xmpp_password:
   oar: &oar
     adapter: em_mysql2
     encoding: utf8
