@@ -130,7 +130,6 @@ describe JobsController do
       )
 
       post :create, :site_id => "rennes", :format => :json
-      p response.body
       response.status.should == 201
       response.body.should == {"key" => "value"}.to_json
       response.location.should == "http://api-in.local/sites/rennes/jobs/961722"
