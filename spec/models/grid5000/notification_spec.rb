@@ -24,7 +24,7 @@ describe Grid5000::Notification do
           'Accept'=>'*/*',
           'Content-Type'=>'application/json',
           'X-Api-User-Privileges'=>'server',
-          'X-Api-User-Cn'=>'g5kapi'
+          'X-Api-User-Cn'=>'g5k-api'
         }
       ).
       to_return(:status => 202)
@@ -41,7 +41,7 @@ describe Grid5000::Notification do
           'Accept'=>'*/*',
           'Content-Type'=>'application/json',
           'X-Api-User-Privileges'=>'server',
-          'X-Api-User-Cn'=>'g5kapi'
+          'X-Api-User-Cn'=>'g5k-api'
         }
       ).
       to_return(:status => 500)

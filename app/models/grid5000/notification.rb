@@ -1,4 +1,9 @@
 module Grid5000
+# Abstracts the way to send notifications by forwarding every notification to
+# the notifications API. Even if this notifications API is located in the same
+# app, it helps decoupling, albeit making the process a bit less efficient.
+# So, use this class from any model/lib/controller other than one related to
+# the notifications API.
 class Notification
   class << self
     attr_accessor :uri
@@ -19,7 +24,7 @@ class Notification
         'Content-Type' => "application/json",
         'Accept' => "*/*",
         'X-Api-User-Privileges' => 'server',
-        'X-Api-User-Cn' => 'g5kapi',
+        'X-Api-User-Cn' => 'g5k-api',
       }
     )
     if http.response_header.status == 202

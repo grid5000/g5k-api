@@ -1,5 +1,6 @@
 require 'uri'
 
+# This is the class that handles notifications sent to the notifications API.
 class Notification
 
   VALID_URI_SCHEMES = %w{http https xmpp mailto}
