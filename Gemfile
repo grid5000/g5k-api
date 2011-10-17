@@ -20,6 +20,10 @@ gem 'syslogger'
 gem 'haml'
 gem 'rack-jsonp'
 
+gem 'blather',
+  :git => 'https://github.com/sprsquish/blather.git',
+  :tag => 'develop'
+
 group :test, :development do
   gem 'webmock'
   gem 'rspec'

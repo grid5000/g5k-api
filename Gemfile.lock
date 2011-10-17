@@ -4,6 +4,17 @@ GIT
   specs:
     eventmachine (1.0.0.beta.4)
 
+GIT
+  remote: https://github.com/sprsquish/blather.git
+  revision: e0f39264724d9910d92ea55bc4d9b38e583235a6
+  tag: develop
+  specs:
+    blather (0.5.8)
+      activesupport (>= 3.0.7)
+      eventmachine (>= 0.12.6)
+      niceogiri (>= 0.0.4)
+      nokogiri (~> 1.4.0)
+
 GEM
   remote: http://rubygems.org/
   remote: http://g5k-campaign.gforge.inria.fr/pkg/
@@ -99,6 +110,9 @@ GEM
     net-ssh-multi (1.1)
       net-ssh (>= 2.1.4)
       net-ssh-gateway (>= 0.99.0)
+    niceogiri (0.0.4)
+      nokogiri (>= 1.4.0)
+    nokogiri (1.4.7)
     polyglot (0.3.2)
     rack (1.2.4)
     rack-cache (1.1)
@@ -176,6 +190,7 @@ DEPENDENCIES
   addressable (~> 2.2)
   autotest
   autotest-growl
+  blather!
   capistrano
   em-http-request (~> 0.2)
   em-synchrony (~> 0.2)

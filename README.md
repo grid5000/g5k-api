@@ -65,7 +65,8 @@ to create a test database, and a fake OAR database.
 
 * Create the test database as follows:
 
-        $ RACK_ENV=test rake db:setup
+        $ RACK_ENV=test rake db:create
+        $ RACK_ENV=test rake db:migrate
 
 * Create the fake OAR database as follows:
 
