@@ -1,3 +1,4 @@
+# encoding: utf-8
 require 'uri'
 
 # This is the class that handles notifications sent to the notifications API.
@@ -30,7 +31,7 @@ class Notification
       if @to.empty?
         @errors.push("'to' must be non-empty")
       else
-        invalid = @to.select{|uri| uri.scheme.nil? || !VALID_URI_SCHEMES.include?(uri.scheme)}.map(&:to_s)
+        invalid = @to.select{|uri| uri.scheme.nil? || !VALID_URI_SCHEMES.include?(uri.scheme) || ["localhost", "127.0.0.1"].include?(uri.host)}.map(&:to_s)
         @errors.push("'to' contains invalid URIs (#{invalid.join(",")})") unless invalid.empty?
       end
     end
@@ -49,24 +50,38 @@ class Notification
   def process_uri(uri)
     Timeout.timeout(5) do
       case uri.scheme
+      # HTTP processing
       when /http/
-        # RestClient.post(notification.uri.to_s, notification.body.to_s, :content_type => "application/json") unless notification.uri.host =~ /localhost/i
+        http = EM::HttpRequest.new(uri.to_s).post(
+          :timeout => 5,
+          :body => body.to_s,
+          :head => {
+            'Content-Type' => "text/plain",
+            'Accept' => "*/*"
+          }
+        )
+        Rails.logger.info "Sent notification, received status=#{http.response_header.status}: #{http.response.inspect}"
+      # EMAIL processing
       when /mailto/
-        # subject = notification.uri.headers.detect{|array| array.first == "subject"}
-        # subject = subject.nil? ? "Grid5000 Notification" : subject.last
-        # body_header = notification.uri.headers.detect{|array| array.first == "body"}
-        # body_header = body_header.nil? ? "" : body_header.last
-        # email_options = {
-        #   :to => notification.uri.to, :from => "notifications@api.grid5000.fr", :subject => subject.to_s,
-        #   :body => "#{body_header.to_s}#{notification.body.to_s}",
-        #   :via => :smtp,
-        #   :smtp => {
-        #   :host     => "mail.#{site}.grid5000.fr",
-        #   :domain => "api-server.#{site}.grid5000.fr"
-        # }}
-        # logger.info "[#{pid}] [#{job.hash}] Sending email with following options: #{email_options.inspect}"
-        # Pony.mail(email_options)
-        # job.delete
+        subject = uri.headers.detect{|array| array.first == "subject"}
+        subject = subject.nil? ? "Grid5000 Notification" : subject.last
+        body_header = uri.headers.detect{|array| array.first == "body"}
+        body_header = body_header.nil? ? "" : body_header.last
+
+        email = {
+          :domain   => Rails.my_config(:smtp_domain),
+          :host     => Rails.my_config(:smtp_host),
+          :port     => Rails.my_config(:smtp_port),
+          :starttls => false,
+          :from     => Rails.my_config(:smtp_from),
+          :to       => [uri.to],
+          :header   => {"Subject" => subject},
+          :body     => "#{body_header.to_s}#{body.to_s}"
+        }
+        Rails.logger.info "Sending email with following options: #{email.inspect}"
+        result = EM::Synchrony.sync(EM::Protocols::SmtpClient.send(email))
+        Rails.logger.info "Sent email. Result=#{result.inspect}"
+      # XMPP processing
       when /xmpp/
         Rails.logger.info "XMPP URI, processing..."
 
@@ -92,13 +107,12 @@ class Notification
 
           Rails.logger.info "Sending stanza: #{msg.to_s}..."
           XMPP << msg
-
         }
 
         XMPP.run
       end
     end
-  rescue RestClient::Exception, Timeout::Error, StandardError => e
+  rescue Timeout::Error, StandardError => e
     Rails.logger.warn "Failed to send notification #{self.inspect} : #{e.class.name} - #{e.message}"
     Rails.logger.debug e.backtrace.join(";")
   end

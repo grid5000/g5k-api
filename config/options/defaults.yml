@@ -7,8 +7,14 @@ defaults: &defaults
   base_uri_in: https://api.grid5000.fr
   base_uri_out: http://localhost:8888
   kadeploy_uri: druby://kadeploy-server:25300
+  # XMPP settings
   xmpp_jid: anotifier@conference.jabber.grid5000.fr
   xmpp_password:
+  # SMTP settings
+  smtp_domain: api-server-devel.rennes.grid5000.fr
+  smtp_host: localhost
+  smtp_port: 25
+  smtp_from: notifications@api.grid5000.fr
   oar: &oar
     adapter: em_mysql2
     encoding: utf8
@@ -27,6 +33,8 @@ development:
   kadeploy_uri: druby://localhost:25300
   notifications_uri: https://localhost:3443/sid/notifications
   reference_repository_path: ~/dev/g5k-api/reference-repository
+  smtp_host: localhost
+  smtp_port: 2525
   oar:
     <<: *oar
     host: 127.0.0.1
@@ -38,6 +46,8 @@ test:
   base_uri_out: http://api-out.local
   reference_repository_path: spec/fixtures/reference-repository
   notifications_uri: http://fake.api/sid/notifications
+  smtp_host: localhost
+  smtp_port: 2525
   oar:
     <<: *oar
     host: 127.0.0.1
