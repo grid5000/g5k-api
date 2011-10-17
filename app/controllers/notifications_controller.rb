@@ -1,10 +1,10 @@
-# 
+#
 #  notifications_controller.rb
 #  g5k-api
-#  
+#
 #  Created by Cyril Rohr on 2011-10-10.
 #  Copyright 2011 Cyril Rohr. All rights reserved.
-# 
+#
 
 class NotificationsController < ApplicationController
 
@@ -13,12 +13,8 @@ class NotificationsController < ApplicationController
     ensure_authenticated!
     @notification = Notification.new(params)
     if @notification.valid?
-      EM.add_timer(0) { 
-        p :here
-        Fiber.new{ 
-          p :there
-          @notification.deliver 
-        }.resume 
+      EM.add_timer(0) {
+        Fiber.new{ @notification.deliver }.resume
       }
       head    :accepted
     else
