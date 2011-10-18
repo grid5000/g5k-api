@@ -128,5 +128,14 @@ to create a test database, and a fake OAR database.
         $ bundle exec rake test:rcov
         $ open coverage/index.html
 
+## Maintenance
+
+* <https://www.grid5000.fr/mediawiki/index.php/API_Maintenance>;
+
+* There exist monit recipes that send emails when an alert is raised. At the
+  time of writing (2011-10-18), these alerts are sent to
+  <cyril.rohr@irisa.fr>. You might want to change that.
+
+
 ## Authors
 * Cyril Rohr <cyril.rohr@inria.fr>
