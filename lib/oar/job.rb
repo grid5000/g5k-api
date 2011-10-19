@@ -38,6 +38,16 @@ module OAR
 
     attr_accessor :links
 
+    def self.list(params = {})
+      jobs = self.expanded.order("submission_time DESC")
+      jobs = jobs.where(:job_user => params[:user]) unless params[:user].blank?
+      jobs = jobs.where(:job_name => params[:name]) unless params[:name].blank?
+      jobs = jobs.where(:project => params[:project]) unless params[:project].blank?
+      jobs = jobs.where(:state => params[:state].capitalize) unless params[:state].blank?
+      jobs = jobs.where(:queue_name => params[:queue]) if params[:queue]
+      jobs
+    end
+
     def state
       value = read_attribute(:state)
       value.downcase! unless value.nil?

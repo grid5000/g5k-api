@@ -48,6 +48,13 @@ describe JobsController do
       json['items'].length.should == 5
       json['items'].map{|i| i['uid']}.should == @job_uids.slice(10,5)
     end
+    it "should correctly deal with other filters" do
+      params = {:user => 'crohr', :name => 'whatever'}
+      OAR::Job.should_receive(:list).with(hash_including(params)).
+        and_return(OAR::Job.limit(5))
+      get :index, params.merge(:site_id => "rennes", :format => :json)
+      response.status.should == 200
+    end
   end # describe "GET /sites/{{site_id}}/jobs"
 
   describe "GET /sites/{{site_id}}/jobs/{{id}}" do

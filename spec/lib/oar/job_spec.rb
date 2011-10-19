@@ -1,6 +1,17 @@
 require 'spec_helper'
 
 describe OAR::Job do
+  it "should list the expanded jobs, filtered" do
+    jobs = mock("jobs")
+    OAR::Job.should_receive(:expanded).and_return(jobs)
+    jobs.should_receive(:order).with("submission_time DESC").and_return(jobs)
+    jobs.should_receive(:where).with(:job_user => "crohr").and_return(jobs)
+    jobs.should_receive(:where).with(:job_name => "whatever").and_return(jobs)
+    jobs.should_receive(:where).with(:queue_name => "default").and_return(jobs)
+    OAR::Job.list(:user => 'crohr', :name => 'whatever', :queue => 'default').
+      should == jobs
+  end
+  
   it "should fetch a job, and have the expected methods" do
     job = OAR::Job.first
     %w{user name queue uid state walltime}.each do |method|

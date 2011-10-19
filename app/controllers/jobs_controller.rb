@@ -9,11 +9,7 @@ class JobsController < ApplicationController
     offset = [(params[:offset] || 0).to_i, 0].max
     limit = [(params[:limit] || LIMIT).to_i, LIMIT_MAX].min
 
-    jobs = OAR::Job.expanded.order("submission_time DESC")
-    jobs = jobs.where(:job_user => params[:user]) if params[:user]
-    jobs = jobs.where(:state => params[:state].capitalize) unless params[:state].blank?
-    jobs = jobs.where(:queue_name => params[:queue]) if params[:queue]
-
+    jobs = OAR::Job.list(params)
     total = jobs.count
 
     jobs = jobs.offset(offset).limit(limit).find(
