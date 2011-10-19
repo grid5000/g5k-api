@@ -46,4 +46,29 @@ describe OAR::Resource do
     OAR::Resource.status(:clusters => ['paradent', 'paramount']).keys.
       map{|n| n.split("-")[0]}.uniq.sort.should == ['paradent', 'paramount']
   end
+  
+  describe "standby state" do
+    before do
+      # resource with absent state
+      @cobayes = OAR::Resource.
+        find_all_by_network_address('paramount-2.rennes.grid5000.fr')
+      @cobayes.each {|r| 
+        r.update_attribute(
+          :available_upto, OAR::Resource::STANDBY_AVAILABLE_UPTO
+        ).should be_true
+      }
+    end
+    
+    after do
+      @cobayes.each {|r| 
+        r.update_attribute(:available_upto, 0).should be_true
+      }
+    end
+    
+    it "should return a stanby node" do
+      OAR::Resource.status.select do |node, status|
+        status[:hard] == "standby"
+      end.map{|(node, status)| node}.should == ["paramount-2.rennes.grid5000.fr"]
+    end
+  end
 end # describe OAR::Resource
