@@ -1,3 +1,9 @@
+g5k-api (3.0.0-1) unstable; urgency=low
+
+  * c4fea1a Fix packaging task.
+
+ -- Cyril Rohr <cyril.rohr@inria.fr>  Thu, 20 Oct 2011 14:53:27 +0200
+
 g5k-api (2.2.11-1) unstable; urgency=low
 
   * 96b4651 Tag process name.
