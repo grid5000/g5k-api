@@ -6,6 +6,8 @@ NAME = "g5k-api"
 BUILD_MACHINE = ENV['BUILD_MACHINE'] || "debian-build"
 USER_NAME = `git config --get user.name`.chomp
 USER_EMAIL = `git config --get user.email`.chomp
+BUNDLER_VERSION = "1.0.15"
+
 require VERSION_FILE
 
 def bump(index)  
@@ -46,14 +48,8 @@ def bump(index)
   puts "Generated changelog for version #{new_version}."
   unless ENV['NOCOMMIT']
     puts "Committing changelog and version file..."
-    run "git commit -m 'v#{new_version}' #{CHANGELOG_FILE} #{VERSION_FILE}"
+    sh "git commit -m 'v#{new_version}' #{CHANGELOG_FILE} #{VERSION_FILE}"
   end
-end
-
-
-def run(cmd)
-  puts cmd
-  system cmd
 end
 
 namespace :package do
@@ -62,13 +58,20 @@ namespace :package do
     # remove previous versions
     rm_rf "pkg/#{NAME}_*.deb"
   end
-
+  
   desc "Bundle the dependencies for the current platform"
   task :bundle do
-    rm_rf "vendor"
-    run "PATH=/var/lib/gems/1.9.1/bin:$PATH bundle install --without test development"
-    run "gem install bundler --version 1.0.9 -i vendor/ruby/1.9.1/"
-    rm_rf "vendor/ruby/1.9.1/cache"
+    %w{bin gems specifications}.each{|dir|
+      rm_rf "vendor/ruby/1.9.1/#{dir}"
+    }
+    # Install dependencies
+    sh "which bundle || gem install bundler --version #{BUNDLER_VERSION}"
+    sh "bundle install --deployment"
+    # Vendor bundler
+    sh "gem install bundler --no-ri --no-rdoc --version #{BUNDLER_VERSION} -i vendor/bundle/ruby/1.9.1/"
+    %w{cache doc}.each{|dir|
+      rm_rf "vendor/bundle/ruby/1.9.1/#{dir}"
+    }
   end
 
   namespace :bump do
@@ -88,28 +91,10 @@ namespace :package do
 
   desc "Build the binary package"
   task :build do
-    run "dpkg-buildpackage -us -uc -d"
+    sh "dpkg-buildpackage -us -uc -d"
   end
 
   desc "Generates the .deb"
   task :debian => [:setup, :bundle, :build]
-
-  desc "Execute the build process on a machine called `#{BUILD_MACHINE}`"
-  task :remote_build => :setup do
-    run "ssh #{BUILD_MACHINE} 'mkdir -p ~/dev/#{NAME}; rm ~/dev/*.deb; sudo date -s \"#{Time.now.to_s}\"'"
-    run "rsync -r -p . #{BUILD_MACHINE}:~/dev/#{NAME}"
-    run "ssh #{BUILD_MACHINE} 'cd ~/dev/#{NAME} && PATH=/var/lib/gems/1.9.1/bin:$PATH rake -f lib/tasks/packaging.rake package:debian'"
-    run "scp #{BUILD_MACHINE}:~/dev/#{NAME}_*.deb pkg/" if $?.exitstatus==0
-  end
-
-  desc "Uploads the .deb on apt.grid5000.fr and generate the index"
-  task :release do
-    run "ssh apt.grid5000.fr 'sudo mkdir -p /var/www/#{NAME} && sudo chown g5kadmin /var/www/#{NAME}'"
-    run "scp pkg/*.deb apt.grid5000.fr:/var/www/#{NAME}/"
-    run "ssh apt.grid5000.fr 'cd /var/www/#{NAME} && sudo dpkg-scanpackages . | gzip -f9 > Packages.gz'" if $?.exitstatus==0
-  end
-
-  desc "Remotely build the app, then release them on apt.grid5000.fr"
-  task :full => [:remote_build, :release]
 end
 

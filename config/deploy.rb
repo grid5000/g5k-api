@@ -6,7 +6,7 @@ set :puppet, "/tmp/puppet"
 set :scm, :git
 
 set :gateway, "crohr@access.rennes.grid5000.fr"
-set :user, "root"
+set :user, ENV['REMOTE_USER'] || "root"
 set :ssh_options, {
   :port => 22, :keys => ["~/.ssh/id_rsa"], :forward_agent => true
 }
@@ -57,9 +57,9 @@ task :release, :roles => :apt do
   run "mkdir -p #{apt}"
   upload("pkg/#{latest}", "#{apt}/#{latest}")
   run "cd #{apt} && \
-        apt-get update && \
-        apt-get install dpkg-dev -y && \
-        dpkg-scanpackages . | gzip -f9 > Packages.gz"
+        #{sudo} apt-get update && \
+        #{sudo} apt-get install dpkg-dev -y && \
+        #{sudo} dpkg-scanpackages . | gzip -f9 > Packages.gz"
 end
 
 desc "Launch a development machine."
