@@ -1,3 +1,31 @@
+g5k-api (2.2.11-1) unstable; urgency=low
+
+  * 96b4651 Tag process name.
+  * 72eebc5 Added missing filters for GET /jobs.
+  * 41bc3d1 Added copyright info in LICENSE.
+  * f8cde54 Added support for standby state.
+  * 6ca7d56 Added instructions for maintenance.
+  * ea388dc Add support for HTTP and SMTP notifications.
+  * 2dcfa76 Clarify purpose of the two Notification models.
+  * 17a2f5e Fix minor issues for XMPP notifications.
+  * 8a844b8 Adding RackDebugger to log request head and body.
+  * a8138e8 First pass at XMPP notifications using EventMachine.
+  * 8e59904 Preparing notifications.
+  * 2ea5062 Removed useless lines.
+  * 631ccb4 Ran bundle update.
+  * 240e509 Remove parenthesis from Gemfile.
+  * 8114e7c Fix issue with pending tests.
+  * 84cdeb2 Small changes to oar database import task.
+  * 4f90581 Small improvement to capistrano recipe.
+  * 3b44102 Updated tests to remove EM.synchrony{... EM.stop}; More capistrano/puppet goodness.
+  * cd9c967 Adding capistrano tasks for easy packaging, development environment installation, and APT release.
+  * 29d39b1 Use HTTP URI to fetch eventmachine git repo.
+  * 8f4ae2b Now use mysql2 gem.
+  * 372ee63 Add proper require in controllers.
+  * 102df4b Redirect /ui/events to https://www.grid5000.fr/status
+
+ -- Cyril Rohr <cyril.rohr@inria.fr>  Thu, 20 Oct 2011 14:50:44 +0200
+
 g5k-api (2.1.11-1) unstable; urgency=low
 
   * 639fa0c Create g5k-api user, and launch daemon as g5k-api.
