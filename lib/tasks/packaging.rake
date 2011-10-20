@@ -65,10 +65,10 @@ namespace :package do
       rm_rf "vendor/ruby/1.9.1/#{dir}"
     }
     # Install dependencies
-    sh "which bundle || gem install bundler --version #{BUNDLER_VERSION}"
+    sh "which bundle || gem1.9.1 install bundler --version #{BUNDLER_VERSION}"
     sh "bundle install --deployment --without test development"
     # Vendor bundler
-    sh "gem install bundler --no-ri --no-rdoc --version #{BUNDLER_VERSION} -i vendor/bundle/ruby/1.9.1/"
+    sh "gem1.9.1 install bundler --no-ri --no-rdoc --version #{BUNDLER_VERSION} -i vendor/bundle/ruby/1.9.1/"
     %w{cache doc}.each{|dir|
       rm_rf "vendor/bundle/ruby/1.9.1/#{dir}"
     }

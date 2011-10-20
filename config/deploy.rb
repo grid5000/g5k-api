@@ -31,7 +31,7 @@ desc "Package the app as a debian package, on a remote machine."
 task :package, :roles => :pkg do
   run "export http_proxy=proxy:3128 && \
         apt-get update && \
-        apt-get install #{pkg_dependencies.join(" ")} git-core dh-make dpkg-dev -y && \
+        apt-get install #{pkg_dependencies.join(" ")} git-core dh-make dpkg-dev libxml2-dev libxslt-dev -y && \
         gem1.9.1 install rake bundler --no-ri --no-rdoc && \
         rm -rf /tmp/#{application}*"
 
