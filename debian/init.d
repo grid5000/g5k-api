@@ -1,14 +1,14 @@
 #! /bin/sh
 #
-# skeleton	example file to build /etc/init.d/ scripts.
-#		This file should be used to construct scripts for /etc/init.d.
-#
-#		Written by Miquel van Smoorenburg <miquels@cistron.nl>.
-#		Modified for Debian
-#		by Ian Murdock <imurdock@gnu.ai.mit.edu>.
-#               Further changes by Javier Fernandez-Sanguino <jfs@debian.org>
-#
-# Version:	@(#)skeleton  1.9  26-Feb-2001  miquels@cistron.nl
+### BEGIN INIT INFO
+# Provides:          g5k-api
+# Required-Start:    $remote_fs $syslog
+# Required-Stop:     $remote_fs $syslog
+# Default-Start:     2 3 4 5
+# Default-Stop:      0 1 6
+# Short-Description: Start g5k-api HTTP daemon at boot time.
+# Description:       Enable service provided by g5k-api.
+### END INIT INFO
 #
 
 PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
