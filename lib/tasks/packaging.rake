@@ -8,9 +8,12 @@ USER_NAME = `git config --get user.name`.chomp
 USER_EMAIL = `git config --get user.email`.chomp
 require VERSION_FILE
 
-def bump(index)
+def bump(index)  
   fragments = Grid5000::VERSION.split(".")
   fragments[index] = fragments[index].to_i+1
+  ((index+1)..2).each{|i|
+    fragments[i] = 0
+  }
   new_version = fragments.join(".")
 
   changelog = File.read(CHANGELOG_FILE)
