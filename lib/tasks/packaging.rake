@@ -66,7 +66,7 @@ namespace :package do
     }
     # Install dependencies
     sh "which bundle || gem install bundler --version #{BUNDLER_VERSION}"
-    sh "bundle install --deployment"
+    sh "bundle install --deployment --without test development"
     # Vendor bundler
     sh "gem install bundler --no-ri --no-rdoc --version #{BUNDLER_VERSION} -i vendor/bundle/ruby/1.9.1/"
     %w{cache doc}.each{|dir|
