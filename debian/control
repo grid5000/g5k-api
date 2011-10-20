@@ -2,12 +2,12 @@ Source: g5k-api
 Section: unknown
 Priority: extra
 Maintainer: Cyril Rohr <cyril.rohr@inria.fr>
-Build-Depends: debhelper (>= 7), libmysqlclient15-dev
+Build-Depends: debhelper (>= 7), libmysqlclient15-dev, libxml2-dev, libxslt-dev
 Standards-Version: 3.7.3
 Homepage: https://api.grid5000.fr
 
 Package: g5k-api
 Architecture: amd64
-Depends: ${shlibs:Depends}, ${misc:Depends}, ruby1.9.1-full, git-core
+Depends: ${shlibs:Depends}, ${misc:Depends}, ruby1.9.1-full, git-core, libxml2, libxslt
 Description: Grid'5000 API
  The API built on top of the Grid'5000 tools.
