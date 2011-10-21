@@ -30,7 +30,7 @@ case "$1" in
         if ! getent passwd $NAME > /dev/null; then
           adduser --no-create-home --system --group $NAME
         fi
-        chown $NAME.$NAME /etc/$NAME/*
+        chown -R $NAME.$NAME /etc/$NAME/
     ;;
 
     abort-upgrade|abort-remove|abort-deconfigure)
