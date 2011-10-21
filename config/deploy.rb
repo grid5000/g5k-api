@@ -14,7 +14,7 @@ set :authorized_keys, "~/.ssh/id_rsa.pub"
 
 set :provisioner, "bundle exec g5k-campaign --site #{ENV['SITE'] || 'rennes'} -a #{authorized_keys} -k #{ssh_options[:keys][0]} -e squeeze-x64-base --name \"#{application}-#{ARGV[0]}\" --no-submit --no-deploy --no-cleanup -w #{ENV['WALLTIME'] || 7200}"
 
-set :pkg_dependencies, %w{libmysqlclient-dev ruby1.9.1-full}
+set :pkg_dependencies, %w{libmysqlclient-dev ruby1.9.1-full libxml2-dev libxslt-dev}
 
 role :apt, ENV['HOST'] || 'apt.grid5000.fr'
 role :app do
@@ -29,9 +29,11 @@ end
 
 desc "Package the app as a debian package, on a remote machine."
 task :package, :roles => :pkg do
-  run "export http_proxy=proxy:3128 && \
+  
+  run "date -s \"#{Time.now.to_s}\" && \
+        export http_proxy=proxy:3128 && \
         apt-get update && \
-        apt-get install #{pkg_dependencies.join(" ")} git-core dh-make dpkg-dev libxml2-dev libxslt-dev -y && \
+        apt-get install #{pkg_dependencies.join(" ")} git-core dh-make dpkg-dev -y && \
         gem1.9.1 install rake bundler --no-ri --no-rdoc && \
         rm -rf /tmp/#{application}*"
 
