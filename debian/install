@@ -1,4 +1,5 @@
-config/*.yml /etc/g5k-api
+config/*.yml etc/g5k-api/
+config opt/local/g5k-api
 .bundle opt/local/g5k-api
 Gemfile opt/local/g5k-api
 Gemfile.lock opt/local/g5k-api
@@ -6,10 +7,6 @@ config.ru opt/local/g5k-api
 Rakefile opt/local/g5k-api
 app opt/local/g5k-api
 bin opt/local/g5k-api
-config/*.rb opt/local/g5k-api/config
-config/environments opt/local/g5k-api/config
-config/initializers opt/local/g5k-api/config
-config/locales opt/local/g5k-api/config
 db opt/local/g5k-api
 lib opt/local/g5k-api
 public opt/local/g5k-api
