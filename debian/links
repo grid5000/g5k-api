@@ -1,0 +1,2 @@
+etc/g5k-api/database.yml opt/local/g5k-api/config/database.yml
+etc/g5k-api/defaults.yml opt/local/g5k-api/config/defaults.yml

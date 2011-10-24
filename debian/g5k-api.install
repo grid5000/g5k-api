@@ -1,4 +1,4 @@
-config/options/* /etc/g5k-api
+config/*.yml /etc/g5k-api
 .bundle opt/local/g5k-api
 Gemfile opt/local/g5k-api
 Gemfile.lock opt/local/g5k-api
