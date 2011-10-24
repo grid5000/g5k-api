@@ -13,7 +13,7 @@ class JobsController < ApplicationController
     total = jobs.count
 
     jobs = jobs.offset(offset).limit(limit).find(
-      :all, 
+      :all,
       :include => [:job_types, :job_events, :gantt]
     )
 
@@ -29,6 +29,7 @@ class JobsController < ApplicationController
     }
 
     respond_to do |format|
+      format.g5kjson { render :json => result }
       format.json { render :json => result }
     end
   end
@@ -37,15 +38,15 @@ class JobsController < ApplicationController
   def show
     allow :get, :delete; vary_on :accept
     job = OAR::Job.expanded.find(
-      params[:id], 
+      params[:id],
       :include => [:job_types, :job_events, :gantt]
     )
     job.links = links_for_item(job)
+
+    render_opts = {:methods => [:resources_by_type, :assigned_nodes]}
     respond_to do |format|
-      format.json {
-        render :json => job,
-        :methods => [:resources_by_type, :assigned_nodes]
-      }
+      format.g5kjson { render render_opts.merge(:json => job) }
+      format.json { render render_opts.merge(:json => job)  }
     end
   end
 
@@ -123,19 +124,21 @@ class JobsController < ApplicationController
       resource_path(job_uid),
       :in, :absolute
     )
-    
+
     job = OAR::Job.expanded.find(
-      job_uid, 
+      job_uid,
       :include => [:job_types, :job_events, :gantt]
     )
     job.links = links_for_item(job)
+    
+    render_opts = {
+      :methods => [:resources_by_type, :assigned_nodes],
+      :location => location_uri,
+      :status => 201
+    }
     respond_to do |format|
-      format.json {
-        render :json => job,
-        :methods => [:resources_by_type, :assigned_nodes],
-        :location => location_uri,
-        :status => 201
-      }
+      format.g5kjson { render render_opts.merge(:json => job) }
+      format.json { render render_opts.merge(:json => job) }
     end
   end
 
@@ -157,12 +160,12 @@ class JobsController < ApplicationController
       {
         "rel" => "self",
         "href" => uri_to(resource_path(item.uid)),
-        "type" => media_type(:json)
+        "type" => media_type(params[:format])
       },
       {
         "rel" => "parent",
         "href" => uri_to(parent_path),
-        "type" => media_type(:json)
+        "type" => media_type(params[:format])
       }
     ]
   end
@@ -172,12 +175,12 @@ class JobsController < ApplicationController
       {
         "rel" => "self",
         "href" => uri_to(collection_path),
-        "type" => media_type(:json_collection)
+        "type" => media_type(params[:format])
       },
       {
         "rel" => "parent",
         "href" => uri_to(parent_path),
-        "type" => media_type(:json)
+        "type" => media_type(params[:format])
       }
     ]
   end

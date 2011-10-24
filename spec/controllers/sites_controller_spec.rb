@@ -86,7 +86,7 @@ describe SitesController do
       expected_url = "http://api-out.local:80/sites/rennes/clusters?branch=testing"
       stub_request(:get, expected_url).
         with(
-          :headers => {'Accept' => media_type(:json_collection)}
+          :headers => {'Accept' => media_type(:json)}
         ).
         to_return(
           :status => 400,
@@ -101,7 +101,7 @@ describe SitesController do
       expected_url = "http://api-out.local:80/sites/rennes/clusters?branch=master"
       stub_request(:get, expected_url).
         with(
-          :headers => {'Accept' => media_type(:json_collection)}
+          :headers => {'Accept' => media_type(:json)}
         ).
         to_return(:body => fixture("grid5000-rennes-clusters.json"))
       get :status, :id => "rennes", :format => :json

@@ -31,7 +31,7 @@ describe JobsController do
         {
           "rel"=>"self",
           "href"=>"/sites/rennes/jobs",
-          "type"=>media_type(:json_collection)
+          "type"=>media_type(:json)
         },
         {
           "rel"=>"parent",

@@ -12,7 +12,7 @@ class ClustersController < ResourcesController
     links = super(item)
     links.push({
       "rel" => "nodes",
-      "type" => media_type(:json_collection),
+      "type" => media_type(params[:format]),
       "href" => uri_to(File.join(resource_path(item["uid"]), "nodes"))
     })
     links

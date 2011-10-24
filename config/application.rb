@@ -16,6 +16,7 @@ require 'em-http'
 require 'addressable/uri'
 require 'rack/fiber_pool'
 require 'rack/jsonp'
+require 'rack/fuzzy_accept'
 require 'rack/lint'
 
 module Api

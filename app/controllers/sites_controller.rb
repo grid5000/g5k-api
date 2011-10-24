@@ -11,7 +11,7 @@ class SitesController < ResourcesController
     http = EM::HttpRequest.new(url).get(
       :query   => {'branch' => params[:branch] || 'master'},
       :timeout => 5,
-      :head    => {'Accept' => media_type(:json_collection)}
+      :head    => {'Accept' => media_type(:json)}
     )
     continue_if!(http, :is => [200])
     valid_clusters = JSON.parse(http.response)['items'].map{|i| i['uid']}
@@ -22,19 +22,18 @@ class SitesController < ResourcesController
         {
           "rel" => "self",
           "href" => uri_to(status_site_path(params[:id])),
-          "type" => media_type(:json)
+          "type" => media_type(params[:format])
         },
         {
           "rel" => "parent",
           "href" => uri_to(site_path(params[:id])),
-          "type" => media_type(:json)
+          "type" => media_type(params[:format])
         }
       ]
     }
     respond_to do |format|
-      format.json {
-        render :json => result
-      }
+      format.g5kjson { render :json => result }
+      format.json { render :json => result }
     end
   end
   
@@ -49,7 +48,7 @@ class SitesController < ResourcesController
     %w{clusters environments jobs deployments metrics status}.each do |rel|
       links.push({
         "rel" => rel,
-        "type" => media_type(:json_collection),
+        "type" => media_type(params[:format]),
         "href" => uri_to(File.join(resource_path(item["uid"]), rel))
       })
     end

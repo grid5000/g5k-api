@@ -31,6 +31,7 @@ class DeploymentsController < ApplicationController
     }
     
     respond_to do |format|
+      format.g5kjson { render :json => result }
       format.json { render :json => result }
     end
         
@@ -45,6 +46,7 @@ class DeploymentsController < ApplicationController
     item.links = links_for_item(item)
     
     respond_to do |format|
+      format.g5kjson { render :json => item }
       format.json { render :json => item }
     end
   end
@@ -154,12 +156,12 @@ class DeploymentsController < ApplicationController
       {
         "rel" => "self",
         "href" => uri_to(resource_path(item.uid)),
-        "type" => media_type(:json)
+        "type" => media_type(params[:format])
       },
       {
         "rel" => "parent",
         "href" => uri_to(parent_path),
-        "type" => media_type(:json)
+        "type" => media_type(params[:format])
       }      
     ]
   end
@@ -169,12 +171,12 @@ class DeploymentsController < ApplicationController
       {
         "rel" => "self",
         "href" => uri_to(collection_path),
-        "type" => media_type(:json_collection)
+        "type" => media_type(params[:format])
       },
       {
         "rel" => "parent",
         "href" => uri_to(parent_path),
-        "type" => media_type(:json)
+        "type" => media_type(params[:format])
       }      
     ]
   end

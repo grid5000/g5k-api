@@ -58,6 +58,7 @@ class ResourcesController < ApplicationController
     etag object.hash
 
     respond_to do |format|
+      format.g5kjson { render :json => object }
       format.json { render :json => object }
     end
   end
@@ -80,22 +81,22 @@ class ResourcesController < ApplicationController
     links = []
     links.push({
       "rel" => "self",
-      "type" => media_type(:json),
+      "type" => media_type(params[:format]),
       "href" => uri_to(resource_path(item["uid"]))
     })
     links.push({
       "rel" => "parent",
-      "type" => media_type(:json),
+      "type" => media_type(params[:format]),
       "href" => uri_to(parent_path)
     })
     links.push({
       "rel" => "version",
-      "type" => media_type(:json),
+      "type" => media_type(params[:format]),
       "href" => uri_to(File.join(resource_path(item["uid"]), "versions", item["version"]))
     })
     links.push({
       "rel" => "versions",
-      "type" => media_type(:json_collection),
+      "type" => media_type(params[:format]),
       "href" => uri_to(File.join(resource_path(item["uid"]), "versions"))
     })
     links
@@ -106,12 +107,12 @@ class ResourcesController < ApplicationController
     links = []
     links.push({
       "rel" => "self",
-      "type" => media_type(:json_collection),
+      "type" => media_type(params[:format]),
       "href" => uri_to(collection_path)
     })
     links.push({
       "rel" => "parent",
-      "type" => media_type(:json),
+      "type" => media_type(params[:format]),
       "href" => uri_to(parent_path)
     }) unless parent_path.blank?
     links

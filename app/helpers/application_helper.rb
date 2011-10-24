@@ -43,12 +43,9 @@ module ApplicationHelper
   end
 
   def media_type(type)
-    case type
-    when :json
-      "application/json"
-    when :json_collection  
-      # "application/vnd.grid5000+json"
-      "application/json"
+    t = Mime::Type.lookup_by_extension(type)
+    if t
+      t.to_s
     end
   end
 

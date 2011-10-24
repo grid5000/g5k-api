@@ -20,12 +20,12 @@ class VersionsController < ApplicationController
       {
         "rel" => "self", 
         "href" => uri_to("#{resource_path}/versions"), 
-        "type" => media_type(:json_collection)
+        "type" => media_type(params[:format])
       },
       {
         "rel" => "parent", 
         "href" => uri_to("#{resource_path.split("/")[0..-2].join("/")}"), 
-        "type" => media_type(:json)
+        "type" => media_type(params[:format])
       }
     ]
     
@@ -76,12 +76,12 @@ class VersionsController < ApplicationController
         {
           "rel" => "self", 
           "href" => uri_to("#{resource_path}/versions/#{commit.id}"), 
-          "type" => media_type(:json)
+          "type" => media_type(params[:format])
         },
         {
           "rel" => "parent", 
           "href" => uri_to(resource_path), 
-          "type" => media_type(:json)
+          "type" => media_type(params[:format])
         }
       ] 
     }
