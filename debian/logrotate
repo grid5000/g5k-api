@@ -1,0 +1,10 @@
+# g5k-api logs:
+/var/log/g5k-api/*.log {
+  daily
+  missingok
+  rotate 14
+  compress
+  delaycompress
+  notifempty
+  copytruncate
+}

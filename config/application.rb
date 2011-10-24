@@ -45,8 +45,7 @@ module Api
 
     # Configure sensitive parameters which will be filtered from the log file.
     config.filter_parameters += [:password]
-    p Rails.root
-p [File.join(Rails.root, "config", "defaults.yml")]
+
     CONFIG = YAML.load_file(File.join(Rails.root, "config", "defaults.yml"))[Rails.env]
   end
 end
