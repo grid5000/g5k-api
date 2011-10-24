@@ -5,6 +5,7 @@ class ApplicationController < ActionController::Base
   before_filter :log_body, :only => [:create, :update, :destroy]
   before_filter :lookup_credentials
   before_filter :parse_json_payload, :only => [:create, :update, :destroy]
+  before_filter :set_default_format
   
   class ClientError < ActionController::ActionControllerError; end
   class ServerError < ActionController::ActionControllerError; end
@@ -24,6 +25,14 @@ class ApplicationController < ActionController::Base
   
   
   protected
+  def set_default_format
+    params[:format] ||= begin
+      first_mime_type = (
+        (request.accept || "").split(",")[0] || ""
+      ).split(";")[0]
+      Mime::Type.lookup(first_mime_type).to_sym || :g5kjson
+    end
+  end
   
   def lookup_credentials
     invalid_values = ["", "unknown", "(unknown)"]
