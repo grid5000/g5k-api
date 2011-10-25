@@ -1,3 +1,23 @@
+g5k-api (3.0.1-1) unstable; urgency=low
+
+  * c1ba19f Small fix to install file.
+  * 0dafab5 More debian packaging goodness.
+  * 1d90c82 No longer storing config files in config/options/
+  * 47b0a36 Set default params[:format] for every request.
+  * 633bd53 Correctly handle application/vnd.grid5000+json and application/json media types.
+  * 05e0a6a Fix postinstall.
+  * 87750f2 Fix package recipe.
+  * 3d70912 Fix postinstall.
+  * 40fd77f Depends on libxslt1.1, not libxslt.
+  * ab18c2c Declare missing dependencies.
+  * 34889ac Make init script LSB-compliant.
+  * 0b0e8c4 Fix packaging tasks (again).
+  * 34ffa28 Do not package test and development dependencies.
+  * 1309680 gitignore .bundle/
+  * c831388 Fix packaging tasks.
+
+ -- Cyril Rohr <cyril.rohr@inria.fr>  Tue, 25 Oct 2011 10:07:57 +0200
+
 g5k-api (3.0.0-1) unstable; urgency=low
 
   * c4fea1a Fix packaging task.
