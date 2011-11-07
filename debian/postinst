@@ -21,7 +21,6 @@ NAME="g5k-api"
 
 case "$1" in
     configure)
-        ln -sf /var/log/$NAME /opt/local/$NAME/log
 
         if [ ! -f /opt/local/$NAME/bin/$NAME.rb ]; then 
           mv /opt/local/$NAME/bin/$NAME /opt/local/$NAME/bin/$NAME.rb

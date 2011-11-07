@@ -22,7 +22,6 @@ case "$1" in
     remove|upgrade|deconfigure)
         /etc/init.d/$NAME stop || true
         rm /usr/bin/$NAME
-        rm /opt/local/$NAME/log
         mv /opt/local/$NAME/bin/$NAME.rb /opt/local/$NAME/bin/$NAME
         deluser --remove-all-files $NAME || true
     ;;
