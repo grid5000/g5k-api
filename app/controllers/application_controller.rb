@@ -14,14 +14,17 @@ class ApplicationController < ActionController::Base
   class Forbidden < ClientError; end
   class NotFound < ClientError; end
   class BadGateway < ServerError; end
-  
-  rescue_from ServerError, Exception, :with => :server_error
+
+  # This thing must alway come first, or it will override other rescue_from.
+  rescue_from Exception, :with => :server_error
+
   rescue_from UnsupportedMediaType, :with => :unsupported_media_type
   rescue_from BadRequest, :with => :bad_request
   rescue_from BadGateway, :with => :bad_gateway
   rescue_from Forbidden, :with => :forbidden
   rescue_from NotFound, :with => :not_found
   rescue_from ActiveRecord::RecordNotFound, :with => :not_found
+  rescue_from ServerError, :with => :server_error
   
   
   protected
