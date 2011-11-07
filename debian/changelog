@@ -1,3 +1,12 @@
+g5k-api (3.0.4-1) unstable; urgency=low
+
+  * 9e3d185 Disable middleware that tried to show off nice exception pages. We're an API guys ;-0
+  * ae1c428 Updated spec for root controller.
+  * 2d64973 Add missing links to /users and /notifications.
+  * f274b8e Implement GET /notifications to be Restfully compliant.
+
+ -- Cyril Rohr <cyril.rohr@inria.fr>  Mon, 07 Nov 2011 18:03:50 +0100
+
 g5k-api (3.0.3-1) unstable; urgency=low
 
   * 9d56138 Added missing libssl-dev dependency, to fix eventmachine crash when no SSL is present (XMPP notifications).
