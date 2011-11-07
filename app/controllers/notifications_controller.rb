@@ -8,6 +8,30 @@
 
 class NotificationsController < ApplicationController
 
+  # Placeholder to be Restfully-compliant.
+  # Always returns an empty list.
+  def index
+    allow :get, :post;
+    result = {
+      :items => [],
+      :total => 0,
+      :links => [
+        {
+          :rel => "parent",
+          :href => uri_to(root_path)
+        },
+        {
+          :rel => "self",
+          :href => uri_to(notifications_path)
+        }
+      ]
+    }
+    respond_to do |format|
+      format.g5kjson { render :json => result }
+      format.json { render :json => result }
+    end
+  end
+
   # deliver a notification
   def create
     ensure_authenticated!

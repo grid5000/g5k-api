@@ -19,7 +19,7 @@ Api::Application.routes.draw do
     resources :jobs
     resources :deployments
   end
-  # resources :notifications
+  resources :notifications, :only => [:index, :create]
   
   match '/ui/events' => redirect('https://www.grid5000.fr/status')
   
@@ -27,16 +27,10 @@ Api::Application.routes.draw do
   match '/ui/index' => redirect('/ui/dashboard')
   match '/ui/:page' => 'ui#show', :via => [:get]
   match '/ui/visualizations/:page' => 'ui#visualization', :via => [:get]
-  
-  match '/notifications' => "notifications#create", :via => [:post]
 
   # You can have the root of your site routed with "root"
   # just remember to delete public/index.html.
   root :to => "root#index"
 
   # See how all your routes lay out with "rake routes"
-
-  # This is a legacy wild controller route that's not recommended for RESTful applications.
-  # Note: This route will make all actions in every controller accessible via GET requests.
-  # match ':controller(/:action(/:id(.:format)))'
 end
