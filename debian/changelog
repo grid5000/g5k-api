@@ -1,3 +1,9 @@
+g5k-api (3.0.3-1) unstable; urgency=low
+
+  * 9d56138 Added missing libssl-dev dependency, to fix eventmachine crash when no SSL is present (XMPP notifications).
+
+ -- Cyril Rohr <cyril.rohr@inria.fr>  Mon, 07 Nov 2011 11:33:03 +0100
+
 g5k-api (3.0.2-1) unstable; urgency=low
 
   * 103d6ab Fix broken symlink.
