@@ -9,9 +9,11 @@ describe RootController do
     json.should == {
       "uid"=>"grid5000", 
       "links"=>[
-        {"rel"=>"self", "href"=>"/", "type"=>"application/json"}, 
-        {"rel"=>"environments", "href"=>"/environments", "type"=>"application/json"},
-        {"rel"=>"sites", "href"=>"/sites", "type"=>"application/json"}
+        {"rel"=>"self", "href"=>"/"}, 
+        {"rel"=>"environments", "href"=>"/environments"},
+        {"rel"=>"sites", "href"=>"/sites"},
+        {"rel"=>"users", "href"=>"/users"},
+        {"rel"=>"notifications", "href"=>"/notifications"}
       ]
     }
   end
@@ -23,9 +25,11 @@ describe RootController do
     json.should == {
       "uid"=>"grid5000", 
       "links"=>[
-        {"rel"=>"self", "href"=>"/sid/", "type"=>"application/json"}, 
-        {"rel"=>"environments", "href"=>"/sid/environments", "type"=>"application/json"},
-        {"rel"=>"sites", "href"=>"/sid/sites", "type"=>"application/json"}
+        {"rel"=>"self", "href"=>"/sid/"}, 
+        {"rel"=>"environments", "href"=>"/sid/environments"},
+        {"rel"=>"sites", "href"=>"/sid/sites"},
+        {"rel"=>"users", "href"=>"/sid/users"},
+        {"rel"=>"notifications", "href"=>"/sid/notifications"}
       ]
     }
   end
