@@ -1,3 +1,9 @@
+g5k-api (3.0.2-1) unstable; urgency=low
+
+  * 103d6ab Fix broken symlink.
+
+ -- Cyril Rohr <cyril.rohr@inria.fr>  Mon, 07 Nov 2011 10:19:39 +0100
+
 g5k-api (3.0.1-1) unstable; urgency=low
 
   * c1ba19f Small fix to install file.
