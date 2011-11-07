@@ -6,19 +6,24 @@ class RootController < ApplicationController
       :links => [
         {
           :rel => "self",
-          :href => uri_to(root_path),
-          :type => media_type(params[:format])
+          :href => uri_to(root_path)
         },
         {
           :rel => "environments",
-          :href => uri_to(environments_path),
-          :type => media_type(params[:format])
+          :href => uri_to(environments_path)
         },
         {
           :rel => "sites",
-          :href => uri_to(sites_path),
-          :type => media_type(params[:format])
-        }
+          :href => uri_to(sites_path)
+        },
+         {
+          :rel => "users",
+          :href => uri_to("/users")
+         },
+         {
+           :rel => "notifications",
+           :href => uri_to(notifications_path)
+         }
       ]
     }
     respond_to do |format|
