@@ -15,6 +15,8 @@ class SitesController < ResourcesController
     )
     continue_if!(http, :is => [200])
     valid_clusters = JSON.parse(http.response)['items'].map{|i| i['uid']}
+    Rails.logger.info "Valid clusters=#{valid_clusters.inspect}"
+
     result = {
       "uid" => Time.now.to_i,
       "nodes" => OAR::Resource.status(:clusters => valid_clusters),
@@ -22,12 +24,12 @@ class SitesController < ResourcesController
         {
           "rel" => "self",
           "href" => uri_to(status_site_path(params[:id])),
-          "type" => media_type(params[:format])
+          "type" => media_type(:g5kitemjson)
         },
         {
           "rel" => "parent",
           "href" => uri_to(site_path(params[:id])),
-          "type" => media_type(params[:format])
+          "type" => media_type(:g5kitemjson)
         }
       ]
     }
@@ -45,13 +47,18 @@ class SitesController < ResourcesController
   
   def links_for_item(item)
     links = super(item)
-    %w{clusters environments jobs deployments metrics status}.each do |rel|
+    %w{clusters environments jobs deployments metrics}.each do |rel|
       links.push({
         "rel" => rel,
         "type" => media_type(:g5kcollectionjson),
         "href" => uri_to(File.join(resource_path(item["uid"]), rel))
       })
     end
+    links.push({
+      "rel" => "status",
+      "type" => media_type(:g5kitemjson),
+      "href" => uri_to(File.join(resource_path(item["uid"]), "status"))
+    })
     links
   end
 
