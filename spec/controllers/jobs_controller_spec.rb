@@ -19,24 +19,24 @@ describe JobsController do
         {
           "rel"=> "self",
           "href"=> "/sites/rennes/jobs/374191",
-          "type"=> media_type(:json)
+          "type"=> media_type(:g5kitemjson)
         },
         {
           "rel"=> "parent",
           "href"=> "/sites/rennes",
-          "type"=> media_type(:json)
+          "type"=> media_type(:g5kitemjson)
         }
       ]
       json['links'].should == [
         {
           "rel"=>"self",
           "href"=>"/sites/rennes/jobs",
-          "type"=>media_type(:json)
+          "type"=>media_type(:g5kcollectionjson)
         },
         {
           "rel"=>"parent",
           "href"=>"/sites/rennes",
-          "type"=>media_type(:json)
+          "type"=>media_type(:g5kitemjson)
         }
       ]
     end
@@ -61,7 +61,7 @@ describe JobsController do
     it "should return 404 if the job does not exist" do
       get :show, :site_id => "rennes", :id => "doesnotexist", :format => :json
       response.status.should == 404
-      json['message'].should == "Couldn't find OAR::Job with ID=doesnotexist"
+      response.body.should == "Couldn't find OAR::Job with ID=doesnotexist"
     end
     it "should return 200 and the job" do
       get :show, :site_id => "rennes", :id => @job_uids[0], :format => :json
@@ -82,7 +82,7 @@ describe JobsController do
       authenticate_as("")
       post :create, :site_id => "rennes", :format => :json
       response.status.should == 403
-      json['message'].should == "You are not authorized to access this resource"
+      response.body.should == "You are not authorized to access this resource"
     end
     it "should fail if the OAR api does not return 201 or 202" do
       payload = @valid_job_attributes
@@ -106,7 +106,7 @@ describe JobsController do
 
       post :create, :site_id => "rennes", :format => :json
       response.status.should == 500
-      json['message'].should == "Request to #{expected_url} failed with status 400"
+      response.body.should == "Request to #{expected_url} failed with status 400"
     end
 
     it "should return 201, the job details, and the Location header" do
@@ -158,21 +158,21 @@ describe JobsController do
       authenticate_as("")
       delete :destroy, :site_id => "rennes", :id => @job.uid, :format => :json
       response.status.should == 403
-      json['message'].should == "You are not authorized to access this resource"
+      response.body.should == "You are not authorized to access this resource"
     end
 
     it "should return 404 if the job does not exist" do
       authenticate_as("crohr")
       delete :destroy, :site_id => "rennes", :id => "doesnotexist", :format => :json
       response.status.should == 404
-      json['message'].should == "Couldn't find OAR::Job with ID=doesnotexist"
+      response.body.should == "Couldn't find OAR::Job with ID=doesnotexist"
     end
 
     it "should return 403 if the requester does not own the job" do
       authenticate_as(@job.user+"whatever")
       delete :destroy, :site_id => "rennes", :id => @job.uid, :format => :json
       response.status.should == 403
-      json['message'].should == "You are not authorized to access this resource"
+      response.body.should == "You are not authorized to access this resource"
     end
 
     it "should return 404 if the OAR api returns 404" do
@@ -184,7 +184,7 @@ describe JobsController do
         )
       delete :destroy, :site_id => "rennes", :id => @job.uid, :format => :json
       response.status.should == 404
-      json['message'].should == "Cannot find job#374172 on the OAR server"
+      response.body.should == "Cannot find job#374172 on the OAR server"
     end
 
     it "should fail if the OAR api does not return 200, 202 or 204" do
@@ -197,7 +197,7 @@ describe JobsController do
 
       delete :destroy, :site_id => "rennes", :id => @job.uid, :format => :json
       response.status.should == 500
-      json['message'].should == "Request to #{@expected_url} failed with status 400"
+      response.body.should == "Request to #{@expected_url} failed with status 400"
     end
 
     it "should return 202, and the Location header if successful" do

@@ -20,12 +20,12 @@ class VersionsController < ApplicationController
       {
         "rel" => "self", 
         "href" => uri_to("#{resource_path}/versions"), 
-        "type" => media_type(params[:format])
+        "type" => media_type(:g5kcollectionjson)
       },
       {
         "rel" => "parent", 
         "href" => uri_to("#{resource_path.split("/")[0..-2].join("/")}"), 
-        "type" => media_type(params[:format])
+        "type" => media_type(:g5kitemjson)
       }
     ]
     
@@ -33,6 +33,7 @@ class VersionsController < ApplicationController
     expires_in MAX_AGE, :public => true
     
     respond_to do |format|
+      format.g5kcollectionjson { render :json => versions }
       format.json { render :json => versions }
     end
   end
@@ -56,6 +57,7 @@ class VersionsController < ApplicationController
     expires_in MAX_AGE, :public => true
     
     respond_to do |format|
+      format.g5kitemjson { render :json => output }
       format.json { render :json => output }
     end
   end
@@ -76,12 +78,12 @@ class VersionsController < ApplicationController
         {
           "rel" => "self", 
           "href" => uri_to("#{resource_path}/versions/#{commit.id}"), 
-          "type" => media_type(params[:format])
+          "type" => media_type(:g5kitemjson)
         },
         {
           "rel" => "parent", 
           "href" => uri_to(resource_path), 
-          "type" => media_type(params[:format])
+          "type" => media_type(:g5kitemjson)
         }
       ] 
     }

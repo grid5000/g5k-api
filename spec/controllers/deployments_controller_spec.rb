@@ -28,24 +28,24 @@ describe DeploymentsController do
         {
           "rel"=> "self",
           "href"=> "/sites/rennes/deployments/uid9",
-          "type"=> media_type(:json)
+          "type"=> media_type(:g5kitemjson)
         },
         {
           "rel"=> "parent",
           "href"=> "/sites/rennes",
-          "type"=> media_type(:json)
+          "type"=> media_type(:g5kitemjson)
         }
       ]
       json['links'].should == [
         {
           "rel"=>"self",
           "href"=>"/sites/rennes/deployments",
-          "type"=>media_type(:json)
+          "type"=>media_type(:g5kcollectionjson)
         },
         {
           "rel"=>"parent",
           "href"=>"/sites/rennes",
-          "type"=>media_type(:json)
+          "type"=>media_type(:g5kitemjson)
         }
       ]
     end
@@ -64,7 +64,7 @@ describe DeploymentsController do
     it "should return 404 if the deployment does not exist" do
       get :show, :site_id => "rennes", :id => "doesnotexist", :format => :json
       response.status.should == 404
-      json['message'].should == "Couldn't find Grid5000::Deployment with ID=doesnotexist"
+      response.body.should =~ %r{Couldn't find Grid5000::Deployment with ID=doesnotexist}
     end
     it "should return 200 and the deployment" do
       expected_uid = "uid1"
@@ -90,7 +90,7 @@ describe DeploymentsController do
       authenticate_as("")
       post :create, :site_id => "rennes", :format => :json
       response.status.should == 403
-      json['message'].should == "You are not authorized to access this resource"
+      response.body.should == "You are not authorized to access this resource"
     end
 
     it "should fail if the deployment is not valid" do
@@ -100,7 +100,7 @@ describe DeploymentsController do
       post :create, :site_id => "rennes", :format => :json
 
       response.status.should == 400
-      json['message'].should =~ /The deployment you are trying to submit is not valid/
+      response.body.should =~ /The deployment you are trying to submit is not valid/
     end
 
     it "should raise an error if an error occurred when launching the deployment" do
@@ -114,7 +114,7 @@ describe DeploymentsController do
       post :create, :site_id => "rennes", :format => :json
 
       response.status.should == 500
-      json['message'].should == "some error message"
+      response.body.should == "some error message"
     end
 
     it "should return 500 if the deploymet cannot be launched" do
@@ -129,7 +129,7 @@ describe DeploymentsController do
       post :create, :site_id => "rennes", :format => :json
 
       response.status.should == 500
-      json['message'].should == "Cannot launch deployment: Uid must be set"
+      response.body.should == "Cannot launch deployment: Uid must be set"
     end
 
     it "should call transform_blobs_into_files! before sending the deployment, and return 201 if OK" do
@@ -169,21 +169,21 @@ describe DeploymentsController do
       authenticate_as("")
       delete :destroy, :site_id => "rennes", :id => @deployment.uid, :format => :json
       response.status.should == 403
-      json['message'].should == "You are not authorized to access this resource"
+      response.body.should == "You are not authorized to access this resource"
     end
 
     it "should return 404 if the deployment does not exist" do
       authenticate_as("crohr")
       delete :destroy, :site_id => "rennes", :id => "doesnotexist", :format => :json
       response.status.should == 404
-      json['message'].should == "Couldn't find Grid5000::Deployment with ID=doesnotexist"
+      response.body.should == "Couldn't find Grid5000::Deployment with ID=doesnotexist"
     end
 
     it "should return 403 if the requester does not own the deployment" do
       authenticate_as(@deployment.user_uid+"whatever")
       delete :destroy, :site_id => "rennes", :id => @deployment.uid, :format => :json
       response.status.should == 403
-      json['message'].should == "You are not authorized to access this resource"
+      response.body.should == "You are not authorized to access this resource"
     end
 
     it "should do nothing and return 204 if the deployment is not in an active state" do
@@ -230,7 +230,7 @@ describe DeploymentsController do
       authenticate_as("crohr")
       put :update, :site_id => "rennes", :id => "doesnotexist", :format => :json
       response.status.should == 404
-      json['message'].should == "Couldn't find Grid5000::Deployment with ID=doesnotexist"
+      response.body.should == "Couldn't find Grid5000::Deployment with ID=doesnotexist"
     end
 
     it "should call Grid5000::Deployment#touch!" do

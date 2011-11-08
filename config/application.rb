@@ -33,7 +33,7 @@ module Api
     require 'rack/pretty_json'
     config.middleware.use Rack::PrettyJSON, :warning => true
     config.middleware.use Rack::JSONP, :carriage_return => true
-    config.middleware.delete ActionDispatch::ShowExceptions
+    # config.middleware.delete ActionDispatch::ShowExceptions
 
     config.generators do |g|
       g.fixture_replacement :factory_girl, :dir => "spec/factories"

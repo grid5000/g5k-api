@@ -26,7 +26,7 @@ describe VersionsController do
       get :show, :resource => "/", :id => "doesnotexist", :format => :json
       response.status.should == 404
       assert_vary_on :accept
-      json['message'].should =~ %r{The requested version 'doesnotexist' does not exist or the resource '/' does not exist.}
+      response.body.should =~ %r{The requested version 'doesnotexist' does not exist or the resource '/' does not exist.}
     end
     
     it "should return the version" do

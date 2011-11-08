@@ -105,19 +105,9 @@ class ApplicationController < ActionController::Base
   def render_error(exception, options = {})
     log_exception(exception)
     message = options[:message] || exception.message
-    respond_to do |format|
-      format.json {
-        render :json => {
-          :message => message,
-          :code => options[:status],
-          :title => exception.class.name
-        },
-        :status => options[:status]
-      }
-      format.text {
-        render :text => [exception.class.name,message].join(": "), :status => options[:status]
-      }
-    end
+    render  :text => message, 
+            :status => options[:status],
+            :content_type => 'text/plain'
   end
   
   def log_exception(exception)

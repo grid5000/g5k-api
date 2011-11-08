@@ -27,7 +27,7 @@ class RootController < ApplicationController
       ]
     }
     respond_to do |format|
-      format.g5kjson { render :json => root }
+      format.g5kitemjson { render :json => root }
       format.json { render :json => root }
     end
   end

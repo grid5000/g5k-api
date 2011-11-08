@@ -58,7 +58,11 @@ class ResourcesController < ApplicationController
     etag object.hash
 
     respond_to do |format|
-      format.g5kjson { render :json => object }
+      if object.has_key?('items')
+        format.g5kcollectionjson { render :json => object }
+      else
+        format.g5kitemjson { render :json => object }
+      end
       format.json { render :json => object }
     end
   end
@@ -81,22 +85,22 @@ class ResourcesController < ApplicationController
     links = []
     links.push({
       "rel" => "self",
-      "type" => media_type(params[:format]),
+      "type" => media_type(:g5kitemjson),
       "href" => uri_to(resource_path(item["uid"]))
     })
     links.push({
       "rel" => "parent",
-      "type" => media_type(params[:format]),
+      "type" => media_type(:g5kitemjson),
       "href" => uri_to(parent_path)
     })
     links.push({
       "rel" => "version",
-      "type" => media_type(params[:format]),
+      "type" => media_type(:g5kitemjson),
       "href" => uri_to(File.join(resource_path(item["uid"]), "versions", item["version"]))
     })
     links.push({
       "rel" => "versions",
-      "type" => media_type(params[:format]),
+      "type" => media_type(:g5kcollectionjson),
       "href" => uri_to(File.join(resource_path(item["uid"]), "versions"))
     })
     links
@@ -107,12 +111,12 @@ class ResourcesController < ApplicationController
     links = []
     links.push({
       "rel" => "self",
-      "type" => media_type(params[:format]),
+      "type" => media_type(:g5kcollectionjson),
       "href" => uri_to(collection_path)
     })
     links.push({
       "rel" => "parent",
-      "type" => media_type(params[:format]),
+      "type" => media_type(:g5kitemjson),
       "href" => uri_to(parent_path)
     }) unless parent_path.blank?
     links

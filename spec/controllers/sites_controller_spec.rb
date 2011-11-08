@@ -94,8 +94,7 @@ describe SitesController do
         )
       get :status, :branch => 'testing', :id => "rennes", :format => :json
       response.status.should == 500
-      json['code'].should == 500
-      json['message'].should == "Request to #{expected_url} failed with status 400"
+      response.body.should == "Request to #{expected_url} failed with status 400"
     end
     it "should return 200 and the site status" do      
       expected_url = "http://api-out.local:80/sites/rennes/clusters?branch=master"

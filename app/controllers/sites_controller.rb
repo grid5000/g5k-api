@@ -32,7 +32,7 @@ class SitesController < ResourcesController
       ]
     }
     respond_to do |format|
-      format.g5kjson { render :json => result }
+      format.g5kitemjson { render :json => result }
       format.json { render :json => result }
     end
   end
@@ -48,7 +48,7 @@ class SitesController < ResourcesController
     %w{clusters environments jobs deployments metrics status}.each do |rel|
       links.push({
         "rel" => rel,
-        "type" => media_type(params[:format]),
+        "type" => media_type(:g5kcollectionjson),
         "href" => uri_to(File.join(resource_path(item["uid"]), rel))
       })
     end

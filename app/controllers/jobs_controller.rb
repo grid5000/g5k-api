@@ -29,7 +29,7 @@ class JobsController < ApplicationController
     }
 
     respond_to do |format|
-      format.g5kjson { render :json => result }
+      format.g5kcollectionjson { render :json => result }
       format.json { render :json => result }
     end
   end
@@ -45,7 +45,7 @@ class JobsController < ApplicationController
 
     render_opts = {:methods => [:resources_by_type, :assigned_nodes]}
     respond_to do |format|
-      format.g5kjson { render render_opts.merge(:json => job) }
+      format.g5kitemjson { render render_opts.merge(:json => job) }
       format.json { render render_opts.merge(:json => job)  }
     end
   end
@@ -137,7 +137,7 @@ class JobsController < ApplicationController
       :status => 201
     }
     respond_to do |format|
-      format.g5kjson { render render_opts.merge(:json => job) }
+      format.g5kitemjson { render render_opts.merge(:json => job) }
       format.json { render render_opts.merge(:json => job) }
     end
   end
@@ -160,12 +160,12 @@ class JobsController < ApplicationController
       {
         "rel" => "self",
         "href" => uri_to(resource_path(item.uid)),
-        "type" => media_type(params[:format])
+        "type" => media_type(:g5kitemjson)
       },
       {
         "rel" => "parent",
         "href" => uri_to(parent_path),
-        "type" => media_type(params[:format])
+        "type" => media_type(:g5kitemjson)
       }
     ]
   end
@@ -175,12 +175,12 @@ class JobsController < ApplicationController
       {
         "rel" => "self",
         "href" => uri_to(collection_path),
-        "type" => media_type(params[:format])
+        "type" => media_type(:g5kcollectionjson)
       },
       {
         "rel" => "parent",
         "href" => uri_to(parent_path),
-        "type" => media_type(params[:format])
+        "type" => media_type(:g5kitemjson)
       }
     ]
   end

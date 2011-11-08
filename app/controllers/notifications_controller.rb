@@ -27,7 +27,7 @@ class NotificationsController < ApplicationController
       ]
     }
     respond_to do |format|
-      format.g5kjson { render :json => result }
+      format.g5kcollectionjson { render :json => result }
       format.json { render :json => result }
     end
   end
