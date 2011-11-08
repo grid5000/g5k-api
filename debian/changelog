@@ -1,3 +1,9 @@
+g5k-api (3.0.5-1) unstable; urgency=low
+
+  * 104f86c Use application/vnd.grid5000.{collection,item}+json instead of application/vnd.grid5000+json
+
+ -- Cyril Rohr <cyril.rohr@inria.fr>  Tue, 08 Nov 2011 16:02:24 +0100
+
 g5k-api (3.0.4-1) unstable; urgency=low
 
   * 9e3d185 Disable middleware that tried to show off nice exception pages. We're an API guys ;-0
