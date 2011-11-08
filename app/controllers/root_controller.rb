@@ -3,6 +3,8 @@ class RootController < ApplicationController
   def index
     root = {
       :uid => "grid5000",
+      :version => Grid5000::VERSION,
+      :timestamp => Time.now.to_i,
       :links => [
         {
           :rel => "self",

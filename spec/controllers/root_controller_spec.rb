@@ -8,6 +8,8 @@ describe RootController do
     response.status.should == 200
     json.should == {
       "uid"=>"grid5000", 
+      "version" => Grid5000::VERSION,
+      "timestamp" => @now.to_i,
       "links"=>[
         {"rel"=>"self", "href"=>"/"}, 
         {"rel"=>"environments", "href"=>"/environments"},
@@ -24,6 +26,8 @@ describe RootController do
     response.status.should == 200
     json.should == {
       "uid"=>"grid5000", 
+      "version" => Grid5000::VERSION,
+      "timestamp" => @now.to_i,
       "links"=>[
         {"rel"=>"self", "href"=>"/sid/"}, 
         {"rel"=>"environments", "href"=>"/sid/environments"},

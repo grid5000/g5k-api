@@ -72,6 +72,9 @@ RSpec.configure do |config|
 
 
   config.before(:each) do
+    @now = Time.now
+    Time.stub!(:now).and_return(@now)
+
     Grid5000::Deployment.delete_all
     @json = nil
   end
