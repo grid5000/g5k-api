@@ -1,3 +1,9 @@
+g5k-api (3.0.7-1) unstable; urgency=low
+
+  * 37f538d Display API version and timestamp in root resource.
+
+ -- Cyril Rohr <cyril.rohr@inria.fr>  Tue, 08 Nov 2011 17:36:11 +0100
+
 g5k-api (3.0.6-1) unstable; urgency=low
 
   * be526bc /sites/:site/status is an item, not a collection.
