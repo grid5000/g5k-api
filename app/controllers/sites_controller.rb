@@ -47,7 +47,7 @@ class SitesController < ResourcesController
   
   def links_for_item(item)
     links = super(item)
-    %w{clusters environments jobs deployments metrics}.each do |rel|
+    %w{jobs deployments metrics}.each do |rel|
       links.push({
         "rel" => rel,
         "type" => media_type(:g5kcollectionjson),

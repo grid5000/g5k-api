@@ -5,7 +5,7 @@ require 'logger'
 module Grid5000
   class Repository
     attr_reader :repository_path, :repository_path_prefix, :instance, :commit, :logger
-    
+
     def initialize(repository_path, repository_path_prefix = nil, logger = nil)
       @commit = nil
       @reloading = false
@@ -19,7 +19,7 @@ module Grid5000
       end
       @instance = Grit::Repo.new(repository_path)
     end
-    
+
     def find(path, options = {})
       logger.info "Repository path = #{repository_path.inspect}"
       logger.info "path = #{path.inspect}, options = #{options.inspect}"
@@ -34,38 +34,37 @@ module Grid5000
       result = expand_object(object, path, @commit)
       result
     end
-    
+
     def full_path(path)
       File.join(repository_path_prefix, path)
     end
-    
+
     def expand_object(object, path, commit)
       return nil if object.nil?
-      
+
       if object.mode == "120000"
         object = find_object_at(object.data, commit, relative_to=path)
       end
-      
+
       case object
       when Grit::Blob
+        @subresources = []
         JSON.parse(object.data).merge("version" => commit.id)
       when Grit::Tree
         groups = object.contents.group_by{|content| content.class}
         blobs, trees = [groups[Grit::Blob] || [], groups[Grit::Tree] || []]
         # select only json files
         blobs = blobs.select{|blob| File.extname(blob.name) == '.json'}
-        if (blobs.size > 0 && trees.size > 0)
-          # item
-          blobs.inject({}) do |accu, blob| 
+        if (blobs.size > 0 && trees.size > 0) # item
+          blobs.inject({'subresources' => trees}) do |accu, blob|
             content = expand_object(
-              blob, 
+              blob,
               File.join(path, blob.name.gsub(".json", "")),
               commit
             )
             accu.merge(content)
           end
         else # collection
-          # collection
           items = object.contents.map do |object|
             content = expand_object(
               object,
@@ -74,7 +73,7 @@ module Grid5000
             )
           end
           result = {
-            "total" => items.length, 
+            "total" => items.length,
             "offset" => 0,
             "items" => items,
             "version" => commit.id
@@ -85,7 +84,7 @@ module Grid5000
         nil
       end
     end
-    
+
     def find_commit_for(options = {})
       options[:branch] ||= 'master'
       version, branch = options.values_at(:version, :branch)
@@ -105,26 +104,26 @@ module Grid5000
     rescue Grit::GitRuby::Repository::NoSuchShaFound => e
       nil
     end
-    
+
     def find_object_at(path, commit, relative_to = nil)
       path = relative_path_to(path, relative_to) unless relative_to.nil?
       object = commit.tree/path || commit.tree/(path+".json")
     end
-    
+
     # Return the physical path within the repository
     # Takes care of symbolic links
     def relative_path_to(path, relative_to = nil)
       if relative_to
-        path = File.expand_path( 
+        path = File.expand_path(
           # symlink, e.g. "../../../../grid5000/environments/etch-x64-base-1.0.json"
-          path, 
+          path,
           # e.g. : File.join("/",  File.dirname("grid5000/sites/rennes/environments/etch-x64-base-1.0"))
-          File.join('/', File.dirname(relative_to)) 
+          File.join('/', File.dirname(relative_to))
         ).gsub(/^\//, "")
       end
       path
     end
-    
+
     def async_find(*args)
       require 'eventmachine'
       self.extend(EventMachine::Deferrable)
@@ -132,12 +131,12 @@ module Grid5000
         set_deferred_status :succeeded, result
       }
       logger.info [:callback, callback]
-      EM.defer(proc{ 
-        result = find(*args) 
+      EM.defer(proc{
+        result = find(*args)
       }, callback)
       self
     end
-    
+
     def versions_for(path, options = {})
       branch, offset, limit = options.values_at(:branch, :offset, :limit)
       branch ||= 'master'
@@ -145,11 +144,11 @@ module Grid5000
       limit = (limit || 100).to_i
       path = full_path(path)
       commits = instance.log(
-        branch, 
+        branch,
         path
       )
       commits = instance.log(
-        branch, 
+        branch,
         path+".json"
       ) if commits.empty?
       {
@@ -158,7 +157,7 @@ module Grid5000
         "items" => commits.slice(offset, limit)
       }
     end
-    
+
   end
-  
+
 end # module Grid5000

@@ -39,7 +39,7 @@ class ResourcesController < ApplicationController
     object["version"] = repository.commit.id
 
     last_modified [repository.commit.committed_date, File.mtime(__FILE__)].max
-    
+
     # If client asked for a specific version, it won't change anytime soon
     if params[:version] && params[:version] == object["version"]
       expires_in(
@@ -48,10 +48,10 @@ class ResourcesController < ApplicationController
       )
     else
       expires_in(
-        MAX_AGE, 
-        :public => true, 
-        'must-revalidate' => true, 
-        'proxy-revalidate' => true, 
+        MAX_AGE,
+        :public => true,
+        'must-revalidate' => true,
+        'proxy-revalidate' => true,
         's-maxage' => MAX_AGE
       )
     end
@@ -83,6 +83,12 @@ class ResourcesController < ApplicationController
   # Should be overwritten
   def links_for_item(item)
     links = []
+
+    (item.delete('subresources') || []).each do |subresource|
+      href = uri_to(resource_path(item["uid"]), subresource.name)
+      links << {"rel" => subresource.name, "href" => href, "type" => media_type(:g5kcollectionjson)}
+    end
+
     links.push({
       "rel" => "self",
       "type" => media_type(:g5kitemjson),

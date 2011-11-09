@@ -11,10 +11,5 @@ class EnvironmentsController < ResourcesController
       environments_path
     end
   end
-  
-  def links_for_item(item)
-    links = super(item)
-    links
-  end
 
 end
