@@ -1,5 +1,11 @@
 # encoding: utf-8
 require 'uri'
+require 'blather/client/dsl'
+
+class MyXMPP
+  include Blather::DSL
+  def run; client.run; end
+end
 
 # This is the class that handles notifications sent to the notifications API.
 class Notification
@@ -87,13 +93,16 @@ class Notification
 
         to = Blather::JID.new(uri.opaque)
 
-        XMPP.when_ready {
+        xmpp = MyXMPP.new
+        jid = Blather::JID.new(Rails.my_config(:xmpp_jid))
+        xmpp.setup(jid, Rails.my_config(:xmpp_password), 'jabber.grid5000.fr')
+        xmpp.when_ready {
           Rails.logger.info "Connected to XMPP server. Sending presence..."
 
           presence = Blather::Stanza::Presence.new
           presence.to = to
-          presence.from = XMPP.jid
-          XMPP << presence
+          presence.from = xmpp.jid
+          xmpp << presence
 
           msg = Blather::Stanza::Message.new
           msg.body = body.to_s
@@ -106,10 +115,10 @@ class Notification
           end
 
           Rails.logger.info "Sending stanza: #{msg.to_s}..."
-          XMPP << msg
+          xmpp << msg
         }
 
-        XMPP.run
+        xmpp.run
       end
     end
   rescue Timeout::Error, StandardError => e
