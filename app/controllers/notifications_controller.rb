@@ -34,7 +34,6 @@ class NotificationsController < ApplicationController
 
   # deliver a notification
   def create
-    ensure_authenticated!
     @notification = Notification.new(params)
     if @notification.valid?
       EM.add_timer(0) {
