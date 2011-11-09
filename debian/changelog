@@ -1,3 +1,9 @@
+g5k-api (3.0.9-1) unstable; urgency=low
+
+  * beba5d8 No longer force authentication to send notifications.
+
+ -- Cyril Rohr <cyril.rohr@inria.fr>  Wed, 09 Nov 2011 11:56:03 +0100
+
 g5k-api (3.0.8-1) unstable; urgency=low
 
   * 3debaa7 Added vlans link, and more tests for links in testing branch.
