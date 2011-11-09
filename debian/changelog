@@ -1,3 +1,10 @@
+g5k-api (3.0.12-1) unstable; urgency=low
+
+  * f5d9d0b Redirect thin log to /var/log/g5k-api/thin.log.
+  * baa7377 Remove whitespace.
+
+ -- Cyril Rohr <cyril.rohr@inria.fr>  Wed, 09 Nov 2011 16:15:59 +0100
+
 g5k-api (3.0.11-1) unstable; urgency=low
 
   * 984592b Fix construction of URIs in reference api.
