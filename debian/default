@@ -7,5 +7,5 @@
 #
 
 # Additional options that are passed to the Daemon.
-DAEMON_OPTS="server -d --pid $PIDFILE --user g5k-api --group g5k-api"
+DAEMON_OPTS="server -d --pid $PIDFILE --user $NAME --group $NAME --log /var/log/$NAME/thin.log"
 
