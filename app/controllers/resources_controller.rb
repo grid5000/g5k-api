@@ -85,7 +85,7 @@ class ResourcesController < ApplicationController
     links = []
 
     (item.delete('subresources') || []).each do |subresource|
-      href = uri_to(resource_path(item["uid"]), subresource.name)
+      href = uri_to(resource_path(item["uid"]) + "/" + subresource.name)
       links.push({
         "rel" => subresource.name, 
         "href" => href, 

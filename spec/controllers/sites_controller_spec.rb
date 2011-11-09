@@ -65,6 +65,9 @@ describe SitesController do
         l['rel'] == 'self'
       }['href'].should == "/sites/rennes"
       json['links'].find{|l|
+        l['rel'] == 'clusters'
+      }['href'].should == "/sites/rennes/clusters"
+      json['links'].find{|l|
         l['rel'] == 'version'
       }['href'].should == "/sites/rennes/versions/5b02702daa827f7e39ebf7396af26735c9d2aacd"
     end
