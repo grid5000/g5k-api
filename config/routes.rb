@@ -8,11 +8,13 @@ Api::Application.routes.draw do
   match '*resource/versions/:id' => 'versions#show', :via => [:get]
   
   resources :environments, :only => [:index, :show]
+  resources :network_equipments, :only => [:index, :show]
   resources :sites, :only => [:index, :show] do
     member do
       get :status
     end
     resources :environments, :only => [:index, :show]
+    resources :network_equipments, :only => [:index, :show]
     resources :clusters, :only => [:index, :show] do
       resources :nodes, :only => [:index, :show]
     end
