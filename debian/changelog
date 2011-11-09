@@ -1,3 +1,12 @@
+g5k-api (3.0.8-1) unstable; urgency=low
+
+  * 3debaa7 Added vlans link, and more tests for links in testing branch.
+  * 10cca1c Automatically infer subresource links for reference API.
+  * c422c4b Automatically create databases in development environment.
+  * cfe3679 Added support for network_equipments.
+
+ -- Cyril Rohr <cyril.rohr@inria.fr>  Wed, 09 Nov 2011 11:25:39 +0100
+
 g5k-api (3.0.7-1) unstable; urgency=low
 
   * 37f538d Display API version and timestamp in root resource.
