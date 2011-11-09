@@ -1,4 +1,5 @@
 require 'yaml'
+require File.expand_path("../../lib/grid5000/version", __FILE__)
 
 set :application, "g5k-api"
 
@@ -55,7 +56,7 @@ end
 
 desc "Release the latest package."
 task :release, :roles => :apt do
-  latest = Dir["pkg/*.deb"].sort.last
+  latest = Dir["pkg/*.deb"].find{|file| file =~ /#{Grid5000::VERSION}/}
   fail "No .deb available in pkg/" if latest.nil?
   latest = File.basename(latest)
   run "mkdir -p #{apt}"
