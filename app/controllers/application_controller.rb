@@ -1,12 +1,12 @@
 class ApplicationController < ActionController::Base
   include ApplicationHelper
-  
+
   before_filter :log_head
   before_filter :log_body, :only => [:create, :update, :destroy]
   before_filter :lookup_credentials
   before_filter :parse_json_payload, :only => [:create, :update, :destroy]
   before_filter :set_default_format
-  
+
   class ClientError < ActionController::ActionControllerError; end
   class ServerError < ActionController::ActionControllerError; end
   class UnsupportedMediaType < ClientError; end
@@ -25,8 +25,7 @@ class ApplicationController < ActionController::Base
   rescue_from NotFound, :with => :not_found
   rescue_from ActiveRecord::RecordNotFound, :with => :not_found
   rescue_from ServerError, :with => :server_error
-  
-  
+
   protected
   def set_default_format
     params[:format] ||= begin
@@ -36,7 +35,7 @@ class ApplicationController < ActionController::Base
       Mime::Type.lookup(first_mime_type).to_sym || :g5kjson
     end
   end
-  
+
   def lookup_credentials
     invalid_values = ["", "unknown", "(unknown)"]
     cn = request.env["HTTP_#{Rails.my_config(:header_user_cn).gsub("-","_").upcase}"]
@@ -52,27 +51,27 @@ class ApplicationController < ActionController::Base
       }
     end
   end
-  
+
   def log_head
     Rails.logger.debug [:received_headers, request.env]
   end
-  
+
   def log_body
     Rails.logger.debug [:received_body, request.body.read]
   ensure
     request.body.rewind
   end
-  
+
   def ensure_authenticated!
     @credentials[:cn] || raise(Forbidden)
   end
-  
+
   def authorize!(user_id)
     raise Forbidden if user_id != @credentials[:cn]
   end
-  
+
   # Analyses the response status of the given HTTP response.
-  # 
+  #
   # Raise BadGateway if status is 0.
   # Raise ServerError if status is not in the expected status codes given via <tt>options[:is]</tt>.
   def continue_if!(http, options = {})
@@ -91,7 +90,7 @@ class ApplicationController < ActionController::Base
       raise ServerError, msg
     end
   end
-  
+
   # Automatically parse JSON payload when request content type is JSON
   def parse_json_payload
     if request.content_type =~ /application\/.*json/i
@@ -101,49 +100,49 @@ class ApplicationController < ActionController::Base
   ensure
     request.body.rewind
   end
-  
+
   def render_error(exception, options = {})
     log_exception(exception)
     message = options[:message] || exception.message
-    render  :text => message, 
+    render  :text => message,
             :status => options[:status],
             :content_type => 'text/plain'
   end
-  
+
   def log_exception(exception)
     Rails.logger.warn exception.message
     Rails.logger.debug exception.backtrace.join(";")
   end
-  
+
   # ===============
   # = HTTP Errors =
   # ===============
   def unsupported_media_type(exception)
     render_error(exception, :status => 415)
   end
-  
+
   def bad_request(exception)
     render_error(exception, :status => 400)
   end
-  
+
   def not_found(exception)
     render_error(exception, :status => 404)
   end
-  
+
   def bad_gateway(exception)
     render_error(exception, :status => 502)
   end
-  
+
   def server_error(exception)
     render_error(exception, :status => 500)
   end
-  
+
   def forbidden(exception)
     opts = {:status => 403}
     opts[:message] = "You are not authorized to access this resource" if exception.message == exception.class.name
     render_error(exception, opts)
   end
-  
+
   # ================
   # = HTTP Headers =
   # ================
@@ -153,7 +152,7 @@ class ApplicationController < ActionController::Base
   def vary_on(*args)
     response.headers['Vary'] ||= ''
     response.headers['Vary'] = [
-      response.headers['Vary'].split(","), 
+      response.headers['Vary'].split(","),
       args
     ].flatten.join(",")
   end
@@ -163,7 +162,7 @@ class ApplicationController < ActionController::Base
   def last_modified(time)
     response.last_modified = time.utc
   end
-  
+
   # ===========
   # = Payload =
   # ===========
