@@ -86,7 +86,11 @@ class ResourcesController < ApplicationController
 
     (item.delete('subresources') || []).each do |subresource|
       href = uri_to(resource_path(item["uid"]), subresource.name)
-      links << {"rel" => subresource.name, "href" => href, "type" => media_type(:g5kcollectionjson)}
+      links.push({
+        "rel" => subresource.name, 
+        "href" => href, 
+        "type" => media_type(:g5kcollectionjson)
+      })
     end
 
     links.push({

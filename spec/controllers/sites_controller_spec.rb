@@ -10,7 +10,7 @@ describe SitesController do
       json['total'].should == 3
       json['items'].length.should == 3
       json['items'][0]['uid'].should == 'bordeaux'
-      json['items'][0]['links'].length.should == 10
+      json['items'][0]['links'].should be_a(Array)
     end
 
     it "should correctly set the URIs when X-Api-Path-Prefix is present" do
@@ -58,7 +58,8 @@ describe SitesController do
         "self",
         "status",
         "version",
-        "versions"
+        "versions",
+        "vlans"
       ]
       json['links'].find{|l|
         l['rel'] == 'self'
@@ -66,6 +67,25 @@ describe SitesController do
       json['links'].find{|l|
         l['rel'] == 'version'
       }['href'].should == "/sites/rennes/versions/5b02702daa827f7e39ebf7396af26735c9d2aacd"
+    end
+    
+    it "should return subresource links that are only in testing branch" do
+      get :show, :id => "lille", :format => :json, :branch => "testing"
+      response.status.should == 200
+      json['links'].map{|l| l['rel']}.sort.should == [
+        "clusters",
+        "deployments",
+        "environments",
+        "jobs",
+        "metrics",
+        "network_equipments",
+        "parent",
+        "self",
+        "status",
+        "version",
+        "versions",
+        "vlans"
+      ]
     end
     
     it "should return the specified version, and the max-age value in the Cache-Control header should be big" do
