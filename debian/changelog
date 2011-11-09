@@ -1,3 +1,9 @@
+g5k-api (3.0.14-1) unstable; urgency=low
+
+  * 93aba18 Restart XMPP handler for each notification sending.
+
+ -- Cyril Rohr <cyril.rohr@inria.fr>  Wed, 09 Nov 2011 16:59:23 +0100
+
 g5k-api (3.0.13-1) unstable; urgency=low
 
   * a78a155 Disable duplicate debug.
