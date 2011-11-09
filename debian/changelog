@@ -1,3 +1,9 @@
+g5k-api (3.0.10-1) unstable; urgency=low
+
+  * 2f2e02a Add API version in daemon tag.
+
+ -- Cyril Rohr <cyril.rohr@inria.fr>  Wed, 09 Nov 2011 12:04:45 +0100
+
 g5k-api (3.0.9-1) unstable; urgency=low
 
   * beba5d8 No longer force authentication to send notifications.
