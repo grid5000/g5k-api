@@ -1,3 +1,5 @@
+require 'yaml'
+
 set :application, "g5k-api"
 
 set :apt, "/var/www/#{application}"
@@ -72,6 +74,14 @@ task :develop, :roles => :dev do
         apt-get install puppet -y && \
         export http_proxy=proxy:3128 && \
         puppet #{puppet}/development.pp --modulepath #{puppet}/modules/"
+
+  # Hack to create databases, because rake db:create does not work correctly with current version of em-mysql adapter.
+  create_dbs = YAML.load_file(
+    File.expand_path("../database.yml", __FILE__)
+  ).values.map{|v|
+    "create database #{v['database']}"
+  }.join("; ")
+  run "mysql -u root -e '#{create_dbs}'"
 
   remote = roles[:dev].servers[0]
   gateway = connection_factory.gateway_for(remote)
