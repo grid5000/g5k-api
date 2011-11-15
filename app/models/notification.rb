@@ -1,11 +1,5 @@
 # encoding: utf-8
 require 'uri'
-require 'blather/client/dsl'
-
-class MyXMPP
-  include Blather::DSL
-  def run; client.run; end
-end
 
 # This is the class that handles notifications sent to the notifications API.
 class Notification
@@ -91,34 +85,26 @@ class Notification
       when /xmpp/
         Rails.logger.info "XMPP URI, processing..."
 
-        to = Blather::JID.new(uri.opaque)
+        to = Blather::JID.new("#{uri.opaque}/notifier")
 
-        xmpp = MyXMPP.new
-        jid = Blather::JID.new(Rails.my_config(:xmpp_jid))
-        xmpp.setup(jid, Rails.my_config(:xmpp_password), 'jabber.grid5000.fr')
-        xmpp.when_ready {
-          Rails.logger.info "Connected to XMPP server. Sending presence..."
+        presence = Blather::Stanza::Presence.new
+        presence.from = XMPP.jid
 
-          presence = Blather::Stanza::Presence.new
-          presence.to = to
-          presence.from = xmpp.jid
-          xmpp << presence
+        msg = Blather::Stanza::Message.new
+        msg.body = body.to_s
+        if to.domain == "conference.jabber.grid5000.fr"
+          msg.to = Blather::JID.new(to.node, to.domain)
+          msg.type = :groupchat
+        else
+          msg.to = to
+          msg.type = :chat
+        end
 
-          msg = Blather::Stanza::Message.new
-          msg.body = body.to_s
-          if to.domain == "conference.jabber.grid5000.fr"
-            msg.to = Blather::JID.new(to.node, to.domain)
-            msg.type = :groupchat
-          else
-            msg.to = to
-            msg.type = :chat
-          end
-
-          Rails.logger.info "Sending stanza: #{msg.to_s}..."
-          xmpp << msg
-        }
-
-        xmpp.run
+        presence.to = to
+        Rails.logger.info "Connected to XMPP server. Sending presence: #{presence.to_s}..."
+        XMPP << presence
+        Rails.logger.info "Sending stanza: #{msg.to_s}..."
+        XMPP << msg
       end
     end
   rescue Timeout::Error, StandardError => e
