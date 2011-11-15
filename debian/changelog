@@ -1,3 +1,9 @@
+g5k-api (3.0.15-1) unstable; urgency=low
+
+  * db02e7c Fix XMPP notifications. Once again.
+
+ -- Cyril Rohr <cyril.rohr@inria.fr>  Tue, 15 Nov 2011 16:39:23 +0100
+
 g5k-api (3.0.14-1) unstable; urgency=low
 
   * 93aba18 Restart XMPP handler for each notification sending.
