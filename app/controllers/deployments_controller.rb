@@ -116,8 +116,10 @@ class DeploymentsController < ApplicationController
     end
   end
   
-  # If the deployment is in the "canceled", "error", or "terminated" state, return the deployment from DB
-  # Otherwise, fetches the deployment status from the kadeploy-server, and update the <tt>result</tt> attribute if the deployment has finished.
+  # If the deployment is in the "canceled", "error", or "terminated" state,
+  # return the deployment from DB. Otherwise, fetches the deployment status
+  # from the kadeploy-server, and update the <tt>result</tt> attribute if the
+  # deployment has finished.
   def update
     deployment = find_item(params[:id])
     
