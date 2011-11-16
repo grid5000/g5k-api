@@ -1,6 +1,6 @@
 db/*.sqlite3
 .bundle
-pkg/*.deb
+pkg
 doc
 log/*.log
 tmp/**/*
