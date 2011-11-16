@@ -1,3 +1,13 @@
+g5k-api (3.0.16-1) unstable; urgency=low
+
+  * 1491ebc Display response payload when proxied request failed.
+  * 84c024d Insert Rack::FiberPool earlier in the middleware stack.
+  * 6adf005 gitignore pkg/
+  * 939da4a Cosmetic fix.
+  * dc9c069 Fill in changelog.
+
+ -- Cyril Rohr <cyril.rohr@inria.fr>  Wed, 16 Nov 2011 14:10:41 +0100
+
 g5k-api (3.0.15-1) unstable; urgency=low
 
   * db02e7c Fix XMPP notifications. Once again.
