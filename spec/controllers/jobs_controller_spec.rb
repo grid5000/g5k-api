@@ -106,7 +106,7 @@ describe JobsController do
 
       post :create, :site_id => "rennes", :format => :json
       response.status.should == 500
-      response.body.should == "Request to #{expected_url} failed with status 400"
+      response.body.should == "Request to #{expected_url} failed with status 400: some error"
     end
 
     it "should return 201, the job details, and the Location header" do
@@ -197,7 +197,7 @@ describe JobsController do
 
       delete :destroy, :site_id => "rennes", :id => @job.uid, :format => :json
       response.status.should == 500
-      response.body.should == "Request to #{@expected_url} failed with status 400"
+      response.body.should == "Request to #{@expected_url} failed with status 400: some error"
     end
 
     it "should return 202, and the Location header if successful" do

@@ -73,8 +73,8 @@ class ApplicationController < ActionController::Base
     else
       # http.method always returns nil. Bug?
       # msg = "#{http.method} #{http.uri} failed with status #{status}"
-      msg = "Request to #{http.uri.to_s} failed with status #{status}"
-      Rails.logger.error [msg, http.response].join(": ")
+      msg = "Request to #{http.uri.to_s} failed with status #{status}: #{http.response}"
+      Rails.logger.error msg
       raise ServerError, msg
     end
   end
