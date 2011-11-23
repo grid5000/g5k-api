@@ -10,7 +10,7 @@ module Grid5000
     end
     
     def call(params, request)
-      self.class.uri_to(request, @where)
+      self.class.uri_to(request, @where, :in, :absolute)
     end
     
     class << self
