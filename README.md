@@ -2,7 +2,7 @@
 
 This application is in charge of providing the core APIs for Grid'5000.
 
-The project is hosted at <ssh://git.grid5000.fr/srv/git/repos/g5kapi>. 
+The project is hosted at <ssh://git.grid5000.fr/srv/git/repos/g5kapi>.
 Please send an email to <cyril.rohr@inria.fr> if you cannot access the code.
 
 
@@ -39,13 +39,12 @@ In particular, runtime dependencies of the app include `ruby1.9.1-full` and `git
 
 * [optional] Setup the database:
 
-        $ rake db:create RACK_ENV=development
-        $ rake db:migrate RACK_ENV=development
+        $ rake db:setup RACK_ENV=development
 
   Note that if you don't want to install a mysql server and other dependencies
   on your machine, you can use one of the `capistrano` tasks that are bundled
   with the app.
-  
+
   For instance, doing a `cap develop` will launch and configure a machine on
   Grid'5000 with everything required to have a working development
   environment (adapt the `database.yml` file in consequence).
@@ -65,19 +64,19 @@ to create a test database, and a fake OAR database.
 
 * Create the test database as follows:
 
-        $ RACK_ENV=test rake db:create
-        $ RACK_ENV=test rake db:migrate
+        $ RACK_ENV=test rake db:setup
 
 * Create the fake OAR database as follows:
 
         $ RACK_ENV=test rake db:oar:setup
-  
+
   or `RACK_ENV=test rake db:oar:seed` if the OAR database already exists.
 
 * Launch the tests:
 
-        $ RACK_ENV=test rake
-        
+        $ RACK_ENV=test rake # or `bundle exec autotest` if this fails (issue with Rails<3.1 and em_mysql2 adapter with evented code).
+
+
 ## Packaging
 
 * Bumping the version number is done as follows (a new changelog entry is
@@ -101,13 +100,50 @@ to create a test database, and a fake OAR database.
         $ cap package HOST=...
 
 
+## Releasing and Installing and new version
+
+* Once you've packaged the new version, you must release it to the APT
+  repository hosted on apt.grid5000.fr. There is Capistrano task for this:
+
+        $ REMOTE_USER=g5kadmin cap release
+
+  Note that you can use the same task to release on a different host (for
+  testing purposes for example), by setting the HOST environment variable to
+  another server (a Grid'5000 node for instance).
+
+* If you released on apt.grid5000.fr, then you are now able to install the new
+  version on any server by launching the following commands:
+
+        puppet-repo $ bundle exec cap shell ROLES=devel
+        cap> sudo apt-get update && sudo apt-get install g5k-api -y && sudo puppetd -t
+
+  Personally I use a Capistrano task in the `puppet-dev` repository to launch
+  it in parallel on all servers on all sites, and I'll check that every server has the correct version running by grepping through the processlist to check the version numbers:
+
+        puppet-repo $ bundle exec cap shell ROLES=devel
+        cap> ps aux | grep g5k-api | grep -v grep
+        [establishing connection(s) to api-server-devel.bordeaux.grid5000.fr, api-server-devel.grenoble.grid5000.fr, api-server-devel.lille.grid5000.fr, api-server-devel.lyon.grid5000.fr, api-server-devel.luxembourg.grid5000.fr, api-server-devel.nancy.grid5000.fr, api-server-devel.reims.grid5000.fr, api-server-devel.rennes.grid5000.fr, api-server-devel.orsay.grid5000.fr, api-server-devel.sophia.grid5000.fr, api-server-devel.toulouse.grid5000.fr]
+         ** [out :: api-server-devel.bordeaux.grid5000.fr] g5k-api  26110  0.3 13.9 246432 72840 ?        Sl   Nov20  14:43 thin server (0.0.0.0:8000) [g5k-api-3.0.16]
+         ** [out :: api-server-devel.grenoble.grid5000.fr] g5k-api  18510  0.3  7.5 249072 78620 ?        Sl   Nov18  22:48 thin server (0.0.0.0:8000) [g5k-api-3.0.16]
+         ** [out :: api-server-devel.luxembourg.grid5000.fr] g5k-api  13384  0.1 13.6 203396 71184 ?        Sl   Nov22   1:29 thin server (0.0.0.0:8000) [g5k-api-3.0.16]
+         ** [out :: api-server-devel.nancy.grid5000.fr] g5k-api  12702  0.3 26.9 312236 69704 ?        Sl   Nov20  17:27 thin server (0.0.0.0:8000) [g5k-api-3.0.16]
+         ** [out :: api-server-devel.sophia.grid5000.fr] g5k-api  19366  0.2 16.2 325972 84864 ?        Sl   Nov18  21:03 thin server (0.0.0.0:8000) [g5k-api-3.0.16]
+         ** [out :: api-server-devel.rennes.grid5000.fr] g5k-api  19353  0.9  7.2 246492 76220 ?        Sl   05:53   4:38 thin server (0.0.0.0:8000) [g5k-api-3.0.16]
+         ** [out :: api-server-devel.lille.grid5000.fr] g5k-api  18563  0.2 35.3 262788 92760 ?        Sl   Nov18  19:43 thin server (0.0.0.0:8000) [g5k-api-3.0.16]
+         ** [out :: api-server-devel.orsay.grid5000.fr] g5k-api  30348  0.3 27.4 244552 71028 ?        Sl   Nov22   4:57 thin server (0.0.0.0:8000) [g5k-api-3.0.16]
+         ** [out :: api-server-devel.toulouse.grid5000.fr] g5k-api   3825  0.3 32.3 259840 83660 ?        Sl   Nov18  23:54 thin server (0.0.0.0:8000) [g5k-api-3.0.16]
+         ** [out :: api-server-devel.reims.grid5000.fr] g5k-api   1749  0.8 31.9 324736 82696 ?        Sl   Nov18  65:08 thin server (0.0.0.0:8000) [g5k-api-3.0.16]
+         ** [out :: api-server-devel.lyon.grid5000.fr] g5k-api   9940  0.5 33.9 329864 87796 ?        Sl   Nov18  40:32 thin server (0.0.0.0:8000) [g5k-api-3.0.16]
+
+
 ## Statistics
+
 * Generate general statistics:
 
         $ bundle exec rake stats
-        
+
   Example of output you'll get on the STDOUT:
-  
+
         +----------------------+-------+-------+---------+---------+-----+-------+
         | Name                 | Lines |   LOC | Classes | Methods | M/C | LOC/M |
         +----------------------+-------+-------+---------+---------+-----+-------+
@@ -127,6 +163,7 @@ to create a test database, and a fake OAR database.
 
         $ bundle exec rake test:rcov
         $ open coverage/index.html
+
 
 ## Maintenance
 
