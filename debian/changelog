@@ -1,3 +1,12 @@
+g5k-api (3.0.17-1) unstable; urgency=low
+
+  * 1ede204 Fix bad require.
+  * 7f59908 Better explain how to setup development environment.
+  * d023d20 Explain how to release and install new version.
+  * c14aa96 Take X-Api-Path-Prefix and X-Api-Mount-Path into account when redirecting requests.
+
+ -- Cyril Rohr <cyril.rohr@inria.fr>  Wed, 23 Nov 2011 15:25:15 +0100
+
 g5k-api (3.0.16-1) unstable; urgency=low
 
   * 1491ebc Display response payload when proxied request failed.
