@@ -35,26 +35,45 @@ In particular, runtime dependencies of the app include `ruby1.9.1-full` and `git
 
         $ bundle install
 
-* Adapt the configuration files located in `config/options/`.
+* [option1 - the hard way - setup the full development environment on your machine]
 
-* [optional] Setup the database:
+  Install a MySQL database, and any other dependency that can be required by
+  the API to run, and adapt the configuration files located in
+  `config/options/`. Look at the puppet recipes that can be found in the
+  `puppet/` directory to know more about the software that should be installed
+  to mirror the production servers.
+
+* [option2 - the easy way - use a Grid'5000 node as your development server]
+
+  If you don't want to install a mysql server and other dependencies on your
+  machine, you can use one of the Capistrano tasks that are bundled with the
+  app to install the full development environment on a Grid'5000 node. If you
+  enter the following command, then you'll have a Grid'5000 node provisioned
+  for you with the right version of the OS and all the software dependencies
+  and port forwarding setup (takes about 5-10 minutes to deploy and
+  configure):
+
+        $ cap develop
+
+  This is the recommended approach, and you can reuse the node for packaging a
+  new release once you've made some changes.
+
+* Setup the database schema:
 
         $ rake db:setup RACK_ENV=development
 
-  Note that if you don't want to install a mysql server and other dependencies
-  on your machine, you can use one of the `capistrano` tasks that are bundled
-  with the app.
+* To run the server, just enter:
 
-  For instance, doing a `cap develop` will launch and configure a machine on
-  Grid'5000 with everything required to have a working development
-  environment (adapt the `database.yml` file in consequence).
+        $ ./bin/g5k-api server start -e development
 
-* If you're not too familiar with `rails` 3, have a look at
-  <http://guides.rubyonrails.org/>.
+That's it. If you're not too familiar with `rails` 3, have a look at
+<http://guides.rubyonrails.org/>. 
 
-* Look up the list of available rake tasks:
+You can also list the available rake tasks and capistrano tasks to see what's
+already automated for you:
 
-        $ rake -T
+    $ rake -T
+    $ cap -T
 
 
 ## Testing
