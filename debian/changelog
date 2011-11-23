@@ -1,3 +1,9 @@
+g5k-api (3.0.18-1) unstable; urgency=low
+
+  * 9e35275 Fix that fucking router. Finally.
+
+ -- Cyril Rohr <cyril.rohr@inria.fr>  Wed, 23 Nov 2011 15:36:02 +0100
+
 g5k-api (3.0.17-1) unstable; urgency=low
 
   * 1ede204 Fix bad require.
