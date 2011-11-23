@@ -6,7 +6,7 @@ Api::Application.routes.draw do
   match '/versions/:id' => 'versions#show', :via => [:get]
   match '*resource/versions' => 'versions#index', :via => [:get]
   match '*resource/versions/:id' => 'versions#show', :via => [:get]
-  
+
   resources :environments, :only => [:index, :show]
   resources :network_equipments, :only => [:index, :show]
   resources :sites, :only => [:index, :show] do
@@ -22,11 +22,16 @@ Api::Application.routes.draw do
     resources :deployments
   end
   resources :notifications, :only => [:index, :create]
-  
+
   match '/ui/events' => redirect('https://www.grid5000.fr/status')
-  
-  match '/ui' => redirect('/ui/dashboard')
-  match '/ui/index' => redirect('/ui/dashboard')
+
+  # Could be simplified once we use Rails >= 3.1 (remove the proc)
+  match '/ui' => redirect(proc {|params, request|
+    Grid5000::Router.new("/ui/dashboard").call(params, request)
+  })
+  match '/ui/index' => redirect(proc {|params, request|
+    Grid5000::Router.new("/ui/dashboard").call(params, request)
+  })
   match '/ui/:page' => 'ui#show', :via => [:get]
   match '/ui/visualizations/:page' => 'ui#visualization', :via => [:get]
 
