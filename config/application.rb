@@ -18,8 +18,6 @@ require 'rack/fiber_pool'
 require 'rack/jsonp'
 require 'rack/lint'
 
-require 'grid5000/router'
-
 module Api
 
   class Application < Rails::Application
