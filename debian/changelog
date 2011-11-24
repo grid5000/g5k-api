@@ -1,3 +1,10 @@
+g5k-api (3.0.19-1) unstable; urgency=low
+
+  * 4c4d87c Serve static files from app, even in production.
+  * 099e3c4 Fix develop capistrano task.
+
+ -- Cyril Rohr <cyril.rohr@inria.fr>  Thu, 24 Nov 2011 13:54:38 +0100
+
 g5k-api (3.0.18-1) unstable; urgency=low
 
   * 9e35275 Fix that fucking router. Finally.
