@@ -80,7 +80,7 @@ task :develop, :roles => :dev do
   create_dbs = YAML.load_file(
     File.expand_path("../database.yml", __FILE__)
   ).values.map{|v|
-    "create database #{v['database']}"
+    "drop database #{v['database']}; create database #{v['database']}"
   }.join("; ")
   run "mysql -u root -e '#{create_dbs}'"
 
