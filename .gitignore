@@ -4,7 +4,7 @@ pkg
 doc
 log/*.log
 tmp/**/*
-vendor
+/vendor
 coverage
 .rvmrc
 .DS_Store
