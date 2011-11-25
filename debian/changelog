@@ -1,3 +1,12 @@
+g5k-api (3.0.22-1) unstable; urgency=low
+
+  * 478d27e Remove some debugging output, and filter the list of jobs fetched from the UI.
+  * f2e87ae Fix capistrano develop task.
+  * 7f6e6b0 Increase timeout for fetching list of valid clusters.
+  * 811add3 Explain how to develop on the UI.
+
+ -- Cyril Rohr <cyril.rohr@inria.fr>  Fri, 25 Nov 2011 11:21:15 +0100
+
 g5k-api (3.0.21-1) unstable; urgency=low
 
   * fd3017a Handle XMPP errors.
