@@ -20,6 +20,12 @@ XMPP.disconnected {
   XMPP.handler.connect
 }
 
+# Handle error, otherwise it will end the TCP connection, AND kill the reactor
+# loop.
+XMPP.handle :error do |error|
+  Rails.logger.warn "XMPP connection encountered error: #{error.inspect}"
+end
+
 Thread.new {
   until EM.reactor_running?
     sleep 1
