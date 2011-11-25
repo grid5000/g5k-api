@@ -66,8 +66,15 @@ In particular, runtime dependencies of the app include `ruby1.9.1-full` and `git
 
         $ ./bin/g5k-api server start -e development
 
+  If you want to develop on the UI, you should probably setup an SSH tunnel
+  between your machine and one of the MySQL server of Grid'5000, so that you
+  can access the current jobs:
+
+        $ ssh -NL 13307:mysql.rennes.grid5000.fr:3306 access.rennes.grid5000.fr
+
+
 That's it. If you're not too familiar with `rails` 3, have a look at
-<http://guides.rubyonrails.org/>. 
+<http://guides.rubyonrails.org/>.
 
 You can also list the available rake tasks and capistrano tasks to see what's
 already automated for you:
