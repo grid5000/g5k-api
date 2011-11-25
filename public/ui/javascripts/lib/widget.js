@@ -13,17 +13,12 @@ Widget.display = function(options) {
     global: true,
     // dataFilter: function(data) { return JSON.parse(data); },
     success: function(widget, status) {
-      console.log("success")
       if (widget.stylesheet) {
         $("head").append('<link href="./widgets/'+widget.id+'/'+widget.id+'.css" rel="stylesheet" type="text/css"/>')
       }
-      console.log("1")
       $(".title", container).html(widget.title);
-      console.log("2")
       $(".content", container).html("");
-      console.log("3")
       widget.display(container, options);
-      console.log("4")
       // if (options.refresh && options.refresh > 0) {
       //   $(document).everyTime(options.refresh, function(i) {
       //     $(".content", container).html("");

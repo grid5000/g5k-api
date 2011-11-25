@@ -21,12 +21,10 @@ status_widget_callback({
       total.scolors.push(system_colors[state])
       total.legend.push(state)
     }
-        console.log("display")
     $.ajax({
       url: options.api_base_uri+"/sites", 
       dataType: "jsonp", type: "GET", cache: true, global: false,
       success: function(sites_collection) {
-        console.log(sites_collection)
         sites_count = sites_collection.items.length;
         for(var i=0; i < sites_count; i++) {
           var site = sites_collection.items[i];

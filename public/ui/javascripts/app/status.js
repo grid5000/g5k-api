@@ -140,7 +140,6 @@ $(document).ready(function() {
   /**
    * Main trigger
    */
-   console.log("here")
   http.get("../../", {
     before: function() {
       $("#main").addClass("loading")

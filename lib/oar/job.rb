@@ -43,7 +43,12 @@ module OAR
       jobs = jobs.where(:job_user => params[:user]) unless params[:user].blank?
       jobs = jobs.where(:job_name => params[:name]) unless params[:name].blank?
       jobs = jobs.where(:project => params[:project]) unless params[:project].blank?
-      jobs = jobs.where(:state => params[:state].capitalize) unless params[:state].blank?
+      if params[:state]
+        states = (params[:state] || "").split(/\s*,\s*/).
+          map(&:capitalize).
+          uniq
+        jobs = jobs.where(:state => states)
+      end
       jobs = jobs.where(:queue_name => params[:queue]) if params[:queue]
       jobs
     end

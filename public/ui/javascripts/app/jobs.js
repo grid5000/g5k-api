@@ -211,13 +211,20 @@ $(document).ready(function() {
    * React to a new site event
    */
   $(document).bind("grid:site", function(event, grid, site) {
+    var states = Helper.arrayParam($.query.get("state"))
+    if (states.length == 0) {
+      states = ["waiting","running","hold", "launching"]
+    }
 
     http.get(http.linkTo(site.links, "jobs"), {
+      data: {state: states.join(",")},
       ok: function(data) {
         // var count = data.items.length
-        // var done = 0;
+        // var done = 0;   
         _.each(data.items, function(job, i) {
-          $(document).trigger("grid:site:job", [grid, site, job])
+          if (_.include(states, job.state)) {
+            $(document).trigger("grid:site:job", [grid, site, job])
+          }
           // http.get(http.linkTo(job.links, "self"), {
           //   ok: function(data) {
           //     $(document).trigger("grid:site:job", [grid, site, data])
@@ -387,7 +394,7 @@ $(document).ready(function() {
   $(document).bind("view:refresh", function(event) {
     $("body").addClass("loading")
     $("#jobs table tbody tr").removeClass("existing")
-    http.get("../", {
+    http.get("../../", {
       ok: function(data) {
         $(document).trigger("grid", [data])
       }
