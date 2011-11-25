@@ -83,7 +83,7 @@ status_widget_callback({
                 if (options.total) {
                   var total_hard = []; for (var state in total.hstats) { total_hard.push(total.hstats[state]) }
                   var total_syst = []; for (var state in total.sstats) { total_syst.push(total.sstats[state]) }
-                  var img_href = "http://chart.apis.google.com/chart?cht=pc&chd=t:"+
+                  var img_href = "https://chart.googleapis.com/chart?cht=pc&chd=t:"+
                     total_hard.join(",")+
                     "|"+
                     total_syst.join(",")+

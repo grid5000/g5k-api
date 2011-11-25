@@ -8,7 +8,7 @@ twitter_widget_callback({
     var already_displayed = 0;
     container.addClass('loading');
     (".title .link_to_twitter", container).hide();
-    $.getJSON("http://twitter.com/statuses/user_timeline/71249717.json?callback=?", function(data) {
+    $.getJSON("https://twitter.com/statuses/user_timeline/71249717.json?callback=?", function(data) {
       $.each(data, function(i, item) {
         var tags = item.text.match(/#[\w\d-]+/g)
         if ($.inArray(true, $.map(tags || [], function(tag, i) { return $.inArray(tag, options.allowed_tags) != -1})) != -1) {
