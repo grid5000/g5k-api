@@ -111,6 +111,7 @@ status_widget_callback({
       'dead': 'B11623',
       'alive': '00AA00',
       'absent': 'EA4581',
+      'standby': '00FFFF',
       'suspected': '28A3C2'
     },
     "system_colors": {
