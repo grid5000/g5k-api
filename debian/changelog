@@ -1,3 +1,10 @@
+g5k-api (3.0.21-1) unstable; urgency=low
+
+  * fd3017a Handle XMPP errors.
+  * 2c633f4 Use https URIs for Twitter and Google Chart API.
+
+ -- Cyril Rohr <cyril.rohr@inria.fr>  Fri, 25 Nov 2011 09:34:19 +0100
+
 g5k-api (3.0.20-1) unstable; urgency=low
 
   * 8cafe60 Wow, .gitignore was ignoring public/ui/**/vendor folders.
