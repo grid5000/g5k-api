@@ -6,6 +6,20 @@ class MyXMPP
   def handler; client; end
 end
 
+module Blather
+  class Stream
+    class Parser < Nokogiri::XML::SAX::Document
+      # By default, ParseError exceptions are not rescue, which causes the
+      # stream to be closed, AND the reactor loop to be closed.
+      def receive_data(*args)
+        super(*args)
+      rescue StandardError => e
+        Rails.logger.error "XMPP error: #{e.class.name} - #{e.message}"
+        Rails.logger.debug e.backtrace.join("; ")
+      end
+    end
+  end
+end
 
 XMPP = MyXMPP.new
 jid = Blather::JID.new(Rails.my_config(:xmpp_jid))
@@ -17,11 +31,10 @@ XMPP.when_ready {
 
 XMPP.disconnected { 
   # Automatically reconnect
+  Rails.logger.info "Disconnected. Reconnecting to XMPP server..."
   XMPP.handler.connect
 }
 
-# Handle error, otherwise it will end the TCP connection, AND kill the reactor
-# loop.
 XMPP.handle :error do |error|
   Rails.logger.warn "XMPP connection encountered error: #{error.inspect}"
 end
