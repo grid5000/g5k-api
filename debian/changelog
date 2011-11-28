@@ -1,3 +1,10 @@
+g5k-api (3.0.23-1) unstable; urgency=low
+
+  * 6dc4316 Atempts to rescue XMPP ParserError.
+  * c7b4dff Display specific color for standby nodes.
+
+ -- Cyril Rohr <cyril.rohr@inria.fr>  Mon, 28 Nov 2011 10:42:10 +0100
+
 g5k-api (3.0.22-1) unstable; urgency=low
 
   * 478d27e Remove some debugging output, and filter the list of jobs fetched from the UI.
