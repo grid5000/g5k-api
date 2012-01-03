@@ -33,6 +33,7 @@ case "$1" in
           adduser --no-create-home --system --group $NAME
         fi
         chown -R $NAME.$NAME /etc/$NAME/
+        chown -R $NAME.$NAME /var/db/$NAME/
     ;;
 
     abort-upgrade|abort-remove|abort-deconfigure)
