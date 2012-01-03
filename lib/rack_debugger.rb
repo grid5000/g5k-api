@@ -9,7 +9,7 @@ class RackDebugger
     }.inspect].join(" ")
 
     if env['rack.input']
-      @logger.info ["  BODY:", env['rack.input'].size > 10_000 ? "too big to display" : env['rack.input'].read.inspect].join(" ")
+      @logger.info ["  BODY:", env['rack.input'].read(10_000).inspect].join(" ")
       env['rack.input'].rewind
     end
 
