@@ -18,12 +18,21 @@ set -e
 
 NAME="g5k-api"
 
+cleanup()
+{
+  /etc/init.d/$NAME stop || true
+  rm /usr/bin/$NAME
+  mv /opt/local/$NAME/bin/$NAME.rb /opt/local/$NAME/bin/$NAME
+  return 0;
+}
+
 case "$1" in
-    remove|upgrade|deconfigure)
-        /etc/init.d/$NAME stop || true
-        rm /usr/bin/$NAME
-        mv /opt/local/$NAME/bin/$NAME.rb /opt/local/$NAME/bin/$NAME
+    remove)
+        cleanup
         deluser --remove-all-files $NAME || true
+    ;;
+    upgrade|deconfigure)
+        cleanup
     ;;
 
     failed-upgrade)
