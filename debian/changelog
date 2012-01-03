@@ -1,3 +1,9 @@
+g5k-api (3.0.25-1) unstable; urgency=low
+
+  * fa09e13 Do not deluser on upgrade.
+
+ -- Cyril Rohr <cyril.rohr@inria.fr>  Tue, 03 Jan 2012 11:44:52 +0100
+
 g5k-api (3.0.24-1) unstable; urgency=low
 
   * 8d5ff24 Correctly handle XMPP disconnections, and reconnect.
