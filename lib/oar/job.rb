@@ -106,8 +106,8 @@ module OAR
       resources.each do |resource|
         case resource.type
         when 'default'
-          h['nodes'] ||= []
-          h['nodes'].push(resource.network_address)
+          h['cores'] ||= []
+          h['cores'].push(resource.network_address)
         when /vlan/
           h['vlans'] ||= []
           h['vlans'].push(resource.vlan)
