@@ -9,7 +9,7 @@ end
 module Blather
   class Stream
     class Parser < Nokogiri::XML::SAX::Document
-      # By default, ParseError exceptions are not rescue, which causes the
+      # By default, ParseError exceptions are not rescued, which causes the
       # stream to be closed, AND the reactor loop to be closed.
       def receive_data(*args)
         super(*args)
@@ -29,11 +29,17 @@ XMPP.when_ready {
   Rails.logger.info "Connected to XMPP server as #{jid.to_s}"
 }
 
-XMPP.disconnected { 
+reconnect = Proc.new {
   # Automatically reconnect
   Rails.logger.info "Disconnected. Reconnecting to XMPP server..."
-  XMPP.handler.connect
+  begin
+    XMPP.handler.connect
+  rescue StandardError => e
+    puts "Catched XMPP error: #{e.class.name} - #{e.message}"
+    EM.add_timer(10, &reconnect)
+  end
 }
+XMPP.disconnected(&reconnect)
 
 XMPP.handle :error do |error|
   Rails.logger.warn "XMPP connection encountered error: #{error.inspect}"
