@@ -6,6 +6,11 @@
   When you POST or PUT content, you can use `application/json` format or
   `application/x-www-form-urlencoded`.
 
+* `/grid5000` prefix has been removed from URIs. For instance,
+  `/grid5000/sites/rennes/jobs` becomes `/sites/rennes/jobs`.
+
+* XML output is no longer supported for the Reference API.
+
 * `/sites/{{site_id}}/status` is no longer a collection. Instead, there is now
   a `nodes` key which returns a hash with `{hostname => {:soft => soft_state,
   :hard => hard_state, :reservations => [...]}}`
@@ -22,7 +27,7 @@
 * In job description: `user_uid` is replaced by `user`. `user_uid` is still
   available but is going to be deprecated and removed in a future revision.
   `site_uid` is removed. A `resources_by_type` property is now available,
-  whici is a dictionary of the resources assigned to the job (nodes, vlans,
+  which is a dictionary of the resources assigned to the job (nodes, vlans,
   subnets), grouped by the type of the resource.
 
 * JSON payloads are no longer pretty by default. Use `?pretty=yes` or add the
@@ -30,11 +35,11 @@
   output.
 
 * Notifications API is now available. This lets you send notifications via
-  SMTP (email), XMPP (jabber), or HTTP. The Deployments API uses that API to
-  send you notifications when a deployments ends. You can now use it for
-  yourself.
+  SMTP (email), XMPP (jabber), or HTTP. The Deployments API use it to send
+  notifications when a deployments ends. You can now use it for yourself.
 
-      $ curl -kni https://api.grid5000.fr/sid/notifications -d "to[]=mailto:cyril.rohr@inria.fr&body=My Message"
+        $ curl -kni https://api.grid5000.fr/sid/notifications \
+        -d "to[]=mailto:cyril.rohr@inria.fr&body=My Message"
 
 * Internally, API is now released as a Debian package, for easy installation.
 
