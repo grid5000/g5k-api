@@ -1,3 +1,13 @@
+g5k-api (3.0.24-1) unstable; urgency=low
+
+  * 8d5ff24 Correctly handle XMPP disconnections, and reconnect.
+  * b075da1 Expand changelog.
+  * 8dae0b8 rack.input does not necessarily have a #size method. Fix this.
+  * 25cbf83 Ensure correct permissions on /var/db/g5k-api.
+  * dfbcc9a Replace 'nodes' by 'cores' in 'resources_by_type' hash in the details of a job.
+
+ -- Cyril Rohr <cyril.rohr@inria.fr>  Tue, 03 Jan 2012 11:31:38 +0100
+
 g5k-api (3.0.23-1) unstable; urgency=low
 
   * 6dc4316 Atempts to rescue XMPP ParserError.
