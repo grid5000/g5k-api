@@ -1,3 +1,12 @@
+g5k-api (3.0.27-1) unstable; urgency=low
+
+  * b92883d Disable syslogger, as there are too many errors due to this component.
+  * 59c4ed5 Fix URI.
+  * 2d28851 /var/log/g5k-api should be owned by g5k-api.
+  * 34ac137 Add spec for Grid5000::Router.
+
+ -- Cyril Rohr <cyril.rohr@inria.fr>  Thu, 12 Jan 2012 13:27:14 +0100
+
 g5k-api (3.0.26-1) unstable; urgency=low
 
   * edabe4c Add support for X-Api-Version.
