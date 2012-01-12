@@ -19,11 +19,11 @@ Api::Application.configure do
   # just comment this out and Rails will serve the files
 
   # Use a different logger for distributed setups
-  config.logger = Syslogger.new(
-    "g5k-api-#{Grid5000::VERSION}", 
-    Syslog::LOG_PID, 
-    Syslog::LOG_LOCAL0
-  )
+  # config.logger = Syslogger.new(
+  #   "g5k-api-#{Grid5000::VERSION}", 
+  #   Syslog::LOG_PID, 
+  #   Syslog::LOG_LOCAL0
+  # )
 
   # Use a different cache store in production
   # config.cache_store = :mem_cache_store
