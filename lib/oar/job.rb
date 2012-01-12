@@ -98,7 +98,7 @@ module OAR
 
 
     def assigned_nodes
-      (resources_by_type['nodes'] || []).uniq
+      (resources_by_type['cores'] || []).uniq
     end
 
     def resources_by_type
