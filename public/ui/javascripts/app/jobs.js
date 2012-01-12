@@ -394,11 +394,11 @@ $(document).ready(function() {
   $(document).bind("view:refresh", function(event) {
     $("body").addClass("loading")
     $("#jobs table tbody tr").removeClass("existing")
-    http.get("../../", {
+    http.get("../", {
       ok: function(data) {
         $(document).trigger("grid", [data])
       }
-    }); // GET /grid5000
+    });
   })
   
   $(document).bind("view:update", function(event) {
