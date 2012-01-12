@@ -15,6 +15,11 @@ module Grid5000
     
     class << self
       def uri_to(request, path, in_or_out = :in, relative_or_absolute = :relative)
+        api_version = if request.env['HTTP_X_API_VERSION'].blank?
+          nil
+        else
+          File.join("/", (request.env['HTTP_X_API_VERSION'] || ""))
+        end
         path_prefix = if request.env['HTTP_X_API_PATH_PREFIX'].blank?
           nil
         else
@@ -25,7 +30,7 @@ module Grid5000
         else
           File.join("/", (request.env['HTTP_X_API_MOUNT_PATH'] || ""))
         end
-        uri = File.join("/", *[path_prefix, path].compact)
+        uri = File.join("/", *[api_version, path_prefix, path].compact)
         uri.gsub!(mount_path, '') unless mount_path.nil?
         uri = "/" if uri.blank?
         if in_or_out == :out || relative_or_absolute == :absolute
