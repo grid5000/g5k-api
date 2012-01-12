@@ -1,3 +1,9 @@
+g5k-api (3.0.26-1) unstable; urgency=low
+
+  * edabe4c Add support for X-Api-Version.
+
+ -- Cyril Rohr <cyril.rohr@inria.fr>  Thu, 12 Jan 2012 11:16:35 +0100
+
 g5k-api (3.0.25-1) unstable; urgency=low
 
   * fa09e13 Do not deluser on upgrade.
