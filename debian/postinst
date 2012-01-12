@@ -34,6 +34,7 @@ case "$1" in
         fi
         chown -R $NAME.$NAME /etc/$NAME/
         chown -R $NAME.$NAME /var/db/$NAME/
+        chown -R $NAME.$NAME /var/log/$NAME/
     ;;
 
     abort-upgrade|abort-remove|abort-deconfigure)
