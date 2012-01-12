@@ -1,3 +1,11 @@
+g5k-api (3.0.28-1) unstable; urgency=low
+
+  * baf380c Fix CHANGELOG.
+  * 0cefe0a Return full deployment details after creating a new deployment.
+  * 7d35c02 Fix bug in job description.
+
+ -- Cyril Rohr <cyril.rohr@inria.fr>  Thu, 12 Jan 2012 14:45:36 +0100
+
 g5k-api (3.0.27-1) unstable; urgency=low
 
   * b92883d Disable syslogger, as there are too many errors due to this component.
