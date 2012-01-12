@@ -151,7 +151,10 @@ describe DeploymentsController do
 
       response.status.should == 201
       response.headers['Location'].should == "http://api-in.local/sites/rennes/deployments/some-uid"
-      response.body.should be_empty
+      
+      json["uid"].should == "some-uid"
+      json["links"].should be_a(Array)
+      json.keys.sort.should == ["created_at", "disable_bootloader_install", "disable_disk_partitioning", "environment", "ignore_nodes_deploying", "links", "nodes", "site_uid", "status", "uid", "updated_at", "user_uid"]
 
       dep = Grid5000::Deployment.find_by_uid("some-uid")
       dep.should_not be_nil

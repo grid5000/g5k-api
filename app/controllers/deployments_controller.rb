@@ -92,7 +92,7 @@ class DeploymentsController < ApplicationController
         :in, :absolute
       )
       
-      # FIXME: this is a blocking call as it creates a file on disk. 
+      # WARN: this is a blocking call as it creates a file on disk. 
       # we may want to defer it or implement it natively with EventMachine
       deployment.transform_blobs_into_files!(Rails.tmp, files_base_uri)
 
@@ -105,12 +105,23 @@ class DeploymentsController < ApplicationController
         resource_path(deployment.uid),
         :in, :absolute
       )
+
+      deployment.links = links_for_item(deployment)
+
+      render_opts = {
+        :location => location_uri,
+        :status => 201
+      }
+
+      respond_to do |format|
+        format.g5kitemjson { render render_opts.merge(:json => deployment) }
+        format.json { render render_opts.merge(:json => deployment) }
+      end
       
-      render  :text => "", 
-              :head => :ok, 
-              :location => location_uri, 
-              :status => 201
-      
+      # render  :text => "", 
+      #         :head => :ok, 
+      #         :location => location_uri, 
+      #         :status => 201
     else
       raise BadRequest, "The deployment you are trying to submit is not valid: #{deployment.errors.full_messages.join("; ")}"
     end
