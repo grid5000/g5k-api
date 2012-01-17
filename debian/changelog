@@ -1,3 +1,10 @@
+g5k-api (3.0.29-1) unstable; urgency=low
+
+  * 1982b62 RootController is now a subclass of ResourcesController.
+  * 7637875 Fix max FiberPool size to 4.
+
+ -- Cyril Rohr <cyril.rohr@inria.fr>  Tue, 17 Jan 2012 13:47:21 +0100
+
 g5k-api (3.0.28-1) unstable; urgency=low
 
   * baf380c Fix CHANGELOG.
