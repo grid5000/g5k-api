@@ -1,8 +1,8 @@
 var http = new Http();
 
 function jsonConverter( site ) {
-  output = {  properties:{'nodes_count': { valueType: "number"} }, 
-              types:{'site': {pluralLabel: 'sites'}}, 
+  output = {  properties:{'nodes_count': { valueType: "number"} },
+              types:{'site': {pluralLabel: 'sites'}},
               items:[]
             }
   site['label'] = site['uid']
@@ -16,14 +16,18 @@ var sites_already_loaded = 0;
 var sites = [];
 var clusters_already_loaded = 0;
 var clusters = [];
+
+var max_cores = 0;
+var max_nodes = 0;
+
 $(document).ready(function() {
   // Widget.display({id: 'grid-status', refresh: 300000, container: '#widget-grid-status', api_base_uri: Grid5000.api_base_uri});
-  
+
   window.database = Exhibit.Database.create();
   window.exhibit = Exhibit.create();
   window.exhibit.configureFromDOM();
   Exhibit.UI.showBusyIndicator();
-  
+
   $.ajax({
     url: "../../sites",
     dataType: "json", type: "GET", cache: true, ifModified: true,
@@ -42,7 +46,7 @@ $(document).ready(function() {
             var site_index = this.site_index;
             $.each(clusters_collection.items, function(i, cluster) {
               clusters.push(cluster.uid)
-              
+
               var cluster_nodes_href = http.linkTo(cluster.links, 'nodes');
               $.ajax({
                 url: cluster_nodes_href+"?version="+cluster.version,
@@ -61,11 +65,20 @@ $(document).ready(function() {
                 complete: function(xOptions, textStatus) {
                   clusters_already_loaded += 1;
                   // bug in jquery: complete function is called twice when using thr jsonp type, thus incrementing twice the counters
-                  if (sites_already_loaded == sites.length && clusters_already_loaded == clusters.length) { 
+                  if (sites_already_loaded == sites.length && clusters_already_loaded == clusters.length) {
+                    // compute max nodes and max cores
+                    $.each(sites, function(i, site) {
+                      if (site.nodes_count > max_nodes){ max_nodes = site.nodes_count }
+                      if (site.cores_count > max_cores){ max_cores = site.cores_count }
+                    })
+                    // FIXME: lacks a render on the exhibit
+                    $("#nodes-count-coder").attr("ex:gradientpoints", "0,40;"+max_nodes+",100")
+                    $("#cores-count-coder").attr("ex:gradientpoints", "0,40;"+max_cores+",100")
+
                     $.each(sites, function(i, site) {
                       window.database.loadData(jsonConverter(site));
                     })
-                    Exhibit.UI.hideBusyIndicator(); 
+                    Exhibit.UI.hideBusyIndicator();
                   }
                 }
               }); // ajax nodes
