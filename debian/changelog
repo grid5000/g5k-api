@@ -1,3 +1,9 @@
+g5k-api (3.0.30-1) unstable; urgency=low
+
+  * 9aef8b7 Forgot to backport fix for number of cores/nodes.
+
+ -- Cyril Rohr <cyril.rohr@inria.fr>  Thu, 26 Jan 2012 09:28:12 +0100
+
 g5k-api (3.0.29-1) unstable; urgency=low
 
   * 1982b62 RootController is now a subclass of ResourcesController.
