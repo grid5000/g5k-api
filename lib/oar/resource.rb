@@ -3,7 +3,7 @@ module OAR
     # `available_upto` value for which an 'absent' resource is considered to
     # be in the standby state.
     STANDBY_AVAILABLE_UPTO = 2147483646
-    
+
     set_table_name "resources"
     set_primary_key :resource_id
     # disable inheritance guessed by Rails because of the "type" column.
@@ -38,9 +38,13 @@ module OAR
       #
       def status(options = {})
         result = {}
+
+        include_comment = columns.find{|c| c.name == "comment"}
+
         resources = Resource.select(
-          "resource_id, network_address, state, available_upto"
+          "resource_id, network_address, state, available_upto#{include_comment ? ", comment" : ""}"
         )
+
         resources = resources.where(
           :cluster => options[:clusters]
         ) unless options[:clusters].blank?
@@ -115,11 +119,13 @@ module OAR
         if hard == 'absent' && resource.available_upto && resource.available_upto == STANDBY_AVAILABLE_UPTO
           hard = 'standby'
         end
-        {
+        h = {
           :hard => hard,
           :soft => resource.dead? ? "unknown" : "free",
           :reservations => Set.new
         }
+        h[:comment] = resource.comment if resource.respond_to?(:comment)
+        h
       end
     end # class << self
 
