@@ -1,3 +1,10 @@
+g5k-api (3.0.31-1) unstable; urgency=low
+
+  * def627b Support comment column in OAR, when returning node status. Fixes bugzilla#4199.
+  * facf8a6 Parametrize gateway in deploy.rb
+
+ -- Cyril Rohr <cyril.rohr@inria.fr>  Fri, 16 Mar 2012 15:12:43 +0100
+
 g5k-api (3.0.30-1) unstable; urgency=low
 
   * 9aef8b7 Forgot to backport fix for number of cores/nodes.
