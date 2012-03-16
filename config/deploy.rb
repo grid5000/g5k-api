@@ -8,7 +8,7 @@ set :puppet, "/tmp/puppet"
 
 set :scm, :git
 
-set :gateway, "crohr@access.rennes.grid5000.fr"
+set :gateway, ENV['GATEWAY'] || "crohr@grid5000.irisa.fr"
 set :user, ENV['REMOTE_USER'] || "root"
 set :ssh_options, {
   :port => 22, :keys => ["~/.ssh/id_rsa"], :forward_agent => true
