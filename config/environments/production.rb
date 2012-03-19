@@ -19,11 +19,15 @@ Api::Application.configure do
   # just comment this out and Rails will serve the files
 
   # Use a different logger for distributed setups
-  # config.logger = Syslogger.new(
-  #   "g5k-api-#{Grid5000::VERSION}", 
-  #   Syslog::LOG_PID, 
-  #   Syslog::LOG_LOCAL0
-  # )
+  logger = BufferedSyslogger.new(
+    "g5k-api-#{Grid5000::VERSION}", 
+    Syslog::LOG_PID, 
+    Syslog::LOG_LOCAL0
+  )
+  # To remove once buffered_syslogger implements the fix
+  logger.instance_variable_set "@buffer", Hash.new([])
+
+  config.logger = logger
 
   # Use a different cache store in production
   # config.cache_store = :mem_cache_store
