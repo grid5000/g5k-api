@@ -1,3 +1,11 @@
+g5k-api (3.0.33-1) unstable; urgency=low
+
+  * ae0787f Add cap yank to remove release package.
+  * 6e3d96d Revert "Do not output debugging info for pings originating from Squid proxy."
+  * 1c52c68 Revert "Switch to BufferedSyslogger in production and development environments."
+
+ -- Cyril Rohr <cyril.rohr@inria.fr>  Mon, 19 Mar 2012 14:20:23 +0100
+
 g5k-api (3.0.32-1) unstable; urgency=low
 
   * 27e79b9 Add bootstrap script.
