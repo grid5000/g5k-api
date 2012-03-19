@@ -54,8 +54,6 @@ GEM
     autotest-growl (0.2.11)
     awesome_print (0.4.0)
     backports (2.3.0)
-    buffered_syslogger (0.1.1)
-      activesupport (>= 3.0.0)
     builder (2.1.2)
     capistrano (2.9.0)
       highline
@@ -171,6 +169,7 @@ GEM
       rspec (~> 2.6.0)
     ruby-mysql (2.9.4)
     state_machine (0.10.4)
+    syslogger (1.2.5)
     thin (1.2.11)
       daemons (>= 1.0.9)
       eventmachine (>= 0.12.6)
@@ -192,7 +191,6 @@ DEPENDENCIES
   autotest
   autotest-growl
   blather!
-  buffered_syslogger
   capistrano
   em-http-request (~> 0.2)
   em-synchrony (~> 0.2)
@@ -211,5 +209,6 @@ DEPENDENCIES
   rspec-rails
   ruby-mysql
   state_machine (~> 0.9)
+  syslogger
   thin (~> 1.2.7)
   webmock

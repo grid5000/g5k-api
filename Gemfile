@@ -16,7 +16,7 @@ gem 'addressable', '~> 2.2'
 gem 'thin', '~> 1.2.7'
 gem 'state_machine', '~> 0.9'
 gem 'grit'
-gem 'buffered_syslogger'
+gem 'syslogger'
 gem 'haml'
 gem 'rack-jsonp'
 

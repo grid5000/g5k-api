@@ -13,16 +13,6 @@ Api::Application.configure do
   config.consider_all_requests_local       = true
   config.action_controller.perform_caching = false
 
-  logger = BufferedSyslogger.new(
-    "g5k-api-#{Grid5000::VERSION}", 
-    Syslog::LOG_PID, 
-    Syslog::LOG_LOCAL0
-  )
-  # To remove once buffered_syslogger implements the fix
-  logger.instance_variable_set "@buffer", Hash.new([])
-
-  config.logger = logger
-
   # Don't care if the mailer can't send
   # config.action_mailer.raise_delivery_errors = false
 
