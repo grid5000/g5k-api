@@ -67,6 +67,18 @@ task :release, :roles => :apt do
         #{sudo} dpkg-scanpackages . | gzip -f9 > Packages.gz"
 end
 
+desc "Remove the latest package from the APT repository."
+task :yank, :roles => :apt do
+  latest = Dir["pkg/*.deb"].find{|file| file =~ /#{Grid5000::VERSION}/}
+  fail "No .deb available in pkg/" if latest.nil?
+  latest = File.basename(latest)
+  run "mkdir -p #{apt} && rm \"#{apt}/#{latest}\""
+  run "cd #{apt} && \
+        #{sudo} apt-get update && \
+        #{sudo} apt-get install dpkg-dev -y && \
+        #{sudo} dpkg-scanpackages . | gzip -f9 > Packages.gz"
+end
+
 desc "Launch a development machine."
 task :develop, :roles => :dev do
   run "rm -rf #{puppet}"
