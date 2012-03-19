@@ -130,7 +130,7 @@ module Grid5000
       callback = proc { |result|
         set_deferred_status :succeeded, result
       }
-      logger.info [:callback, callback]
+
       EM.defer(proc{
         result = find(*args)
       }, callback)
