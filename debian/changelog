@@ -1,3 +1,12 @@
+g5k-api (3.0.32-1) unstable; urgency=low
+
+  * 27e79b9 Add bootstrap script.
+  * 27db705 Do not output debugging info for pings originating from Squid proxy.
+  * 3fbcf5e Remove useless debug output.
+  * ebdfbe7 Switch to BufferedSyslogger in production and development environments.
+
+ -- Cyril Rohr <cyril.rohr@inria.fr>  Mon, 19 Mar 2012 11:57:11 +0100
+
 g5k-api (3.0.31-1) unstable; urgency=low
 
   * def627b Support comment column in OAR, when returning node status. Fixes bugzilla#4199.
