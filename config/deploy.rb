@@ -40,7 +40,8 @@ task :package, :roles => :pkg do
         export http_proxy=proxy:3128 && \
         apt-get update && \
         apt-get install #{pkg_dependencies.join(" ")} git-core dh-make dpkg-dev -y && \
-        gem1.9.1 install rake bundler --no-ri --no-rdoc && \
+        gem1.9.1 install rake -v 0.8.7 --no-ri --no-rdoc && \
+        gem1.9.1 install bundler -v 1.1.1 --no-ri --no-rdoc && \
         rm -rf /tmp/#{application}*"
 
   system "mkdir -p pkg/ && git archive HEAD > pkg/#{application}.tar"
