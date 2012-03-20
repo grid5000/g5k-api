@@ -10,10 +10,13 @@ set :scm, :git
 
 set :gateway, ENV['GATEWAY'] || "#{ENV['USER']}@grid5000.irisa.fr"
 set :user, ENV['REMOTE_USER'] || "root"
+
+key = ENV['SSH_KEY'] || "~/.ssh/id_rsa"
+
 set :ssh_options, {
-  :port => 22, :keys => ["~/.ssh/id_rsa"], :forward_agent => true
+  :port => 22, :keys => [key], :forward_agent => true
 }
-set :authorized_keys, "~/.ssh/id_rsa.pub"
+set :authorized_keys, "#{key}.pub"
 
 set :provisioner, "bundle exec g5k-campaign --site #{ENV['SITE'] || 'rennes'} -a #{authorized_keys} -k #{ssh_options[:keys][0]} -e squeeze-x64-base --name \"#{application}-#{ARGV[0]}\" --no-submit --no-deploy --no-cleanup -w #{ENV['WALLTIME'] || 7200}"
 
