@@ -10,7 +10,11 @@ module ConfigurationHelper
   # Returns a string specific to the machine/cluster
   # where this server is hosted
   def whoami
-    ENV['WHOAMI'] || `hostname`.split(".")[1]
+    if Rails.env == "test"
+      "rennes"
+    else
+      ENV['WHOAMI'] || `hostname`.split(".")[1]
+    end
   end
 
 end
