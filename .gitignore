@@ -6,5 +6,4 @@ log/*.log
 tmp/**/*
 /vendor
 coverage
-.rvmrc
 .DS_Store
