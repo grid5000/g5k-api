@@ -143,8 +143,12 @@ to create a test database, and a fake OAR database.
         puppet-repo $ bundle exec cap shell ROLES=devel
         cap> sudo apt-get update && sudo apt-get install g5k-api -y && sudo puppetd -t
 
-  Personally I use a Capistrano task in the `puppet-dev` repository to launch
-  it in parallel on all servers on all sites, and I'll check that every server has the correct version running by grepping through the processlist to check the version numbers:
+  For this command to work, you should have a look in the
+  `script/puppet-repo-custom.rb` file, which in my case was dropped into the
+  `config/` directory of the `puppet-repo` repository.
+
+  Then you can check that every server has the correct version running by
+  grepping through the processlist to check the version numbers:
 
         puppet-repo $ bundle exec cap shell ROLES=devel
         cap> ps aux | grep g5k-api | grep -v grep
