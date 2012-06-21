@@ -1,3 +1,15 @@
+g5k-api (3.0.34-1) unstable; urgency=low
+
+  * 0888a01 Don't get resources for the jobs when there are no jobs
+  * 998ef35 Mention puppet-repo custom.rb file.
+  * a7a1919 Fix versions of rake and bundler.
+  * 86bdd55 Default to WHOAMI=rennes when testing.
+  * 340b057 Allow to customize SSH key.
+  * eab0488 Remove static crohr username.
+  * 745f359 Add .rvmrc
+
+ -- Ghislain Charrier <ghislain.charrier@inria.fr>  Thu, 21 Jun 2012 16:29:38 +0200
+
 g5k-api (3.0.33-1) unstable; urgency=low
 
   * ae0787f Add cap yank to remove release package.
