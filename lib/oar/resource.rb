@@ -59,23 +59,26 @@ module OAR
             :job => job
           }
         }
+        
+        # if there are jobs
+        if active_jobs_by_moldable_id.length > 0
+          moldable_ids = active_jobs_by_moldable_id.keys.
+            map{|moldable_id| "'#{moldable_id}'"}.join(",")
 
-        moldable_ids = active_jobs_by_moldable_id.keys.
-          map{|moldable_id| "'#{moldable_id}'"}.join(",")
+          # get all resources assigned to these jobs
+          %w{assigned_resources gantt_jobs_resources}.each do |table|
+            self.connection.execute(
+              QUERY_ASSIGNED_RESOURCES.gsub(
+                /%TABLE%/, table
+              ).gsub(
+                /%MOLDABLE_IDS%/, moldable_ids
+              )
+            ).each do |(moldable_job_id, resource_id)|
+              resource_id = resource_id.to_i
 
-        # get all resources assigned to these jobs
-        %w{assigned_resources gantt_jobs_resources}.each do |table|
-          self.connection.execute(
-            QUERY_ASSIGNED_RESOURCES.gsub(
-              /%TABLE%/, table
-            ).gsub(
-              /%MOLDABLE_IDS%/, moldable_ids
-            )
-          ).each do |(moldable_job_id, resource_id)|
-            resource_id = resource_id.to_i
-
-            active_jobs_by_moldable_id[moldable_job_id][:resources].
-              add(resource_id)
+              active_jobs_by_moldable_id[moldable_job_id][:resources].
+                add(resource_id)
+            end
           end
         end
 
