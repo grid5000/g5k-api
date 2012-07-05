@@ -1,5 +1,5 @@
 # Kadeploy 3.1
-# Copyright (c) by INRIA, Emmanuel Jeanvoine - 2008-2010
+# Copyright (c) by INRIA, Emmanuel Jeanvoine - 2008-2012
 # CECILL License V2 - http://www.cecill.info
 # For details on use and redistribution please refer to License.txt
 
@@ -8,6 +8,7 @@ require 'debug'
 require 'nodes'
 require 'config'
 require 'cache'
+require 'macrostep'
 require 'stepdeployenv'
 require 'stepbroadcastenv'
 require 'stepbootnewenv'
@@ -643,9 +644,9 @@ module Managers
                                            @config.exec_specific.true_user, @deploy_id,
                                            @config.common.dbg_to_syslog, @config.common.dbg_to_syslog_level, syslog_lock)
       end
-      @nodes_ok = Nodes::NodeSet.new
-      @nodes_ko = Nodes::NodeSet.new
       @nodeset = @config.exec_specific.node_set
+      @nodes_ok = Nodes::NodeSet.new(@nodeset.id)
+      @nodes_ko = Nodes::NodeSet.new(@nodeset.id)
       @queue_manager = QueueManager.new(@config, @nodes_ok, @nodes_ko)
       @reboot_window = reboot_window
       @nodes_check_window = nodes_check_window
@@ -656,10 +657,11 @@ module Managers
       @thread_tab = Array.new
       @logger = Debug::Logger.new(@nodeset, @config, @db, 
                                   @config.exec_specific.true_user, @deploy_id, Time.now, 
-                                  @config.exec_specific.environment.name + ":" + @config.exec_specific.environment.version, 
+                                  @config.exec_specific.environment.name + ":" + @config.exec_specific.environment.version.to_s, 
                                   @config.exec_specific.load_env_kind == "file",
                                   syslog_lock)
       @killed = false
+
       @thread_set_deployment_environment = Thread.new {
         launch_thread_for_macro_step("SetDeploymentEnv")
       }
@@ -693,45 +695,20 @@ module Managers
           if kind != "ProcessFinishedNodes" then
             nodes.group_by_cluster.each_pair { |cluster, set|
               instance_name,instance_max_retries,instance_timeout = @config.cluster_specific[cluster].get_macro_step(kind).get_instance
-              case kind
-              when "SetDeploymentEnv"
-                ptr = SetDeploymentEnvironnment::SetDeploymentEnvFactory.create(instance_name, 
-                                                                                instance_max_retries,
-                                                                                instance_timeout,
-                                                                                cluster,
-                                                                                set,
-                                                                                @queue_manager,
-                                                                                @reboot_window,
-                                                                                @nodes_check_window,
-                                                                                @output,
-                                                                                @logger)
+              if MacroSteps.typenames.include?(kind)
+                ptr = MacroSteps::MacroStepFactory.create(
+                  instance_name,
+                  instance_max_retries,
+                  instance_timeout,
+                  cluster,
+                  set,
+                  @queue_manager,
+                  @reboot_window,
+                  @nodes_check_window,
+                  @output,
+                  @logger
+                )
                 @set_deployment_environment_instances.push(ptr)
-                tid = ptr.run
-              when "BroadcastEnv"
-                ptr = BroadcastEnvironment::BroadcastEnvFactory.create(instance_name, 
-                                                                       instance_max_retries, 
-                                                                       instance_timeout,
-                                                                       cluster,
-                                                                       set,
-                                                                       @queue_manager,
-                                                                       @reboot_window,
-                                                                       @nodes_check_window,
-                                                                       @output,
-                                                                       @logger)
-                @broadcast_environment_instances.push(ptr)
-                tid = ptr.run
-              when "BootNewEnv"
-                ptr = BootNewEnvironment::BootNewEnvFactory.create(instance_name, 
-                                                                   instance_max_retries,
-                                                                   instance_timeout,
-                                                                   cluster,
-                                                                   set,
-                                                                   @queue_manager,
-                                                                   @reboot_window,
-                                                                   @nodes_check_window,
-                                                                   @output,
-                                                                   @logger)
-                @boot_new_environment_instances.push(ptr)
                 tid = ptr.run
               else
                 raise "Invalid macro step name"
@@ -934,12 +911,14 @@ module Managers
         if not @config.exec_specific.pxe_upload_files.empty? then
           @config.exec_specific.pxe_upload_files.each { |pxe_file|
             user_prefix = "pxe-#{@config.exec_specific.true_user}--"
-            tftp_images_path = "#{@config.common.tftp_repository}/#{@config.common.tftp_images_path}"
-            local_pxe_file = "#{tftp_images_path}/#{user_prefix}#{File.basename(pxe_file)}"
+            local_pxe_file = File.join(@config.common.pxe_repository, 
+                                       @common.pxe_repository_kernels,
+                                       "#{user_prefix}#{File.basename(pxe_file)}")
             begin
-              if not gfm.grab_file_without_caching(pxe_file, local_pxe_file, "pxe_file",
-                                                   user_prefix, tftp_images_path, 
-                                                   @config.common.tftp_images_max_size, async) then
+              if not gfm.grab_file_without_caching(pxe_file, local_pxe_file, "pxe_file", user_prefix,
+                                                   File.join(@config.common.pxe_repository,
+                                                             @common.pxe_repository_kernels), 
+                                                   @config.common.pxe_repository_kernels_max_size, async) then
                 @async_file_error = FetchFileError::INVALID_PXE_FILE if async
                 return false
               end

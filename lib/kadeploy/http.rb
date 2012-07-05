@@ -1,5 +1,5 @@
 # Kadeploy 3.1
-# Copyright (c) by INRIA, Emmanuel Jeanvoine - 2008-2010
+# Copyright (c) by INRIA, Emmanuel Jeanvoine - 2008-2011
 # CECILL License V2 - http://www.cecill.info
 # For details on use and redistribution please refer to License.txt
 
@@ -23,8 +23,13 @@ module HTTP
     http_response = String.new
     etag = String.new
     begin
-      wget_output = Tempfile.new("wget_output", cache_dir)
-      wget_download = Tempfile.new("wget_download", cache_dir)
+      if cache_dir
+        wget_output = Tempfile.new("wget_output", cache_dir)
+        wget_download = Tempfile.new("wget_download", cache_dir)
+      else
+        wget_output = Tempfile.new("wget_output")
+        wget_download = Tempfile.new("wget_download")
+      end
     rescue StandardError
       return -1,0
     end

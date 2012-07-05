@@ -1,5 +1,5 @@
 # Kadeploy 3.1
-# Copyright (c) by INRIA, Emmanuel Jeanvoine - 2008-2010
+# Copyright (c) by INRIA, Emmanuel Jeanvoine - 2008-2011
 # CECILL License V2 - http://www.cecill.info
 # For details on use and redistribution please refer to License.txt
 
@@ -151,6 +151,7 @@ module ParallelOperations
       @nodes.set.each { |node|
         node.last_cmd_exit_status = "0"
         node.last_cmd_stderr = ""
+        node.last_cmd_stdout = ""
       }
     end
 
@@ -164,6 +165,8 @@ module ParallelOperations
       @nodes.set.each { |node|
         node.last_cmd_exit_status = "256"
         node.last_cmd_stderr = "Unreachable"
+        node.last_cmd_stdout = ""
+        
       }
     end
 
@@ -176,6 +179,7 @@ module ParallelOperations
     def init_nodes_state_before_wait_nodes_after_reboot_command
       @nodes.set.each { |node|
         node.last_cmd_stderr = "Unreachable after the reboot"
+        node.last_cmd_stdout = ""
         node.state = "KO"
       }
     end
@@ -479,7 +483,7 @@ module ParallelOperations
                   node.state = "OK"
                   node.last_cmd_exit_status = "0"
                   node.last_cmd_stderr = ""
-                  @output.verbosel(4, "  *** #{node.hostname} is here after #{Time.now.tv_sec - start}s")
+                  @output.verbosel(4, "  *** #{node.hostname} is here after #{Time.now.tv_sec - start}s",@nodes)
                   @config.set_node_state(node.hostname, "", "", "rebooted")
                 else
                   node.state = "KO"
