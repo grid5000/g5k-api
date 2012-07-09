@@ -1,10 +1,11 @@
 # Kadeploy 3.1
-# Copyright (c) by INRIA, Emmanuel Jeanvoine - 2008-2010
+# Copyright (c) by INRIA, Emmanuel Jeanvoine - 2008-2011
 # CECILL License V2 - http://www.cecill.info
 # For details on use and redistribution please refer to License.txt
 
 #Ruby libs
 require 'tempfile'
+require 'pathname'
 
 #Kadeploy libs
 require 'db'
@@ -37,43 +38,14 @@ module EnvironmentManagement
     # Load an environment file
     #
     # Arguments
-    # * file: filename
-    # * file_content: environment description
+    # * description: environment description
     # * almighty_env_users: array that contains almighty users
     # * user: true user
-    # * cache_dir: cache directory
     # * client: DRb handler to client
     # * record_step: specify if the function is called for a DB record purpose
     # Output
     # * returns true if the environment can be loaded correctly, false otherwise
-    def load_from_file(file, file_content, almighty_env_users, user, cache_dir, client, record_in_db)
-      begin
-        temp_env_file = Tempfile.new("env_file")
-      rescue StandardException
-        Debug::distant_client_error("Temporary directory is full on the server side, please contact the administrator", client)
-        return false
-      end
-      if (file =~ /^http[s]?:\/\//) then
-        http_response, etag = HTTP::fetch_file(file, temp_env_file.path, cache_dir, nil)
-        case http_response
-        when -1
-          Debug::distant_client_error("The file #{file} cannot be fetched: impossible to create a tempfile in the cache directory", client)
-          return false
-        when -2
-          Debug::distant_client_error("The file #{file} cannot be fetched: impossible to move the file in the cache directory", client)
-          return false
-        when "200"
-        else
-          Debug::distant_client_error("The file #{file} cannot be fetched: http_response #{http_response}", client)
-          return false
-        end
-      else
-        if not system("echo \"#{file_content}\" > #{temp_env_file.path}") then
-          Debug::distant_client_error("Cannot write the environment file", client)
-          return false
-        end
-      end
-      file = temp_env_file.path
+    def load_from_file(description, almighty_env_users, user, client, record_in_db)
       @preinstall = nil
       @postinstall = nil
       @environment_kind = nil
@@ -91,7 +63,7 @@ module EnvironmentManagement
       @user = user
       @version = 0
       @id = -1
-      IO::read(file).split("\n").each { |line|
+      description.split("\n").each { |line|
         if /\A(\w+)\ :\ (.+)\Z/ =~ line then
           content = Regexp.last_match
           attr = content[1]
@@ -255,6 +227,7 @@ module EnvironmentManagement
         Debug::distant_client_error("The environment_kind field is mandatory", client)
         return false       
       end
+
       return true
     end
 
@@ -269,68 +242,61 @@ module EnvironmentManagement
     # * client: DRb handler to client
     # Output
     # * returns true if the environment can be loaded, false otherwise
-    def load_from_db(name, version, user, true_user, dbh, client)
-      mask_private_env = false
-      if (true_user != user) then
-        mask_private_env = true
-      end
-      if (version == nil) then
-        if mask_private_env then
-          query = "SELECT * FROM environments WHERE name=\"#{name}\" \
-                                              AND user=\"#{user}\" \
-                                              AND visibility<>\"private\" \
-                                              AND version=(SELECT MAX(version) FROM environments WHERE user=\"#{user}\" \
-                                                                                                 AND visibility<>\"private\" \
-                                                                                                 AND name=\"#{name}\")"
-        else
-          query = "SELECT * FROM environments WHERE name=\"#{name}\" \
-                                              AND user=\"#{user}\" \
-                                              AND version=(SELECT MAX(version) FROM environments WHERE user=\"#{user}\" \
-                                                                                                 AND name=\"#{name}\")"
+    def load_from_db(name, version, specified_user, true_user, dbh, client)
+      user = specified_user ? specified_user : true_user
+      mask_private_env = true_user != user
 
-        end
+      args = []
+
+      query = "SELECT * FROM environments WHERE name=? AND user=?"
+      args << name
+      args << user
+      query += " AND visibility <> 'private'" if mask_private_env
+
+      if (version == nil) then
+        subquery = "SELECT MAX(version) FROM environments WHERE name = ? AND user = ?"
+        args << name
+        args << user
+        subquery += " AND visibility <> 'private'" if mask_private_env
+        query += " AND version = (#{subquery})"
       else
-        if mask_private_env then
-          query = "SELECT * FROM environments WHERE name=\"#{name}\" \
-                                              AND user=\"#{user}\" \
-                                              AND visibility<>\"private\" \
-                                              AND version=\"#{version}\""
-        else
-          query = "SELECT * FROM environments WHERE name=\"#{name}\" \
-                                              AND user=\"#{user}\" \
-                                              AND version=\"#{version}\""
-        end
+        query += "AND version = ?"
+        args << version
       end
-      res = dbh.run_query(query)
-      row = res.fetch_hash
-      if (row != nil) #We only take the first result since no other result should be returned
-        load_from_hash(row)
+
+      res = dbh.run_query(query, *args)
+      tmp = res.to_hash
+      unless tmp.empty? #We only take the first result since no other result should be returned
+        load_from_hash(tmp[0])
         return true
       end
-      
+
       #If no environment is found for the user, we check the public environments
-      if (true_user == user) then
+      if (specified_user == nil) then
+        args = []
+        query = "SELECT * FROM environments WHERE name = ? AND user <> ? AND visibility = 'public'"
+        args << name
+        args << user
+
         if (version  == nil) then
-          query = "SELECT * FROM environments WHERE name=\"#{name}\" \
-                                              AND user<>\"#{user}\" \
-                                              AND visibility=\"public\" \
-                                              AND version=(SELECT MAX(version) FROM environments WHERE user<>\"#{user}\" \
-                                                                                                 AND visibility=\"public\" \
-                                                                                                 AND name=\"#{name}\")"
+          subquery = "SELECT MAX(version) FROM environments WHERE name = ? AND user <> ? AND visibility = 'public'"
+          args << name
+          args << user
+          query += " AND version = (#{subquery})"
         else
-          query = "SELECT * FROM environments WHERE name=\"#{name}\" \
-                                              AND user<>\"#{user}\" \
-                                              AND visibility=\"public\" \
-                                              AND version=\"#{version}\""
+          query = " AND version = ?"
+          args << version
         end
-        res = dbh.run_query(query)
-        row = res.fetch_hash
-        if (row != nil) #We only take the first result since no other result should be returned
-          load_from_hash(row)
+
+        res = dbh.run_query(query, *args)
+
+        tmp = res.to_hash
+        unless tmp.empty? #We only take the first result since no other result should be returned
+          load_from_hash(tmp[0])
           return true
         end
       end
-      
+
       Debug::distant_client_error("The environment #{name} cannot be loaded. Maybe the version number does not exist or it belongs to another user", client)
       return false
     end
@@ -573,14 +539,14 @@ module EnvironmentManagement
     # Output
     # * return true
     def set_md5(kind, file, hash, dbh)
-      query = String.new
+      query = ""
       case kind
       when "tarball"
         tarball = "#{@tarball["file"]}|#{@tarball["kind"]}|#{hash}"
-        query = "UPDATE environments SET tarball=\"#{tarball}\" WHERE id=\"#{@id}\""
+        query = "UPDATE environments SET tarball=\"#{tarball}\""
       when "presinstall"
         preinstall = "#{@preinstall["file"]}|#{@preinstall["kind"]}|#{hash}"
-        query = "UPDATE environments SET presinstall=\"#{preinstall}\" WHERE id=\"#{@id}\""
+        query = "UPDATE environments SET presinstall=\"#{preinstall}\""
       when "postinstall"
         postinstall_array = Array.new
         @postinstall.each { |p|
@@ -590,9 +556,11 @@ module EnvironmentManagement
             postinstall_array.push("#{p["file"]}|#{p["kind"]}|#{p["md5"]}|#{p["script"]}")
           end
         }
-        query = "UPDATE environments SET postinstall=\"#{postinstall_array.join(",")}\" WHERE id=\"#{@id}\""
+        query = "UPDATE environments SET postinstall=\"#{postinstall_array.join(",")}\""
       end
-      dbh.run_query(query)
+      query += " WHERE id = ?"
+
+      dbh.run_query(query, @id)
       return true
     end
   end

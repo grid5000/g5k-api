@@ -1,5 +1,5 @@
 # Kadeploy 3.1
-# Copyright (c) by INRIA, Emmanuel Jeanvoine - 2008-2010
+# Copyright (c) by INRIA, Emmanuel Jeanvoine - 2008-2011
 # CECILL License V2 - http://www.cecill.info
 # For details on use and redistribution please refer to License.txt
 
@@ -44,6 +44,8 @@ module ParallelRunner
         @mystderr.sync = true
         STDOUT.reopen(@mystdout)
         STDERR.reopen(@mystderr)
+        @mystdout.close
+        @mystderr.close
         begin
           exec(@cmd)
         rescue
@@ -80,11 +82,12 @@ module ParallelRunner
     # * output: instance of OutputControl
     # Output
     # * nothing
-    def initialize(output, instance_thread, process_container)
+    def initialize(output, instance_thread, process_container, nodesetid=0)
       @nodes = Hash.new
       @output = output
       @instance_thread = instance_thread
       @process_container = process_container
+      @nodesetid = nodesetid
     end
 
     # Add a command related to a node
@@ -173,6 +176,7 @@ module ParallelRunner
           bad_nodes.push(node)
         end
         nodeset = Nodes::NodeSet.new
+        nodeset.id = @nodesetid
         nodeset.push(node)
         @output.debug(@nodes[node]["cmd"].cmd, nodeset)
         nodeset = nil
@@ -205,6 +209,7 @@ module ParallelRunner
           bad_nodes.push(node)
         end
         nodeset = Nodes::NodeSet.new
+        nodeset.id = @nodesetid
         nodeset.push(node)
         @output.debug(@nodes[node]["cmd"].cmd, nodeset)
         nodeset = nil

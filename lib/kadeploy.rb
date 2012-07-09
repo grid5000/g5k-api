@@ -1,4 +1,4 @@
-# Since kadeploy3 is not properly namespaced, 
+# Since kadeploy3 is not properly namespaced,
 # everything is included into Kernel... yeah for name collisions!
 $LOAD_PATH.unshift File.dirname(__FILE__)+'/kadeploy'
 
@@ -19,8 +19,8 @@ require 'eventmachine'
 module ConfigInformation
   class Config
     def Config.load_client_config_file
-      # undef load_client_config_file 
-      # since we don't have/need a client configuration file 
+      # undef load_client_config_file
+      # since we don't have/need a client configuration file
       # on the api-servers
       kadeploy_uri = URI.parse(Kadeploy.config)
       {
@@ -36,38 +36,38 @@ Socket.do_not_reverse_lookup = true
 
 module Kadeploy
   DEFAULT_TIMEOUT = 10
-  
+
   class << self
     attr_accessor :config
-    
+
     def logger=(logger)
       @logger = logger
     end
-    
+
     def logger
       @logger ||= Logger.new(STDERR)
     end
-    
+
     def redirect_stdout
       old_stdout = $stdout
       output_file = Tempfile.new("stdout_output")
-      begin 
+      begin
         # redirect stdout to the file
         $stdout = output_file
         yield output_file
-      ensure  
+      ensure
         $stdout = old_stdout
       end
     end # def redirect_stdout
   end
-  
+
   class Error < StandardError
     class << self
       def set_default_message(msg)
         class_eval { define_method(:default_message) { msg } }
       end
     end
-    
+
     def to_s
       default = super
       (default == self.class.name && self.default_message) ? self.default_message : default
@@ -78,19 +78,19 @@ module Kadeploy
   class InvalidDeployment < Error
     set_default_message "Your deployment contains invalid options or you do not have the rights on the nodes"
   end
-  
-  
+
+
   class Server
-    
+
     include EM::Deferrable
-      
+
     attr_reader :handler, :options, :exception
-    
+
     def initialize(options = {})
       @options = options
       @handler = nil
     end
-    
+
     def connect!(options = {})
       DRb.start_service
       @handler = DRbObject.new(nil, Kadeploy.config)
@@ -104,12 +104,12 @@ module Kadeploy
         self
       end
     end
-    
+
     def disconnect!
       @handler = nil
       DRb.stop_service
     end
-    
+
     def method_missing(method, *args)
       if method =~ /^async_(.+)/
         # reset exception variable
@@ -139,7 +139,7 @@ module Kadeploy
         super(method, *args)
       end
     end
-    
+
     # Submit a new deployment on the kadpeloy server
     # Returns true
     def submit!(args, options = {})
@@ -153,7 +153,7 @@ module Kadeploy
           stdout.rewind; output = stdout.read.split("\n"); stdout.close
           raise InvalidDeployment, output[0]
         else
-          config.user = config.true_user = options[:user]
+          config.true_user = options[:user]
         end
       end
       workflow_uid, error = handler.run("kadeploy_async", config, nil, nil)
@@ -182,16 +182,16 @@ module Kadeploy
         workflow_uid
       end
     end # def launch!
-    
-    
+
+
     # Get the status of a deployment on the kadeploy server
     # Returns an array of [status, results, output].
     # <tt>:status</tt> being one of: :processing, :terminated, :canceled, :error
     # <tt>results</tt> being a hash as returned by the results! method.
     # <tt>output</tt> being a string.
-    # 
+    #
     # This method automatically frees the deployment on the kadeploy-server if no longer processing.
-    # 
+    #
     def touch!(uid)
       workflow_uid = uid
       ended        = handler.async_deploy_ended?(workflow_uid)
@@ -243,9 +243,9 @@ module Kadeploy
       else
         # Deployment still in progress
         [:processing, nil, nil]
-      end      
+      end
     end # def status!
-    
+
     # Get the results of a deployment
     # Must be called ONLY IF the status of the deployment is :terminated
     def results!(uid)
@@ -270,7 +270,7 @@ module Kadeploy
       end
       h
     end # def results!
-    
+
     # Free the memory associated to the deployment on the kadeploy server
     def free!(uid)
       begin
@@ -281,12 +281,12 @@ module Kadeploy
       end
       true
     end # def free!
-    
-    
+
+
     # Delete a deployment on the kadeploy server
     def cancel!(uid)
       handler.async_deploy_kill(uid)
     end # def cancel!
-    
+
   end # class Server
 end # module Kadeploy

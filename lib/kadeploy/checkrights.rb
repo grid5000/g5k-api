@@ -1,5 +1,5 @@
 # Kadeploy 3.1
-# Copyright (c) by INRIA, Emmanuel Jeanvoine - 2008-2010
+# Copyright (c) by INRIA, Emmanuel Jeanvoine - 2008-2011
 # CECILL License V2 - http://www.cecill.info
 # For details on use and redistribution please refer to License.txt
 
@@ -100,15 +100,17 @@ module CheckRights
     # Output
     # * returns true if the rights are granted, false otherwise
     def granted?
-      query = "SELECT * FROM rights WHERE user=\"#{@user}\" AND (part=\"#{@part}\" OR part=\"*\")"
+      res = @db.run_query(
+        "SELECT * FROM rights WHERE user = ? AND (part = ? OR part=\"*\")",
+        @user,@part
+      )
+      reshash = res.to_hash
       @host_list.each { |host|
         node_found = false
-        res = @db.run_query(query)
-        if res != nil then
-          while ((node_found == false) && (hash = res.fetch_hash)) do
-            if ((hash["node"] == host) || (hash["node"] == "*")) then
-              node_found = true
-            end
+        reshash.each do |hash|
+          if ((hash["node"] == host) || (hash["node"] == "*")) then
+            node_found = true
+            break
           end
         end
         if (node_found == false) then
