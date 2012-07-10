@@ -1,3 +1,16 @@
+g5k-api (3.0.35-1) unstable; urgency=low
+
+  * 3e86b1c add tips for nokorigri and mysql2 gems on debian based systems
+  * c989080 correct gemfile rake version
+  * fe4cf20 switch to ruby-1.9.3-p194
+  * 622642c Merge branch 'master' of ssh://git.api/srv/git/repos/g5k-api
+  * 79a5775 remove overrid of config.user (Bug #4378)
+  * e23b70c Revert "remove env_user, not needed anymore with kadeploy 3.1.5"
+  * 21542f5 update lib for kadeploy 3.1.5
+  * 1372991 remove env_user, not needed anymore with kadeploy 3.1.5
+
+ -- Sebastien Badia <sebastien.badia@inria.fr>  Tue, 10 Jul 2012 14:49:16 +0200
+
 g5k-api (3.0.34-1) unstable; urgency=low
 
   * 0888a01 Don't get resources for the jobs when there are no jobs
