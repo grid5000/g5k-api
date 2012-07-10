@@ -31,7 +31,9 @@ In particular, runtime dependencies of the app include `ruby1.9.1-full` and `git
   installations, you will probably need to prefix every executable with
   `bundle exec`. E.g. `rake -T` will become `bundle exec rake -T`.
 
-* From the application root, install the application dependencies:
+* From the application root, install the application dependencies,
+  mysql2 gem need deb package libmysqlclient-dev, and for nokogiri see
+  [Nokogiri](http://nokogiri.org/tutorials/installing_nokogiri.html):
 
         $ bundle install
 
