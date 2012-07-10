@@ -77,6 +77,7 @@ task :yank, :roles => :apt do
   fail "No .deb available in pkg/" if latest.nil?
   latest = File.basename(latest)
   run "mkdir -p #{apt} && rm \"#{apt}/#{latest}\""
+  run "chown #{ENV['REMOTE_USER']}:#{ENV['REMOTE_USER']} #{apt}"
   run "cd #{apt} && \
         #{sudo} apt-get update && \
         #{sudo} apt-get install dpkg-dev -y && \
