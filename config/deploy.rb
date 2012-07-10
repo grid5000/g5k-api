@@ -8,7 +8,7 @@ set :puppet, "/tmp/puppet"
 
 set :scm, :git
 
-set :gateway, ENV['GATEWAY'] || "#{ENV['USER']}@grid5000.irisa.fr"
+#set :gateway, ENV['GATEWAY'] || "#{ENV['USER']}@grid5000.irisa.fr"
 set :user, ENV['REMOTE_USER'] || "root"
 
 key = ENV['SSH_KEY'] || "~/.ssh/id_rsa"
@@ -35,7 +35,7 @@ end
 
 desc "Package the app as a debian package, on a remote machine."
 task :package, :roles => :pkg do
-  
+
   run "date -s \"#{Time.now.to_s}\" && \
         export http_proxy=proxy:3128 && \
         apt-get update && \
@@ -121,7 +121,7 @@ task :install, :roles => :app do
         apt-get install puppet -y && \
         export http_proxy=proxy:3128 && \
         puppet #{puppet}/install.pp --modulepath #{puppet}/modules/"
-  
+
   remote = roles[:app].servers[0]
   gateway = connection_factory.gateway_for(remote)
   canibalized = "api-server.rennes.grid5000.fr"

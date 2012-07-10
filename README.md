@@ -126,7 +126,7 @@ to create a test database, and a fake OAR database.
   a node on Grid'5000):
 
         $ cap package HOST=...
-
+        $ cap package HOST=griffon-71.nancy.user SSH_KEY=~/.ssh/id_userg5k
 
 ## Releasing and Installing and new version
 
