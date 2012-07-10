@@ -203,7 +203,7 @@ DEPENDENCIES
   rack-fiber_pool (~> 0.9)
   rack-jsonp
   rails (~> 3.0.0)
-  rake (~> 0.8.7)
+  rake (>= 0.8.7)
   rcov
   rspec
   rspec-rails
