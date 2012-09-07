@@ -25,7 +25,7 @@ defaults: &defaults
     port: 3306
     username: oarreader
     password:
-    
+
 development:
   <<: *defaults
   base_uri_in: http://localhost:8000
@@ -54,9 +54,9 @@ test:
     port: 13306
     username: root
     password:
-    
+
 
 production:
   <<: *defaults
   notifications_uri: http://localhost:8888/sid/notifications
-  
+

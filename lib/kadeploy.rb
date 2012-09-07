@@ -21,7 +21,9 @@ module ConfigInformation
     def Config.load_client_config_file
       # undef load_client_config_file
       # since we don't have/need a client configuration file
-      # on the api-servers
+      # on the api-servers.
+      #
+      # See configuration (g5k-api/config/defaults.yml)
       kadeploy_uri = URI.parse(Kadeploy.config)
       {
         "default" => "idontgiveashit",
