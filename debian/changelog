@@ -1,3 +1,11 @@
+g5k-api (3.0.36-1) unstable; urgency=low
+
+  * c15c1e4 Add comment for kadeploy client config (uri/port)
+  * fe3398a ensure owner g5kadmin for g5k-api repository
+  * 555dd5b update package generation task
+
+ -- Elodie Bertoncello <elodie.bertoncello@inria.fr>  Fri, 07 Sep 2012 15:20:55 +0200
+
 g5k-api (3.0.35-1) unstable; urgency=low
 
   * 3e86b1c add tips for nokorigri and mysql2 gems on debian based systems
