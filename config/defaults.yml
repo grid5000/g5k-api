@@ -6,7 +6,7 @@ defaults: &defaults
   reference_repository_path_prefix: data/grid5000
   base_uri_in: https://api.grid5000.fr
   base_uri_out: http://localhost:8888
-  kadeploy_uri: druby://kadeploy-server:25300
+  kadeploy_uri: druby://kadeploy-server:25301
   # XMPP settings
   xmpp_jid: anotifier@conference.jabber.grid5000.fr
   xmpp_password:
