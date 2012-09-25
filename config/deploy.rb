@@ -63,7 +63,8 @@ task :release, :roles => :apt do
   latest = Dir["pkg/*.deb"].find{|file| file =~ /#{Grid5000::VERSION}/}
   fail "No .deb available in pkg/" if latest.nil?
   latest = File.basename(latest)
-  run "mkdir -p #{apt}"
+  run "#{sudo} mkdir -p #{apt}"
+  run "#{sudo} chown #{ENV['REMOTE_USER']}:#{ENV['REMOTE_USER']} #{apt}"
   upload("pkg/#{latest}", "#{apt}/#{latest}")
   run "cd #{apt} && \
         #{sudo} apt-get update && \
@@ -76,8 +77,8 @@ task :yank, :roles => :apt do
   latest = Dir["pkg/*.deb"].find{|file| file =~ /#{Grid5000::VERSION}/}
   fail "No .deb available in pkg/" if latest.nil?
   latest = File.basename(latest)
-  run "mkdir -p #{apt} && rm \"#{apt}/#{latest}\""
-  run "chown #{ENV['REMOTE_USER']}:#{ENV['REMOTE_USER']} #{apt}"
+  run "#{sudo} mkdir -p #{apt} && #{sudo} rm \"#{apt}/#{latest}\""
+  run "#{sudo} chown #{ENV['REMOTE_USER']}:#{ENV['REMOTE_USER']} #{apt}"
   run "cd #{apt} && \
         #{sudo} apt-get update && \
         #{sudo} apt-get install dpkg-dev -y && \
