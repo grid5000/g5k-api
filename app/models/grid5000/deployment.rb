@@ -201,7 +201,9 @@ module Grid5000
     def json_serialize    
       SERIALIZED_ATTRIBUTES.each do |att|
         value = send(att)
-        send("#{att}=".to_sym, value.to_json) unless value.blank?
+        if value == [] or ! value.blank?
+          send("#{att}=".to_sym, value.to_json) 
+        end
       end
     end
   
