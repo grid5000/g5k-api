@@ -1,5 +1,18 @@
 g5k-api (3.0.36-1) unstable; urgency=low
 
+  * d407820 update kadeploy3 libs (v3.1.5.2)
+  * f6c532c update kadeploy rake task (rake kadeploy:upgrade BRANCH=3.1.5)
+  * 1de765d Also serialize [] to JSON, it makes [] converted to '[]' (Array to string) which prevents ActiveRecord to serialize it to YAML, closes #4346
+  * 1b805d5 Merge branch 'master' of git.grid5000.fr:/srv/git/repos/g5k-api
+  * 3c346c8 revert to 3.0.35, use puppet to configure kadeploy-dev
+  * b0a25ec Correct deploy task (cap release rights)
+  * 7f9faa3 Use kadeploy-dev to deploy
+  * 0b6c6ea v3.0.36
+
+ -- Sebastien Badia <sebastien.badia@inria.fr>  Tue, 23 Oct 2012 15:06:04 +0200
+
+g5k-api (3.0.36-1) unstable; urgency=low
+
   * c15c1e4 Add comment for kadeploy client config (uri/port)
   * fe3398a ensure owner g5kadmin for g5k-api repository
   * 555dd5b update package generation task
