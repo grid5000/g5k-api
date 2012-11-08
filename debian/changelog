@@ -1,3 +1,10 @@
+g5k-api (3.0.37-1) unstable; urgency=low
+
+  * 9585824 Merge branch 'master' of git.grid5000.fr:/srv/git/repos/g5k-api
+  * 0c98cac Adding warning about unsecure content in chrome/chromium
+
+ -- Sebastien Badia <sebastien.badia@inria.fr>  Thu, 08 Nov 2012 10:48:03 +0100
+
 g5k-api (3.0.36-1) unstable; urgency=low
 
   * d407820 update kadeploy3 libs (v3.1.5.2)
