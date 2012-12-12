@@ -33,7 +33,7 @@ group :test, :development do
   gem 'factory_girl_rails'
   gem 'rcov'
   gem 'capistrano'
-  gem 'g5k-campaign', '~> 0.9.2'
+  gem 'g5k-campaign', '~> 0.9.3'
 end
 
 

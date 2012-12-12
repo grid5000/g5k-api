@@ -52,8 +52,9 @@ GEM
     autotest (4.4.6)
       ZenTest (>= 4.4.1)
     autotest-growl (0.2.11)
-    awesome_print (0.4.0)
-    backports (2.3.0)
+    awesome_print (1.1.0)
+    backports (2.6.4)
+    bond (0.4.2)
     builder (2.1.2)
     capistrano (2.9.0)
       highline
@@ -78,14 +79,14 @@ GEM
     factory_girl_rails (1.2.0)
       factory_girl (~> 2.1.0)
       railties (>= 3.0.0)
-    g5k-campaign (0.9.2)
+    g5k-campaign (0.9.4)
       awesome_print
       net-scp
       net-sftp
       net-ssh
       net-ssh-gateway
       net-ssh-multi
-      restfully (~> 0.6)
+      restfully (~> 1.0)
     grit (2.4.1)
       diff-lcs (~> 1.1)
       mime-types (~> 1.15)
@@ -115,7 +116,7 @@ GEM
     nokogiri (1.4.7)
     polyglot (0.3.2)
     rack (1.2.4)
-    rack-cache (1.1)
+    rack-cache (1.2)
       rack (>= 0.4)
     rack-fiber_pool (0.9.2)
     rack-jsonp (1.2.1)
@@ -139,6 +140,7 @@ GEM
       rdoc (~> 3.4)
       thor (~> 0.14.4)
     rake (0.8.7)
+    rb-readline (0.4.2)
     rcov (0.9.11)
     rdoc (3.10)
       json (~> 1.4)
@@ -147,13 +149,29 @@ GEM
     rest-client-components (1.2.0)
       rack (>= 1.0.1)
       rest-client (>= 1.6.0, < 1.7.0)
-    restfully (0.8.8)
+    restfully (1.0.6)
       addressable
       backports
       json (~> 1.5)
       rack-cache
+      rb-readline
       rest-client (~> 1.6)
       rest-client-components
+      ripl (= 0.6.1)
+      ripl-color_streams
+      ripl-multi_line
+      ripl-play (~> 0.2.1)
+      ripl-short_errors
+    ripl (0.6.1)
+      bond (~> 0.4.0)
+    ripl-color_streams (0.1.2)
+      ripl (>= 0.2.8)
+    ripl-multi_line (0.3.0)
+      ripl (>= 0.3.6)
+    ripl-play (0.2.1)
+      ripl (>= 0.3.0)
+    ripl-short_errors (0.1.0)
+      ripl (>= 0.2.8)
     rspec (2.6.0)
       rspec-core (~> 2.6.0)
       rspec-expectations (~> 2.6.0)
@@ -196,7 +214,7 @@ DEPENDENCIES
   em-synchrony (~> 0.2)
   eventmachine!
   factory_girl_rails
-  g5k-campaign (~> 0.9.2)
+  g5k-campaign (~> 0.9.3)
   grit
   haml
   mysql2 (~> 0.2.0)
