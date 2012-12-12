@@ -36,24 +36,29 @@ end
 desc "Package the app as a debian package, on a remote machine."
 task :package, :roles => :pkg do
 
-  run "date -s \"#{Time.now.to_s}\" && \
-        export http_proxy=proxy:3128 && \
-        apt-get update && \
-        apt-get install #{pkg_dependencies.join(" ")} git-core dh-make dpkg-dev -y && \
-        gem1.9.1 install rake -v 0.8.7 --no-ri --no-rdoc && \
-        gem1.9.1 install bundler -v 1.1.1 --no-ri --no-rdoc && \
-        rm -rf /tmp/#{application}*"
+  cmd = "date -s \"#{Time.now.to_s}\" && "
+  cmd += "export http_proxy=proxy:3128 && " unless ENV['NOPROXY']
+  cmd += "apt-get update && "
+  cmd += "apt-get install #{pkg_dependencies.join(" ")} git-core dh-make dpkg-dev -y && "
+  cmd += "gem1.9.1 install rake -v 0.8.7 --no-ri --no-rdoc && "
+  cmd += "gem1.9.1 install bundler -v 1.1.1 --no-ri --no-rdoc && "
+  cmd += "rm -rf /tmp/#{application}*"
+
+  run cmd
 
   system "mkdir -p pkg/ && git archive HEAD > pkg/#{application}.tar"
   upload("pkg/#{application}.tar", "/tmp/#{application}.tar")
-  run "cd /tmp && \
-        mkdir -p #{application}/pkg && \
-        tar xf #{application}.tar -C #{application} && \
-        cd #{application} && \
-        export https_proxy=proxy:3128 && \
-        export http_proxy=proxy:3128 && \
-        PATH=/var/lib/gems/1.9.1/bin:$PATH rake -f lib/tasks/packaging.rake package:debian && \
-        cp ../#{application}_*.deb pkg/"
+
+  cmd = "cd /tmp && "
+  cmd += "mkdir -p #{application}/pkg && "
+  cmd += "tar xf #{application}.tar -C #{application} && "
+  cmd += "cd #{application} && "
+  cmd += "export https_proxy=proxy:3128 && " unless ENV['NOPROXY']
+  cmd += "export http_proxy=proxy:3128 && " unless ENV['NOPROXY']
+  cmd += "PATH=/var/lib/gems/1.9.1/bin:$PATH rake -f lib/tasks/packaging.rake package:debian && "
+  cmd += "cp ../#{application}_*.deb pkg/"
+
+  run cmd
 
   download "/tmp/#{application}/pkg", "pkg", :once => true, :recursive => true
 end
