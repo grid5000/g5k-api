@@ -60,6 +60,14 @@ In particular, runtime dependencies of the app include `ruby1.9.1-full` and `git
   This is the recommended approach, and you can reuse the node for packaging a
   new release once you've made some changes.
 
+* [option3 - an easier way - use Vagrant]
+
+        $ vagrant up
+        $ vagrant ssh
+        $ sudo mysql -u root
+
+  And create `g5kapi-development` and `g5kapi-test` databases.
+
 * Setup the database schema:
 
         $ rake db:setup RACK_ENV=development
@@ -127,6 +135,10 @@ to create a test database, and a fake OAR database.
 
         $ cap package HOST=...
         $ cap package HOST=griffon-71.nancy.user SSH_KEY=~/.ssh/id_userg5k
+
+  With vagrant (copy your ssh public key into the root account of the VM):
+
+        $ cap package HOST=root@192.168.2.10 NOPROXY=true
 
 ## Releasing and Installing and new version
 
