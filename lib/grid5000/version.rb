@@ -1,3 +1,3 @@
 module Grid5000
-  VERSION = "3.0.37"
+  VERSION = "3.1.0"
 end

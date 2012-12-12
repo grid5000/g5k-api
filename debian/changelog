@@ -1,3 +1,11 @@
+g5k-api (3.1.0-1) unstable; urgency=low
+
+  * 45acf01 Add a Vagrantfile for a local development environment
+  * 2ff2c2e Add Pdus resources
+  * 3abb073 Use g5k-campaign 0.9.3 (0.9.2 unavailable on gforge repo !!)
+
+ --  <>  Wed, 12 Dec 2012 10:28:48 +0100
+
 g5k-api (3.0.37-1) unstable; urgency=low
 
   * 9585824 Merge branch 'master' of git.grid5000.fr:/srv/git/repos/g5k-api
