@@ -4,511 +4,248 @@
 # For details on use and redistribution please refer to License.txt
 
 #Contrib libs
-require 'taktuk_wrapper'
+require 'taktuk'
 
 #Ruby libs
 require 'yaml'
 require 'socket'
 require 'ping'
 
-module ParallelOperations
-  class ParallelOps
+#module ParallelOperations
+  #class ParallelOps
+  class ParallelOperation
     @nodes = nil
-    @taktuk_connector = nil
-    @taktuk_tree_arity = nil
-    @taktuk_auto_propagate = nil
     @output = nil
-    @config = nil
-    @cluster = nil
-    @instance_thread = nil
-    @process_container = nil
+    @context = nil
+    @taktuk = nil
 
     # Constructor of ParallelOps
     #
-    # Arguments   
+    # Arguments
     # * nodes: instance of NodeSet
     # * config: instance of Config
-    # * cluster: cluster
-    # * taktuk_connector: specifies the connector to use with Taktuk
+    # * cluster_config: cluster specific config
     # * output: OutputControl instance
-    # * instance_thread: current thread instance
     # * process_container: process container
     # Output
     # * nothing
-    def initialize(nodes, config, cluster, taktuk_connector, output, instance_thread, process_container)
+    def initialize(nodes, context, output)
       @nodes = nodes
-      @config = config
-      @cluster = cluster
-      @taktuk_connector = taktuk_connector
-      @taktuk_tree_arity = config.common.taktuk_tree_arity
-      @taktuk_auto_propagate = config.common.taktuk_auto_propagate
+      @context = context
       @output = output
-      @instance_thread = instance_thread
-      @process_container = process_container
+      @taktuk = nil
     end
 
-    def make_node_list_for_taktuk
-      n = String.new
-      if @config.cluster_specific[@cluster].use_ip_to_deploy then
-        @nodes.make_sorted_array_of_nodes.each { |node|
-          n += " -m #{node.ip}"
-        }
+    def kill
+      @taktuk.kill unless @taktuk.nil?
+    end
+
+    # Exec a command with TakTuk
+    #
+    # Arguments
+    # * command: command to execute
+    # * opts: Hash of options: :input_file, :scattering, ....
+    # * expects: Hash of expectations, will be used to sort nodes in OK and KO sets: :stdout, :stderr, :status, ...
+    # Output
+    # * returns an array that contains two arrays ([0] is the nodes OK and [1] is the nodes KO)
+    def taktuk_exec(command,opts={},expects={})
+      nodes_init(:stdout => '', :stderr => '', :status => '0')
+
+      res = nil
+      takbin = nil
+      takargs = nil
+      do_taktuk do |tak|
+        tak.broadcast_exec[command]
+        tak.seq!.broadcast_input_file[opts[:input_file]] if opts[:input_file]
+        res = tak.run!
+        takbin = tak.binary
+        takargs = tak.args
+      end
+
+      ret = nil
+      if res
+        nodes_updates(res)
+        ret = nodes_sort(expects)
       else
-        @nodes.make_sorted_array_of_nodes.each { |node|
-          n += " -m #{node.hostname}"
-        }
+        ret = [[],@nodes.set.dup]
       end
-      return n
+      @output.debug("#{takbin} #{takargs.join(' ')}", @nodes)
+      ret
     end
 
-    # Generate the header of a Taktuk command
+    # Send a file with TakTuk
     #
     # Arguments
-    # * nothing
+    # * src: file to send
+    # * dest: destination dir
+    # * opts: Hash of options: :input_file, :scattering, ....
+    # * expects: Hash of expectations, will be used to sort nodes in OK and KO sets: :stdout, :stderr, :status, ...
     # Output
-    # * return a string containing the header of Taktuk command
-    def make_taktuk_header_cmd
-      args_tab = Array.new
-      args_tab.push("-s") if @taktuk_auto_propagate
-      if @taktuk_connector != "" then
-        args_tab.push("-c")
-        args_tab.push("#{@taktuk_connector}")
-      end
-      return args_tab
-    end
-    
-    # Create a Taktuk string for an exec command
-    #
-    # Arguments
-    # * cmd: command to execute
-    # Output
-    # * returns a string that contains the Taktuk command line for an exec command
-    def make_taktuk_exec_cmd(cmd)
-      args = String.new
-      args += make_node_list_for_taktuk()
-      args += " broadcast exec [ #{cmd} ]"
-      return make_taktuk_header_cmd + args.split(" ")
-    end
+    # * returns an array that contains two arrays ([0] is the nodes OK and [1] is the nodes KO)
+    def taktuk_sendfile(src,dst,opts={},expects={})
+      nodes_init(:stdout => '', :stderr => '', :status => '0')
 
-    # Create a Taktuk string for a send file command
-    #
-    # Arguments
-    # * file: file to send
-    # * dest_dir: destination dir
-    # * scattering_kind: kind of taktuk scatter (tree, chain)
-    # Output
-    # * returns a string that contains the Taktuk command line for a send file command
-    def make_taktuk_send_file_cmd(file, dest_dir, scattering_kind)
-      args = String.new
-      case scattering_kind
-      when "chain"
-        args += " -d 1"
-      when "tree"
-        if (@taktuk_tree_arity > 0) then
-          args += " -d #{@taktuk_tree_arity}"
-        end
+      res = nil
+      takbin = nil
+      takargs = nil
+      do_taktuk do |tak|
+        res = tak.broadcast_put[src][dst].run!
+        takbin = tak.binary
+        takargs = tak.args
+      end
+
+      ret = nil
+      if res
+        nodes_updates(res)
+        ret = nodes_sort(expects)
       else
-        raise "Invalid structure for broadcasting file"
+        ret = [[],@nodes.set.dup]
       end
-      args += make_node_list_for_taktuk()
-      args += " broadcast put [ #{file} ] [ #{dest_dir} ]"
-      return make_taktuk_header_cmd + args.split(" ")
+      @output.debug("#{takbin} #{takargs.join(' ')}", @nodes)
+      ret
     end
 
-    # Create a Taktuk string for an exec command with an input file
-    #
-    # Arguments
-    # * file: file to send as an input
-    # * cmd: command to execute
-    # * scattering_kind: kind of taktuk scatter (tree, chain)
-    # Output
-    # * returns a string that contains the Taktuk command line for an exec command with an input file
-    def make_taktuk_exec_cmd_with_input_file(file, cmd, scattering_kind)
-      args = String.new
-      case scattering_kind
-      when "chain"
-        args += " -d 1"
-      when "tree"
-        if (@taktuk_tree_arity > 0) then
-          args += " -d #{@taktuk_tree_arity}"
-        end
+
+    private
+
+    def nodes_init(opts={})
+      @nodes.set.each do |node|
+        node_set(node,opts)
+      end
+    end
+
+    def nodes_array()
+      ret = @nodes.make_sorted_array_of_nodes
+      if @context[:cluster].use_ip_to_deploy then
+        ret.collect!{ |node| node.ip }
       else
-        raise "Invalid structure for broadcasting file"
+        ret.collect!{ |node| node.hostname }
       end
-      args += make_node_list_for_taktuk()
-      args += " broadcast exec [ #{cmd} ];"
-      args += " broadcast input file [ #{file} ]"
-      return make_taktuk_header_cmd + args.split(" ")      
-    end
- 
-    # Init a the state of a NodeSet before a send file command
-    #
-    # Arguments
-    # * nothing
-    # Output
-    # * nothing
-    def init_nodes_state_before_send_file_command
-      @nodes.set.each { |node|
-        node.last_cmd_exit_status = "0"
-        node.last_cmd_stderr = ""
-        node.last_cmd_stdout = ""
-      }
+      ret
     end
 
-    # Init a the state of a NodeSet before an exec command
-    #
-    # Arguments
-    # * nothing
-    # Output
-    # * nothing
-    def init_nodes_state_before_exec_command
-      @nodes.set.each { |node|
-        node.last_cmd_exit_status = "256"
-        node.last_cmd_stderr = "Unreachable"
-        node.last_cmd_stdout = ""
-        
-      }
+    # Get a node object by it's host
+    def node_get(host)
+      ret = nil
+      if @context[:cluster].use_ip_to_deploy then
+        ret = @nodes.get_node_by_ip(host)
+      else
+        ret = @nodes.get_node_by_host(host)
+      end
+      ret
     end
 
-    # Init a the state of a NodeSet before a reboot command
-    #
-    # Arguments
-    # * macro_step: name if the current macro step
-    # Output
-    # * nothing
-    def init_nodes_state_before_wait_nodes_after_reboot_command
-      @nodes.set.each { |node|
-        node.last_cmd_stderr = "Unreachable after the reboot"
-        node.last_cmd_stdout = ""
-        node.state = "KO"
-      }
+    def node_set(node,opts={})
+      node.last_cmd_stdout = opts[:stdout] unless opts[:stdout].nil?
+      node.last_cmd_stderr = opts[:stderr] unless opts[:stderr].nil?
+      node.last_cmd_exit_status = opts[:status] unless opts[:status].nil?
+      node.state = opts[:state] unless opts[:state].nil?
+      @context[:config].set_node_state(node.hostname,'','',opts[:node_state]) unless opts[:node_state].nil?
     end
 
-    # Get the return information about an exec command with Taktuk
-    #
-    # Arguments
-    # * tw: instance of TaktukWrapper
-    # Output
-    # * nothing
-    def get_taktuk_exec_command_infos(tw)
-      tree = YAML.load((YAML.dump({"hosts"=>tw.hosts,
-                                    "connectors"=>tw.connectors,
-                                    "errors"=>tw.errors,
-                                    "infos"=>tw.infos})))
-      init_nodes_state_before_exec_command
-      tree['hosts'].each_value { |h|
-        h['commands'].each_value { |x|
-          if @config.cluster_specific[@cluster].use_ip_to_deploy then
-            node = @nodes.get_node_by_ip(h['host_name'])
+    # Set information about a Taktuk command execution
+    def nodes_update(result, fieldkey = :host, fieldval = :line)
+      res = result.compact!([fieldval]).group_by { |v| v[fieldkey] }
+      res.each_pair do |host,values|
+        node = node_get(host)
+        ret = []
+        values.each do |value|
+          if value[fieldval].is_a?(Array)
+            ret += value[fieldval]
           else
-            node = @nodes.get_node_by_host(h['host_name'])
+            ret << value[fieldval]
           end
-          node.last_cmd_exit_status = x['status']
-          node.last_cmd_stdout = x['output'].chomp.gsub(/\n/,"\\n")
-          node.last_cmd_stderr = x['error'].chomp.gsub(/\n/,"\\n")
-        }
-      }
-    end
-
-    # Get the return information about a send file command with Taktuk
-    #
-    # Arguments
-    # * tw: instance of TaktukWrapper
-    # Output
-    # * nothing
-    def get_taktuk_send_file_command_infos(tw)
-      tree = YAML.load((YAML.dump({"hosts"=>tw.hosts,
-                                    "connectors"=>tw.connectors,
-                                    "errors"=>tw.errors,
-                                    "infos"=>tw.infos})))
-      init_nodes_state_before_send_file_command
-      tree['connectors'].each_value { |h|
-        if @config.cluster_specific[@cluster].use_ip_to_deploy then
-          node = @nodes.get_node_by_ip(h['host_name'])
-        else
-          node = @nodes.get_node_by_host(h['host_name'])
         end
-        node.last_cmd_exit_status = "256"
-        node.last_cmd_stderr = "The node #{h['peer']} is unreachable"
-       }
+        yield(node,ret)
+      end
     end
 
-    # Get the return information about an exec command with an input file with Taktuk
-    #
-    # Arguments
-    # * tw: instance of TaktukWrapper
-    # Output
-    # * nothing
-    def get_taktuk_exec_cmd_with_input_file_infos(tw)
-      tree = YAML.load((YAML.dump({"hosts"=>tw.hosts,
-                                    "connectors"=>tw.connectors,
-                                    "errors"=>tw.errors,
-                                    "infos"=>tw.infos})))
-      init_nodes_state_before_exec_command
-      tree['hosts'].each_value { |h|
-        h['commands'].each_value { |x|
-          if @config.cluster_specific[@cluster].use_ip_to_deploy then
-            node = @nodes.get_node_by_ip(h['host_name'])
-          else
-            node = @nodes.get_node_by_host(h['host_name'])
+    # Set information about a Taktuk command execution
+    def nodes_updates(results)
+      nodes_update(results[:output]) do |node,val|
+        node.last_cmd_stdout = val.join("\n") if node
+      end
+      nodes_update(results[:error]) do |node,val|
+        node.last_cmd_stderr = "#{val.join("\n")}\n" if node
+      end
+      nodes_update(results[:status]) do |node,val|
+        node.last_cmd_exit_status = val[0] if node
+      end
+      nodes_update(results[:connector]) do |node,val|
+        next unless node
+        val.each do |v|
+          if !(v =~ /^Warning:.*$/)
+            node.last_cmd_exit_status = "256"
+            node.last_cmd_stderr = '' unless node.last_cmd_stderr
+            node.last_cmd_stderr += "TAKTUK-ERROR-connector: #{v}\n"
           end
-          node.last_cmd_exit_status = x['status']
-          node.last_cmd_stdout = x['output'].chomp.gsub(/\n/,"\\n")
-          node.last_cmd_stderr = x['error'].chomp.gsub(/\n/,"\\n")
-        }
-      }
-    end
-
-    # Execute a command in parallel
-    #
-    # Arguments
-    # * cmd: command to execute
-    # Output
-    # * returns an array that contains two arrays ([0] is the nodes OK and [1] is the nodes KO)
-    def execute(cmd)
-      command_array = make_taktuk_exec_cmd(cmd)
-      tw = TaktukWrapper::new(command_array)
-      tw.run
-      @process_container.add_process(@instance_thread, tw.pid)
-      tw.wait
-      @process_container.remove_process(@instance_thread, tw.pid)
-      get_taktuk_exec_command_infos(tw)
-      good_nodes = Array.new
-      bad_nodes = Array.new
-
-      @nodes.set.each { |node|
-        if node.last_cmd_exit_status == "0" then
-          good_nodes.push(node)
-        else
-          bad_nodes.push(node)
         end
-      }
-      @output.debug("taktuk #{command_array.join(" ")}", @nodes)
-      return [good_nodes, bad_nodes]
-    end
-
-    # Execute a command in parallel and expects some exit status
-    #
-    # Arguments
-    # * cmd: command to execute
-    # * status: array of expected exit status
-    # Output
-    # * returns an array that contains two arrays ([0] is the nodes OK and [1] is the nodes KO)
-    def execute_expecting_status(cmd, status)
-      command_array = make_taktuk_exec_cmd(cmd)
-      tw = TaktukWrapper::new(command_array)
-      tw.run
-      @process_container.add_process(@instance_thread, tw.pid)
-      tw.wait
-      @process_container.remove_process(@instance_thread, tw.pid)
-      get_taktuk_exec_command_infos(tw)
-      good_nodes = Array.new
-      bad_nodes = Array.new
-
-      @nodes.set.each { |node|
-        if status.include?(node.last_cmd_exit_status) then
-          good_nodes.push(node)
-        else
-          bad_nodes.push(node)
-        end
-      }
-      @output.debug("taktuk #{command_array.join(" ")}", @nodes)
-      return [good_nodes, bad_nodes]
-    end
-
-    # Execute a command in parallel and expects some exit status and an output
-    #
-    # Arguments
-    # * cmd: command to execute
-    # * status: array of expected exit status
-    # * output: string that contains the expected output (only the first line is checked)
-    # Output
-    # * returns an array that contains two arrays ([0] is the nodes OK and [1] is the nodes KO)
-    def execute_expecting_status_and_output(cmd, status, output)
-      command_array = make_taktuk_exec_cmd(cmd)
-      tw = TaktukWrapper::new(command_array)
-      tw.run
-      @process_container.add_process(@instance_thread, tw.pid)
-      tw.wait
-      @process_container.remove_process(@instance_thread, tw.pid)
-      get_taktuk_exec_command_infos(tw)
-      good_nodes = Array.new
-      bad_nodes = Array.new
-
-      @nodes.set.each { |node|
-        if (status.include?(node.last_cmd_exit_status) == true) && 
-            (node.last_cmd_stdout.split("\n")[0] == output) then
-          good_nodes.push(node)
-        else
-          bad_nodes.push(node)
-        end
-      }
-      @output.debug("taktuk #{command_array.join(" ")}", @nodes)
-      return [good_nodes, bad_nodes]
-    end
-
-    # Send a file in parallel
-    #
-    # Arguments
-    # * file: file to send
-    # * dest_dir: destination dir
-    # * scattering_kind: kind of taktuk scatter (tree, chain)
-    # Output
-    # * returns an array that contains two arrays ([0] is the nodes OK and [1] is the nodes KO)    
-    def send_file(file, dest_dir, scattering_kind)
-      command_array = make_taktuk_send_file_cmd(file, dest_dir, scattering_kind)
-      tw = TaktukWrapper::new(command_array)
-      tw.run
-      @process_container.add_process(@instance_thread, tw.pid)
-      tw.wait
-      @process_container.remove_process(@instance_thread, tw.pid)
-      get_taktuk_send_file_command_infos(tw)
-      good_nodes = Array.new
-      bad_nodes = Array.new
-      @nodes.set.each { |node|
-        if node.last_cmd_exit_status == "0" then
-          good_nodes.push(node)
-        else
-          bad_nodes.push(node)
-        end
-      }
-      @output.debug("taktuk #{command_array.join(" ")}", @nodes)
-      return [good_nodes, bad_nodes]   
-    end
-
-    # Execute a command in parallel with an input file
-    #
-    # Arguments
-    # * file: file to send
-    # * cmd: command to execute
-    # * scattering_kind: kind of taktuk scatter (tree, chain)
-    # * status: array of expected exit status
-    # Output
-    # * returns an array that contains two arrays ([0] is the nodes OK and [1] is the nodes KO)    
-    def exec_cmd_with_input_file(file, cmd, scattering_kind, status)
-      command_array = make_taktuk_exec_cmd_with_input_file(file, cmd, scattering_kind)
-      tw = TaktukWrapper::new(command_array)
-      tw.run
-      @process_container.add_process(@instance_thread, tw.pid)
-      tw.wait
-      @process_container.remove_process(@instance_thread, tw.pid)
-      get_taktuk_exec_cmd_with_input_file_infos(tw)
-      good_nodes = Array.new
-      bad_nodes = Array.new
-      @nodes.set.each { |node|
-        if node.last_cmd_exit_status == status then
-          good_nodes.push(node)
-        else
-          bad_nodes.push(node)
-        end
-      }
-      @output.debug("taktuk #{command_array.join(" ")}", @nodes)
-      return [good_nodes, bad_nodes]
-    end
-
-    # Wait for several nodes after a reboot command and wait a give time the effective reboot
-    #
-    # Arguments
-    # * timeout: time to wait
-    # * ports_up: array of ports that must be up on the rebooted nodes to test
-    # * ports_down: array of ports that must be down on the rebooted nodes to test
-    # * nodes_check_window: instance of WindowManager
-    # * last_reboot: specify if we wait the last reboot
-    # Output
-    # * returns an array that contains two arrays ([0] is the nodes OK and [1] is the nodes KO)    
-    def wait_nodes_after_reboot(timeout, ports_up, ports_down, nodes_check_window, last_reboot)
-      start = Time.now.tv_sec
-      good_nodes = Array.new
-      bad_nodes = Array.new
-      init_nodes_state_before_wait_nodes_after_reboot_command
-      @nodes.set.each { |node|
-        @config.set_node_state(node.hostname, "", "", "reboot_in_progress")
-      }
-      sleep(20)
-      
-      n = @nodes.length
-      t = eval(timeout).to_i
-
-      while (((Time.now.tv_sec - start) < t) && (not @nodes.all_ok?))
-        sleep(5)
-        nodes_to_test = Nodes::NodeSet.new
-        @nodes.set.each { |node|
-          if node.state == "KO" then
-            nodes_to_test.push(node)
+      end
+      nodes_update(results[:state],:peer) do |node,val|
+        next unless node
+        val.each do |v|
+          if TakTuk::StateStream.check?(:error,v)
+            node.last_cmd_exit_status = v
+            node.last_cmd_stderr = '' unless node.last_cmd_stderr
+            node.last_cmd_stderr += "TAKTUK-ERROR-state: #{TakTuk::StateStream::errmsg(v.to_i)}\n"
           end
-        }
-        callback = Proc.new { |ns|
-          tg = ThreadGroup.new
-          ns.set.each { |node|
-            sub_tid = Thread.new {
-              all_ports_ok = true
-              
-              if (last_reboot && (@config.exec_specific.vlan != nil)) then
-                nodeid = @config.exec_specific.ip_in_vlan[node.hostname]
-              else
-                if (@config.cluster_specific[@cluster].use_ip_to_deploy) then
-                  nodeid = node.ip
-                else
-                  nodeid = node.hostname
-                end
-              end
-              if Ping.pingecho(nodeid, 1, @config.common.ssh_port) then
-                ports_up.each { |port|
-                  begin
-                    s = TCPsocket.open(nodeid, port)
-                    s.close
-                  rescue Errno::ECONNREFUSED
-                    all_ports_ok = false
-                    next
-                  rescue Errno::EHOSTUNREACH
-                    all_ports_ok = false
-                    next
-                  end
-                }
-                if all_ports_ok then
-                  ports_down.each { |port|
-                    begin
-                      s = TCPsocket.open(nodeid, port)
-                      all_ports_ok = false
-                      s.close
-                    rescue Errno::ECONNREFUSED
-                      next
-                    rescue Errno::EHOSTUNREACH
-                      all_ports_ok = false
-                      next
-                    end
-                  }
-                end
-                if all_ports_ok then
-                  node.state = "OK"
-                  node.last_cmd_exit_status = "0"
-                  node.last_cmd_stderr = ""
-                  @output.verbosel(4, "  *** #{node.hostname} is here after #{Time.now.tv_sec - start}s",@nodes)
-                  @config.set_node_state(node.hostname, "", "", "rebooted")
-                else
-                  node.state = "KO"
-                end
-              end
-            }
-            tg.add(sub_tid)
-          }
-          #let's wait everybody
-          tg.list.each { |sub_tid|
-            sub_tid.join
-          }
-        }
-        nodes_check_window.launch_on_node_set(nodes_to_test, &callback)
-        nodes_to_test = nil
+        end
+      end
+    end
+
+    def nodes_sort(expects={})
+      good = []
+      bad = []
+
+      @nodes.set.each do |node|
+        status = (expects[:status] ? expects[:status] : ['0'])
+
+        unless status.include?(node.last_cmd_exit_status)
+          bad << node
+          next
+        end
+
+        if expects[:output] and node.last_cmd_stdout.split("\n")[0] != expects[:output]
+          bad << node
+          next
+        end
+
+        if expects[:state] and node.state != expects[:state]
+          bad << node
+          next
+        end
+        good << node
+      end
+      [good,bad]
+    end
+
+    def taktuk_init(opts={})
+      taktuk_opts = {}
+
+      connector = @context[:common].taktuk_connector
+      taktuk_opts[:connector] = connector unless connector.empty?
+
+      taktuk_opts[:self_propagate] = nil if @context[:common].taktuk_auto_propagate
+
+      tree_arity = @context[:common].taktuk_tree_arity
+      unless opts[:scattering].nil?
+        case opts[:scattering]
+        when :chain
+          taktuk_opts[:dynamic] = 1
+        when :tree
+          taktuk_opts[:dynamic] = tree_arity if (tree_arity > 0)
+        else
+          raise "Invalid structure for broadcasting file"
+        end
       end
 
-      @nodes.set.each { |node|
-        if node.state == "OK" then
-          good_nodes.push(node)
-        else
-          bad_nodes.push(node)
-        end
-      }
-      return [good_nodes, bad_nodes]
+      taktuk(nodes_array(),taktuk_opts)
+    end
+
+    def do_taktuk(opts={})
+      @taktuk = taktuk_init(opts)
+      yield(@taktuk)
+      @taktuk = nil
     end
   end
-end
+#end

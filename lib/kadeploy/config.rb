@@ -10,6 +10,11 @@ require 'debug'
 require 'checkrights'
 require 'error'
 require 'configparser'
+require 'macrostep'
+require 'stepdeployenv'
+require 'stepbroadcastenv'
+require 'stepbootnewenv'
+require 'microsteps'
 
 #Ruby libs
 require 'optparse'
@@ -17,8 +22,6 @@ require 'ostruct'
 require 'fileutils'
 require 'resolv'
 require 'yaml'
-
-#require 'pp'
 
 R_HOSTNAME = /\A[A-Za-z0-9\.\-\[\]\,]*\Z/
 R_HTTP = /^http[s]?:\/\//
@@ -112,8 +115,21 @@ module ConfigInformation
       #The rights must be checked for each cluster if the node_list contains nodes from several clusters
       exec_specific_config.node_set.group_by_cluster.each_pair { |cluster, set|
         if (allowed_to_deploy) then
-          b = (exec_specific_config.block_device != "") ? exec_specific_config.block_device : @cluster_specific[cluster].block_device
-          p = (exec_specific_config.deploy_part != "") ? exec_specific_config.deploy_part : @cluster_specific[cluster].deploy_part
+          b=nil
+          if exec_specific_config.block_device != ""
+            b = exec_specific_config.block_device
+          else
+            b = @cluster_specific[cluster].block_device
+          end
+          p=nil
+          if exec_specific_config.deploy_part.nil?
+            p = ''
+          elsif exec_specific_config.deploy_part != ""
+            p = exec_specific_config.deploy_part
+          else
+            p = @cluster_specific[cluster].deploy_part
+          end
+
           part = b + p
           allowed_to_deploy = CheckRights::CheckRightsFactory.create(@common.rights_kind,
                                                                      exec_specific_config.true_user,
@@ -307,6 +323,7 @@ module ConfigInformation
       exec_specific.true_user = USER
       exec_specific.block_device = String.new
       exec_specific.deploy_part = String.new
+      exec_specific.chainload_part = nil
       exec_specific.verbose_level = nil
       exec_specific.debug = false
       exec_specific.script = String.new
@@ -526,14 +543,6 @@ module ConfigInformation
               'tarball_dir',String,'/tmp',Pathname
             )
           end
-          cp.parse('demolishing') do
-            conf.demolishing_env_threshold = cp.value(
-              'tag_threshold',Fixnum,1000000
-            )
-            conf.demolishing_env_auto_tag = cp.value(
-              'auto_tag',[TrueClass,FalseClass],false
-            )
-          end
           conf.max_preinstall_size = cp.value('max_preinstall_size',Fixnum,20)
           conf.max_postinstall_size = cp.value('max_postinstall_size',Fixnum,20)
         end
@@ -619,19 +628,14 @@ module ConfigInformation
             end
           end
         end
-=begin
-      if not @common.check_all_fields_filled() then
-        return false
-      end
-=end
+
       rescue ArgumentError => ae
-        puts "Error(#{configfile}) #{ae.message}"
+        $stderr.puts "Error(#{configfile}) #{ae.message}"
         return false
       end
 
-      #pp @common
       cp.unused().each do |path|
-        puts "Warning(#{configfile}) Unused field '#{path}'"
+        $stderr.puts "Warning(#{configfile}) Unused field '#{path}'"
       end
 
       return true
@@ -725,6 +729,7 @@ module ConfigInformation
 
           @cluster_specific[clname] = ClusterSpecificConfig.new
           conf = @cluster_specific[clname]
+          conf.name = clname
 
           conf.partition_file = cp.value(
             'partition_file',String,nil,{ :type => 'file', :readable => true }
@@ -732,6 +737,7 @@ module ConfigInformation
           clfile = cp.value(
             'conf_file',String,nil,{ :type => 'file', :readable => true }
           )
+          conf.prefix = cp.value('prefix',String,'')
           return false unless load_cluster_specific_config_file(clname,clfile)
 
           cp.parse('nodes',true,Array) do |info|
@@ -780,8 +786,6 @@ module ConfigInformation
         puts "Error(#{configfile}) #{ae.message}"
         return false
       end
-
-      #pp @common.nodes_desc
 
       if @common.nodes_desc.empty? then
         puts "The nodes list is empty"
@@ -1020,58 +1024,108 @@ module ConfigInformation
 
         cp.parse('automata',true) do
           cp.parse('macrosteps',true) do
-            macroname = ''
-            insts = []
-            treatmacro = Proc.new do
+            microsteps = Microstep.instance_methods.select{ |name| name =~ /^ms_/ }
+            microsteps.collect!{ |name| name.sub(/^ms_/,'') }
+
+            treatcustom = Proc.new do |info,microname,ret|
+              unless info[:empty]
+                op = {
+                  :name => "#{microname}-#{cp.value('name',String)}",
+                  :action => cp.value('action',String,nil,['exec','send','run'])
+                }
+                case op[:action]
+                when 'exec'
+                  op[:command] = cp.value('command',String)
+                  op[:timeout] = cp.value('timeout',Fixnum,0)
+                  op[:retries] = cp.value('retries',Fixnum,0)
+                  op[:scattering] = cp.value('scattering',String,:tree)
+                when 'send'
+                  op[:file] = cp.value('file',String)
+                  op[:destination] = cp.value('destination',String)
+                  op[:timeout] = cp.value('timeout',Fixnum,0)
+                  op[:retries] = cp.value('retries',Fixnum,0)
+                  op[:scattering] = cp.value('scattering',String,:tree)
+                when 'run'
+                  op[:file] = cp.value('file',String)
+                  op[:timeout] = cp.value('timeout',Fixnum,0)
+                  op[:retries] = cp.value('retries',Fixnum,0)
+                  op[:scattering] = cp.value('scattering',String,:tree)
+                end
+                op[:action] = op[:action].to_sym
+                ret << op
+              end
+            end
+
+            treatmacro = Proc.new do |macroname|
+              insts = ObjectSpace.each_object(Class).select { |klass|
+                klass.ancestors.include?(Module.const_get(macroname))
+              } unless macroname.empty?
+              insts.collect!{ |klass| klass.name.sub(/^#{macroname}/,'') }
               macroinsts = []
               cp.parse(macroname,true,Array) do |info|
                 unless info[:empty]
+                  microconf = nil
+                  cp.parse('microsteps',false,Array) do |info|
+                    unless info[:empty]
+                      microconf = {} unless microconf
+                      microname = cp.value('name',String,nil,microsteps)
+
+                      custom_sub = []
+                      cp.parse('substitute',false,Array) do |info|
+                        treatcustom.call(info,microname,custom_sub)
+                      end
+                      custom_sub = nil if custom_sub.empty?
+
+                      custom_pre = []
+                      cp.parse('pre-ops',false,Array) do |info|
+                        treatcustom.call(info,microname,custom_pre)
+                      end
+                      custom_pre = nil if custom_pre.empty?
+
+                      custom_post = []
+                      cp.parse('post-ops',false,Array) do |info|
+                        treatcustom.call(info,microname,custom_post)
+                      end
+                      custom_post = nil if custom_post.empty?
+
+                      microconf[microname.to_sym] = {
+                        :timeout => cp.value('timeout',Fixnum,0),
+                        :raisable => cp.value(
+                          'raisable',[TrueClass,FalseClass],true
+                        ),
+                        :breakpoint => cp.value(
+                          'breakpoint',[TrueClass,FalseClass],false
+                        ),
+                        :retries => cp.value('retries',Fixnum,0),
+                        :custom_sub => custom_sub,
+                        :custom_pre => custom_pre,
+                        :custom_post => custom_post,
+                      }
+                    end
+                  end
+
                   macroinsts << [
                     macroname + cp.value('type',String,nil,insts),
-                    cp.value('retries',Fixnum),
-                    cp.value('timeout',Fixnum),
+                    cp.value('retries',Fixnum,0),
+                    cp.value('timeout',Fixnum,0),
+                    cp.value('raisable',[TrueClass,FalseClass],true),
+                    cp.value('breakpoint',[TrueClass,FalseClass],false),
+                    microconf,
                   ]
                 end
               end
               conf.workflow_steps << MacroStep.new(macroname,macroinsts)
             end
 
-            macroname = 'SetDeploymentEnv'
-            insts = [
-              'Untrusted',
-              'Kexec',
-              'UntrustedCustomPreInstall',
-              'Prod',
-              'Nfsroot',
-              'Dummy'
-            ]
-            treatmacro.call
-
-            macroname = 'BroadcastEnv'
-            insts = [
-              'Chain',
-              'Kastafior',
-              'Tree',
-              'Bittorrent',
-              'Dummy',
-            ]
-            treatmacro.call
-
-            macroname = 'BootNewEnv'
-            insts = [
-              'Kexec',
-              'PivotRoot',
-              'Classical',
-              'HardReboot',
-              'Dummy',
-            ]
-            treatmacro.call
+            treatmacro.call('SetDeploymentEnv')
+            treatmacro.call('BroadcastEnv')
+            treatmacro.call('BootNewEnv')
           end
         end
 
         cp.parse('kexec') do
           conf.kexec_repository = cp.value(
-            'repository',String,'/karepository',Pathname
+            'repository',String,'/dev/shm/kexec_repository',Pathname
           )
         end
 
@@ -1085,19 +1139,12 @@ module ConfigInformation
           )
         end
 
-=begin
-        if @cluster_specific[cluster].check_all_fields_filled(cluster) == false
-          return false
-        end
-=end
-
       rescue ArgumentError => ae
         puts "Error(#{configfile}) #{ae.message}"
         return false
       end
 
 
-      #pp @cluster_specific[cluster]
       cp.unused().each do |path|
         puts "Warning(#{configfile}) Unused field '#{path}'"
       end
@@ -1172,7 +1219,7 @@ module ConfigInformation
       return true unless config
 
       unless config.is_a?(Hash)
-        puts "Invalid file format'#{configfile}'"
+        puts "Invalid file format '#{configfile}'"
         return false
       end
 
@@ -1184,12 +1231,12 @@ module ConfigInformation
             if (node.cmd.instance_variable_defined?("@#{kind}")) then
               node.cmd.instance_variable_set("@#{kind}", val)
             else
-              puts "Unknown command kind: #{content[2]}"
+              puts "Unknown command kind: #{kind}"
               return false
             end
           end
         else
-          puts "The node #{content[1]} does not exist"
+          puts "The node #{nodename} does not exist"
           return false
         end
       end
@@ -1358,6 +1405,183 @@ module ConfigInformation
 #       Kadeploy specific        #
 ##################################
 
+    def Config.check_macrostep_interface(name)
+      macrointerfaces = ObjectSpace.each_object(Class).select { |klass|
+        klass.superclass == Macrostep
+      }
+      return macrointerfaces.include?(name)
+    end
+
+    def Config.check_macrostep_instance(name)
+      # Gathering a list of availables macrosteps
+      macrosteps = ObjectSpace.each_object(Class).select { |klass|
+        klass.ancestors.include?(Macrostep)
+      }
+
+      # Do not consider rought step names as valid
+      macrointerfaces = ObjectSpace.each_object(Class).select { |klass|
+        klass.superclass == Macrostep
+      }
+      macrointerfaces.each { |interface| macrosteps.delete(interface) }
+
+      macrosteps.collect!{ |klass| klass.name }
+
+      return macrosteps.include?(name)
+    end
+
+    def Config.check_microstep(name)
+      # Gathering a list of availables microsteps
+      microsteps = Microstep.instance_methods.select{
+        |microname| microname =~ /^ms_/
+      }
+      microsteps.collect!{ |microname| microname.sub(/^ms_/,'') }
+
+      return microsteps.include?(name)
+    end
+
+    def Config.load_custom_ops_file(exec_specific,file)
+      if not File.readable?(file) then
+        error("The file #{file} cannot be read")
+        return false
+      end
+      exec_specific.custom_operations_file = file
+
+      begin
+        config = YAML.load_file(file)
+      rescue ArgumentError
+        puts "Invalid YAML file '#{file}'"
+        return false
+      rescue Errno::ENOENT
+        return true
+      end
+
+      unless config.is_a?(Hash)
+        puts "Invalid file format '#{file}'"
+        return false
+      end
+      #example of line: macro_step,microstep@cmd1%arg%dir,cmd2%arg%dir,...,cmdN%arg%dir
+      exec_specific.custom_operations = { :operations => {}, :overrides => {}}
+      customops = exec_specific.custom_operations[:operations]
+      customover = exec_specific.custom_operations[:overrides]
+
+      config.each_pair do |macro,micros|
+        unless micros.is_a?(Hash)
+          puts "Invalid file format '#{file}'"
+          return false
+        end
+        unless check_macrostep_instance(macro)
+          error("[#{file}] Invalid macrostep '#{macro}'")
+          return false
+        end
+        customops[macro.to_sym] = {} unless customops[macro.to_sym]
+        micros.each_pair do |micro,operations|
+          unless operations.is_a?(Hash)
+            puts "Invalid file format '#{file}'"
+            return false
+          end
+          unless check_microstep(micro)
+            error("[#{file}] Invalid microstep '#{micro}'")
+            return false
+          end
+          customops[macro.to_sym][micro.to_sym] = [] unless customops[macro.to_sym][micro.to_sym]
+          operations.each_pair do |operation,ops|
+            unless ['pre-ops','post-ops','substitute','override'].include?(operation)
+              error("[#{file}] Invalid operation '#{operation}'")
+              return false
+            end
+
+            if operation == 'override'
+              customover[macro.to_sym] = {} unless customover[macro.to_sym]
+              customover[macro.to_sym][micro.to_sym] = true
+              next
+            end
+
+            ops.each do |op|
+              unless op['name']
+                error("[#{file}] Operation #{operation}: 'name' field missing")
+                return false
+              end
+              unless op['action']
+                error("[#{file}] Operation #{operation}: 'action' field missing")
+                return false
+              end
+              unless ['exec','send','run'].include?(op['action'])
+                error("[#{file}] Invalid action '#{op['action']}'")
+                return false
+              end
+
+              scattering = op['scattering'] || 'tree'
+              timeout = op['timeout'] || 0
+              begin
+                timeout = Integer(timeout)
+              rescue ArgumentError
+                error("[#{file}] The field 'timeout' shoud be an integer")
+                return false
+              end
+              retries = op['retries'] || 0
+              begin
+                retries = Integer(retries)
+              rescue ArgumentError
+                error("[#{file}] The field 'retries' shoud be an integer")
+                return false
+              end
+
+              case op['action']
+              when 'send'
+                unless op['file']
+                  error("[#{file}] Operation #{operation}: 'file' field missing")
+                  return false
+                end
+                unless op['destination']
+                  error("[#{file}] Operation #{operation}: 'destination' field missing")
+                  return false
+                end
+                customops[macro.to_sym][micro.to_sym] << {
+                  :action => op['action'].to_sym,
+                  :name => "#{micro}-#{op['name']}",
+                  :file => op['file'],
+                  :destination => op['destination'],
+                  :timeout => timeout,
+                  :retries => retries,
+                  :scattering => scattering.to_sym,
+                  :target => operation.to_sym
+                }
+              when 'run'
+                unless op['file']
+                  error("[#{file}] Operation #{operation}: 'file' field missing")
+                  return false
+                end
+                customops[macro.to_sym][micro.to_sym] << {
+                  :action => op['action'].to_sym,
+                  :name => "#{micro}-#{op['name']}",
+                  :file => op['file'],
+                  :timeout => timeout,
+                  :retries => retries,
+                  :scattering => scattering.to_sym,
+                  :target => operation.to_sym
+                }
+              when 'exec'
+                unless op['command']
+                  error("[#{file}] Operation #{operation}: 'command' field missing")
+                  return false
+                end
+                customops[macro.to_sym][micro.to_sym] << {
+                  :action => op['action'].to_sym,
+                  :name => "#{micro}-#{op['name']}",
+                  :command => op['command'],
+                  :timeout => timeout,
+                  :retries => retries,
+                  :scattering => scattering.to_sym,
+                  :target => operation.to_sym
+                }
+              end
+            end
+          end
+        end
+      end
+      return true
+    end
+
     # Load the command-line options of kadeploy
     #
     # Arguments
@@ -1383,8 +1607,17 @@ module ConfigInformation
         opt.on("-b", "--block-device BLOCKDEVICE", "Specify the block device to use") { |b|
           if /\A[\w\/]+\Z/ =~ b then
             exec_specific.block_device = b
+            exec_specific.deploy_part = nil if exec_specific.deploy_part.empty?
           else
             error("Invalid block device")
+            return false
+          end
+        }
+        opt.on("-c", "--chainload-partition NUMBER", "Specify the number of the partition to chainload on (use 0 to chainload on the MBR)") { |c|
+          if /\A\d+\Z/ =~ c then
+            exec_specific.chainload_part = c.to_i
+          else
+            error("Invalid chainload partition number")
             return false
           end
         }
@@ -1433,7 +1666,12 @@ module ConfigInformation
           exec_specific.nodes_ok_file = f
         }
         opt.on("-p", "--partition-number NUMBER", "Specify the partition number to use") { |p|
+          if /\A\d+\Z/ =~ p then
             exec_specific.deploy_part = p
+          else
+            error("Invalid partition number")
+            return false
+          end
         }
         opt.on("-r", "--reformat-tmp FSTYPE", "Reformat the /tmp partition with the given filesystem type (ext[234] are allowed)") { |t|
           if not (/\A(ext2|ext3|ext4)\Z/ =~ t) then
@@ -1494,7 +1732,7 @@ module ConfigInformation
             }
           end
         }
-        opt.on("-x", "--upload-pxe-files FILES", "Upload a list of files (file1,file2,file3) to the PXE kernels repository. Those files will be prefixed with \"pxe-$username-\" ") { |l|
+        opt.on("-x", "--upload-pxe-files FILES", "Upload a list of files (file1,file2,file3) to the PXE kernels repository. Those files will then be available in the KERNELS_DIR directory with the prefix FILES_PREFIX-- ") { |l|
           l.split(",").each { |file|
             if (file =~ R_HTTP) then
               exec_specific.pxe_upload_files.push(file) 
@@ -1520,8 +1758,8 @@ module ConfigInformation
         opt.on("--server STRING", "Specify the Kadeploy server to use") { |s|
           exec_specific.chosen_server = s
         } 
-        opt.on("-V", "--verbose-level VALUE", "Verbose level between 0 to 4") { |d|
-          if d =~ /\A[0-4]\Z/ then
+        opt.on("-V", "--verbose-level VALUE", "Verbose level between 0 to 5") { |d|
+          if d =~ /\A\d+\Z/ then
             exec_specific.verbose_level = d.to_i
           else
             error("Invalid verbose level")
@@ -1542,36 +1780,21 @@ module ConfigInformation
           exec_specific.disable_disk_partitioning = true
         }
         opt.on("--breakpoint MICROSTEP", "Set a breakpoint just before lauching the given micro-step, the syntax is macrostep:microstep (use this only if you know what you do)") { |m|
-          if (m =~ /\A[a-zA-Z0-9_]+:[a-zA-Z0-9_]+\Z/)
-            exec_specific.breakpoint_on_microstep = m
+          tmp = m.split(':',2)
+          if check_macrostep_instance(tmp[0])
+            if check_microstep(tmp[1])
+              exec_specific.breakpoint_on_microstep = m
+            else
+              error("The microstep #{tmp[1]} for the breakpoint entry is invalid")
+              return false
+            end
           else
-            error("The value #{m} for the breakpoint entry is invalid")
+            error("The macrostep #{tmp[0]} for the breakpoint entry is invalid")
             return false
           end
         }
         opt.on("--set-custom-operations FILE", "Add some custom operations defined in a file") { |file|
-          exec_specific.custom_operations_file = file
-          if not File.readable?(file) then
-            error("The file #{file} cannot be read")
-            return false
-          else
-            exec_specific.custom_operations = Hash.new
-            #example of line: macro_step,microstep@cmd1%arg%dir,cmd2%arg%dir,...,cmdN%arg%dir
-            IO.readlines(file).each { |line|
-              if (line =~ /\A\w+,\w+@\w+%.+%.+(,\w+%.+%.+)*\Z/) then
-                step = line.split("@")[0]
-                cmds = line.split("@")[1]
-                macro_step = step.split(",")[0]
-                micro_step = step.split(",")[1]
-                exec_specific.custom_operations[macro_step] = Hash.new if (not exec_specific.custom_operations.has_key?(macro_step))
-                exec_specific.custom_operations[macro_step][micro_step] = Array.new if (not exec_specific.custom_operations[macro_step].has_key?(micro_step))
-                cmds.split(",").each { |cmd|
-                  entry = cmd.split("%")
-                  exec_specific.custom_operations[macro_step][micro_step].push(entry)
-                }
-              end
-            }
-          end
+          return false unless Config.load_custom_ops_file(exec_specific,file)
         }
         opt.on("--reboot-classical-timeout V", "Overload the default timeout for classical reboots") { |t|
           if (t =~ /\A\d+\Z/) then
@@ -1588,24 +1811,64 @@ module ConfigInformation
           end
         }
         opt.on("--force-steps STRING", "Undocumented, for administration purpose only") { |s|
+          # Gathering a list of availables microsteps
+          microsteps = Microstep.instance_methods.select{
+            |name| name =~ /^ms_/
+          }
+          microsteps.collect!{ |name| name.sub(/^ms_/,'') }
+
+          # Gathering a list of availables macrosteps
+          macrosteps = ObjectSpace.each_object(Class).select { |klass|
+            klass.ancestors.include?(Macrostep)
+          }
+          macrointerfaces = ObjectSpace.each_object(Class).select { |klass|
+            klass.superclass == Macrostep
+          }
+          # Do not consider rought step names as valid
+          macrointerfaces.each { |interface| macrosteps.delete(interface) }
+          macrointerfaces.collect! { |klass| klass.name }
+          macrosteps.collect!{ |klass| klass.name }
+
           s.split("&").each { |macrostep|
-            macrostep_name = macrostep.split("|")[0]
-            microstep_list = macrostep.split("|")[1]
-            tmp = Array.new
-            microstep_list.split(",").each { |instance_infos|
-              instance_name = instance_infos.split(":")[0]
-              instance_max_retries = instance_infos.split(":")[1].to_i
-              instance_timeout = instance_infos.split(":")[2].to_i
-              tmp.push([instance_name, instance_max_retries, instance_timeout])
+            macroname = macrostep.split("|")[0]
+            unless macrointerfaces.include?(macroname)
+              error("Invalid macrostep kind '#{macroname}'")
+              return false
+            end
+            instances = macrostep.split("|")[1]
+            insts = []
+
+            instances.split(",").each { |instance|
+              inst_name = instance.split(":")[0]
+              unless macrosteps.include?(inst_name)
+                error("Invalid macrostep instance '#{inst_name}'")
+                return false
+              end
+              inst_retries = instance.split(":")[1]
+              begin
+                inst_retries = Integer(inst_retries)
+              rescue ArgumentError
+                error("The number of retries '#{inst_retries}' is not an integer")
+                return false
+              end
+              inst_timeout = instance.split(":")[2]
+              begin
+                inst_timeout = Integer(inst_timeout)
+              rescue ArgumentError
+                error("The timeout '#{inst_timeout}' is not an integer")
+                return false
+              end
+
+              insts << [inst_name, inst_retries, inst_timeout]
             }
-            exec_specific.steps.push(MacroStep.new(macrostep_name, tmp))
+            exec_specific.steps.push(MacroStep.new(macroname, insts))
           }
         }
       end
       @opts = opts
       begin
         opts.parse!(ARGV)
-      rescue 
+      rescue
         error("Option parsing error: #{$!}")
         return false
       end
@@ -2270,11 +2533,11 @@ module ConfigInformation
     # * return true in case of success, false otherwise
     def Config.load_kareboot_exec_specific()
       exec_specific = OpenStruct.new
-      exec_specific.verbose_level = String.new
+      exec_specific.verbose_level = nil
       exec_specific.nodesetid = 0
       exec_specific.node_set = Nodes::NodeSet.new(exec_specific.nodesetid)
       exec_specific.node_array = Array.new
-      exec_specific.check_prod_env = false
+      exec_specific.check_demolishing = false
       exec_specific.true_user = USER
       exec_specific.user = nil
       exec_specific.load_env_kind = "db"
@@ -2331,8 +2594,8 @@ module ConfigInformation
             return false
           end
         }
-        opt.on("-c", "--check-prod-env", "Check if the production environment has been detroyed") {
-          exec_specific.check_prod_env = true
+        opt.on("-c", "--check-demolishing-tag", "Check if some nodes was deployed with an environment that have the demolishing tag") {
+          exec_specific.check_demolishing = true
         }
         opt.on("-d", "--debug-mode", "Activate the debug mode") {
           exec_specific.debug = true
@@ -2429,7 +2692,7 @@ module ConfigInformation
             }
           end
         }
-        opt.on("-x", "--upload-pxe-files FILES", "Upload a list of files (file1,file2,file3) to the PXE kernels repository. Those files will be prefixed with \"pxe-$username-\" ") { |l|
+        opt.on("-x", "--upload-pxe-files FILES", "Upload a list of files (file1,file2,file3) to the PXE kernels repository. Those files will then be available in the KERNELS_DIR directory with the prefix FILES_PREFIX-- ") { |l|
           l.split(",").each { |file|
             if (file =~ R_HTTP) then
               exec_specific.pxe_upload_files.push(file) 
@@ -2458,8 +2721,8 @@ module ConfigInformation
         opt.on("--server STRING", "Specify the Kadeploy server to use") { |s|
           exec_specific.chosen_server = s
         } 
-        opt.on("-V", "--verbose-level VALUE", "Verbose level between 0 to 4") { |d|
-          if d =~ /\A[0-4]\Z/ then
+        opt.on("-V", "--verbose-level VALUE", "Verbose level between 0 to 5") { |d|
+          if d =~ /\A\d+\Z/ then
             exec_specific.verbose_level = d.to_i
           else
             error("Invalid verbose level")
@@ -2499,7 +2762,7 @@ module ConfigInformation
         error("No node is chosen")
         return false
       end    
-      if (exec_specific.verbose_level != "") && ((exec_specific.verbose_level > 4) || (exec_specific.verbose_level < 0)) then
+      if (exec_specific.verbose_level != nil) && ((exec_specific.verbose_level > 5) || (exec_specific.verbose_level < 0)) then
         error("Invalid verbose level")
         return false
       end
@@ -2531,10 +2794,6 @@ module ConfigInformation
         return false
       end
       if not exec_specific.wait then
-        if exec_specific.check_prod_env then
-          error("-c/--check-prod-env cannot be used with --no-wait")
-          return false
-        end
         if (exec_specific.nodes_ok_file != "") || (exec_specific.nodes_ko_file != "") then
           error("-o/--output-ok-nodes and/or -n/--output-ko-nodes cannot be used with --no-wait")
           return false          
@@ -2642,7 +2901,7 @@ module ConfigInformation
     # * return true in case of success, false otherwise
     def Config.load_kapower_exec_specific()
       exec_specific = OpenStruct.new
-      exec_specific.verbose_level = String.new
+      exec_specific.verbose_level = nil
       exec_specific.node_set = Nodes::NodeSet.new
       exec_specific.node_array = Array.new
       exec_specific.true_user = USER
@@ -2726,8 +2985,8 @@ module ConfigInformation
         opt.on("--server STRING", "Specify the Kadeploy server to use") { |s|
           exec_specific.chosen_server = s
         } 
-        opt.on("-V", "--verbose-level VALUE", "Verbose level between 0 to 4") { |d|
-          if d =~ /\A[0-4]\Z/ then
+        opt.on("-V", "--verbose-level VALUE", "Verbose level between 0 to 5") { |d|
+          if d =~ /\A\d+\Z/ then
             exec_specific.verbose_level = d.to_i
           else
             error("Invalid verbose level")
@@ -2760,7 +3019,7 @@ module ConfigInformation
         error("No node is chosen")
         return false
       end    
-      if (exec_specific.verbose_level != "") && ((exec_specific.verbose_level > 4) || (exec_specific.verbose_level < 0)) then
+      if (exec_specific.verbose_level != nil) && ((exec_specific.verbose_level > 5) || (exec_specific.verbose_level < 0)) then
         error("Invalid verbose level")
         return false
       end
@@ -2818,8 +3077,6 @@ module ConfigInformation
     attr_accessor :purge_deployment_timer
     attr_accessor :rambin_path
     attr_accessor :mkfs_options
-    attr_accessor :demolishing_env_threshold
-    attr_accessor :demolishing_env_auto_tag
     attr_accessor :bt_tracker_ip
     attr_accessor :bt_download_timeout
     attr_accessor :almighty_env_users
@@ -2841,7 +3098,6 @@ module ConfigInformation
     def initialize
       @nodes_desc = Nodes::NodeSet.new
       #@kadeploy_disable_cache = false
-      #@demolishing_env_auto_tag = false
       #@log_to_file = ""
       #@async_end_of_deployment_hook = ""
       #@async_end_of_reboot_hook = ""
@@ -2852,73 +3108,11 @@ module ConfigInformation
       #@kastafior = "kastafior"
       #@pxe_repository_kernels = "kernels"
     end
-
-=begin
-    # Check if all the fields of the common configuration file are filled
-    #
-    # Arguments
-    # * nothing
-    # Output
-    # * return true if all the fields are filled, false otherwise
-    def check_all_fields_filled
-      err_msg =  " field is missing in the common configuration file"
-      self.instance_variables.each{|i|
-        a = eval i
-        puts "Warning: " + i + err_msg if (a == nil)
-      }
-
-      if (
-          (@verbose_level == nil) ||
-          (@pxe_kind == nil) ||
-          (@pxe_export == nil) ||
-          (@pxe_repository == nil) ||
-          (@pxe_repository_kernels_max_size == nil) ||
-          (@db_kind == nil) ||
-          (@deploy_db_host == nil) ||
-          (@deploy_db_name == nil) ||
-          (@deploy_db_login == nil) ||
-          (@deploy_db_passwd == nil) ||
-          (@rights_kind == nil) ||
-          (@nodes_desc == nil) ||
-          (@taktuk_connector == nil) ||
-          (@taktuk_tree_arity == nil) ||
-          (@taktuk_auto_propagate == nil) ||
-          (@tarball_dest_dir == nil) ||
-          (@kadeploy_server == nil) ||
-          (@kadeploy_server_port == nil) ||
-          (@max_preinstall_size == nil) ||
-          (@max_postinstall_size == nil) ||
-          (@kadeploy_tcp_buffer_size == nil) ||
-          (@kadeploy_cache_dir == nil) ||
-          (@kadeploy_cache_size == nil) ||
-          (@ssh_port == nil) ||
-          (@test_deploy_env_port == nil) ||
-          (@environment_extraction_dir == nil) ||
-          (@log_to_syslog == nil) ||
-          (@log_to_db == nil) ||
-          (@dbg_to_syslog == nil) ||
-          (@dbg_to_syslog_level == nil) ||
-          (@reboot_window == nil) ||
-          (@reboot_window_sleep_time == nil) ||
-          (@nodes_check_window == nil) ||
-          (@bootloader == nil) ||
-          (@purge_deployment_timer == nil) ||
-          (@rambin_path == nil) ||
-          (@mkfs_options == nil) ||
-          (@demolishing_env_threshold == nil) ||
-          (@almighty_env_users == nil)
-         ) then
-        puts "Some mandatory fields are missing in the common configuration file"
-        return false
-      else
-        return true
-      end
-    end
-=end
   end
 
   
   class ClusterSpecificConfig
+    attr_accessor :name
     attr_accessor :deploy_kernel
     attr_accessor :deploy_kernel_args
     attr_accessor :deploy_initrd
@@ -2945,6 +3139,7 @@ module ConfigInformation
     attr_accessor :group_of_nodes #Hashtable (key is a command name)
     attr_accessor :partition_creation_kind
     attr_accessor :partition_file
+    attr_accessor :prefix
     attr_accessor :drivers
     attr_accessor :pxe_header
     attr_accessor :kernel_params
@@ -2961,6 +3156,7 @@ module ConfigInformation
     # Output
     # * nothing        
     def initialize
+      @name = nil
       @workflow_steps = Array.new
       @deploy_kernel = nil
       @deploy_kernel_args = ""
@@ -2994,6 +3190,7 @@ module ConfigInformation
       @admin_post_install = nil
       @partition_creation_kind = nil
       @partition_file = nil
+      @prefix = nil
       @use_ip_to_deploy = false
     end
     
@@ -3006,6 +3203,7 @@ module ConfigInformation
     # Output
     # * nothing      
     def duplicate_but_steps(dest, workflow_steps)
+      dest.name = @name
       dest.workflow_steps = workflow_steps
       dest.deploy_kernel = @deploy_kernel.clone
       dest.deploy_kernel_args = @deploy_kernel_args.clone
@@ -3039,6 +3237,7 @@ module ConfigInformation
       dest.admin_post_install = @admin_post_install.clone if (@admin_post_install != nil)
       dest.partition_creation_kind = @partition_creation_kind.clone
       dest.partition_file = @partition_file.clone
+      dest.prefix = @prefix.dup
       dest.use_ip_to_deploy = @use_ip_to_deploy
     end
     
@@ -3049,6 +3248,7 @@ module ConfigInformation
     # Output
     # * nothing      
     def duplicate_all(dest)
+      dest.name = @name
       dest.workflow_steps = Array.new
       @workflow_steps.each_index { |i|
         dest.workflow_steps[i] = @workflow_steps[i].clone
@@ -3085,32 +3285,10 @@ module ConfigInformation
       dest.admin_post_install = @admin_post_install.clone if (@admin_post_install != nil)
       dest.partition_creation_kind = @partition_creation_kind.clone
       dest.partition_file = @partition_file.clone
+      dest.prefix = @prefix.dup
       dest.use_ip_to_deploy = @use_ip_to_deploy
     end
 
-
-    # Check if all the fields of the common configuration file are filled
-    #
-    # Arguments
-    # * cluster: cluster name
-    # Output
-    # * return true if all the fields are filled, false otherwise
-    def check_all_fields_filled(cluster)
-      err_msg =  " field is missing in the specific configuration file #{cluster}"
-      self.instance_variables.each{|i|
-        a = eval i
-        puts "Warning: " + i + err_msg if (a == nil)
-      }
-      if ((@deploy_kernel == nil) || (@deploy_initrd == nil) || (@block_device == nil) || (@deploy_part == nil) || (@prod_part == nil) ||
-          (@tmp_part == nil) || (@workflow_steps == nil) || (@timeout_reboot_classical == nil) || (@timeout_reboot_kexec == nil) ||
-          (@pxe_header == nil) ||
-          (@cmd_console == nil) || (@partition_creation_kind == nil) || (@partition_file == nil)) then
-        puts "Some mandatory fields are missing in the specific configuration file for #{cluster}"
-        return false
-      else
-        return true
-      end
-    end
 
     # Get the list of the macro step instances associed to a macro step
     #

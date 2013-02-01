@@ -4,249 +4,269 @@
 # For details on use and redistribution please refer to License.txt
 
 #Kadelpoy libs
+require 'automata'
 require 'debug'
 
-module MacroSteps
-  def self.typenames()
-    [
-      'SetDeploymentEnv',
-      'BroadcastEnv',
-      'BootNewEnv',
-    ]
+class Macrostep < Automata::TaskedTaskManager
+  attr_reader :output, :logger, :tasks
+  include Printer
+
+  def initialize(name, idx, subidx, nodes, nsid, manager_queue, output, logger, context = {}, config = {}, params = [])
+    @tasks = []
+    @output = output
+    super(name,idx,subidx,nodes,nsid,manager_queue,context,config,params)
+    @logger = logger
+    @start_time = nil
   end
 
-  class MacroStepFactory
-    # Factory for the macrosteps methods
-    #
-    # Arguments
-    # * kind: specifies the method to use (BootNewEnvKexec, BootNewEnvClassical, BootNewEnvDummy)
-    # * max_retries: maximum number of retries for the step
-    # * timeout: timeout for the step
-    # * cluster: name of the cluster
-    # * nodes: instance of NodeSet
-    # * queue_manager: instance of QueueManager
-    # * reboot_window: instance of WindowManager
-    # * nodes_check_window: instance of WindowManager
-    # * output: instance of OutputControl
-    # * logger: instance of Logger
-    # Output
-    # * returns a MacroStep instance
-    # * raises an exception if an invalid kind of instance is given
-    def self.create(kind, max_retries, timeout, cluster, nodes, queue_manager, reboot_window, nodes_check_window, output, logger)
-      begin
-        klass = self.class_eval(kind)
-      rescue NameError
-        raise "Invalid kind of step value for the new environment boot step"
+  def microclass
+    Microstep
+  end
+
+  def steps
+    raise 'Should be reimplemented'
+  end
+
+  def load_config()
+    super()
+    new_tasks = tasks.dup
+    offset = 0
+    suboffset = 0
+
+    addcustoms = Proc.new do |op, operations, subst, pre, post|
+      operations.each do |operation|
+        opname = "#{op.to_s}_#{operation[:name]}".to_sym
+        timeout = 0
+        timeout = operation.delete(:timeout) if operation[:timeout]
+        retries = 0
+        retries = operation.delete(:retries) if operation[:retries]
+        if op == :custom_pre
+          pre << [ opname, operation ]
+        elsif op == :custom_post
+          post << [ opname, operation ]
+        else
+          subst << [ opname, operation ]
+        end
+        conf_task(opname,conf_task_default())
+        conf_task(opname,{ :timeout => timeout, :retries => retries })
       end
-      return klass.new(max_retries, timeout, cluster, nodes, queue_manager, reboot_window, nodes_check_window, output, logger)
+    end
+
+    custom = Proc.new do |task,op,i,j|
+      if @config[task][op]
+        if j
+          pres = []
+          posts = []
+          subst = []
+          addcustoms.call(op,@config[task][op],subst,pres,posts)
+
+          new_tasks[i+offset].insert(j+suboffset,*pres) unless pres.empty?
+          suboffset += pres.size
+
+          unless subst.empty?
+            new_tasks[i+offset].delete_at(j+suboffset)
+            new_tasks[i+offset].insert(j+suboffset,*subst)
+            suboffset += (subst.size - 1)
+          end
+
+          new_tasks[i+offset].insert(j+suboffset+1,*posts) unless posts.empty?
+          suboffset += posts.size
+        else
+          pres = []
+          posts = []
+          subst = []
+          addcustoms.call(op,@config[task][op],subst,pres,posts)
+
+          new_tasks.insert(i+offset,*pres) unless pres.empty?
+          offset += pres.size
+
+          unless subst.empty?
+            new_tasks.delete_at(i+offset)
+            new_tasks.insert(i+offset,*subst)
+            offset += (subst.size - 1)
+          end
+
+          new_tasks.insert(i+offset+1,*posts) unless posts.empty?
+          offset += posts.size
+        end
+      end
+    end
+
+    tasks.each_index do |i|
+      if multi_task?(i,tasks)
+        suboffset = 0
+        tasks[i].each do |j|
+          taskval = get_task(i,j)
+          custom.call(taskval[0],:custom_pre,i,j)
+          custom.call(taskval[0],:custom_sub,i,j)
+          custom.call(taskval[0],:custom_post,i,j)
+        end
+      else
+        taskval = get_task(i,0)
+        custom.call(taskval[0],:custom_pre,i,nil)
+        custom.call(taskval[0],:custom_sub,i,nil)
+        custom.call(taskval[0],:custom_post,i,nil)
+      end
+    end
+    @tasks = new_tasks
+  end
+
+  def delete_task(taskname)
+    delete = lambda do |arr,index|
+      if arr[index][0] == taskname
+        arr.delete_at(index)
+        debug(5, " * Bypassing the step #{self.class.name}-#{taskname.to_s}",nsid)
+      end
+    end
+
+    tasks.each_index do |i|
+      if multi_task?(i,tasks)
+        tasks[i].each do |j|
+          delete.call(tasks[i],j)
+        end
+        tasks.delete_at(i) if tasks[i].empty?
+      else
+        delete.call(tasks,i)
+      end
     end
   end
 
-  class MacroStep
-    @remaining_retries = 0
-    @timeout = 0
-    @queue_manager = nil
-    @config = nil
-    @reboot_window = nil
-    @nodes_check_window = nil
-    @output = nil
-    @cluster = nil
-    @nodes = nil
-    @nodes_ok = nil
-    @nodes_ko = nil
-    @step = nil
-    @start = nil
-    @instances = nil
-    @loglevel = nil
-    @currentretry = nil
+  def load_tasks
+    @tasks = steps()
+    cexec = context[:execution]
 
-    # Constructor of MacroStep
-    #
-    # Arguments
-    # * max_retries: maximum number of retries for the step
-    # * timeout: timeout for the step
-    # * cluster: name of the cluster
-    # * nodes: instance of NodeSet
-    # * queue_manager: instance of QueueManager
-    # * reboot_window: instance of WindowManager
-    # * nodes_check_window: instance of WindowManager
-    # * output: instance of OutputControl
-    # * logger: instance of Logger
-    # Output
-    # * nothing
-    def initialize(max_retries, timeout, cluster, nodes, queue_manager, reboot_window, nodes_check_window, output, logger, loglevel=0)
-      @remaining_retries = max_retries
-      @timeout = timeout
-      @nodes = nodes
-      @queue_manager = queue_manager
-      @config = @queue_manager.config
-      @reboot_window = reboot_window
-      @nodes_check_window = nodes_check_window
-      @output = output
-      @nodes_ok = Nodes::NodeSet.new(@nodes.id)
-      @nodes_ko = Nodes::NodeSet.new(@nodes.id)
-      @cluster = cluster
-      @loglevel = loglevel
-      @logger = logger
-      @logger.set("step#{@loglevel}", get_instance_name, @nodes)
-      @logger.set("timeout_step#{@loglevel}", @timeout, @nodes)
-      @instances = Array.new
-      @start = Time.now.to_i
-      @step = MicroStepsLibrary::MicroSteps.new(@nodes_ok, @nodes_ko, @reboot_window, @nodes_check_window, @config, cluster, output, get_instance_name)
-      @currentretry = 0
+    # Deploy on block device
+    if cexec.block_device and !cexec.block_device.empty? \
+      and (!cexec.deploy_part or cexec.deploy_part.empty?)
+      delete_task(:create_partition_table)
+      delete_task(:format_deploy_part)
+      delete_task(:format_tmp_part)
+      delete_task(:format_swap_part)
     end
 
-    def finalize
-      @queue_manager = nil
-      @config = nil
-      @reboot_window = nil
-      @nodes_check_window = nil
-      @output = nil
-      @nodes_ok = nil
-      @nodes_ko = nil
-      @cluster = nil
-      @logger = nil
-      @instances.delete_if { |i| true }
-      @instances = nil
-      @start = nil
-      @step = nil
+    # ddgz or ddbz2 image
+    if ['ddgz','ddbz2'].include?(cexec.environment.tarball["kind"])
+      delete_task(:format_deploy_part)
+      delete_task(:mount_deploy_part)
+      delete_task(:umount_deploy_part)
+      delete_task(:manage_admin_post_install)
+      delete_task(:manage_user_post_install)
+      delete_task(:check_kernel_files)
+      delete_task(:send_key)
+      delete_task(:install_bootloader)
     end
 
-    # Kill all the running threads
-    #
-    # Arguments
-    # * nothing
-    # Output
-    # * nothing
-    def kill
-      if (@instances != nil) then
-        @instances.each { |tid|
-          #first, we clean all the pending processes
-          @step.process_container.killall(tid)
-          #then, we kill the thread
-          Thread.kill(tid)
-        }
-      end
+    if !cexec.key or cexec.key.empty?
+      delete_task(:send_key_in_deploy_env)
+      delete_task(:send_key)
     end
 
-    # Get the name of the current macro step
-    #
-    # Arguments
-    # * nothing
-    # Output
-    # * returns the name of the current macro step
-    def get_macro_step_name
-      return self.class.superclass.to_s.split("::")[1]
+    delete_task(:create_partition_table) if cexec.disable_disk_partitioning
+
+    delete_task(:format_tmp_part) unless cexec.reformat_tmp
+
+    delete_task(:format_swap_part) \
+      if context[:cluster].swap_part.nil? \
+      or context[:cluster].swap_part == 'none' \
+      or cexec.environment.environment_kind != 'linux'
+
+    delete_task(:install_bootloader) \
+      if context[:common].bootloader == 'chainload_pxe' \
+      and cexec.disable_bootloader_install
+
+    delete_task(:manage_admin_pre_install) \
+      if cexec.environment.preinstall.nil? \
+      and context[:cluster].admin_pre_install.nil?
+
+    delete_task(:manage_admin_post_install) if context[:cluster].admin_post_install.nil?
+
+    delete_task(:manage_user_post_install) if cexec.environment.postinstall.nil?
+
+    delete_task(:set_vlan) if cexec.vlan.nil?
+
+    # Do not reformat deploy partition
+    if !cexec.deploy_part.nil? and cexec.deploy_part != ""
+      part = cexec.deploy_part.to_i
+      delete_task(:format_swap_part) if part == context[:cluster].swap_part.to_i
+      delete_task(:format_tmp_part) if part == context[:cluster].tmp_part.to_i
     end
+    # delete_task(:send_key) if self.superclass == SetDeploymentEnv
+  end
 
-    # Get the name of the current instance
-    #
-    # Arguments
-    # * nothing
-    # Output
-    # * returns the name of the current current instance
-    def get_instance_name
-      return self.class.to_s.split("::")[1]
+  def create_task(idx,subidx,nodes,nsid,context)
+    taskval = get_task(idx,subidx)
+
+    microclass().new(
+      taskval[0],
+      idx,
+      subidx,
+      nodes,
+      nsid,
+      @queue,
+      @output,
+      context,
+      taskval[1..-1]
+    )
+  end
+
+  def break!(task,nodeset)
+    debug(2,"*** Breakpoint on #{task.name.to_s} reached for #{nodeset.to_s_fold}",task.nsid)
+    debug(1,"Step #{self.class.name} breakpointed",task.nsid)
+    log("step#{idx+1}_duration",(Time.now.to_i-@start_time),nodeset)
+  end
+
+  def success!(task,nodeset)
+    debug(1,
+      "End of step #{self.class.name} after #{Time.now.to_i - @start_time}s",
+      task.nsid
+    )
+    log("step#{idx+1}_duration",(Time.now.to_i-@start_time),nodeset)
+  end
+
+  def fail!(task,nodeset)
+    debug(2,"!!! The nodes #{nodeset.to_s_fold} failed on step #{task.name.to_s}",task.nsid)
+    debug(1,
+      "Step #{self.class.name} failed for #{nodeset.to_s_fold} "\
+      "after #{Time.now.to_i - @start_time}s",
+      task.nsid
+    )
+    log("step#{idx+1}_duration",(Time.now.to_i-@start_time),nodeset)
+  end
+
+  def timeout!(task)
+    debug(1,
+      "Timeout in #{task.name} before the end of the step, "\
+      "let's kill the instance",
+      task.nsid
+    )
+    task.nodes.set_error_msg("Timeout in the #{task.name} step")
+    nodes.set.each do |node|
+      node.state = "KO"
+      context[:config].set_node_state(node.hostname, "", "", "ko")
     end
+  end
 
+  def split!(nsid0,nsid1,ns1,nsid2,ns2)
+    initnsid = Debug.prefix(context[:cluster].prefix,nsid0)
+    initnsid = '[0] ' if initnsid.empty?
+    debug(1,'---')
+    debug(1,"Nodeset #{initnsid}split into :")
+    debug(1,"  #{Debug.prefix(context[:cluster].prefix,nsid1)}#{ns1.to_s_fold}")
+    debug(1,"  #{Debug.prefix(context[:cluster].prefix,nsid2)}#{ns2.to_s_fold}")
+    debug(1,'---')
+  end
 
-    # Run the macrostep specific microsteps
-    #
-    # Arguments
-    # * nothing
-    # Output
-    # * return a thread id
-    def microsteps
-      raise 'Should be reimplemented'
-    end
+  def start!()
+    @start_time = Time.now.to_i
+    debug(1,
+      "Performing a #{self.class.name} step",
+      nsid
+    )
+    log("step#{idx+1}", self.class.name,nodes)
+    log("timeout_step#{idx+1}", context[:local][:timeout] || 0, nodes)
+  end
 
-    # Generic automata that run a macrostep
-    #
-    # Arguments
-    # * nothing
-    # Output
-    # * return a thread id
-    def run
-      tid = Thread.new do
-        if @config.exec_specific.breakpointed
-          @queue_manager.next_macro_step(get_macro_step_name(), @nodes)
-        else
-          @nodes.duplicate_and_free(@nodes_ko)
-        end
-
-        @currentretry = 0
-        while (@remaining_retries > 0) && (not @nodes_ko.empty?) && (not @config.exec_specific.breakpointed)
-
-          instance_node_set = Nodes::NodeSet.new
-          @nodes_ko.duplicate(instance_node_set)
-
-          instance_thread = Thread.new do
-            @logger.increment("retry_step#{@loglevel}", @nodes_ko)
-            @nodes_ko.duplicate_and_free(@nodes_ok)
-
-            @output.verbosel(
-              1,
-              "Performing a #{get_instance_name()} step "\
-              "on the nodes: #{@nodes_ok.to_s_fold}",
-              @nodes_ok
-            )
-
-            microsteps()
-          end
-
-          @instances.push(instance_thread)
-
-          if not @step.timeout?(@timeout, instance_thread, get_macro_step_name, instance_node_set) then
-            if not @nodes_ok.empty? then
-              if not @nodes_ko.empty?
-                tmp = @nodes_ok.id
-                @config.exec_specific.nodesetid += 1
-                @nodes_ok.id = @config.exec_specific.nodesetid
-
-                @config.exec_specific.nodesetid += 1
-                @nodes_ko.id = @config.exec_specific.nodesetid
-
-                @output.verbosel(
-                  2,
-                  "Nodeset(#{tmp}) split into :\n"\
-                  "  Nodeset(#{@nodes_ok.id}): #{@nodes_ok.to_s_fold}\n"\
-                  "  Nodeset(#{@nodes_ko.id}): #{@nodes_ko.to_s_fold}\n"
-                )
-              end
-
-              @logger.set(
-                "step#{@loglevel}_duration",
-                Time.now.to_i - @start,
-                @nodes_ok
-              )
-
-              @nodes_ok.duplicate_and_free(instance_node_set)
-              @queue_manager.next_macro_step(
-                get_macro_step_name,
-                instance_node_set
-              )
-            end
-          end
-          @remaining_retries -= 1
-          @currentretry += 1
-        end
-
-
-        #After several retries, some nodes may still be in an incorrect state
-        if (not @nodes_ko.empty?) && (not @config.exec_specific.breakpointed) then
-          #Maybe some other instances are defined
-          if not @queue_manager.replay_macro_step_with_next_instance(get_macro_step_name, @cluster, @nodes_ko)
-            @queue_manager.add_to_bad_nodes_set(@nodes_ko)
-            @queue_manager.decrement_active_threads
-          end
-        else
-          @queue_manager.decrement_active_threads
-        end
-
-        finalize()
-      end
-
-      return tid
-    end
+  def done!()
+    @start_time = nil
   end
 end
