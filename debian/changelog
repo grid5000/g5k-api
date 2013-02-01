@@ -1,3 +1,15 @@
+g5k-api (3.1.1-1) unstable; urgency=low
+
+  * ae2c307 update readme for upgrade process, according https://www.grid5000.fr/mediawiki/index.php/Kadeploy3_Administration#Update_process
+  * b5d663e use branch 3.1.6 of kadeploy
+  * 0e14097 update kadeploy3 libs to 3.1.6~rc8
+  * 207b1e6 Git ignore .vagrant
+  * b7819f6 Add Vagrant option documentation
+  * 7bc9b7e Add Vagrant support for packaging
+  * 40f1f53 Add an interface to the Vagrant VM in order to do ssh for packaging
+
+ -- Sebastien Badia <sebastien.badia@inria.fr>  Fri, 01 Feb 2013 15:57:55 +0100
+
 g5k-api (3.1.0-1) unstable; urgency=low
 
   * 45acf01 Add a Vagrantfile for a local development environment
