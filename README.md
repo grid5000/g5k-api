@@ -3,8 +3,9 @@
 This application is in charge of providing the core APIs for Grid'5000.
 
 The project is hosted at <ssh://git.grid5000.fr/srv/git/repos/g5kapi>.
-Please send an email to <cyril.rohr@inria.fr> if you cannot access the code.
 
+Please send an email to <support-staff@lists.grid5000.fr> if you cannot access the code,
+but if you read this, it's normally good…
 
 ## Installation
 
@@ -217,6 +218,18 @@ to create a test database, and a fake OAR database.
   time of writing (2011-10-18), these alerts are sent to
   <cyril.rohr@irisa.fr>. You might want to change that.
 
+## Kadeploy update process
+
+Since Kadeploy3 uses DRb to communicate with clients, and that a lot of code is
+shared between the client and server, clients must have the whole kadeploy3 code
+accessible. So, each time a new version of Kadeploy is released and installed on
+the Grid5000 sites, you MUST remember to update the files accordingly (those are
+stored in lib/kadeploy3/ )
+
+* rake kadeploy:upgrade BRANCH=3.1.6
+* rake package:bump:patch
+
+Package and deploy :-)
 
 ## Authors
 * Cyril Rohr <cyril.rohr@inria.fr>
