@@ -9,7 +9,8 @@ require 'taktuk'
 #Ruby libs
 require 'yaml'
 require 'socket'
-require 'ping'
+# https://intranet.grid5000.fr/bugzilla/show_bug.cgi?id=4819
+#require 'ping'
 
 #module ParallelOperations
   #class ParallelOps
