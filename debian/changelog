@@ -1,3 +1,10 @@
+g5k-api (3.1.2-1) unstable; urgency=low
+
+  * 2c24e33 update kadeploy3 libs to 3.1.6~rc10, remove ugly ruby 1.9.2 fixes (fileutils,ping)
+  * 31b559b [kadeploy/libs] Remove requires on ping and ftools (removed in ruby 1.9.1)(refs: #4819)
+
+ -- Sebastien Badia <sebastien.badia@inria.fr>  Tue, 05 Feb 2013 20:48:16 +0100
+
 g5k-api (3.1.1-1) unstable; urgency=low
 
   * ae2c307 update readme for upgrade process, according https://www.grid5000.fr/mediawiki/index.php/Kadeploy3_Administration#Update_process
