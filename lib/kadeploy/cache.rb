@@ -4,8 +4,7 @@
 # For details on use and redistribution please refer to License.txt
 
 #Ruby libs
-# https://intranet.grid5000.fr/bugzilla/show_bug.cgi?id=4819
-#require 'ftools'
+require 'fileutils'
 
 module Cache
   private
@@ -78,7 +77,7 @@ module Cache
     files_to_exclude = Array.new
     while (get_dir_size_without_sub_dirs(dir, output) > max_size) && (not no_change)
       lru = ""
-
+      
       begin
         Dir.foreach(dir) { |f|
           full_path = File.join(dir, f)
@@ -108,7 +107,7 @@ module Cache
       end
     end
   end
-
+  
   # Remove some files in a cache
   #
   # Arguments

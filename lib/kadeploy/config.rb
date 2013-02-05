@@ -1025,7 +1025,7 @@ module ConfigInformation
         cp.parse('automata',true) do
           cp.parse('macrosteps',true) do
             microsteps = Microstep.instance_methods.select{ |name| name =~ /^ms_/ }
-            microsteps.collect!{ |name| name.sub(/^ms_/,'') }
+            microsteps.collect!{ |name| name.to_s.sub(/^ms_/,'') }
 
             treatcustom = Proc.new do |info,microname,ret|
               unless info[:empty]
@@ -1434,7 +1434,7 @@ module ConfigInformation
       microsteps = Microstep.instance_methods.select{
         |microname| microname =~ /^ms_/
       }
-      microsteps.collect!{ |microname| microname.sub(/^ms_/,'') }
+      microsteps.collect!{ |microname| microname.to_s.sub(/^ms_/,'') }
 
       return microsteps.include?(name)
     end
@@ -1815,7 +1815,7 @@ module ConfigInformation
           microsteps = Microstep.instance_methods.select{
             |name| name =~ /^ms_/
           }
-          microsteps.collect!{ |name| name.sub(/^ms_/,'') }
+          microsteps.collect!{ |name| name.to_s.sub(/^ms_/,'') }
 
           # Gathering a list of availables macrosteps
           macrosteps = ObjectSpace.each_object(Class).select { |klass|
@@ -3251,7 +3251,7 @@ module ConfigInformation
       dest.name = @name
       dest.workflow_steps = Array.new
       @workflow_steps.each_index { |i|
-        dest.workflow_steps[i] = @workflow_steps[i].clone
+        dest.workflow_steps[i] = Marshal.load(Marshal.dump(@workflow_steps[i]))
       }
       dest.deploy_kernel = @deploy_kernel.clone
       dest.deploy_kernel_args = @deploy_kernel_args.clone

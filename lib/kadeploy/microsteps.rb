@@ -16,8 +16,7 @@ require 'process_management'
 require 'port_scanner'
 
 #Ruby libs
-# https://intranet.grid5000.fr/bugzilla/show_bug.cgi?id=4819
-#require 'ftools'
+require 'fileutils'
 require 'socket'
 require 'tempfile'
 
@@ -29,7 +28,7 @@ class Microstep < Automata::QueueTask
   def initialize(name, idx, subidx, nodes, nsid, manager_queue, output, context = {}, params = [])
     @output = output
     super(name, idx, subidx, nodes, nsid, manager_queue, context, params)
-    @runthread = Thread.current
+    @runthread = nil
     @current_operation = nil
     @waitreboot_threads = ThreadGroup.new
     @timestart = Time.now
@@ -45,6 +44,7 @@ class Microstep < Automata::QueueTask
   end
 
   def run()
+    @runthread = Thread.current
     ret = true
 
     @nodes.set.each do |node|
@@ -101,7 +101,7 @@ class Microstep < Automata::QueueTask
       @runthread.join
     end
     @waitreboot_threads.list.each do |thr|
-      thr.kill! if thr.alive?
+      thr.kill if thr.alive?
       thr.join
     end
     @current_operation.kill unless @current_operation.nil?
@@ -326,7 +326,7 @@ class Microstep < Automata::QueueTask
   # Replace a group of nodes in a command
   #
   # Arguments
-  # * str: command that contains the patterns GROUP_FQDN or GROUP_SHORT
+  # * str: command that contains the patterns GROUP_FQDN or GROUP_SHORT 
   # * array_of_hostname: array of hostnames
   # Output
   # * return a string with the patterns replaced by the hostnames
@@ -475,7 +475,7 @@ class Microstep < Automata::QueueTask
             end
             #We directly transmit the --no-wait parameter to the power_on/power_off commands
             if (kind == "power_on") || (kind == "power_off") then
-
+              
       cmd += " --no-wait" if (not context[:execution].wait)
             end
             pr.add(cmd, node)
@@ -530,7 +530,7 @@ class Microstep < Automata::QueueTask
   # * kind: kind of command to perform (reboot, power_on, power_off)
   # * level: start level of the command (soft, hard, very_hard)
   # Output
-  # * nothing
+  # * nothing 
   def escalation_cmd_wrapper(kind, level)
     node_set = Nodes::NodeSet.new(@nodes.id)
     initial_node_set = Nodes::NodeSet.new(@nodes.id)
@@ -548,7 +548,7 @@ class Microstep < Automata::QueueTask
     map.push("very_hard")
     index = map.index(level)
     finished = false
-
+      
     while ((index < map.length) && (not finished))
       bad_nodes = _escalation_cmd_wrapper(kind, map[index], node_set, initial_node_set)
       if (bad_nodes != nil) then
@@ -646,11 +646,11 @@ class Microstep < Automata::QueueTask
     file_array.each { |file|
       all_links_followed = false
       initial_file = file
-      while (not all_links_followed)
+      while (not all_links_followed) 
         prev_file = file
         case archive_kind
         when "tgz"
-          cmd = "tar -C #{dest_dir} -xzf #{archive} #{file}"
+          cmd = "tar -C #{dest_dir} -xzf #{archive} #{file}"          
         when "tbz2"
           cmd = "tar -C #{dest_dir} -xjf #{archive} #{file}"
         else
@@ -836,7 +836,7 @@ class Microstep < Automata::QueueTask
       end
     when "xen"
       line1 = "#{context[:execution].environment.hypervisor}"
-
+      
       line1 += " #{context[:execution].environment.hypervisor_params}" if context[:execution].environment.hypervisor_params != nil
       line2 = "#{context[:execution].environment.kernel}"
       line2 += " #{kernel_params}" if kernel_params != ""
@@ -1173,6 +1173,7 @@ class Microstep < Automata::QueueTask
       'KADEPLOY_PROD_PART_NUM' => context[:cluster].prod_part,
       'KADEPLOY_TMP_PART_NUM' => context[:cluster].tmp_part,
       'KADEPLOY_ENV_EXTRACTION_DIR' => context[:common].environment_extraction_dir,
+      'KADEPLOY_PREPOST_EXTRACTION_DIR' => context[:common].rambin_path,
       'KADEPLOY_TMP_DIR' => '/tmp',
       'KADEPLOY_OS_KIND' => context[:execution].environment.environment_kind,
       'KADEPLOY_PART_TYPE' => context[:execution].environment.fdisk_type,
@@ -1249,6 +1250,10 @@ class Microstep < Automata::QueueTask
 
   public
 
+  def ms_dummy()
+    sleep((200+rand(800)) / 1000.0)
+    true
+  end
 
   # Send the SSH key in the deployment environment
   #
@@ -1273,7 +1278,7 @@ class Microstep < Automata::QueueTask
   def ms_switch_pxe(step, pxe_profile_msg = "")
     get_nodes = lambda { |check_vlan|
       @nodes.set.collect { |node|
-        if check_vlan && (context[:execution].vlan != nil) then
+        if check_vlan && (context[:execution].vlan != nil) then 
           { 'hostname' => node.hostname, 'ip' => context[:execution].ip_in_vlan[node.hostname] }
         else
           { 'hostname' => node.hostname, 'ip' => node.ip }
@@ -1414,7 +1419,7 @@ class Microstep < Automata::QueueTask
   #
   # Arguments
   # * reboot_kind: kind of reboot (soft, hard, very_hard)
-  # * first_attempt (opt): specify if it is the first attempt or not
+  # * first_attempt (opt): specify if it is the first attempt or not 
   # Output
   # * return true (should be false sometimes :D)
   def ms_reboot(reboot_kind)
@@ -1424,7 +1429,7 @@ class Microstep < Automata::QueueTask
       if first_attempt then
         escalation_cmd_wrapper("reboot", "soft")
       else
-        #After the first attempt, we must not perform another soft reboot in order to avoid loop reboot on the same environment
+        #After the first attempt, we must not perform another soft reboot in order to avoid loop reboot on the same environment 
         escalation_cmd_wrapper("reboot", "hard")
       end
     when "hard"
@@ -1831,7 +1836,7 @@ class Microstep < Automata::QueueTask
           thr = Thread.new do
             nodeid = get_nodeid(node,vlan)
 
-            if Ping.pingecho(nodeid, 1, context[:common].ssh_port) then
+            if PortScanner.ping(nodeid, 1, context[:common].ssh_port) then
               unless PortScanner.ports_test(nodeid,ports_up,true)
                 node.state = 'KO'
                 next
@@ -2024,7 +2029,7 @@ class Microstep < Automata::QueueTask
   # Arguments
   # * scattering_kind: kind of taktuk scatter (tree, chain)
   # Output
-  # * return true if the admin postinstall has been successfully uncompressed, false otherwise
+  # * return true if the admin postinstall has been successfully uncompressed, false otherwise   
   def ms_manage_admin_post_install(scattering_kind)
     context[:cluster].admin_post_install.each do |postinstall|
       if not send_tarball_and_uncompress_with_taktuk(scattering_kind, postinstall["file"], postinstall["kind"], context[:common].rambin_path, "") then

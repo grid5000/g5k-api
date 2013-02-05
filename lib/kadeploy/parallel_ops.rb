@@ -9,8 +9,6 @@ require 'taktuk'
 #Ruby libs
 require 'yaml'
 require 'socket'
-# https://intranet.grid5000.fr/bugzilla/show_bug.cgi?id=4819
-#require 'ping'
 
 #module ParallelOperations
   #class ParallelOps
@@ -38,7 +36,7 @@ require 'socket'
     end
 
     def kill
-      @taktuk.kill unless @taktuk.nil?
+      @taktuk.kill! unless @taktuk.nil?
     end
 
     # Exec a command with TakTuk
