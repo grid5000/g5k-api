@@ -3,8 +3,7 @@ g5k-api (3.1.3-1) unstable; urgency=low
   * a4bb0e9 [doc/rake] Remove old kadeploy tasks, update doc
   * 7aa2ce1 [kadeploy/libs] Remove kadeploy 3.1.6.x libs (use kadeploy-common package)
 
- -- Sebastien Badia
- <seb@sebian.fr>  Wed, 24 Apr 2013 18:27:16 +0200
+ -- Sebastien Badia <sebastien.badia@inria.fr>  Wed, 24 Apr 2013 18:27:16 +0200
 
 g5k-api (3.1.2-1) unstable; urgency=low
 
