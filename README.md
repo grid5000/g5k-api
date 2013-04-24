@@ -223,13 +223,7 @@ to create a test database, and a fake OAR database.
 Since Kadeploy3 uses DRb to communicate with clients, and that a lot of code is
 shared between the client and server, clients must have the whole kadeploy3 code
 accessible. So, each time a new version of Kadeploy is released and installed on
-the Grid5000 sites, you MUST remember to update the files accordingly (those are
-stored in lib/kadeploy3/ )
-
-* rake kadeploy:upgrade BRANCH=3.1.6
-* rake package:bump:patch
-
-Package and deploy :-)
+the Grid5000 sites, you MUST remember to update the kadeploy-common package.
 
 ## Authors
-* Cyril Rohr <cyril.rohr@inria.fr>
+* Cyril Rohr <cyril.rohr@inria.fr> and others
