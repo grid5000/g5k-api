@@ -1,7 +1,7 @@
 # Since kadeploy3 is not properly namespaced,
 # everything is included into Kernel... yeah for name collisions!
-# Depends kadeploy-common
-$LOAD_PATH.unshift '/usr/local/kadeploy3/src/lib'
+# Depends kadeploy-common-dev
+$LOAD_PATH.unshift '/usr/local/kadeploy3-dev/src/lib'
 
 # Kadeploy libs
 require 'config'
