@@ -1,0 +1,36 @@
+- content_for :before_js do
+    %script{:src => "https://api.grid5000.fr/exhibitv2/exhibit/api/exhibit-api.js?autoCreate=false"}
+    %script{:src => relative_path_to("/javascripts/lib/exhibit.js")}
+    %script{:src => relative_path_to("/javascripts/vendor/jquery.min.js")}
+
+%body.nodes
+#page
+    #content
+        #description
+        %h1{:title => "nodes"} Nodes
+        %div{"ex:role" => "viewPanel"}
+            %div{"ex:role" => "view"}
+
+    #sidebar
+        %h2 Facets
+        #facets1
+            %div{"ex:facetclass" => "TextSearch", "ex:facetlabel" => "Search", "ex:role" => "facet"}
+            %div{"ex:expression" => ".site", "ex:facetlabel" => "Site", "ex:height" => "100", "ex:role" => "facet", "ex:scroll" => "true"}
+            %div{"ex:expression" => ".cluster", "ex:facetlabel" => "Cluster", "ex:height" => "100", "ex:role" => "facet", "ex:scroll" => "true"}
+            %div{"ex:expression" => ".supported_job_types_virtual", "ex:facetlabel" => "Virtual support", "ex:height" => "80", "ex:role" => "facet", "ex:scroll" => "false", "ex:sortmode" => "count"}
+            %div{"ex:expression" => ".supported_job_types_besteffort", "ex:facetlabel" => "Besteffort support", "ex:height" => "80", "ex:role" => "facet", "ex:scroll" => "false", "ex:sortmode" => "count"}
+            %div{"ex:expression" => ".supported_job_types_deploy", "ex:facetlabel" => "Deploy support", "ex:height" => "80", "ex:role" => "facet", "ex:scroll" => "false", "ex:sortmode" => "count"}
+            %div{"ex:expression" => ".network_adapters_0_interface", "ex:facetlabel" => "Network adapter interface #1", "ex:height" => "80", "ex:role" => "facet", "ex:scroll" => "false", "ex:sortmode" => "count"}
+            %div{"ex:expression" => ".network_adapters_1_interface", "ex:facetlabel" => "Network adapter interface #2", "ex:height" => "80", "ex:role" => "facet", "ex:scroll" => "false", "ex:sortmode" => "count"}
+            %div{"ex:expression" => ".network_adapters_2_interface", "ex:facetlabel" => "Network adapter interface #3", "ex:height" => "80", "ex:role" => "facet", "ex:scroll" => "false", "ex:sortmode" => "count"}
+            %div{"ex:expression" => ".storage_devices_0_interface", "ex:facetlabel" => "Main storage device interface", "ex:height" => "80", "ex:role" => "facet", "ex:scroll" => "false", "ex:sortmode" => "count"}
+            %div{"ex:expression" => ".storage_devices_0_size", "ex:facetlabel" => "Main storage device size (GB)", "ex:height" => "80", "ex:role" => "facet", "ex:scroll" => "false", "ex:sortmode" => "count"}
+        #facets2
+            %div{"ex:expression" => ".architecture_smp_size", "ex:facetlabel" => "# CPUs", "ex:height" => "80", "ex:role" => "facet", "ex:scroll" => "false", "ex:sortmode" => "value"}
+            %div{"ex:expression" => ".architecture_smt_size", "ex:facetlabel" => "# Cores", "ex:height" => "80", "ex:role" => "facet", "ex:scroll" => "false", "ex:sortmode" => "value"}
+            %div{"ex:expression" => ".main_memory_ram_size", "ex:facetlabel" => "RAM (MiB)", "ex:height" => "80", "ex:role" => "facet", "ex:scroll" => "false", "ex:sortmode" => "count"}
+            %div{"ex:expression" => ".processor_clock_speed", "ex:facetlabel" => "CPU Clock Speed (GHz)", "ex:height" => "80", "ex:role" => "facet", "ex:scroll" => "false", "ex:sortmode" => "value"}
+            %div{"ex:expression" => ".processor_model", "ex:facetlabel" => "Processor model", "ex:height" => "80", "ex:role" => "facet", "ex:scroll" => "false", "ex:sortmode" => "count"}
+            %div{"ex:expression" => ".processor_cache_l1d", "ex:facetlabel" => "Processor cache l1d (KiB)", "ex:height" => "80", "ex:role" => "facet", "ex:scroll" => "false", "ex:sortmode" => "value"}
+            %div{"ex:expression" => ".processor_cache_l1i", "ex:facetlabel" => "Processor cache l1i (KiB)", "ex:height" => "80", "ex:role" => "facet", "ex:scroll" => "false", "ex:sortmode" => "value"}
+            %div{"ex:expression" => ".processor_cache_l2", "ex:facetlabel" => "Processor cache l2 (KiB)", "ex:height" => "80", "ex:role" => "facet", "ex:scroll" => "false", "ex:sortmode" => "value"}
