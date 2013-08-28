@@ -58,6 +58,12 @@ In particular, runtime dependencies of the app include `ruby1.9.1-full` and `git
 
         $ cap develop
 
+        $ SSH_KEY=~/.ssh/id_rsa_accessg5k HOST=graphene-29.nancy.g5k cap develop
+        $ SSH_KEY=~/.ssh/id_rsa_accessg5k HOST=graphene-29.nancy.g5k cap package
+        $ SSH_KEY=~/.ssh/id_rsa_accessg5k HOST=graphene-29.nancy.g5k cap install
+        $ ssh -L 8000:localhost:8000 graphene-29.nancy.g5k
+        $ http://localhost:8000/ui/dashboard
+
   This is the recommended approach, and you can reuse the node for packaging a
   new release once you've made some changes.
 
