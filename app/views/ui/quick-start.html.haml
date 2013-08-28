@@ -1,11 +1,10 @@
 - content_for :before_js do
-  %script{:src => "http://api.simile-widgets.org/exhibit/2.2.0/exhibit-api.js?autoCreate=false"}
+  %script{:src => "https://api.grid5000.fr/exhibitv2/exhibit/api/exhibit-api.js?autoCreate=false"}
   %script{:src => relative_path_to("/javascripts/lib/exhibit.js")}
 
 %h1{:title => @title}= @title
 
 %ul
-  %li If the page does not load properly in Chrome/Chromium, it may be because it uses unsecure content. Either use firefox or allow the content by clicking on the small shield right of the URL bar.
   %li
     Please remember that you must create a ~/public directory in your home directory of each site you want to use.
 #console.clear.small
@@ -25,7 +24,7 @@
           %div{"ex:content" => ".label"}
         %div{"ex:role" => "view", "ex:grouped" => "true", "ex:orders" => ".site_uid, .cluster_uid", "ex:possibleOrders" => ".site_uid", "ex:showAll" => "true", "ex:showSummary" => "true"}
       %div.buttons{:style => "display: none"}
-        %input{:type => "submit", :value => "Launch"} 
+        %input{:type => "submit", :value => "Launch"}
 
   .facets
     %h3 Facets

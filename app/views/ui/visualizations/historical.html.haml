@@ -1,8 +1,8 @@
 - content_for :before_js do
-  %script{:src => "http://api.simile-widgets.org/exhibit/2.2.0/exhibit-api.js?autoCreate=false"}
+  %script{:src => "https://api.grid5000.fr/exhibitv2/exhibit/api/exhibit-api.js?autoCreate=false"}
   %script{:src => relative_path_to("/javascripts/lib/exhibit.js")}
-  %script{:src => "http://static.simile.mit.edu/exhibit/extensions-2.0/time/time-extension.js"}
-  
+  %script{:src => "https://api.grid5000.fr/exhibitv2/exhibit/api/extensions/time/time-extension.js"}
+
 %h1{:title => "historical"} Historical
 
 #content
@@ -20,7 +20,7 @@
     %div{"ex:role" => "view", "ex:viewClass" => "Tile", "ex:label" => "Details", "ex:orders" => ".site", "ex:possibleOrders" => ".author, .site, .date_iso"}
 
 #sidebar
-  %h2 Facets  
+  %h2 Facets
   %div{"ex:role" => "facet", "ex:facetClass" => "TextSearch", "ex:facetLabel" => "Search", "ex:expressions" => ".message"}
   %div#tag{"ex:role" => "facet", "ex:sortMode" => "count", "ex:showMissing" => "false", "ex:expression" => ".tags", "ex:facetLabel" => "Tags"}
   %div#author{"ex:role" => "facet", "ex:expression" => ".author", "ex:sortMode" => "count", "ex:showMissing" => "false", "ex:facetLabel" => "Author"}

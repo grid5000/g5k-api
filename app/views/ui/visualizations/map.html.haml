@@ -1,8 +1,8 @@
 - content_for :before_js do
-  %script{:src => "http://api.simile-widgets.org/exhibit/2.2.0/exhibit-api.js?autoCreate=false"}
+  %script{:src => "https://api.grid5000.fr/exhibitv2/exhibit/api/exhibit-api.js?autoCreate=false"}
   %script{:src => relative_path_to("/javascripts/lib/exhibit.js")}
-  %script{:src => "http://api.simile-widgets.org/exhibit/2.2.0/extensions/map/map-extension.js?gmapkey=ABQIAAAAswD5nCsXqPrfB-uqmRIkshSdgCV34beAmIbkhlY5Su_PpSdtqhRs8AwfLLKJ6ARAwSOjf724JqlTOg"}
-  
+  %script{:src => "https://api.grid5000.fr/exhibitv2/exhibit/api/extensions/map/map-extension.js?gmapkey=ABQIAAAAswD5nCsXqPrfB-uqmRIkshSdgCV34beAmIbkhlY5Su_PpSdtqhRs8AwfLLKJ6ARAwSOjf724JqlTOg"}
+
 %h1{:title => "map"} Map
 
 
@@ -24,6 +24,6 @@
       %div
         Location
         %span{"ex:content" => ".location"}
-        
+
 #sidebar
   #widget-grid-status{:class => 'widget'}
