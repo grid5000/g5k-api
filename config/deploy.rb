@@ -8,7 +8,7 @@ set :puppet, "/tmp/puppet"
 
 set :scm, :git
 
-#set :gateway, ENV['GATEWAY'] || "#{ENV['USER']}@grid5000.irisa.fr"
+set :gateway, ENV['GATEWAY'] || "#{ENV['USER']}@access.grid5000.fr"
 set :user, ENV['REMOTE_USER'] || "root"
 
 key = ENV['SSH_KEY'] || "~/.ssh/id_rsa"
