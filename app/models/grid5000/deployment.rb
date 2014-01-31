@@ -1,8 +1,6 @@
 require 'json'
 require 'fileutils'
 
-require 'kadeploy'
-
 module Grid5000
   # The Deployment class represents a deployment that is launched using the Kadeploy3 tool.
   class Deployment < ActiveRecord::Base
