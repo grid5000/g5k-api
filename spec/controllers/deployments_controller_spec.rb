@@ -106,7 +106,7 @@ describe DeploymentsController do
     it "should raise an error if an error occurred when launching the deployment" do
       Grid5000::Deployment.should_receive(:new).with(@valid_attributes).
         and_return(@deployment)
-      @deployment.should_receive(:ksubmit!).and_raise(Exception.new("some error message"))
+      @deployment.should_receive(:launch_workflow!).and_raise(Exception.new("some error message"))
 
       authenticate_as("crohr")
       send_payload(@valid_attributes, :json)
@@ -121,7 +121,7 @@ describe DeploymentsController do
       Grid5000::Deployment.should_receive(:new).with(@valid_attributes).
         and_return(@deployment)
 
-      @deployment.should_receive(:ksubmit!).and_return(nil)
+      @deployment.should_receive(:launch_workflow!).and_return(nil)
 
       authenticate_as("crohr")
       send_payload(@valid_attributes, :json)
@@ -142,7 +142,7 @@ describe DeploymentsController do
           "http://api-in.local/sites/rennes/files"
         )
 
-      @deployment.should_receive(:ksubmit!).and_return("some-uid")
+      @deployment.should_receive(:launch_workflow!).and_return(true)
 
       authenticate_as("crohr")
       send_payload(@valid_attributes, :json)
@@ -151,7 +151,7 @@ describe DeploymentsController do
 
       response.status.should == 201
       response.headers['Location'].should == "http://api-in.local/sites/rennes/deployments/some-uid"
-      
+
       json["uid"].should == "some-uid"
       json["links"].should be_a(Array)
       json.keys.sort.should == ["created_at", "disable_bootloader_install", "disable_disk_partitioning", "environment", "ignore_nodes_deploying", "links", "nodes", "site_uid", "status", "uid", "updated_at", "user_uid"]

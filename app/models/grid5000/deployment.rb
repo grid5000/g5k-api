@@ -6,41 +6,40 @@ require 'kadeploy'
 module Grid5000
   # The Deployment class represents a deployment that is launched using the Kadeploy3 tool.
   class Deployment < ActiveRecord::Base
-  
     attr_accessor :links
-  
+    # Ugly hack to make the communication between the controller and the model possible
+    attr_accessor :base_uri, :user
+
     SERIALIZED_ATTRIBUTES = [:nodes, :notifications, :result]
-  
+
     validates_presence_of :user_uid, :site_uid, :environment, :nodes
     validates_uniqueness_of :uid
-  
+
     before_save :json_serialize
     after_save :json_deserialize
     after_find :json_deserialize
-  
-  
+
     before_create do
       self.created_at ||= Time.now.to_i
     end
-  
+
     before_save do
       self.updated_at = Time.now.to_i
       errors.add(:uid, "must be set") if uid.nil?
       errors.empty?
     end
-  
+
     def to_param
       uid
     end
-  
+
     # Experiment states
     state_machine :status, :initial => :waiting do
-    
       after_transition :processing => :canceled, :do => :deliver_notification
       after_transition :processing => :error, :do => :deliver_notification
       after_transition :processing => :terminated, :do => :deliver_notification
-    
-      before_transition :processing => :canceled, :do => :kcancel!
+
+      before_transition :processing => :canceled, :do => :cancel_workflow!
       before_transition :waiting => :processing, :do => :launch_workflow!
 
       event :launch do
@@ -59,52 +58,25 @@ module Grid5000
         transition :processing => :error
       end
     end
-  
+
     def active?
       status?(:processing)
     end
-  
+
     validate do
       errors.add :nodes, "must be a non-empty list of node FQDN" unless (nodes.kind_of?(Array) && nodes.length > 0)
       errors.add :notifications, "must be a list of notification URIs" unless (notifications.nil? || notifications.kind_of?(Array))
     end
-  
-    # Transforms deployment into command-line arguments
-    def to_a
-      args = []
-      if URI.parse(environment).scheme.nil?
-        env_name, env_user = environment.split("@")
-        args << "-e" << env_name
-        args << "-u" << env_user if env_user
-      else
-        args << "-a" << environment
-      end
-      args << "-k" << key if key
-      (nodes || []).each do |node|
-        args << "-m" << node
-      end
-      args << "-p" << partition_number.to_s if partition_number
-      args << "-b" << block_device if block_device
-      args << "-r" << reformat_tmp if reformat_tmp
-      args << "--vlan" << vlan.to_s if vlan
-      args << "--env-version" << version.to_s if version
-      args << "--disable-disk-partitioning" if disable_disk_partitioning
-      args << "--disable-bootloader-install" if disable_bootloader_install
-      args << "--ignore-nodes-deploying" if ignore_nodes_deploying
-      args
-    end # def to_a
-  
-  
+
     def processing?
       status.nil? || status == "processing"
     end
-  
-  
+
     def deliver_notification
       unless notifications.blank?
         begin
           Grid5000::Notification.new(
-            notification_message, 
+            notification_message,
             :to => notifications
           ).deliver!
         rescue Exception => e
@@ -113,10 +85,10 @@ module Grid5000
       end
       true
     end
-  
+
     # When some attributes such as :key are passed as text strings,
-    # we must transform such strings into files 
-    # and replace the attribute value by the HTTP URI 
+    # we must transform such strings into files
+    # and replace the attribute value by the HTTP URI
     # where the original content can be accessed.
     # This is required since Kadeploy3 does not allow to directly
     # pass the content string for such attributes.
@@ -139,57 +111,133 @@ module Grid5000
         end
       end
     end # def transform_blobs_into_files!
-  
-  
-    def kcancel!
-      kserver = Kadeploy::Server.new
-      ok = EM::Synchrony.sync kserver.async_cancel!(uid)
-    
-      raise kserver.exception unless kserver.exception.nil?
-    
-      ok || fail!
+
+    def cancel_workflow!
+      raise if !user or !base_uri # Ugly hack
+      http = EM::HttpRequest.new(File.join(base_uri,uid)).delete(
+        :timeout => 10,
+        :head => {
+          #'Accept' => '*/*',
+          'X-Remote-Ident' => user,
+        }
+      )
+
+      # Not checked since it avoid touch! to cancel the deployment
+      #unless %w{200 201 202 204}.include?(http.response_header.status.to_s)
+      #  fail
+      #  raise "The deployment no longer exists on the Kadeploy server"
+      #end
+      true
     end
-  
-    # we split ksubmit! in 2 phases, for easier testing.
-    # FIXME: there is probably a more elegant way to do that
+
     def launch_workflow!
-      update_attribute(:uid, ksubmit!)
-    end
-  
-    def ksubmit!
-      kserver = Kadeploy::Server.new
-      workflow_id = EM::Synchrony.sync(
-        kserver.async_submit!(to_a, :user => user_uid)
+      raise if !user or !base_uri # Ugly hack
+
+      params = to_hash
+      # The environment was specified as an URL to a description file
+      if params['environment'].empty?
+        scheme = URI.parse(environment).scheme
+        case scheme
+        when 'http','https'
+          begin
+            http = EM::HttpRequest.new(environment).get(:timeout=>10)
+            params['environment'] = YAML.load(http.response)
+            params['environment']['kind'] = 'anonymous'
+          rescue Exception => e
+            raise "Error fetching the image description file: #{e.class.name}, #{e.message}"
+          end
+        else
+          raise "Error fetching the image description file: #{scheme} protocol not supported yet"
+        end
+      else
+        params['environment']['kind'] = 'database'
+      end
+      Rails.logger.info "Submitting: #{params.inspect}"
+
+      http = EM::HttpRequest.new(base_uri).post(
+        :timeout => 20,
+        :body => params.to_json,
+        :head => {
+          'Content-Type' => Mime::Type.lookup_by_extension(:json).to_s,
+          'Accept' => Mime::Type.lookup_by_extension(:json).to_s,
+          'X-Remote-Ident' => user,
+        }
       )
-    
-      raise kserver.exception unless kserver.exception.nil?
-    
-      workflow_id
-    end
-  
-    def touch!
-      kserver = Kadeploy::Server.new
-      _status, _result, _output = EM::Synchrony.sync(
-        kserver.async_touch!(uid)
-      )
-    
-      raise kserver.exception unless kserver.exception.nil?
-    
-      self.result = _result
-      self.output = _output
-        
-      case _status
-      when :terminated
-        terminate
-      when :processing
-        process
-      when :canceled
-        fail
+
+      if %w{200 201 202 204}.include?(http.response_header.status.to_s)
+        update_attribute(:uid, JSON.parse(http.response)['wid'])
       else
         fail
+        kaerror(http.response,http.response_header)
+      end
+
+      true
+    end
+
+    def touch!
+      http = EM::HttpRequest.new(File.join(base_uri,uid)).get(
+        :timeout => 5,
+        :head => {
+          'Accept' => Mime::Type.lookup_by_extension(:json).to_s,
+          'X-Remote-Ident' => user,
+        }
+      )
+
+      if %w{200 201 202 204}.include?(http.response_header.status.to_s)
+        item = JSON.parse(http.response)
+
+        unless item['error']
+          http = EM::HttpRequest.new(File.join(base_uri,uid,'state')).get(
+            :timeout => 5,
+            :head => {
+              'Accept' => Mime::Type.lookup_by_extension(:json).to_s,
+              'X-Remote-Ident' => user,
+            }
+          )
+          self.result = JSON.parse(http.response)
+          if item['logs']
+            http = EM::HttpRequest.new(File.join(base_uri,uid,'logs')).get(
+              :timeout => 5,
+              :head => {
+                #'Accept' => '*/*',
+                'X-Remote-Ident' => user,
+              }
+            )
+            self.output = http.response
+          end
+        else
+          http = EM::HttpRequest.new(File.join(base_uri,uid,'error')).get(
+            :timeout => 5,
+            :head => {
+              #'Accept' => '*/*',
+              'X-Remote-Ident' => user,
+            }
+          )
+          self.output = nil
+          fail
+          kaerror(http.response,http.response_header)
+        end
+
+        if item['done']
+          self.output = nil
+          terminate
+        else
+          process
+        end
+      else
+        cancel if can_cancel?
+        raise "The deployment no longer exists on the Kadeploy server"
       end
     end
-  
+
+    def kaerror(resp,hdr)
+      if hdr['X_APPLICATION_ERROR_CODE'] and hdr['X_APPLICATION_ERROR_INFO']
+        raise "Kadeploy error ##{hdr['X_APPLICATION_ERROR_CODE']}, #{Base64.strict_decode64(hdr['X_APPLICATION_ERROR_INFO'])}\n"
+      else
+        raise "HTTP error ##{hdr.status}, #{resp}\n"
+      end
+    end
+
     def as_json(*args)
       attributes.merge(:links => links).reject{|k,v| v.nil? || k=="id"}
     end
@@ -197,22 +245,44 @@ module Grid5000
     def notification_message
       ::JSON.pretty_generate(as_json)
     end
-  
-    def json_serialize    
+
+    def json_serialize
       SERIALIZED_ATTRIBUTES.each do |att|
         value = send(att)
         if value == [] or ! value.blank?
-          send("#{att}=".to_sym, value.to_json) 
+          send("#{att}=".to_sym, value.to_json)
         end
       end
     end
-  
+
     def json_deserialize
       SERIALIZED_ATTRIBUTES.each do |att|
         value = send(att) rescue nil
         send("#{att}=".to_sym, (JSON.parse(value) rescue value)) unless value.blank?
       end
     end
-  
+
+    def to_hash
+      params = {
+        'environment' => {}
+      }
+      if URI.parse(environment).scheme.nil?
+        env_name, env_user = environment.split("@")
+        params['environment'] = { 'name' => env_name }
+        params['environment']['user'] = env_user if env_user
+        params['environment']['version'] = version.to_s if version
+      end
+      params['ssh_authorized_keys'] = key if key
+      params['nodes'] = nodes.dup
+      params['deploy_part'] = partition_number.to_s if partition_number
+      params['block_device'] = block_device.to_s if block_device
+      params['reformat_tmp_partition'] = reformat_tmp.to_s if reformat_tmp
+      params['vlan'] = vlan.to_s if vlan
+      params['disable_disk_partitioning'] = true if disable_disk_partitioning
+      params['disable_bootloader_install'] = true if disable_bootloader_install
+      params['force'] = true if ignore_nodes_deploying
+
+      params
+    end
   end # class Deployment
 end

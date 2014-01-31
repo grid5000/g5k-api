@@ -58,13 +58,16 @@ describe Grid5000::Deployment do
   end # describe "validations"
 
 
-  describe "export to array" do
+  describe "export to hash" do
 
     it "should correctly export the attributes to an array [simple]" do
-      @deployment.to_a.should == [
-        "-e", "lenny-x64-base",
-        "-m", "paradent-1.rennes.grid5000.fr"
-      ]
+      @deployment.to_hash.should == {
+        "environment" => {
+          "kind" => "database",
+          "name" => "lenny-x64-base",
+        },
+        "nodes" => ["paradent-1.rennes.grid5000.fr"],
+      }
     end
 
     it "should work [many nodes]" do
@@ -73,9 +76,14 @@ describe Grid5000::Deployment do
         "paramount-10.rennes.grid5000.fr"
       ]
       @deployment.to_a.should == [
-        "-e", "lenny-x64-base",
-        "-m", "paradent-1.rennes.grid5000.fr",
-        "-m", "paramount-10.rennes.grid5000.fr"
+        "environment" => {
+          "kind" => "database",
+          "name" => "lenny-x64-base",
+        },
+        "nodes" => [
+          "paradent-1.rennes.grid5000.fr",
+          "paramount-10.rennes.grid5000.fr",
+        ]
       ]
     end
 
@@ -90,18 +98,24 @@ describe Grid5000::Deployment do
     it "should work [environment associated to a specific user]" do
       @deployment.environment = "lenny-x64-base@crohr"
       @deployment.to_a.should == [
-        "-e", "lenny-x64-base",
-        "-u", "crohr",
-        "-m", "paradent-1.rennes.grid5000.fr"
+        "environment" => {
+          "kind" => "database",
+          "name" => "lenny-x64-base",
+          "user" => "crohr",
+        },
+        "nodes" => ["paradent-1.rennes.grid5000.fr"],
       ]
     end
 
     it "should work [environment version]" do
       @deployment.version = 3
       @deployment.to_a.should == [
-        "-e", "lenny-x64-base",
-        "-m", "paradent-1.rennes.grid5000.fr",
-        "--env-version", "3"
+        "environment" => {
+          "kind" => "database",
+          "name" => "lenny-x64-base",
+          "version" => 3,
+        },
+        "nodes" => ["paradent-1.rennes.grid5000.fr"],
       ]
     end
 
@@ -114,15 +128,18 @@ describe Grid5000::Deployment do
       @deployment.disable_bootloader_install = true
       @deployment.disable_disk_partitioning = true
       @deployment.to_a.should == [
-        "-e", "lenny-x64-base",
-        "-m", "paradent-1.rennes.grid5000.fr",
-        "-p", "4",
-        "-b", "whatever",
-        "-r", "ext2",
-        "--vlan", "3",
-        "--disable-disk-partitioning",
-        "--disable-bootloader-install",
-        "--ignore-nodes-deploying"
+        "environment" => {
+          "kind" => "database",
+          "name" => "lenny-x64-base",
+        },
+        "nodes" => ["paradent-1.rennes.grid5000.fr"],
+        "deploy_part" => "4",
+        "block_device" => "whatever",
+        "reformat_tmp_partition" => "ext2",
+        "vlan" => "3",
+        "disable_disk_partitioning" => true,
+        "disable_bootloader_install" => true,
+        "force" => true
       ]
     end
   end # describe "export to array"
@@ -235,13 +252,13 @@ describe Grid5000::Deployment do
     it "should be able to go from waiting to processing" do
       @deployment.status?(:waiting).should be_true
       @deployment.should_not_receive(:deliver_notification)
-      @deployment.should_receive(:ksubmit!).and_return(true)
+      @deployment.should_receive(:launch_workflow!).and_return(true)
       @deployment.launch.should be_true
       @deployment.status?(:processing).should be_true
     end
-    it "should not be able to go from waiting to processing if an exception is raised when ksubmitting" do
+    it "should not be able to go from waiting to processing if an exception is raised when launch_workflow" do
       @deployment.should_not_receive(:deliver_notification)
-      @deployment.should_receive(:ksubmit!).
+      @deployment.should_receive(:launch_workflow!).
         and_raise(Exception.new("some error"))
       @deployment.status?(:waiting).should be_true
       lambda{
@@ -252,7 +269,7 @@ describe Grid5000::Deployment do
 
     describe "once it is in the :processing state" do
       before do
-        @deployment.stub!(:ksubmit!).and_return(true)
+        @deployment.stub!(:launch_workflow!).and_return(true)
         @deployment.launch!
         @deployment.status?(:processing).should be_true
       end
@@ -267,13 +284,13 @@ describe Grid5000::Deployment do
         @deployment.status?(:terminated).should be_true
       end
       it "should be able to go from processing to canceled, and should call :deliver_notification" do
-        @deployment.should_receive(:kcancel!).and_return(true)
+        @deployment.should_receive(:cancel_workflow!).and_return(true)
         @deployment.should_receive(:deliver_notification)
         @deployment.cancel.should be_true
         @deployment.status?(:canceled).should be_true
       end
-      it "should not be able to go from processing to canceled if an exception is raised when kcanceling" do
-        @deployment.should_receive(:kcancel!).
+      it "should not be able to go from processing to canceled if an exception is raised when cancel_workflow" do
+        @deployment.should_receive(:cancel_workflow!).
           and_raise(Exception.new("some error"))
         @deployment.should_not_receive(:deliver_notification)
         lambda{
@@ -294,51 +311,53 @@ describe Grid5000::Deployment do
     end
   end
 
+# No more Kadeploy lib
+=begin
   describe "calls to kadeploy server" do
     before do
       @kserver = Kadeploy::Server.new
       Kadeploy::Server.stub!(:new).and_return(@kserver)
     end
 
-    describe "ksubmit!" do
+    describe "launch_workflow!" do
       it "should raise an exception if an error occurred when trying to contact the kadeploy server" do
         @kserver.should_receive(:submit!).
           and_raise(Exception.new("some error"))
         lambda {
-          @deployment.ksubmit!
+          @deployment.launch_workflow!
         }.should raise_error(Exception, "some error")
         @deployment.uid.should be_nil
       end
       it "should return the deployment uid if submission successful" do
         @kserver.should_receive(:submit!).
           and_return("some-uid")
-        @deployment.ksubmit!.should == "some-uid"
+        @deployment.launch_workflow!.should == "some-uid"
       end
     end
 
     describe "with a deployment in the :processing state" do
 
       before do
-        @deployment.stub!(:ksubmit!).and_return("some-uid")
+        @deployment.stub!(:launch_workflow!).and_return("some-uid")
         @deployment.launch!
         @deployment.status?(:processing).should be_true
       end
 
-      describe "kcancel!" do
+      describe "cancel_workflow!" do
         it "should raise an exception if an error occurred when trying to contact the kadeploy server" do
           @kserver.should_receive(:cancel!).
             and_raise(Exception.new("some error"))
           lambda {
-            @deployment.kcancel!
+            @deployment.cancel_workflow!
           }.should raise_error(Exception, "some error")
         end
         it "should return true if correctly canceled on the kadeploy-server" do
           @kserver.should_receive(:cancel!).and_return(true)
-          @deployment.kcancel!.should be_true
+          @deployment.cancel_workflow!.should be_true
         end
         it "should transition to the error state if not correctly canceled on the kadeploy-server" do
           @kserver.should_receive(:cancel!).and_return(false)
-          @deployment.kcancel!.should be_true
+          @deployment.cancel_workflow!.should be_true
           @deployment.reload.status?(:error).should be_true
         end
       end
@@ -388,6 +407,7 @@ describe Grid5000::Deployment do
       end # describe "touch!"
     end # describe "with a deployment in the :processing state"
   end # describe "calls to kadeploy server"
+=end
 
   describe "notification delivery" do
 

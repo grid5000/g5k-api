@@ -56,8 +56,6 @@ In particular, runtime dependencies of the app include `ruby1.9.1-full` and `git
   and port forwarding setup (takes about 5-10 minutes to deploy and
   configure):
 
-        $ cap develop
-
         $ SSH_KEY=~/.ssh/id_rsa_accessg5k HOST=graphene-29.nancy.g5k cap develop
         $ SSH_KEY=~/.ssh/id_rsa_accessg5k HOST=graphene-29.nancy.g5k cap package
         $ SSH_KEY=~/.ssh/id_rsa_accessg5k HOST=graphene-29.nancy.g5k cap install

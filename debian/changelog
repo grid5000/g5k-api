@@ -1,11 +1,15 @@
 g5k-api (3.1.5-1) unstable; urgency=low
 
+  [ Sebastien Badia ]
   * 853008e [ui/js] Remove killer feature (twitter timeline on dashboard)
   * 5abaaf1 [app/ui] Backport /2.0/nodes.html to /3.0, /sid API (reference-repository visualisation)
   * d29e990 [app/ui] s/chrome/firefox (chapel wars :-))
   * 988fe4e [app/ui] Vendorize exhibit 2.2.0 simile widgets (remove unsecure content)  (refs: #4567)
   * 34ed006 [ui/layout] Vendorize jquery (1.4.2) remove external query to an unsecure content on Google…
   * 5427859 [ui/layout] Update bugzilla link, and contact email
+
+  [ Luc Sarzyniec ]
+  * Remove kadeploy-common-dev dependency (useless with Kadeploy 3.2)
 
  -- Sebastien Badia <sebastien.badia@inria.fr>  Wed, 28 Aug 2013 18:56:44 +0200
 
