@@ -7,7 +7,7 @@ class DeploymentsController < ApplicationController
     allow :get, :post; vary_on :accept
 
     offset = [(params[:offset] || 0).to_i, 0].max
-    limit = [(params[:limit] || LIMIT), LIMIT_MAX].min
+    limit = [(params[:limit] || LIMIT).to_i, LIMIT_MAX].min
     order = "DESC"
     order = "ASC" if params[:reverse] && params[:reverse].to_s == "true"
 
