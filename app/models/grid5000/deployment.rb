@@ -111,7 +111,8 @@ module Grid5000
     end # def transform_blobs_into_files!
 
     def cancel_workflow!
-      raise if !user or !base_uri # Ugly hack
+      raise "cancel_workflow!" if !user or !base_uri # Ugly hack
+
       http = EM::HttpRequest.new(File.join(base_uri,uid)).delete(
         :timeout => 10,
         :head => {
@@ -125,11 +126,12 @@ module Grid5000
       #  fail
       #  raise "The deployment no longer exists on the Kadeploy server"
       #end
+
       true
     end
 
     def launch_workflow!
-      raise if !user or !base_uri # Ugly hack
+      raise "launch_workflow!" if !user or !base_uri # Ugly hack
 
       params = to_hash
       # The environment was specified as an URL to a description file
@@ -165,8 +167,9 @@ module Grid5000
       if %w{200 201 202 204}.include?(http.response_header.status.to_s)
         update_attribute(:uid, JSON.parse(http.response)['wid'])
       else
-        fail
-        kaerror(http.response,http.response_header)
+        error(get_kaerror(http.response,http.response_header))
+        # Cannot continue since :uid is not set
+        raise self.output+"\n"
       end
 
       true
@@ -201,8 +204,8 @@ module Grid5000
               'X-Remote-Ident' => user,
             }
           )
-          fail
-          kaerror(http.response,http.response_header)
+          error(get_kaerror(http.response,http.response_header))
+          return
         end
 
         if item['done']
@@ -211,17 +214,25 @@ module Grid5000
           process
         end
       else
-        cancel if can_cancel?
-        raise "The deployment no longer exists on the Kadeploy server"
+        error("The deployment no longer exists on the Kadeploy server")
       end
     end
 
-    def kaerror(resp,hdr)
+    def get_kaerror(resp,hdr)
       if hdr['X_APPLICATION_ERROR_CODE'] and hdr['X_APPLICATION_ERROR_INFO']
-        raise "Kadeploy error ##{hdr['X_APPLICATION_ERROR_CODE']}, #{Base64.strict_decode64(hdr['X_APPLICATION_ERROR_INFO'])}\n"
+        "Kadeploy error ##{hdr['X_APPLICATION_ERROR_CODE']}: #{Base64.strict_decode64(hdr['X_APPLICATION_ERROR_INFO'])}"
       else
-        raise "HTTP error ##{hdr.status}, #{resp}\n"
+        "HTTP error ##{hdr.status}: #{resp}"
       end
+    end
+
+    def error(msg)
+      self.output = msg
+
+      # Delete the workflow from the kadeploy server
+      cancel_workflow! if uid
+
+      fail
     end
 
     def as_json(*args)
