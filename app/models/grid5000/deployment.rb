@@ -193,16 +193,6 @@ module Grid5000
             }
           )
           self.result = JSON.parse(http.response)
-          if item['logs']
-            http = EM::HttpRequest.new(File.join(base_uri,uid,'logs')).get(
-              :timeout => 5,
-              :head => {
-                #'Accept' => '*/*',
-                'X-Remote-Ident' => user,
-              }
-            )
-            self.output = http.response
-          end
         else
           http = EM::HttpRequest.new(File.join(base_uri,uid,'error')).get(
             :timeout => 5,
@@ -211,13 +201,11 @@ module Grid5000
               'X-Remote-Ident' => user,
             }
           )
-          self.output = nil
           fail
           kaerror(http.response,http.response_header)
         end
 
         if item['done']
-          self.output = nil
           terminate
         else
           process
