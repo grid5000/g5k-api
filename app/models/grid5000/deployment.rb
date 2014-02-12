@@ -278,6 +278,7 @@ module Grid5000
       params['disable_disk_partitioning'] = true if disable_disk_partitioning
       params['disable_bootloader_install'] = true if disable_bootloader_install
       params['force'] = true if ignore_nodes_deploying
+      params['hook'] = true
 
       params
     end
