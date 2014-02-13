@@ -1,3 +1,17 @@
+g5k-api (3.1.7-1) unstable; urgency=low
+
+  * 75df304 [deploy] Add hook parameter when calling Kadeploy native API
+  * bb34630 [deploy] New way to return kadeploy error: the error is written in the output field and not crash on PUT; on error, the native workflow is cleaned
+  * 0764e31 [deploy] Do not put kadeploy outputs in the output field anymore
+  * f49e8c0 [deploy] Bugfix: the "limit" parameter (GET /deployment) was broken
+  * e0a8bfa Removed the Kadeploy library
+  * 162fe79 Integration with Kadeploy 3.2 API
+  * 34ef049 Bugfix: repair cap develop, gateway was not created properly
+  * 50ba106 [puppet] Update puppet recipe, and add doc for dev env
+  * 922b384 v3.1.5
+
+ -- Luc Sarzyniec <luc.sarzyniec@inria.fr>  Thu, 13 Feb 2014 11:25:30 +0100
+
 g5k-api (3.1.6-1) unstable; urgency=low
 
   * Remove kadeploy-common-dev dependency (useless with Kadeploy 3.2)
