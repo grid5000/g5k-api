@@ -120,6 +120,7 @@ module Grid5000
           'X-Remote-Ident' => user,
         }
       )
+      http.errback{ error("Unable to contact #{File.join(base_uri,uid)}"); raise self.output+"\n" }
 
       # Not checked since it avoid touch! to cancel the deployment
       #unless %w{200 201 202 204}.include?(http.response_header.status.to_s)
@@ -163,6 +164,7 @@ module Grid5000
           'X-Remote-Ident' => user,
         }
       )
+      http.errback{ error("Unable to contact #{base_uri}"); raise self.output+"\n" }
 
       if %w{200 201 202 204}.include?(http.response_header.status.to_s)
         update_attribute(:uid, JSON.parse(http.response)['wid'])
@@ -183,6 +185,7 @@ module Grid5000
           'X-Remote-Ident' => user,
         }
       )
+      http.errback{ error("Unable to contact #{File.join(base_uri,uid)}"); raise self.output+"\n" }
 
       if %w{200 201 202 204}.include?(http.response_header.status.to_s)
         item = JSON.parse(http.response)
@@ -195,6 +198,7 @@ module Grid5000
               'X-Remote-Ident' => user,
             }
           )
+          http.errback{ error("Unable to contact #{File.join(base_uri,uid,'state')}"); raise self.output+"\n" }
           self.result = JSON.parse(http.response)
         else
           http = EM::HttpRequest.new(File.join(base_uri,uid,'error')).get(
@@ -205,6 +209,7 @@ module Grid5000
             }
           )
           error(get_kaerror(http.response,http.response_header))
+          http.errback{ error("Unable to contact #{File.join(base_uri,uid,'error')}"); raise self.output+"\n" }
           return
         end
 
