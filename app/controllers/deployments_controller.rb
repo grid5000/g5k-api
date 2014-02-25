@@ -117,8 +117,8 @@ class DeploymentsController < ApplicationController
       :status => 201
     }
     respond_to do |format|
-      format.g5kitemjson { render :json => dpl }
-      format.json { render :json => dpl }
+      format.g5kitemjson { render render_opts.merge(:json => dpl) }
+      format.json { render render_opts.merge(:json => dpl) }
     end
   end
 
