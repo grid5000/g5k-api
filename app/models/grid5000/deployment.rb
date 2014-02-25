@@ -114,7 +114,7 @@ module Grid5000
       raise "cancel_workflow!" if !user or !base_uri # Ugly hack
 
       http = EM::HttpRequest.new(File.join(base_uri,uid)).delete(
-        :timeout => 10,
+        :timeout => 15,
         :head => {
           #'Accept' => '*/*',
           'X-Remote-Ident' => user,
@@ -179,7 +179,7 @@ module Grid5000
 
     def touch!
       http = EM::HttpRequest.new(File.join(base_uri,uid)).get(
-        :timeout => 5,
+        :timeout => 10,
         :head => {
           'Accept' => Mime::Type.lookup_by_extension(:json).to_s,
           'X-Remote-Ident' => user,
@@ -192,7 +192,7 @@ module Grid5000
 
         unless item['error']
           http = EM::HttpRequest.new(File.join(base_uri,uid,'state')).get(
-            :timeout => 5,
+            :timeout => 15,
             :head => {
               'Accept' => Mime::Type.lookup_by_extension(:json).to_s,
               'X-Remote-Ident' => user,
@@ -202,7 +202,7 @@ module Grid5000
           self.result = JSON.parse(http.response)
         else
           http = EM::HttpRequest.new(File.join(base_uri,uid,'error')).get(
-            :timeout => 5,
+            :timeout => 15,
             :head => {
               #'Accept' => '*/*',
               'X-Remote-Ident' => user,
