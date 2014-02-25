@@ -1,3 +1,10 @@
+g5k-api (3.1.8-1) unstable; urgency=low
+
+  * 89f7224 [deploy] Bugfix: return 201 HTTP code on POST requests
+  * 7bc4d31 [deploy] Check timeouts when contacting the Kadeploy native API
+
+ -- Luc Sarzyniec <luc.sarzyniec@inria.fr>  Tue, 25 Feb 2014 14:48:09 +0100
+
 g5k-api (3.1.7-1) unstable; urgency=low
 
   * 75df304 [deploy] Add hook parameter when calling Kadeploy native API
