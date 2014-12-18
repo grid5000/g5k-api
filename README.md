@@ -2,7 +2,7 @@
 
 This application is in charge of providing the core APIs for Grid'5000.
 
-The project is hosted at <ssh://git.grid5000.fr/srv/git/repos/g5kapi>.
+The project is hosted at <https://github.com/grid5000/g5kapi>.
 
 Please send an email to <support-staff@lists.grid5000.fr> if you cannot access the code,
 but if you read this, it's normally good…
