@@ -213,7 +213,12 @@ module Grid5000
             }
           )
           http.errback{ error("Unable to contact #{File.join(base_uri,uid,'state')}"); raise self.output+"\n" }
-          self.result = JSON.parse(http.response)
+          res = JSON.parse(http.response)
+          # Ugly compatibility hack
+          res.each_pair do |node,stat|
+            res[node]['state'] = res[node]['state'].upcase
+          end
+          self.result = res
         else
           http = EM::HttpRequest.new(File.join(base_uri,uid,'error')).get(
             :timeout => 15,
