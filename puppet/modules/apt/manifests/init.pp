@@ -6,7 +6,7 @@ class apt {
   exec { "sources update":
       command => "apt-get update",
       path => "/usr/bin:/usr/sbin:/bin",
-      refreshonly => true;
+      #refreshonly => true;
   }
   
 }

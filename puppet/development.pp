@@ -9,4 +9,11 @@ class development {
   include dpkg::dev
 }
 
+stage { "init": before  => Stage["main"] }
+
+class {"apt": 
+  stage => init,
+}
+
+
 include development
