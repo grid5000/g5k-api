@@ -1,5 +1,5 @@
-source 'http://rubygems.org'
-source 'http://g5k-campaign.gforge.inria.fr/pkg'
+#source 'http://g5k-campaign.gforge.inria.fr/pkg'
+source 'https://rubygems.org'
 
 gem 'rake', '>= 0.8.7'
 gem 'rails', '~> 3.0.0'
@@ -32,8 +32,10 @@ group :test, :development do
   gem 'autotest-growl'
   gem 'factory_girl_rails'
   gem 'rcov'
+  gem 'net-ssh-multi', '~> 1.1.0' #need to constrain this other g5k-campaign will pull a dependency that is too recent
   gem 'capistrano'
-  gem 'g5k-campaign', '~> 0.9.3'
+  gem 'g5k-campaign', :git => 'https://gforge.inria.fr/git/g5k-campaign/g5k-campaign.git', :ref => 'cac93c26c7c998da96182980736b4d17fb070570' # '~> 0.9.7'
+
 end
 
 
