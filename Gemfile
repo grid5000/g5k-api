@@ -15,7 +15,8 @@ gem "ruby-mysql", :require => "mysql"
 gem 'addressable', '~> 2.2'
 gem 'thin', '~> 1.2.7'
 gem 'state_machine', '~> 0.9'
-gem 'grit'
+#gem 'grit'
+gem 'gitlab-grit', :require => ['grit']
 gem 'syslogger'
 gem 'haml'
 gem 'rack-jsonp'
