@@ -22,6 +22,11 @@ module OAR
     belongs_to :gantt, :foreign_key => 'assigned_moldable_job', :class_name => 'Gantt'
 
     # There may be a way to do that more cleanly ;-)
+
+    # 4 lines introduced below by abasu for correction to bug ref 5694 -- 2015.01.26
+    #   GROUP BY resources.network_address
+    #   ORDER BY resources.network_address ASC
+
     QUERY_RESOURCES = Proc.new{ "
       (
         SELECT resources.*
@@ -33,6 +38,8 @@ module OAR
         INNER JOIN moldable_job_descriptions
           ON assigned_resources.moldable_job_id = moldable_job_descriptions.moldable_id
           AND jobs.job_id = moldable_job_descriptions.moldable_job_id
+        GROUP BY resources.network_address
+        ORDER BY resources.network_address ASC
       )
       UNION
       (
@@ -45,6 +52,8 @@ module OAR
         INNER JOIN moldable_job_descriptions
           ON gantt_jobs_resources.moldable_job_id = moldable_job_descriptions.moldable_id
           AND jobs.job_id = moldable_job_descriptions.moldable_job_id
+        GROUP BY resources.network_address
+        ORDER BY resources.network_address ASC
       )"
     }
 
@@ -57,6 +66,8 @@ module OAR
       jobs = jobs.where(:job_user => params[:user]) unless params[:user].blank?
       jobs = jobs.where(:job_name => params[:name]) unless params[:name].blank?
       jobs = jobs.where(:project => params[:project]) unless params[:project].blank?
+      # 1 line introduced below by abasu for correction to bug ref 5347 -- 2015.01.23
+      jobs = jobs.where(:job_id => params[:job_id]) unless params[:job_id].blank?
       if params[:state]
         states = (params[:state] || "").split(/\s*,\s*/).
           map(&:capitalize).

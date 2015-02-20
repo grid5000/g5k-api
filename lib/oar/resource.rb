@@ -55,14 +55,31 @@ module OAR
 
         include_comment = columns.find{|c| c.name == "comment"}
 
+ 	# abasu for bug 5106 & 5856 : added cluster & core in MySQL request - 05.02.2015
         resources = Resource.select(
-          "resource_id, network_address, state, available_upto#{include_comment ? ", comment" : ""}"
+          "resource_id, cluster, network_address, core, state, available_upto#{include_comment ? ", comment" : ""}"
         )
 
         resources = resources.where(
           :cluster => options[:clusters]
         ) unless options[:clusters].blank?
         resources = resources.index_by(&:resource_id)
+
+ 	# abasu : Introduce a hash table to store counts of free / busy cores per node - 05.02.2015
+        # abasu : This hash table can be used to store other counters in future (add another element)
+        nodes_counter = {}
+	resources.each do |resource_id, resource|
+          next if resource.nil?
+
+	  nodes_counter[resource.network_address]= {
+                :totalcores => 0,
+                :busycounter => 0,
+                :besteffortcounter => 0 
+              } if !nodes_counter.has_key?(resource.network_address)
+          if !resource.core.zero?
+	    nodes_counter[resource.network_address][:totalcores] += 1
+          end
+	end  #  .each do |resource_id, resource|
 
         active_jobs_by_moldable_id = {}
         Job.expanded.active.
@@ -92,9 +109,9 @@ module OAR
 
               active_jobs_by_moldable_id[moldable_job_id][:resources].
                 add(resource_id)
-            end
-          end
-        end
+            end # .each do |(moldable_job_id, resource_id)|
+          end # .each do |table|
+        end # if active_jobs_by_moldable_id
 
         active_jobs_by_moldable_id.each do |moldable_id, h|
           current = h[:job].running?
@@ -104,27 +121,53 @@ module OAR
             # The resource does not belong to a valid cluster.
             next if resource.nil?
 
-            result[resource.network_address] ||= initial_status_for(resource)
-            if current
-              result[resource.network_address][:soft] = if h[:job].besteffort?
-                "besteffort"
-              else
-                "busy"
-              end
-            end
+             result[resource.network_address] ||= initial_status_for(resource)
 
-            # Do not include events
+	    # abasu : if job is current, increment corresponding counter(s) in hash table
+            if current
+              nodes_counter[resource.network_address][:busycounter] += 1
+              if h[:job].besteffort?
+                nodes_counter[resource.network_address][:besteffortcounter] += 1
+              end #  if h[:job].besteffort?
+            end  # if current
+
+            # For Result hash table, do not include events
             # (otherwise the Set does not work with nested hash)
             result[resource.network_address][:reservations].add(
               h[:job].to_reservation(:without => :events)
             )
+          end  # .each do |resource_id|
+        end  # .each do |moldable_id, h|
+
+        # abasu : At this stage we have the the complete status over all cores in each node (network_address)
+        # abasu : Now add logic to sum up the status over all cores and push final status to result hash table
+
+ 
+        nodes_counter.each do |network_address, node_counter|
+          next if result[network_address].nil?
+
+          if node_counter[:busycounter] == 0
+            result[network_address][:soft] = "free"      # all cores in node are free
           end
-        end
+          if node_counter[:busycounter] > 0 && node_counter[:busycounter] <= node_counter[:totalcores] / 2
+	    result[network_address][:soft] = "free_busy" # more free cores in node than busy cores
+          end
+          if node_counter[:busycounter] > node_counter[:totalcores] / 2 && node_counter[:busycounter] < node_counter[:totalcores]
+	    result[network_address][:soft] = "busy_free" # more busy cores in node than free cores
+          end
+          if node_counter[:busycounter] == node_counter[:totalcores] 
+	    result[network_address][:soft] = "busy"      # all cores in node are busy
+	  end  # nested if
+
+          if node_counter[:besteffortcounter] > 0
+	    result[network_address][:soft] += "_besteffort" # add "besteffort_" before status if it is so
+          end # if node_counter[:besteffortcounter]
+        end  # .each do |network_address, node_counter|
 
         # fallback for resources without jobs
         resources.each do |resource_id, resource|
           result[resource.network_address] ||= initial_status_for(resource)
-        end
+        end  # .each do |resource_id, resource|
 
         result
       end # def status
@@ -143,11 +186,11 @@ module OAR
         }
         h[:comment] = resource.comment if resource.respond_to?(:comment)
         h
-      end
+      end  # def initial_status_for
     end # class << self
 
-  end
+  end  # class Resource
 
 
 
-end
+end  # module OAR
