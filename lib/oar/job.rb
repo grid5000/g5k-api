@@ -57,6 +57,8 @@ module OAR
       jobs = jobs.where(:job_user => params[:user]) unless params[:user].blank?
       jobs = jobs.where(:job_name => params[:name]) unless params[:name].blank?
       jobs = jobs.where(:project => params[:project]) unless params[:project].blank?
+      # abasu 1 line introduced below for correction to bug ref 5347 -- 2015.01.23
+      jobs = jobs.where(:job_id => params[:job_id]) unless params[:job_id].blank?
       if params[:state]
         states = (params[:state] || "").split(/\s*,\s*/).
           map(&:capitalize).
