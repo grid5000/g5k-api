@@ -37,7 +37,70 @@ describe OAR::Job do
     OAR::Job.active.map(&:uid).should == [374173, 374179, 374180, 374185, 374186, 374190, 374191]
   end
   
-  it "should fetch the list of resources" do
+  # abasu : test introduced below for correction to bug ref 5347 -- 2015.03.09
+  it "should fetch the job with the jobid AND match all job parameters" do
+    params = {
+       :job_id => 374191
+    }
+    OAR::Job.list(params).should exist
+    result = JSON.parse(
+      OAR::Job.expanded.active.list(params).to_json
+    )
+    result.should == [{
+      "uid"=>374191, 
+      "user_uid"=>"jgallard", 
+      "user"=>"jgallard", 
+      "queue"=>"default",
+      "state"=>"running", 
+      "project"=>"default",
+      "types"=>["deploy"], 
+      "mode"=>"INTERACTIVE", 
+      "command"=>"", 
+      "walltime" => 7200,
+      "submitted_at"=>1294395993, 
+      "scheduled_at"=>1294395995, 
+      "started_at"=>1294395995, 
+      "message"=>"FIFO scheduling OK", 
+      "properties"=>"((cluster='paramount') AND deploy = 'YES') AND maintenance = 'NO'", 
+      "directory"=>"/home/jgallard/stagiaires10/stagiaires-nancy/partiel_from_paracancale_sajith/grid5000", 
+      "events"=>[
+        {
+          "uid"=>950608, 
+          "created_at"=>1294403214, 
+          "type"=>"FRAG_JOB_REQUEST", 
+          "description"=>"User root requested to frag the job 374191"
+        }, 
+        {
+          "uid"=>950609, 
+          "created_at"=>1294403214, 
+          "type"=>"WALLTIME", 
+          "description"=>"[sarko] Job [374191] from 1294395995 with 7200; current time=1294403214 (Elapsed)"
+        }, 
+        {
+          "uid"=>950610, 
+          "created_at"=>1294403215, 
+          "type"=>"SEND_KILL_JOB", 
+          "description"=>"[Leon] Send kill signal to oarexec on frontend.rennes.grid5000.fr for the job 374191"
+        },
+        {
+          "uid"=>950611, 
+          "created_at"=>1294403225, 
+          "type"=>"SWITCH_INTO_ERROR_STATE", 
+          "description"=>"[bipbip 374191] Ask to change the job state"
+        }
+      ]
+    }]
+  end
+
+  # abasu : test introduced below for correction to bug ref 5347 -- 2015.03.09
+  it "should return null if the job does NOT exist" do
+    params = {
+       :job_id => 999999
+    }
+    OAR::Job.list(params).should_not exist
+  end
+  
+	  it "should fetch the list of resources" do
     resources = OAR::Job.active.last.resources
     resources.map(&:id).should == [752, 753, 754, 755, 856, 857, 858, 859, 864, 865, 866, 867, 868, 869, 870, 871]
   end
