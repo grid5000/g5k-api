@@ -36,7 +36,7 @@ describe OAR::Job do
   it "should fetch the list of active jobs" do
     OAR::Job.active.map(&:uid).should == [374173, 374179, 374180, 374185, 374186, 374190, 374191]
   end
-  
+
   # abasu : test introduced below for correction to bug ref 5347 -- 2015.03.09
   it "should fetch the job with the jobid AND match all job parameters" do
     params = {
@@ -100,7 +100,7 @@ describe OAR::Job do
     OAR::Job.list(params).should_not exist
   end
   
-	  it "should fetch the list of resources" do
+  it "should fetch the list of resources" do
     resources = OAR::Job.active.last.resources
     resources.map(&:id).should == [752, 753, 754, 755, 856, 857, 858, 859, 864, 865, 866, 867, 868, 869, 870, 871]
   end
@@ -161,6 +161,15 @@ describe OAR::Job do
         }
       ]
     }
+  end
+
+  # abasu : test introduced below for correction to bug ref 5694 -- 2015.03.13
+  it "should return a list of assigned nodes sorted by network_address (nodes)" do
+    result = OAR::Job.active.last.assigned_nodes # Just the list of assigned nodes returned
+    sorted_result = OAR::Job.active.last.assigned_nodes.sort # The list of assigned nodes returned and then sorted
+    result.should == sorted_result # the list of assigned nodes should be already sorted
+    # double verification : the list of assigned nodes should be already sorted
+    result.should == ["paramount-30.rennes.grid5000.fr", "paramount-32.rennes.grid5000.fr", "paramount-33.rennes.grid5000.fr", "paramount-4.rennes.grid5000.fr"]
   end
   
   it "should build a hash of resources indexed by their type [cores]" do
