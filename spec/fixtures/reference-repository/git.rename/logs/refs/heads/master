@@ -9,4 +9,3 @@ e07895a4b480aaa8e11c35549a97796dcc4a307d 9e85da218150246abb0885e644e6e24863eaa4a
 ae5c7e2e8d298690c7917ed129b210f9c4bdbf90 5a5bdfcfa33b5a025677591815f4b024524c81a4 Cyril Rohr <cyril.rohr@gmail.com> 1256215832 +0200	commit: rennes env is now a symlink
 5a5bdfcfa33b5a025677591815f4b024524c81a4 729d479d0dd550b256cfc34171a701247f16b235 Cyril Rohr <cyril.rohr@gmail.com> 1256215857 +0200	commit: added .gitignore
 729d479d0dd550b256cfc34171a701247f16b235 5b02702daa827f7e39ebf7396af26735c9d2aacd Cyril Rohr <cyril.rohr@irisa.fr> 1294243789 +0100	commit: Add synlinks for environments.
-5b02702daa827f7e39ebf7396af26735c9d2aacd 601bbd6efa6b7f1cccf2a670a95ec370c04964bd Anirvan BASU <Anirvan.BASU@INRIA.fr> 1426151143 +0100	commit: data file to check test for bug ref 5065
