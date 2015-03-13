@@ -25,7 +25,7 @@ module OAR
 
     # abasu : 4 lines introduced below by for correction to bug ref 5694 -- 2015.01.26
     #   GROUP BY resources.network_address
-    #   ORDER BY resources.network_address ASC
+    #   ORDER BY resources.network_address ASC 
 
     QUERY_RESOURCES = Proc.new{ "
       (
