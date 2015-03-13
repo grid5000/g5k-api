@@ -23,13 +23,15 @@ Api::Application.routes.draw do
   match '*resource/versions' => 'versions#index', :via => [:get]
   match '*resource/versions/:id' => 'versions#show', :via => [:get]
 
-  resources :environments, :only => [:index, :show]
+  # abasu : 1 line introduced below by abasu for correction to bug ref 5065 -- 2015.01.23  
+  resources :environments, :only => [:index, :show], :constraints => { :id => /[0-9A-Za-z\-\.]+/ 	}
   resources :network_equipments, :only => [:index, :show]
-  resources :sites, :only => [:index, :show] do
+  resources :sites, :only => [:index, :show] do	
     member do
       get :status
     end
-    resources :environments, :only => [:index, :show]
+  # abasu : 1 line introduced below by abasu for correction to bug ref 5065 -- 2015.01.23  
+    resources :environments, :only => [:index, :show], :constraints => { :id => /[0-9A-Za-z\-\.]+/ }
     resources :network_equipments, :only => [:index, :show]
     resources :pdus, :only => [:index, :show]
     resources :clusters, :only => [:index, :show] do
