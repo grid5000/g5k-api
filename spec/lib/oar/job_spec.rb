@@ -170,7 +170,7 @@ describe OAR::Job do
     result.should == sorted_result # the list of assigned nodes should be already sorted
     # double verification : the list of assigned nodes should be already sorted
     result.should == ["paramount-30.rennes.grid5000.fr", "paramount-32.rennes.grid5000.fr", "paramount-33.rennes.grid5000.fr", "paramount-4.rennes.grid5000.fr"]
-  end
+  end # "should return a list of assigned nodes sorted by network_address (nodes)"
   
   it "should build a hash of resources indexed by their type [cores]" do
     result = OAR::Job.active.last.resources_by_type
