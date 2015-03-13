@@ -30,7 +30,7 @@ Api::Application.routes.draw do
     member do
       get :status
     end
-  # abasu : 1 line introduced below by abasu for correction to bug ref 5065 -- 2015.01.23  
+    # abasu : 1 line introduced below by abasu for correction to bug ref 5065 -- 2015.01.23  
     resources :environments, :only => [:index, :show], :constraints => { :id => /[0-9A-Za-z\-\.]+/ }
     resources :network_equipments, :only => [:index, :show]
     resources :pdus, :only => [:index, :show]
