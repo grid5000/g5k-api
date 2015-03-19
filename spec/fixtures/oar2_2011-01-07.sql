@@ -1816,6 +1816,36 @@ VALUES
 	(379619,870,'CURRENT'),
 	(379619,871,'CURRENT');
 
+# abasu : added rows below -- bug ref 5106
+INSERT INTO `assigned_resources` (`moldable_job_id`,`resource_id`,`assigned_resource_index`)
+VALUES
+	(379620,4021,'CURRENT'),
+	(379620,4022,'CURRENT'),
+	(379620,4023,'CURRENT'),
+	(379621,4028,'CURRENT'),
+	(379621,4029,'CURRENT'),
+	(379621,4030,'CURRENT'),
+	(379621,4031,'CURRENT'),
+	(379621,4032,'CURRENT'),
+	(379622,4036,'CURRENT'),
+	(379622,4037,'CURRENT'),
+	(379622,4038,'CURRENT'),
+	(379622,4039,'CURRENT'),
+	(379622,4040,'CURRENT'),
+	(379622,4041,'CURRENT'),
+	(379622,4042,'CURRENT'),
+	(379622,4043,'CURRENT'),
+	(379623,4045,'CURRENT'),
+	(379623,4046,'CURRENT'),
+	(379623,4047,'CURRENT'),
+	(379624,4053,'CURRENT'),
+	(379624,4054,'CURRENT'),
+	(379624,4055,'CURRENT'),
+	(379624,4056,'CURRENT'),
+	(379624,4057,'CURRENT'),
+	(379624,4058,'CURRENT');
+
+
 /*!40000 ALTER TABLE `assigned_resources` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -4710,7 +4740,8 @@ CREATE TABLE `jobs` (
   KEY `accounted` (`accounted`),
   KEY `suspended` (`suspended`),
   KEY `job_array_id` (`array_id`)
-) ENGINE=MyISAM AUTO_INCREMENT=374192 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=374197 DEFAULT CHARSET=latin1;
+# abasu : changed above "MyISAM AUTO_INCREMENT=374192" to "MyISAM AUTO_INCREMENT=374197" -- bug ref 5106
 
 LOCK TABLES `jobs` WRITE;
 /*!40000 ALTER TABLE `jobs` DISABLE KEYS */;
@@ -4737,6 +4768,16 @@ VALUES
 	(374190,374190,'oarsub -I -p cluster=\'parapide\' -l nodes=16,walltime=8:0:0',NULL,NULL,NULL,'INTERACTIVE','frennes.rennes.grid5000.fr:49592','Running','None','FIFO scheduling OK','FIFO scheduling OK','adenis','default','','',NULL,'default','(cluster=\'parapide\') AND maintenance = \'NO\'','/home/adenis',1294392953,1294392954,0,NULL,'NO',NULL,379618,0,12,'OAR.%jobid%.stdout','OAR.%jobid%.stderr',0,'NO'),
 	(374191,374191,'oarsub -I -t deploy -l nodes=4,walltime=2 -p cluster=\'paramount\'',NULL,NULL,NULL,'INTERACTIVE','frennes.rennes.grid5000.fr:40989','Running','None','FIFO scheduling OK','FIFO scheduling OK','jgallard','default','','',NULL,'default','((cluster=\'paramount\') AND deploy = \'YES\') AND maintenance = \'NO\'','/home/jgallard/stagiaires10/stagiaires-nancy/partiel_from_paracancale_sajith/grid5000',1294395993,1294395995,0,NULL,'NO',NULL,379619,0,12,'OAR.%jobid%.stdout','OAR.%jobid%.stderr',0,'NO');
 
+# abasu : added new rows below -- bug ref 5106
+INSERT INTO `jobs` (`job_id`,`array_id`,`initial_request`,`job_name`,`job_env`,`cpuset_name`,`job_type`,`info_type`,`state`,`reservation`,`message`,`scheduler_info`,`job_user`,`project`,`job_group`,`command`,`exit_code`,`queue_name`,`properties`,`launching_directory`,`submission_time`,`start_time`,`stop_time`,`file_id`,`accounted`,`notify`,`assigned_moldable_job`,`checkpoint`,`checkpoint_signal`,`stdout_file`,`stderr_file`,`resubmit_job_id`,`suspended`)
+VALUES
+	(374192,374192,'oarsub -t allow_classic_ssh -t deploy -q besteffort -p cluster=\'parapluie\' -l nodes=1,walltime=8 /home/rennes/abasu/bin/katapult3 --deploy-env lenny-x64-base --copy-ssh-key --sleep',NULL,NULL,NULL,'PASSIVE','frennes.rennes.grid5000.fr:','Running','None','FIFO scheduling OK','FIFO scheduling OK','abasu','default','','/home/rennes/abasu/bin/katapult3 --deploy-env lenny-x64-base --copy-ssh-key --sleep',NULL,'besteffort','(cluster=\'parapluie\') AND deploy = \'YES\'','/home/abasu/kargo/depkrg',1294392259,1294392261,0,NULL,'NO',NULL,379614,0,12,'OAR.%jobid%.stdout','OAR.%jobid%.stderr',0,'NO'),
+	(374193,374193,'oarsub -t allow_classic_ssh -t deploy -q besteffort -p cluster=\'parapluie\' -l nodes=1,walltime=8 /home/rennes/abasu/bin/katapult3 --deploy-env lenny-x64-base --copy-ssh-key --sleep',NULL,NULL,NULL,'PASSIVE','frennes.rennes.grid5000.fr:','Running','None','FIFO scheduling OK','FIFO scheduling OK','abasu','default','','/home/rennes/abasu/bin/katapult3 --deploy-env lenny-x64-base --copy-ssh-key --sleep',NULL,'besteffort','(cluster=\'parapluie\') AND deploy = \'YES\'','/home/abasu/kargo/depkrg',1294392259,1294392261,0,NULL,'NO',NULL,379614,0,12,'OAR.%jobid%.stdout','OAR.%jobid%.stderr',0,'NO'),
+	(374194,374194,'oarsub -t allow_classic_ssh -t deploy -q besteffort -p cluster=\'parapluie\' -l nodes=1,walltime=8 /home/rennes/abasu/bin/katapult3 --deploy-env lenny-x64-base --copy-ssh-key --sleep',NULL,NULL,NULL,'PASSIVE','frennes.rennes.grid5000.fr:','Running','None','FIFO scheduling OK','FIFO scheduling OK','abasu','default','','/home/rennes/abasu/bin/katapult3 --deploy-env lenny-x64-base --copy-ssh-key --sleep',NULL,'besteffort','(cluster=\'parapluie\') AND deploy = \'YES\'','/home/abasu/kargo/depkrg',1294392259,1294392261,0,NULL,'NO',NULL,379614,0,12,'OAR.%jobid%.stdout','OAR.%jobid%.stderr',0,'NO'),
+	(374195,374195,'oarsub -t allow_classic_ssh -t deploy -q default -p cluster=\'parapluie\' -l nodes=1,walltime=8 /home/rennes/abasu/bin/katapult3 --deploy-env lenny-x64-base --copy-ssh-key --sleep',NULL,NULL,NULL,'PASSIVE','frennes.rennes.grid5000.fr:','Running','None','FIFO scheduling OK','FIFO scheduling OK','abasu','default','','/home/rennes/abasu/bin/katapult3 --deploy-env lenny-x64-base --copy-ssh-key --sleep',NULL,'default','(cluster=\'parapluie\') AND deploy = \'YES\'','/home/abasu/kargo/depkrg',1294392259,1294392261,0,NULL,'NO',NULL,379614,0,12,'OAR.%jobid%.stdout','OAR.%jobid%.stderr',0,'NO'),
+	(374196,374196,'oarsub -t allow_classic_ssh -t deploy -q default -p cluster=\'parapluie\' -l nodes=1,walltime=8 /home/rennes/abasu/bin/katapult3 --deploy-env lenny-x64-base --copy-ssh-key --sleep',NULL,NULL,NULL,'PASSIVE','frennes.rennes.grid5000.fr:','Running','None','FIFO scheduling OK','FIFO scheduling OK','abasu','default','','/home/rennes/abasu/bin/katapult3 --deploy-env lenny-x64-base --copy-ssh-key --sleep',NULL,'default','(cluster=\'parapluie\') AND deploy = \'YES\'','/home/abasu/kargo/depkrg',1294392259,1294392261,0,NULL,'NO',NULL,379614,0,12,'OAR.%jobid%.stdout','OAR.%jobid%.stderr',0,'NO');
+
+
 /*!40000 ALTER TABLE `jobs` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -4754,7 +4795,8 @@ CREATE TABLE `moldable_job_descriptions` (
   PRIMARY KEY (`moldable_id`),
   KEY `job` (`moldable_job_id`),
   KEY `log` (`moldable_index`)
-) ENGINE=MyISAM AUTO_INCREMENT=379620 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=379625 DEFAULT CHARSET=latin1;
+# abasu : changed above "MyISAM AUTO_INCREMENT=379620" to "MyISAM AUTO_INCREMENT=379625" -- bug ref 5106
 
 LOCK TABLES `moldable_job_descriptions` WRITE;
 /*!40000 ALTER TABLE `moldable_job_descriptions` DISABLE KEYS */;
@@ -4780,6 +4822,15 @@ VALUES
 	(379617,374189,28800,'LOG'),
 	(379618,374190,28800,'CURRENT'),
 	(379619,374191,7200,'CURRENT');
+
+# abasu : added new rows below -- bug ref 5106
+INSERT INTO `moldable_job_descriptions` (`moldable_id`,`moldable_job_id`,`moldable_walltime`,`moldable_index`)
+VALUES
+	(379620,374192,28800,'CURRENT'),
+	(379621,374193,28800,'CURRENT'),
+	(379622,374194,7200,'CURRENT'),
+	(379623,374195,28800,'CURRENT'),
+	(379624,374196,7200,'CURRENT');
 
 /*!40000 ALTER TABLE `moldable_job_descriptions` ENABLE KEYS */;
 UNLOCK TABLES;
@@ -4870,7 +4921,9 @@ CREATE TABLE `resources` (
   KEY `suspended_jobs` (`suspended_jobs`),
   KEY `type` (`type`),
   KEY `network_address` (`network_address`)
-) ENGINE=MyISAM AUTO_INCREMENT=4020 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=4060 DEFAULT CHARSET=latin1;
+# abasu : updated "AUTO_INCREMENT=4020" to "AUTO_INCREMENT=4060" -- bug ref 5106
+
 
 LOCK TABLES `resources` WRITE;
 /*!40000 ALTER TABLE `resources` DISABLE KEYS */;
@@ -7271,6 +7324,51 @@ VALUES
 	(3087,'default','parapluie-10.rennes.grid5000.fr','Alive','UnChanged','NO','NO',1,'NO','parapluie',0,'0',701,1438,3,'YES','YES',0,'NO',1294379894,0,'amd64',12,'AMD Opteron(tm) 6164 HE','1.7','SATA',5,'YES','MT25418',2048,24576,49152,'NO','none','NO','none','HP ProLiant DL165 G7',NULL,'amd-v','parapluie-10.rennes.grid5000.fr','131.254.203.10',NULL,'NO',NULL,'YES',0,NULL),
 	(4019,'default','parapluie-9.rennes.grid5000.fr','Alive','UnChanged','NO','NO',1,'NO','parapluie',0,'0',702,1458,23,'YES','YES',0,'NO',1294390090,0,'amd64',12,'AMD Opteron(tm) 6164 HE','1.7','SATA',5,'YES','MT25418',2048,24576,49152,'NO','none','NO','none','HP ProLiant DL165 G7',NULL,'amd-v','parapluie-9.rennes.grid5000.fr','131.254.203.9',NULL,'NO',NULL,'YES',0,NULL),
 	(3964,'default','parapluie-7.rennes.grid5000.fr','Alive','UnChanged','NO','NO',1,'NO','parapluie',0,'0',702,1451,16,'YES','YES',0,'NO',1294392261,0,'amd64',12,'AMD Opteron(tm) 6164 HE','1.7','SATA',5,'YES','MT25418',2048,24576,49152,'NO','none','NO','none','HP ProLiant DL165 G7',NULL,'amd-v','parapluie-7.rennes.grid5000.fr','131.254.203.7',NULL,'NO',NULL,'YES',0,NULL);
+
+# abasu : added rows in resources -- bug ref 5106
+INSERT INTO `resources` (`resource_id`,`type`,`network_address`,`state`,`next_state`,`finaud_decision`,`next_finaud_decision`,`state_num`,`suspended_jobs`,`cluster`,`scheduler_priority`,`switch`,`cpu`,`core`,`cpuset`,`besteffort`,`deploy`,`expiry_date`,`desktop_computing`,`last_job_date`,`available_upto`,`cpuarch`,`cpucore`,`cputype`,`cpufreq`,`disktype`,`ethnb`,`ib10g`,`ib10gmodel`,`memcore`,`memcpu`,`memnode`,`myri10g`,`myri10gmodel`,`myri2g`,`myri2gmodel`,`nodemodel`,`rconsole`,`virtual`,`host`,`ip`,`preserving_air_cooling`,`maintenance`,`grub`,`ip_virtual`,`last_available_upto`,`ib20g`)
+VALUES
+	(4020,'default','parapluie-51.rennes.grid5000.fr','Alive','UnChanged','NO','NO',1,'NO','parapluie',0,'0',701,1459,0,'YES','YES',0,'NO',1294379894,0,'amd64',8,'AMD Opteron(tm) 6164 HE','1.7','SATA',5,'YES','MT25418',2048,24576,49152,'NO','none','NO','none','HP ProLiant DL165 G7',NULL,'amd-v','parapluie-51.rennes.grid5000.fr','131.254.203.5',NULL,'NO',NULL,'YES',0,NULL),
+	(4021,'default','parapluie-51.rennes.grid5000.fr','Alive','UnChanged','NO','NO',1,'NO','parapluie',0,'0',701,1460,1,'YES','YES',0,'NO',1294379894,0,'amd64',8,'AMD Opteron(tm) 6164 HE','1.7','SATA',5,'YES','MT25418',2048,24576,49152,'NO','none','NO','none','HP ProLiant DL165 G7',NULL,'amd-v','parapluie-51.rennes.grid5000.fr','131.254.203.5',NULL,'NO',NULL,'YES',0,NULL),
+	(4022,'default','parapluie-51.rennes.grid5000.fr','Alive','UnChanged','NO','NO',1,'NO','parapluie',0,'0',701,1461,2,'YES','YES',0,'NO',1294379894,0,'amd64',8,'AMD Opteron(tm) 6164 HE','1.7','SATA',5,'YES','MT25418',2048,24576,49152,'NO','none','NO','none','HP ProLiant DL165 G7',NULL,'amd-v','parapluie-51.rennes.grid5000.fr','131.254.203.5',NULL,'NO',NULL,'YES',0,NULL),
+	(4023,'default','parapluie-51.rennes.grid5000.fr','Alive','UnChanged','NO','NO',1,'NO','parapluie',0,'0',701,1462,3,'YES','YES',0,'NO',1294379894,0,'amd64',8,'AMD Opteron(tm) 6164 HE','1.7','SATA',5,'YES','MT25418',2048,24576,49152,'NO','none','NO','none','HP ProLiant DL165 G7',NULL,'amd-v','parapluie-51.rennes.grid5000.fr','131.254.203.5',NULL,'NO',NULL,'YES',0,NULL),
+	(4024,'default','parapluie-51.rennes.grid5000.fr','Alive','UnChanged','NO','NO',1,'NO','parapluie',0,'0',701,1463,4,'YES','YES',0,'NO',1294379894,0,'amd64',8,'AMD Opteron(tm) 6164 HE','1.7','SATA',5,'YES','MT25418',2048,24576,49152,'NO','none','NO','none','HP ProLiant DL165 G7',NULL,'amd-v','parapluie-51.rennes.grid5000.fr','131.254.203.5',NULL,'NO',NULL,'YES',0,NULL),
+	(4025,'default','parapluie-51.rennes.grid5000.fr','Alive','UnChanged','NO','NO',1,'NO','parapluie',0,'0',701,1464,5,'YES','YES',0,'NO',1294379894,0,'amd64',8,'AMD Opteron(tm) 6164 HE','1.7','SATA',5,'YES','MT25418',2048,24576,49152,'NO','none','NO','none','HP ProLiant DL165 G7',NULL,'amd-v','parapluie-51.rennes.grid5000.fr','131.254.203.5',NULL,'NO',NULL,'YES',0,NULL),
+	(4026,'default','parapluie-51.rennes.grid5000.fr','Alive','UnChanged','NO','NO',1,'NO','parapluie',0,'0',701,1465,6,'YES','YES',0,'NO',1294379894,0,'amd64',8,'AMD Opteron(tm) 6164 HE','1.7','SATA',5,'YES','MT25418',2048,24576,49152,'NO','none','NO','none','HP ProLiant DL165 G7',NULL,'amd-v','parapluie-51.rennes.grid5000.fr','131.254.203.5',NULL,'NO',NULL,'YES',0,NULL),
+	(4027,'default','parapluie-51.rennes.grid5000.fr','Alive','UnChanged','NO','NO',1,'NO','parapluie',0,'0',701,1466,7,'YES','YES',0,'NO',1294379894,0,'amd64',8,'AMD Opteron(tm) 6164 HE','1.7','SATA',5,'YES','MT25418',2048,24576,49152,'NO','none','NO','none','HP ProLiant DL165 G7',NULL,'amd-v','parapluie-51.rennes.grid5000.fr','131.254.203.5',NULL,'NO',NULL,'YES',0,NULL),
+	(4028,'default','parapluie-52.rennes.grid5000.fr','Alive','UnChanged','NO','NO',1,'NO','parapluie',0,'0',701,1467,8,'YES','YES',0,'NO',1294379894,0,'amd64',8,'AMD Opteron(tm) 6164 HE','1.7','SATA',5,'YES','MT25418',2048,24576,49152,'NO','none','NO','none','HP ProLiant DL165 G7',NULL,'amd-v','parapluie-52.rennes.grid5000.fr','131.254.203.5',NULL,'NO',NULL,'YES',0,NULL),
+	(4029,'default','parapluie-52.rennes.grid5000.fr','Alive','UnChanged','NO','NO',1,'NO','parapluie',0,'0',701,1468,9,'YES','YES',0,'NO',1294379894,0,'amd64',8,'AMD Opteron(tm) 6164 HE','1.7','SATA',5,'YES','MT25418',2048,24576,49152,'NO','none','NO','none','HP ProLiant DL165 G7',NULL,'amd-v','parapluie-52.rennes.grid5000.fr','131.254.203.5',NULL,'NO',NULL,'YES',0,NULL),
+	(4030,'default','parapluie-52.rennes.grid5000.fr','Alive','UnChanged','NO','NO',1,'NO','parapluie',0,'0',701,1469,10,'YES','YES',0,'NO',1294379894,0,'amd64',8,'AMD Opteron(tm) 6164 HE','1.7','SATA',5,'YES','MT25418',2048,24576,49152,'NO','none','NO','none','HP ProLiant DL165 G7',NULL,'amd-v','parapluie-52.rennes.grid5000.fr','131.254.203.5',NULL,'NO',NULL,'YES',0,NULL),
+	(4031,'default','parapluie-52.rennes.grid5000.fr','Alive','UnChanged','NO','NO',1,'NO','parapluie',0,'0',701,1470,11,'YES','YES',0,'NO',1294379894,0,'amd64',8,'AMD Opteron(tm) 6164 HE','1.7','SATA',5,'YES','MT25418',2048,24576,49152,'NO','none','NO','none','HP ProLiant DL165 G7',NULL,'amd-v','parapluie-52.rennes.grid5000.fr','131.254.203.5',NULL,'NO',NULL,'YES',0,NULL),
+	(4032,'default','parapluie-52.rennes.grid5000.fr','Alive','UnChanged','NO','NO',1,'NO','parapluie',0,'0',702,1471,12,'YES','YES',0,'NO',1294379894,0,'amd64',8,'AMD Opteron(tm) 6164 HE','1.7','SATA',5,'YES','MT25418',2048,24576,49152,'NO','none','NO','none','HP ProLiant DL165 G7',NULL,'amd-v','parapluie-52.rennes.grid5000.fr','131.254.203.5',NULL,'NO',NULL,'YES',0,NULL),
+	(4033,'default','parapluie-52.rennes.grid5000.fr','Alive','UnChanged','NO','NO',1,'NO','parapluie',0,'0',702,1472,13,'YES','YES',0,'NO',1294379894,0,'amd64',8,'AMD Opteron(tm) 6164 HE','1.7','SATA',5,'YES','MT25418',2048,24576,49152,'NO','none','NO','none','HP ProLiant DL165 G7',NULL,'amd-v','parapluie-52.rennes.grid5000.fr','131.254.203.5',NULL,'NO',NULL,'YES',0,NULL),
+	(4034,'default','parapluie-52.rennes.grid5000.fr','Alive','UnChanged','NO','NO',1,'NO','parapluie',0,'0',702,1473,14,'YES','YES',0,'NO',1294379894,0,'amd64',8,'AMD Opteron(tm) 6164 HE','1.7','SATA',5,'YES','MT25418',2048,24576,49152,'NO','none','NO','none','HP ProLiant DL165 G7',NULL,'amd-v','parapluie-52.rennes.grid5000.fr','131.254.203.5',NULL,'NO',NULL,'YES',0,NULL),
+	(4035,'default','parapluie-52.rennes.grid5000.fr','Alive','UnChanged','NO','NO',1,'NO','parapluie',0,'0',702,1474,15,'YES','YES',0,'NO',1294379894,0,'amd64',8,'AMD Opteron(tm) 6164 HE','1.7','SATA',5,'YES','MT25418',2048,24576,49152,'NO','none','NO','none','HP ProLiant DL165 G7',NULL,'amd-v','parapluie-52.rennes.grid5000.fr','131.254.203.5',NULL,'NO',NULL,'YES',0,NULL),
+	(4036,'default','parapluie-53.rennes.grid5000.fr','Alive','UnChanged','NO','NO',1,'NO','parapluie',0,'0',702,1475,16,'YES','YES',0,'NO',1294379894,0,'amd64',8,'AMD Opteron(tm) 6164 HE','1.7','SATA',5,'YES','MT25418',2048,24576,49152,'NO','none','NO','none','HP ProLiant DL165 G7',NULL,'amd-v','parapluie-53.rennes.grid5000.fr','131.254.203.5',NULL,'NO',NULL,'YES',0,NULL),
+	(4037,'default','parapluie-53.rennes.grid5000.fr','Alive','UnChanged','NO','NO',1,'NO','parapluie',0,'0',702,1476,17,'YES','YES',0,'NO',1294379894,0,'amd64',8,'AMD Opteron(tm) 6164 HE','1.7','SATA',5,'YES','MT25418',2048,24576,49152,'NO','none','NO','none','HP ProLiant DL165 G7',NULL,'amd-v','parapluie-53.rennes.grid5000.fr','131.254.203.5',NULL,'NO',NULL,'YES',0,NULL),
+	(4038,'default','parapluie-53.rennes.grid5000.fr','Alive','UnChanged','NO','NO',1,'NO','parapluie',0,'0',702,1477,18,'YES','YES',0,'NO',1294379894,0,'amd64',8,'AMD Opteron(tm) 6164 HE','1.7','SATA',5,'YES','MT25418',2048,24576,49152,'NO','none','NO','none','HP ProLiant DL165 G7',NULL,'amd-v','parapluie-53.rennes.grid5000.fr','131.254.203.5',NULL,'NO',NULL,'YES',0,NULL),
+	(4039,'default','parapluie-53.rennes.grid5000.fr','Alive','UnChanged','NO','NO',1,'NO','parapluie',0,'0',702,1478,19,'YES','YES',0,'NO',1294379894,0,'amd64',8,'AMD Opteron(tm) 6164 HE','1.7','SATA',5,'YES','MT25418',2048,24576,49152,'NO','none','NO','none','HP ProLiant DL165 G7',NULL,'amd-v','parapluie-53.rennes.grid5000.fr','131.254.203.5',NULL,'NO',NULL,'YES',0,NULL),
+	(4040,'default','parapluie-53.rennes.grid5000.fr','Alive','UnChanged','NO','NO',1,'NO','parapluie',0,'0',702,1479,20,'YES','YES',0,'NO',1294379894,0,'amd64',8,'AMD Opteron(tm) 6164 HE','1.7','SATA',5,'YES','MT25418',2048,24576,49152,'NO','none','NO','none','HP ProLiant DL165 G7',NULL,'amd-v','parapluie-53.rennes.grid5000.fr','131.254.203.5',NULL,'NO',NULL,'YES',0,NULL),
+	(4041,'default','parapluie-53.rennes.grid5000.fr','Alive','UnChanged','NO','NO',1,'NO','parapluie',0,'0',702,1480,21,'YES','YES',0,'NO',1294379894,0,'amd64',8,'AMD Opteron(tm) 6164 HE','1.7','SATA',5,'YES','MT25418',2048,24576,49152,'NO','none','NO','none','HP ProLiant DL165 G7',NULL,'amd-v','parapluie-53.rennes.grid5000.fr','131.254.203.5',NULL,'NO',NULL,'YES',0,NULL),
+	(4042,'default','parapluie-53.rennes.grid5000.fr','Alive','UnChanged','NO','NO',1,'NO','parapluie',0,'0',702,1481,22,'YES','YES',0,'NO',1294379894,0,'amd64',8,'AMD Opteron(tm) 6164 HE','1.7','SATA',5,'YES','MT25418',2048,24576,49152,'NO','none','NO','none','HP ProLiant DL165 G7',NULL,'amd-v','parapluie-53.rennes.grid5000.fr','131.254.203.5',NULL,'NO',NULL,'YES',0,NULL),
+	(4043,'default','parapluie-53.rennes.grid5000.fr','Alive','UnChanged','NO','NO',1,'NO','parapluie',0,'0',702,1482,23,'YES','YES',0,'NO',1294379894,0,'amd64',8,'AMD Opteron(tm) 6164 HE','1.7','SATA',5,'YES','MT25418',2048,24576,49152,'NO','none','NO','none','HP ProLiant DL165 G7',NULL,'amd-v','parapluie-53.rennes.grid5000.fr','131.254.203.5',NULL,'NO',NULL,'YES',0,NULL),
+	(4044,'default','parapluie-54.rennes.grid5000.fr','Alive','UnChanged','NO','NO',1,'NO','parapluie',0,'0',701,1483,8,'YES','YES',0,'NO',1294379894,0,'amd64',8,'AMD Opteron(tm) 6164 HE','1.7','SATA',5,'YES','MT25418',2048,24576,49152,'NO','none','NO','none','HP ProLiant DL165 G7',NULL,'amd-v','parapluie-54.rennes.grid5000.fr','131.254.203.5',NULL,'NO',NULL,'YES',0,NULL),
+	(4045,'default','parapluie-54.rennes.grid5000.fr','Alive','UnChanged','NO','NO',1,'NO','parapluie',0,'0',701,1484,9,'YES','YES',0,'NO',1294379894,0,'amd64',8,'AMD Opteron(tm) 6164 HE','1.7','SATA',5,'YES','MT25418',2048,24576,49152,'NO','none','NO','none','HP ProLiant DL165 G7',NULL,'amd-v','parapluie-54.rennes.grid5000.fr','131.254.203.5',NULL,'NO',NULL,'YES',0,NULL),
+	(4046,'default','parapluie-54.rennes.grid5000.fr','Alive','UnChanged','NO','NO',1,'NO','parapluie',0,'0',701,1485,10,'YES','YES',0,'NO',1294379894,0,'amd64',8,'AMD Opteron(tm) 6164 HE','1.7','SATA',5,'YES','MT25418',2048,24576,49152,'NO','none','NO','none','HP ProLiant DL165 G7',NULL,'amd-v','parapluie-54.rennes.grid5000.fr','131.254.203.5',NULL,'NO',NULL,'YES',0,NULL),
+	(4047,'default','parapluie-54.rennes.grid5000.fr','Alive','UnChanged','NO','NO',1,'NO','parapluie',0,'0',701,1486,11,'YES','YES',0,'NO',1294379894,0,'amd64',8,'AMD Opteron(tm) 6164 HE','1.7','SATA',5,'YES','MT25418',2048,24576,49152,'NO','none','NO','none','HP ProLiant DL165 G7',NULL,'amd-v','parapluie-54.rennes.grid5000.fr','131.254.203.5',NULL,'NO',NULL,'YES',0,NULL),
+	(4048,'default','parapluie-54.rennes.grid5000.fr','Alive','UnChanged','NO','NO',1,'NO','parapluie',0,'0',702,1487,12,'YES','YES',0,'NO',1294379894,0,'amd64',8,'AMD Opteron(tm) 6164 HE','1.7','SATA',5,'YES','MT25418',2048,24576,49152,'NO','none','NO','none','HP ProLiant DL165 G7',NULL,'amd-v','parapluie-54.rennes.grid5000.fr','131.254.203.5',NULL,'NO',NULL,'YES',0,NULL),
+	(4049,'default','parapluie-54.rennes.grid5000.fr','Alive','UnChanged','NO','NO',1,'NO','parapluie',0,'0',702,1488,13,'YES','YES',0,'NO',1294379894,0,'amd64',8,'AMD Opteron(tm) 6164 HE','1.7','SATA',5,'YES','MT25418',2048,24576,49152,'NO','none','NO','none','HP ProLiant DL165 G7',NULL,'amd-v','parapluie-54.rennes.grid5000.fr','131.254.203.5',NULL,'NO',NULL,'YES',0,NULL),
+	(4050,'default','parapluie-54.rennes.grid5000.fr','Alive','UnChanged','NO','NO',1,'NO','parapluie',0,'0',702,1489,14,'YES','YES',0,'NO',1294379894,0,'amd64',8,'AMD Opteron(tm) 6164 HE','1.7','SATA',5,'YES','MT25418',2048,24576,49152,'NO','none','NO','none','HP ProLiant DL165 G7',NULL,'amd-v','parapluie-54.rennes.grid5000.fr','131.254.203.5',NULL,'NO',NULL,'YES',0,NULL),
+	(4051,'default','parapluie-54.rennes.grid5000.fr','Alive','UnChanged','NO','NO',1,'NO','parapluie',0,'0',702,1490,15,'YES','YES',0,'NO',1294379894,0,'amd64',8,'AMD Opteron(tm) 6164 HE','1.7','SATA',5,'YES','MT25418',2048,24576,49152,'NO','none','NO','none','HP ProLiant DL165 G7',NULL,'amd-v','parapluie-54.rennes.grid5000.fr','131.254.203.5',NULL,'NO',NULL,'YES',0,NULL),
+	(4052,'default','parapluie-55.rennes.grid5000.fr','Alive','UnChanged','NO','NO',1,'NO','parapluie',0,'0',702,1491,16,'YES','YES',0,'NO',1294379894,0,'amd64',8,'AMD Opteron(tm) 6164 HE','1.7','SATA',5,'YES','MT25418',2048,24576,49152,'NO','none','NO','none','HP ProLiant DL165 G7',NULL,'amd-v','parapluie-55.rennes.grid5000.fr','131.254.203.5',NULL,'NO',NULL,'YES',0,NULL),
+	(4053,'default','parapluie-55.rennes.grid5000.fr','Alive','UnChanged','NO','NO',1,'NO','parapluie',0,'0',702,1492,17,'YES','YES',0,'NO',1294379894,0,'amd64',8,'AMD Opteron(tm) 6164 HE','1.7','SATA',5,'YES','MT25418',2048,24576,49152,'NO','none','NO','none','HP ProLiant DL165 G7',NULL,'amd-v','parapluie-55.rennes.grid5000.fr','131.254.203.5',NULL,'NO',NULL,'YES',0,NULL),
+	(4054,'default','parapluie-55.rennes.grid5000.fr','Alive','UnChanged','NO','NO',1,'NO','parapluie',0,'0',702,1493,18,'YES','YES',0,'NO',1294379894,0,'amd64',8,'AMD Opteron(tm) 6164 HE','1.7','SATA',5,'YES','MT25418',2048,24576,49152,'NO','none','NO','none','HP ProLiant DL165 G7',NULL,'amd-v','parapluie-55.rennes.grid5000.fr','131.254.203.5',NULL,'NO',NULL,'YES',0,NULL),
+	(4055,'default','parapluie-55.rennes.grid5000.fr','Alive','UnChanged','NO','NO',1,'NO','parapluie',0,'0',702,1494,19,'YES','YES',0,'NO',1294379894,0,'amd64',8,'AMD Opteron(tm) 6164 HE','1.7','SATA',5,'YES','MT25418',2048,24576,49152,'NO','none','NO','none','HP ProLiant DL165 G7',NULL,'amd-v','parapluie-55.rennes.grid5000.fr','131.254.203.5',NULL,'NO',NULL,'YES',0,NULL),
+	(4056,'default','parapluie-55.rennes.grid5000.fr','Alive','UnChanged','NO','NO',1,'NO','parapluie',0,'0',702,1495,20,'YES','YES',0,'NO',1294379894,0,'amd64',8,'AMD Opteron(tm) 6164 HE','1.7','SATA',5,'YES','MT25418',2048,24576,49152,'NO','none','NO','none','HP ProLiant DL165 G7',NULL,'amd-v','parapluie-55.rennes.grid5000.fr','131.254.203.5',NULL,'NO',NULL,'YES',0,NULL),
+	(4057,'default','parapluie-55.rennes.grid5000.fr','Alive','UnChanged','NO','NO',1,'NO','parapluie',0,'0',702,1496,21,'YES','YES',0,'NO',1294379894,0,'amd64',8,'AMD Opteron(tm) 6164 HE','1.7','SATA',5,'YES','MT25418',2048,24576,49152,'NO','none','NO','none','HP ProLiant DL165 G7',NULL,'amd-v','parapluie-55.rennes.grid5000.fr','131.254.203.5',NULL,'NO',NULL,'YES',0,NULL),
+	(4058,'default','parapluie-55.rennes.grid5000.fr','Alive','UnChanged','NO','NO',1,'NO','parapluie',0,'0',702,1497,22,'YES','YES',0,'NO',1294379894,0,'amd64',8,'AMD Opteron(tm) 6164 HE','1.7','SATA',5,'YES','MT25418',2048,24576,49152,'NO','none','NO','none','HP ProLiant DL165 G7',NULL,'amd-v','parapluie-55.rennes.grid5000.fr','131.254.203.5',NULL,'NO',NULL,'YES',0,NULL),
+	(4059,'default','parapluie-55.rennes.grid5000.fr','Alive','UnChanged','NO','NO',1,'NO','parapluie',0,'0',702,1498,23,'YES','YES',0,'NO',1294379894,0,'amd64',8,'AMD Opteron(tm) 6164 HE','1.7','SATA',5,'YES','MT25418',2048,24576,49152,'NO','none','NO','none','HP ProLiant DL165 G7',NULL,'amd-v','parapluie-55.rennes.grid5000.fr','131.254.203.5',NULL,'NO',NULL,'YES',0,NULL);
+
 
 /*!40000 ALTER TABLE `resources` ENABLE KEYS */;
 UNLOCK TABLES;
