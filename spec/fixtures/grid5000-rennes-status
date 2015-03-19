@@ -523,3 +523,9 @@
 374191	default	Running	paramount-33.rennes.grid5000.fr	Alive
 374191	default	Running	paramount-33.rennes.grid5000.fr	Alive
 374191	default	Running	paramount-33.rennes.grid5000.fr	Alive
+# abasu : added new rows below -- bug ref 5106
+374192	besteffort	Running	parapluie-51.rennes.grid5000.fr	Alive
+374193	besteffort	Running	parapluie-52.rennes.grid5000.fr	Alive
+374194	besteffort	Running	parapluie-53.rennes.grid5000.fr	Alive
+374195	default	Running	parapluie-54.rennes.grid5000.fr	Alive
+374196	default	Running	parapluie-55.rennes.grid5000.fr	Alive
