@@ -14,7 +14,37 @@
 
 require 'resources_controller'
 
-class ClustersController < ResourcesController
+# abasu : changed inheritance of class ClustersController - bug ref 5856 -- 2015.3.19
+# from ResourcesController to SitesController
+# Logic for changing inheritance : From the perspective of a controller,
+# the ClustersController is a special case of a SitesController,  
+# for specific clusters, insofar that this attribute is limited to the status function
+class ClustersController < SitesController
+
+  # abasu : method to return status of a specific cluster - bug ref 5856 -- 2015.3.19
+  def status
+    result = {
+      "uid" => Time.now.to_i,
+      "nodes" => OAR::Resource.status(:clusters => params[:id]),
+      "links" => [
+        {
+          "rel" => "self",
+          "href" => uri_to(status_site_path(params[:id])),
+          "type" => media_type(:g5kitemjson)
+        },
+        {
+          "rel" => "parent",
+          "href" => uri_to(site_path(params[:id])),
+          "type" => media_type(:g5kitemjson)
+        }
+      ]
+    }
+
+    respond_to do |format|
+      format.g5kitemjson { render :json => result }
+      format.json { render :json => result }
+    end
+  end
 
   protected
   
