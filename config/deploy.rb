@@ -22,7 +22,8 @@ set :puppet, "/tmp/puppet"
 
 set :scm, :git
 
-set :gateway, ENV['GATEWAY'] || "#{ENV['USER']}@access.grid5000.fr"
+# abasu (dmargery) : added "unless" block to make package if option GATEWAY='' 
+set :gateway, ENV['GATEWAY'] || "#{ENV['USER']}@access.grid5000.fr" unless ENV['NOPROXY']
 set :user, ENV['REMOTE_USER'] || "root"
 
 key = ENV['SSH_KEY'] || "~/.ssh/id_rsa"
@@ -53,7 +54,7 @@ task :package, :roles => :pkg do
   cmd = "date -s \"#{Time.now.to_s}\" && "
   cmd += "export http_proxy=proxy:3128 && " unless ENV['NOPROXY']
   cmd += "apt-get update && "
-  cmd += "apt-get install #{pkg_dependencies.join(" ")} git-core dh-make dpkg-dev -y && "
+  cmd += "apt-get install #{pkg_dependencies.join(" ")} git-core dh-make dpkg-dev libicu-dev -y && "
   cmd += "gem1.9.1 install rake -v 0.8.7 --no-ri --no-rdoc && "
   cmd += "gem1.9.1 install bundler -v 1.1.1 --no-ri --no-rdoc && "
   cmd += "rm -rf /tmp/#{application}*"
