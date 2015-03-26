@@ -15,7 +15,8 @@
 require 'yaml'
 require File.expand_path("../../lib/grid5000/version", __FILE__)
 
-set :application, "g5k-api"
+set :application, "g5k-api-devel"
+set :application, "g5k-api" if ENV['G5KPROD']
 
 set :apt, "/var/www/#{application}"
 set :puppet, "/tmp/puppet"

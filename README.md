@@ -149,12 +149,17 @@ to create a test database, and a fake OAR database.
 
 * Once you've packaged the new version, you must release it to the APT
   repository hosted on apt.grid5000.fr. There is Capistrano task for this:
+  By default it will release to g5k-api-devel repository hosted by apt.grid5000.fr
 
         $ REMOTE_USER=g5kadmin cap release
 
   Note that you can use the same task to release on a different host (for
   testing purposes for example), by setting the HOST environment variable to
   another server (a Grid'5000 node for instance).
+
+  To release to stable API, you will need to set G5KPROD before running the task
+
+	$ REMOTE_USER=g5kadmin G5KPROD=YES cap release
 
 * If you released on apt.grid5000.fr, then you are now able to install the new
   version on any server by launching the following commands:
