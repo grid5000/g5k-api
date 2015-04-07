@@ -26,6 +26,8 @@ module OAR
     # abasu : 4 lines introduced below by for correction to bug ref 5694 -- 2015.01.26
     #   GROUP BY resources.network_address
     #   ORDER BY resources.network_address ASC
+    # abasu : Removed "GROUP BY resources.network_address" for bug ref 5694 -- 2015.04.17
+    # abasu : To show all cores (even if same network address). Required by MPI programme
 
     QUERY_RESOURCES = Proc.new{ "
       (
@@ -38,7 +40,6 @@ module OAR
         INNER JOIN moldable_job_descriptions
           ON assigned_resources.moldable_job_id = moldable_job_descriptions.moldable_id
           AND jobs.job_id = moldable_job_descriptions.moldable_job_id
-        GROUP BY resources.network_address
         ORDER BY resources.network_address ASC
       )
       UNION
@@ -52,7 +53,6 @@ module OAR
         INNER JOIN moldable_job_descriptions
           ON gantt_jobs_resources.moldable_job_id = moldable_job_descriptions.moldable_id
           AND jobs.job_id = moldable_job_descriptions.moldable_job_id
-        GROUP BY resources.network_address
         ORDER BY resources.network_address ASC
       )"
     }
