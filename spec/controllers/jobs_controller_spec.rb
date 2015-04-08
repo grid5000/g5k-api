@@ -121,10 +121,59 @@ describe JobsController do
         )
 
       post :create, :site_id => "rennes", :format => :json
-      response.status.should == 500
+      response.status.should == 400
       response.body.should == "Request to #{expected_url} failed with status 400: some error"
     end
+  # abasu : unit test for bug ref 5912 to handle error codes - 02.04.2015
+    it "should return a 400 error if the OAR API returns 400 error code" do
+      payload = @valid_job_attributes.merge("resources" => "{ib30g='YES'}/nodes=2")
+      authenticate_as("crohr")
+      send_payload(payload, :json)
 
+      expected_url = "http://api-out.local:80/sites/rennes/internal/oarapi/jobs.json"
+      stub_request(:post, expected_url).
+        with(
+          :headers => {
+            'Accept' => media_type(:json),
+            'Content-Type' => media_type(:json),
+            'X-Remote-Ident' => "crohr"
+          },
+          :body => Grid5000::Job.new(payload).to_hash(:destination => "oar-2.4-submission").to_json
+        ).
+        to_return(
+          :status => 400,
+          :body => "Bad Request"
+        )
+
+      post :create, :site_id => "rennes", :format => :json
+      response.status.should == 400
+      response.body.should == "Request to #{expected_url} failed with status 400: Bad Request"
+    end # "should return a 400 error if the OAR API returns 400 error code"
+  # abasu : unit test for bug ref 5912 to handle error codes - 02.04.2015
+    it "should return a 401 error if the OAR API returns 401 error code" do
+      payload = @valid_job_attributes
+      authenticate_as("xyz")
+      send_payload(payload, :json)
+
+      expected_url = "http://api-out.local:80/sites/rennes/internal/oarapi/jobs.json"
+      stub_request(:post, expected_url).
+        with(
+          :headers => {
+            'Accept' => media_type(:json),
+            'Content-Type' => media_type(:json),
+            'X-Remote-Ident' => "xyz"
+          },
+          :body => Grid5000::Job.new(payload).to_hash(:destination => "oar-2.4-submission").to_json
+        ).
+        to_return(
+          :status => 401,
+          :body => "Authorization Required"
+        )
+
+      post :create, :site_id => "rennes", :format => :json
+      response.status.should == 401
+      response.body.should == "Request to #{expected_url} failed with status 401: Authorization Required"
+    end # "should return a 401 error if the OAR API returns 400 error code"
     it "should return 201, the job details, and the Location header" do
       payload = @valid_job_attributes
       authenticate_as("crohr")
@@ -212,7 +261,7 @@ describe JobsController do
         )
 
       delete :destroy, :site_id => "rennes", :id => @job.uid, :format => :json
-      response.status.should == 500
+      response.status.should == 400
       response.body.should == "Request to #{@expected_url} failed with status 400: some error"
     end
 
