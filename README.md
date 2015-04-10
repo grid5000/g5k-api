@@ -163,8 +163,12 @@ to create a test database, and a fake OAR database.
 
 * If you released on apt.grid5000.fr, then you are now able to install the new
   version on any server by launching the following commands:
+  	  
+	puppet-repo $ cap cmd HOST="api-server-devel.[sites]" CMD='sudo apt-get update && sudo apt-get install -y -o Dpkg::Options::="--force-confold" g5k-api'
+        
+  A more flexible mechanism can be used base on the script/puppet-repo-custom.rb file
 
-        puppet-repo $ bundle exec cap shell ROLES=devel
+	puppet-repo $ bundle exec cap shell ROLES=devel
         cap> sudo apt-get update && sudo apt-get install g5k-api -y && sudo puppetd -t
 
   For this command to work, you should have a look in the
