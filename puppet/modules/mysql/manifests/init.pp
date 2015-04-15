@@ -11,9 +11,9 @@ class mysql {
   exec{ "allow mysql connections from all":
     user => root, group => root,
     command => "/usr/bin/mysql -e \"GRANT ALL PRIVILEGES ON *.* TO 'root'@'%';\"",
-    require => Package["mysql-server"]
+    require => Service["mysql"]
   }
-  
+
   file{ "/etc/mysql/conf.d/custom.cnf":
     mode => 644, owner => root, group => root,
     ensure => file,
@@ -21,5 +21,5 @@ class mysql {
     content => "[mysqld]\nbind-address		= 0.0.0.0\n",
     notify => Service["mysql"]
   }
-  
+
 }
