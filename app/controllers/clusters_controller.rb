@@ -19,9 +19,9 @@ require 'resources_controller'
 # Logic for changing inheritance : From the perspective of a controller,
 # the ClustersController is a special case of a SitesController,  
 # for specific clusters, insofar that this attribute is limited to the status function
-class ClustersController < SitesController
+class ClustersController < ResourcesController
 
-  # abasu : method to return status of a specific cluster - bug ref 5856 -- 2015.3.19
+  # abasu : method to return status of a specific cluster - bug ref 5856 -- 2015.03.19
   def status
     result = {
       "uid" => Time.now.to_i,
@@ -49,7 +49,18 @@ class ClustersController < SitesController
   protected
   
   def collection_path
-    site_clusters_path(params[:site_id])
+    site_clusters_path(params[:id])
+  end
+
+  # abasu : method to prepare links for status of a cluster - bug ref 5856 -- 2015.04.17
+  def links_for_item(item)
+    links = super(item)
+    links.push({
+      "rel" => "status",
+      "type" => media_type(:g5kitemjson),
+      "href" => uri_to(File.join(resource_path(item["uid"]), "status"))
+    })
+    links
   end
 
 end
