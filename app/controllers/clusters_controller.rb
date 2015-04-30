@@ -29,12 +29,12 @@ class ClustersController < ResourcesController
       "links" => [
         {
           "rel" => "self",
-          "href" => uri_to(status_site_path(params[:id])),
+          "href" => uri_to(status_site_cluster_path(params[:site_id])),
           "type" => media_type(:g5kitemjson)
         },
         {
           "rel" => "parent",
-          "href" => uri_to(site_path(params[:id])),
+          "href" => uri_to(site_cluster_path(params[:site_id])),
           "type" => media_type(:g5kitemjson)
         }
       ]
@@ -48,13 +48,14 @@ class ClustersController < ResourcesController
 
   protected
   
-  def collection_path
-    site_clusters_path(params[:id])
+  def collection_path # abasu the parameter passed should be :site_id not :id (cluster)
+    site_clusters_path(params[:site_id]) 
   end
 
   # abasu : method to prepare links for status of a cluster - bug ref 5856 -- 2015.04.17
   def links_for_item(item)
     links = super(item)
+
     links.push({
       "rel" => "status",
       "type" => media_type(:g5kitemjson),
