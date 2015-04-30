@@ -44,15 +44,13 @@ describe ClustersController do
 
       # first element is "self"
       json["links"][0].should == {"rel"=>"self",
-                                  "href"=>"/sites/parapluie/status",
+                                  "href"=>"/sites/rennes/clusters/parapluie/status",
                                   "type"=>"application/vnd.grid5000.item+json"}
       # second element is "parent"
       json["links"][1].should == {"rel"=>"parent",
-                                  "href"=>"/sites/parapluie",
+                                  "href"=>"/sites/rennes/clusters/parapluie",
                                   "type"=>"application/vnd.grid5000.item+json"}
     end # "should return the status with the correct links"
-
-
 
   end # "GET /sites/{{site_id}}/clusters/{{id}}/status"
 
