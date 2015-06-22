@@ -141,6 +141,8 @@ function nodeConverter( item ) {
         return (value/GIGA).toFixed(0);
       case "network_adapters_2_rate":
         return (value/GIGA).toFixed(0);
+      case "network_adapters_3_rate":
+        return (value/GIGA).toFixed(0);
       case "storage_devices_0_size":
         return (value*GIBI/GIGA/GIGA).toFixed(0);
       case "main_memory_ram_size":
@@ -216,9 +218,10 @@ $(document).ajaxStop(function() {
             "storage_devices_0_size":{valueType:"number"},
             "network_adapters_0_rate":{valueType:"number"},
             "network_adapters_1_rate":{valueType:"number"},
-            "network_adapters_2_rate":{valueType:"number"}
-          }, 
-          types:{"node":{"pluralLabel":"nodes"}}, 
+            "network_adapters_2_rate":{valueType:"number"},
+            "network_adapters_3_rate":{valueType:"number"}
+          },
+          types:{"node":{"pluralLabel":"nodes"}},
           items: _.values(reference)
         }
         window.database = Exhibit.Database.create();
