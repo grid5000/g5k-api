@@ -83,7 +83,7 @@ describe SitesController do
       }['href'].should == "/sites/rennes/clusters"
       json['links'].find{|l|
         l['rel'] == 'version'
-      }['href'].should == "/sites/rennes/versions/5b02702daa827f7e39ebf7396af26735c9d2aacd"
+      }['href'].should == "/sites/rennes/versions/070663579dafada27e078f468614f85a62cf2992"
     end
     
     it "should return subresource links that are only in testing branch" do
@@ -130,7 +130,7 @@ describe SitesController do
           :body => "some error"
         )
       get :status, :branch => 'testing', :id => "rennes", :format => :json
-      response.status.should == 500
+      response.status.should == 400
       response.body.should == "Request to #{expected_url} failed with status 400: some error"
     end
     it "should return 200 and the site status" do      
@@ -143,7 +143,7 @@ describe SitesController do
       get :status, :id => "rennes", :format => :json
       response.status.should == 200
 
-      json['nodes'].length.should == 162
+      json['nodes'].length.should == 167
       json['nodes'].keys.map{|k| k.split('-')[0]}.uniq.sort.should == [
         'paradent',
         'paramount',
