@@ -16,7 +16,7 @@ require 'spec_helper'
 
 describe Grid5000::Repository do
   before do
-    @latest_commit = "5b02702daa827f7e39ebf7396af26735c9d2aacd"
+    @latest_commit = "070663579dafada27e078f468614f85a62cf2992"
   end
   
   it "should instantiate a new repository object with the correct settings" do
