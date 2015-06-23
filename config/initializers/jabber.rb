@@ -16,8 +16,12 @@ require 'blather/client/dsl'
 
 class MyXMPP
   include Blather::DSL
+  attr_accessor :last_reconnect
   def run; client.run; end
   def handler; client; end
+  def initialize 
+    @last_reconnect=nil
+  end
 end
 
 module Blather
@@ -43,17 +47,34 @@ XMPP.when_ready {
   Rails.logger.info "Connected to XMPP server as #{jid.to_s}"
 }
 
-reconnect = Proc.new {
-  # Automatically reconnect
-  Rails.logger.info "Disconnected. Reconnecting to XMPP server..."
-  begin
-    XMPP.handler.connect
-  rescue StandardError => e
-    puts "Catched XMPP error: #{e.class.name} - #{e.message}"
-    EM.add_timer(10, &reconnect)
-  end
+
+def reconnect
+  return Proc.new { |my_xmpp|
+    # Automatically reconnect
+    now=Time.now
+    if my_xmpp.last_reconnect != nil && now-my_xmpp.last_reconnect<5
+      Rails.logger.info "XMPP disconnected again at #{now}. Waiting 5s before reconnecting to XMPP server..."
+      EM.add_timer(5) do 
+        reconnect.call(my_xmpp)
+      end
+    else
+      Rails.logger.info "XMPP Disconnected at #{now}. Reconnecting..."
+      begin
+        XMPP.handler.connect
+        my_xmpp.last_reconnect=now
+      rescue StandardError => e
+        Rails.logger.info "Catched XMPP error: #{e.class.name} - #{e.message}"
+        EM.add_timer(10) do
+          reconnect.call(my_xmpp)
+        end
+      end
+    end
+  }
+end
+
+XMPP.disconnected { 
+  reconnect.call(XMPP)
 }
-XMPP.disconnected(&reconnect)
 
 XMPP.handle :error do |error|
   Rails.logger.warn "XMPP connection encountered error: #{error.inspect}"
