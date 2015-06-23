@@ -17,7 +17,7 @@ require 'spec_helper'
 describe JobsController do
   render_views
   before do
-    @job_uids = [374191, 374190, 374189, 374188, 374187, 374185, 374186, 374184, 374183, 374182, 374181, 374180, 374179, 374178, 374177, 374176, 374175, 374174, 374173, 374172]
+    @job_uids = [374196, 374195, 374194, 374193, 374192, 374191, 374190, 374189, 374188, 374187, 374185, 374186, 374184, 374183, 374182, 374181, 374180, 374179, 374178, 374177, 374176, 374175, 374174, 374173, 374172]
   end
 
   describe "GET /sites/{{site_id}}/jobs" do
@@ -26,8 +26,8 @@ describe JobsController do
       response.status.should == 200
       json['total'].should == @job_uids.length
       json['offset'].should == 0
-      json['items'].length.should == 20
-      json['items'].map{|i| i['uid']}.should == @job_uids
+      json['items'].length.should == @job_uids.length
+      json['items'].map{|i| i['uid']}.sort.should == @job_uids.sort
       json['items'].all?{|i| i.has_key?('links')}.should be_true
       json['items'][0]['links'].should == [
         {
@@ -60,7 +60,7 @@ describe JobsController do
       json['total'].should == @job_uids.length
       json['offset'].should == 10
       json['items'].length.should == 5
-      json['items'].map{|i| i['uid']}.should == @job_uids.slice(10,5)
+      json['items'].map{|i| i['uid']}.should == [374195, 374196, 374184, 374183, 374182]
     end
     it "should correctly deal with other filters" do
       params = {:user => 'crohr', :name => 'whatever'}
@@ -78,9 +78,9 @@ describe JobsController do
       response.body.should == "Couldn't find OAR::Job with ID=doesnotexist"
     end
     it "should return 200 and the job" do
-      get :show, :site_id => "rennes", :id => @job_uids[0], :format => :json
+      get :show, :site_id => "rennes", :id => @job_uids[5], :format => :json
       response.status.should == 200
-      json["uid"].should == @job_uids[0]
+      json["uid"].should == @job_uids[5]
       json["links"].should be_a(Array)
       json.keys.sort.should == ["assigned_nodes", "command", "directory", "events", "links", "message", "mode", "project", "properties", "queue", "resources_by_type", "scheduled_at", "started_at", "state", "submitted_at", "types", "uid", "user", "user_uid", "walltime"]
       json['types'].should == ['deploy']
@@ -100,7 +100,7 @@ describe JobsController do
       response.status.should == 403
       response.body.should == "You are not authorized to access this resource"
     end
-    it "should fail if the OAR api does not return 201 or 202" do
+    it "should fail if the OAR api does not return 201, 202 or 400" do
       payload = @valid_job_attributes
       authenticate_as("crohr")
       send_payload(payload, :json)
