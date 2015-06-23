@@ -95,8 +95,7 @@ describe DeploymentsController do
     before do
       @valid_attributes = {
         "nodes" => ["paradent-1.rennes.grid5000.fr"],
-        "environment" => "lenny-x64-base"
-      }
+        "environment" => "lenny-x64-base"      }
       @deployment = Grid5000::Deployment.new(@valid_attributes)
     end
 
@@ -128,7 +127,7 @@ describe DeploymentsController do
       post :create, :site_id => "rennes", :format => :json
 
       response.status.should == 500
-      response.body.should == "some error message"
+      response.body.should == "Cannot launch deployment: some error message"
     end
 
     it "should return 500 if the deploymet cannot be launched" do
@@ -157,6 +156,7 @@ describe DeploymentsController do
         )
 
       @deployment.should_receive(:launch_workflow!).and_return(true)
+      @deployment.uid="kadeploy-api-provided-wid"
 
       authenticate_as("crohr")
       send_payload(@valid_attributes, :json)
@@ -164,13 +164,13 @@ describe DeploymentsController do
       post :create, :site_id => "rennes", :format => :json
 
       response.status.should == 201
-      response.headers['Location'].should == "http://api-in.local/sites/rennes/deployments/some-uid"
+      response.headers['Location'].should == "http://api-in.local/sites/rennes/deployments/kadeploy-api-provided-wid"
 
-      json["uid"].should == "some-uid"
+      json["uid"].should == "kadeploy-api-provided-wid"
       json["links"].should be_a(Array)
       json.keys.sort.should == ["created_at", "disable_bootloader_install", "disable_disk_partitioning", "environment", "ignore_nodes_deploying", "links", "nodes", "site_uid", "status", "uid", "updated_at", "user_uid"]
 
-      dep = Grid5000::Deployment.find_by_uid("some-uid")
+      dep = Grid5000::Deployment.find_by_uid("kadeploy-api-provided-wid")
       dep.should_not be_nil
       dep.status?(:processing).should be_true
     end
@@ -214,7 +214,7 @@ describe DeploymentsController do
 
       delete :destroy, :site_id => "rennes", :id => @deployment.uid, :format => :json
 
-      response.status.should == 204
+      response.status.should == 202
       response.headers['Location'].should == "http://api-in.local/sites/rennes/deployments/#{@deployment.uid}"
       response.body.should be_empty
     end
@@ -231,7 +231,7 @@ describe DeploymentsController do
 
       delete :destroy, :site_id => "rennes", :id => @deployment.uid, :format => :json
 
-      response.status.should == 204
+      response.status.should == 202
       response.body.should be_empty
       response.headers['Location'].should == "http://api-in.local/sites/rennes/deployments/#{@deployment.uid}"
     end

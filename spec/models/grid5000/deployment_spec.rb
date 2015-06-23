@@ -77,10 +77,10 @@ describe Grid5000::Deployment do
     it "should correctly export the attributes to an array [simple]" do
       @deployment.to_hash.should == {
         "environment" => {
-          "kind" => "database",
           "name" => "lenny-x64-base",
         },
         "nodes" => ["paradent-1.rennes.grid5000.fr"],
+        "hook"=>true
       }
     end
 
@@ -89,48 +89,49 @@ describe Grid5000::Deployment do
         "paradent-1.rennes.grid5000.fr",
         "paramount-10.rennes.grid5000.fr"
       ]
-      @deployment.to_a.should == [
+      @deployment.to_hash.should == {
         "environment" => {
-          "kind" => "database",
           "name" => "lenny-x64-base",
         },
         "nodes" => [
           "paradent-1.rennes.grid5000.fr",
           "paramount-10.rennes.grid5000.fr",
-        ]
-      ]
+        ],
+        "hook"=>true
+      }
     end
 
     it "should work [environment description file]" do
       @deployment.environment = "http://server.com/some/file.dsc"
-      @deployment.to_a.should == [
-        "-a", "http://server.com/some/file.dsc",
-        "-m", "paradent-1.rennes.grid5000.fr"
-      ]
+      @deployment.to_hash.should == {
+        "environment"=>{}, 
+        "nodes"=>["paradent-1.rennes.grid5000.fr"], 
+        "hook"=>true
+      }    
     end
 
     it "should work [environment associated to a specific user]" do
       @deployment.environment = "lenny-x64-base@crohr"
-      @deployment.to_a.should == [
+      @deployment.to_hash.should == {
         "environment" => {
-          "kind" => "database",
           "name" => "lenny-x64-base",
           "user" => "crohr",
         },
         "nodes" => ["paradent-1.rennes.grid5000.fr"],
-      ]
+        "hook" => true
+      }
     end
 
     it "should work [environment version]" do
       @deployment.version = 3
-      @deployment.to_a.should == [
+      @deployment.to_hash.should == {
         "environment" => {
-          "kind" => "database",
           "name" => "lenny-x64-base",
-          "version" => 3,
+          "version" => "3",
         },
         "nodes" => ["paradent-1.rennes.grid5000.fr"],
-      ]
+        "hook" => true
+      }
     end
 
     it "should work [optional parameters]" do
@@ -141,9 +142,8 @@ describe Grid5000::Deployment do
       @deployment.ignore_nodes_deploying = true
       @deployment.disable_bootloader_install = true
       @deployment.disable_disk_partitioning = true
-      @deployment.to_a.should == [
+      @deployment.to_hash.should == {
         "environment" => {
-          "kind" => "database",
           "name" => "lenny-x64-base",
         },
         "nodes" => ["paradent-1.rennes.grid5000.fr"],
@@ -153,8 +153,9 @@ describe Grid5000::Deployment do
         "vlan" => "3",
         "disable_disk_partitioning" => true,
         "disable_bootloader_install" => true,
-        "force" => true
-      ]
+        "force" => true,        
+        "hook" => true
+      }
     end
   end # describe "export to array"
 

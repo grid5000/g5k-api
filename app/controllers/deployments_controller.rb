@@ -104,7 +104,7 @@ class DeploymentsController < ApplicationController
     dpl.base_uri = api_path()
 
     Rails.logger.info "Received deployment = #{dpl.inspect}"
-    raise BadRequest, "The deployment you are trying to submit is not valid: #{dpl.errors.join("; ")}" unless dpl.valid?
+    raise BadRequest, "The deployment you are trying to submit is not valid: #{dpl.errors.to_a.join("; ")}" unless dpl.valid?
 
     # WARN: this is a blocking call as it creates a file on disk.
     # we may want to defer it or implement it natively with EventMachine
@@ -113,7 +113,7 @@ class DeploymentsController < ApplicationController
 
     begin
       dpl.launch || raise(ServerError,
-        "Cannot launch deployment: #{dpl.errors.full_messages.join("; ")}")
+        "#{dpl.errors.full_messages.join("; ")}")
     rescue Exception => e
       raise ServerError, "Cannot launch deployment: #{e.message}"
     end
