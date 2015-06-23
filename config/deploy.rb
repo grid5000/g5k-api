@@ -15,10 +15,12 @@
 require 'yaml'
 require File.expand_path("../../lib/grid5000/version", __FILE__)
 
-set :application, "g5k-api-devel"
-set :application, "g5k-api" if ENV['G5KPROD']
+set :application, ENV['APP_NAME'] || "g5k-api"
 
-set :apt, "/var/www/#{application}"
+set :package_name, "g5k-api" #see debian/control
+
+set :apt_repo, ENV['REPO_DIR'] || "/var/www/#{application}-devel" 
+set :apt_repo, ENV['REPO_DIR'] || "/var/www/#{application}" if ENV['PROD_REPO']
 set :puppet, "/tmp/puppet"
 
 set :scm, :git
@@ -30,11 +32,13 @@ set :user, ENV['REMOTE_USER'] || "root"
 key = ENV['SSH_KEY'] || "~/.ssh/id_rsa"
 
 set :ssh_options, {
-  :port => 22, :keys => [key], :forward_agent => true
+  :port => 22, :keys => [key], :forward_agent => true, :keys_only=> true
 }
 set :authorized_keys, "#{key}.pub"
 
 set :provisioner, "bundle exec g5k-campaign --site #{ENV['SITE'] || 'rennes'} -a #{authorized_keys} -k #{ssh_options[:keys][0]} -e squeeze-x64-base --name \"#{application}-#{ARGV[0]}\" --no-submit --no-deploy --no-cleanup -w #{ENV['WALLTIME'] || 7200}"
+
+set :provisioner, "(SSH_KEY=#{key} vagrant up --provision && cat Vagrantfile) | grep private_network | grep -o -E '[0-9][0-9\.]*'" if ENV['USE_VAGRANT']
 
 set :pkg_dependencies, %w{libmysqlclient-dev ruby1.9.1-full libxml2-dev libxslt-dev libssl-dev}
 
@@ -58,36 +62,37 @@ task :package, :roles => :pkg do
   cmd += "apt-get install #{pkg_dependencies.join(" ")} git-core dh-make dpkg-dev libicu-dev -y && "
   cmd += "gem1.9.1 install rake -v 0.8.7 --no-ri --no-rdoc && "
   cmd += "gem1.9.1 install bundler -v 1.1.1 --no-ri --no-rdoc && "
-  cmd += "rm -rf /tmp/#{application}*"
+  cmd += "rm -rf /tmp/#{package_name}*"
 
   run cmd
 
-  system "mkdir -p pkg/ && git archive HEAD > pkg/#{application}.tar"
-  upload("pkg/#{application}.tar", "/tmp/#{application}.tar")
+  system "mkdir -p pkg/ && git archive HEAD > pkg/#{package_name}.tar"
+  upload("pkg/#{package_name}.tar", "/tmp/#{package_name}.tar")
 
   cmd = "cd /tmp && "
-  cmd += "mkdir -p #{application}/pkg && "
-  cmd += "tar xf #{application}.tar -C #{application} && "
-  cmd += "cd #{application} && "
+  cmd += "mkdir -p #{package_name}/pkg && "
+  cmd += "tar xf #{package_name}.tar -C #{package_name} && "
+  cmd += "cd #{package_name} && "
   cmd += "export https_proxy=proxy:3128 && " unless ENV['NOPROXY']
   cmd += "export http_proxy=proxy:3128 && " unless ENV['NOPROXY']
+  cmd += "export PKG_NAME=#{package_name} && "
   cmd += "PATH=/var/lib/gems/1.9.1/bin:$PATH rake -f lib/tasks/packaging.rake package:debian && "
-  cmd += "cp ../#{application}_*.deb pkg/"
+  cmd += "cp ../#{package_name}_*.deb pkg/"
 
   run cmd
 
-  download "/tmp/#{application}/pkg", "pkg", :once => true, :recursive => true
+  download "/tmp/#{package_name}/pkg", "pkg", :once => true, :recursive => true
 end
 
-desc "Release the latest package."
+desc "Release the latest package. Destination controled by PROD_REPO and REPO_DIR"
 task :release, :roles => :apt do
   latest = Dir["pkg/*.deb"].find{|file| file =~ /#{Grid5000::VERSION}/}
   fail "No .deb available in pkg/" if latest.nil?
   latest = File.basename(latest)
-  run "#{sudo} mkdir -p #{apt}"
-  run "#{sudo} chown #{ENV['REMOTE_USER']}:#{ENV['REMOTE_USER']} #{apt}"
-  upload("pkg/#{latest}", "#{apt}/#{latest}")
-  run "cd #{apt} && \
+  run "#{sudo} mkdir -p #{apt_repo}"
+  run "#{sudo} chown #{ENV['REMOTE_USER']}:#{ENV['REMOTE_USER']} #{apt_repo}"
+  upload("pkg/#{latest}", "#{apt_repo}/#{latest}")
+  run "cd #{apt_repo} && \
         #{sudo} apt-get update && \
         #{sudo} apt-get install dpkg-dev -y && \
         #{sudo} dpkg-scanpackages . | gzip -f9 > Packages.gz"
@@ -98,9 +103,9 @@ task :yank, :roles => :apt do
   latest = Dir["pkg/*.deb"].find{|file| file =~ /#{Grid5000::VERSION}/}
   fail "No .deb available in pkg/" if latest.nil?
   latest = File.basename(latest)
-  run "#{sudo} mkdir -p #{apt} && #{sudo} rm \"#{apt}/#{latest}\""
-  run "#{sudo} chown #{ENV['REMOTE_USER']}:#{ENV['REMOTE_USER']} #{apt}"
-  run "cd #{apt} && \
+  run "#{sudo} mkdir -p #{apt_repo} && #{sudo} rm \"#{apt_repo}/#{latest}\""
+  run "#{sudo} chown #{ENV['REMOTE_USER']}:#{ENV['REMOTE_USER']} #{apt_repo}"
+  run "cd #{apt_repo} && \
         #{sudo} apt-get update && \
         #{sudo} apt-get install dpkg-dev -y && \
         #{sudo} dpkg-scanpackages . | gzip -f9 > Packages.gz"

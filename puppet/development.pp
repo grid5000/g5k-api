@@ -29,6 +29,13 @@ class development {
     creates => "/var/lib/mysql/oar2"
   }
 
+  file {
+    "/root/.ssh":
+      mode => 0700,
+      owner => root,
+      group => root,
+      ensure => directory;
+  }
 }
 
 stage { "init": before  => Stage["main"] }

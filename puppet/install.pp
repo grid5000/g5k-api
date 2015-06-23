@@ -27,13 +27,6 @@ class install {
       content => 'deb file:///tmp /',
       require => Exec['apt repo'],
       notify  => Exec['sources update'];
-    '/etc/apt/sources.list.d/kadeploy.list':
-      ensure  => file,
-      mode    => '0644',
-      owner   => root,
-      group   => root,
-      content => 'deb http://apt.grid5000.fr/kadeploy /',
-      notify  => Exec['sources update']
   }
 
   package { 'g5k-api':

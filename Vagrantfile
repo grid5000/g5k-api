@@ -89,6 +89,10 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     puppet.module_path = "puppet/modules"
   end
 
+  config.vm.provision :file, source: (ENV['SSH_KEY'] && "#{ENV['SSH_KEY']}.pub") || "~/.ssh/authorized_keys", destination: "/tmp/toto"
+  config.vm.provision :shell, :inline => "sudo mv /tmp/toto /root/.ssh/authorized_keys"
+  config.vm.provision :shell, :inline => "sudo chown root: /root/.ssh/authorized_keys"
+
   # Enable provisioning with chef solo, specifying a cookbooks path, roles
   # path, and data_bags path (all relative to this Vagrantfile), and adding
   # some recipes and/or roles.

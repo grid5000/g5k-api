@@ -71,7 +71,11 @@ In particular, runtime dependencies of the app include `ruby1.9.1-full` and `git
         $ vagrant ssh
         $ sudo mysql -u root
 
-  And create `g5kapi-development` and `g5kapi-test` databases.
+  And create `g5kapi-development` and `g5kapi-test` databases. 
+
+  The vagrant provisionning script will attempt to configure the VM's root account
+  to be accessible by ssh. By default, it will copy your authorized_keys, but you 
+  can control the keypair used with SSH_KEY=filename_of_private_key  
 
 * Setup the database schema:
 
@@ -141,9 +145,11 @@ to create a test database, and a fake OAR database.
         $ cap package HOST=...
         $ cap package HOST=griffon-71.nancy.user SSH_KEY=~/.ssh/id_userg5k
 
-  With vagrant (copy your ssh public key into the root account of the VM):
+  With vagrant (copy your ssh public key into the root account of the VM if
+  the automated vagrant provisioning script hasn't (see higher)):
 
         $ cap package HOST=root@192.168.2.10 NOPROXY=true
+        $ cap package USE_VAGRANT=true NOPROXY=true
 
 ## Releasing and Installing and new version
 
@@ -153,13 +159,18 @@ to create a test database, and a fake OAR database.
 
         $ REMOTE_USER=g5kadmin cap release
 
+  The system does not support different keys for the gateway and the remote node.
+  In this case, the following might work for you
+
+        $ SSH_KEY=~/.ssh/id_rsa_grid5000_g5k NOPROXY=true REMOTE_USER=g5kadmin cap release
+
   Note that you can use the same task to release on a different host (for
   testing purposes for example), by setting the HOST environment variable to
   another server (a Grid'5000 node for instance).
 
   To release to stable API, you will need to set G5KPROD before running the task
 
-	$ REMOTE_USER=g5kadmin G5KPROD=YES cap release
+	$ REMOTE_USER=g5kadmin PROD_REPO=true cap release
 
 * If you released on apt.grid5000.fr, then you are now able to install the new
   version on any server by launching the following commands:

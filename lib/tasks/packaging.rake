@@ -2,7 +2,7 @@ ROOT_DIR = File.expand_path("../../..", __FILE__)
 CHANGELOG_FILE = File.join(ROOT_DIR, "debian", "changelog")
 VERSION_FILE = File.join(ROOT_DIR, "lib", "grid5000", "version.rb")
 
-NAME = "g5k-api"
+NAME = ENV['PKG_NAME'] || "g5k-api"
 BUILD_MACHINE = ENV['BUILD_MACHINE'] || "debian-build"
 USER_NAME = `git config --get user.name`.chomp
 USER_EMAIL = `git config --get user.email`.chomp
