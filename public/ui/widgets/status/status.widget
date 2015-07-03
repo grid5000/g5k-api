@@ -76,9 +76,6 @@ status_widget_callback({
             },  // success
 	    complete: function(xOptions, textStatus) {
               sites_already_loaded += 1;
-	      if (typeof console != "undefined" && typeof console.debug != "undefined") {
-	         console.log("Loaded "+sites_already_loaded+" sites, expecting "+sites_count) ;
-              }
               if (sites_already_loaded == sites_count) { 
                 container.removeClass('loading'); 
                 if (options.total) {
