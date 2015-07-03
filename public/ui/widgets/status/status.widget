@@ -57,7 +57,7 @@ status_widget_callback({
                 legends.push(state)
                 scolors.push(system_colors[state])
               }
-              var img_href = "http://chart.apis.google.com/chart?cht=pc&chd=t:"+
+              var img_href = "https://chart.googleapis.com/chart?cht=pc&chd=t:"+
                 hardware_serie.join(",")+
                 "|"+
                 system_serie.join(",")+
@@ -74,8 +74,11 @@ status_widget_callback({
                   //   'System: '+_(system_colors).map(function(color, state) { return '<span style="padding: 2px 4px; text-transform: uppercase; background:#'+color+'">'+state+'</span>:'+(system_state_stats[state] || 0)  }).join("  ")
                   // ].join("<br />")+"<br/><div class=\"right small date\">generated at "+new Date(site_status.generated_at*1000).toUTCString()+"</div>", persistent: false});
             },  // success
-            complete: function(xOptions, textStatus) {
+	    complete: function(xOptions, textStatus) {
               sites_already_loaded += 1;
+	      if (typeof console != "undefined" && typeof console.debug != "undefined") {
+	         console.log("Loaded "+sites_already_loaded+" sites, expecting "+sites_count) ;
+              }
               if (sites_already_loaded == sites_count) { 
                 container.removeClass('loading'); 
                 if (options.total) {
@@ -117,8 +120,12 @@ status_widget_callback({
     "system_colors": {
       'unknown': 'B11623',
       'free': '00FF00',
+      'free_busy': '00FF00',
+      'free_busy_besteffort': '00FF00',
       'busy': 'FF7722',
-      'besteffort': 'FFFA80'
+      'busy_free': 'FF7722',
+      'busy_free_besteffort': 'FF7722',
+      'busy_besteffort': 'FFFA80'
     }
   },
   "stylesheet": false
