@@ -117,6 +117,7 @@ status_widget_callback({
     "system_colors": {
       'unknown': 'B11623',
       'free': '00FF00',
+      'free_besteffort': '00FF00',
       'free_busy': '00FF00',
       'free_busy_besteffort': '00FF00',
       'busy': 'FF7722',
