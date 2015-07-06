@@ -146,6 +146,7 @@ module OAR
  
         nodes_counter.each do |network_address, node_counter|
           next if result[network_address].nil?
+          next if result[network_address][:hard] == 'dead'
 
           if node_counter[:busycounter] == 0
             result[network_address][:soft] = "free"      # all cores in node are free
