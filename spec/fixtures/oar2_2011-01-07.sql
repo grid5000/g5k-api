@@ -3962,7 +3962,8 @@ VALUES
 	(379619,868),
 	(379619,869),
 	(379619,870),
-	(379619,871);
+	(379619,871),
+	(374197,4060); /* make job 374197 depend on resource 4060 (Dead) bug #6107  */
 
 /*!40000 ALTER TABLE `gantt_jobs_resources` ENABLE KEYS */;
 UNLOCK TABLES;
@@ -4775,7 +4776,8 @@ VALUES
 	(374193,374193,'oarsub -t allow_classic_ssh -t deploy -q besteffort -p cluster=\'parapluie\' -l nodes=1,walltime=8 /home/rennes/abasu/bin/katapult3 --deploy-env lenny-x64-base --copy-ssh-key --sleep',NULL,NULL,NULL,'PASSIVE','frennes.rennes.grid5000.fr:','Running','None','FIFO scheduling OK','FIFO scheduling OK','abasu','default','','/home/rennes/abasu/bin/katapult3 --deploy-env lenny-x64-base --copy-ssh-key --sleep',NULL,'besteffort','(cluster=\'parapluie\') AND deploy = \'YES\'','/home/abasu/kargo/depkrg',1294392259,1294392261,0,NULL,'NO',NULL,379614,0,12,'OAR.%jobid%.stdout','OAR.%jobid%.stderr',0,'NO'),
 	(374194,374194,'oarsub -t allow_classic_ssh -t deploy -q besteffort -p cluster=\'parapluie\' -l nodes=1,walltime=8 /home/rennes/abasu/bin/katapult3 --deploy-env lenny-x64-base --copy-ssh-key --sleep',NULL,NULL,NULL,'PASSIVE','frennes.rennes.grid5000.fr:','Running','None','FIFO scheduling OK','FIFO scheduling OK','abasu','default','','/home/rennes/abasu/bin/katapult3 --deploy-env lenny-x64-base --copy-ssh-key --sleep',NULL,'besteffort','(cluster=\'parapluie\') AND deploy = \'YES\'','/home/abasu/kargo/depkrg',1294392259,1294392261,0,NULL,'NO',NULL,379614,0,12,'OAR.%jobid%.stdout','OAR.%jobid%.stderr',0,'NO'),
 	(374195,374195,'oarsub -t allow_classic_ssh -t deploy -q default -p cluster=\'parapluie\' -l nodes=1,walltime=8 /home/rennes/abasu/bin/katapult3 --deploy-env lenny-x64-base --copy-ssh-key --sleep',NULL,NULL,NULL,'PASSIVE','frennes.rennes.grid5000.fr:','Running','None','FIFO scheduling OK','FIFO scheduling OK','abasu','default','','/home/rennes/abasu/bin/katapult3 --deploy-env lenny-x64-base --copy-ssh-key --sleep',NULL,'default','(cluster=\'parapluie\') AND deploy = \'YES\'','/home/abasu/kargo/depkrg',1294392259,1294392261,0,NULL,'NO',NULL,379614,0,12,'OAR.%jobid%.stdout','OAR.%jobid%.stderr',0,'NO'),
-	(374196,374196,'oarsub -t allow_classic_ssh -t deploy -q default -p cluster=\'parapluie\' -l nodes=1,walltime=8 /home/rennes/abasu/bin/katapult3 --deploy-env lenny-x64-base --copy-ssh-key --sleep',NULL,NULL,NULL,'PASSIVE','frennes.rennes.grid5000.fr:','Running','None','FIFO scheduling OK','FIFO scheduling OK','abasu','default','','/home/rennes/abasu/bin/katapult3 --deploy-env lenny-x64-base --copy-ssh-key --sleep',NULL,'default','(cluster=\'parapluie\') AND deploy = \'YES\'','/home/abasu/kargo/depkrg',1294392259,1294392261,0,NULL,'NO',NULL,379614,0,12,'OAR.%jobid%.stdout','OAR.%jobid%.stderr',0,'NO');
+	(374196,374196,'oarsub -t allow_classic_ssh -t deploy -q default -p cluster=\'parapluie\' -l nodes=1,walltime=8 /home/rennes/abasu/bin/katapult3 --deploy-env lenny-x64-base --copy-ssh-key --sleep',NULL,NULL,NULL,'PASSIVE','frennes.rennes.grid5000.fr:','Running','None','FIFO scheduling OK','FIFO scheduling OK','abasu','default','','/home/rennes/abasu/bin/katapult3 --deploy-env lenny-x64-base --copy-ssh-key --sleep',NULL,'default','(cluster=\'parapluie\') AND deploy = \'YES\'','/home/abasu/kargo/depkrg',1294392259,1294392261,0,NULL,'NO',NULL,379614,0,12,'OAR.%jobid%.stdout','OAR.%jobid%.stderr',0,'NO'),
+	(374197,374197,'oarsub -t allow_classic_ssh -t deploy -q default -p cluster=\'parapluie\' -l nodes=1,walltime=8 /home/rennes/abasu/bin/katapult3 --deploy-env lenny-x64-base -r 2015-12-23 19:00:00 --sleep',NULL,NULL,NULL,'PASSIVE','frennes.rennes.grid5000.fr:','Waiting','None','FIFO scheduling OK','FIFO scheduling OK','abasu','default','','/home/rennes/abasu/bin/katapult3 --deploy-env lenny-x64-base --copy-ssh-key --sleep',NULL,'default','(cluster=\'parapluie\') AND deploy = \'YES\'','/home/abasu/kargo/depkrg',1450893600,1450893600,0,NULL,'NO',NULL,379614,0,12,'OAR.%jobid%.stdout','OAR.%jobid%.stderr',0,'NO');
 
 
 /*!40000 ALTER TABLE `jobs` ENABLE KEYS */;
@@ -4831,6 +4833,10 @@ VALUES
 	(379622,374194,7200,'CURRENT'),
 	(379623,374195,28800,'CURRENT'),
 	(379624,374196,7200,'CURRENT');
+#dmargery: fix bug #6107
+INSERT INTO `moldable_job_descriptions` (`moldable_id`,`moldable_job_id`,`moldable_walltime`,`moldable_index`)
+VALUES
+	(374197,374197,7200,'CURRENT');
 
 /*!40000 ALTER TABLE `moldable_job_descriptions` ENABLE KEYS */;
 UNLOCK TABLES;
@@ -7367,7 +7373,8 @@ VALUES
 	(4056,'default','parapluie-55.rennes.grid5000.fr','Alive','UnChanged','NO','NO',1,'NO','parapluie',0,'0',702,1495,20,'YES','YES',0,'NO',1294379894,0,'amd64',8,'AMD Opteron(tm) 6164 HE','1.7','SATA',5,'YES','MT25418',2048,24576,49152,'NO','none','NO','none','HP ProLiant DL165 G7',NULL,'amd-v','parapluie-55.rennes.grid5000.fr','131.254.203.5',NULL,'NO',NULL,'YES',0,NULL),
 	(4057,'default','parapluie-55.rennes.grid5000.fr','Alive','UnChanged','NO','NO',1,'NO','parapluie',0,'0',702,1496,21,'YES','YES',0,'NO',1294379894,0,'amd64',8,'AMD Opteron(tm) 6164 HE','1.7','SATA',5,'YES','MT25418',2048,24576,49152,'NO','none','NO','none','HP ProLiant DL165 G7',NULL,'amd-v','parapluie-55.rennes.grid5000.fr','131.254.203.5',NULL,'NO',NULL,'YES',0,NULL),
 	(4058,'default','parapluie-55.rennes.grid5000.fr','Alive','UnChanged','NO','NO',1,'NO','parapluie',0,'0',702,1497,22,'YES','YES',0,'NO',1294379894,0,'amd64',8,'AMD Opteron(tm) 6164 HE','1.7','SATA',5,'YES','MT25418',2048,24576,49152,'NO','none','NO','none','HP ProLiant DL165 G7',NULL,'amd-v','parapluie-55.rennes.grid5000.fr','131.254.203.5',NULL,'NO',NULL,'YES',0,NULL),
-	(4059,'default','parapluie-55.rennes.grid5000.fr','Alive','UnChanged','NO','NO',1,'NO','parapluie',0,'0',702,1498,23,'YES','YES',0,'NO',1294379894,0,'amd64',8,'AMD Opteron(tm) 6164 HE','1.7','SATA',5,'YES','MT25418',2048,24576,49152,'NO','none','NO','none','HP ProLiant DL165 G7',NULL,'amd-v','parapluie-55.rennes.grid5000.fr','131.254.203.5',NULL,'NO',NULL,'YES',0,NULL);
+	(4059,'default','parapluie-55.rennes.grid5000.fr','Alive','UnChanged','NO','NO',1,'NO','parapluie',0,'0',702,1498,23,'YES','YES',0,'NO',1294379894,0,'amd64',8,'AMD Opteron(tm) 6164 HE','1.7','SATA',5,'YES','MT25418',2048,24576,49152,'NO','none','NO','none','HP ProLiant DL165 G7',NULL,'amd-v','parapluie-55.rennes.grid5000.fr','131.254.203.5',NULL,'NO',NULL,'YES',0,NULL),
+	(4060,'default','parapluie-56.rennes.grid5000.fr','Dead','UnChanged','NO','NO',1,'NO','parapluie',0,'0',702,1498,23,'YES','YES',0,'NO',1294379894,0,'amd64',8,'AMD Opteron(tm) 6164 HE','1.7','SATA',5,'YES','MT25418',2048,24576,49152,'NO','none','NO','none','HP ProLiant DL165 G7',NULL,'amd-v','parapluie-55.rennes.grid5000.fr','131.254.203.5',NULL,'NO',NULL,'YES',0,NULL);
 
 
 /*!40000 ALTER TABLE `resources` ENABLE KEYS */;

@@ -17,7 +17,7 @@ require 'spec_helper'
 describe JobsController do
   render_views
   before do
-    @job_uids = [374196, 374195, 374194, 374193, 374192, 374191, 374190, 374189, 374188, 374187, 374185, 374186, 374184, 374183, 374182, 374181, 374180, 374179, 374178, 374177, 374176, 374175, 374174, 374173, 374172]
+    @job_uids = [374196, 374195, 374194, 374193, 374192, 374191, 374190, 374189, 374188, 374187, 374185, 374186, 374184, 374183, 374182, 374181, 374180, 374179, 374178, 374177, 374176, 374175, 374174, 374173, 374172, 374197]
   end
 
   describe "GET /sites/{{site_id}}/jobs" do
@@ -32,7 +32,7 @@ describe JobsController do
       json['items'][0]['links'].should == [
         {
           "rel"=> "self",
-          "href"=> "/sites/rennes/jobs/374191",
+          "href"=> "/sites/rennes/jobs/374197",
           "type"=> media_type(:g5kitemjson)
         },
         {
@@ -55,10 +55,10 @@ describe JobsController do
       ]
     end
     it "should correctly deal with pagination filters" do
-      get :index, :site_id => "rennes", :offset => 10, :limit => 5, :format => :json
+      get :index, :site_id => "rennes", :offset => 11, :limit => 5, :format => :json
       response.status.should == 200
       json['total'].should == @job_uids.length
-      json['offset'].should == 10
+      json['offset'].should == 11
       json['items'].length.should == 5
       json['items'].map{|i| i['uid']}.should == [374195, 374196, 374184, 374183, 374182]
     end

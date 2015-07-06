@@ -143,7 +143,7 @@ describe SitesController do
       get :status, :id => "rennes", :format => :json
       response.status.should == 200
 
-      json['nodes'].length.should == 167
+      json['nodes'].length.should == 168
       json['nodes'].keys.map{|k| k.split('-')[0]}.uniq.sort.should == [
         'paradent',
         'paramount',
