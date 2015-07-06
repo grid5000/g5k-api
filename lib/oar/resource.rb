@@ -77,6 +77,7 @@ module OAR
                 :besteffortcounter => 0 
               } if !nodes_counter.has_key?(resource.network_address)
           if !resource.core.zero?
+            # core=0 for non default type of resources
 	    nodes_counter[resource.network_address][:totalcores] += 1
           end
 	end  #  .each do |resource_id, resource|
