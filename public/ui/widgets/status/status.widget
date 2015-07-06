@@ -109,9 +109,9 @@ status_widget_callback({
     "total": true,
     "hardware_colors": {
       'dead': 'B11623',
+      'standby': '00FFFF',
       'alive': '00AA00',
       'absent': 'EA4581',
-      'standby': '00FFFF',
       'suspected': '28A3C2'
     },
     "system_colors": {
