@@ -168,7 +168,7 @@ to create a test database, and a fake OAR database.
   testing purposes for example), by setting the HOST environment variable to
   another server (a Grid'5000 node for instance).
 
-  To release to stable API, you will need to set G5KPROD before running the task
+  To release to stable API, you will need to set PROD_REP Obefore running the task
 
 	$ REMOTE_USER=g5kadmin PROD_REPO=true cap release
 
