@@ -24,7 +24,7 @@ describe OAR::Job do
   it "should list the expanded jobs, filtered" do
     jobs = mock("jobs")
     OAR::Job.should_receive(:expanded).and_return(jobs)
-    jobs.should_receive(:order).with("submission_time DESC").and_return(jobs)
+    jobs.should_receive(:order).with("job_id DESC").and_return(jobs)
     jobs.should_receive(:where).with(:job_user => "crohr").and_return(jobs)
     jobs.should_receive(:where).with(:job_name => "whatever").and_return(jobs)
     jobs.should_receive(:where).with(:queue_name => "default").and_return(jobs)

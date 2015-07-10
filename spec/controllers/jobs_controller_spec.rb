@@ -60,7 +60,7 @@ describe JobsController do
       json['total'].should == @job_uids.length
       json['offset'].should == 11
       json['items'].length.should == 5
-      json['items'].map{|i| i['uid']}.should == [374195, 374196, 374184, 374183, 374182]
+      json['items'].map{|i| i['uid']}.should == [374186, 374185, 374184, 374183, 374182]
     end
     it "should correctly deal with other filters" do
       params = {:user => 'crohr', :name => 'whatever'}

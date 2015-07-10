@@ -62,7 +62,7 @@ module OAR
     attr_accessor :links
 
     def self.list(params = {})
-      jobs = self.expanded.order("submission_time DESC")
+      jobs = self.expanded.order("job_id DESC")
       jobs = jobs.where(:job_user => params[:user]) unless params[:user].blank?
       jobs = jobs.where(:job_name => params[:name]) unless params[:name].blank?
       jobs = jobs.where(:project => params[:project]) unless params[:project].blank?
