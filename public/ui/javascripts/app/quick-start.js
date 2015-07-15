@@ -364,28 +364,30 @@ $(document).ready(function() {
         var hostname, resa, available_for;
         var now = new Date().getTime()/1000;
         _.each(data.nodes, function(node_status, node_uid) {
-          hostname = node_uid
-          reference[hostname] = reference[hostname] || {
-            id: hostname,
-            label: hostname.split(".")[0],
-            grid_uid: grid.uid,
-            site_uid: site.uid,
-            cluster_uid: hostname.split("-")[0]
-          }
-          resa = node_status.reservations[0] || {
-            started_at: Infinity, 
-            walltime: 0
-          }
-          if (resa.started_at < now && (resa.started_at+resa.walltime) >= now) {
-            available_for = 0;
-          } else {  
-            available_for = Math.min((resa.started_at-now)/3600, 23).toFixed(2);
-          }
-          $.extend(reference[hostname], {
-            hard_state: node_status.hard,
-            syst_state: node_status.soft,
-            available_for: available_for
-          })
+	  if (!node_status.comment.toLowerCase().startsWith('retired')) {
+	    hostname = node_uid ;
+            reference[hostname] = reference[hostname] || {
+              id: hostname,
+              label: hostname.split(".")[0],
+              grid_uid: grid.uid,
+              site_uid: site.uid,
+              cluster_uid: hostname.split("-")[0]
+            }
+            resa = node_status.reservations[0] || {
+              started_at: Infinity, 
+              walltime: 0
+            }
+            if (resa.started_at < now && (resa.started_at+resa.walltime) >= now) {
+              available_for = 0;
+            } else {  
+              available_for = Math.min((resa.started_at-now)/3600, 23).toFixed(2);
+            }
+            $.extend(reference[hostname], {
+              hard_state: node_status.hard,
+              syst_state: node_status.soft,
+              available_for: available_for
+            })
+	  }
         })
       }
     }); // GET /grid5000/sites/:site/status
