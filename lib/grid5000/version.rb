@@ -13,5 +13,5 @@
 # limitations under the License. 
 
 module Grid5000
-  VERSION = "3.3.0" # patch upgrade after correction of bug ref 5856, 5912, 5941
+  VERSION = "3.3.1" # patch upgrade after correction of bug ref 5856, 5912, 5941
 end
