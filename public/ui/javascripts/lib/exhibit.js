@@ -56,7 +56,13 @@ function flatten(item, callback) {
   return item;
 }
 
-
+function create_and_increment(item, property) {
+    if (property in item) {
+	item[property]++;
+    } else {
+	item[property]=1 ;
+    }
+}
 
 var KIBI = 1024;
 var KILO = 1000;
