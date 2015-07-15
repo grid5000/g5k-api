@@ -442,7 +442,7 @@ $(document).ready(function() {
       ok: function(data) {
         var hostname;
         _.each(data.items, function(node) {
-          hostname = [node.uid, site.uid, grid.uid].join(".")
+          hostname = [node.uid, site.uid, grid.uid, 'fr'].join(".")
           reference[hostname] = reference[hostname] || {
             id: hostname,
             label: node.uid,
