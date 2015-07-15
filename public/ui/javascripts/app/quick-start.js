@@ -127,11 +127,60 @@ var UIConsole = {
 }
 
 /*
- * Function that converts node attributes
+ * Function that receives a node description from the API
+ * add creates any additional attributes required for
+ * display
+ * 
  */
 function nodeConverter( item ) {
   item.label = item.uid;
   item.processor_clock_speed = 0;
+  item.nb_ethernet = 0 ;
+  item.nb_1_ethernet = 0 ;
+  item.nb_10G_ethernet = 0 ;
+  item.nb_myrinet = 0 ;
+  item.nb_infiniband = 0 ;
+  item.nb_infiniband_SDR = 0 ;
+  item.nb_infiniband_DDR = 0 ;
+  item.nb_infiniband_QDR = 0 ;
+  item.nb_infiniband_FDR = 0 ;
+  _.each(item.network_adapters, function(network_adapter) {
+    if (!network_adapter.management && network_adapter.enabled) {
+	switch(network_adapter.interface.toLowerCase()) {
+	case "ethernet":
+	    item.nb_ethernet++;
+            switch (network_adapter.rate) {
+	    case 10000000000:
+		item.nb_10G_ethernet++;
+		break;
+	    case 1000000000:
+		item.nb_1G_ethernet++;
+		break;
+	    } 
+	    break;
+	case "infiniband":
+	    item.nb_infiniband++;
+            switch (network_adapter.rate) {
+	    case 10000000000:
+		item.nb_infiniband_SDR++;
+		break;
+	    case 20000000000:
+		item.nb_infiniband_DDR++;
+		break;
+	    case 40000000000:
+		item.nb_infiniband_QDR++;
+		break;
+	    case 80000000000:
+		item.nb_infiniband_FDR++;
+		break;
+	    }
+	    break;
+	case "myrinet":
+	    item.nb_myrinet++;
+	    break;
+	}
+    }
+  });
   delete item['links']
   return flatten(item, function(item, property, value) {
     switch(property) {
