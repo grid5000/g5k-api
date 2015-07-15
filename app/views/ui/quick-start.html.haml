@@ -36,7 +36,7 @@
       %div#soft_state{"ex:role" => "facet", "ex:expression" => ".syst_state", "ex:sortMode" => "count", "ex:showMissing" => "false", "ex:scroll" => "false", "ex:facetLabel" => "System State"}
       %div#available_for{"ex:role" => "facet", "ex:facetClass" => "Slider", "ex:expression" => ".available_for", "ex:interval" => "1", "ex:scroll" => "true", "ex:facetLabel" => "Available for (Hours)", "ex:histogram" => "false", "ex:horizontal" => "true", "ex:width" => "100"}
       %div#architecture_smp_size{"ex:role" => "facet", "ex:expression" => ".architecture_smp_size", "ex:sortMode" => "value", "ex:scroll" => "true", "ex:facetLabel" => "# CPUs"}
-      %div#architecture_smt_size{"ex:role" => "facet", "ex:expression" => ".architecture_smt_size", "ex:sortMode" => "value", "ex:scroll" => "true", "ex:facetLabel" => "# Cores"}
+      %div#architecture_smt_size{"ex:role" => "facet", "ex:expression" => ".architecture_smt_size", "ex:sortMode" => "value", "ex:scroll" => "true", "ex:fixedOrder" => "1;2;4;6;8;10;12;14;16;18;20;22;24;26;28;30;32", "ex:facetLabel" => "# Cores"}
       %div#main_memory_ram_size{"ex:role" => "facet", "ex:expression" => ".main_memory_ram_size", "ex:sortMode" => "value", "ex:scroll" => "true", "ex:facetLabel" => "RAM (MiB)"}
       %div#processor_clock_speed{"ex:role" => "facet", "ex:expression" => ".processor_clock_speed", "ex:sortMode" => "value", "ex:scroll" => "true", "ex:facetLabel" => "CPU Clock Speed (GHz)"}
       %div#processor_model{"ex:role" => "facet", "ex:expression" => ".processor_model", "ex:sortMode" => "count", "ex:scroll" => "false", "ex:facetLabel" => "Processor model"}
