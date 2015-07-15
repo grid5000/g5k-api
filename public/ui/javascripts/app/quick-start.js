@@ -185,10 +185,12 @@ function nodeConverter( item ) {
         return (value/GIGA).toFixed(0);
       case "storage_devices_0_size":
         return (value*GIBI/GIGA/GIGA).toFixed(0);
+      case "architecture_smt_size":
+	return parseInt(value) ;
       case "main_memory_ram_size":
-        return (value/MEBI);
+        return (parseInt(value)/MEBI);
       case "processor_clock_speed":
-        return value/GIGA.toFixed(2);
+        return parseFloat(value)/GIGA.toFixed(2);
       case "processor_cache_l1d":
       case "processor_cache_l1i":
         if (value) {  return (value/KIBI);  } else {  return value;  }
