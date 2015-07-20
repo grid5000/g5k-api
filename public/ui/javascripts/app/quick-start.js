@@ -9,6 +9,7 @@ var http = new Http();
 var queuedSteps = [];
 var rollback = false;
 var reference = {}
+var retired = {}
 var environments = {}
 var scripts = []
 var sshKeys = []
@@ -389,8 +390,8 @@ $(document).ready(function() {
         var hostname, resa, available_for;
         var now = new Date().getTime()/1000;
         _.each(data.nodes, function(node_status, node_uid) {
+	  hostname = node_uid ;
 	  if (!node_status.comment.toLowerCase().startsWith('retired')) {
-	    hostname = node_uid ;
             reference[hostname] = reference[hostname] || {
               id: hostname,
               label: hostname.split(".")[0],
@@ -412,6 +413,11 @@ $(document).ready(function() {
               syst_state: node_status.soft,
               available_for: available_for
             })
+	  } else {
+	      retired[hostname]={hard_state: 'retired'} ;
+	      if (hostname in reference) {
+		  reference[hostname]['hard_state']='retired' ;
+	      }
 	  }
         })
       }
@@ -470,13 +476,16 @@ $(document).ready(function() {
         var hostname;
         _.each(data.items, function(node) {
           hostname = [node.uid, site.uid, grid.uid, 'fr'].join(".")
-          reference[hostname] = reference[hostname] || {
+	    reference[hostname] = reference[hostname] || {
             id: hostname,
             label: node.uid,
             grid_uid: grid.uid,
             site_uid: site.uid,
             cluster_uid: hostname.split("-")[0],
           }
+	  if (hostname in retired) {
+	      reference[hostname]['hard_state']='retired' ;
+	  }  
           $.extend(reference[hostname], nodeConverter(node))
         });
       }
