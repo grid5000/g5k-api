@@ -70,7 +70,7 @@ Payload.prototype.toHash = function() {
       command: job.command,
       debug: "debug"
     }
-    payload.command = "export CHUNKY='"+$.base64Encode(JSON.stringify(chunky))+"'; curl -k http://public.rennes.grid5000.fr/~crohr/chunky.rb | ruby";
+    payload.command = "export CHUNKY='"+$.base64Encode(JSON.stringify(chunky))+"'; curl -k http://public.rennes.grid5000.fr/~dmargery/chunky.rb | ruby";
     payload.types = ["deploy"]
   } else {
     payload.command = job.command
@@ -172,6 +172,27 @@ function nodeConverter( item ) {
 	}
     }
   });
+  _.each(item.storage_devices, function(storage_device) {
+      create_and_increment(item,'nb_storage_devices');
+      create_and_increment(item,'nb_storage_devices_'+storage_device["storage"]);
+      create_and_increment(item,'nb_storage_devices_'+(storage_device["interface"].replace(' ','_')));
+      var capacity=parseInt(("B"+storage_device["size"]).replace('B',''))*GIBI/GIGA/GIGA ;
+      if ('max_storage_capacity_device' in item) {
+	  if (item['max_storage_capacity_device'] < capacity) {
+	      item['max_storage_capacity_device']=capacity.toFixed(0);
+	  }
+      } else {
+	  item['max_storage_capacity_device']=capacity.toFixed(0);
+      }	 
+      if ('storage_capacity_node' in item) {
+	  item['storage_capacity_node']+=capacity;
+      } else {
+	  item['storage_capacity_node']=capacity ;
+      }	 
+  });
+  if ('storage_capacity_node' in item) {
+    item['storage_capacity_node']=item['storage_capacity_node'].toFixed(0);
+  }
   delete item['links']
   return flatten(item, function(item, property, value) {
     switch(property) {
@@ -184,7 +205,9 @@ function nodeConverter( item ) {
       case "network_adapters_3_rate":
         return (value/GIGA).toFixed(0);
       case "storage_devices_0_size":
-        return (value*GIBI/GIGA/GIGA).toFixed(0);
+	//avoid bug #6132
+	value=("B"+value).replace('B','');
+        return (parseInt(value)*GIBI/GIGA/GIGA).toFixed(0);
       case "architecture_smt_size":
 	return parseInt(value) ;
       case "main_memory_ram_size":
@@ -452,7 +475,7 @@ $(document).ready(function() {
             label: node.uid,
             grid_uid: grid.uid,
             site_uid: site.uid,
-            cluster_uid: hostname.split("-")[0]
+            cluster_uid: hostname.split("-")[0],
           }
           $.extend(reference[hostname], nodeConverter(node))
         });

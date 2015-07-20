@@ -1,6 +1,8 @@
 - content_for :before_js do
-  %script{:src => "https://api.grid5000.fr/exhibitv2/exhibit/api/exhibit-api.js?autoCreate=false"}
-  %script{:src => relative_path_to("/javascripts/lib/exhibit.js")}
+  %script{:src => "https://api.grid5000.fr/exhibitv2/exhibit/api/exhibit-api.js?autoCreate=false",
+          :type => "text/javascript"}
+  %script{:src => relative_path_to("/javascripts/lib/exhibit.js"),
+          :type => "text/javascript"}
 
 %h1{:title => @title}= @title
 
@@ -54,5 +56,12 @@
       %div#nb_Infiniband_QDR{"ex:role" => "facet", "ex:expression" => ".nb_infiniband_QDR", "ex:height" => 80, "ex:sortMode" => "count", "ex:scroll" => "false", "ex:showMissing" => "false", "ex:facetLabel" => "QDR Infiniband interfaces"}
       %div#nb_Infiniband_FDR{"ex:role" => "facet", "ex:expression" => ".nb_infiniband_FDR", "ex:height" => 80, "ex:sortMode" => "count", "ex:scroll" => "false", "ex:showMissing" => "false", "ex:facetLabel" => "FDR Infiniband interfaces"}
       %div#nb_Myrinet{"ex:role" => "facet", "ex:expression" => ".nb_myrinet", "ex:height" => 80, "ex:sortMode" => "count", "ex:scroll" => "false", "ex:showMissing" => "false", "ex:facetLabel" => "Myrinet interfaces"}
-      %div#storage_devices_0_interface{"ex:role" => "facet", "ex:expression" => ".storage_devices_0_interface", "ex:height" => 80, "ex:sortMode" => "count", "ex:scroll" => "false", "ex:facetLabel" => "Main storage device interface"}
-      %div#storage_devices_0_size{"ex:role" => "facet", "ex:expression" => ".storage_devices_0_size", "ex:height" => 80, "ex:sortMode" => "value", "ex:scroll" => "false", "ex:facetLabel" => "Main storage device size (GB)"}
+      %div#storage_devices{"ex:role" => "facet", "ex:expression" => ".nb_storage_devices", "ex:height" => 80, "ex:sortMode" => "value", "ex:scroll" => "false", "ex:facetLabel" => "# local storage devices"}
+      %div#storage_devices_SATA{"ex:role" => "facet", "ex:expression" => ".nb_storage_devices_SATA", "ex:height" => 80, "ex:sortMode" => "value", "ex:scroll" => "false", "ex:showMissing" => "false", "ex:facetLabel" => "# SATA devices"}
+      %div#storage_devices_SATAII{"ex:role" => "facet", "ex:expression" => ".nb_storage_devices_SATA_II", "ex:height" => 80, "ex:sortMode" => "value", "ex:scroll" => "false", "ex:showMissing" => "false", "ex:facetLabel" => "# SATA II devices"}
+      %div#storage_devices_SAS{"ex:role" => "facet", "ex:expression" => ".nb_storage_devices_SAS", "ex:height" => 80, "ex:sortMode" => "value", "ex:scroll" => "false", "ex:showMissing" => "false", "ex:facetLabel" => "# SAS devices"}
+      %div#storage_devices_SCSI{"ex:role" => "facet", "ex:expression" => ".nb_storage_devices_SCSI", "ex:height" => 80, "ex:sortMode" => "value", "ex:scroll" => "false", "ex:showMissing" => "false", "ex:facetLabel" => "# SCSI devices"}
+      %div#storage_devices_HDD{"ex:role" => "facet", "ex:expression" => ".nb_storage_devices_HDD", "ex:height" => 80, "ex:sortMode" => "value", "ex:scroll" => "false", "ex:showMissing" => "false", "ex:facetLabel" => "# HDD"}
+      %div#storage_devices_SSD{"ex:role" => "facet", "ex:expression" => ".nb_storage_devices_SSD", "ex:height" => 80, "ex:sortMode" => "value", "ex:scroll" => "false", "ex:showMissing" => "false", "ex:facetLabel" => "# SSD"}
+      %div#max_storage_capacity{"ex:role" => "facet", "ex:facetClass" => "Slider", "ex:expression" => ".max_storage_capacity_device", "ex:interval" => "20", "ex:scroll" => "true", "ex:facetLabel" => "Capacity (of largest storage) in GB", "ex:histogram" => "true", "ex:horizontal" => "true", "ex:width" => "100"}	      
+      %div#aggregate_storage_capacity{"ex:role" => "facet", "ex:facetClass" => "Slider", "ex:expression" => ".storage_capacity_node", "ex:interval" => "20", "ex:scroll" => "true", "ex:facetLabel" => "Capacity (by node) in GB", "ex:histogram" => "true", "ex:horizontal" => "true", "ex:width" => "100"}		
