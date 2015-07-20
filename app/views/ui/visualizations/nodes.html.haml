@@ -1,7 +1,10 @@
 - content_for :before_js do
-    %script{:src => "https://api.grid5000.fr/exhibitv2/exhibit/api/exhibit-api.js?autoCreate=false"}
-    %script{:src => relative_path_to("/javascripts/lib/exhibit.js")}
-    %script{:src => relative_path_to("/javascripts/vendor/jquery.min.js")}
+    %script{:src => "https://api.grid5000.fr/exhibitv2/exhibit/api/exhibit-api.js?autoCreate=false",
+            :type => "text/javascript"}
+    %script{:src => relative_path_to("/javascripts/lib/exhibit.js"),
+            :type => "text/javascript"}
+    %script{:src => relative_path_to("/javascripts/vendor/jquery.min.js"),
+            :type => "text/javascript"}
 
 %body.nodes
 #page
@@ -20,10 +23,13 @@
             %div{"ex:expression" => ".supported_job_types_virtual", "ex:facetlabel" => "Virtual support", "ex:height" => "80", "ex:role" => "facet", "ex:scroll" => "false", "ex:sortmode" => "count"}
             %div{"ex:expression" => ".supported_job_types_besteffort", "ex:facetlabel" => "Besteffort support", "ex:height" => "80", "ex:role" => "facet", "ex:scroll" => "false", "ex:sortmode" => "count"}
             %div{"ex:expression" => ".supported_job_types_deploy", "ex:facetlabel" => "Deploy support", "ex:height" => "80", "ex:role" => "facet", "ex:scroll" => "false", "ex:sortmode" => "count"}
-            %div{"ex:expression" => ".network_adapters_0_interface", "ex:facetlabel" => "Network adapter interface #1", "ex:height" => "80", "ex:role" => "facet", "ex:scroll" => "false", "ex:sortmode" => "count"}
-            %div{"ex:expression" => ".network_adapters_1_interface", "ex:facetlabel" => "Network adapter interface #2", "ex:height" => "80", "ex:role" => "facet", "ex:scroll" => "false", "ex:sortmode" => "count"}
-            %div{"ex:expression" => ".network_adapters_2_interface", "ex:facetlabel" => "Network adapter interface #3", "ex:height" => "80", "ex:role" => "facet", "ex:scroll" => "false", "ex:sortmode" => "count"}
-            %div{"ex:expression" => ".network_adapters_3_interface", "ex:facetlabel" => "Network adapter interface #4", "ex:height" => "80", "ex:role" => "facet", "ex:scroll" => "false", "ex:sortmode" => "count"}
+            %div#nb_ethernet{"ex:role" => "facet", "ex:expression" => ".nb_ethernet", "ex:height" => 80, "ex:sortMode" => "count", "ex:scroll" => "false", "ex:showMissing" => "false", "ex:facetLabel" => "Ethernet interfaces"}
+            %div#nb_10G_ethernet{"ex:role" => "facet", "ex:expression" => ".nb_10G_ethernet", "ex:height" => 80, "ex:sortMode" => "count", "ex:scroll" => "false", "ex:showMissing" => "false","ex:facetLabel" => "10G Ethernet interfaces"}
+            %div#nb_Infiniband{"ex:role" => "facet", "ex:expression" => ".nb_infiniband", "ex:height" => 80, "ex:sortMode" => "count", "ex:scroll" => "false", "ex:showMissing" => "false", "ex:facetLabel" => "Infiniband interfaces"}
+            %div#nb_Infiniband_DDR{"ex:role" => "facet", "ex:expression" => ".nb_infiniband_DDR", "ex:height" => 80, "ex:sortMode" => "count", "ex:scroll" => "false", "ex:showMissing" => "false", "ex:facetLabel" => "DDR Infiniband interfaces"}
+            %div#nb_Infiniband_QDR{"ex:role" => "facet", "ex:expression" => ".nb_infiniband_QDR", "ex:height" => 80, "ex:sortMode" => "count", "ex:scroll" => "false", "ex:showMissing" => "false", "ex:facetLabel" => "QDR Infiniband interfaces"}
+            %div#nb_Infiniband_FDR{"ex:role" => "facet", "ex:expression" => ".nb_infiniband_FDR", "ex:height" => 80, "ex:sortMode" => "count", "ex:scroll" => "false", "ex:showMissing" => "false", "ex:facetLabel" => "FDR Infiniband interfaces"}
+            %div#nb_Myrinet{"ex:role" => "facet", "ex:expression" => ".nb_myrinet", "ex:height" => 80, "ex:sortMode" => "count", "ex:scroll" => "false", "ex:showMissing" => "false", "ex:facetLabel" => "Myrinet interfaces"}
             %div{"ex:expression" => ".storage_devices_0_interface", "ex:facetlabel" => "Main storage device interface", "ex:height" => "80", "ex:role" => "facet", "ex:scroll" => "false", "ex:sortmode" => "count"}
             %div{"ex:expression" => ".storage_devices_0_size", "ex:facetlabel" => "Main storage device size (GB)", "ex:height" => "80", "ex:role" => "facet", "ex:scroll" => "false", "ex:sortmode" => "count"}
         #facets2
