@@ -20,6 +20,8 @@ gem 'gitlab-grit', :require => ['grit']
 gem 'syslogger'
 gem 'haml'
 gem 'rack-jsonp'
+gem 'pg'
+gem 'em-postgresql-adapter', :git => 'git://github.com/leftbee/em-postgresql-adapter.git', :branch => 'pre-3_1'
 
 gem 'blather',
   :git => 'https://github.com/sprsquish/blather.git',
