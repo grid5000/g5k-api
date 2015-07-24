@@ -33,7 +33,8 @@ In particular, runtime dependencies of the app include `ruby1.9.1-full` and `git
   `bundle exec`. E.g. `rake -T` will become `bundle exec rake -T`.
 
 * From the application root, install the application dependencies,
-  mysql2 gem need deb package libmysqlclient-dev, and for nokogiri see
+  mysql2 gem need deb package libmysqlclient-dev, pg gem needs deb package libpq-dev
+	and for nokogiri see
   [Nokogiri](http://nokogiri.org/tutorials/installing_nokogiri.html):
 
         $ bundle install
