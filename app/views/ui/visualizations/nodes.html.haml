@@ -15,29 +15,40 @@
             %div{"ex:role" => "view"}
 
     #sidebar
-        %h2 Facets
-        #facets1
+        .facets
+            %h2 Facets
             %div{"ex:facetclass" => "TextSearch", "ex:facetlabel" => "Search", "ex:role" => "facet"}
             %div{"ex:expression" => ".site", "ex:facetlabel" => "Site", "ex:height" => "100", "ex:role" => "facet", "ex:scroll" => "true"}
             %div{"ex:expression" => ".cluster", "ex:facetlabel" => "Cluster", "ex:height" => "100", "ex:role" => "facet", "ex:scroll" => "true"}
-            %div{"ex:expression" => ".supported_job_types_virtual", "ex:facetlabel" => "Virtual support", "ex:height" => "80", "ex:role" => "facet", "ex:scroll" => "false", "ex:sortmode" => "count"}
-            %div{"ex:expression" => ".supported_job_types_besteffort", "ex:facetlabel" => "Besteffort support", "ex:height" => "80", "ex:role" => "facet", "ex:scroll" => "false", "ex:sortmode" => "count"}
-            %div{"ex:expression" => ".supported_job_types_deploy", "ex:facetlabel" => "Deploy support", "ex:height" => "80", "ex:role" => "facet", "ex:scroll" => "false", "ex:sortmode" => "count"}
-            %div#nb_ethernet{"ex:role" => "facet", "ex:expression" => ".nb_ethernet", "ex:height" => 80, "ex:sortMode" => "count", "ex:scroll" => "false", "ex:showMissing" => "false", "ex:facetLabel" => "Ethernet interfaces"}
-            %div#nb_10G_ethernet{"ex:role" => "facet", "ex:expression" => ".nb_10G_ethernet", "ex:height" => 80, "ex:sortMode" => "count", "ex:scroll" => "false", "ex:showMissing" => "false","ex:facetLabel" => "10G Ethernet interfaces"}
-            %div#nb_Infiniband{"ex:role" => "facet", "ex:expression" => ".nb_infiniband", "ex:height" => 80, "ex:sortMode" => "count", "ex:scroll" => "false", "ex:showMissing" => "false", "ex:facetLabel" => "Infiniband interfaces"}
-            %div#nb_Infiniband_DDR{"ex:role" => "facet", "ex:expression" => ".nb_infiniband_DDR", "ex:height" => 80, "ex:sortMode" => "count", "ex:scroll" => "false", "ex:showMissing" => "false", "ex:facetLabel" => "DDR Infiniband interfaces"}
-            %div#nb_Infiniband_QDR{"ex:role" => "facet", "ex:expression" => ".nb_infiniband_QDR", "ex:height" => 80, "ex:sortMode" => "count", "ex:scroll" => "false", "ex:showMissing" => "false", "ex:facetLabel" => "QDR Infiniband interfaces"}
-            %div#nb_Infiniband_FDR{"ex:role" => "facet", "ex:expression" => ".nb_infiniband_FDR", "ex:height" => 80, "ex:sortMode" => "count", "ex:scroll" => "false", "ex:showMissing" => "false", "ex:facetLabel" => "FDR Infiniband interfaces"}
-            %div#nb_Myrinet{"ex:role" => "facet", "ex:expression" => ".nb_myrinet", "ex:height" => 80, "ex:sortMode" => "count", "ex:scroll" => "false", "ex:showMissing" => "false", "ex:facetLabel" => "Myrinet interfaces"}
-            %div{"ex:expression" => ".storage_devices_0_interface", "ex:facetlabel" => "Main storage device interface", "ex:height" => "80", "ex:role" => "facet", "ex:scroll" => "false", "ex:sortmode" => "count"}
-            %div{"ex:expression" => ".storage_devices_0_size", "ex:facetlabel" => "Main storage device size (GB)", "ex:height" => "80", "ex:role" => "facet", "ex:scroll" => "false", "ex:sortmode" => "count"}
-        #facets2
-            %div{"ex:expression" => ".architecture_smp_size", "ex:facetlabel" => "# CPUs", "ex:height" => "80", "ex:role" => "facet", "ex:scroll" => "false", "ex:sortmode" => "value"}
-            %div{"ex:expression" => ".architecture_smt_size", "ex:facetlabel" => "# Cores", "ex:height" => "80", "ex:role" => "facet", "ex:scroll" => "false", "ex:sortmode" => "value"}
-            %div{"ex:expression" => ".main_memory_ram_size", "ex:facetlabel" => "RAM (MiB)", "ex:height" => "80", "ex:role" => "facet", "ex:scroll" => "false", "ex:sortmode" => "count"}
-            %div{"ex:expression" => ".processor_clock_speed", "ex:facetlabel" => "CPU Clock Speed (GHz)", "ex:height" => "80", "ex:role" => "facet", "ex:scroll" => "false", "ex:sortmode" => "value"}
-            %div{"ex:expression" => ".processor_model", "ex:facetlabel" => "Processor model", "ex:height" => "80", "ex:role" => "facet", "ex:scroll" => "false", "ex:sortmode" => "count"}
-            %div{"ex:expression" => ".processor_cache_l1d", "ex:facetlabel" => "Processor cache l1d (KiB)", "ex:height" => "80", "ex:role" => "facet", "ex:scroll" => "false", "ex:sortmode" => "value"}
-            %div{"ex:expression" => ".processor_cache_l1i", "ex:facetlabel" => "Processor cache l1i (KiB)", "ex:height" => "80", "ex:role" => "facet", "ex:scroll" => "false", "ex:sortmode" => "value"}
-            %div{"ex:expression" => ".processor_cache_l2", "ex:facetlabel" => "Processor cache l2 (KiB)", "ex:height" => "80", "ex:role" => "facet", "ex:scroll" => "false", "ex:sortmode" => "value"}
+            #facets1.float
+                %div{"ex:expression" => ".supported_job_types_virtual", "ex:facetlabel" => "Virtual support", "ex:height" => "80", "ex:role" => "facet", "ex:scroll" => "false", "ex:sortmode" => "count"}
+                %div{"ex:expression" => ".supported_job_types_besteffort", "ex:facetlabel" => "Besteffort support", "ex:height" => "80", "ex:role" => "facet", "ex:scroll" => "false", "ex:sortmode" => "count"}
+                %div{"ex:expression" => ".supported_job_types_deploy", "ex:facetlabel" => "Deploy support", "ex:height" => "80", "ex:role" => "facet", "ex:scroll" => "false", "ex:sortmode" => "count"}
+                %div{"ex:role" => "facet", "ex:expression" => ".nb_ethernet", "ex:height" => 80, "ex:sortMode" => "count", "ex:scroll" => "false", "ex:showMissing" => "false", "ex:facetLabel" => "Ethernet interfaces"}
+                %div{"ex:role" => "facet", "ex:expression" => ".nb_1G_ethernet", "ex:height" => 80, "ex:sortMode" => "count", "ex:scroll" => "false", "ex:showMissing" => "false","ex:facetLabel" => "1G Ethernet interfaces"}
+                %div{"ex:role" => "facet", "ex:expression" => ".nb_10G_ethernet", "ex:height" => 80, "ex:sortMode" => "count", "ex:scroll" => "false", "ex:showMissing" => "false","ex:facetLabel" => "10G Ethernet interfaces"}
+                %div{"ex:role" => "facet", "ex:expression" => ".nb_infiniband", "ex:height" => 80, "ex:sortMode" => "count", "ex:scroll" => "false", "ex:showMissing" => "false", "ex:facetLabel" => "Infiniband interfaces"}
+                %div{"ex:role" => "facet", "ex:expression" => ".nb_infiniband_DDR", "ex:height" => 80, "ex:sortMode" => "count", "ex:scroll" => "false", "ex:showMissing" => "false", "ex:facetLabel" => "DDR Infiniband interfaces"}
+                %div{"ex:role" => "facet", "ex:expression" => ".nb_infiniband_QDR", "ex:height" => 80, "ex:sortMode" => "count", "ex:scroll" => "false", "ex:showMissing" => "false", "ex:facetLabel" => "QDR Infiniband interfaces"}
+                %div{"ex:role" => "facet", "ex:expression" => ".nb_infiniband_FDR", "ex:height" => 80, "ex:sortMode" => "count", "ex:scroll" => "false", "ex:showMissing" => "false", "ex:facetLabel" => "FDR Infiniband interfaces"}
+                %div{"ex:role" => "facet", "ex:expression" => ".nb_myrinet", "ex:height" => 80, "ex:sortMode" => "count", "ex:scroll" => "false", "ex:showMissing" => "false", "ex:facetLabel" => "Myrinet interfaces"}
+                %div{"ex:expression" => ".storage_devices_0_interface", "ex:facetlabel" => "Main storage device interface", "ex:height" => "80", "ex:role" => "facet", "ex:scroll" => "false", "ex:sortmode" => "count"}
+                %div{"ex:expression" => ".storage_devices_0_size", "ex:facetlabel" => "Main storage device size (GB)", "ex:height" => "80", "ex:role" => "facet", "ex:scroll" => "false", "ex:sortmode" => "value"}
+                %div{"ex:role" => "facet", "ex:expression" => ".nb_storage_devices", "ex:height" => 80, "ex:sortMode" => "value", "ex:scroll" => "false", "ex:facetLabel" => "# local storage devices"}
+                %div{"ex:role" => "facet", "ex:expression" => ".nb_storage_devices_SATA", "ex:height" => 80, "ex:sortMode" => "value", "ex:scroll" => "false", "ex:showMissing" => "false", "ex:facetLabel" => "# SATA devices"}
+                %div{"ex:role" => "facet", "ex:expression" => ".nb_storage_devices_SATA_II", "ex:height" => 80, "ex:sortMode" => "value", "ex:scroll" => "false", "ex:showMissing" => "false", "ex:facetLabel" => "# SATA II devices"}
+                %div{"ex:role" => "facet", "ex:expression" => ".nb_storage_devices_SAS", "ex:height" => 80, "ex:sortMode" => "value", "ex:scroll" => "false", "ex:showMissing" => "false", "ex:facetLabel" => "# SAS devices"}
+                %div{"ex:role" => "facet", "ex:expression" => ".nb_storage_devices_SCSI", "ex:height" => 80, "ex:sortMode" => "value", "ex:scroll" => "false", "ex:showMissing" => "false", "ex:facetLabel" => "# SCSI devices"}
+                %div{"ex:role" => "facet", "ex:expression" => ".nb_storage_devices_HDD", "ex:height" => 80, "ex:sortMode" => "value", "ex:scroll" => "false", "ex:showMissing" => "false", "ex:facetLabel" => "# HDD"}
+                %div{"ex:role" => "facet", "ex:expression" => ".nb_storage_devices_SSD", "ex:height" => 80, "ex:sortMode" => "value", "ex:scroll" => "false", "ex:showMissing" => "false", "ex:facetLabel" => "# SSD"}
+            #facets2.float
+                %div{"ex:expression" => ".architecture_smp_size", "ex:facetlabel" => "# CPUs", "ex:height" => "80", "ex:role" => "facet", "ex:scroll" => "false", "ex:sortmode" => "value"}
+                %div{"ex:expression" => ".architecture_smt_size", "ex:facetlabel" => "# Cores", "ex:height" => "80", "ex:role" => "facet", "ex:scroll" => "false", "ex:sortmode" => "value"}
+                %div{"ex:expression" => ".main_memory_ram_size", "ex:facetlabel" => "RAM (MiB)", "ex:height" => "80", "ex:role" => "facet", "ex:scroll" => "false", "ex:sortmode" => "value"}
+                %div{"ex:expression" => ".processor_clock_speed", "ex:facetlabel" => "CPU Clock Speed (GHz)", "ex:height" => "80", "ex:role" => "facet", "ex:scroll" => "false", "ex:sortmode" => "value"}
+                %div{"ex:expression" => ".processor_model", "ex:facetlabel" => "Processor model", "ex:height" => "80", "ex:role" => "facet", "ex:scroll" => "false", "ex:sortmode" => "count"}
+                %div{"ex:expression" => ".processor_cache_l1d", "ex:facetlabel" => "Processor cache l1d (KiB)", "ex:height" => "80", "ex:role" => "facet", "ex:scroll" => "false", "ex:sortmode" => "value"}
+                %div{"ex:expression" => ".processor_cache_l1i", "ex:facetlabel" => "Processor cache l1i (KiB)", "ex:height" => "80", "ex:role" => "facet", "ex:scroll" => "false", "ex:sortmode" => "value"}
+                %div{"ex:expression" => ".processor_cache_l2", "ex:facetlabel" => "Processor cache l2 (KiB)", "ex:height" => "80", "ex:role" => "facet", "ex:scroll" => "false", "ex:sortmode" => "value"}
+                %div{"ex:role" => "facet", "ex:facetClass" => "Slider", "ex:expression" => ".max_storage_capacity_device", "ex:interval" => "20", "ex:scroll" => "true", "ex:facetLabel" => "Capacity (of largest storage) in GB", "ex:histogram" => "true", "ex:horizontal" => "true", "ex:width" => "100"}	      
+                %div{"ex:role" => "facet", "ex:facetClass" => "Slider", "ex:expression" => ".storage_capacity_node", "ex:interval" => "20", "ex:scroll" => "true", "ex:facetLabel" => "Total storage capacity of node in GB", "ex:histogram" => "true", "ex:horizontal" => "true", "ex:width" => "100"}	      
