@@ -1,4 +1,12 @@
 GIT
+  remote: git://github.com/leftbee/em-postgresql-adapter.git
+  revision: 2a0d31b663b716c584699a73359e12f6fee68077
+  branch: pre-3_1
+  specs:
+    em-postgresql-adapter (0.1)
+      pg (>= 0.8.0)
+
+GIT
   remote: https://gforge.inria.fr/git/g5k-campaign/g5k-campaign.git
   revision: cac93c26c7c998da96182980736b4d17fb070570
   ref: cac93c26c7c998da96182980736b4d17fb070570
@@ -66,7 +74,7 @@ GEM
       ZenTest (>= 4.4.1)
     autotest-growl (0.2.11)
     awesome_print (1.6.1)
-    backports (3.6.4)
+    backports (3.6.5)
     bond (0.4.3)
     builder (2.1.2)
     capistrano (2.9.0)
@@ -79,6 +87,8 @@ GEM
     crack (0.3.1)
     daemons (1.1.4)
     diff-lcs (1.1.3)
+    domain_name (0.5.24)
+      unf (>= 0.0.5, < 1.0.0)
     em-http-request (0.3.0)
       addressable (>= 2.0.0)
       escape_utils
@@ -100,6 +110,8 @@ GEM
       posix-spawn (~> 0.3)
     haml (3.1.3)
     highline (1.6.2)
+    http-cookie (1.0.2)
+      domain_name (~> 0.5)
     i18n (0.5.0)
     json (1.6.1)
     mail (2.2.19)
@@ -119,10 +131,11 @@ GEM
     net-ssh-multi (1.1)
       net-ssh (>= 2.1.4)
       net-ssh-gateway (>= 0.99.0)
-    netrc (0.10.2)
+    netrc (0.10.3)
     niceogiri (0.0.4)
       nokogiri (>= 1.4.0)
     nokogiri (1.4.7)
+    pg (0.18.2)
     polyglot (0.3.2)
     posix-spawn (0.3.9)
     rack (1.2.4)
@@ -150,17 +163,18 @@ GEM
       rdoc (~> 3.4)
       thor (~> 0.14.4)
     rake (0.8.7)
-    rb-readline (0.5.2)
+    rb-readline (0.5.3)
     rcov (0.9.11)
     rdoc (3.10)
       json (~> 1.4)
-    rest-client (1.7.2)
+    rest-client (1.8.0)
+      http-cookie (>= 1.0.2, < 2.0)
       mime-types (>= 1.16, < 3.0)
       netrc (~> 0.7)
-    rest-client-components (1.3.0)
+    rest-client-components (1.4.0)
       rack (>= 1.0.1)
       rest-client (>= 1.6.0)
-    restfully (1.0.8)
+    restfully (1.1.1)
       addressable
       backports
       json (~> 1.5)
@@ -208,6 +222,9 @@ GEM
       polyglot
       polyglot (>= 0.3.1)
     tzinfo (0.3.30)
+    unf (0.1.4)
+      unf_ext
+    unf_ext (0.0.7.1)
     webmock (1.7.6)
       addressable (~> 2.2, > 2.2.5)
       crack (>= 0.1.7)
@@ -222,6 +239,7 @@ DEPENDENCIES
   blather!
   capistrano
   em-http-request (~> 0.2)
+  em-postgresql-adapter!
   em-synchrony (~> 0.2)
   eventmachine!
   factory_girl_rails
@@ -230,6 +248,7 @@ DEPENDENCIES
   haml
   mysql2 (~> 0.2.0)
   net-ssh-multi (~> 1.1.0)
+  pg
   rack-fiber_pool (~> 0.9)
   rack-jsonp
   rails (~> 3.0.0)
