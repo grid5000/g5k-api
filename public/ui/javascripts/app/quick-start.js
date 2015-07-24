@@ -342,8 +342,12 @@ $(document).ready(function() {
   // Poor man's hook!
   Exhibit.UI.hideBusyIndicator2 = Exhibit.UI.hideBusyIndicator;
   Exhibit.UI.hideBusyIndicator = function() {
-    $(document).trigger("exhibit:refresh")
-    Exhibit.UI.hideBusyIndicator2()
+		$(document).trigger("exhibit:refresh") ;
+
+		// go a bit further than native exhibit by hiding empty properties
+		$(".exhibit-flowingFacet .exhibit-flowingFacet-body:not(:empty)").parents(".exhibit-flowingFacet").show() ;
+		$(".exhibit-flowingFacet .exhibit-flowingFacet-body:empty").parents(".exhibit-flowingFacet").hide() ;
+    Exhibit.UI.hideBusyIndicator2() ;
   }
   
   // Fix to force sliders to call the busy indicator when values change
