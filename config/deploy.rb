@@ -84,9 +84,9 @@ task :package, :roles => :pkg do
   download "/tmp/#{package_name}/pkg", "pkg", :once => true, :recursive => true
 end
 
-desc "Release the latest package. Destination controled by PROD_REPO and REPO_DIR"
+desc "Release the latest package (#{Grid5000::VERSION}). Destination controled by PROD_REPO and REPO_DIR"
 task :release, :roles => :apt do
-  latest = Dir["pkg/*.deb"].find{|file| file =~ /#{Grid5000::VERSION}/}
+  latest = Dir["pkg/*.deb"].find{|file| file =~ /#{application}_#{Grid5000::VERSION}/}
   fail "No .deb available in pkg/" if latest.nil?
   latest = File.basename(latest)
   run "#{sudo} mkdir -p #{apt_repo}"
