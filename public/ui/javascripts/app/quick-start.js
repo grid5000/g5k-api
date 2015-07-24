@@ -656,14 +656,14 @@ $(document).ready(function() {
                 http.get(http.linkTo(data.links, "self"), {
                   ok: function(job) {
                     $.extend(true, data, job)
-                    if (data.state != "running") {
-                      UIConsole.info("Job #"+data.uid+" is no longer running. Final state="+data.state+".")
+                    if (!$.inArray(data.state, ["running","waiting"]) ) {
+                      UIConsole.info("Job #"+data.uid+" is no longer waiting of running. Final state="+data.state+".")
                       window.clearInterval(data.pollState)
                       window.clearInterval(data.pollStdout)
                       window.clearInterval(data.pollStderr)
                     }
                     if (_.all(submittedJobs, function(job) {
-                      return job.state != "running";
+                      return !$.inArray(job.state, ["running","waiting"]);
                     })) {
                       UIConsole.info("=> All jobs have terminated !")
                       UIConsole.hideBusyIndicator();
