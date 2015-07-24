@@ -22,8 +22,8 @@ function jsonConverter(allNodes){
 		splitted_uri=c.href.split("/");
 		item.id=item.uid;
 		item.label=item.uid;
-		item.site=splitted_uri[4];
-		item.cluster=splitted_uri[6];
+		item.site=splitted_uri[splitted_uri.length-5];
+		item.cluster=splitted_uri[splitted_uri.length-3];
 		$.each(item.network_adapters, function(net_index,network_adapter) {
       if (!network_adapter.management && (network_adapter.enabled || network_adapter.mountable) ) {
 		    switch(network_adapter.interface.toLowerCase()) {
