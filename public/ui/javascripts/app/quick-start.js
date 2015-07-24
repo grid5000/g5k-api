@@ -137,7 +137,7 @@ function nodeConverter( item ) {
   item.label = item.uid;
   item.processor_clock_speed = 0;
   _.each(item.network_adapters, function(network_adapter) {
-    if (!network_adapter.management && network_adapter.enabled) {
+    if (!network_adapter.management && (network_adapter.enabled || network_adapter.mountable)) {
 	switch(network_adapter.interface.toLowerCase()) {
 	case "ethernet":
 	    create_and_increment(item, 'nb_ethernet') ;
@@ -285,7 +285,8 @@ $(document).ajaxStop(function() {
             "network_adapters_0_rate":{valueType:"number"},
             "network_adapters_1_rate":{valueType:"number"},
             "network_adapters_2_rate":{valueType:"number"},
-            "network_adapters_3_rate":{valueType:"number"}
+            "network_adapters_3_rate":{valueType:"number"},
+						"architecture_smt_size":{valueType:"number"}
           },
           types:{"node":{"pluralLabel":"nodes"}},
           items: _.values(reference)

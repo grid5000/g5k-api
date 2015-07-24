@@ -24,7 +24,7 @@
       %div{"ex:role" => "viewPanel"}
         %div{"ex:role" => "lens", :class => "node"}
           %div{"ex:content" => ".label"}
-        %div{"ex:role" => "view", "ex:grouped" => "true", "ex:orders" => ".site_uid, .cluster_uid", "ex:possibleOrders" => ".site_uid", "ex:showAll" => "true", "ex:showSummary" => "true"}
+        %div{"ex:role" => "view", "ex:grouped" => "true", "ex:orders" => ".site_uid, .cluster_uid", "ex:possibleOrders" => ".site_uid, .cluster_uid", "ex:showAll" => "true", "ex:showSummary" => "true"}
       %div.buttons{:style => "display: none"}
         %input{:type => "submit", :value => "Launch"}
 
@@ -38,7 +38,7 @@
       %div#soft_state{"ex:role" => "facet", "ex:expression" => ".syst_state", "ex:sortMode" => "count", "ex:showMissing" => "false", "ex:scroll" => "false", "ex:facetLabel" => "System State"}
       %div#available_for{"ex:role" => "facet", "ex:facetClass" => "Slider", "ex:expression" => ".available_for", "ex:interval" => "1", "ex:scroll" => "true", "ex:facetLabel" => "Available for (Hours)", "ex:histogram" => "false", "ex:horizontal" => "true", "ex:width" => "100"}
       %div#architecture_smp_size{"ex:role" => "facet", "ex:expression" => ".architecture_smp_size", "ex:sortMode" => "value", "ex:scroll" => "true", "ex:facetLabel" => "# CPUs"}
-      %div#architecture_smt_size{"ex:role" => "facet", "ex:expression" => ".architecture_smt_size", "ex:sortMode" => "value", "ex:scroll" => "true", "ex:fixedOrder" => "1;2;4;6;8;10;12;14;16;18;20;22;24;26;28;30;32", "ex:facetLabel" => "# Cores"}
+      %div#architecture_smt_size{"ex:role" => "facet", "ex:expression" => ".architecture_smt_size", "ex:sortMode" => "value", "ex:scroll" => "true", "ex:facetLabel" => "# Cores"}
       %div#main_memory_ram_size{"ex:role" => "facet", "ex:expression" => ".main_memory_ram_size", "ex:sortMode" => "value", "ex:scroll" => "true", "ex:facetLabel" => "RAM (MiB)"}
       %div#processor_clock_speed{"ex:role" => "facet", "ex:expression" => ".processor_clock_speed", "ex:sortMode" => "value", "ex:scroll" => "true", "ex:facetLabel" => "CPU Clock Speed (GHz)"}
       %div#processor_model{"ex:role" => "facet", "ex:expression" => ".processor_model", "ex:sortMode" => "count", "ex:scroll" => "false", "ex:facetLabel" => "Processor model"}
@@ -49,9 +49,10 @@
       %div#supported_job_types_virtual{"ex:role" => "facet", "ex:expression" => ".supported_job_types_virtual", "ex:height" => 80, "ex:sortMode" => "count", "ex:scroll" => "false", "ex:showMissing" => "false", "ex:facetLabel" => "Virtualization support"}
       %div{"ex:role" => "facet", "ex:expression" => ".supported_job_types_besteffort", "ex:height" => 80, "ex:sortMode" => "count", "ex:scroll" => "false", "ex:showMissing" => "false", "ex:facetLabel" => "Besteffort support"}
       %div#supported_job_types_deploy{"ex:role" => "facet", "ex:expression" => ".supported_job_types_deploy", "ex:height" => 80, "ex:sortMode" => "count", "ex:scroll" => "false", "ex:showMissing" => "false", "ex:facetLabel" => "Deploy support"}
-      %div#nb_ethernet{"ex:role" => "facet", "ex:expression" => ".nb_ethernet", "ex:height" => 80, "ex:sortMode" => "count", "ex:scroll" => "false", "ex:showMissing" => "false", "ex:facetLabel" => "Ethernet interfaces"}
-      %div#nb_10G_ethernet{"ex:role" => "facet", "ex:expression" => ".nb_10G_ethernet", "ex:height" => 80, "ex:sortMode" => "count", "ex:scroll" => "false", "ex:showMissing" => "false","ex:facetLabel" => "10G Ethernet interfaces"}
-      %div#nb_Infiniband{"ex:role" => "facet", "ex:expression" => ".nb_infiniband", "ex:height" => 80, "ex:sortMode" => "count", "ex:scroll" => "false", "ex:showMissing" => "false", "ex:facetLabel" => "Infiniband interfaces"}
+      %div#nb_ethernet{"ex:role" => "facet", "ex:expression" => ".nb_ethernet", "ex:height" => 80, "ex:sortMode" => "count", "ex:scroll" => "false", "ex:showMissing" => "false", "ex:facetLabel" => "# Ethernet interfaces"}
+      %div#nb_1G_ethernet{"ex:role" => "facet", "ex:expression" => ".nb_1G_ethernet", "ex:height" => 80, "ex:sortMode" => "count", "ex:scroll" => "false", "ex:showMissing" => "false","ex:facetLabel" => "# 1G Ethernet interfaces"}
+      %div#nb_10G_ethernet{"ex:role" => "facet", "ex:expression" => ".nb_10G_ethernet", "ex:height" => 80, "ex:sortMode" => "count", "ex:scroll" => "false", "ex:showMissing" => "false","ex:facetLabel" => "1# 0G Ethernet interfaces"}
+      %div#nb_Infiniband{"ex:role" => "facet", "ex:expression" => ".nb_infiniband", "ex:height" => 80, "ex:sortMode" => "count", "ex:scroll" => "false", "ex:showMissing" => "false", "ex:facetLabel" => "# Infiniband interfaces"}
       %div#nb_Infiniband_DDR{"ex:role" => "facet", "ex:expression" => ".nb_infiniband_DDR", "ex:height" => 80, "ex:sortMode" => "count", "ex:scroll" => "false", "ex:showMissing" => "false", "ex:facetLabel" => "DDR Infiniband interfaces"}
       %div#nb_Infiniband_QDR{"ex:role" => "facet", "ex:expression" => ".nb_infiniband_QDR", "ex:height" => 80, "ex:sortMode" => "count", "ex:scroll" => "false", "ex:showMissing" => "false", "ex:facetLabel" => "QDR Infiniband interfaces"}
       %div#nb_Infiniband_FDR{"ex:role" => "facet", "ex:expression" => ".nb_infiniband_FDR", "ex:height" => 80, "ex:sortMode" => "count", "ex:scroll" => "false", "ex:showMissing" => "false", "ex:facetLabel" => "FDR Infiniband interfaces"}
