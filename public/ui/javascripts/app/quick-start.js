@@ -559,25 +559,6 @@ $(document).ready(function() {
               data.site_uid = site.uid
               data.user_uid = userUid
               data.cluster_uid = cluster_uid
-              // Check STDOUT and STDERR
-              _.each(["stdout", "stderr"], function(out) {
-                data[out] = ""
-                data["poll"+out.capitalize()] = window.setInterval(function() {
-                  http.get(http.linkTo(site.links, "self")+"/public/"+data.user_uid+"/OAR."+data.uid+"."+out, {
-                    cache: false,
-                    dataType: "text",
-                    ok: function(output) {
-                      var diff = output.substring(data[out].length).split("\n")
-                      data[out] = output
-                      _.each(diff, function(line) {
-                        if (line != "") {
-                          UIConsole.info(line, data.site_uid+"/"+data.uid+"/"+out.toUpperCase())
-                        }
-                      });
-                    }
-                  })
-                }, 3000)
-              });
 
               // Check job STATE
               data.pollState = window.setInterval(function() {
@@ -590,6 +571,30 @@ $(document).ready(function() {
                       window.clearInterval(data.pollStdout)
                       window.clearInterval(data.pollStderr)
                     }
+										if (data.state == "running") {
+											if (!("pollStderr" in data)) {
+												// polling of STDOUT and STDERR not setup
+												// Check STDOUT and STDERR
+												_.each(["stdout", "stderr"], function(out) {
+													data[out] = ""
+													data["poll"+out.capitalize()] = window.setInterval(function() {
+														http.get(http.linkTo(site.links, "self")+"/public/"+data.user_uid+"/OAR."+data.uid+"."+out, {
+															cache: false,
+															dataType: "text",
+															ok: function(output,status) {
+																var diff = output.substring(data[out].length).split("\n")
+																data[out] = output
+																_.each(diff, function(line) {
+																	if (line != "") {
+																		UIConsole.info(line, data.site_uid+"/"+data.uid+"/"+out.toUpperCase())
+																	}
+																});
+															}
+														})
+													}, 3000)
+												});
+											}
+										}
                     if (_.all(submittedJobs, function(job) {
                       return !$.inArray(job.state, ["running","waiting"]);
                     })) {
