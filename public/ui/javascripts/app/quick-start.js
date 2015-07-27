@@ -571,6 +571,9 @@ $(document).ready(function() {
                       window.clearInterval(data.pollStdout)
                       window.clearInterval(data.pollStderr)
                     }
+										if (data.state == "waiting") {
+											UIConsole.info("Job #"+data.uid+" is waiting. Expected start is "+Date(data.scheduled_at*1000)) ;
+										}
 										if (data.state == "running") {
 											if (!("pollStderr" in data)) {
 												// polling of STDOUT and STDERR not setup
