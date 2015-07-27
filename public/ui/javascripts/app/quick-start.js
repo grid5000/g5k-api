@@ -127,106 +127,6 @@ var UIConsole = {
   }
 }
 
-/*
- * Function that receives a node description from the API
- * add creates any additional attributes required for
- * display
- * 
- */
-function nodeConverter( item ) {
-  item.label = item.uid;
-  item.processor_clock_speed = 0;
-  _.each(item.network_adapters, function(network_adapter) {
-    if (!network_adapter.management && (network_adapter.enabled || network_adapter.mountable)) {
-	switch(network_adapter.interface.toLowerCase()) {
-	case "ethernet":
-	    create_and_increment(item, 'nb_ethernet') ;
-            switch (network_adapter.rate) {
-	    case 10000000000:
-		create_and_increment(item,'nb_10G_ethernet');
-		break;
-	    case 1000000000:
-		create_and_increment(item,'nb_1G_ethernet');
-		break;
-	    } 
-	    break;
-	case "infiniband":
-	    create_and_increment(item, 'nb_infiniband') ;
-            switch (network_adapter.rate) {
-	    case 10000000000:
-		create_and_increment(item,'nb_infiniband_SDR')
-		break;
-	    case 20000000000:
-		create_and_increment(item,'nb_infiniband_DDR')
-		break;
-	    case 40000000000:
-		create_and_increment(item,'nb_infiniband_QDR')
-		break;
-	    case 80000000000:
-		create_and_increment(item,'nb_infiniband_FDR')
-		break;
-	    }
-	    break;
-	case "myrinet":
-	    create_and_increment(item, 'nb_myrinet') ;
-	    break;
-	}
-    }
-  });
-  _.each(item.storage_devices, function(storage_device) {
-      create_and_increment(item,'nb_storage_devices');
-      create_and_increment(item,'nb_storage_devices_'+storage_device["storage"]);
-      create_and_increment(item,'nb_storage_devices_'+(storage_device["interface"].replace(' ','_')));
-      var capacity=parseInt(("B"+storage_device["size"]).replace('B',''))*GIBI/GIGA/GIGA ;
-      if ('max_storage_capacity_device' in item) {
-	  if (item['max_storage_capacity_device'] < capacity) {
-	      item['max_storage_capacity_device']=capacity.toFixed(0);
-	  }
-      } else {
-	  item['max_storage_capacity_device']=capacity.toFixed(0);
-      }	 
-      if ('storage_capacity_node' in item) {
-	  item['storage_capacity_node']+=capacity;
-      } else {
-	  item['storage_capacity_node']=capacity ;
-      }	 
-  });
-  if ('storage_capacity_node' in item) {
-    item['storage_capacity_node']=item['storage_capacity_node'].toFixed(0);
-  }
-  delete item['links']
-  return flatten(item, function(item, property, value) {
-    switch(property) {
-      case "network_adapters_0_rate":
-        return (value/GIGA).toFixed(0);
-      case "network_adapters_1_rate":
-        return (value/GIGA).toFixed(0);
-      case "network_adapters_2_rate":
-        return (value/GIGA).toFixed(0);
-      case "network_adapters_3_rate":
-        return (value/GIGA).toFixed(0);
-      case "storage_devices_0_size":
-	//avoid bug #6132
-	value=("B"+value).replace('B','');
-        return (parseInt(value)*GIBI/GIGA/GIGA).toFixed(0);
-      case "architecture_smt_size":
-	return parseInt(value) ;
-      case "main_memory_ram_size":
-        return (parseInt(value)/MEBI);
-      case "processor_clock_speed":
-        return parseFloat(value)/GIGA.toFixed(2);
-      case "processor_cache_l1d":
-      case "processor_cache_l1i":
-        if (value) {  return (value/KIBI);  } else {  return value;  }
-      case "processor_cache_l2":
-        if (value) {  return (value/KIBI);  } else {  return value;  }
-      default:
-        return value;
-    }
-  })
-}
-
-
 String.prototype.capitalize = function() {
   return this.charAt(0).toUpperCase() + this.substring(1).toLowerCase();
 }
@@ -504,6 +404,23 @@ $(document).ready(function() {
   // ===================
   $(document).bind("exhibit:refresh", function() {
     $(".exhibit-collectionView-header-sortControls, .exhibit-collectionView-footer").hide()
+		sites = $.find(".exhibit-collectionView-group h1") ;
+		if (sites.length == 0) {
+			var viewPanelBody=$.find(".exhibit-collectionView-body");
+			var content=$("ol",viewPanelBody);
+			content.detach();
+			var resources=$.map($("li .node",content), function(e) {
+				return $(e).attr('ex:itemid')
+			}) ;
+      var siteUid    = resources[0].split(".")[1];
+      var clusterUid = resources[0].split("-")[0];
+			$(".exhibit-collectionView-body").append('<div class="exhibit-collectionView-group"> \
+                              <h1>'+siteUid+'<span class="exhibit-collectionView-group-count"> \
+                               (<span>1</span>)</span></h1>\
+                              <div class="exhibit-collectionView-group-content">') ;
+			$(".exhibit-collectionView-group-content",viewPanelBody).append(content);
+			
+		}
     $.each($(".exhibit-collectionView-group-content ol"), function(i, item) {
       var group       = $(item).closest(".exhibit-collectionView-group")
       var nodesCount  = $("li", group).length
@@ -513,6 +430,17 @@ $(document).ready(function() {
       var siteUid    = resources[0].split(".")[1];
       var clusterUid = resources[0].split("-")[0];
 
+		  //In some cases, group can point to the whole site
+			// rather than to the cluster level
+			if (group.children("h1").length > 0) {
+				//recreate a cluster level in the dom
+				$(item).detach() ;
+				$(".exhibit-collectionView-group-content",group).append('<div class="exhibit-collectionView-group"> \
+                             <h2>'+clusterUid+'<span class="exhibit-collectionView-group-count"> \
+                             (<span>1</span>)</span></h2>\
+                              <div class="exhibit-collectionView-group-content">') ;
+				group=$(".exhibit-collectionView-group",group) ;
+			}
       group.addClass("choice clear").attr('id', clusterUid).html('\
         <div class="slider">\
           <input type="hidden" name="jobs['+clusterUid+'][site_uid]" value="'+siteUid+'" />\
