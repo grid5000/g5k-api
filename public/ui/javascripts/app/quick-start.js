@@ -67,13 +67,13 @@ Payload.prototype.toHash = function() {
     var chunky = {
       environment: job.environment,
       //version: splat[1],
-      key: job.key,
-      command: command in job?job.command:"",
+      key: ('key' in job) ? job.key: "",
+      command: ('command' in job) ? job.command:"",
       debug: "debug",
 			nodes_ok: "/home/"+job.user_uid+"/public/Kadpeloy3.%jobid%.nodes_ok",
 			nodes_ko: "/home/"+job.user_uid+"/public/Kadpeloy3.%jobid%.nodes_ko",
     }
-    payload.command = "kadeploy3 -e "+job.environment+" -k "+job.key+" -n "+chunky["nodes_ko"]+" -o "+chunky["nodes_ok"]+" ; "+job.command;
+    payload.command = "kadeploy3 -e "+job.environment+" -k "+chunky.key+" -n "+chunky["nodes_ko"]+" -o "+chunky["nodes_ok"]+" ; "+chunky.command;
     payload.types = ["deploy"]
   } else {
     payload.command = job.command
