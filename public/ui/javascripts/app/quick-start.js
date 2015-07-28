@@ -67,11 +67,13 @@ Payload.prototype.toHash = function() {
     var chunky = {
       environment: splat[0],
       version: splat[1],
-      key: job.key == "" ? null : job.key,
-      command: job.command,
-      debug: "debug"
+      key: job.key,
+      command: command in job?job.command:"",
+      debug: "debug",
+			nodes_ok: "/home/"+job.user_uid+"/public/Kadpeloy3.%jobid%.nodes_ok",
+			nodes_ko: "/home/"+job.user_uid+"/public/Kadpeloy3.%jobid%.nodes_ko",
     }
-    payload.command = "export CHUNKY='"+$.base64Encode(JSON.stringify(chunky))+"'; curl -k http://public.rennes.grid5000.fr/~dmargery/chunky.rb | ruby";
+    payload.command = "kadeploy3 -e "+splat[0]+" -k "+job.key+" --env-version "+splat[1]+" -n "+chunky["nodes_ko"]+" -o "+chunky["nodes_ok"]+" ; "+job.command;
     payload.types = ["deploy"]
   } else {
     payload.command = job.command
@@ -366,7 +368,12 @@ $(document).ready(function() {
         UIConsole.info("Fetching environments deployable on "+grid.uid+"/"+site.uid+"...")
       },
       ok: function(data) {
-        environments[site.uid] = data.items
+				site_environments = $.map(data.items, function(env) {
+					return env.uid.split(/-(\d+)\.\d+$/)[0]
+				}) ;
+				environments[site.uid] = site_environments.filter(function(elem, pos,arr) {
+					return arr.indexOf(elem) == pos;
+				}); 
       }
     }); // GET /grid5000/sites/:site/environments
   });
@@ -404,8 +411,8 @@ $(document).ready(function() {
   // ===================
   $(document).bind("exhibit:refresh", function() {
     $(".exhibit-collectionView-header-sortControls, .exhibit-collectionView-footer").hide()
-		sites = $.find(".exhibit-collectionView-group h1") ;
-		if (sites.length == 0) {
+		var site_groups = $.find(".exhibit-collectionView-group h1") ;
+		if (site_groups.length == 0) {
 			var viewPanelBody=$.find(".exhibit-collectionView-body");
 			var content=$("ol",viewPanelBody);
 			content.detach();
@@ -458,7 +465,7 @@ $(document).ready(function() {
             <select name="jobs['+clusterUid+'][environment]">\
               <option value="" selected="selected">production</option>\
               '+_.map(environments[siteUid] || [], function(env) { 
-                return '<option value="'+env.uid+'">'+env.uid+'</option>'
+                return '<option value="'+env+'">'+env+'</option>'
               }).join("")+'\
             </select>\
           </div>\
@@ -474,9 +481,7 @@ $(document).ready(function() {
             </select>\
           </div>\
           <div class="ssh-public-key" style="display:none">\
-            <label for="jobs['+clusterUid+'][key]">Paste in your SSH Public Key(s):</label><br/>\
-            <textarea name="jobs['+clusterUid+'][key]" class="key"></textarea>\
-            ...or select one of your existing public keys<span class="key_link"></span>:\
+            <label for="jobs['+clusterUid+'][key]">Select a specific SSH Public Key(s) (will use your ~/.ssh/authorized_key by default):</label><br/>\
             <select>\
               <option value="" selected="selected"></option>\
               '+_.map(scripts || [], function(script) { 
@@ -529,7 +534,6 @@ $(document).ready(function() {
   // = Submit form, instantiate timers =
   // ===================================
   $('form').bind("submit whatever", function() {
-    
     queuedSteps.push("form:submit")
     rollback = false;
     
@@ -539,7 +543,7 @@ $(document).ready(function() {
     obj.jobs = obj.jobs || []
 
     if (_.size(obj.jobs) > 0) {
-      UIConsole.showBusyIndicator()
+      UIConsole.showBusyIndicator() ;
       _.each(obj.jobs, function(job, cluster_uid) {
         job.user_uid = userUid;
         job.cluster_uid = cluster_uid;
@@ -552,7 +556,7 @@ $(document).ready(function() {
           http.post(http.linkTo(site.links, "jobs"), JSON.stringify(payload.toHash()), {
             contentType: "application/json",
             before: function() {
-              UIConsole.info("Submitting job on "+site.uid+"...")
+              UIConsole.info("Submitting job on "+site.uid+" using "+http.linkTo(site.links, "jobs")+"...");
             },
             ok: function(data) {
               UIConsole.info("Successfully submitted job #"+data.uid+" in "+site.uid+".")
@@ -560,22 +564,25 @@ $(document).ready(function() {
               data.user_uid = userUid
               data.cluster_uid = cluster_uid
 
+							data.state="waiting" ; //true until we get more news 
+              submittedJobs.push(data);
               // Check job STATE
               data.pollState = window.setInterval(function() {
                 http.get(http.linkTo(data.links, "self"), {
                   ok: function(job) {
                     $.extend(true, data, job)
-                    if (!$.inArray(data.state, ["running","waiting"]) ) {
+                    if ($.inArray(data.state, ["running", "launching", "waiting"]) == -1) {
                       UIConsole.info("Job #"+data.uid+" is no longer waiting of running. Final state="+data.state+".")
                       window.clearInterval(data.pollState)
                       window.clearInterval(data.pollStdout)
                       window.clearInterval(data.pollStderr)
                     }
 										if (data.state == "waiting") {
-											UIConsole.info("Job #"+data.uid+" is waiting. Expected start is "+Date(data.scheduled_at*1000)) ;
+											UIConsole.info("Job #"+data.uid+" is waiting. Expected start is "+ new Date(data.scheduled_at*1000)) ;
 										}
 										if (data.state == "running") {
 											if (!("pollStderr" in data)) {
+												UIConsole.info("Job #"+data.uid+" is running. Setup polling of stdout and stderr") ;			
 												// polling of STDOUT and STDERR not setup
 												// Check STDOUT and STDERR
 												_.each(["stdout", "stderr"], function(out) {
@@ -584,7 +591,7 @@ $(document).ready(function() {
 														http.get(http.linkTo(site.links, "self")+"/public/"+data.user_uid+"/OAR."+data.uid+"."+out, {
 															cache: false,
 															dataType: "text",
-															ok: function(output,status) {
+															ok: function(output) {
 																var diff = output.substring(data[out].length).split("\n")
 																data[out] = output
 																_.each(diff, function(line) {
@@ -599,7 +606,7 @@ $(document).ready(function() {
 											}
 										}
                     if (_.all(submittedJobs, function(job) {
-                      return !$.inArray(job.state, ["running","waiting"]);
+                      return $.inArray(job.state, ["running", "launching", "waiting"]) == -1;
                     })) {
                       UIConsole.info("=> All jobs have terminated !")
                       UIConsole.hideBusyIndicator();
@@ -608,7 +615,6 @@ $(document).ready(function() {
                 })
               }, 5000);
             
-              submittedJobs.push(data);
             },
             ko: function() {
               UIConsole.info("Cannot submit the job on "+site.uid+". Cancelling all jobs...")
