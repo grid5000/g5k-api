@@ -73,7 +73,7 @@ Payload.prototype.toHash = function() {
 			nodes_ok: "/home/"+job.user_uid+"/public/Kadpeloy3.%jobid%.nodes_ok",
 			nodes_ko: "/home/"+job.user_uid+"/public/Kadpeloy3.%jobid%.nodes_ko",
     }
-    payload.command = "kadeploy3 -e "+job.environment+" -k "+chunky.key+" -n "+chunky["nodes_ko"]+" -o "+chunky["nodes_ok"]+" ; "+chunky.command;
+    payload.command = "kadeploy3 -f $OAR_NODEFILE -e "+job.environment+" -k "+chunky.key+" -n "+chunky["nodes_ko"]+" -o "+chunky["nodes_ok"]+" ; "+chunky.command;
     payload.types = ["deploy"]
   } else {
     payload.command = job.command
