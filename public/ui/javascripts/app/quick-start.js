@@ -63,17 +63,17 @@ Payload.prototype.toHash = function() {
   }
   if (job.environment != "") {
     // custom image
-    var splat = job.environment.split(/-(\d+)\.\d+$/)
+    //var splat = job.environment.split(/-(\d+)\.\d+$/)
     var chunky = {
-      environment: splat[0],
-      version: splat[1],
+      environment: job.environment,
+      //version: splat[1],
       key: job.key,
       command: command in job?job.command:"",
       debug: "debug",
 			nodes_ok: "/home/"+job.user_uid+"/public/Kadpeloy3.%jobid%.nodes_ok",
 			nodes_ko: "/home/"+job.user_uid+"/public/Kadpeloy3.%jobid%.nodes_ko",
     }
-    payload.command = "kadeploy3 -e "+splat[0]+" -k "+job.key+" --env-version "+splat[1]+" -n "+chunky["nodes_ko"]+" -o "+chunky["nodes_ok"]+" ; "+job.command;
+    payload.command = "kadeploy3 -e "+job.environment+" -k "+job.key+" -n "+chunky["nodes_ko"]+" -o "+chunky["nodes_ok"]+" ; "+job.command;
     payload.types = ["deploy"]
   } else {
     payload.command = job.command
