@@ -86,6 +86,10 @@ In particular, runtime dependencies of the app include `ruby1.9.1-full` and `git
 
         $ ./bin/g5k-api server start -e development
 
+* If you need to be authneticated for some development , use:
+
+				$ HTTP_X_API_USER_CN=dmargery ./bin/g5k-api server start -e development
+
   If you want to develop on the UI, you should probably setup an SSH tunnel
   between your machine and one of the MySQL server of Grid'5000, so that you
   can access the current jobs:
