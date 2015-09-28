@@ -107,7 +107,7 @@ module OAR
               )
             ).each do |row|
               if row.is_a?(Hash)
-                moldable_job_id=row["moldable_job_id"].to_i
+                moldable_job_id=row["moldable_job_id"]
                 resource_id=row["resource_id"].to_i
               else
                 (moldable_job_id,resource_id)=row
