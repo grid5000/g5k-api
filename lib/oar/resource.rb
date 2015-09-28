@@ -105,8 +105,9 @@ module OAR
               ).gsub(
                 /%MOLDABLE_IDS%/, moldable_ids
               )
-            ).each do |(moldable_job_id, resource_id)|
-              resource_id = resource_id.to_i
+            ).each do |row|
+              moldable_job_id=row["moldable_job_id"].to_i
+              resource_id=row["resource_id"].to_i
 
               active_jobs_by_moldable_id[moldable_job_id][:resources].
                 add(resource_id)
