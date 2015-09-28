@@ -106,8 +106,13 @@ module OAR
                 /%MOLDABLE_IDS%/, moldable_ids
               )
             ).each do |row|
-              moldable_job_id=row["moldable_job_id"].to_i
-              resource_id=row["resource_id"].to_i
+              if row.is_a?(Hash)
+                moldable_job_id=row["moldable_job_id"].to_i
+                resource_id=row["resource_id"].to_i
+              else
+                (moldable_job_id,resource_id)=row
+                resource_id=resource_id.to_i
+              end
 
               active_jobs_by_moldable_id[moldable_job_id][:resources].
                 add(resource_id)
