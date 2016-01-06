@@ -29,15 +29,42 @@ class ResourcesController < ApplicationController
   def fetch(path)
     allow :get; vary_on :accept
     Rails.logger.info "Fetching #{path}"
-
     branch = params[:branch] || 'master'
     branch = ['origin', branch].join("/") unless Rails.env == "test"
 
+    # abasu : Added code for getting 'queues' element in hash params - 11.12.2015
+    # abasu : In request to feature bug ref. #6363
+    # abasu : params_queues is the array with 'queues' values passed in 'params'
+    params_queues = []
+    params_queues = ["admin","default"] if params[:queues].nil? # abasu : no filter ==> assign everything except "production"
+
+    # abasu : As of 11.12.2015 the params accepted are:
+    #           "all" or any combination of "admin", "default", "production"
+    if params[:queues] == "all" # abasu : for use by sys-admin
+       params_queues = ["admin","default","production"]
+    else
+       params_queues = params[:queues].split(",")
+    end
     object = EM::Synchrony.sync repository.async_find(
       path.gsub(/\/?platforms/,''),
       :branch => branch,
       :version => params[:version]
     )
+
+    # abasu : case logic for treating different scenarios - 11.12.2015
+    case [params[:controller], params[:action]]
+    when ["clusters", "show"] # case of single cluster
+       object = nil if (object['queues'] & params_queues).empty?
+    when ["clusters", "index"] # case of array of clusters
+       # 1. Add "default" to 'queues' if nothing is defined in 'items'.
+       object['items'].each { |cluster| cluster['queues'] = ["default"] if cluster['queues'].nil? }
+       # 2. Filter out 'queues' that are not requested in params
+       object['items'].delete_if { |cluster| (cluster['queues'] & params_queues).empty? }
+       # 3. Remove "default" from 'queues' if only "default" was defined in 'items'.
+       # This last step: to maintain current behaviour showing no 'queues' if not defined
+       # Should be removed when 'queues' in all clusters are explicitly defined.
+       object['items'].each { |cluster| cluster.delete_if { |key, value| key == 'queues' && value == ["default"] } }
+    end
 
     raise NotFound, "Cannot find resource #{path}" if object.nil?
     if object.has_key?('items')
