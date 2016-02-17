@@ -30,7 +30,7 @@ development:
   base_uri_in: http://localhost:8000
   base_uri_out: http://localhost:8000
   notifications_uri: https://localhost:3443/sid/notifications
-  reference_repository_path: ~/dev/g5k-api/reference-repository
+  reference_repository_path: ~/reference-repository
   smtp_host: localhost
   smtp_port: 2525
   oar:
