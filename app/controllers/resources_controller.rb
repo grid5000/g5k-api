@@ -36,15 +36,18 @@ class ResourcesController < ApplicationController
     # abasu : In request to feature bug ref. #6363
     # abasu : params_queues is the array with 'queues' values passed in 'params'
     params_queues = []
-    params_queues = ["admin","default"] if params[:queues].nil? # abasu : no filter ==> assign everything except "production"
+    if params[:queues].nil? # no filter, so assign everything except "production"
+       params_queues = ["admin","default"] 
+    # As of 11.12.2015 the queues accepted are:
+    # "all" or any combination of "admin", "default", "production"
+    else 
+       if params[:queues] == "all" # for use by sys-admin
+          params_queues = ["admin","default","production"]
+       else
+          params_queues = params[:queues].split(",")
+       end # if params[:queues] == "all"
+    end # if params[:queues].nil?
 
-    # abasu : As of 11.12.2015 the params accepted are:
-    #           "all" or any combination of "admin", "default", "production"
-    if params[:queues] == "all" # abasu : for use by sys-admin
-       params_queues = ["admin","default","production"]
-    else
-       params_queues = params[:queues].split(",")
-    end
     object = EM::Synchrony.sync repository.async_find(
       path.gsub(/\/?platforms/,''),
       :branch => branch,
@@ -53,9 +56,10 @@ class ResourcesController < ApplicationController
 
     # abasu : case logic for treating different scenarios - 11.12.2015
     case [params[:controller], params[:action]]
-    when ["clusters", "show"] # case of single cluster
+    when ["clusters", "show"] # case of a single cluster
        object = nil if (object['queues'] & params_queues).empty?
-    when ["clusters", "index"] # case of array of clusters
+
+    when ["clusters", "index"] # case of an array of clusters
        # 1. Add "default" to 'queues' if nothing is defined in 'items'.
        object['items'].each { |cluster| cluster['queues'] = ["default"] if cluster['queues'].nil? }
        # 2. Filter out 'queues' that are not requested in params
@@ -64,7 +68,9 @@ class ResourcesController < ApplicationController
        # This last step: to maintain current behaviour showing no 'queues' if not defined
        # Should be removed when 'queues' in all clusters are explicitly defined.
        object['items'].each { |cluster| cluster.delete_if { |key, value| key == 'queues' && value == ["default"] } }
-    end
+       object['total'] = object['items'].length # set new count to clusters shortlisted
+
+    end # case [params[:controller], params[:action]]
 
     raise NotFound, "Cannot find resource #{path}" if object.nil?
     if object.has_key?('items')

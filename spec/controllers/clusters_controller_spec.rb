@@ -54,4 +54,4 @@ describe ClustersController do
 
   end # "GET /sites/{{site_id}}/clusters/{{id}}/status"
 
-end
+end # describe ClustersController
