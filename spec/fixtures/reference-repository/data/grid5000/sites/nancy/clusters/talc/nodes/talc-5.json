@@ -1,0 +1,113 @@
+{
+  "architecture": {
+    "platform_type": "x86_64",
+    "smp_size": 2,
+    "smt_size": 8
+  },
+  "bios": {
+    "release_date": "08/21/2009",
+    "vendor": "Phoenix Technologies LTD",
+    "version": "V1.05"
+  },
+  "chassis": {
+    "manufacturer": "TYAN Computer Corporation",
+    "name": "S5393"
+  },
+  "gpu": {
+    "gpu": false
+  },
+  "main_memory": {
+    "ram_size": 17179869184,
+    "virtual_size": null
+  },
+  "network_adapters": [
+    {
+      "bridged": true,
+      "device": "eth0",
+      "driver": "e1000e",
+      "enabled": true,
+      "interface": "Ethernet",
+      "ip": "172.16.66.5",
+      "ip6": null,
+      "mac": "00:e0:81:b2:c1:ee",
+      "management": false,
+      "mountable": true,
+      "mounted": true,
+      "network_address": "talc-5.nancy.grid5000.fr",
+      "rate": 1000000000,
+      "switch": "stalc1",
+      "switch_port": "GigabitEthernet1/0/8",
+      "vendor": "intel",
+      "version": "80003ES2LAN"
+    },
+    {
+      "bridged": false,
+      "device": "eth1",
+      "driver": "e1000e",
+      "enabled": false,
+      "interface": "Ethernet",
+      "mac": "00:e0:81:b2:c1:ef",
+      "management": false,
+      "mountable": false,
+      "mounted": false,
+      "rate": 1000000000,
+      "vendor": "intel",
+      "version": "BCM5721"
+    },
+    {
+      "device": "bmc",
+      "enabled": true,
+      "interface": "Ethernet",
+      "ip": null,
+      "mac": null,
+      "management": true,
+      "mountable": false,
+      "mounted": false,
+      "network_address": "talc-5-bmc.nancy.grid5000.fr",
+      "rate": 100000000,
+      "vendor": "Tyan",
+      "version": "M3296"
+    }
+  ],
+  "operating_system": {
+    "kernel": "3.2.0-4-amd64",
+    "name": "debian",
+    "release": "Squeeze",
+    "version": 7.2
+  },
+  "processor": {
+    "cache_l1": null,
+    "cache_l1d": 32768,
+    "cache_l1i": 32768,
+    "cache_l2": 6291456,
+    "cache_l3": 0,
+    "clock_speed": 2500000000,
+    "instruction_set": "x86-64",
+    "model": "Intel Xeon",
+    "other_description": "Intel(R) Xeon(R) CPU           L5420  @ 2.50GHz",
+    "vendor": "Intel",
+    "version": "L5420"
+  },
+  "storage_devices": [
+    {
+      "device": "sda",
+      "driver": "ahci",
+      "interface": "SATA II",
+      "model": "Hitachi HDT72103",
+      "rev": "ST2O",
+      "size": 320072933376,
+      "vendor": null
+    }
+  ],
+  "supported_job_types": {
+    "besteffort": true,
+    "deploy": true,
+    "queues": [
+      "admin",
+      "production"
+    ],
+    "virtual": "ivt"
+  },
+  "type": "node",
+  "uid": "talc-5"
+}

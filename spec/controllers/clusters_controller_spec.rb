@@ -54,4 +54,106 @@ describe ClustersController do
 
   end # "GET /sites/{{site_id}}/clusters/{{id}}/status"
 
+
+  # abasu : unit test for bug ref 6363 to handle filter queues - 08.01.2016
+  describe "GET /sites/{{site_id}}/clusters/{{id}}" do
+    it "should return ONLY cluster mbi in nancy" do      
+      expected_url = "http://api-out.local:80/sites/nancy/clusters/mbi?branch=master&queues=admin,production&pretty=yes"
+      stub_request(:get, expected_url).
+        with(
+          :headers => {'Accept' => media_type(:json)}
+        ).
+        to_return(:body => fixture("reference-repository/data/grid5000/sites/nancy/clusters/mbi/mbi.json"))
+      get :show, :branch => 'master', :site_id => "nancy", :id => "mbi", :queues => "admin,production", :format => :json
+      assert_media_type(:json)
+
+      response.status.should == 200
+      json["queues"].should == ["admin", "production"]
+    end # it "should return ONLY cluster mbi in nancy" 
+
+  # abasu : unit test for bug ref 6363 to handle filter queues - 08.01.2016
+    it "should return ONLY cluster talc in nancy" do      
+      expected_url = "http://api-out.local:80/sites/nancy/clusters/talc?branch=master&queues=admin,default&pretty=yes"
+      stub_request(:get, expected_url).
+        with(
+          :headers => {'Accept' => media_type(:json)}
+        ).
+        to_return(:body => fixture("reference-repository/data/grid5000/sites/nancy/clusters/talc/talc.json"))
+      get :show, :branch => 'master', :site_id => "nancy", :id => "talc", :queues => "admin,default", :format => :json
+      assert_media_type(:json)
+
+      response.status.should == 200
+      json["queues"].should == ["admin", "default"]
+    end # it "should return ONLY cluster talc in nancy" 
+  end # "GET /sites/{{site_id}}/clusters/{{id}}/"
+
+  # abasu : unit test for bug ref 6363 to handle filter queues - 08.01.2016
+  describe "GET /sites/{{site_id}}/clusters" do
+    it "should return ONLY cluster talc in site nancy" do      
+      expected_url = "http://api-out.local:80/sites/nancy/clusters?branch=master&queues=default&pretty=yes"
+      stub_request(:get, expected_url).
+        with(
+          :headers => {'Accept' => media_type(:json)}
+        ).
+        to_return(:body => fixture("reference-repository/data/grid5000/sites/nancy/clusters/talc/talc.json"))
+      get :index, :branch => 'master', :site_id => "nancy", :queues => "default", :format => :json
+      assert_media_type(:json)
+
+      response.status.should == 200
+      json["total"].should == 1
+      json["items"][0]["uid"].should == "talc"
+      json["items"][0]["queues"].include? "default"
+    end # it "should return ONLY cluster talc in nancy" 
+
+  # abasu : unit test for bug ref 6363 to handle filter queues - 08.01.2016
+    it "should return ONLY cluster mbi in site nancy" do      
+      expected_url = "http://api-out.local:80/sites/nancy/clusters?branch=master&queues=production&pretty=yes"
+      stub_request(:get, expected_url).
+        with(
+          :headers => {'Accept' => media_type(:json)}
+        ).
+        to_return(:body => fixture("reference-repository/data/grid5000/sites/nancy/clusters/mbi/mbi.json"))
+      get :index, :branch => 'master', :site_id => "nancy", :queues => "production", :format => :json
+      assert_media_type(:json)
+
+      response.status.should == 200
+      json["total"].should == 1
+      json["items"][0]["uid"].should == "mbi"
+      json["items"][0]["queues"].include? "production"
+    end # it "should return ONLY cluster mbi in nancy" 
+
+  # abasu : unit test for bug ref 6363 to handle filter queues - 08.01.2016
+    it "should return ONLY cluster mbi in site nancy" do      
+      expected_url = "http://api-out.local:80/sites/nancy/clusters?branch=master&queues=production&pretty=yes"
+      stub_request(:get, expected_url).
+        with(
+          :headers => {'Accept' => media_type(:json)}
+        ).
+        to_return(:body => fixture("reference-repository/data/grid5000/sites/nancy/clusters/mbi/mbi.json"))
+      get :index, :branch => 'master', :site_id => "nancy", :queues => "production", :format => :json
+      assert_media_type(:json)
+
+      response.status.should == 200
+      json["total"].should == 1
+      json["items"][0]["uid"].should == "mbi"
+      json["items"][0]["queues"].include? "production"
+    end # it "should return ONLY cluster mbi in nancy" 
+
+  # abasu : unit test for bug ref 6363 to handle filter queues - 08.01.2016
+    it "should return ALL clusters in site nancy" do      
+      get :index, :branch => 'master', :site_id => "nancy", :queues => "all", :format => :json
+      assert_media_type(:json)
+
+      response.status.should == 200
+      json["total"].should == 2
+
+      combined_queues = []
+      json["items"].each do |cluster|
+         combined_queues = cluster["queues"] | combined_queues
+      end
+      combined_queues.should == ["admin","default","production"]
+
+    end # it "should return ALL clusters in site nancy" 
+  end # "GET /sites/{{site_id}}/clusters?branch=master&queues=production&pretty=yes"
+
 end # describe ClustersController

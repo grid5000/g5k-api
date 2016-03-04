@@ -16,7 +16,8 @@ require 'spec_helper'
 
 describe Grid5000::Repository do
   before do
-    @latest_commit = "070663579dafada27e078f468614f85a62cf2992"
+    # abasu - 03.03.2016 - updated value from 070663579dafada27e078f468614f85a62cf2992
+    @latest_commit = "e74745ae6ac7b72060acf406e031d939fa5e0678"
   end
   
   it "should instantiate a new repository object with the correct settings" do
@@ -148,8 +149,9 @@ describe Grid5000::Repository do
         )
         result["items"].map{|i| 
           i['uid']
-        }.should == ['bordeaux', 'grenoble', 'rennes']
-        result["total"].should == 3
+        # abasu - 08.01.2016 - added to list 'nancy' and updated "total" from 3 to 4
+        }.should == ['bordeaux', 'grenoble', 'nancy', 'rennes']
+        result["total"].should == 4
         result["offset"].should == 0
       end
       it "should expand a tree of trees into a collection [environments]" do
@@ -192,7 +194,8 @@ describe Grid5000::Repository do
     
     describe "versions_for" do
       it "find the versions for a resource" do
-        @repository.versions_for("grid5000/sites")["total"].should == 8
+        # abasu - 03.03.2016 - update "total" value from 8 to 11
+        @repository.versions_for("grid5000/sites")["total"].should == 11
       end
       it "should return an empty list if the resource does not exist" do
         @repository.versions_for("grid5000/doesnotexist").should == {"total"=>0, "offset"=>0, "items"=>[]}

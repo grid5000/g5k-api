@@ -53,22 +53,29 @@ class ResourcesController < ApplicationController
       :branch => branch,
       :version => params[:version]
     )
-
+    
     # abasu : case logic for treating different scenarios - 11.12.2015
     case [params[:controller], params[:action]]
-    when ["clusters", "show"] # case of a single cluster
+
+    # 1. case of a single cluster
+    when ["clusters", "show"] 
+       # Add ["admin","default"] to 'queues' if nothing defined for that cluster
+       object['queues'] = ["admin","default"] if object['queues'].nil?
        object = nil if (object['queues'] & params_queues).empty?
 
-    when ["clusters", "index"] # case of an array of clusters
-       # 1. Add "default" to 'queues' if nothing is defined in 'items'.
-       object['items'].each { |cluster| cluster['queues'] = ["default"] if cluster['queues'].nil? }
-       # 2. Filter out 'queues' that are not requested in params
+    # 2. case of an array of clusters
+    when ["clusters", "index"] 
+       # First, add ["admin","default"] to 'queues' if nothing defined for that cluster
+       object['items'].each { |cluster| cluster['queues'] = ["admin","default"] if cluster['queues'].nil? }
+       # Then, filter out 'queues' that are not requested in params
        object['items'].delete_if { |cluster| (cluster['queues'] & params_queues).empty? }
-       # 3. Remove "default" from 'queues' if only "default" was defined in 'items'.
+=begin
        # This last step: to maintain current behaviour showing no 'queues' if not defined
        # Should be removed when 'queues' in all clusters are explicitly defined.
        object['items'].each { |cluster| cluster.delete_if { |key, value| key == 'queues' && value == ["default"] } }
-       object['total'] = object['items'].length # set new count to clusters shortlisted
+=end
+       # Finally, set new 'total' to clusters shortlisted
+       object['total'] = object['items'].length
 
     end # case [params[:controller], params[:action]]
 
