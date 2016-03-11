@@ -37,6 +37,7 @@ In particular, runtime dependencies of the app include `ruby1.9.1-full` and `git
 	and for nokogiri see
   [Nokogiri](http://nokogiri.org/tutorials/installing_nokogiri.html):
 
+        $ sudo apt-get install libpq-dev           # needed for the pg gem
         $ bundle install
 
 * [option1 - the hard way - setup the full development environment on your machine]
@@ -86,9 +87,9 @@ In particular, runtime dependencies of the app include `ruby1.9.1-full` and `git
 
         $ ./bin/g5k-api server start -e development
 
-* If you need to be authneticated for some development , use:
+* If you need to be authenticated for some development, use:
 
-				$ HTTP_X_API_USER_CN=dmargery ./bin/g5k-api server start -e development
+        $ HTTP_X_API_USER_CN=dmargery ./bin/g5k-api server start -e development
 
   If you want to develop on the UI, you should probably setup an SSH tunnel
   between your machine and one of the MySQL server of Grid'5000, so that you

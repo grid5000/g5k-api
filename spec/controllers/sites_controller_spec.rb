@@ -21,8 +21,8 @@ describe SitesController do
     it "should get the correct collection of sites" do
       get :index, :format => :json
       response.status.should == 200
-      json['total'].should == 3
-      json['items'].length.should == 3
+      json['total'].should == 4
+      json['items'].length.should == 4
       json['items'][0]['uid'].should == 'bordeaux'
       json['items'][0]['links'].should be_a(Array)
     end
@@ -83,7 +83,8 @@ describe SitesController do
       }['href'].should == "/sites/rennes/clusters"
       json['links'].find{|l|
         l['rel'] == 'version'
-      }['href'].should == "/sites/rennes/versions/070663579dafada27e078f468614f85a62cf2992"
+      # abasu - 03.03.2016 - updated value from 070663579dafada27e078f468614f85a62cf2992
+      }['href'].should == "/sites/rennes/versions/d03a97ebe1fcf3b9f10cf4eb066a1b97ddd4e09a"
     end
     
     it "should return subresource links that are only in testing branch" do
@@ -133,7 +134,7 @@ describe SitesController do
       response.status.should == 400
       response.body.should == "Request to #{expected_url} failed with status 400: some error"
     end
-    it "should return 200 and the site status" do      
+    it "should return 200 and the site status" do
       expected_url = "http://api-out.local:80/sites/rennes/clusters?branch=master"
       stub_request(:get, expected_url).
         with(

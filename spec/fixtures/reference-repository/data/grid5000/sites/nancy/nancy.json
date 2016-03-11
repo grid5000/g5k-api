@@ -1,0 +1,19 @@
+{
+  "compilation_server": false,
+  "description": "Grid5000 Nancy site",
+  "email_contact": "support-staff@lists.grid5000.fr",
+  "kavlan_ip_range": "10.16.0.0/14",
+  "latitude": 48.7,
+  "location": "Nancy, France",
+  "longitude": 6.2,
+  "name": "Nancy",
+  "production": true,
+  "security_contact": "support-staff@lists.grid5000.fr",
+  "storage5k": true,
+  "sys_admin_contact": "support-staff@lists.grid5000.fr",
+  "type": "site",
+  "uid": "nancy",
+  "user_support_contact": "support-staff@lists.grid5000.fr",
+  "virt_ip_range": "10.144.0.0/14",
+  "web": "http://www.loria.fr"
+}
