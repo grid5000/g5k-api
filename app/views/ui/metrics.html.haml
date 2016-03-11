@@ -14,10 +14,10 @@
 
 #content
   %p Use this page to graph the metrics of the jobs you want to analyze. Graphs are generated as <a href="http://en.wikipedia.org/wiki/Box_plot">Box plots</a>, with the addition of a line connecting all the medians.
-  %p <b>Please NOTE that jobs of type "deploy" do NOT send metrics by default.</b> You need to explicitly enable them by installing the <code>ganglia-monitor</code> package on all the nodes of your job.
+  %p <b>Please NOTE that jobs of type "deploy" do NOT send metrics by default.</b> You need to explicitly enable them by starting <code>ganglia-monitor</code> on all the nodes of your job, with <code>service ganglia-monitor start</code>.
   %p Also, data is stored in <a href="http://en.wikipedia.org/wiki/RRDtool">Round Robin Databases</a> and will lose in accuracy over time. Thus, if you want to see your graphs at the best resolution available (min: 15s), do not wait too long after your job is finished.
-  %p Interested users are strongly encouraged to have a look at the <a href="https://api.grid5000.fr/">Metrology API Documentation</a> and the <a href="https://www.grid5000.fr/mediawiki/index.php/API_Metrology_Practical">Metrology API Practical</a> to understand how they can <b>programmatically</b> get access to the data and generate graphs using the tool of their choice (<code>rrdtool</code>, <code>gnuplot</code>, etc.).
-  %p Finally, this page probably does <b>NOT</b> work on Internet Explorer, unless you install some kind of plugin to see SVG graphs. Actually this is a feature, please use a <a href="http://www.mozilla.org/en-US/firefox/">modern</a> browser.
+  %p Interested users are strongly encouraged to have a look at the <a href="https://www.grid5000.fr/mediawiki/index.php/Measurements_tutorial">Measurements tutorial</a> to understand how they can <b>programmatically</b> get access to the data and generate graphs using the tool of their choice (<code>rrdtool</code>, <code>gnuplot</code>, etc.).
+  %p Finally, this page probably does <b>NOT</b> work on Internet Explorer, unless you install some kind of plugin to see SVG graphs. 
   #charts
 
 
