@@ -1,4 +1,12 @@
 GIT
+  remote: git://github.com/cadicallegari/em-postgresql-adapter.git
+  revision: 2a0d31b663b716c584699a73359e12f6fee68077
+  ref: 2a0d31b663b7
+  specs:
+    em-postgresql-adapter (0.1)
+      pg (>= 0.8.0)
+
+GIT
   remote: https://gforge.inria.fr/git/g5k-campaign/g5k-campaign.git
   revision: cac93c26c7c998da96182980736b4d17fb070570
   ref: cac93c26c7c998da96182980736b4d17fb070570
@@ -231,6 +239,7 @@ DEPENDENCIES
   blather!
   capistrano
   em-http-request (~> 0.2)
+  em-postgresql-adapter!
   em-synchrony (~> 0.2)
   eventmachine!
   factory_girl_rails
@@ -252,6 +261,3 @@ DEPENDENCIES
   syslogger
   thin (~> 1.2.7)
   webmock
-
-BUNDLED WITH
-   1.10.6

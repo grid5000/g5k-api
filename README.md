@@ -119,9 +119,7 @@ to create a test database, and a fake OAR database.
 
 * Create the fake OAR database as follows:
 
-        $ RACK_ENV=test rake db:oar:setup
-
-  or `RACK_ENV=test rake db:oar:seed` if the OAR database already exists.
+        $ RACK_ENV=test rake db:oar:seed
 
 * Launch the tests:
 

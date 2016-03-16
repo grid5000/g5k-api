@@ -4,10 +4,27 @@
 class development {
   include apt
   include mysql
+  include postgres
   include ruby
   include git
   include dpkg::dev
 
+  postgres::database {
+    'oar2_dev':
+      ensure => present;
+  }
+  postgres::database {
+    'oar2_test':
+      ensure => present;
+  }
+
+  exec{ "allow connections to postgres for root":
+    user => postgres,
+    command => "/bin/echo \"CREATE USER root PASSWORD 'oar'; GRANT ALL PRIVILEGES ON *.oar2_dev TO 'root' ;GRANT ALL PRIVILEGES ON *.oar2_test TO 'root' ;\" | /usr/bin/psql ",
+    unless => "/bin/echo \"SELECT rolname FROM pg_roles;\" | /usr/bin/psql | grep root",
+    require => Service['postgresql']
+  }
+  
   exec{ "create development database":
     user => root, group => root,
     require => Exec["allow mysql connections from all"],

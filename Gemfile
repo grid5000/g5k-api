@@ -21,6 +21,7 @@ gem 'syslogger'
 gem 'haml'
 gem 'rack-jsonp'
 gem 'pg', '~> 0.18.0' #as from 0.18.1, requires ruby 1.9.3
+gem 'em-postgresql-adapter', :git => 'git://github.com/cadicallegari/em-postgresql-adapter.git', :ref => '2a0d31b663b7'
 #gem 'em-postgresql-adapter', :git => 'git://github.com/leftbee/em-postgresql-adapter.git', :branch => 'pre-3_1'
 
 gem 'blather',
