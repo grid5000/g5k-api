@@ -13,7 +13,8 @@ gem 'em-http-request', '~> 0.2'
 gem "mysql2", "~>0.2.0"
 gem "ruby-mysql", :require => "mysql"
 gem 'addressable', '~> 2.2'
-gem 'thin', '~> 1.2.7'
+#gem 'thin', '~> 1.2.7'
+gem 'thin', '~> 1.5.0'
 gem 'state_machine', '~> 0.9'
 #gem 'grit'
 gem 'gitlab-grit', :require => ['grit']
