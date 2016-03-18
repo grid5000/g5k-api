@@ -9,12 +9,12 @@ but if you read this, it's normally good…
 
 ## Installation
 
-The app is packaged for Debian Squeeze. Therefore installation is as follows:
+The app is packaged for Debian Wheezy. Therefore installation is as follows:
 
     sudo apt-get update
     sudo apt-get install g5k-api
 
-In particular, runtime dependencies of the app include `ruby1.9.1-full` and `git-core`.
+In particular, runtime dependencies of the app include `ruby1.9.3` and `git-core`.
 
 
 ## Development
@@ -69,15 +69,22 @@ In particular, runtime dependencies of the app include `ruby1.9.1-full` and `git
 
 * [option3 - an easier way - use Vagrant]
 
-        $ vagrant up
+        $ vagrant up --provision
         $ vagrant ssh
-        $ sudo mysql -u root
+        vagrant$ sudo mysql -u root
 
   And create `g5kapi-development` and `g5kapi-test` databases. 
 
   The vagrant provisionning script will attempt to configure the VM's root account
   to be accessible by ssh. By default, it will copy your authorized_keys, but you 
   can control the keypair used with SSH_KEY=filename_of_private_key  
+
+* [option4 - use vagrant as providing the development environement]
+This is known to fail for the time being a the gem binary provided by the debian package is to old
+
+        vagrant$ cd /vagrant
+        vagrant$ CFLAGS='-Wno-error=format-security' bundle install
+
 
 * Setup the database schema:
 

@@ -40,7 +40,7 @@ set :provisioner, "bundle exec g5k-campaign --site #{ENV['SITE'] || 'rennes'} -a
 
 set :provisioner, "(SSH_KEY=#{key} vagrant up --provision && cat Vagrantfile) | grep private_network | grep -o -E '[0-9][0-9\.]*'" if ENV['USE_VAGRANT']
 
-set :pkg_dependencies, %w{libmysqlclient-dev ruby1.9.1-full libxml2-dev libxslt-dev libssl-dev}
+set :pkg_dependencies, %w{libmysqlclient-dev ruby1.9.3 libxml2-dev libxslt-dev libssl-dev}
 
 role :apt, ENV['HOST'] || 'apt.grid5000.fr'
 role :app do
@@ -60,8 +60,8 @@ task :package, :roles => :pkg do
   cmd += "export http_proxy=proxy:3128 && " unless ENV['NOPROXY']
   cmd += "apt-get update && "
   cmd += "apt-get install #{pkg_dependencies.join(" ")} git-core dh-make dpkg-dev libicu-dev -y && "
-  cmd += "gem1.9.1 install rake -v 0.8.7 --no-ri --no-rdoc && "
-  cmd += "gem1.9.1 install bundler -v 1.1.1 --no-ri --no-rdoc && "
+  cmd += "gem1.9.3 install rake -v 0.8.7 --no-ri --no-rdoc && "
+  cmd += "gem1.9.3 install bundler -v 1.1.1 --no-ri --no-rdoc && "
   cmd += "rm -rf /tmp/#{package_name}*"
 
   run cmd
