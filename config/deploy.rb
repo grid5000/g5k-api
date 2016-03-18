@@ -40,7 +40,7 @@ set :provisioner, "bundle exec g5k-campaign --site #{ENV['SITE'] || 'rennes'} -a
 
 set :provisioner, "(SSH_KEY=#{key} vagrant up --provision && cat Vagrantfile) | grep private_network | grep -o -E '[0-9][0-9\.]*'" if ENV['USE_VAGRANT']
 
-set :pkg_dependencies, %w{libmysqlclient-dev ruby1.9.3 libxml2-dev libxslt-dev libssl-dev}
+set :pkg_dependencies, %w{libmysqlclient-dev ruby1.9.3 libxml2-dev libxslt-dev libssl-dev libpq-dev}
 
 role :apt, ENV['HOST'] || 'apt.grid5000.fr'
 role :app do
