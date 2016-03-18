@@ -61,7 +61,7 @@ task :package, :roles => :pkg do
   cmd += "apt-get update && "
   cmd += "apt-get install #{pkg_dependencies.join(" ")} git-core dh-make dpkg-dev libicu-dev -y && "
   cmd += "gem1.9.3 install rake -v 0.8.7 --no-ri --no-rdoc && "
-  cmd += "gem1.9.3 install bundler -v 1.1.1 --no-ri --no-rdoc && "
+  cmd += "gem1.9.3 install bundler -v 1.7.6 --no-ri --no-rdoc && "
   cmd += "rm -rf /tmp/#{package_name}*"
 
   run cmd

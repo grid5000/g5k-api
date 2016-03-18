@@ -6,7 +6,7 @@ NAME = ENV['PKG_NAME'] || "g5k-api"
 BUILD_MACHINE = ENV['BUILD_MACHINE'] || "debian-build"
 USER_NAME = `git config --get user.name`.chomp
 USER_EMAIL = `git config --get user.email`.chomp
-BUNDLER_VERSION = "1.0.15"
+BUNDLER_VERSION = "1.7.6"
 
 require VERSION_FILE
 
