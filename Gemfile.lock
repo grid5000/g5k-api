@@ -24,7 +24,7 @@ GIT
   remote: https://github.com/eventmachine/eventmachine.git
   revision: 9473a1b181ed1997e3156d960b2bb2783f508191
   specs:
-    eventmachine (1.0.0.beta.4)
+    eventmachine (1.0.0.rc.4)
 
 GIT
   remote: https://github.com/sprsquish/blather.git
