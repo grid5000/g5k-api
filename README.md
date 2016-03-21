@@ -70,6 +70,9 @@ In particular, runtime dependencies of the app include `ruby1.9.3` and `git-core
 * [option3 - an easier way - use Vagrant]
 
         $ vagrant up --provision
+	# This might fail : you'll need to following to get round
+        # a insecure https cert for vagrant.irisa.fr
+	$ vagrant box add --insecure --name debian-wheezy-x64-puppet_3.0.1 https://vagrant.irisa.fr/boxes/debian-wheezy-x64-puppet_3.0.1.box
         $ vagrant ssh
         vagrant$ sudo mysql -u root
 
