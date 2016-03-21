@@ -14,6 +14,55 @@
 
 require 'blather/client/dsl'
 
+# Recent versions of EventMachine do not seem to handle well an
+# exception raised indicating a disconnect
+# not forwarding the disconnect event to the client code
+# create 2 classes, to handle the disconnect ourselves
+class ExceptionHandlingStream < Blather::Stream::Client
+  def unbind
+    begin
+      super
+    rescue Blather::Stream::ConnectionFailed => e
+      Rails.logger.error "XMPP connection failed: #{e}"  
+      ExceptionHandlingStream.reconnect_my_xmpp(@@client_to_restart)
+    end
+  end
+  class << self
+    def reconnect_my_xmpp(my_xmpp)
+      # Automatically reconnect
+      now=Time.now
+      if my_xmpp.last_reconnect != nil && now-my_xmpp.last_reconnect<5
+        Rails.logger.info "XMPP disconnected again at #{now}. Waiting 5s before reconnecting to XMPP server..."
+        EM.add_timer(5) do 
+          reconnect.call(my_xmpp)
+        end
+      else
+        Rails.logger.info "XMPP Disconnected at #{now}. Reconnecting..."
+        begin
+          XMPP.handler.connect
+          my_xmpp.last_reconnect=now
+        rescue StandardError => e
+          Rails.logger.info "Catched XMPP error: #{e.class.name} - #{e.message}"
+          EM.add_timer(10) do
+            reconnect.call(my_xmpp)
+          end
+        end
+      end
+    end
+    def set_client_to_restart(client)
+      @@client_to_restart=client
+    end
+  end
+end
+
+# See ExceptionHandlingStream comment
+class ExceptionHandlingClient < Blather::Client
+  def run
+    raise 'not setup!' unless setup?
+    ExceptionHandlingStream.start self, *@setup
+  end
+end
+
 class MyXMPP
   include Blather::DSL
   attr_accessor :last_reconnect
@@ -21,6 +70,7 @@ class MyXMPP
   def handler; client; end
   def initialize 
     @last_reconnect=nil
+    @client=ExceptionHandlingClient.new
   end
 end
 
@@ -43,37 +93,10 @@ XMPP = MyXMPP.new
 jid = Blather::JID.new(Rails.my_config(:xmpp_jid))
 XMPP.setup(jid, Rails.my_config(:xmpp_password), 'jabber.grid5000.fr')
 
+ExceptionHandlingStream.set_client_to_restart(XMPP)
+
 XMPP.when_ready {
   Rails.logger.info "Connected to XMPP server as #{jid.to_s}"
-}
-
-
-def reconnect
-  return Proc.new { |my_xmpp|
-    # Automatically reconnect
-    now=Time.now
-    if my_xmpp.last_reconnect != nil && now-my_xmpp.last_reconnect<5
-      Rails.logger.info "XMPP disconnected again at #{now}. Waiting 5s before reconnecting to XMPP server..."
-      EM.add_timer(5) do 
-        reconnect.call(my_xmpp)
-      end
-    else
-      Rails.logger.info "XMPP Disconnected at #{now}. Reconnecting..."
-      begin
-        XMPP.handler.connect
-        my_xmpp.last_reconnect=now
-      rescue StandardError => e
-        Rails.logger.info "Catched XMPP error: #{e.class.name} - #{e.message}"
-        EM.add_timer(10) do
-          reconnect.call(my_xmpp)
-        end
-      end
-    end
-  }
-end
-
-XMPP.disconnected { 
-  reconnect.call(XMPP)
 }
 
 XMPP.handle :error do |error|
