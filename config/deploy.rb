@@ -58,6 +58,7 @@ task :package, :roles => :pkg do
 
   cmd = "date -s \"#{Time.now.to_s}\" && "
   cmd += "export http_proxy=proxy:3128 && " unless ENV['NOPROXY']
+  cmd += "export DEBIAN_FRONTEND=noninteractive && "
   cmd += "apt-get update && "
   cmd += "apt-get install #{pkg_dependencies.join(" ")} git-core dh-make dpkg-dev libicu-dev -y && "
   cmd += "gem1.9.3 install rake -v 0.8.7 --no-ri --no-rdoc && "
