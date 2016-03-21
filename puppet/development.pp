@@ -25,25 +25,14 @@ class development {
     require => Service['postgresql']
   }
   
-  exec{ "create development database":
-    user => root, group => root,
-    require => Exec["allow mysql connections from all"],
-    command =>  "/usr/bin/mysql -e \"create database g5kapi_development CHARACTER SET utf8 COLLATE utf8_general_ci;\"",
-    creates => "/var/lib/mysql/g5kapi_development"
+  mysql::database {
+    'g5kapi_dev':
+      ensure => present;
   }
-
-  exec{ "create test database":
-    user => root, group => root,
-    require => Exec["allow mysql connections from all"],
-    command =>  "/usr/bin/mysql -e \"create database g5kapi_test CHARACTER SET utf8 COLLATE utf8_general_ci;\"",
-    creates => "/var/lib/mysql/g5kapi_test"
-  }
-
-  exec{ "create oar2 database":
-    user => root, group => root,
-    require => Exec["allow mysql connections from all"],
-    command =>  "/usr/bin/mysql -e \"create database oar2 CHARACTER SET utf8 COLLATE utf8_general_ci;\"",
-    creates => "/var/lib/mysql/oar2"
+  
+  mysql::database {
+    'g5kapi_test':
+      ensure => present;
   }
 
   file {
