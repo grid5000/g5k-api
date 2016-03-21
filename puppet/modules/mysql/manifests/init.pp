@@ -18,7 +18,7 @@ class mysql {
     mode => 644, owner => root, group => root,
     ensure => file,
     require => Package["mysql-server"],
-    content => "[mysqld]\nbind-address		= 0.0.0.0\n",
+    content => "[mysqld]\nbind-address		= 0.0.0.0\nport            = 13306\n",
     notify => Service["mysql"]
   }
 
