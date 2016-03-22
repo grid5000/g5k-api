@@ -24,10 +24,13 @@ class ExceptionHandlingStream < Blather::Stream::Client
       super
     rescue Blather::Stream::ConnectionFailed => e
       Rails.logger.error "XMPP connection failed: #{e}"  
-      ExceptionHandlingStream.reconnect_my_xmpp(@@client_to_restart)
+      ExceptionHandlingStream.reconnect
     end
   end
   class << self
+    def reconnect
+      ExceptionHandlingStream.reconnect_my_xmpp(@@client_to_restart)
+    end
     def reconnect_my_xmpp(my_xmpp)
       # Automatically reconnect
       now=Time.now
@@ -61,6 +64,11 @@ class ExceptionHandlingClient < Blather::Client
     raise 'not setup!' unless setup?
     ExceptionHandlingStream.start self, *@setup
   end
+  # def unbind
+  #   # super implementation will kill the event loop in some cases
+  #   # rewrite to avoid that
+  #   call_handler_for(:disconnected, nil) || Rails.logger.warn("XMPP no disconnect handler")
+  # end
 end
 
 class MyXMPP
@@ -97,6 +105,10 @@ ExceptionHandlingStream.set_client_to_restart(XMPP)
 
 XMPP.when_ready {
   Rails.logger.info "Connected to XMPP server as #{jid.to_s}"
+}
+
+XMPP.disconnected { 
+  ExceptionHandlingStream.reconnect
 }
 
 XMPP.handle :error do |error|
