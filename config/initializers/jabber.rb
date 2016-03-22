@@ -64,11 +64,6 @@ class ExceptionHandlingClient < Blather::Client
     raise 'not setup!' unless setup?
     ExceptionHandlingStream.start self, *@setup
   end
-  # def unbind
-  #   # super implementation will kill the event loop in some cases
-  #   # rewrite to avoid that
-  #   call_handler_for(:disconnected, nil) || Rails.logger.warn("XMPP no disconnect handler")
-  # end
 end
 
 class MyXMPP
