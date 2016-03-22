@@ -4,12 +4,6 @@ class ruby {
     ensure => latest
   }
   
-  # pacakges required to build native extensions
-  package {[
-    'libxml2-dev', #nokogiri
-    'libxslt1-dev' #nokogiri
-  ]: ensure => installed}
-
   exec { "install rake":
     user => root, group => root,
     command => "/usr/bin/gem1.9.3 install --no-ri --no-rdoc rake",

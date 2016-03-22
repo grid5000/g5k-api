@@ -6,6 +6,7 @@ class development {
   include mysql
   include postgres
   include ruby
+  include rails
   include git
   include dpkg::dev
 
