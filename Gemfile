@@ -1,7 +1,7 @@
 #source 'http://g5k-campaign.gforge.inria.fr/pkg'
 source 'https://rubygems.org'
 
-gem 'rake', '>= 0.8.7'
+gem 'rake', '>= 11.1.1'
 gem 'rails', '~> 3.0.0'
 gem 'eventmachine', '>= 1.0.0'
   # '~> 0.12',
