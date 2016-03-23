@@ -49,10 +49,10 @@ In particular, runtime dependencies of the app include `ruby1.9.3` and `git-core
 * For those of you that prefer working with the more classical rvm approach, you'll 
   need 
   
-  ** a working installation of `ruby` 1.9.3. We recommend using `rvm` to manage your ruby
+  * a working installation of `ruby` 1.9.3. We recommend using `rvm` to manage your ruby
   installations.
   
-  ** As with every Rails app, it uses the `bundler` gem to manage dependencies:
+  * As with every Rails app, it uses the `bundler` gem to manage dependencies:
   
         $ gem install bundler --no-ri --no-rdoc
   
@@ -61,7 +61,7 @@ In particular, runtime dependencies of the app include `ruby1.9.3` and `git-core
   installations, you will probably need to prefix every executable with
   `bundle exec`. E.g. `rake -T` will become `bundle exec rake -T`.
   
-  ** From the application root, install the application dependencies,
+  * From the application root, install the application dependencies,
   For nokogiri see
   [Nokogiri](http://nokogiri.org/tutorials/installing_nokogiri.html):
 
@@ -69,7 +69,7 @@ In particular, runtime dependencies of the app include `ruby1.9.3` and `git-core
         $ sudo apt-get install libpq-dev           # needed for the pg gem
         $ bundle install
   
-  ** [option1 - the hard way - setup the full development environment on your machine]
+  * [option1 - the hard way - setup the full development environment on your machine]
   
   Install a MySQL database, and any other dependency that can be required by
   the API to run, and adapt the configuration files located in
@@ -77,7 +77,7 @@ In particular, runtime dependencies of the app include `ruby1.9.3` and `git-core
   `puppet/` directory to know more about the software that should be installed
   to mirror the production servers.
   
-  ** [option2 - the old way - use a Grid'5000 node as your development server]
+  * [option2 - the old way - use a Grid'5000 node as your development server]
   
   If you don't want to install a mysql server and other dependencies on your
   machine, you can use one of the Capistrano tasks that are bundled with the
@@ -121,17 +121,17 @@ In particular, runtime dependencies of the app include `ruby1.9.3` and `git-core
   Do not attempt to use the directory directly, as unit test play with the git.rename dir.
 
 * Get access to a OAR database
-
-** Get your hands on a copy of an active database
+  
+  * Get your hands on a copy of an active database
    
         $ ssh oardb.reims.g5kadmin sudo cat /var/backups/all_db.sql.gz > all_db.sql.gz
-        $ gunzip all_db.sql
-        vagrant>SEED=oar.sql RAILS_ENV=development rake db:oar:seed
-
-** Or tunnel your way to a live database (as g5k-api only requires read-only access)
-   This is particularly usefull if you want to develop on the UI (but with bad site 
-   information). You should setup an SSH tunnel between your machine and one of the 
-   oardb servers of Grid'5000, so that you can access the current jobs:
+        $ gunzip all_db.sqp
+        vagrant>SEED=all_db.sqp RAILS_ENV=development rake db:oar:seed
+  
+  * Or tunnel your way to a live database (as g5k-api only requires read-only access)
+    This is particularly usefull if you want to develop on the UI (but with bad site 
+    information). You should setup an SSH tunnel between your machine and one of the 
+    oardb servers of Grid'5000, so that you can access the current jobs:
 
         $ #first create a reverse port from the vagrant machine to 
 		    $ #your own machine
