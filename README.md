@@ -48,37 +48,37 @@ In particular, runtime dependencies of the app include `ruby1.9.3` and `git-core
  
 * For those of you that prefer working with the more classical rvm approach, you'll 
   need 
-
-** a working installation of `ruby` 1.9.3. We recommend using `rvm` to manage your ruby
+  
+  ** a working installation of `ruby` 1.9.3. We recommend using `rvm` to manage your ruby
   installations.
-
-** As with every Rails app, it uses the `bundler` gem to manage dependencies:
-
+  
+  ** As with every Rails app, it uses the `bundler` gem to manage dependencies:
+  
         $ gem install bundler --no-ri --no-rdoc
-
+  
   Note: in the next sections we'll run `rake` or `cap` executables. If you're
   using an old version of bundler and are not using `rvm` to manage your ruby
   installations, you will probably need to prefix every executable with
   `bundle exec`. E.g. `rake -T` will become `bundle exec rake -T`.
-
-** From the application root, install the application dependencies,
+  
+  ** From the application root, install the application dependencies,
   For nokogiri see
   [Nokogiri](http://nokogiri.org/tutorials/installing_nokogiri.html):
 
         $ sudo apt-get install libmysqlclient-dev  # needed for the mysql2 gem
         $ sudo apt-get install libpq-dev           # needed for the pg gem
         $ bundle install
-
-** [option1 - the hard way - setup the full development environment on your machine]
-
+  
+  ** [option1 - the hard way - setup the full development environment on your machine]
+  
   Install a MySQL database, and any other dependency that can be required by
   the API to run, and adapt the configuration files located in
   `config/options/`. Look at the puppet recipes that can be found in the
   `puppet/` directory to know more about the software that should be installed
   to mirror the production servers.
-
-** [option2 - the old way - use a Grid'5000 node as your development server]
-
+  
+  ** [option2 - the old way - use a Grid'5000 node as your development server]
+  
   If you don't want to install a mysql server and other dependencies on your
   machine, you can use one of the Capistrano tasks that are bundled with the
   app to install the full development environment on a Grid'5000 node. If you
@@ -86,13 +86,13 @@ In particular, runtime dependencies of the app include `ruby1.9.3` and `git-core
   for you with the right version of the OS and all the software dependencies
   and port forwarding setup (takes about 5-10 minutes to deploy and
   configure):
-
+  
         $ SSH_KEY=~/.ssh/id_rsa_accessg5k HOST=graphene-29.nancy.g5k cap develop
         $ SSH_KEY=~/.ssh/id_rsa_accessg5k HOST=graphene-29.nancy.g5k cap package
         $ SSH_KEY=~/.ssh/id_rsa_accessg5k HOST=graphene-29.nancy.g5k cap install
         $ ssh -L 8000:localhost:8000 graphene-29.nancy.g5k
         $ http://localhost:8000/ui/dashboard
-
+  
   This used to be the recommended approach, and you can reuse the node for packaging a
   new release once you've made some changes. It is no longer actively maintained, but
   kept here for reference if vagrant and virtualbox are a difficult setting for you
@@ -101,22 +101,22 @@ In particular, runtime dependencies of the app include `ruby1.9.3` and `git-core
 
 * Setup the database schema:
 
-        $ rake db:setup RAILS_ENV=development
+        vagrant> rake db:setup RAILS_ENV=development
 
 * Give access to reference data to expose. The scripts expect you
   have a checkout version of the reference-repository in a sibling directory
   to this code.  
 
-        g5k-api $ cd ..
-				$ git clone ssh://g5kadmin@git.grid5000.fr/srv/git/repos/reference-repository.git \
-          reference-repository
+        (g5k-api) $ cd ..
+				( ) $ git clone ssh://g5kadmin@git.grid5000.fr/srv/git/repos/reference-repository.git \
+              reference-repository
   
   You might not have admin access to Grid'5000's reference repository. in this case, you 
   could duplicate the fake repository used for tests, in the spec/fixtures/reference-repository
   directory. 
 
-        g5k-api $ cp -r spec/fixtures/reference-repository ..
-        g5k-api $ mv ../reference-repository/git.rename ../reference-repository/.git
+        (g5k-api) $ cp -r spec/fixtures/reference-repository ..
+        (g5k-api) $ mv ../reference-repository/git.rename ../reference-repository/.git
 
   Do not attempt to use the directory directly, as unit test play with the git.rename dir.
 
@@ -126,7 +126,7 @@ In particular, runtime dependencies of the app include `ruby1.9.3` and `git-core
    
         $ ssh oardb.reims.g5kadmin sudo cat /var/backups/all_db.sql.gz > all_db.sql.gz
         $ gunzip all_db.sql
-        $ SEED=oar.sql RAILS_ENV=development rake db:oar:seed
+        vagrant>SEED=oar.sql RAILS_ENV=development rake db:oar:seed
 
 ** Or tunnel your way to a live database (as g5k-api only requires read-only access)
    This is particularly usefull if you want to develop on the UI (but with bad site 
@@ -320,4 +320,4 @@ accessible. So, each time a new version of Kadeploy is released and installed on
 the Grid5000 sites, you MUST remember to update the kadeploy-common package.
 
 ## Authors
-* Cyril Rohr <cyril.rohr@inria.fr>, DAvid Margery and others
+* Cyril Rohr <cyril.rohr@inria.fr>, David Margery <david.margery@inria.fr> and others
