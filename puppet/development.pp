@@ -38,7 +38,7 @@ class development {
 
   file {
     "/root/.ssh":
-      mode => 0700,
+      mode => "0700",
       owner => root,
       group => root,
       ensure => directory;

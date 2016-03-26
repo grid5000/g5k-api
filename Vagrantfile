@@ -13,11 +13,11 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # please see the online documentation at vagrantup.com.
 
   # Every Vagrant virtual environment requires a box to build off of.
-  config.vm.box = "debian-wheezy-x64-puppet_3.0.1"
+  config.vm.box = "debian-jessie-x64-puppet_4"
 
   # The url from where the 'config.vm.box' box will be fetched if it
   # doesn't already exist on the user's system.
-  config.vm.box_url = "https://vagrant.irisa.fr/boxes/debian-wheezy-x64-puppet_3.0.1.box"
+  config.vm.box_url = "https://vagrant.irisa.fr/boxes/irisa_debian-8.2.0_puppet4.box"
 
   # Create a forwarded port mapping which allows access to a specific port
   # within the machine from a port on the host machine. In the example below,
@@ -85,12 +85,13 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # #               Managed by Puppet.\n"
   # # }
   #
-  config.vm.provision :puppet do |puppet|
-    puppet.manifests_path = "puppet"
-    puppet.manifest_file  = "development.pp"
-    puppet.module_path = "puppet/modules"
-  end
+  # config.vm.provision :puppet do |puppet|
+  #   puppet.manifests_path = "puppet"
+  #   puppet.manifest_file  = "development.pp"
+  #   puppet.module_path = "puppet/modules"
+  # end
 
+  config.vm.provision :shell, inline: "/opt/puppetlabs/bin/puppet apply --modulepath=/vagrant/puppet/modules /vagrant/puppet/development.pp"
   config.vm.provision :file, source: (ENV['SSH_KEY'] && "#{ENV['SSH_KEY']}.pub") || "~/.ssh/authorized_keys", destination: "/tmp/toto"
   config.vm.provision :shell, :inline => "sudo mv /tmp/toto /root/.ssh/authorized_keys"
   config.vm.provision :shell, :inline => "sudo chown root: /root/.ssh/authorized_keys"

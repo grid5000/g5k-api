@@ -1,38 +1,38 @@
 class postgres {
 
   package{
-    'postgresql-9.1':
+    'postgresql':
       ensure   => installed,
   }
 
   user{
     'postgres':
-      require => Package['postgresql-9.1'],
+      require => Package['postgresql'],
       ensure => present;
   }
 
   file{
-    '/etc/postgresql/9.1/main':
+    '/etc/postgresql/9.4/main':
       ensure  => directory,
       owner   => postgres,
       group   => postgres,
-      mode    => 700,
-      recurse => inf,
-      require => [Package['postgresql-9.1'], User['postgres']];
-    '/etc/postgresql/9.1/main/pg_hba.conf':
+      mode    => "0700",
+      recurse => true,
+      require => [Package['postgresql'], User['postgres']];
+    '/etc/postgresql/9.4/main/pg_hba.conf':
       ensure  => present,
       source  => "puppet:///modules/postgres/pg_hba.conf",
       owner   => postgres,
       group   => postgres,
-      mode    => 700,
-      require => Package['postgresql-9.1'],
+      mode    => "0700",
+      require => Package['postgresql'],
       notify  => Service['postgresql'];
-    '/etc/postgresql/9.1/main/postgresql.conf':
+    '/etc/postgresql/9.4/main/postgresql.conf':
       content => template('postgres/postgres.conf.erb'),
       owner   => postgres,
       group   => postgres,
-      mode    => 700,
-      require => Package['postgresql-9.1'],
+      mode    => "0700",
+      require => Package['postgresql'],
       notify  => Service['postgresql'];
   }
 

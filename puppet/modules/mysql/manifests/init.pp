@@ -15,7 +15,7 @@ class mysql {
   }
 
   file{ "/etc/mysql/conf.d/custom.cnf":
-    mode => 644, owner => root, group => root,
+    mode => "0644", owner => root, group => root,
     ensure => file,
     require => Package["mysql-server"],
     content => "[mysqld]\nbind-address		= 0.0.0.0\nport            = 13306\n",
