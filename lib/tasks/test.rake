@@ -15,19 +15,5 @@ namespace :db do
   end
 end
 
-namespace :test do
-  begin
-    require 'rspec/core/rake_task'
-
-    desc "Run Test coverage"
-    RSpec::Core::RakeTask.new(:rcov) do |t|
-      t.rcov = true
-      t.pattern = 'spec/**/*_spec.rb'
-      t.rcov_opts = ['-Ispec', '--exclude', 'gems', '--exclude', 'spec', '--exclude', 'config', '--exclude', 'app/metal']
-    end
-  rescue LoadError
-  end
-end
-
 
 

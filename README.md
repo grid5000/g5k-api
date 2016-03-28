@@ -300,7 +300,7 @@ to create a test database, and a fake OAR database.
 
 * Generate the test coverage:
 
-        $ bundle exec rake test:rcov
+        $ RAILS_ENV=test rspec spec/
         $ open coverage/index.html
 
 
