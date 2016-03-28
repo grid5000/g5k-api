@@ -15,7 +15,7 @@
 require 'rubygems'
 
 require 'yaml'
-YAML::ENGINE.yamler = "syck"
+YAML::ENGINE.yamler = "psych"
 
 # Attempts to use a vendored Bundler, if any
 vendored_gems = File.expand_path(
