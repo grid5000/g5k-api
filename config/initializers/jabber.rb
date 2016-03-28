@@ -21,10 +21,12 @@ require 'blather/client/dsl'
 class ExceptionHandlingStream < Blather::Stream::Client
   def unbind
     begin
+      Rails.logger.error "XMPP connection failed: going to unbind"  
       super
     rescue Blather::Stream::ConnectionFailed => e
       Rails.logger.error "XMPP connection failed: #{e}"  
       ExceptionHandlingStream.reconnect
+      Rails.logger.error "XMPP reconnection planned"  
     end
   end
   class << self
@@ -49,7 +51,13 @@ class ExceptionHandlingStream < Blather::Stream::Client
           EM.add_timer(10) do
             reconnect.call(my_xmpp)
           end
+        rescue Blather::Stream::ConnectionFailed => e
+          Rails.logger.error "XMPP: Could not reconnect: #{e}. Wait 10s"  
+          EM.add_timer(10) do
+            reconnect.call(my_xmpp)
+          end
         end
+        Rails.logger.info "XMPP reconnected at #{my_xmpp.last_reconnect}"
       end
     end
     def set_client_to_restart(client)
@@ -64,6 +72,7 @@ class ExceptionHandlingClient < Blather::Client
     raise 'not setup!' unless setup?
     ExceptionHandlingStream.start self, *@setup
   end
+  alias_method :connect, :run
 end
 
 class MyXMPP
@@ -103,6 +112,7 @@ XMPP.when_ready {
 }
 
 XMPP.disconnected { 
+  Rails.logger.info "XMPP disconnect notified. Will not kill eventmachine"
   ExceptionHandlingStream.reconnect
 }
 
