@@ -53,13 +53,13 @@ describe Grid5000::Repository do
       end
       
       it "should find the commit associated with the given version [version=DATE] 1/2" do      
-        date = Time.parse("Fri Mar 13 17:24:20 2009 +0100")
+        date = Time.parse("2009-03-13 17:24:20 +0100")
         commit = @repository.find_commit_for(:version => date.to_i)
         commit.id.should == "b00bd30bf69c322ffe9aca7a9f6e3be0f29e20f4"
       end
       
       it "should find the commit associated with the given version [version=DATE] 2/2" do      
-        date = Time.parse("Fri Mar 13 17:24:47 2009 +0100")
+        date = Time.parse("2009-03-13 17:24:47 +0100")
         commit = @repository.find_commit_for(:version => date.to_i)
         commit.id.should == "e07895a4b480aaa8e11c35549a97796dcc4a307d"
       end
