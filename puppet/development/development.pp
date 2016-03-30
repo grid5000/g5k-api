@@ -36,6 +36,17 @@ class development {
       ensure => present;
   }
 
+  exec{ "Run bundle install":
+    user => root,
+    group => root,
+    cwd => "/vagrant",
+    command => "/bin/su -c '/usr/local/bin/bundle install' vagrant",
+    require => [Exec["install bundler"],Package['libxml2-dev','libxslt-dev']],
+    logoutput => true,
+    creates => "/vagrant/vendor/rails"
+  }
+	
+
   file {
     "/root/.ssh":
       mode => "0700",
