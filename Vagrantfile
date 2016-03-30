@@ -85,18 +85,16 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # #               Managed by Puppet.\n"
   # # }
   #
-  # config.vm.provision :puppet do |puppet|
-  #   puppet.manifests_path = "puppet"
-  #   puppet.manifest_file  = "development.pp"
-  #   puppet.module_path = "puppet/modules"
-  # end
+  config.vm.provision :puppet do |puppet|
+    puppet.environment = 'development'
+    puppet.environment_path = "puppet"
+  end
 
-  config.vm.provision :shell, inline: "/opt/puppetlabs/bin/puppet apply --modulepath=/vagrant/puppet/modules /vagrant/puppet/development.pp"
-  config.vm.provision :file, source: (ENV['SSH_KEY'] && "#{ENV['SSH_KEY']}.pub") || "~/.ssh/authorized_keys", destination: "/tmp/toto"
-  config.vm.provision :shell, :inline => "sudo mv /tmp/toto /root/.ssh/authorized_keys"
-  config.vm.provision :shell, :inline => "sudo chown root: /root/.ssh/authorized_keys"
-  config.vm.provision :shell, :inline => "sudo chown root: /root/.ssh/authorized_keys"
-  config.vm.provision :shell, :inline => "if [ $(wc -l .ssh/authorized_keys| cut -d ' ' -f 1) -lt 2 ] ; then sudo cat /root/.ssh/authorized_keys >> /home/vagrant/.ssh/authorized_keys ; fi"
+  # config.vm.provision :file, source: (ENV['SSH_KEY'] && "#{ENV['SSH_KEY']}.pub") || "~/.ssh/authorized_keys", destination: "/tmp/toto"
+  # config.vm.provision :shell, :inline => "sudo mv /tmp/toto /root/.ssh/authorized_keys"
+  # config.vm.provision :shell, :inline => "sudo chown root: /root/.ssh/authorized_keys"
+  # config.vm.provision :shell, :inline => "sudo chown root: /root/.ssh/authorized_keys"
+  # config.vm.provision :shell, :inline => "if [ $(wc -l .ssh/authorized_keys| cut -d ' ' -f 1) -lt 2 ] ; then sudo cat /root/.ssh/authorized_keys >> /home/vagrant/.ssh/authorized_keys ; fi"
 
   # Enable provisioning with chef solo, specifying a cookbooks path, roles
   # path, and data_bags path (all relative to this Vagrantfile), and adding
