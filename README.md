@@ -36,9 +36,9 @@ In particular, runtime dependencies of the app include `ruby1.9.3` and `git-core
   Of course, reality is a bit more complex. You might have troubles with the insecure
   certificate of the vagrant box provider. In that case, you'll need to start with 
 
-        $ vagrant box add --insecure --name debian-wheezy-x64-puppet_3.0.1 \
-          https://vagrant.irisa.fr/boxes/debian-wheezy-x64-puppet_3.0.1.box
-
+        $ vagrant box add --insecure --name debian-jessie-x64-puppet_4 \
+	  https://vagrant.irisa.fr/boxes/irisa_debian-8.2.0_puppet4.box
+	  
   And as the application relies on external data sources, you'll need to connect
   it with a reference-repository, an OAR database, a kadeploy3 server, and a jabber server
   to exercice all its functionnality, in addition to its own backend services that
