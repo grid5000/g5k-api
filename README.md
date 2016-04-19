@@ -28,7 +28,6 @@ In particular, runtime dependencies of the app include `ruby1.9.3` and `git-core
         $ vagrant up --provision
         $ vagrant ssh
         vagrant> cd /vagrant
-        vagrant> bundle install 
 
   The vagrant provisionning script will attempt to configure the VM's root and vagrant
   accounts to be accessible by ssh. By default, it will copy your authorized_keys, but you 

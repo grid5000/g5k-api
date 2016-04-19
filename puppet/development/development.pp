@@ -43,7 +43,7 @@ class development {
     command => "/bin/su -c '/usr/local/bin/bundle install' vagrant",
     require => [Exec["install bundler"],Package['libxml2-dev','libxslt-dev']],
     logoutput => true,
-    creates => "/vagrant/vendor/rails"
+    creates => "/vagrant/vendor/bundle"
   }
 	
 
