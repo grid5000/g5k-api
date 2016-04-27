@@ -1,3 +1,9 @@
+g5k-api (3.4.12-7) jessie; urgency=medium
+
+  * New attempt at fixing ruby version dependency
+
+ -- vagrant <vagrant@debian-8.2.0-amd64>  Wed, 27 Apr 2016 08:42:25 +0000
+
 g5k-api (3.4.12-6) jessie; urgency=medium
 
   * New attempt at fixing ruby version dependency

@@ -9,6 +9,6 @@ Homepage: https://api.grid5000.fr
 
 Package: g5k-api
 Architecture: amd64
-Depends: ${shlibs:Depends}, ${misc:Depends}, ruby2.1.5, git-core, libxml2, libxslt1.1
+Depends: ${shlibs:Depends}, ${misc:Depends}, ruby2.1, git-core, libxml2, libxslt1.1
 Description: Grid'5000 API
  The API built on top of the Grid'5000 tools.
