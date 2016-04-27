@@ -54,6 +54,15 @@ class development {
       group => root,
       ensure => directory;
   }
+
+  #Build dependencies
+    package {[
+    'libevent-dev',
+    'libreadline-dev'
+              ]:
+    ensure => installed
+  }
+
 }
 
 stage { "init": before  => Stage["main"] }
