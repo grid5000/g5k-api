@@ -198,27 +198,14 @@ to create a test database, and a fake OAR database.
 
         $ rake package:bump:patch # or: package:bump:minor, package:bump:major
 
-* Building the `.deb` package is easy, since we kindly provide a `capistrano`
-  recipe that will automatically reserve a machine on Grid'5000, deploy a
-  squeeze-based image, upload the latest committed code (`HEAD`) in the
-  current branch, generate a `.deb` package, and download the generated
-  package back to your machine, in the `pkg/` directory.
+* Building the `.deb` package is easy, since we kindly provide a rake task 
+  to run in the vagrant box, that will copy the latest committed code 
+  (`HEAD`) in /tmp/g5k-api, generate a `.deb` package, and move the generated
+  package to the `pkg/` directory.
 
-  Just execute:
+  Just execute from the host machine:
 
-        $ cap package
-
-  You can also pass a specific HOST if you wish (in this case it won't reserve
-  a node on Grid'5000):
-
-        $ cap package HOST=...
-        $ cap package HOST=griffon-71.nancy.user SSH_KEY=~/.ssh/id_userg5k
-
-  With vagrant (copy your ssh public key into the root account of the VM if
-  the automated vagrant provisioning script hasn't (see higher)):
-
-        $ cap package HOST=root@192.168.2.10 NOPROXY=true
-        $ cap package USE_VAGRANT=true NOPROXY=true
+        $ vagrant ssh -- "cd /vagrant ; rake package:build:debian"
 
 ## Releasing and Installing and new version
 
