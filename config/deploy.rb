@@ -17,8 +17,6 @@ require File.expand_path("../../lib/grid5000/version", __FILE__)
 
 set :application, ENV['APP_NAME'] || "g5k-api"
 
-set :package_name, "g5k-api" #see debian/control
-
 set :apt_repo, ENV['REPO_DIR'] || "/var/www/#{application}-devel" 
 set :apt_repo, ENV['REPO_DIR'] || "/var/www/#{application}" if ENV['PROD_REPO']
 set :puppet, "/tmp/puppet"
@@ -36,11 +34,9 @@ set :ssh_options, {
 }
 set :authorized_keys, "#{key}.pub"
 
-set :provisioner, "bundle exec g5k-campaign --site #{ENV['SITE'] || 'rennes'} -a #{authorized_keys} -k #{ssh_options[:keys][0]} -e squeeze-x64-base --name \"#{application}-#{ARGV[0]}\" --no-submit --no-deploy --no-cleanup -w #{ENV['WALLTIME'] || 7200}"
+set :provisioner, "bundle exec g5k-campaign --site #{ENV['SITE'] || 'rennes'} -a #{authorized_keys} -k #{ssh_options[:keys][0]} -e jessie-x64-base --name \"#{application}-#{ARGV[0]}\" --no-submit --no-deploy --no-cleanup -w #{ENV['WALLTIME'] || 7200}"
 
 set :provisioner, "(SSH_KEY=#{key} vagrant up --provision && cat Vagrantfile) | grep private_network | grep -o -E '[0-9][0-9\.]*'" if ENV['USE_VAGRANT']
-
-set :pkg_dependencies, %w{libmysqlclient-dev ruby1.9.3 libxml2-dev libxslt-dev libssl-dev libpq-dev}
 
 role :apt, ENV['HOST'] || 'apt.grid5000.fr'
 role :app do
@@ -53,37 +49,6 @@ role :pkg do
   ENV['HOST'] ||= `#{provisioner}`
 end
 
-desc "Package the app as a debian package, on a remote machine."
-task :package, :roles => :pkg do
-
-  cmd = "date -s \"#{Time.now.to_s}\" && "
-  cmd += "export http_proxy=proxy:3128 && " unless ENV['NOPROXY']
-  cmd += "export DEBIAN_FRONTEND=noninteractive && "
-  cmd += "apt-get update && "
-  cmd += "apt-get install #{pkg_dependencies.join(" ")} git-core dh-make dpkg-dev libicu-dev -y && "
-  cmd += "gem1.9.3 install rake -v 11.1.1 --no-ri --no-rdoc && "
-  cmd += "gem1.9.3 install bundler -v 1.7.6 --no-ri --no-rdoc && "
-  cmd += "rm -rf /tmp/#{package_name}*"
-
-  run cmd
-
-  system "mkdir -p pkg/ && git archive HEAD > pkg/#{package_name}.tar"
-  upload("pkg/#{package_name}.tar", "/tmp/#{package_name}.tar")
-
-  cmd = "cd /tmp && "
-  cmd += "mkdir -p #{package_name}/pkg && "
-  cmd += "tar xf #{package_name}.tar -C #{package_name} && "
-  cmd += "cd #{package_name} && "
-  cmd += "export https_proxy=proxy:3128 && " unless ENV['NOPROXY']
-  cmd += "export http_proxy=proxy:3128 && " unless ENV['NOPROXY']
-  cmd += "export PKG_NAME=#{package_name} && "
-  cmd += "PATH=/var/lib/gems/1.9.1/bin:$PATH rake -f lib/tasks/packaging.rake package:debian && "
-  cmd += "cp ../#{package_name}_*.deb pkg/"
-
-  run cmd
-
-  download "/tmp/#{package_name}/pkg", "pkg", :once => true, :recursive => true
-end
 
 desc "Release the latest package (#{Grid5000::VERSION}). Destination controled by PROD_REPO and REPO_DIR"
 task :release, :roles => :apt do
