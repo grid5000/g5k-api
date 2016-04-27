@@ -50,13 +50,24 @@ def bump(index)
 
   changelog = File.read(CHANGELOG_FILE)
   last_commit = changelog.scan(/\s+\* ([a-f0-9]{7}) /).flatten[0]
-	puts last_commit
+
   cmd = "git log --oneline"
   cmd << " #{last_commit}..HEAD" unless last_commit.nil?
+
+	commit_logs=`#{cmd}`.split("\n")
+	purged_logs=commit_logs.reject{|l| l =~ / v#{Grid5000::VERSION}/}.reject{|l| l =~ /Commit version #{Grid5000::VERSION}/}
+	if purged_logs.size == 0
+	  puts 'No real changes except version changes since last version bump. Aborting unless EMPTYBUMP set'
+		return unless ENV['EMPTYBUMP']
+  end	
+	if USER_NAME==""
+	  puts 'No git user: running in Vagrant box ? Use git config --global user.name "firstname lastename" before bumping version'  
+		return
+  end	 
   content_changelog = [
     "#{NAME} (#{new_version}-1) jessie; urgency=low",
     "",
-    `#{cmd}`.split("\n").reject{|l| l =~ / v#{Grid5000::VERSION}/}.map{|l| "  * #{l}"}.join("\n"),
+    purged_logs.map{|l| "  * #{l}"}.join("\n"),
     "",
     " -- #{USER_NAME} <#{USER_EMAIL}>  #{Time.now.strftime("%a, %d %b %Y %H:%M:%S %z")}",
     "",
