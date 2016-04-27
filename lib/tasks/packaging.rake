@@ -49,7 +49,7 @@ def bump(index)
   new_version = fragments.join(".")
 
   changelog = File.read(CHANGELOG_FILE)
-  last_commit = changelog.scan(/\s+\* ([a-z0-9]{7}) /).flatten[0]
+  last_commit = changelog.scan(/\s+\* ([a-f0-9]{7}) /).flatten[0]
 	puts last_commit
   cmd = "git log --oneline"
   cmd << " #{last_commit}..HEAD" unless last_commit.nil?
@@ -78,7 +78,7 @@ def bump(index)
   puts "Generated changelog for version #{new_version}."
   unless ENV['NOCOMMIT']
     puts "Committing changelog and version file..."
-    sh "git commit -m 'v#{new_version}' #{CHANGELOG_FILE} #{VERSION_FILE}"
+    sh "git commit -m 'Commit version #{new_version}' #{CHANGELOG_FILE} #{VERSION_FILE}"
   end
 end
 

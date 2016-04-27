@@ -1,31 +1,6 @@
-g5k-api (3.4.12-8) jessie; urgency=medium
-
-  * fix postinst script for proper /usr/bin/g5k-api
-  * fix code path to find vendorize bundler
-
- -- vagrant <vagrant@debian-8.2.0-amd64>  Wed, 27 Apr 2016 08:42:25 +0000
-
-g5k-api (3.4.12-7) jessie; urgency=medium
-
-  * New attempt at fixing ruby version dependency
-
- -- vagrant <vagrant@debian-8.2.0-amd64>  Wed, 27 Apr 2016 08:42:25 +0000
-
-g5k-api (3.4.12-6) jessie; urgency=medium
-
-  * New attempt at fixing ruby version dependency
-
- -- vagrant <vagrant@debian-8.2.0-amd64>  Wed, 27 Apr 2016 08:42:25 +0000
-
-g5k-api (3.4.12-2) jessie; urgency=low
-
-  * Fix ruby dependency
-
- -- David Margery <david.margery@inria.fr>  Wed, 16 Mar 2016 15:43:05 +0100
-
 g5k-api (3.4.12-1) unstable; urgency=low
 
-  * release version 3.4.12
+  * 20a7ead release v3.4.12
 
  -- David Margery <david.margery@inria.fr>  Wed, 16 Mar 2016 15:43:05 +0100
 
@@ -187,7 +162,7 @@ g5k-api (3.2.0-1) unstable; urgency=low
 
 g5k-api (3.1.8-1) unstable; urgency=low
 
-  * 89f7224 [deploy] Bugfix: return 201 HTTP code on POST requests
+  * 3d594d7 [deploy] Bugfix: return 201 HTTP code on POST requests
   * 7bc4d31 [deploy] Check timeouts when contacting the Kadeploy native API
 
  -- Luc Sarzyniec <luc.sarzyniec@inria.fr>  Tue, 25 Feb 2014 14:48:09 +0100
