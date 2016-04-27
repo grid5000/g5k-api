@@ -25,8 +25,8 @@ case "$1" in
         if [ ! -f /opt/local/$NAME/bin/$NAME.rb ]; then 
           mv /opt/local/$NAME/bin/$NAME /opt/local/$NAME/bin/$NAME.rb
         fi
-        echo "#!/usr/bin/ruby1.9.1
-        require '/opt/local/$NAME/bin/$NAME'
+        echo "#!/usr/bin/env ruby
+require '/opt/local/$NAME/bin/$NAME'
         " > /usr/bin/$NAME && chmod a+x /usr/bin/$NAME
         # Creating the user if it does not exist
         if ! getent passwd $NAME > /dev/null; then
