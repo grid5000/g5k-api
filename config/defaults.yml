@@ -36,10 +36,10 @@ development:
   oar:
     <<: *oar
     host: 127.0.0.1
-    port: 15432
-    username: root
-    password: oar
-    database: oar2_dev
+    port: 15433
+    username: oarreader
+    password: read
+    database: oar2
 
 test: &test
   <<: *defaults
