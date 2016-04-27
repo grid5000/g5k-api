@@ -1,42 +1,54 @@
+g5k-api (3.4.12-6) jessie; urgency=medium
+
+  * New attempt at fixing ruby version dependency
+
+ -- vagrant <vagrant@debian-8.2.0-amd64>  Wed, 27 Apr 2016 08:42:25 +0000
+
+g5k-api (3.4.12-2) jessie; urgency=low
+
+  * Fix ruby dependency
+
+ -- David Margery <david.margery@inria.fr>  Wed, 16 Mar 2016 15:43:05 +0100
+
 g5k-api (3.4.12-1) unstable; urgency=low
 
-
+  * release version 3.4.12
 
  -- David Margery <david.margery@inria.fr>  Wed, 16 Mar 2016 15:43:05 +0100
 
 g5k-api (3.4.11-1) unstable; urgency=low
 
-
+  * release version 3.4.11
 
  -- David Margery <david.margery@inria.fr>  Fri, 11 Mar 2016 10:19:24 +0100
 
 g5k-api (3.4.10-1) unstable; urgency=low
 
-
+  * release version 3.4.10
 
  -- David Margery <david.margery@inria.fr>  Mon, 28 Sep 2015 17:35:06 +0200
 
 g5k-api (3.4.9-1) unstable; urgency=low
 
-
+  * release version 3.4.9
 
  -- David Margery <david.margery@inria.fr>  Mon, 28 Sep 2015 17:21:49 +0200
 
 g5k-api (3.4.8-1) unstable; urgency=low
 
-
+  * release version 3.4.8
 
  -- David Margery <david.margery@inria.fr>  Tue, 28 Jul 2015 13:49:49 +0200
 
 g5k-api (3.4.7-1) unstable; urgency=low
 
-
+  * release version 3.4.7
 
  -- David Margery <david.margery@inria.fr>  Tue, 28 Jul 2015 13:34:15 +0200
 
 g5k-api (3.4.6-1) unstable; urgency=low
 
-
+  * release version 3.4.6
 
  -- David Margery <david.margery@inria.fr>  Tue, 28 Jul 2015 12:05:40 +0200
 
@@ -156,7 +168,7 @@ g5k-api (3.2.1-1) unstable; urgency=low
 
 g5k-api (3.2.0-1) unstable; urgency=low
 
-
+  * Release version 3.2.0
 
  -- Anirvan BASU <Anirvan.BASU@INRIA.fr>  Tue, 24 Mar 2015 14:14:16 +0100
 

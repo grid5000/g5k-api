@@ -31,9 +31,9 @@ group :test, :development do
   gem 'factory_girl_rails'
   gem 'simplecov'
   gem 'net-ssh-multi'
-  gem 'capistrano'
+	#gem 'pkgr', '>= 1.4.4' #pkgr comes with debian-8 buildpack as from 1.4.4, but is not compatible with rails 3.0 (incompatible dependencies on rake and thor)
+  #gem 'capistrano'
   gem 'g5k-campaign', :git => 'https://gforge.inria.fr/git/g5k-campaign/g5k-campaign.git', :ref => 'cac93c26c7c998da96182980736b4d17fb070570' # '~> 0.9.7'
-
 end
 
 

@@ -6,9 +6,39 @@ NAME = ENV['PKG_NAME'] || "g5k-api"
 BUILD_MACHINE = ENV['BUILD_MACHINE'] || "debian-build"
 USER_NAME = `git config --get user.name`.chomp
 USER_EMAIL = `git config --get user.email`.chomp
-BUNDLER_VERSION = "1.7.6"
 
 require VERSION_FILE
+
+PACKAGING_DIR = '/tmp/'+NAME+'-'+Grid5000::VERSION
+
+def in_working_dir(dir,&block)
+  #Dir.choidr does not change ENV['PWD']
+  old_wd=ENV['PWD']
+  Dir.chdir(dir) do
+    ENV['PWD']=dir
+    yield
+  end
+  ENV['PWD']=old_wd
+end
+
+def without_bundle_env(forced_values={}, &block)
+  to_clean=["BUNDLE_GEMFILE","RUBYOPT"]
+  saved_values={}
+  to_clean.each do |env_value|
+    saved_values[env_value]=ENV[env_value]
+    if forced_values.has_key?(env_value)
+      ENV[env_value]=forced_values[env_value]
+    else
+      ENV.delete(env_value)
+    end
+  end
+  
+  yield
+  
+  to_clean.each do |env_value|
+    ENV[env_value]=saved_values[env_value]
+  end
+end
 
 def bump(index)  
   fragments = Grid5000::VERSION.split(".")
@@ -20,11 +50,11 @@ def bump(index)
 
   changelog = File.read(CHANGELOG_FILE)
   last_commit = changelog.scan(/\s+\* ([a-z0-9]{7}) /).flatten[0]
-
+	puts last_commit
   cmd = "git log --oneline"
   cmd << " #{last_commit}..HEAD" unless last_commit.nil?
   content_changelog = [
-    "#{NAME} (#{new_version}-1) unstable; urgency=low",
+    "#{NAME} (#{new_version}-1) jessie; urgency=low",
     "",
     `#{cmd}`.split("\n").reject{|l| l =~ / v#{Grid5000::VERSION}/}.map{|l| "  * #{l}"}.join("\n"),
     "",
@@ -54,25 +84,28 @@ end
 
 namespace :package do
   task :setup do
-    mkdir_p "pkg"
+    mkdir_p "#{PACKAGING_DIR}/pkg"
     # remove previous versions
-    rm_rf "pkg/#{NAME}_*.deb"
+    rm_rf "#{PACKAGING_DIR}/pkg/#{NAME}_*.deb"
+    sh "mkdir -p pkg/ && git archive HEAD > /tmp/#{NAME}.tar"
   end
   
   desc "Bundle the dependencies for the current platform"
-  task :bundle do
-    %w{bin gems specifications}.each{|dir|
-      rm_rf "vendor/ruby/1.9.1/#{dir}"
-    }
-    # Install dependencies
-    sh "which bundle || gem1.9.1 install bundler --version #{BUNDLER_VERSION}"
-    #sh "export CFLAGS='-Wno-error=format-security' && bundle install --deployment --without test development"
-    sh "bundle install --deployment --without test development"
-    # Vendor bundler
-    sh "gem1.9.1 install bundler --no-ri --no-rdoc --version #{BUNDLER_VERSION} -i vendor/bundle/ruby/1.9.1/"
-    %w{cache doc}.each{|dir|
-      rm_rf "vendor/bundle/ruby/1.9.1/#{dir}"
-    }
+  task :bundle => :setup do
+    in_working_dir(PACKAGING_DIR) do
+      without_bundle_env({}) do 
+        BUNDLER_VERSION=`bundle --version | cut -d ' ' -f 3`.chomp
+        %w{bin gems specifications}.each{|dir|
+          rm_rf "vendor/ruby/#{RUBY_VERSION}/#{dir}"
+        }
+        sh "bundle install --deployment --without test development --path vendor"
+        # Vendor bundler
+        sh "gem install bundler --no-ri --no-rdoc --version #{BUNDLER_VERSION} -i #{PACKAGING_DIR}/vendor/bundle/ruby/#{RUBY_VERSION}/"
+        %w{cache doc}.each{|dir|
+          rm_rf "vendor/bundle/ruby/#{RUBY_VERSION}/#{dir}"
+        }
+      end
+    end
   end
 
   namespace :bump do
@@ -90,12 +123,26 @@ namespace :package do
     end
   end
 
-  desc "Build the binary package"
-  task :build do
-    sh "dpkg-buildpackage -us -uc -d"
-  end
+  namespace :build do
+    desc "Build debian package with pkgr"
+    task :debian_pkgr do
+      sh "pkgr package . --version #{Grid5000::VERSION} --name #{NAME} --auto"
+    end 
+    task :debian => :'package:setup' do
+      pkg_dependencies= %w{libmysqlclient-dev libxml2-dev libxslt-dev libssl-dev libpq-dev}
+      cmd = "sudo apt-get install #{pkg_dependencies.join(" ")} git-core dh-make dpkg-dev libicu-dev --yes && rm -rf /tmp/#{NAME}"
+      sh cmd
 
-  desc "Generates the .deb"
-  task :debian => [:setup, :bundle, :build]
+      Dir.chdir('/tmp') do
+        sh "tar xf #{NAME}.tar -C #{PACKAGING_DIR}"
+        Dir.chdir(PACKAGING_DIR) do
+          Rake::Task[:'package:bundle'].invoke
+          sh "dpkg-buildpackage -us -uc -d"
+        end
+      end
+      sh "cp #{PACKAGING_DIR}/../#{NAME}_#{Grid5000::VERSION}*.deb pkg/"     
+    end
+  end                            
+
 end
 

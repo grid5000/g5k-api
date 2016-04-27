@@ -9,12 +9,12 @@ but if you read this, it's normally good…
 
 ## Installation
 
-The app is packaged for Debian Wheezy. Therefore installation is as follows:
+The app is packaged for Debian Jessie. Therefore installation is as follows:
 
     sudo apt-get update
     sudo apt-get install g5k-api
 
-In particular, runtime dependencies of the app include `ruby1.9.3` and `git-core`.
+In particular, runtime dependencies of the app include `ruby2.1.5` and `git-core`.
 
 
 ## Development
