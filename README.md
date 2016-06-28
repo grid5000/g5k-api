@@ -48,7 +48,7 @@ In particular, runtime dependencies of the app include `ruby2.1.5` and `git-core
 * For those of you that prefer working with the more classical rvm approach, you'll 
   need 
   
-  * a working installation of `ruby` 1.9.3. We recommend using `rvm` to manage your ruby
+  * a working installation of `ruby` 2.1 We recommend using `rvm` to manage your ruby
   installations.
   
   * As with every Rails app, it uses the `bundler` gem to manage dependencies:
@@ -68,34 +68,6 @@ In particular, runtime dependencies of the app include `ruby2.1.5` and `git-core
         $ sudo apt-get install libpq-dev           # needed for the pg gem
         $ bundle install
   
-  * [option1 - the hard way - setup the full development environment on your machine]
-      
-    Install a MySQL database, and any other dependency that can be required by
-    the API to run, and adapt the configuration files located in
-    `config/options/`. Look at the puppet recipes that can be found in the
-    `puppet/` directory to know more about the software that should be installed
-    to mirror the production servers.
-  
-  * [option2 - the old way - use a Grid'5000 node as your development server]
-      
-    If you don't want to install a mysql server and other dependencies on your
-    machine, you can use one of the Capistrano tasks that are bundled with the
-    app to install the full development environment on a Grid'5000 node. If you
-    enter the following command, then you'll have a Grid'5000 node provisioned
-    for you with the right version of the OS and all the software dependencies
-    and port forwarding setup (takes about 5-10 minutes to deploy and
-    configure):
-  
-        $ SSH_KEY=~/.ssh/id_rsa_accessg5k HOST=graphene-29.nancy.g5k cap develop
-        $ SSH_KEY=~/.ssh/id_rsa_accessg5k HOST=graphene-29.nancy.g5k cap package
-        $ SSH_KEY=~/.ssh/id_rsa_accessg5k HOST=graphene-29.nancy.g5k cap install
-        $ ssh -L 8000:localhost:8000 graphene-29.nancy.g5k
-        $ http://localhost:8000/ui/dashboard
-    
-    This used to be the recommended approach, and you can reuse the node for packaging a
-    new release once you've made some changes. It is no longer actively maintained, but
-    kept here for reference if vagrant and virtualbox are a difficult setting for you
-
 ### Development environment's access to data
 
 * Setup the database schema:
@@ -104,7 +76,8 @@ In particular, runtime dependencies of the app include `ruby2.1.5` and `git-core
 
 * Give access to reference data to expose. The scripts expect you
   have a checkout version of the reference-repository in a sibling directory
-  to this code.  
+  to this code that is mounted on /home/vagrant/reference-repository in the
+  vagrant box.  
 
         (g5k-api) $ cd ..
 				( ) $ git clone ssh://g5kadmin@git.grid5000.fr/srv/git/repos/reference-repository.git \
