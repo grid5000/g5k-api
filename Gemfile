@@ -22,7 +22,7 @@ gem 'nokogiri', '~> 1.5.6' #oldest version that blather handles
 
 gem 'blather', '>= 1.2.0'
 
-group :test, :development do
+group :test do
   gem 'webmock'
   gem 'rspec'
   gem 'rspec-rails'
