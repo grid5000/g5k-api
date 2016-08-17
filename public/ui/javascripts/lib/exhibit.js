@@ -82,6 +82,7 @@ function nodeConverter( item ) {
   item.processor_clock_speed = 0;
   _.each(item.network_adapters, function(network_adapter) {
     if (!network_adapter.management && (network_adapter.enabled || network_adapter.mountable)) {
+		  if ('interface' in network_adapter) {
 	switch(network_adapter.interface.toLowerCase()) {
 	case "ethernet":
 	    create_and_increment(item, 'nb_ethernet') ;
@@ -114,13 +115,20 @@ function nodeConverter( item ) {
 	case "myrinet":
 	    create_and_increment(item, 'nb_myrinet') ;
 	    break;
-	}
-    }
+	} 
+    } else {
+			console.log("nodeConverter could not parse network_adapter description for" + network_adapter.network_address);
+		}
+		}
   });
   _.each(item.storage_devices, function(storage_device) {
       create_and_increment(item,'nb_storage_devices');
       create_and_increment(item,'nb_storage_devices_'+storage_device["storage"]);
-      create_and_increment(item,'nb_storage_devices_'+(storage_device["interface"].replace(' ','_')));
+			if ('interface' in storage_device) {
+					create_and_increment(item,'nb_storage_devices_'+(storage_device["interface"].replace(' ','_')));
+			} else {
+					console.log("nodeConverter could not parse (interface missing) storage_device description for" + item.label);
+			}
       var capacity=parseInt(("B"+storage_device["size"]).replace('B',''))*GIBI/GIGA/GIGA ;
       if ('max_storage_capacity_device' in item) {
 	  if (item['max_storage_capacity_device'] < capacity) {

@@ -359,23 +359,32 @@ $(document).ready(function() {
         _.each(data.items, function(cluster) {
           $(document).trigger("grid:site:cluster", [grid, site, cluster])
         });
+			},
+			ko: function(data) {
+					UIConsole.info("Error fetching clusters"); 
       }
     }); // GET /grid5000/sites/:site/clusters
     
-    http.get(http.linkTo(site.links, "environments"), {
-      timeout: 15000,
-      before: function() { 
-        UIConsole.info("Fetching environments deployable on "+grid.uid+"/"+site.uid+"...")
-      },
-      ok: function(data) {
-				site_environments = $.map(data.items, function(env) {
-					return env.uid.split(/-(\d+)\.\d+$/)[0]
-				}) ;
-				environments[site.uid] = site_environments.filter(function(elem, pos,arr) {
-					return arr.indexOf(elem) == pos;
-				}); 
-      }
-    }); // GET /grid5000/sites/:site/environments
+		var site_environments=http.linkTo(site.links, "environments");
+	  if (site_environments != null) {
+      http.get(site_environments, {
+        timeout: 15000,
+        before: function() { 
+          UIConsole.info("Fetching environments deployable on "+grid.uid+"/"+site.uid+"...")
+        },
+        ok: function(data) {
+			  	site_environments = $.map(data.items, function(env) {
+					  return env.uid.split(/-(\d+)\.\d+$/)[0]
+				  }) ;
+				  environments[site.uid] = site_environments.filter(function(elem, pos,arr) {
+					  return arr.indexOf(elem) == pos;
+				  }); 
+			  },
+			  ko: function(data) {
+					UIConsole.info("Could not get environment of "+grid.uid+"/"+site.uid); 
+        }
+      }); // GET /grid5000/sites/:site/environments
+    }
   });
   
   $(document).bind("grid:site:cluster", function(event, grid, site, cluster) {
