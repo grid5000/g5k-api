@@ -21,21 +21,16 @@ GIT
       restfully (~> 1.0)
 
 GIT
-  remote: https://github.com/eventmachine/eventmachine.git
-  revision: 07fc8c7c15772d3d5d97c7a62a8a65cf8d65f3d6
-  specs:
-    eventmachine (1.0.0.beta.4)
-
-GIT
-  remote: https://github.com/sprsquish/blather.git
-  revision: e0f39264724d9910d92ea55bc4d9b38e583235a6
+  remote: https://github.com/adhearsion/blather.git
+  revision: cc1212e32feb92fd7ceae8deff77b4ad65d5d918
   tag: develop
   specs:
-    blather (0.5.8)
-      activesupport (>= 3.0.7)
-      eventmachine (>= 0.12.6)
-      niceogiri (>= 0.0.4)
-      nokogiri (~> 1.4.0)
+    blather (1.2.0)
+      activesupport (>= 2.3.11)
+      eventmachine (>= 1.0.0)
+      girl_friday
+      niceogiri (~> 1.0)
+      nokogiri (~> 1.5, >= 1.5.6, <= 1.6.1)
 
 GEM
   remote: https://rubygems.org/
@@ -84,6 +79,7 @@ GEM
       net-ssh (>= 2.0.14)
       net-ssh-gateway (>= 1.1.0)
     charlock_holmes (0.7.3)
+    connection_pool (1.2.0)
     crack (0.3.1)
     daemons (1.1.4)
     diff-lcs (1.1.3)
@@ -98,11 +94,15 @@ GEM
     erubis (2.6.6)
       abstract (>= 1.0.0)
     escape_utils (0.2.4)
+    eventmachine (1.0.9.1)
     factory_girl (2.1.2)
       activesupport
     factory_girl_rails (1.2.0)
       factory_girl (~> 2.1.0)
       railties (>= 3.0.0)
+    girl_friday (0.11.2)
+      connection_pool (~> 1.0)
+      rubinius-actor
     gitlab-grit (2.7.3)
       charlock_holmes (~> 0.6)
       diff-lcs (~> 1.1)
@@ -120,6 +120,7 @@ GEM
       mime-types (~> 1.16)
       treetop (~> 1.4.8)
     mime-types (1.16)
+    mini_portile (0.5.3)
     mysql2 (0.2.13)
     net-scp (1.0.4)
       net-ssh (>= 1.99.1)
@@ -132,9 +133,10 @@ GEM
       net-ssh (>= 2.1.4)
       net-ssh-gateway (>= 0.99.0)
     netrc (0.10.3)
-    niceogiri (0.0.4)
-      nokogiri (>= 1.4.0)
-    nokogiri (1.4.7)
+    niceogiri (1.1.2)
+      nokogiri (~> 1.5)
+    nokogiri (1.6.1)
+      mini_portile (~> 0.5.0)
     pg (0.18.0)
     polyglot (0.3.2)
     posix-spawn (0.3.9)
@@ -210,6 +212,9 @@ GEM
       activesupport (~> 3.0)
       railties (~> 3.0)
       rspec (~> 2.6.0)
+    rubinius-actor (0.0.2)
+      rubinius-core-api
+    rubinius-core-api (0.0.1)
     ruby-mysql (2.9.4)
     state_machine (0.10.4)
     syslogger (1.2.5)
@@ -241,7 +246,7 @@ DEPENDENCIES
   em-http-request (~> 0.2)
   em-postgresql-adapter!
   em-synchrony (~> 0.2)
-  eventmachine!
+  eventmachine (~> 1.0.0)
   factory_girl_rails
   g5k-campaign!
   gitlab-grit
