@@ -19,8 +19,8 @@ set :application, ENV['APP_NAME'] || "g5k-api"
 
 set :package_name, "g5k-api" #see debian/control
 
-set :apt_repo, ENV['REPO_DIR'] || "/var/www/#{application}-devel" 
-set :apt_repo, ENV['REPO_DIR'] || "/var/www/#{application}" if ENV['PROD_REPO']
+set :apt_repo, ENV['REPO_DIR'] || "/var/www/#{application}/squeeze/devel" 
+set :apt_repo, ENV['REPO_DIR'] || "/var/www/#{application}/squeeze/v3" if ENV['PROD_REPO']
 set :puppet, "/tmp/puppet"
 
 set :scm, :git
