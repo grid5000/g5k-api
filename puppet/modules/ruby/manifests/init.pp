@@ -13,7 +13,7 @@ class ruby {
 
   exec { "install bundler":
     user => root, group => root,
-    command => "/usr/bin/gem1.9.1 install --no-ri --no-rdoc bundler",
+    command => "/usr/bin/gem1.9.1 install --no-ri --no-rdoc bundler --version 1.7.6",
     require => Package["ruby1.9.1-full"],
     creates => "/var/lib/gems/1.9.1/bin/bundle"
   }

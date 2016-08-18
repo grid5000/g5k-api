@@ -5,6 +5,11 @@ class postgres {
       ensure   => installed,
   }
 
+  package{
+ 	  'libpq-dev':
+      ensure   => installed,
+  }
+      
   user{
     'postgres':
       require => Package['postgresql-8.4'],
