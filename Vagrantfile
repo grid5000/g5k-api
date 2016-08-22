@@ -1,8 +1,6 @@
 # -*- mode: ruby -*-
 # vi: set ft=ruby :
 #
-# -*- mode: ruby -*-
-# vi: set ft=ruby :
 
 Vagrant.require_version ">= 1.8.0"
 
@@ -19,7 +17,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
   # The url from where the 'config.vm.box' box will be fetched if it
   # doesn't already exist on the user's system.
-  config.vm.box_url = "https://vagrant.irisa.fr/boxes/irisa_debian-8.2.0_puppet4.box"
+  config.vm.box_url = "https://vagrant.irisa.fr/boxes/debian-jessie-x64-puppet_4_2.box"
 
   # Create a forwarded port mapping which allows access to a specific port
   # within the machine from a port on the host machine. In the example below,
