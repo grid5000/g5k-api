@@ -1,7 +1,7 @@
 #source 'http://g5k-campaign.gforge.inria.fr/pkg'
 source 'https://rubygems.org'
 
-gem 'rake', '>= 11.1.2'
+gem 'rake'
 gem 'rails', '~> 3.0.0'
 gem 'eventmachine', '>= 1.0.0'
 gem 'rack-fiber_pool', '~> 0.9'
