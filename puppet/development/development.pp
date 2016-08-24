@@ -9,7 +9,8 @@ class development {
   include rails
   include git
   include dpkg::dev
-
+  include apache
+  
   postgres::database {
     'oar2_dev':
       ensure => present;
@@ -43,7 +44,7 @@ class development {
     command => "/bin/su -c '/usr/local/bin/bundle install' vagrant",
     require => [Exec["install bundler"],Package['libxml2-dev','libxslt-dev']],
     logoutput => true,
-    creates => "/vagrant/vendor/bundle"
+    unless => "/usr/bin/test `ls -al /var/lib/gems/2.1.0/gems |wc -l` -gt 4 "
   }
 	
 
