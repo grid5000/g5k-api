@@ -26,6 +26,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.network :forwarded_port, guest:  13306, host: 13306
   config.vm.network :forwarded_port, guest:  15432, host: 15432
   config.vm.network :forwarded_port, guest:   8000, host:  8000
+  config.vm.network :forwarded_port, guest:   8080, host:  8080
 
   # Create a private network, which allows host-only access to the machine
   # using a specific IP.
@@ -64,8 +65,13 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.provider :virtualbox do |vb|
     #make sure DNS will resolve 
     vb.customize ["modifyvm", :id, "--natdnshostresolver1", "on"]
-    vb.customize ["modifyvm", :id, "--memory", "512"]
+    vb.memory = 2048
+    vb.cpus = 2
   end
+
+  # Ease access to stats.g5kadmin
+  config.vm.provision "file", source: "ssh/config", destination: ".ssh/config"
+  config.ssh.forward_agent = true
 
   # Enable provisioning with Puppet stand alone.  Puppet manifests
   # are contained in a directory path relative to this Vagrantfile.
@@ -88,6 +94,10 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.provision :puppet do |puppet|
     puppet.environment = 'development'
     puppet.environment_path = "puppet"
+    puppet.facter = {
+      "developer" => ENV['DEVELOPER']||'ajenkins',
+      "oardbsite" => ENV['OAR_DB_SITE']||'rennes'
+    }
   end
 
   # config.vm.provision :file, source: (ENV['SSH_KEY'] && "#{ENV['SSH_KEY']}.pub") || "~/.ssh/authorized_keys", destination: "/tmp/toto"

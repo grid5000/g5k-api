@@ -22,16 +22,23 @@ In particular, runtime dependencies of the app include `ruby2.1.5` and `git-core
 ### Development environment
 
 * This app comes with a Vagrant box used for development, testing and packaging. 
+
+  By default, the vagrant box will provision a proxy, to get access to the live status
+	of sites and to the home directory of users, except on one site where status will be
+	served locally through a tunnel to that site's oardb. This is sepcially usefull to
+	debug the web ui, but the tunnel to the db is also used for site status information. 
+
   For users with a working installation of vagrant and virtualbox, setting up a 
   working environement starts with a simple
 
-        $ vagrant up --provision
+        $ DEVELOPER=dmargery OAR_DB_SITE=rennes vagrant up --provision
         $ vagrant ssh
         vagrant> cd /vagrant
 
   The vagrant provisionning script will attempt to configure the VM's root and vagrant
   accounts to be accessible by ssh. By default, it will copy your authorized_keys, but you 
   can control the keypair used with SSH_KEY=filename_of_private_key  
+
 
   Of course, reality is a bit more complex. You might have troubles with the insecure
   certificate of the vagrant box provider. In that case, you'll need to start with 
@@ -43,8 +50,13 @@ In particular, runtime dependencies of the app include `ruby2.1.5` and `git-core
   it with a reference-repository, an OAR database, a kadeploy3 server, and a jabber server
   to exercice all its functionnality, in addition to its own backend services that
   are already packaged in the Vagrant box. As this is not trivial a requires some compromises,
-  the development of this application relies strongly on unit tests. 
- 
+  the development of this application relies strongly on unit tests.
+
+  A usefull set of ssh tunnels is created with
+	
+        vagrant> rake tunnels:setup
+	
+
 * For those of you that prefer working with the more classical rvm approach, you'll 
   need 
   
@@ -128,11 +140,19 @@ In particular, runtime dependencies of the app include `ruby2.1.5` and `git-core
 
         $ ./bin/g5k-api server start -e development
 
+* If you require traces on the shell, use
+
+       $ ./bin/g5k-api server -V start -e development
+
 * If you need to be authenticated for some development, use:
 
         $ HTTP_X_API_USER_CN=dmargery ./bin/g5k-api server start -e development
 
-* If you want to develop on the UI, run your browser on 
+* If you want to develop on the UI, using the apache proxy, run your browser on 
+        
+				$ firefox http://127.0.0.1:8080/ui
+
+* If you want to develop on the UI, interacting directly with the server, run your browser on 
         
 				$ firefox http://127.0.0.1:8000/ui
 

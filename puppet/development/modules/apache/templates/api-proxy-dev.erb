@@ -1,0 +1,168 @@
+# MANAGED BY PUPPET
+# Module:: apig5k::proxy
+#
+<% sites = scope.lookupvar('sites') -%>
+<% oardbsite = scope.lookupvar('oardbsite') -%>
+<% developer = scope.lookupvar('developer') -%>
+
+Listen 8080
+
+<VirtualHost *:8080>
+  TimeOut 600
+  ServerName <%= @fqdn %>
+  ServerAlias api.grid5000.fr
+  DocumentRoot /vagrant/public
+  <Directory /vagrant/public/ui/javascripts/vendor/exhibitv2>
+    Options -Indexes
+  </Directory>
+  # see http://httpd.apache.org/docs/2.0/mod/mod_log_config.html#customlog
+  CustomLog /var/log/apache2/api-proxy-dev.log "%v %h %l %t %D \"%r\" %>s %b \"%{Referer}i\" \"%{User-agent}i\""
+  ErrorLog syslog:local1
+  ProxyRequests off
+
+  # Force privileges to empty
+  RequestHeader set X-Api-User-Privileges ""
+
+
+  <Location />
+    Order Deny,Allow
+    Allow from all
+
+    ProxyPass http://127.0.0.1:8000/ retry=1
+  </Location>
+
+	<% sites.each_index do |site_index| %>
+  <%   unless sites[site_index] == oardbsite %>
+  <Location /sites/<%= sites[site_index] %>/status>
+    RequestHeader set X-Api-Version "sid"
+    ProxyPass http://127.0.0.1:800<%= site_index+1 %>/sites/<%= sites[site_index] %>/status retry=0
+  </Location>
+  <%   end %>
+  <% end %>
+
+	<% sites.each_index do |site_index| %>
+  <Location /sites/<%= sites[site_index] %>/public/~/>
+    RequestHeader set X-Api-Version "sid"
+    RequestHeader set Host "public.<%= sites[site_index] %>.grid5000.fr"
+    ProxyPreserveHost On
+    ProxyPass http://127.0.0.1:900<%= site_index+1 %>/~<%= developer %>/ retry=0
+  </Location>
+  <% end %>
+</VirtualHost>
+
+# This virtual host will only be accessed by api-server, api-proxy, and global helpdesk machines.
+<VirtualHost *:4444>
+  TimeOut 60
+  ServerName <%= @fqdn %>
+  DocumentRoot /vagrant/public
+  # see http://httpd.apache.org/docs/2.0/mod/mod_log_config.html#customlog
+  CustomLog /var/log/apache2/api-proxy-dev-2.log "%v %h %{X-Api-User-Cn}i %t %D \"%r\" %>s %b \"%{Referer}i\" \"%{User-agent}i\""
+  ErrorLog syslog:local1
+  ProxyRequests off
+
+  <Location />
+    Order Deny,Allow
+    Allow from all
+  </Location>
+
+  ##################################################################
+  # Reverse Proxy config
+  ##################################################################
+  RewriteEngine On
+
+  # Replace /~/ with the current username
+  RewriteCond %{HTTP:X-Api-User-CN} (.*)
+  RewriteRule (.*)/~/(.*)    $1/%1/$2
+
+  # Allow users to pass the API Version via the X-Api-Version HTTP header:
+  RewriteCond %{HTTP:X-Api-Version} (.+)
+  RewriteCond %{REQUEST_URI} !^/(sid|3.0)
+  RewriteRule ^/(.*)    /%1/$1
+
+  # Allow users to pass the reference repository branch via the X-Api-Reference-Branch HTTP header:
+  RewriteCond %{HTTP:X-Api-Reference-Branch} (.+)
+  RewriteRule ^/(.*)    /$1?branch=%1 [QSA]
+
+  # Allow users to pass the queues they are interested in via the X-Api-Reference-Queues HTTP header:
+  RewriteCond %{HTTP:X-Api-Reference-Queues} (.+)
+  RewriteRule ^/(.*)    /$1?queues=%1 [QSA]
+
+  RewriteRule /ui/events.html$ https://www.grid5000.fr/status/ [R=301,L]
+
+  RewriteRule ^/doc/stable(.*)$ /doc/3.0$1 [R,L]
+  RewriteRule ^/doc/sid(.*)$ /doc/4.0$1 [R,L]
+
+  RewriteRule ^/ui$ /ui/ [C]
+  # Redirect /ui to the latest stable UI
+  RewriteRule ^/ui/(.*)$ /stable/ui/$1 [R,L]
+
+  RewriteRule ^/ui/account$ /stable/users/_admin/index.html [R,L]
+  RewriteRule ^/ui/reports$ /stable/reports/_admin/index.html [R,L]
+
+  RewriteRule ^/(sid|stable|3.0)/ui$ /$1/ui/ [R,L]
+
+  # Point /stable to the right version
+  RewriteRule ^/stable/grid5000(.*)$  /3.0$1 [L,PT]
+  RewriteRule ^/stable(.*) /3.0$1 [PT]
+
+  # abasu: bug #6961 Point /sid to the right version
+  RewriteRule ^/4.0/grid5000(.*)$  /sid$1 [L,PT]
+  RewriteRule ^/4.0(.*) /sid$1 [PT]
+
+  # Required for compatibility for APIs before 2011. Can be removed after Sept. 2012.
+  RewriteRule /grid5000/events.atom$ https://www.grid5000.fr/status/upcoming.atom [R=301,L]
+  RewriteRule /grid5000/events.json$ https://www.grid5000.fr/status/upcoming.json [R=301,L]
+
+
+
+  # For substitutions to correctly work, we need to add a final RewriteRule
+  # with the PT (Pass Through) flag. Not sure why though...
+  # See <http://httpd.apache.org/docs/2.0/mod/mod_rewrite.html#rewriterule>
+  RewriteRule .* - [PT,L]
+
+	#see bug 6454
+  <Location /sid/notifications>
+    ProxyPass https://api-server-devel.<%= @site %>.grid5000.fr:4444/notifications retry=0
+  </Location>
+
+  # https://api.grid5000.fr/{{X-Api-Version}}/{{X-Api-Path-Prefix}}/.*
+  <Location /sid>
+    RequestHeader set X-Api-Scheme "https"
+    RequestHeader set X-Api-Host "api.grid5000.fr"
+    RequestHeader set X-Api-Port "443"
+    # No path prefix in /sid version (since we no longer have /grid5000)
+    RequestHeader set X-Api-Version "sid"
+    ProxyPass http://localhost:3128/sid retry=0
+  </Location>
+
+	#see bug 6454
+  <Location /3.0/notifications>
+    ProxyPass https://api-server-v3.<%= @site %>.grid5000.fr:4444/notifications retry=0
+  </Location>
+
+  <Location /3.0>
+    RequestHeader set X-Api-Scheme "https"
+    RequestHeader set X-Api-Host "api.grid5000.fr"
+    RequestHeader set X-Api-Port "443"
+    RequestHeader set X-Api-Version "3.0"
+    ProxyPass http://localhost:3128/3.0 retry=0
+  </Location>
+
+  <Location /public/sid>
+    RequestHeader set X-Api-Scheme "https"
+    RequestHeader set X-Api-Host "api.grid5000.fr"
+    RequestHeader set X-Api-Port "443"
+    # No path prefix in /sid version (since we no longer have /grid5000)
+    RequestHeader set X-Api-Version "sid"
+    ProxyPass http://localhost:3128/public/sid retry=0
+  </Location>
+
+  <Location /public/3.0>
+    RequestHeader set X-Api-Scheme "https"
+    RequestHeader set X-Api-Host "api.grid5000.fr"
+    RequestHeader set X-Api-Port "443"
+    RequestHeader set X-Api-Version "3.0"
+    ProxyPass http://localhost:3128/public/3.0 retry=0
+  </Location>
+
+</VirtualHost>
