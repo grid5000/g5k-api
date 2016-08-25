@@ -18,6 +18,7 @@ Api::Application.routes.draw do
   # The priority is based upon order of creation:
   # first created -> highest priority.
 
+  match "/exhibitv2/*rest", :to => redirect {|params| "/ui/javascripts/vendor/exhibitv2/#{params[:rest]}"}
   match '/versions' => 'versions#index', :via => [:get]
   match '/versions/:id' => 'versions#show', :via => [:get]
   match '*resource/versions' => 'versions#index', :via => [:get]
