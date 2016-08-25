@@ -1,3 +1,24 @@
+g5k-api (3.5.1-1) jessie; urgency=low
+
+  * 6809a80 [Javascript] Keep the vendorized exhibit version in the repository
+  * 34398f0 [Development environment] serve exhibitv2 from the local development environment and not from api.grid5000.fr
+  * 622b207 [Vagrant] Add a more robust test to see whether bundle should be run, until we change rails version
+  * 4d1e894 [Default configuration] Also listen to IPv6 connections if -a not specified on the command line
+  * a5f48f7 New test was not successful: reverting to a variant of the previous test
+  * ebce08a Do not constrain rake version to have same rake version as pulled from rubygems during Vagrant provisioning
+  * a986a00 [Vagrant] do not forget to provision the apache proxy
+  * c9274a0 Make error message in the presence of IPv6 more explicit
+  * 45d5366 [Vagrant] add a magic ssh config file so as to be able to ssh from the Vagrant machine using the ssh-agent on the host
+  * 937ac88 [Vagrant] add an http proxy to the vagrant box so as to be able to work on the ui with real data for OAR, except for one site where the data will come from the local service, that will connect as reader to the OAR database. Update the README.md file with extended instructions, in particular on how to use the tunneling task with rake to create the proper tunnels to make it all happen
+  * 8a48632 [Vagrant] Point Vagrantfile to a new version of the vagrant box. Users of previous version will need to destroy their debian-jessie-x64-puppet_4 box or upgrade it to benefit from the update
+  * ead3407 [ui] make the ui more resistant to changes in the API and in the contents of the reference-repo
+  * 7eeec49 Update documentation
+  * b64e046 Remove extra gems for the development environment, as this makes the development environment behave differently than the production environment
+  * 183fc50 [Capistrano] remove packaging task, now moved to lib/task/packaging.rake to run using rake in the vagrant box
+  * 8294625 [Packaging] Minor tweaks to the packaging task
+
+ -- David Margery <>  Thu, 25 Aug 2016 16:31:09 +0000
+
 g5k-api (3.5.0-1) jessie; urgency=low
 
   * 65f4de5 [README] Update the instructions to build a new version of the g5k-api package
