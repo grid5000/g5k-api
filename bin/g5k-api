@@ -27,6 +27,7 @@ when "server"
   argv = ARGV
   argv << ["-R", rackup_file] unless ARGV.include?("-R")
   argv << ["-p", "8000"] unless ARGV.include?("-p")
+  argv << ["-a", "::"] unless ARGV.include?("-a")
   argv << ["-e", "production"] unless ARGV.include?("-e")
   argv << ["--tag", "g5k-api-#{Grid5000::VERSION}"] unless ARGV.include?("--tag")
   Thin::Runner.new(argv.flatten).run!
