@@ -31,6 +31,7 @@
   .facets
     %h3 Facets
     %div{"ex:role" => "facet", "ex:facetClass" => "TextSearch", "ex:facetLabel" => "Search"}
+    %div#queues{"ex:role" => "facet", "ex:expression" => ".queues", "ex:sortMode" => "count", "ex:showMissing" => "true", "ex:scroll" => "false", "ex:facetLabel" => "Queue"}
     %div#site{"ex:role" => "facet", "ex:expression" => ".site_uid", "ex:scroll" => "true", "ex:facetLabel" => "Site"}
     %div#cluster{"ex:role" => "facet", "ex:expression" => ".cluster_uid", "ex:scroll" => "true", "ex:facetLabel" => "Cluster"}
     #facets1.float

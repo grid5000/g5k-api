@@ -422,7 +422,8 @@ $(document).ready(function() {
             grid_uid: grid.uid,
             site_uid: site.uid,
             cluster_uid: hostname.split("-")[0],
-          }
+      }
+						reference[hostname]["queues"]=cluster.queues;
 	  if (hostname in retired) {
 	      reference[hostname]['hard_state']='retired' ;
 	  }  
