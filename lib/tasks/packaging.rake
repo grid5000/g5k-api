@@ -139,6 +139,7 @@ namespace :package do
     task :debian_pkgr do
       sh "pkgr package . --version #{Grid5000::VERSION} --name #{NAME} --auto"
     end 
+    desc "Build debian package with our own scripts"
     task :debian => :'package:setup' do
       pkg_dependencies= %w{libmysqlclient-dev libxml2-dev libxslt-dev libssl-dev libpq-dev}
       cmd = "sudo apt-get install #{pkg_dependencies.join(" ")} git-core dh-make dpkg-dev libicu-dev --yes && rm -rf /tmp/#{NAME}"
