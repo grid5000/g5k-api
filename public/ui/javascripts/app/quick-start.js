@@ -384,7 +384,26 @@ $(document).ready(function() {
 					UIConsole.info("Could not get environment of "+grid.uid+"/"+site.uid); 
         }
       }); // GET /grid5000/sites/:site/environments
-    }
+    } else {
+			//Did not find a direct link : will revert to using the internal API
+			site_environments=http.linkTo(site.links, "self")+"/internal/kadeployapi/environments/?last=true&username=deploy";
+			http.get(site_environments, {
+				timeout: 15000,
+				before: function() { 
+					UIConsole.info("Fetching environments deployable on "+grid.uid+"/"+site.uid+" from internal api...")
+				},
+				ok: function(data) {
+			  	local_environments = $.map(data, function(env) {
+					  return env.name
+				  }) ;
+				  environments[site.uid] = local_environments ; 
+			  },
+			  ko: function(data) {
+					UIConsole.info("Could not get environment of "+grid.uid+"/"+site.uid); 
+        }
+      }); // GET /grid5000/sites/:site/internal/kadeployapi/environments/?last=true&username=
+				
+		}
   });
   
   $(document).bind("grid:site:cluster", function(event, grid, site, cluster) {
