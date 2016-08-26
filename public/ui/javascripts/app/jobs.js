@@ -1,3 +1,6 @@
+// -*- mode: javascript -*-; js-indent-level:2 ;
+// 
+
 var jobRowTemplate = '\
   <tr id="{{uuid}}" class="job-row">\
     <td class="center"><input type="checkbox" name="jobs[]" value="{{uuid}}" /></td>\
@@ -315,26 +318,36 @@ $(document).ready(function() {
       drawQueryFilters()
     }
     
-    var facets = []
+		var facets = {} ;
+		var facets_selected = {};	
     $.each($("#facets ul li a"), function(i, element) {
-      facets.push({
-        name: $(element).attr("title"),
-        type: $(element).attr("rel"),
-        selected: $(element).hasClass("selected")
-      })
+			facet_type=$(element).attr("rel") ;
+			if (!facets[facet_type]) {
+				facets[facet_type]=[] ;
+				facets_selected[facet_type]= false ;
+			}
+			facets[facet_type].push({
+				name: $(element).attr("title"),
+				type: $(element).attr("rel"),
+				selected: $(element).hasClass("selected")
+      }) ;
+			facets_selected = facets_selected || $(element).hasClass("selected") ;
+			facets_selected[facet_type] = facets_selected[facet_type] || $(element).hasClass("selected") ;
     })
     
     var job;
-    if (_(facets).any(function(facet){return facet.selected})) {
+    if (facets_selected) {
       $.each($("#jobs table tbody tr"), function(i, element) {
         job = $(element).data("job")
-        var selected = _(facets).any(function(facet) { 
-          return facet.selected && _([
-            job.site, 
-            job.state, 
-            job.user
-          ]).include(facet.name); 
-        })
+        // var selected = _(facets).any(function(facet) { 
+				// 		return facet.selected && job[facet.type.slice(0, -1)] == facet.name; 
+        // })
+				var selected= _.map(facets, function(typed_facets, facet_type) {
+						return typed_facets.some(function(facet) {
+								return !facets_selected[facet_type] || (facet.selected &&
+												job[facet.type.slice(0, -1)] == facet.name);									
+					})
+				}).reduce(function(a,b) {return a&&b} , true) ;
         if (selected) {
           $(element).removeClass("filtered").show();
         } else {
