@@ -37,11 +37,33 @@ Listen 8080
     RequestHeader set X-Api-Version "sid"
     ProxyPass http://127.0.0.1:800<%= site_index+1 %>/sites/<%= sites[site_index] %>/status retry=0
   </Location>
+  <Location /sites/<%= sites[site_index] %>/jobs>
+    RequestHeader set X-Api-Version "sid"
+    ProxyPass http://127.0.0.1:800<%= site_index+1 %>/sites/<%= sites[site_index] %>/jobs retry=0
+  </Location>
   <%   end %>
   <% end %>
 
 	<% sites.each_index do |site_index| %>
+  <Location /sites/<%= sites[site_index] %>/internal/oarapi>
+    RequestHeader set X-Api-Version "sid"
+    RequestHeader set Host "oar-api.<%= sites[site_index] %>.grid5000.fr"
+    ProxyPreserveHost On
+    ProxyPass http://127.0.0.1:880<%= site_index+1 %>/sites/<%= sites[site_index] %>/internal/oarapi retry=0
+  </Location>
+  <Location /sites/<%= sites[site_index] %>/internal/kadeployapi>
+    RequestHeader set X-Api-Version "sid"
+    RequestHeader set Host "kadeploy-devel.<%= sites[site_index] %>.grid5000.fr"
+    ProxyPreserveHost On
+    ProxyPass http://127.0.0.1:880<%= site_index+1 %>/sites/<%= sites[site_index] %>/internal/kadeployapi retry=0
+  </Location>
   <Location /sites/<%= sites[site_index] %>/public/~/>
+    RequestHeader set X-Api-Version "sid"
+    RequestHeader set Host "public.<%= sites[site_index] %>.grid5000.fr"
+    ProxyPreserveHost On
+    ProxyPass http://127.0.0.1:900<%= site_index+1 %>/~<%= developer %>/ retry=0
+  </Location>
+  <Location /sites/<%= sites[site_index] %>/public/<%= developer %>/>
     RequestHeader set X-Api-Version "sid"
     RequestHeader set Host "public.<%= sites[site_index] %>.grid5000.fr"
     ProxyPreserveHost On
