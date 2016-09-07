@@ -11,37 +11,6 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110109203813) do
-
-  create_table "deployments", :force => true do |t|
-    t.string  "uid"
-    t.string  "site_uid"
-    t.string  "user_uid"
-    t.string  "environment"
-    t.string  "version"
-    t.string  "status",                     :default => "processing"
-    t.text    "key"
-    t.text    "nodes"
-    t.text    "notifications"
-    t.text    "result"
-    t.text    "output"
-    t.integer "partition_number"
-    t.string  "block_device"
-    t.string  "reformat_tmp"
-    t.boolean "disable_disk_partitioning",  :default => false
-    t.boolean "disable_bootloader_install", :default => false
-    t.boolean "ignore_nodes_deploying",     :default => false
-    t.integer "vlan"
-    t.integer "created_at"
-    t.integer "updated_at"
-  end
-
-  add_index "deployments", ["created_at"], :name => "index_deployments_on_created_at"
-  add_index "deployments", ["environment"], :name => "index_deployments_on_environment"
-  add_index "deployments", ["site_uid"], :name => "index_deployments_on_site_uid"
-  add_index "deployments", ["status"], :name => "index_deployments_on_status"
-  add_index "deployments", ["uid"], :name => "index_deployments_on_uid"
-  add_index "deployments", ["updated_at"], :name => "index_deployments_on_updated_at"
-  add_index "deployments", ["user_uid"], :name => "index_deployments_on_user_uid"
+ActiveRecord::Schema.define(:version => 20160906203813) do
 
 end

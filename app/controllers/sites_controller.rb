@@ -61,7 +61,7 @@ class SitesController < ResourcesController
   
   def links_for_item(item)
     links = super(item)
-    %w{jobs deployments vlans metrics}.each do |rel|
+    %w{jobs vlans metrics}.each do |rel| # abasu bug #7179 removed deployments
       links.push({
         "rel" => rel,
         "type" => media_type(:g5kcollectionjson),
