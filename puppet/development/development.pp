@@ -44,7 +44,7 @@ class development {
     command => "/bin/su -c '/usr/local/bin/bundle install' vagrant",
     require => [Exec["install bundler"],Package['libxml2-dev','libxslt-dev']],
     logoutput => true,
-    creates => "/var/lib/gems/2.1.0/gems"
+    unless => "/bin/su -c '/usr/local/bin/bundle show' vagrant"
   }
 	
 
