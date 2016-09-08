@@ -6,7 +6,7 @@ class ruby {
   
   exec { "install rake":
     user => root, group => root,
-    command => "/usr/bin/gem1.9.1 install --no-ri --no-rdoc rake",
+    command => "/usr/bin/gem1.9.1 install --no-ri --no-rdoc rake --version 10.0.2",
     require => Package["ruby1.9.1-full"],
     creates => "/var/lib/gems/1.9.1/bin/rake"
   }
