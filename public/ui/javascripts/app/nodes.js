@@ -11,7 +11,7 @@ function jsonConverter(allNodes){
       network_adapters_1_rate:{valueType:"number"},
       network_adapters_2_rate:{valueType:"number"},
       network_adapters_3_rate:{valueType:"number"},
-			architecture_smt_size:{valueType:"number"},
+			architecture_nb_cores:{valueType:"number"},
 			max_storage_capacity_device:{valueType:"number"},
 			storage_capacity_node:{valueType:"number"}
 		},
@@ -97,7 +97,7 @@ function jsonConverter(allNodes){
 	//avoid bug #6132
 	value=("B"+value).replace('B','');
         return (parseInt(value)*GIBI/GIGA/GIGA).toFixed(0);
-      case "architecture_smt_size":
+      case "architecture_nb_cores":
 	return parseInt(value) ;
       case "main_memory_ram_size":
         return (parseInt(value)/MEBI);

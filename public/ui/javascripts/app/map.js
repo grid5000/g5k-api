@@ -56,7 +56,7 @@ $(document).ready(function() {
                   var site_index = this.site_index;
                   $.each(nodes_collection.items, function(i, node) {
                     sites[site_index]['nodes_count'] = (sites[site_index].nodes_count || 0) + 1;
-                    sites[site_index]['cores_count'] = (sites[site_index].cores_count || 0) + node.architecture.smt_size;
+                    sites[site_index]['cores_count'] = (sites[site_index].cores_count || 0) + node.architecture.nb_cores;
                   }); // each node
                 }, // success
                 error: function(XMLHttpRequest, textStatus, errorThrown) {

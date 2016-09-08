@@ -161,7 +161,7 @@ function nodeConverter( item ) {
 	//avoid bug #6132
 	value=("B"+value).replace('B','');
         return (parseInt(value)*GIBI/GIGA/GIGA).toFixed(0);
-      case "architecture_smt_size":
+      case "architecture_nb_cores":
 	return parseInt(value) ;
       case "main_memory_ram_size":
         return (parseInt(value)/MEBI);
