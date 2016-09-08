@@ -188,7 +188,7 @@ $(document).ajaxStop(function() {
             "network_adapters_1_rate":{valueType:"number"},
             "network_adapters_2_rate":{valueType:"number"},
             "network_adapters_3_rate":{valueType:"number"},
-						"architecture_smt_size":{valueType:"number"}
+						"architecture_nb_cores":{valueType:"number"}
           },
           types:{"node":{"pluralLabel":"nodes"}},
           items: _.values(reference)
