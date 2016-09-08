@@ -19,6 +19,6 @@ end
 
   desc "Teardow all ssh tunnels"
   task :teardown do
-    sh "ps -C 'ssh' -o pid=,args | grep 'NL' | cut -d ' ' -f 2 | xargs kill"
+    sh "ps -C 'ssh' -o pid=,args | grep 'NL' | sed -e 's/^ *//' | cut -d ' ' -f 2 | xargs kill"
   end	
 end
