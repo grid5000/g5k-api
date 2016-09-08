@@ -1,3 +1,17 @@
+g5k-api (3.5.2-1) jessie; urgency=low
+
+  * 6e314aa [Vagrant] use a better condition de control the bundle install run
+  * 2ab40a7 fixes #7285 : remove reliance on availability of smt_size to count the number of cores
+  * 5daa16b Add a precaution against variable header length due to different locales (add missing part of fix)
+  * c4a1192 Add a precaution against variable header length due to different locales
+  * 7dbfba3 [ui] allow quick start to select on queues the resources are available on
+  * abbc568 [Vagrant] Change the proxy rules so as to cover most cases
+  * 4a13978 [ui] change the behaviour of the filtering mechanism so that filters of different facets intersect rather that add
+  * baf10dc [ui] use the internal API to get a list of registrere kadeploy environments
+  * 9ee3fe7 [packaging] Add description to the debian packaging task
+
+ -- David Margery <>  Thu, 08 Sep 2016 13:51:10 +0000
+
 g5k-api (3.5.1-1) jessie; urgency=low
 
   * 6809a80 [Javascript] Keep the vendorized exhibit version in the repository
