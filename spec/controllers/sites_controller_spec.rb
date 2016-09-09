@@ -64,7 +64,8 @@ describe SitesController do
       json['uid'].should == 'rennes'
       json['links'].map{|l| l['rel']}.sort.should == [
         "clusters",
-        "deployments",
+# abasu bug #7179
+#       "deployments",
         "environments",
         "jobs",
         "metrics",
@@ -92,7 +93,8 @@ describe SitesController do
       response.status.should == 200
       json['links'].map{|l| l['rel']}.sort.should == [
         "clusters",
-        "deployments",
+# abasu bug #7179
+#       "deployments",
         "environments",
         "jobs",
         "metrics",

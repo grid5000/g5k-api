@@ -43,7 +43,8 @@ Api::Application.routes.draw do
       resources :nodes, :only => [:index, :show]
     end
     resources :jobs
-    resources :deployments
+# abasu - bug #7179 : remove deployments from g5k-api in v4.0
+#    resources :deployments
   end
   resources :notifications, :only => [:index, :create]
 

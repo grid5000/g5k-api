@@ -34,6 +34,7 @@ In particular, runtime dependencies of the app include `ruby2.1.5` and `git-core
         $ DEVELOPER=dmargery OAR_DB_SITE=rennes vagrant up --provision
         $ vagrant ssh
         vagrant> cd /vagrant
+        vagrant> bundle install
 
   The vagrant provisionning script will attempt to configure the VM's root and vagrant
   accounts to be accessible by ssh. By default, it will copy your authorized_keys, but you 
@@ -52,7 +53,7 @@ In particular, runtime dependencies of the app include `ruby2.1.5` and `git-core
   are already packaged in the Vagrant box. As this is not trivial a requires some compromises,
   the development of this application relies strongly on unit tests.
 
-  A usefull set of ssh tunnels is created with
+  A useful set of ssh tunnels is created with
 	
         vagrant> rake tunnels:setup
 	
@@ -89,15 +90,14 @@ In particular, runtime dependencies of the app include `ruby2.1.5` and `git-core
 * Give access to reference data to expose. The scripts expect you
   have a checkout version of the reference-repository in a sibling directory
   to this code that is mounted on /home/vagrant/reference-repository in the
-  vagrant box.  
+  vagrant box.
 
         (g5k-api) $ cd ..
-				( ) $ git clone ssh://g5kadmin@git.grid5000.fr/srv/git/repos/reference-repository.git \
-              reference-repository
+        (..) $ git clone ssh://g5kadmin@git.grid5000.fr/srv/git/repos/reference-repository.git reference-repository
   
   You might not have admin access to Grid'5000's reference repository. in this case, you 
-  could duplicate the fake repository used for tests, in the spec/fixtures/reference-repository
-  directory. 
+  could duplicate the fake repository used for tests, in the 
+  spec/fixtures/reference-repository directory. 
 
         (g5k-api) $ cp -r spec/fixtures/reference-repository ..
         (g5k-api) $ mv ../reference-repository/git.rename ../reference-repository/.git
@@ -117,21 +117,20 @@ In particular, runtime dependencies of the app include `ruby2.1.5` and `git-core
     information). You should setup an SSH tunnel between your machine and one of the 
     oardb servers of Grid'5000, so that you can access the current jobs:
 
-        $ #first create a reverse port from the vagrant machine to 
-		    $ #your own machine
+        $ #first create a reverse port from the vagrant machine to your own machine
         $ vagrant ssh -- -R 15433:localhost:15433
 
-				$ In an other shell, create a tunnel from your machine to Grid'5000 
+        $ #In an other shell, create a tunnel from your machine to Grid'5000 
         $ ssh -NL 15433:oardb.rennes.grid5000.fr:5432 access.grid5000.fr
 
-				# finally, edit the development section of app/config/defaults.yml to 
-				  oar:
-					    <<: *oar
-							host: 127.0.0.1
-							port: 15433
-							username: oarreader
-							password: read
-							database: oar2
+        $ #finally, edit the development section of config/defaults.yml to 
+                                  oar:
+                                    <<: *oar
+                                    host: 127.0.0.1
+                                    port: 15433
+                                    username: oarreader
+                                    password: read
+                                    database: oar2
 				
 
 ### Wrapping it up to run the server
@@ -142,7 +141,7 @@ In particular, runtime dependencies of the app include `ruby2.1.5` and `git-core
 
 * If you require traces on the shell, use
 
-       $ ./bin/g5k-api server -V start -e development
+        $ ./bin/g5k-api server -V start -e development
 
 * If you need to be authenticated for some development, use:
 
