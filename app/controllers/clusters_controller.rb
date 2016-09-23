@@ -49,7 +49,11 @@ class ClustersController < ResourcesController
   protected
   
   def collection_path # abasu the parameter passed should be :site_id not :id (cluster)
-    site_clusters_path(params[:site_id]) 
+    if params[:site_id]
+      site_clusters_path(params[:site_id])
+    else
+      site_clusters_path
+    end
   end
 
   # abasu : method to prepare links for status of a cluster - bug ref 5856 -- 2015.04.17
