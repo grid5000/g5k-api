@@ -1,0 +1,44 @@
+{
+  "alias": [
+
+  ],
+  "kind": "physical",
+  "monitoring": {
+    "metric": "power",
+    "wattmeter": "multiple"
+  },
+  "network_adapters": {
+    "bmc": {
+      "ip": "172.17.79.21"
+    },
+    "default": {
+      "ip": "172.16.79.21"
+    }
+  },
+  "sensors": {
+    "network": {
+      "available": true,
+      "resolution": 1
+    },
+    "power": {
+      "available": true,
+      "resolution": 1,
+      "via": {
+        "pdu": [
+          {
+            "port": 20,
+            "uid": "grisou-pdu1"
+          },
+          {
+            "port": 20,
+            "uid": "grisou-pdu2"
+          }
+        ]
+      }
+    }
+  },
+  "serial": "92ZLL82",
+  "type": "server",
+  "uid": "talc-data",
+  "warranty": 11.202
+}

@@ -20,7 +20,7 @@ class ServersController < ResourcesController
 
   protected
   
-  def collection_path # abasu the parameter passed should be :site_id not :id (cluster)
+  def collection_path 
     if params[:site_id]
       site_servers_path(params[:site_id])
     else

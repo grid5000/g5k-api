@@ -35,6 +35,7 @@ Api::Application.routes.draw do
     resources :environments, :only => [:index, :show], :constraints => { :id => /[0-9A-Za-z\-\.]+/ }
     resources :network_equipments, :only => [:index, :show]
     resources :pdus, :only => [:index, :show]
+    resources :servers, :only => [:index, :show]
     resources :clusters, :only => [:index, :show] do
   # abasu : 3 lines introduced below for correction to bug ref 5856 -- 2015.04.17  
       member do
