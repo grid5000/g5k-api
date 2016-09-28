@@ -73,6 +73,17 @@ In particular, runtime dependencies of the app include `ruby1.9.1-full` and `git
         $ vagrant ssh
         $ sudo mysql -u root
 
+  Should vagrant fail to mount shared folders, you need to add the guest additions .iso to the VM using VirtualBox GUI, and the
+
+        $ vagrant ssh
+				$ sudo -i
+				$ mount /mnt/cdrom
+				$ cd /mnt/cdrom
+				$ bash VBoxLinuxAdditions.run
+				$ exit
+				$ exit
+				$ vagrant reload
+
   And create `g5kapi-development` and `g5kapi-test` databases. 
 
   The vagrant provisionning script will attempt to configure the VM's root account
