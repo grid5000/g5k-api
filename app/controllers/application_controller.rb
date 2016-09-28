@@ -100,7 +100,7 @@ class ApplicationController < ActionController::Base
 
     status = http.response_header.status  # get the status from the http response
 
-    if status.between?(400, 599)  # error status
+    if status.between?(400, 599) # error status
       # http.method always returns nil. Bug?
       # msg = "#{http.method} #{http.uri} failed with status #{status}"
       msg = "Request to #{http.uri.to_s} failed with status #{status}: #{http.response}"
@@ -129,6 +129,7 @@ class ApplicationController < ActionController::Base
       when 502
         raise BadGateway, msg
       else
+        msg = "Request to #{http.uri.to_s} failed with status #{status}: #{http.response}"
         raise ServerError, msg
     end
   end
