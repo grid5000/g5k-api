@@ -21,16 +21,10 @@ describe ServersController do
   describe "GET /sites/{{site_id}}/servers/{{id}}" do
   # The following unit tests check the responses at level of specific servers.
 
-    it "should return ONLY cluster talc in nancy without any queues filter" do      
-      expected_url = "http://api-out.local:80/sites/nancy/servers/talc-data?branch=master&pretty=yes"
-      stub_request(:get, expected_url).
-        with(
-          :headers => {'Accept' => media_type(:json)}
-        ).
-        to_return(:body => fixture("reference-repository/data/grid5000/sites/nancy/servers/talc-data.json"))
-      get :show, :branch => 'master', :site_id => "nancy", :id => "talc", :format => :json
+    it "should return ONLY cluster talc-data in nancy" do      
+      get :show, :branch => 'master', :site_id => "nancy", :id => "talc-data", :format => :json
       assert_media_type(:json)
-
+      response.body.should == '{"alias":[],"kind":"physical","monitoring":{"metric":"power","wattmeter":"multiple"},"network_adapters":{"bmc":{"ip":"172.17.79.21"},"default":{"ip":"172.16.79.21"}},"sensors":{"network":{"available":true,"resolution":1},"power":{"available":true,"resolution":1,"via":{"pdu":[{"port":20,"uid":"grisou-pdu1"},{"port":20,"uid":"grisou-pdu2"}]}}},"serial":"92ZLL82","type":"server","uid":"talc-data","warranty":11.202,"version":"d3caa026bf76e477b7410cb04338e15c5af9e8a6","links":[{"rel":"self","type":"application/vnd.grid5000.item+json","href":"/sites/nancy/servers/talc-data"},{"rel":"parent","type":"application/vnd.grid5000.item+json","href":"/sites/nancy"},{"rel":"version","type":"application/vnd.grid5000.item+json","href":"/sites/nancy/servers/talc-data/versions/d3caa026bf76e477b7410cb04338e15c5af9e8a6"},{"rel":"versions","type":"application/vnd.grid5000.collection+json","href":"/sites/nancy/servers/talc-data/versions"}]}'
       response.status.should == 200
     end # it "should return ONLY cluster talc in nancy without any queues filter" 
 
@@ -43,18 +37,17 @@ describe ServersController do
   # The following unit tests check the responses at level of all servers in a site
 
     # abasu : unit test for bug ref 7301 to handle /servers - 08.01.2016
-    it "should return ALL servers in site nancy" do      
+    it "should return ALL servers in site nancy" do
       get :index, :branch => 'master', :site_id => "nancy", :format => :json
       assert_media_type(:json)
-
       response.status.should == 200
-      json["total"].should == 1
+      json["total"].should == 2
 
       serverList = []
       json["items"].each do |server|
          serverList = [server["uid"]] | serverList
       end
-      (serverList - ["graphique","mbi","talc"]).empty? == true
+      (serverList - ["talc-data","mbi-data"]).empty? == true
 
     end # it "should return ALL servers in site nancy" 
 

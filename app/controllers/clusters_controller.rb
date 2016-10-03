@@ -49,6 +49,7 @@ class ClustersController < ResourcesController
   protected
   
   def collection_path # abasu the parameter passed should be :site_id not :id (cluster)
+    # abasu -- 27.09.2016 : added if condition to check if site_id is also specified.
     if params[:site_id]
       site_clusters_path(params[:site_id])
     else
