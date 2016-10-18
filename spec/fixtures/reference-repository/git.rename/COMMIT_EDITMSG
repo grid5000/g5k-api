@@ -1,1 +1,1 @@
-Added back /clusters/mbi in site nancy, possible earlier commit removed it
+Added /servers with 2 servers in site nancy + cleared git remove for /clusters in nancy - accidentally made in earlier commit

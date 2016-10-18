@@ -14,4 +14,4 @@ ae5c7e2e8d298690c7917ed129b210f9c4bdbf90 5a5bdfcfa33b5a025677591815f4b024524c81a
 6e63ed50a2f4e2ed6d594420b969e660aa4d0310 5b02702daa827f7e39ebf7396af26735c9d2aacd Cyril Rohr <cyril.rohr@inria.fr> 1320833401 +0100	checkout: moving from testing to master
 5b02702daa827f7e39ebf7396af26735c9d2aacd 070663579dafada27e078f468614f85a62cf2992 David Margery <david.margery@inria.fr> 1434979330 +0200	commit: Changes in data to test for fix to 5065
 070663579dafada27e078f468614f85a62cf2992 d03a97ebe1fcf3b9f10cf4eb066a1b97ddd4e09a Anirvan BASU <Anirvan.BASU@INRIA.fr> 1457104522 +0100	commit: added nancy clusters for unit tests on bug #6363
-d03a97ebe1fcf3b9f10cf4eb066a1b97ddd4e09a f9ce2496a5f48cbf764aa2c211343b30ac30f4b6 Anirvan BASU <Anirvan.BASU@INRIA.fr> 1476775014 +0200	commit: Added /servers in site nancy with 2 servers - storage5k & talc-data
+d03a97ebe1fcf3b9f10cf4eb066a1b97ddd4e09a 8f908f80b7f2712cad0b9c606eaaa1188037551a Anirvan BASU <Anirvan.BASU@INRIA.fr> 1476779331 +0200	commit: Added /servers with 2 servers in site nancy + cleared git remove for /clusters in nancy - accidentally made in earlier commit
