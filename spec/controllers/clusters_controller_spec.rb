@@ -172,7 +172,7 @@ response.body
       json["items"].each do |cluster|
          clusterList = [cluster["uid"]] | clusterList
       end
-      (clusterList - ["graphique","mbi","talc"]).empty? == true
+      (clusterList - ["graphique","mbi","talc"]).should be_empty
 
     end # it "should return ALL clusters in site nancy without any queues param" 
 
@@ -210,7 +210,7 @@ response.body
          clusterList = [cluster["uid"]] | clusterList
          cluster["queues"].include? "default"
       end
-      (clusterList - ["graphique","talc"]).empty? == true
+      (clusterList - ["graphique","talc"]).should be_empty
 
     end # it "should return ONLY clusters talc & graphique in site nancy" 
 
@@ -229,7 +229,7 @@ response.body
          combined_queues = cluster["queues"] | combined_queues
       end
       combined_queues.should == ["admin","default","production"]
-      (clusterList - ["graphique","mbi","talc"]).empty? == true
+      (clusterList - ["graphique","mbi","talc"]).should be_empty
 
     end # it "should return ALL clusters in site nancy" 
 

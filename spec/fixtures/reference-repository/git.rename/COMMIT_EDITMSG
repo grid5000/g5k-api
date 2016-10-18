@@ -1,1 +1,1 @@
-Added /servers with 2 servers in site nancy + cleared git remove for /clusters in nancy - accidentally made in earlier commit
+Cleared accidental remove of sites/nancy/clusters/ in bug/#5856

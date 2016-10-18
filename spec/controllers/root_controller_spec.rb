@@ -14,9 +14,6 @@
 
 require 'spec_helper'
 
-# abasu - 17.10.2016 - updated values from d03a97ebe1fcf3b9f10cf4eb066a1b97ddd4e09a
-#                                     to   8f908f80b7f2712cad0b9c606eaaa1188037551a
-
 describe RootController do
   render_views
   
@@ -26,7 +23,7 @@ describe RootController do
     json.should == {
       "type"=>"grid", 
       "uid"=>"grid5000", 
-      "version"=>"8f908f80b7f2712cad0b9c606eaaa1188037551a", 
+      "version"=>"d03a97ebe1fcf3b9f10cf4eb066a1b97ddd4e09a", 
       "release"=>Grid5000::VERSION, 
       "timestamp"=>@now.to_i, 
       "links"=>[
@@ -34,7 +31,7 @@ describe RootController do
         {"rel"=>"sites", "href"=>"/sites", "type"=>"application/vnd.grid5000.collection+json"}, 
         {"rel"=>"self", "type"=>"application/vnd.grid5000.item+json", "href"=>"/"}, 
         {"rel"=>"parent", "type"=>"application/vnd.grid5000.item+json", "href"=>"/"}, 
-        {"rel"=>"version", "type"=>"application/vnd.grid5000.item+json", "href"=>"/versions/8f908f80b7f2712cad0b9c606eaaa1188037551a"}, 
+        {"rel"=>"version", "type"=>"application/vnd.grid5000.item+json", "href"=>"/versions/d03a97ebe1fcf3b9f10cf4eb066a1b97ddd4e09a"}, 
         {"rel"=>"versions", "type"=>"application/vnd.grid5000.collection+json", "href"=>"/versions"}, 
         {"rel"=>"users", "type"=>"application/vnd.grid5000.collection+json", "href"=>"/users"}, 
         {"rel"=>"notifications", "type"=>"application/vnd.grid5000.collection+json", "href"=>"/notifications"}
@@ -49,7 +46,7 @@ describe RootController do
     json.should == {
       "type"=>"grid", 
       "uid"=>"grid5000", 
-      "version"=>"8f908f80b7f2712cad0b9c606eaaa1188037551a", 
+      "version"=>"d03a97ebe1fcf3b9f10cf4eb066a1b97ddd4e09a", 
       "release"=>Grid5000::VERSION, 
       "timestamp"=>@now.to_i, 
       "links"=>[
@@ -57,7 +54,7 @@ describe RootController do
         {"rel"=>"sites", "href"=>"/sid/sites", "type"=>"application/vnd.grid5000.collection+json"}, 
         {"rel"=>"self", "type"=>"application/vnd.grid5000.item+json", "href"=>"/sid/"}, 
         {"rel"=>"parent", "type"=>"application/vnd.grid5000.item+json", "href"=>"/sid/"}, 
-        {"rel"=>"version", "type"=>"application/vnd.grid5000.item+json", "href"=>"/sid/versions/8f908f80b7f2712cad0b9c606eaaa1188037551a"}, 
+        {"rel"=>"version", "type"=>"application/vnd.grid5000.item+json", "href"=>"/sid/versions/d03a97ebe1fcf3b9f10cf4eb066a1b97ddd4e09a"}, 
         {"rel"=>"versions", "type"=>"application/vnd.grid5000.collection+json", "href"=>"/sid/versions"}, 
         {"rel"=>"users", "type"=>"application/vnd.grid5000.collection+json", "href"=>"/sid/users"}, 
         {"rel"=>"notifications", "type"=>"application/vnd.grid5000.collection+json", "href"=>"/sid/notifications"}
