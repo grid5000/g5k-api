@@ -72,6 +72,7 @@ describe ClustersController do
         ).
         to_return(:body => fixture("reference-repository/data/grid5000/sites/nancy/clusters/mbi/mbi.json"))
       get :show, :branch => 'master', :site_id => "nancy", :id => "mbi", :format => :json
+response.body
       assert_media_type(:json)
 
       response.status.should == 200
@@ -171,7 +172,7 @@ describe ClustersController do
       json["items"].each do |cluster|
          clusterList = [cluster["uid"]] | clusterList
       end
-      (clusterList - ["graphique","mbi","talc"]).empty? == true
+      (clusterList - ["graphique","mbi","talc"]).should be_empty
 
     end # it "should return ALL clusters in site nancy without any queues param" 
 
@@ -209,7 +210,7 @@ describe ClustersController do
          clusterList = [cluster["uid"]] | clusterList
          cluster["queues"].include? "default"
       end
-      (clusterList - ["graphique","talc"]).empty? == true
+      (clusterList - ["graphique","talc"]).should be_empty
 
     end # it "should return ONLY clusters talc & graphique in site nancy" 
 
@@ -228,7 +229,7 @@ describe ClustersController do
          combined_queues = cluster["queues"] | combined_queues
       end
       combined_queues.should == ["admin","default","production"]
-      (clusterList - ["graphique","mbi","talc"]).empty? == true
+      (clusterList - ["graphique","mbi","talc"]).should be_empty
 
     end # it "should return ALL clusters in site nancy" 
 

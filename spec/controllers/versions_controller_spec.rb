@@ -21,7 +21,7 @@ describe VersionsController do
     it "should get the list of versions" do
       get :index, :resource => "/sites", :format => :json
       response.status.should == 200
-      # abasu - 03.03.2016 - update "total" and "length" from 8 to 9
+      # abasu - 17.10.2016 - update "total" and "length" from 8 to 9
       json["total"].should == 9
       json["offset"].should == 0
       json["items"].length.should == 9

@@ -14,11 +14,6 @@
 
 require 'resources_controller'
 
-# abasu : changed inheritance of class ClustersController - bug ref 5856 -- 2015.3.19
-# from ResourcesController to SitesController
-# Logic for changing inheritance : From the perspective of a controller,
-# the ClustersController is a special case of a SitesController,  
-# for specific clusters, insofar that this attribute is limited to the status function
 class ClustersController < ResourcesController
 
   # abasu : method to return status of a specific cluster - bug ref 5856 -- 2015.03.19
