@@ -84,7 +84,7 @@ describe SitesController do
       }['href'].should == "/sites/rennes/clusters"
       json['links'].find{|l|
         l['rel'] == 'version'
-      # abasu - 03.03.2016 - updated value from 070663579dafada27e078f468614f85a62cf2992
+      # abasu - 17.10.2016 - updated value from 3981d22da3cbb035d52fbe44949c394412ba7bb5
       }['href'].should == "/sites/rennes/versions/d03a97ebe1fcf3b9f10cf4eb066a1b97ddd4e09a"
     end
     

@@ -38,7 +38,7 @@ In particular, runtime dependencies of the app include `ruby2.1.5` and `git-core
 
   The vagrant provisionning script will attempt to configure the VM's root and vagrant
   accounts to be accessible by ssh. By default, it will copy your authorized_keys, but you 
-  can control the keypair used with SSH_KEY=filename_of_private_key  
+  can control the keypair used with SSH_KEY=filename_of_private_key
 
 
   Of course, reality is a bit more complex. You might have troubles with the insecure

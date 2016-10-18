@@ -1,0 +1,162 @@
+{
+  "architecture": {
+    "platform_type": "x86_64",
+    "smp_size": 2,
+    "smt_size": 8
+  },
+  "bios": {
+    "release_date": "08/21/2009",
+    "vendor": "Phoenix Technologies LTD",
+    "version": "V1.05"
+  },
+  "chassis": {
+    "manufacturer": "TYAN Computer Corporation",
+    "name": "S5393",
+    "serial": null
+  },
+  "gpu": {
+    "gpu": false
+  },
+  "main_memory": {
+    "ram_size": 17179869184,
+    "virtual_size": null
+  },
+  "network_adapters": [
+    {
+      "bridged": true,
+      "device": "eth0",
+      "driver": "e1000e",
+      "enabled": true,
+      "interface": "Ethernet",
+      "ip": "172.16.69.1",
+      "ip6": null,
+      "mac": "00:e0:81:b2:c0:b2",
+      "management": false,
+      "mountable": true,
+      "mounted": true,
+      "network_address": "mbi-1.nancy.grid5000.fr",
+      "rate": 1000000000,
+      "switch": "smbi1",
+      "switch_port": "GigabitEthernet1/0/1",
+      "vendor": "intel",
+      "version": "80003ES2LAN"
+    },
+    {
+      "bridged": false,
+      "device": "eth1",
+      "driver": "e1000e",
+      "enabled": false,
+      "interface": "Ethernet",
+      "mac": "00:e0:81:b2:c0:b3",
+      "management": false,
+      "mountable": true,
+      "mounted": false,
+      "rate": 1000000000,
+      "vendor": "intel",
+      "version": "BCM5721"
+    },
+    {
+      "device": "ib0",
+      "driver": "mlx4_core",
+      "enabled": false,
+      "guid": "20:00:55:00:41:80:00:00:00:00:00:00:00:02:c9:03:00:03:19:ed",
+      "hwid": null,
+      "ib_switch_card": null,
+      "ib_switch_card_pos": null,
+      "interface": "InfiniBand",
+      "ip": null,
+      "ip6": "fe80::202:c903:3:19ed",
+      "management": false,
+      "mountable": true,
+      "mounted": false,
+      "network_address": "mbi-1-ib0.nancy.grid5000.fr",
+      "rate": 20000000000,
+      "switch": "sgriffonib",
+      "vendor": "Mellanox",
+      "version": "MT26418"
+    },
+    {
+      "device": "ib1",
+      "driver": "mlx4_core",
+      "enabled": false,
+      "guid": "20:00:55:00:41:80:00:00:00:00:00:00:00:02:c9:03:00:03:19:ee",
+      "interface": "InfiniBand",
+      "management": false,
+      "mountable": false,
+      "mounted": false,
+      "rate": 8000000000,
+      "vendor": "Mellanox",
+      "version": "MT26418"
+    },
+    {
+      "device": "bmc",
+      "enabled": true,
+      "interface": "Ethernet",
+      "ip": null,
+      "mac": null,
+      "management": true,
+      "mountable": false,
+      "mounted": false,
+      "network_address": "mbi-1-bmc.nancy.grid5000.fr",
+      "rate": 100000000,
+      "vendor": "Tyan",
+      "version": "M3296"
+    }
+  ],
+  "operating_system": {
+    "kernel": "3.2.0-4-amd64",
+    "name": "debian",
+    "release": "Wheezy",
+    "version": 7.9
+  },
+  "performance": {
+    "core_flops": 7963000000.0,
+    "node_flops": 52500000000.0
+  },
+  "processor": {
+    "cache_l1": null,
+    "cache_l1d": 32768,
+    "cache_l1i": 32768,
+    "cache_l2": 6291456,
+    "cache_l3": 0,
+    "clock_speed": 2500000000,
+    "instruction_set": "x86-64",
+    "model": "Intel Xeon",
+    "other_description": "Intel(R) Xeon(R) CPU           L5420  @ 2.50GHz",
+    "vendor": "Intel",
+    "version": "L5420"
+  },
+  "sensors": {
+    "power": {
+      "available": false,
+      "via": {
+        "pdu": {
+          "uid": null
+        }
+      }
+    }
+  },
+  "storage_devices": [
+    {
+      "device": "sda",
+      "driver": "ahci",
+      "interface": "SATA II",
+      "model": "Hitachi HDP72503",
+      "rev": "GM3O",
+      "size": 320072933376,
+      "vendor": null
+    }
+  ],
+  "supported_job_types": {
+    "besteffort": true,
+    "deploy": true,
+    "max_walltime": 86400,
+    "queues": [
+      "admin",
+      "production"
+    ],
+    "virtual": "ivt"
+  },
+  "type": "node",
+  "uid": "mbi-1"
+}
