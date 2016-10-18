@@ -64,7 +64,7 @@ class ResourcesController < ApplicationController
        object = nil if (object['queues'] & params_queues).empty?
 
     # 2. case of an array of clusters
-    when ["clusters", "index"]
+    when ["clusters", "index"] 
        # First, add ["admin","default"] to 'queues' if nothing defined for that cluster
        object['items'].each { |cluster| cluster['queues'] = ["admin","default"] if cluster['queues'].nil? }
        # Then, filter out 'queues' that are not requested in params

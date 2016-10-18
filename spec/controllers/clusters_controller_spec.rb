@@ -72,6 +72,7 @@ describe ClustersController do
         ).
         to_return(:body => fixture("reference-repository/data/grid5000/sites/nancy/clusters/mbi/mbi.json"))
       get :show, :branch => 'master', :site_id => "nancy", :id => "mbi", :format => :json
+response.body
       assert_media_type(:json)
 
       response.status.should == 200

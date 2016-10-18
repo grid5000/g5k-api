@@ -14,11 +14,6 @@
 
 require 'resources_controller'
 
-# abasu : changed inheritance of class ClustersController - bug ref 5856 -- 2015.3.19
-# from ResourcesController to SitesController
-# Logic for changing inheritance : From the perspective of a controller,
-# the ClustersController is a special case of a SitesController,  
-# for specific clusters, insofar that this attribute is limited to the status function
 class ClustersController < ResourcesController
 
   # abasu : method to return status of a specific cluster - bug ref 5856 -- 2015.03.19
@@ -49,12 +44,7 @@ class ClustersController < ResourcesController
   protected
   
   def collection_path # abasu the parameter passed should be :site_id not :id (cluster)
-    # abasu -- 27.09.2016 : added if condition to check if site_id is also specified.
-    if params[:site_id]
-      site_clusters_path(params[:site_id])
-    else
-      site_clusters_path
-    end
+    site_clusters_path(params[:site_id]) 
   end
 
   # abasu : method to prepare links for status of a cluster - bug ref 5856 -- 2015.04.17
