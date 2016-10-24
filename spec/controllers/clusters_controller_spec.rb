@@ -171,7 +171,7 @@ describe ClustersController do
       json["items"].each do |cluster|
          clusterList = [cluster["uid"]] | clusterList
       end
-      (clusterList - ["graphique","mbi","talc"]).empty? == true
+      (clusterList - ["graphique","mbi","talc"]).should be_empty
 
     end # it "should return ALL clusters in site nancy without any queues param" 
 
@@ -188,7 +188,7 @@ describe ClustersController do
       response.status.should == 200
       json["total"].should == 1
       json["items"][0]["uid"].should == "mbi"
-      json["items"][0]["queues"].include? "production"
+      json["items"][0]["queues"].should include("production")
     end # it "should return ONLY cluster mbi in nancy" 
 
     # abasu : unit test for bug ref 6363 to handle filter queues - 08.01.2016
@@ -207,9 +207,9 @@ describe ClustersController do
       clusterList = []
       json["items"].each do |cluster|
          clusterList = [cluster["uid"]] | clusterList
-         cluster["queues"].include? "default"
+         cluster["queues"].should include("default")
       end
-      (clusterList - ["graphique","talc"]).empty? == true
+      (clusterList - ["graphique","talc"]).should be_empty
 
     end # it "should return ONLY clusters talc & graphique in site nancy" 
 
@@ -228,7 +228,8 @@ describe ClustersController do
          combined_queues = cluster["queues"] | combined_queues
       end
       combined_queues.should == ["admin","default","production"]
-      (clusterList - ["graphique","mbi","talc"]).empty? == true
+
+      (clusterList - ["graphique","mbi","talc"]).should be_empty
 
     end # it "should return ALL clusters in site nancy" 
 
