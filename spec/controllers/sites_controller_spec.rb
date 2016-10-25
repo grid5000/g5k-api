@@ -64,8 +64,7 @@ describe SitesController do
       json['uid'].should == 'rennes'
       json['links'].map{|l| l['rel']}.sort.should == [
         "clusters",
-# abasu bug #7179
-#       "deployments",
+        "deployment", # abasu 19.10.2016 - bug #7364 changed "deployments" to "deployment"
         "environments",
         "jobs",
         "metrics",
@@ -84,7 +83,6 @@ describe SitesController do
       }['href'].should == "/sites/rennes/clusters"
       json['links'].find{|l|
         l['rel'] == 'version'
-      # abasu - 24.10.2016 - updated value from 070663579dafada27e078f468614f85a62cf2992
       }['href'].should == "/sites/rennes/versions/2ed3470e0881a22baa43718e62098a0b8dee1e4b"
     end
     
@@ -93,8 +91,7 @@ describe SitesController do
       response.status.should == 200
       json['links'].map{|l| l['rel']}.sort.should == [
         "clusters",
-# abasu bug #7179
-#       "deployments",
+        "deployment", # abasu 19.10.2016 - bug #7364 changed "deployments" to "deployment"
         "environments",
         "jobs",
         "metrics",
@@ -107,6 +104,16 @@ describe SitesController do
         "vlans"
       ]
     end
+    
+    # abasu 19.10.2016 - bug #7364 changed "deployments" to "deployment"
+    it "should return link for deployment" do
+      get :show, :id => "rennes", :format => :json
+      response.status.should == 200
+      json['uid'].should == 'rennes'
+      json['links'].find{|l|
+        l['rel'] == 'deployment'
+      }['href'].should == "/sites/rennes/deployment"
+    end # it "should return link for deployment" do
     
     it "should return the specified version, and the max-age value in the Cache-Control header should be big" do
       get :show, :id => "rennes", :format => :json, :version => "b00bd30bf69c322ffe9aca7a9f6e3be0f29e20f4"
