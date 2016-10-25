@@ -84,8 +84,8 @@ describe SitesController do
       }['href'].should == "/sites/rennes/clusters"
       json['links'].find{|l|
         l['rel'] == 'version'
-      # abasu - 03.03.2016 - updated value from 070663579dafada27e078f468614f85a62cf2992
-      }['href'].should == "/sites/rennes/versions/d03a97ebe1fcf3b9f10cf4eb066a1b97ddd4e09a"
+      # abasu - 24.10.2016 - updated value from 070663579dafada27e078f468614f85a62cf2992
+      }['href'].should == "/sites/rennes/versions/2ed3470e0881a22baa43718e62098a0b8dee1e4b"
     end
     
     it "should return subresource links that are only in testing branch" do

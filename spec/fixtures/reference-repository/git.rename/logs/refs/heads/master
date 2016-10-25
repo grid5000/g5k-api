@@ -11,3 +11,4 @@ ae5c7e2e8d298690c7917ed129b210f9c4bdbf90 5a5bdfcfa33b5a025677591815f4b024524c81a
 729d479d0dd550b256cfc34171a701247f16b235 5b02702daa827f7e39ebf7396af26735c9d2aacd Cyril Rohr <cyril.rohr@irisa.fr> 1294243789 +0100	commit: Add synlinks for environments.
 5b02702daa827f7e39ebf7396af26735c9d2aacd 070663579dafada27e078f468614f85a62cf2992 David Margery <david.margery@inria.fr> 1434979330 +0200	commit: Changes in data to test for fix to 5065
 070663579dafada27e078f468614f85a62cf2992 d03a97ebe1fcf3b9f10cf4eb066a1b97ddd4e09a Anirvan BASU <Anirvan.BASU@INRIA.fr> 1457104522 +0100	commit: added nancy clusters for unit tests on bug #6363
+d03a97ebe1fcf3b9f10cf4eb066a1b97ddd4e09a 2ed3470e0881a22baa43718e62098a0b8dee1e4b Anirvan BASU <Anirvan.BASU@INRIA.fr> 1477319674 +0200	commit: added /servers to site nancy in test repository
