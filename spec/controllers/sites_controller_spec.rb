@@ -115,6 +115,16 @@ describe SitesController do
       }['href'].should == "/sites/rennes/deployment"
     end # it "should return link for deployment" do
     
+    # abasu 26.10.2016 - bug #7301 should return link /servers if present in site
+    it "should return link /servers if present in site" do
+      get :show, :id => "nancy", :format => :json
+      response.status.should == 200
+      json['uid'].should == 'nancy'
+      json['links'].find{|l|
+        l['rel'] == 'servers'
+      }['href'].should == "/sites/nancy/servers"
+    end # it "should return link for deployment" do
+    
     it "should return the specified version, and the max-age value in the Cache-Control header should be big" do
       get :show, :id => "rennes", :format => :json, :version => "b00bd30bf69c322ffe9aca7a9f6e3be0f29e20f4"
       response.status.should == 200
