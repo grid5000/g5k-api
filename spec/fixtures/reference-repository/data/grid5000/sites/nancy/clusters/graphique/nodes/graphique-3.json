@@ -1,0 +1,149 @@
+{
+  "architecture": {
+    "platform_type": "x86_64",
+    "smp_size": 2,
+    "smt_size": 12
+  },
+  "bios": {
+    "release_date": "08/28/2014",
+    "vendor": "Dell Inc.",
+    "version": 1.0
+  },
+  "chassis": {
+    "manufacturer": "Dell Inc.",
+    "name": "PowerEdge R730",
+    "serial": "9ZTRV42"
+  },
+  "gpu": {
+    "gpu": true,
+    "gpu_count": 2,
+    "gpu_model": "GTX 980",
+    "gpu_vendor": "Nvidia"
+  },
+  "main_memory": {
+    "ram_size": 68719476736,
+    "virtual_size": null
+  },
+  "monitoring": {
+    "wattmeter": false
+  },
+  "network_adapters": [
+    {
+      "bridged": false,
+      "device": "eth0",
+      "driver": "bnx2x",
+      "enabled": false,
+      "interface": "Ethernet",
+      "mac": "44:a8:42:0a:33:3d",
+      "management": false,
+      "model": "Broadcom 57800 10 GB DA/SFP+",
+      "mountable": false,
+      "mounted": false,
+      "rate": 10000000000,
+      "switch": null,
+      "switch_port": null,
+      "vendor": "Broadcom"
+    },
+    {
+      "bridged": false,
+      "device": "eth1",
+      "driver": "bnx2x",
+      "enabled": false,
+      "interface": "Ethernet",
+      "mac": "44:a8:42:0a:33:3f",
+      "management": false,
+      "model": "Broadcom 57800 10 GB DA/SFP+",
+      "mountable": false,
+      "mounted": false,
+      "rate": 10000000000,
+      "vendor": "Broadcom"
+    },
+    {
+      "bridged": true,
+      "device": "eth2",
+      "driver": "bnx2x",
+      "enabled": true,
+      "interface": "Ethernet",
+      "ip": "172.16.67.3",
+      "mac": "44:a8:42:0a:33:41",
+      "management": false,
+      "model": "Broadcom 57800 1 GB Base-T",
+      "mountable": true,
+      "mounted": true,
+      "network_address": "graphique-3.nancy.grid5000.fr",
+      "rate": 1000000000,
+      "vendor": "Broadcom"
+    },
+    {
+      "bridged": false,
+      "device": "eth3",
+      "driver": "bnx2x",
+      "enabled": false,
+      "interface": "Ethernet",
+      "mac": "44:a8:42:0a:33:43",
+      "management": false,
+      "model": "Broadcom 57800 1 GB Base-T",
+      "mountable": false,
+      "mounted": false,
+      "rate": 1000000000,
+      "vendor": "Broadcom"
+    },
+    {
+      "device": "bmc",
+      "enabled": true,
+      "interface": "Ethernet",
+      "ip": "172.17.67.3",
+      "mac": "18:fb:7b:9b:68:d3",
+      "management": true,
+      "mountable": false,
+      "mounted": false,
+      "network_address": "graphique-3-bmc.nancy.grid5000.fr",
+      "rate": 1000000000
+    }
+  ],
+  "operating_system": {
+    "kernel": "3.16.0-4-amd64",
+    "name": "debian",
+    "release": "Wheezy",
+    "version": "7"
+  },
+  "processor": {
+    "cache_l1": null,
+    "cache_l1d": 32768,
+    "cache_l1i": 32768,
+    "cache_l2": 262144,
+    "cache_l3": 15728640,
+    "clock_speed": 2400000000,
+    "instruction_set": "x86-64",
+    "model": "Intel Xeon",
+    "other_description": "Intel(R) Xeon(R) CPU E5-2620 v3 @ 2.40GHz",
+    "vendor": "Intel",
+    "version": "E5-2620 v3"
+  },
+  "sensors": {
+
+  },
+  "storage_devices": [
+    {
+      "device": "sda",
+      "driver": "megaraid_sas",
+      "interface": "SCSI",
+      "model": "PERC H330",
+      "rev": 4.24,
+      "size": 299439751168,
+      "storage": "HDD",
+      "vendor": null
+    }
+  ],
+  "supported_job_types": {
+    "besteffort": true,
+    "deploy": true,
+    "queues": [
+      "admin",
+      "production"
+    ],
+    "virtual": "ivt"
+  },
+  "type": "node",
+  "uid": "graphique-3"
+}
