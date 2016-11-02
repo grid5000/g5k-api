@@ -16,8 +16,7 @@ require 'spec_helper'
 
 describe Grid5000::Repository do
   before do
-    # abasu - 03.03.2016 - updated value from 070663579dafada27e078f468614f85a62cf2992
-    @latest_commit = "d03a97ebe1fcf3b9f10cf4eb066a1b97ddd4e09a"
+    @latest_commit = "8a562420c9a659256eeaafcfd89dfa917b5fb4d0"
   end
   
   it "should instantiate a new repository object with the correct settings" do
@@ -194,8 +193,7 @@ describe Grid5000::Repository do
     
     describe "versions_for" do
       it "find the versions for a resource" do
-        # abasu - 03.03.2016 - update "total" value from 8 to 9
-        @repository.versions_for("grid5000/sites")["total"].should == 9
+        @repository.versions_for("grid5000/sites")["total"].should == 10
       end
       it "should return an empty list if the resource does not exist" do
         @repository.versions_for("grid5000/doesnotexist").should == {"total"=>0, "offset"=>0, "items"=>[]}
