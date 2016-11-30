@@ -124,7 +124,8 @@ describe JobsController do
       response.status.should == 400
       response.body.should == "Request to #{expected_url} failed with status 400: some error"
     end
-  # abasu : unit test for bug ref 5912 to handle error codes - 02.04.2015
+
+    # abasu : unit test for bug ref 5912 to handle error codes - 02.04.2015
     it "should return a 400 error if the OAR API returns 400 error code" do
       payload = @valid_job_attributes.merge("resources" => "{ib30g='YES'}/nodes=2")
       authenticate_as("crohr")
@@ -149,7 +150,8 @@ describe JobsController do
       response.status.should == 400
       response.body.should == "Request to #{expected_url} failed with status 400: Bad Request"
     end # "should return a 400 error if the OAR API returns 400 error code"
-  # abasu : unit test for bug ref 5912 to handle error codes - 02.04.2015
+
+    # abasu : unit test for bug ref 5912 to handle error codes - 02.04.2015
     it "should return a 401 error if the OAR API returns 401 error code" do
       payload = @valid_job_attributes
       authenticate_as("xyz")
@@ -206,6 +208,7 @@ describe JobsController do
       response.body.should == {"key" => "value"}.to_json
       response.location.should == "http://api-in.local/sites/rennes/jobs/961722"
     end
+
   end # describe "POST /sites/{{site_id}}/jobs"
 
 

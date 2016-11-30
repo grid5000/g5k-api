@@ -112,13 +112,11 @@ class JobsController < ApplicationController
   # Delegates the request to the OAR API.
   def create
     ensure_authenticated!
-
     job = Grid5000::Job.new(payload)
     Rails.logger.info "Received job = #{job.inspect}"
     raise BadRequest, "The job you are trying to submit is not valid: #{job.errors.join("; ")}" unless job.valid?
     job_to_send = job.to_hash(:destination => "oar-2.4-submission")
     Rails.logger.info "Submitting #{job_to_send.inspect}"
-
     url = uri_to(
       site_path(params[:site_id])+"/internal/oarapi/jobs.json", :out
     )
@@ -132,7 +130,6 @@ class JobsController < ApplicationController
       }
     )
     continue_if!(http, :is => [201,202])
-
     job_uid = JSON.parse(http.response)['id']
     location_uri = uri_to(
       resource_path(job_uid),
