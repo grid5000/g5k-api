@@ -20,11 +20,12 @@ class Job
   
   attr_reader :errors
   
+  # abasu bug ref. 7360 - added :job_key_from_file --- 29.11.2016
   READ_ONLY_ATTRIBUTES = [:uid, :user_uid, :submitted_at, :started_at,
     :types, :assigned_nodes, :events, :resources, :reservation, :properties,
     :scheduled_at, :walltime, :queue, :state, :mode,
     :command, :directory, :exit_code, :signal, :checkpoint, :anterior,
-    :message, :stderr, :stdout]
+    :message, :stderr, :stdout, :job_key_from_file]
   READ_WRITE_ATTRIBUTES = [:name, :project]
   attr_reader *READ_ONLY_ATTRIBUTES
   attr_accessor *READ_WRITE_ATTRIBUTES
@@ -63,7 +64,9 @@ class Job
       h["reservation"] = Time.at(reservation).strftime("%Y-%m-%d %H:%M:%S") unless reservation.nil?
       h["property"] = properties unless properties.nil? || properties.empty?
       h["type"] = types unless types.nil? || types.empty?
-      %w{walltime queue directory name project signal checkpoint stderr stdout}.each do |prop|
+
+      # abasu bug ref. 7360 - added job_key_from_file --- 29.11.2016
+      %w{walltime queue directory name project signal checkpoint stderr stdout job_key_from_file}.each do |prop|
         value = instance_variable_get "@#{prop}"
         h[prop] = value unless value.nil?
       end
@@ -82,6 +85,7 @@ class Job
         h["links"] = link_proc.call(self)
       end
     end
+
     h
   end
   

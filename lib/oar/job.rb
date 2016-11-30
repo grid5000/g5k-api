@@ -23,7 +23,7 @@ module OAR
 
     # There may be a way to do that more cleanly ;-)
 
-    # abasu : 4 lines introduced below by for correction to bug ref 5694 -- 2015.01.26
+    # abasu : 4 lines introduced below for correction to bug ref 5694 -- 2015.01.26
     #   GROUP BY resources.network_address
     #   ORDER BY resources.network_address ASC
     # abasu : Removed "GROUP BY resources.network_address" for bug ref 5694 -- 2015.04.17
@@ -178,7 +178,6 @@ module OAR
         value = send(k) rescue nil
         h[k] = value unless value.nil?
       end
-
       h
     end
 
