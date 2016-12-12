@@ -38,7 +38,7 @@ set :authorized_keys, "#{key}.pub"
 
 set :provisioner, "bundle exec g5k-campaign --site #{ENV['SITE'] || 'rennes'} -a #{authorized_keys} -k #{ssh_options[:keys][0]} -e squeeze-x64-base --name \"#{application}-#{ARGV[0]}\" --no-submit --no-deploy --no-cleanup -w #{ENV['WALLTIME'] || 7200}"
 
-set :provisioner, "(SSH_KEY=#{key} vagrant up --provision && cat Vagrantfile) | grep private_network | grep -o -E '[0-9][0-9\.]*'" if ENV['USE_VAGRANT']
+set :provisioner, "cat Vagrantfile | grep private_network | grep -o -E '[0-9][0-9\.]*'" if ENV['USE_VAGRANT']
 
 set :pkg_dependencies, %w{libmysqlclient-dev ruby1.9.1-full libxml2-dev libxslt-dev libssl-dev}
 

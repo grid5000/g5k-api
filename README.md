@@ -145,8 +145,19 @@ to create a test database, and a fake OAR database.
         $ rake package:bump:patch # or: package:bump:minor, package:bump:major
 
 * Building the `.deb` package is easy, since we kindly provide a `capistrano`
-  recipe that will automatically reserve a machine on Grid'5000, deploy a
-  squeeze-based image, upload the latest committed code (`HEAD`) in the
+  recipe that will do that for you provided you have started the vagrant box
+	provided with this repo.
+
+        $ cap package USE_VAGRANT=true NOPROXY=true
+
+  If automatic gussing of the IP of the vagran box fails, after you have copied
+	your ssh public key into the root account of the VM if
+  the automated vagrant provisioning script hasn't (see higher):
+
+        $ cap package HOST=root@192.168.2.10 NOPROXY=true
+
+  Older parts of the scripts allow to automatically reserve a machine on Grid'5000,
+	deploy a squeeze-based image, upload the latest committed code (`HEAD`) in the
   current branch, generate a `.deb` package, and download the generated
   package back to your machine, in the `pkg/` directory.
 
@@ -160,11 +171,6 @@ to create a test database, and a fake OAR database.
         $ cap package HOST=...
         $ cap package HOST=griffon-71.nancy.user SSH_KEY=~/.ssh/id_userg5k
 
-  With vagrant (copy your ssh public key into the root account of the VM if
-  the automated vagrant provisioning script hasn't (see higher)):
-
-        $ cap package HOST=root@192.168.2.10 NOPROXY=true
-        $ cap package USE_VAGRANT=true NOPROXY=true
 
 ## Releasing and Installing and new version
 
