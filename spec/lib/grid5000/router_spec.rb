@@ -40,4 +40,20 @@ describe Grid5000::Router do
     })
     Grid5000::Router.uri_to(request, "/sites/rennes/jobs").should == "/sid/grid5000/sites/rennes/jobs"
   end
+
+  it "should take into account the parameters of the config file with empty path" do
+    Rails.my_config("base_uri_out".to_sym).should == "http://api-out.local"
+    request = mock(Rack::MockRequest, :env => {
+      'HTTP_X_API_VERSION' => 'sid'
+    })
+    Grid5000::Router.uri_to(request, "/sites/rennes/internal/oarapi/jobs/374172.json", :out).should ==  "http://api-out.local/sid/sites/rennes/internal/oarapi/jobs/374172.json"
+  end
+
+  it "should take into account the parameters of the config file with path (for dev environment)" do
+    Api::Application::CONFIG["base_uri_out"] = "http://api-out.local/sid"
+    Rails.my_config("base_uri_out".to_sym).should == "http://api-out.local/sid"
+    request = mock(Rack::MockRequest, :env => {})
+    Grid5000::Router.uri_to(request, "/sites/rennes/internal/oarapi/jobs/374172.json", :out).should ==  "http://api-out.local/sid/sites/rennes/internal/oarapi/jobs/374172.json"
+  end	
+	
 end
