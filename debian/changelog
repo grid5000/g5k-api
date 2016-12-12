@@ -1,3 +1,13 @@
+g5k-api (3.5.3-1) jessie; urgency=low
+
+  * 600b3af Modified the mechanism for URI construction - for test & development environments. Added spec tests also.
+  * e76ab49 Merge pull request #30 from nirvanesque/bugs/#7464
+  * 2afcd47 added logic & spec tests for /servers
+  * 30dbc6a added /servers to site nancy
+  * 8e2261f Cleared accidental removal of nancy clusters
+
+ -- David Margery <>  Mon, 12 Dec 2016 15:20:16 +0000
+
 g5k-api (3.5.2-1) jessie; urgency=low
 
   * 6e314aa [Vagrant] use a better condition de control the bundle install run
