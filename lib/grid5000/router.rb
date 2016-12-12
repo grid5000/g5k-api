@@ -33,30 +33,42 @@ module Grid5000
           nil
         else
           File.join("/", (request.env['HTTP_X_API_VERSION'] || ""))
-        end
+        end # api_version = if request.env['HTTP_X_API_VERSION'].blank?
+
         path_prefix = if request.env['HTTP_X_API_PATH_PREFIX'].blank?
           nil
         else
           File.join("/", (request.env['HTTP_X_API_PATH_PREFIX'] || ""))
-        end
+        end # path_prefix = if request.env['HTTP_X_API_PATH_PREFIX'].blank?
+
         mount_path = if request.env['HTTP_X_API_MOUNT_PATH'].blank?
           nil
         else
           File.join("/", (request.env['HTTP_X_API_MOUNT_PATH'] || ""))
-        end
+        end # mount_path = if request.env['HTTP_X_API_MOUNT_PATH'].blank?
+
         uri = File.join("/", *[api_version, path_prefix, path].compact)
         uri.gsub!(mount_path, '') unless mount_path.nil?
         uri = "/" if uri.blank?
+        # abasu / dmargery - bug ref 7360 - for correct URI construction
         if in_or_out == :out || relative_or_absolute == :absolute
-          uri = URI.join(base_uri(in_or_out), uri).to_s
-        end
+	  root_uri=URI(base_uri(in_or_out))
+	  if root_uri.path.blank?
+	    root_path=''
+          else	
+            root_path=root_uri.path+'/'
+          end # if root_uri.path.blank?
+
+          uri = URI.join(root_uri, root_path+uri).to_s
+        end # if in_or_out == :out || relative_or_absolute == :absolute
         uri
-      end
+      end # def uri_to()
+
 
       # FIXME: move Rails.config to Grid5000.config
       def base_uri(in_or_out = :in)
         Rails.my_config("base_uri_#{in_or_out}".to_sym)
-      end
+      end # def base_uri()
 
     end
   end
