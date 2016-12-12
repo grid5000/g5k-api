@@ -109,6 +109,22 @@ describe Grid5000::Job do
         "resource"=>"/nodes=1"
       }
     end
+
+    # abasu bug ref. 7360 - added test for import job_key_from_file --- 29.11.2016
+    it "should copy import-job-key-from-file to a hash structure" do
+      reservation = Time.parse("2009-11-10 15:54:56Z")
+      job = Grid5000::Job.new(:resources => "/nodes=1", :reservation => reservation, :command => "id", :types => ["deploy", "idempotent"], :walltime => 3600, :checkpoint => 40, :'import-job-key-from-file' => "file://abcd")
+      job.should be_valid
+      job.to_hash(:destination => "oar-2.4-submission").should == {
+        "script"=>"id", 
+        "checkpoint"=>40, 
+        "walltime"=>3600, 
+        "reservation"=>"2009-11-10 15:54:56",
+        "resource"=>"/nodes=1", 
+        "type"=>["deploy", "idempotent"],
+        "import-job-key-from-file"=> "file://abcd"
+      }
+    end # it "should copy import-job-key-from-file to a hash structure" do
   end
   
   describe "Creating for future submission" do
