@@ -50,17 +50,9 @@ module Grid5000
         uri = File.join("/", *[api_version, path_prefix, path].compact)
         uri.gsub!(mount_path, '') unless mount_path.nil?
         uri = "/" if uri.blank?
-        # abasu / dmargery - bug ref 7360 - for correct URI construction
         if in_or_out == :out || relative_or_absolute == :absolute
-	  root_uri=URI(base_uri(in_or_out))
-	  if root_uri.path.blank?
-	    root_path=''
-          else	
-            root_path=root_uri.path+'/'
-          end # if root_uri.path.blank?
-
-          uri = URI.join(root_uri, root_path+uri).to_s
-        end # if in_or_out == :out || relative_or_absolute == :absolute
+          uri = URI.join(base_uri(in_or_out), uri).to_s
+        end
         uri
       end # def uri_to()
 
