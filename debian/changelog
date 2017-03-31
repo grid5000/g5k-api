@@ -1,3 +1,26 @@
+g5k-api (3.5.4-1) jessie; urgency=low
+
+  * 42c944b Change query to increase performance of requests as per bug #7970
+  * 80c3598 attempt to cleanly fix bundler and rake versions to avoid having to use bundle exec
+  * 2f0be26 Merge pull request #32 from nirvanesque/bug-ref/#7360
+  * bac954e Modified the mechanism for URI construction - for test & development environments. Added spec tests also.
+  * 0d1e175 Merge pull request #29 from nirvanesque/bugs/#7301-bis
+  * 7ca83e9 Added spec test to check for link /servers for sites containing servers (e.g. nancy in test repository) + changed comment
+  * d48908c Added spec test to check for link /servers for sites containing servers (e.g. nancy in test repository)
+  * 16221a9 Merge pull request #28 from nirvanesque/bugs/#7364
+  * 2351beb bug #7364 - Changed item links in /sites from deployments to deployment to coincide with v4.0 of g5k-api. Added spec test to verify.
+  * c647d6f Merge pull request #27 from nirvanesque/bugs/#7301
+  * 3430ed3 bug #7301 added logic & tests for /servers functionality
+  * 683399f added /servers to site nancy in test repository
+  * 5568bfe Merge pull request #26 from nirvanesque/cleanup-internal-git
+  * 0d7d632 cleared any accidental remove of nancy clusters in test repository
+  * 0587980 Cleared accidental remove of sites/nancy/clusters/ in bug/#5856
+  * b15f5f1 Cleared accidental remove of sites/nancy/clusters/ in bug/#5856
+  * e6f5134 Merge pull request #22 from nirvanesque/bugs/#7179
+  * 4aeeaad Updates to code to remove /deployments from version 4.0 of g5k-api
+
+ -- David Margery <>  Fri, 31 Mar 2017 20:15:47 +0000
+
 g5k-api (3.5.3-1) jessie; urgency=low
 
   * 600b3af Modified the mechanism for URI construction - for test & development environments. Added spec tests also.
