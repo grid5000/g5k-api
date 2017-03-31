@@ -195,7 +195,7 @@ module OAR
 
     class << self
       def active
-        where("state NOT IN ('Terminated', 'Error')")
+        where("state IN ('Waiting', 'Running')")
       end # def active
 
       def expanded
