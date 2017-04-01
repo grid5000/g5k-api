@@ -66,6 +66,17 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     vb.customize ["modifyvm", :id, "--memory", "512"]
   end
 
+  if File.exists?("~/.gitconfig")
+    config.vm.provision :file, source: "~/.gitconfig", destination: ".gitconfig"
+  end
+
+  config.vm.provision :shell, inline: <<-SHELL
+    #!/bin/bash -x
+    sed -i s/ftp.fr/archive/ /etc/apt/sources.list #go to archive
+    sed -i -e 's/.*updates.*//g' /etc/apt/sources.list
+    sed -i s/^deb/#deb/ /etc/apt/sources.list.d/puppetlabs.list
+  SHELL
+  
   # Enable provisioning with Puppet stand alone.  Puppet manifests
   # are contained in a directory path relative to this Vagrantfile.
   # You will need to create the manifests directory and a manifest in
