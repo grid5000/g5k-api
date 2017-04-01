@@ -1,3 +1,9 @@
+g5k-api (3.5.4-1) jessie; urgency=low
+
+  * a29423b Change query to increase performance of requests as per bug #7970
+
+ -- David Margery <>  Sat, 01 Apr 2017 12:53:45 +0000
+
 g5k-api (3.5.3-1) jessie; urgency=low
 
   * 600b3af Modified the mechanism for URI construction - for test & development environments. Added spec tests also.
