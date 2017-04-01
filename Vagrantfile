@@ -73,6 +73,11 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.provision "file", source: "ssh/config", destination: ".ssh/config"
   config.ssh.forward_agent = true
 
+  #Configure git for within the file
+  if File.exists?("~/.gitconfig")
+    config.vm.provision "file", source: "~/.gitconfig", destination: ".gitconfig"
+  end
+  
   # Enable provisioning with Puppet stand alone.  Puppet manifests
   # are contained in a directory path relative to this Vagrantfile.
   # You will need to create the manifests directory and a manifest in
