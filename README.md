@@ -16,7 +16,6 @@ The app is packaged for Debian Jessie. Therefore installation is as follows:
 
 In particular, runtime dependencies of the app include `ruby2.1.5` and `git-core`.
 
-
 ## Development
 
 ### Development environment
@@ -25,7 +24,7 @@ In particular, runtime dependencies of the app include `ruby2.1.5` and `git-core
 
   By default, the vagrant box will provision a proxy, to get access to the live status
 	of sites and to the home directory of users, except on one site where status will be
-	served locally through a tunnel to that site's oardb. This is sepcially usefull to
+	served locally through a tunnel to that site's oardb. This is specially useful to
 	debug the web ui, but the tunnel to the db is also used for site status information. 
 
   For users with a working installation of vagrant and virtualbox, setting up a 
@@ -39,7 +38,6 @@ In particular, runtime dependencies of the app include `ruby2.1.5` and `git-core
   The vagrant provisionning script will attempt to configure the VM's root and vagrant
   accounts to be accessible by ssh. By default, it will copy your authorized_keys, but you 
   can control the keypair used with SSH_KEY=filename_of_private_key  
-
 
   Of course, reality is a bit more complex. You might have troubles with the insecure
   certificate of the vagrant box provider. In that case, you'll need to start with 
@@ -56,7 +54,6 @@ In particular, runtime dependencies of the app include `ruby2.1.5` and `git-core
   A useful set of ssh tunnels is created with
 	
         vagrant> rake tunnels:setup
-	
 
 * For those of you that prefer working with the more classical rvm approach, you'll 
   need 
@@ -182,6 +179,34 @@ to create a test database, and a fake OAR database.
 
         $ RAILS_ENV=test rspec spec/ # or `bundle exec autotest` if rake fails (issue with Rails<3.1 and em_mysql2 adapter with evented code).
 
+* Adding data to the reference repository used for tests
+
+Data used for tests live in the spec/fixtures/reference-repository/
+directory. Before any tests, the testing script renames the git.rename
+directory to .git, so that spec/fixtures/reference-repository becomes
+a valid git repository. It undoes that change at the end of tests.
+As the g5k-api code relies on a library that
+navigates git objects directly, the only data visible to the tests is
+data commited to that repository. Therefore, to change data used for
+tests, you must
+
+        $ cd spec/fixtures/reference-repository/
+        $ mv git.rename .git
+		$ #make changes to files or the directory structure
+		$ git commit -a -m "Updates to the test date to ....."
+		$ mv .git git.rename
+        $ git commit -a -m "Updates to the test date to ....." #IMPORTANT : you must add the changed test data to the global git repository so it can be picked up by other developpers.
+
+After these changes, a lot of tests will fail as they rely on the hash of the latest git commit. Test code needs improved here, but until now, this has been solved with a search and replace.
+
+* Adding data to the test OAR2 database
+
+The test OAR2 database is loaded in the test environment using the `RAILS_ENV=test rake db:oar:seed` task defined in `lib/tasks/test.rake`. This tasks loads a SQL dump pointed by the SEED environment variable, and defaults to `spec/fixtures/oar2_2011-01-07.sql`
+
+Updating the OAR2 test db therefore requires either
+
+* Updating the contents of the `spec/fixtures/oar2_2011-01-07.sql` directly
+* creating a new dump of the `oar2_test` database running on the vagrant box, and updating `lib/tasks/test.rake` to use that dump a the new seed (be sure to git add it to the repo). As that `oar2_test` database should be a valid oar2 database, its contents should be updatable using oar commands. You'll need to apt-get install oar2 first and configure `oar2.conf` to point to the test database first. If you do so, please consider spending a few minutes to update the puppet provisonning recipes so as to pre-configure the vagrant VM to manage the test database out of the box. Furture developper will thank you for that. 
 
 ## Packaging
 
