@@ -139,37 +139,16 @@ describe SitesController do
 
 
   describe "GET /sites/{{site_id}}/status" do
-    it "should fail if the list of valid clusters cannot be fetched" do      
-      expected_url = "http://api-out.local:80/sites/rennes/clusters?branch=testing"
-      stub_request(:get, expected_url).
-        with(
-          :headers => {'Accept' => media_type(:json)}
-        ).
-        to_return(
-          :status => 400,
-          :body => "some error"
-        )
-      get :status, :branch => 'testing', :id => "rennes", :format => :json
-      response.status.should == 400
-      response.body.should == "Request to #{expected_url} failed with status 400: some error"
-    end
     it "should return 200 and the site status" do
-      expected_url = "http://api-out.local:80/sites/rennes/clusters?branch=master"
-      stub_request(:get, expected_url).
-        with(
-          :headers => {'Accept' => media_type(:json)}
-        ).
-        to_return(:body => fixture("grid5000-rennes-clusters.json"))
       get :status, :id => "rennes", :format => :json
       response.status.should == 200
 
-      json['nodes'].length.should == 168
+      json['nodes'].length.should == 196
       json['nodes'].keys.map{|k| k.split('-')[0]}.uniq.sort.should == [
-        'paradent',
+        'paraquad',
         'paramount',
-        'parapide',
-        'parapluie'
-      ]
+        'paravent'
+      ].sort
     end
     # it "should fail if the site does not exist" do
     #   pending "this will be taken care of at the api-proxy layer"
