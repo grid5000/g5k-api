@@ -133,7 +133,7 @@ module OAR
             # The resource does not belong to a valid cluster.
             next if resource.nil?
 
-             result[resource.network_address] ||= initial_status_for(resource)
+            result[resource.network_address] ||= initial_status_for(resource)
 
 	    # abasu : if job is current, increment corresponding counter(s) in hash table
             if current
