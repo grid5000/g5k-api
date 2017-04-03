@@ -33,7 +33,6 @@ In particular, runtime dependencies of the app include `ruby2.1.5` and `git-core
         $ DEVELOPER=dmargery OAR_DB_SITE=rennes vagrant up --provision
         $ vagrant ssh
         vagrant> cd /vagrant
-        vagrant> bundle install
 
   The vagrant provisionning script will attempt to configure the VM's root and vagrant
   accounts to be accessible by ssh. By default, it will copy your authorized_keys, but you 
