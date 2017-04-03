@@ -29,28 +29,13 @@ class ResourcesController < ApplicationController
   def fetch(path)
     allow :get; vary_on :accept
     Rails.logger.info "Fetching #{path}"
-    branch = params[:branch] || 'master'
-    branch = ['origin', branch].join("/") unless Rails.env == "test"
-
-    # abasu : Added code for getting 'queues' element in hash params - 11.12.2015
-    # abasu : In request to feature bug ref. #6363
-    # abasu : params_queues is the array with 'queues' values passed in 'params'
-    if params[:queues].nil? # no filter, so assign everything except "production"
-       params[:queues] = ["admin","default"] 
-    # As of 11.12.2015 the queues accepted are:
-    # "all" or any combination of "admin", "default", "production"
-    else 
-       if params[:queues] == "all" # for use by sys-admin
-          params[:queues] = ["admin","default","production"]
-       else
-          params[:queues] = params[:queues].split(",")
-       end # if params[:queues] == "all"
-    end # if params[:queues].nil?
-
-    object=lookup_path(path,branch,params)
     
+    enrich_params(params)
+
+    object=lookup_path(path,params)    
     
     raise NotFound, "Cannot find resource #{path}" if object.nil?
+
     if object.has_key?('items')
       object['links'] = links_for_collection(object)
       object['items'].each{|item|
@@ -91,10 +76,32 @@ class ResourcesController < ApplicationController
     end
   end
 
-  def lookup_path(path, branch, params)
+  def enrich_params(params)
+    branch = params[:branch] || 'master'
+    branch = ['origin', branch].join("/") unless Rails.env == "test"
+    params[:branch]=branch
+
+        # abasu : Added code for getting 'queues' element in hash params - 11.12.2015
+    # abasu : In request to feature bug ref. #6363
+    # abasu : params_queues is the array with 'queues' values passed in 'params'
+    if params[:queues].nil? # no filter, so assign everything except "production"
+       params[:queues] = ["admin","default"] 
+    # As of 11.12.2015 the queues accepted are:
+    # "all" or any combination of "admin", "default", "production"
+    else 
+       if params[:queues] == "all" # for use by sys-admin
+          params[:queues] = ["admin","default","production"]
+       else
+          params[:queues] = params[:queues].split(",")
+       end # if params[:queues] == "all"
+    end # if params[:queues].nil?
+    
+  end
+
+  def lookup_path(path, params)
     object = EM::Synchrony.sync repository.async_find(
       path.gsub(/\/?platforms/,''),
-      :branch => branch,
+      :branch => params[:branch],
       :version => params[:version]
     )
     
