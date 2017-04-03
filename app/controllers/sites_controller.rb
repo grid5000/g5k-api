@@ -18,17 +18,10 @@ class SitesController < ResourcesController
 
   def status
     # fetch valid clusters
-    url = uri_to(
-      site_clusters_path(params[:id]),
-      :out
-    )
-    http = EM::HttpRequest.new(url).get(
-      :query   => {'branch' => params[:branch] || 'master'},
-      :timeout => 20,
-      :head    => {'Accept' => media_type(:json)}
-    )
-    continue_if!(http, :is => [200])
-    valid_clusters = JSON.parse(http.response)['items'].map{|i| i['uid']}
+    enrich_params(params)
+    
+    site_clusters=lookup_path("/sites/#{params[:id]}/clusters", params)
+    valid_clusters = site_clusters['items'].map{|i| i['uid']}
     Rails.logger.info "Valid clusters=#{valid_clusters.inspect}"
 
     result = {
