@@ -123,12 +123,17 @@ module OAR
         active_jobs_by_moldable_id.each do |moldable_id, h|
           current = h[:job].running?
 
+          # prepare job description now, since it will be added to each resource
+          # For Result hash table, do not include events
+          # (otherwise the Set does not work with nested hash)
+          jobh = h[:job].to_reservation(:without => :events)
+
           h[:resources].each do |resource_id|
             resource = resources[resource_id]
             # The resource does not belong to a valid cluster.
             next if resource.nil?
 
-             result[resource.network_address] ||= initial_status_for(resource)
+            result[resource.network_address] ||= initial_status_for(resource)
 
 	    # abasu : if job is current, increment corresponding counter(s) in hash table
             if current
@@ -138,11 +143,7 @@ module OAR
               end #  if h[:job].besteffort?
             end  # if current
 
-            # For Result hash table, do not include events
-            # (otherwise the Set does not work with nested hash)
-            result[resource.network_address][:reservations].add(
-              h[:job].to_reservation(:without => :events)
-            )
+            result[resource.network_address][:reservations].add(jobh)
           end  # .each do |resource_id|
         end  # .each do |moldable_id, h|
 
