@@ -1,13 +1,14 @@
- -- David Margery <david.margery@inria.fr>  Wed, 04 Jan 2017 21:51:08 +0000
+ -- David Margery <david.margery@inria.fr>  Sat, 01 Apr 2017 12:53:45 +0000
 g5k-api (3.5.4-1) jessie; urgency=low
 
   * a29423b Change query to increase performance of requests as per bug #7970
 
- -- David Margery <david.margery@inria.fr>  Sat, 01 Apr 2017 12:53:45 +0000
+ -- David Margery <david.margery@inria.fr>  Wed, 04 Jan 2017 21:51:08 +0000
 g5k-api (3.5.3-2) squeeze; urgency=low
 
   * 606650e Revert uri_to modifications of commit 42722996dc9d9db7340bc95d055436e1352b710c as they do not work on ruby 1.9.3, and are only usefull for the development environment
 
+ -- David Margery <david.margery@inria.fr>  Wed, 04 Jan 2017 11:51:08 +0000
 g5k-api (3.5.3-1) jessie; urgency=low
 
   * 600b3af Modified the mechanism for URI construction - for test & development environments. Added spec tests also.
