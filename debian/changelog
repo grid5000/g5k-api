@@ -1,3 +1,14 @@
+g5k-api (3.5.6-1) jessie; urgency=low
+
+  * d8aec14 No longer go through http requests to get the list of clusters of a given site
+  * 0e7f036 move code to set sane defaults in the params to a separate function
+  * 963537a move code to extract an object from the git repo according to params into a specific function
+  * a0918a6 Merge pull request #34 from lnussbaum/master
+  * 50c12fb Fix indentation
+  * 4a3f454 Factor out the building of the job description
+
+ -- David Margery <david.margery@inria.fr>  Mon, 3 Apr 2017 11:14:18 +0000
+
 g5k-api (3.5.5-1) jessie; urgency=low
 
   * 8df1964 Complete the possible states for a positive check to optimize performance of query as per bug #7970
