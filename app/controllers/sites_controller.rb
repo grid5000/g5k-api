@@ -14,7 +14,24 @@
 
 require 'resources_controller'
 
+class ActionController::Caching::Actions::ActionCachePath 
+  #redefined attr_reader extension to handle the fact that
+  #  we extensively use symbols for the requested format
+  #  and that the normalize! method of ActionCachePath calls
+  #  a method that will not do Symbol to String conversions
+  def extension
+    if @extension.is_a?(Symbol)
+      @extension.to_s
+    else
+      @extension
+    end
+  end
+end
+
 class SitesController < ResourcesController
+  caches_action :status,
+                :expires_in => (Rails.my_config(:status_cache_duration)||5).to_i.seconds,
+                :unless => Proc.new{|c| c.params.has_key?(:branch)||c.params.has_key?(:queues) }
 
   def status
     # fetch valid clusters
@@ -41,6 +58,7 @@ class SitesController < ResourcesController
       ]
     }
     respond_to do |format|
+      format.g5kcollectionjson { render :json => result }
       format.g5kitemjson { render :json => result }
       format.json { render :json => result }
     end
