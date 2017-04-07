@@ -23,7 +23,7 @@ module OAR
     # disable inheritance guessed by Rails because of the "type" column.
     set_inheritance_column :_type_disabled
 
-    QUERY_ASSIGNED_RESOURCES = "SELECT moldable_job_id, resource_id FROM %TABLE% WHERE moldable_job_id IN (%MOLDABLE_IDS%)"
+    QUERY_ASSIGNED_RESOURCES = "SELECT %TABLE%.moldable_job_id, %TABLE%.resource_id FROM %TABLE% inner join resources on resources.resource_id = %TABLE%.resource_id WHERE moldable_job_id IN (%MOLDABLE_IDS%) and resources.type = 'default'"
 
     def dead?
       state && state == "dead"
