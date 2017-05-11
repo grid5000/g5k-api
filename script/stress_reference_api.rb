@@ -8,6 +8,9 @@ require 'json'
 require 'pp'
 
 base_url="http://127.0.0.1:8000"
+entry_point="/sites"
+base_url="https://api.grid5000.fr"
+entry_point="/stable/sites"
 
 def fetch_link(description, relation)
   found=description["links"].find{|l| l["rel"]==relation}
@@ -20,13 +23,13 @@ EventMachine.run do
   get_params={
     :query   => {'branch' => 'master'},
     :timeout => 20,
-    :head    => {'Accept' => "application/json"}
+    :head    => {'Accept' => "application/json", 'Authorization' => ['dmargery','xxxx']}
     
   }
-  http = EM::HttpRequest.new("#{base_url}/sites").get(get_params)
+  http = EM::HttpRequest.new("#{base_url}#{entry_point}").get(get_params)
   http.errback { puts "Request failed #{ http.response_header.status}"; EM.stop }
   http.callback {
-    puts "Request for list of sites succeeded with http.response_header.status"
+    puts "Request for list of sites succeeded with code #{http.response_header.status}"
     sites= JSON.parse(http.response)
     expected_sites=sites['items'].size
     expected_sites_net=sites['items'].size
@@ -34,11 +37,11 @@ EventMachine.run do
     expected_clusters={}
     sites['items'].each do |site|
       clusters_url=fetch_link(site,"clusters")
-      http_cluster= EM::HttpRequest.new("#{base_url}/#{clusters_url}").get(get_params)
+      http_cluster= EM::HttpRequest.new("#{base_url}#{clusters_url}").get(get_params)
       http_cluster.errback { puts "Request to clusters of site #{site["name"]} at #{base_url}/#{clusters_url} failed #{ http_cluster.response_header.status}"; EM.stop }
       http_cluster.callback {
         expected_sites=expected_sites-1
-        puts "Request to clusters of site #{site["name"]} returned #{http_cluster.response_header.status}. #{expected_sites} sites still expected"
+        puts "Request to clusters of site #{site["name"]} (#{base_url}/#{clusters_url}) returned #{http_cluster.response_header.status}. #{expected_sites} sites still expected"
         clusters=JSON.parse(http_cluster.response)
         expected_clusters[site["name"]]=clusters["items"].size
         clusters["items"].each do |cluster|
