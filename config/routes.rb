@@ -45,7 +45,8 @@ Api::Application.routes.draw do
   # abasu bug #7301 to incorporate feature /servers -- 2016.10.24  
     resources :servers, :only => [:index, :show]
     resources :jobs
-    resources :deployments
+  # abasu - bug #7179 : remove deployments from g5k-api in v4.0
+  #    resources :deployments
   end
   resources :notifications, :only => [:index, :create]
 
