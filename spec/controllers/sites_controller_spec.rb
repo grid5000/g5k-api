@@ -64,7 +64,7 @@ describe SitesController do
       json['uid'].should == 'rennes'
       json['links'].map{|l| l['rel']}.sort.should == [
         "clusters",
-        "deployments",
+        "deployment", # abasu 19.10.2016 - bug #7364 changed "deployments" to "deployment"
         "environments",
         "jobs",
         "metrics",
@@ -91,7 +91,7 @@ describe SitesController do
       response.status.should == 200
       json['links'].map{|l| l['rel']}.sort.should == [
         "clusters",
-        "deployments",
+        "deployment", # abasu 19.10.2016 - bug #7364 changed "deployments" to "deployment"
         "environments",
         "jobs",
         "metrics",
