@@ -14,7 +14,8 @@
 
 require 'resources_controller'
 
-# This ServersController taken from jessie branch for bug ref. 7464 -- 2016.10.27
+# This initial ServersController prepared in response to bug ref. 7301 -- 2016.10.24
+# To be decorated later as features develop for /servers
 class ServersController < ResourcesController
 
   protected

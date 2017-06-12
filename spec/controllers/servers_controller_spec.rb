@@ -17,7 +17,7 @@ require 'spec_helper'
 describe ServersController do
   render_views
 
-  # abasu : unit test for bug ref 7464 to handle /servers - 27.10.2016
+  # abasu : unit test for bug ref 7301 to handle /servers - 24.10.2016
   describe "GET /sites/{{site_id}}/servers/{{id}}" do
   # The following unit tests check the responses at level of specific servers.
 
@@ -32,11 +32,11 @@ describe ServersController do
 
 
 
-  # abasu : unit tests for bug ref 7464 to handle /servers - 27.10.2016
+  # abasu : unit tests for bug ref 7301 to handle /servers - 24.10.2016
   describe "GET /sites/{{site_id}}/servers" do
   # The following unit tests check the responses at level of all servers in a site
 
-    # abasu : unit test for bug ref 7464 to handle /servers - 27.10.2016
+    # abasu : unit test for bug ref 7301 to handle /servers - 24.10.2016
     it "should return 2 servers in site nancy and their exact names" do
       get :index, :branch => 'master', :site_id => "nancy", :format => :json
       assert_media_type(:json)
