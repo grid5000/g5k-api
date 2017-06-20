@@ -2658,6 +2658,22 @@ COPY assigned_resources (moldable_job_id, resource_id, assigned_resource_index) 
 379625	5007	CURRENT
 379625	5008	CURRENT
 379625	5009	CURRENT
+379630	5010	LOG
+379630	5011	LOG
+379630	5012	LOG
+379630	5013	LOG
+379630	5014	LOG
+379630	5015	LOG
+379630	5016	LOG
+379630	5017	LOG
+379635	5020	CURRENT
+379635	5021	CURRENT
+379635	5022	CURRENT
+379635	5023	CURRENT
+379635	5024	CURRENT
+379635	5025	CURRENT
+379635	5026	CURRENT
+379635	5027	CURRENT
 379626	5050	LOG
 379626	5051	LOG
 379626	5052	LOG
@@ -2769,6 +2785,8 @@ COPY gantt_jobs_predictions (moldable_job_id, start_time) FROM stdin;
 379573	1294423200
 379625	1294390093
 379626	1294390093
+379630	1497975300
+379635	1498217103
 \.
 
 
@@ -4804,6 +4822,22 @@ COPY gantt_jobs_resources (moldable_job_id, resource_id) FROM stdin;
 379625	5007
 379625	5008
 379625	5009
+379630	5010
+379630	5011
+379630	5012
+379630	5013
+379630	5014
+379630	5015
+379630	5016
+379630	5017
+379635	5020
+379635	5021
+379635	5022
+379635	5023
+379635	5024
+379635	5025
+379635	5026
+379635	5027
 379626	5050
 379626	5051
 379626	5052
@@ -5475,6 +5509,8 @@ COPY job_resource_groups (res_group_id, res_group_moldable_id, res_group_propert
 379881	379619	type = "default"	CURRENT
 379882	379625	type = "default"	CURRENT
 379883	379626	type = "default"	CURRENT
+379885	379630	type = "default"	CURRENT
+379890	379635	type = "default"	CURRENT
 \.
 
 
@@ -5536,6 +5572,8 @@ COPY jobs (job_id, array_id, array_index, initial_request, job_name, job_env, jo
 374197	374197	1	oarsub -t allow_classic_ssh -t deploy -q default -p cluster="parapluie" -l nodes=1,walltime=8 /home/rennes/abasu/bin/katapult3 --deploy-env lenny-x64-base -r 2015-12-23 19:00:00 --sleep	\N	\N	PASSIVE	frennes.rennes.grid5000.fr:	Waiting	None	FIFO scheduling OK	FIFO scheduling OK	abasu	default		/home/rennes/abasu/bin/katapult3 --deploy-env lenny-x64-base --copy-ssh-key --sleep	\N	default	(cluster="parapluie") AND deploy = "YES"	/home/abasu/kargo/depkrg	1450893600	1450893600	0	\N	NO	\N	379614	0	12	OAR.%jobid%.stdout	OAR.%jobid%.stderr	0	NO	\N
 374198	374198	1	oarsub -I -l {"type='disk' or type='default' and disk_reservation_count>0"},walltime=6	\N	\N	INTERACTIVE	frennes.rennes.grid5000.fr:48712	Running	None	FIFO scheduling OK	FIFO scheduling OK	slhernane	default			\N	default	maintenance = "NO"	/home/slhernane/dho_vd	1294390091	1294390093	0	\N	NO	\N	379625	0	12	OAR.%jobid%.stdout	OAR.%jobid%.stderr	0	NO	\N
 374199	374199	1	oarsub -r "2017-06-23 16:56:00" -l {"type='disk' or type='default' and disk_reservation_count>0"},walltime=6	\N	\N	INTERACTIVE	frennes.rennes.grid5000.fr:48712	Waiting	None	FIFO scheduling OK	FIFO scheduling OK	slhernane	default			\N	default	maintenance = "NO"	/home/slhernane/dho_vd	1294390091	1294390093	0	\N	NO	\N	379626	0	12	OAR.%jobid%.stdout	OAR.%jobid%.stderr	0	NO	\N
+374205	374205	1	oarsub -r 2017-06-20 18:15:00 -t noop	\N	\N	INTERACTIVE	frennes.rennes.grid5000.fr:39018	Waiting	Scheduled	R=16,W=1:0:0,J=R,T=noop		abasu	default			\N	default	maintenance = 'NO'	/home/abasu	1497970338	1497975300	0	\N	NO	\N	0	0	12	OAR.%jobid%.stdout	OAR.%jobid%.stderr	0	NO	\N
+374210	374210	1	oarsub -r 2017-06-23 13:25:00 -t noop	\N	\N	INTERACTIVE	frennes.rennes.grid5000.fr:39018	Running	Scheduled	R=16,W=0:59:57,J=R,T=noop		abasu	default			\N	default	maintenance = 'NO'	/home/abasu	1498216912	1496217103	0	\N	NO	\N	379635	0	12	OAR.%jobid%.stdout	OAR.%jobid%.stderr	0	NO	\N
 \.
 
 
@@ -5572,6 +5610,8 @@ COPY moldable_job_descriptions (moldable_id, moldable_job_id, moldable_walltime,
 374197	374197	7200	CURRENT
 379625	374198	21600	CURRENT
 379626	374199	21600	CURRENT
+379630	374205	3600	CURRENT
+379635	374210	3597	CURRENT
 \.
 
 
@@ -8037,6 +8077,22 @@ COPY resources (resource_id, type, network_address, state, next_state, finaud_de
 5007	default	parasilo-1.rennes.grid5000.fr	Alive	UnChanged	NO	NO	1	NO	0	23	YES	YES	0	NO	1294390090	0	0	NO	\N	parasilo	\N	\N	1506	702	amd64	8	1.7	AMD Opteron(tm) 6164 HE	SATA	5	\N	\N	parasilo-1.rennes.grid5000.fr	YES	MT25418	\N	131.254.203.5	YES	NO	\N	2048	24576	49152	NO	none	NO	none	HP ProLiant DL165 G7	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	0	amd-v	\N	\N	\N	\N	\N	\N	\N	\N	2	\N	\N
 5008	disk		Alive	UnChanged	NO	NO	1	NO	0	-1	YES	NO	0	NO	1294390090	0	0	NO	\N	parasilo	\N	\N	0	0	\N	\N	\N	\N	\N	\N	\N	\N	parasilo-1.rennes.grid5000.fr	NO	\N	\N	\N	NO	NO	\N	0	0	0	NO	none	NO	none	none	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	0	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	sdb.parasilo-1	/dev/disk/by-path/pci-0000:02:00.0-scsi-0:0:1:0
 5009	disk		Alive	UnChanged	NO	NO	1	NO	0	-1	YES	NO	0	NO	1294390090	0	0	NO	\N	parasilo	\N	\N	0	0	\N	\N	\N	\N	\N	\N	\N	\N	parasilo-1.rennes.grid5000.fr	NO	\N	\N	\N	NO	NO	\N	0	0	0	NO	none	NO	none	none	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	0	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	sdc.parasilo-1	/dev/disk/by-path/pci-0000:02:00.0-scsi-0:0:2:0
+5010	default	parasilo-2.rennes.grid5000.fr	Alive	UnChanged	NO	NO	1	NO	0	16	YES	YES	0	NO	1294390090	0	0	NO	\N	parasilo	\N	\N	1510	702	amd64	8	1.7	AMD Opteron(tm) 6164 HE	SATA	5	\N	\N	parasilo-2.rennes.grid5000.fr	YES	MT25418	\N	131.254.203.5	YES	NO	\N	2048	24576	49152	NO	none	NO	none	HP ProLiant DL165 G7	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	0	amd-v	\N	\N	\N	\N	\N	\N	\N	\N	0	\N	\N
+5011	default	parasilo-2.rennes.grid5000.fr	Alive	UnChanged	NO	NO	1	NO	0	17	YES	YES	0	NO	1294390090	0	0	NO	\N	parasilo	\N	\N	1511	702	amd64	8	1.7	AMD Opteron(tm) 6164 HE	SATA	5	\N	\N	parasilo-2.rennes.grid5000.fr	YES	MT25418	\N	131.254.203.5	YES	NO	\N	2048	24576	49152	NO	none	NO	none	HP ProLiant DL165 G7	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	0	amd-v	\N	\N	\N	\N	\N	\N	\N	\N	0	\N	\N
+5012	default	parasilo-2.rennes.grid5000.fr	Alive	UnChanged	NO	NO	1	NO	0	18	YES	YES	0	NO	1294390090	0	0	NO	\N	parasilo	\N	\N	1512	702	amd64	8	1.7	AMD Opteron(tm) 6164 HE	SATA	5	\N	\N	parasilo-2.rennes.grid5000.fr	YES	MT25418	\N	131.254.203.5	YES	NO	\N	2048	24576	49152	NO	none	NO	none	HP ProLiant DL165 G7	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	0	amd-v	\N	\N	\N	\N	\N	\N	\N	\N	0	\N	\N
+5013	default	parasilo-2.rennes.grid5000.fr	Alive	UnChanged	NO	NO	1	NO	0	19	YES	YES	0	NO	1294390090	0	0	NO	\N	parasilo	\N	\N	1513	702	amd64	8	1.7	AMD Opteron(tm) 6164 HE	SATA	5	\N	\N	parasilo-2.rennes.grid5000.fr	YES	MT25418	\N	131.254.203.5	YES	NO	\N	2048	24576	49152	NO	none	NO	none	HP ProLiant DL165 G7	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	0	amd-v	\N	\N	\N	\N	\N	\N	\N	\N	0	\N	\N
+5014	default	parasilo-2.rennes.grid5000.fr	Alive	UnChanged	NO	NO	1	NO	0	20	YES	YES	0	NO	1294390090	0	0	NO	\N	parasilo	\N	\N	1514	702	amd64	8	1.7	AMD Opteron(tm) 6164 HE	SATA	5	\N	\N	parasilo-2.rennes.grid5000.fr	YES	MT25418	\N	131.254.203.5	YES	NO	\N	2048	24576	49152	NO	none	NO	none	HP ProLiant DL165 G7	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	0	amd-v	\N	\N	\N	\N	\N	\N	\N	\N	0	\N	\N
+5015	default	parasilo-2.rennes.grid5000.fr	Alive	UnChanged	NO	NO	1	NO	0	21	YES	YES	0	NO	1294390090	0	0	NO	\N	parasilo	\N	\N	1515	702	amd64	8	1.7	AMD Opteron(tm) 6164 HE	SATA	5	\N	\N	parasilo-2.rennes.grid5000.fr	YES	MT25418	\N	131.254.203.5	YES	NO	\N	2048	24576	49152	NO	none	NO	none	HP ProLiant DL165 G7	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	0	amd-v	\N	\N	\N	\N	\N	\N	\N	\N	0	\N	\N
+5016	default	parasilo-2.rennes.grid5000.fr	Alive	UnChanged	NO	NO	1	NO	0	22	YES	YES	0	NO	1294390090	0	0	NO	\N	parasilo	\N	\N	1516	702	amd64	8	1.7	AMD Opteron(tm) 6164 HE	SATA	5	\N	\N	parasilo-2.rennes.grid5000.fr	YES	MT25418	\N	131.254.203.5	YES	NO	\N	2048	24576	49152	NO	none	NO	none	HP ProLiant DL165 G7	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	0	amd-v	\N	\N	\N	\N	\N	\N	\N	\N	0	\N	\N
+5017	default	parasilo-2.rennes.grid5000.fr	Alive	UnChanged	NO	NO	1	NO	0	23	YES	YES	0	NO	1294390090	0	0	NO	\N	parasilo	\N	\N	1517	702	amd64	8	1.7	AMD Opteron(tm) 6164 HE	SATA	5	\N	\N	parasilo-2.rennes.grid5000.fr	YES	MT25418	\N	131.254.203.5	YES	NO	\N	2048	24576	49152	NO	none	NO	none	HP ProLiant DL165 G7	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	0	amd-v	\N	\N	\N	\N	\N	\N	\N	\N	0	\N	\N
+5020	default	parasilo-3.rennes.grid5000.fr	Alive	UnChanged	NO	NO	1	NO	0	16	YES	YES	0	NO	1498208166	2147483646	0	NO	\N	parasilo	\N	\N	1520	702	amd64	8	1.7	AMD Opteron(tm) 6164 HE	SATA	5	\N	\N	parasilo-3.rennes.grid5000.fr	YES	MT25418	\N	131.254.203.5	YES	NO	\N	2048	24576	49152	NO	none	NO	none	HP ProLiant DL165 G7	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	0	amd-v	\N	\N	\N	\N	\N	\N	\N	\N	0	\N	\N
+5021	default	parasilo-3.rennes.grid5000.fr	Alive	UnChanged	NO	NO	1	NO	0	17	YES	YES	0	NO	1498208166	2147483646	0	NO	\N	parasilo	\N	\N	1521	702	amd64	8	1.7	AMD Opteron(tm) 6164 HE	SATA	5	\N	\N	parasilo-3.rennes.grid5000.fr	YES	MT25418	\N	131.254.203.5	YES	NO	\N	2048	24576	49152	NO	none	NO	none	HP ProLiant DL165 G7	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	0	amd-v	\N	\N	\N	\N	\N	\N	\N	\N	0	\N	\N
+5022	default	parasilo-3.rennes.grid5000.fr	Alive	UnChanged	NO	NO	1	NO	0	18	YES	YES	0	NO	1498208166	2147483646	0	NO	\N	parasilo	\N	\N	1522	702	amd64	8	1.7	AMD Opteron(tm) 6164 HE	SATA	5	\N	\N	parasilo-3.rennes.grid5000.fr	YES	MT25418	\N	131.254.203.5	YES	NO	\N	2048	24576	49152	NO	none	NO	none	HP ProLiant DL165 G7	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	0	amd-v	\N	\N	\N	\N	\N	\N	\N	\N	0	\N	\N
+5023	default	parasilo-3.rennes.grid5000.fr	Alive	UnChanged	NO	NO	1	NO	0	19	YES	YES	0	NO	1498208166	2147483646	0	NO	\N	parasilo	\N	\N	1523	702	amd64	8	1.7	AMD Opteron(tm) 6164 HE	SATA	5	\N	\N	parasilo-3.rennes.grid5000.fr	YES	MT25418	\N	131.254.203.5	YES	NO	\N	2048	24576	49152	NO	none	NO	none	HP ProLiant DL165 G7	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	0	amd-v	\N	\N	\N	\N	\N	\N	\N	\N	0	\N	\N
+5024	default	parasilo-3.rennes.grid5000.fr	Alive	UnChanged	NO	NO	1	NO	0	20	YES	YES	0	NO	1498208166	2147483646	0	NO	\N	parasilo	\N	\N	1524	702	amd64	8	1.7	AMD Opteron(tm) 6164 HE	SATA	5	\N	\N	parasilo-3.rennes.grid5000.fr	YES	MT25418	\N	131.254.203.5	YES	NO	\N	2048	24576	49152	NO	none	NO	none	HP ProLiant DL165 G7	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	0	amd-v	\N	\N	\N	\N	\N	\N	\N	\N	0	\N	\N
+5025	default	parasilo-3.rennes.grid5000.fr	Alive	UnChanged	NO	NO	1	NO	0	21	YES	YES	0	NO	1498208166	2147483646	0	NO	\N	parasilo	\N	\N	1525	702	amd64	8	1.7	AMD Opteron(tm) 6164 HE	SATA	5	\N	\N	parasilo-3.rennes.grid5000.fr	YES	MT25418	\N	131.254.203.5	YES	NO	\N	2048	24576	49152	NO	none	NO	none	HP ProLiant DL165 G7	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	0	amd-v	\N	\N	\N	\N	\N	\N	\N	\N	0	\N	\N
+5026	default	parasilo-3.rennes.grid5000.fr	Alive	UnChanged	NO	NO	1	NO	0	22	YES	YES	0	NO	1498208166	2147483646	0	NO	\N	parasilo	\N	\N	1526	702	amd64	8	1.7	AMD Opteron(tm) 6164 HE	SATA	5	\N	\N	parasilo-3.rennes.grid5000.fr	YES	MT25418	\N	131.254.203.5	YES	NO	\N	2048	24576	49152	NO	none	NO	none	HP ProLiant DL165 G7	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	0	amd-v	\N	\N	\N	\N	\N	\N	\N	\N	0	\N	\N
+5027	default	parasilo-3.rennes.grid5000.fr	Alive	UnChanged	NO	NO	1	NO	0	23	YES	YES	0	NO	1498208166	2147483646	0	NO	\N	parasilo	\N	\N	1527	702	amd64	8	1.7	AMD Opteron(tm) 6164 HE	SATA	5	\N	\N	parasilo-3.rennes.grid5000.fr	YES	MT25418	\N	131.254.203.5	YES	NO	\N	2048	24576	49152	NO	none	NO	none	HP ProLiant DL165 G7	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	0	amd-v	\N	\N	\N	\N	\N	\N	\N	\N	0	\N	\N
 5050	default	parasilo-5.rennes.grid5000.fr	Alive	UnChanged	NO	NO	1	NO	0	16	YES	YES	0	NO	1294390090	0	0	NO	\N	parasilo	\N	\N	1499	702	amd64	8	1.7	AMD Opteron(tm) 6164 HE	SATA	5	\N	\N	parasilo-5.rennes.grid5000.fr	YES	MT25418	\N	131.254.203.5	YES	NO	\N	2048	24576	49152	NO	none	NO	none	HP ProLiant DL165 G7	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	0	amd-v	\N	\N	\N	\N	\N	\N	\N	\N	2	\N	\N
 5051	default	parasilo-5.rennes.grid5000.fr	Alive	UnChanged	NO	NO	1	NO	0	17	YES	YES	0	NO	1294390090	0	0	NO	\N	parasilo	\N	\N	1550	702	amd64	8	1.7	AMD Opteron(tm) 6164 HE	SATA	5	\N	\N	parasilo-5.rennes.grid5000.fr	YES	MT25418	\N	131.254.203.5	YES	NO	\N	2048	24576	49152	NO	none	NO	none	HP ProLiant DL165 G7	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	0	amd-v	\N	\N	\N	\N	\N	\N	\N	\N	2	\N	\N
 5052	default	parasilo-5.rennes.grid5000.fr	Alive	UnChanged	NO	NO	1	NO	0	18	YES	YES	0	NO	1294390090	0	0	NO	\N	parasilo	\N	\N	1551	702	amd64	8	1.7	AMD Opteron(tm) 6164 HE	SATA	5	\N	\N	parasilo-5.rennes.grid5000.fr	YES	MT25418	\N	131.254.203.5	YES	NO	\N	2048	24576	49152	NO	none	NO	none	HP ProLiant DL165 G7	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	0	amd-v	\N	\N	\N	\N	\N	\N	\N	\N	2	\N	\N

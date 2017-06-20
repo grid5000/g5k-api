@@ -17,7 +17,7 @@ require 'spec_helper'
 describe JobsController do
   render_views
   before do
-    @job_uids = [374196, 374195, 374194, 374193, 374192, 374191, 374190, 374189, 374188, 374187, 374185, 374186, 374184, 374183, 374182, 374181, 374180, 374179, 374178, 374177, 374176, 374175, 374174, 374173, 374172, 374197, 374198, 374199]
+    @job_uids = [374196, 374195, 374194, 374193, 374192, 374191, 374190, 374189, 374188, 374187, 374185, 374186, 374184, 374183, 374182, 374181, 374180, 374179, 374178, 374177, 374176, 374175, 374174, 374173, 374172, 374197, 374198, 374199, 374205, 374210]
   end
 
   describe "GET /sites/{{site_id}}/jobs" do
@@ -32,7 +32,7 @@ describe JobsController do
       expect(json['items'][0]['links']).to eq ([
         {
           "rel"=> "self",
-          "href"=> "/sites/rennes/jobs/374199",
+          "href"=> "/sites/rennes/jobs/374210",
           "type"=> media_type(:g5kitemjson)
         },
         {
@@ -60,7 +60,7 @@ describe JobsController do
       expect(json['total']).to eq @job_uids.length
       expect(json['offset']).to eq 11
       expect(json['items'].length).to eq 5
-      expect(json['items'].map{|i| i['uid']}).to eq ([374188, 374187, 374186, 374185, 374184])
+      expect(json['items'].map{|i| i['uid']}).to eq ([374190, 374189, 374188, 374187, 374186])
     end
     it "should correctly deal with other filters" do
       params = {:user => 'crohr', :name => 'whatever'}
