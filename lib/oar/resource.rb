@@ -60,6 +60,9 @@ module OAR
           "resource_id, cluster, network_address, core, state, available_upto#{include_comment ? ", comment" : ""}"
         )
 
+        # Remove blank network addresses
+        resources = resources.where("network_address <> ''")
+
         resources = resources.where(
           :cluster => options[:clusters]
         ) unless options[:clusters].blank?
