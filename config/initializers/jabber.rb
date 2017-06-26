@@ -39,7 +39,7 @@ class ExceptionHandlingStream < Blather::Stream::Client
       if my_xmpp.last_reconnect != nil && now-my_xmpp.last_reconnect<5
         Rails.logger.info "XMPP disconnected again at #{now}. Waiting 5s before reconnecting to XMPP server..."
         EM.add_timer(5) do 
-          reconnect.call(my_xmpp)
+          XMPP.handler.connect
         end
       else
         Rails.logger.info "XMPP Disconnected at #{now}. Reconnecting..."
@@ -49,12 +49,12 @@ class ExceptionHandlingStream < Blather::Stream::Client
         rescue StandardError => e
           Rails.logger.info "Catched XMPP error: #{e.class.name} - #{e.message}"
           EM.add_timer(10) do
-            reconnect.call(my_xmpp)
+            XMPP.handler.connect
           end
         rescue Blather::Stream::ConnectionFailed => e
           Rails.logger.error "XMPP: Could not reconnect: #{e}. Wait 10s"  
           EM.add_timer(10) do
-            reconnect.call(my_xmpp)
+            XMPP.handler.connect
           end
         end
         Rails.logger.info "XMPP reconnected at #{my_xmpp.last_reconnect}"
