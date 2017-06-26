@@ -1,3 +1,109 @@
+g5k-api (4.0.0-1) jessie; urgency=low
+
+  * b6ee949 Fix bug #8266: correct XMPP reconnection retries
+  * e69d475 Update the expected version of rake
+  * 7dc05ed Removes local implementation of a deployment API
+  * 37ad90a Changes links for deployments (fixes #7364)
+  * 278e51e Applies cosmetic changes to limit diff
+  * 00a8379 Fixes some README typos and presentation issues
+  * 30d2430 Updates the stress-script to use the public API
+  * 7df72ef Adds a script to stress a single instance
+  * 02b9b9b Updates instructions on how to change test datasets
+  * 447a535 Attempts to cleanly fix bundler and rake versions
+  * 3e073de Update rspec expectation syntax for cluster controller
+  * b5a4ab2 Adds spec test to check for /servers link
+  * 30ae02b Tweak to the vagrant file to give .gitconfig information to the vagrant VM
+  * c2e6975 added logic & spec tests for /servers
+  * 80f822a added /servers to site nancy
+  * 24c7e1f Cleared accidental removal of nancy clusters
+  * 9ad255b move code to set sane defaults in the params to a separate function
+  * b5655cc move code to extract an object from the git repo according to params into a specific function
+  * 582d4e5 No longer go through http requests to get the list of clusters of a given site
+  * adaa726 Fix indentation
+  * 1cb3130 Factor out the building of the job description
+  * 880cc7a Commit version 3.5.5
+  * 0efdb74 Complete the possible states for a positive check to optimize performance of query as per bug #7970
+  * 778d0f3 Commit version 3.5.4
+  * e4dd9fa Change query to increase performance of requests as per bug #7970
+  * a31279a Commit version 3.5.3
+  * dcdce02 Modified the mechanism for URI construction - for test & development environments. Added spec tests also.
+  * 307eecf Commit version 3.5.2
+  * 6e314aa [Vagrant] use a better condition de control the bundle install run
+  * 2ab40a7 fixes #7285 : remove reliance on availability of smt_size to count the number of cores
+  * 5daa16b Add a precaution against variable header length due to different locales (add missing part of fix)
+  * c4a1192 Add a precaution against variable header length due to different locales
+  * 7dbfba3 [ui] allow quick start to select on queues the resources are available on
+  * abbc568 [Vagrant] Change the proxy rules so as to cover most cases
+  * 4a13978 [ui] change the behaviour of the filtering mechanism so that filters of different facets intersect rather that add
+  * baf10dc [ui] use the internal API to get a list of registrere kadeploy environments
+  * 9ee3fe7 [packaging] Add description to the debian packaging task
+  * 9d49966 Commit version 3.5.1
+  * 6809a80 [Javascript] Keep the vendorized exhibit version in the repository
+  * 34398f0 [Development environment] serve exhibitv2 from the local development environment and not from api.grid5000.fr
+  * 622b207 [Vagrant] Add a more robust test to see whether bundle should be run, until we change rails version
+  * 4d1e894 [Default configuration] Also listen to IPv6 connections if -a not specified on the command line
+  * a5f48f7 New test was not successful: reverting to a variant of the previous test
+  * ebce08a Do not constrain rake version to have same rake version as pulled from rubygems during Vagrant provisioning
+  * a986a00 [Vagrant] do not forget to provision the apache proxy
+  * c9274a0 Make error message in the presence of IPv6 more explicit
+  * 45d5366 [Vagrant] add a magic ssh config file so as to be able to ssh from the Vagrant machine using the ssh-agent on the host
+  * 937ac88 [Vagrant] add an http proxy to the vagrant box so as to be able to work on the ui with real data for OAR, except for one site where the data will come from the local service, that will connect as reader to the OAR database. Update the README.md file with extended instructions, in particular on how to use the tunneling task with rake to create the proper tunnels to make it all happen
+  * 8a48632 [Vagrant] Point Vagrantfile to a new version of the vagrant box. Users of previous version will need to destroy their debian-jessie-x64-puppet_4 box or upgrade it to benefit from the update
+  * ead3407 [ui] make the ui more resistant to changes in the API and in the contents of the reference-repo
+  * 7eeec49 Update documentation
+  * b64e046 Remove extra gems for the development environment, as this makes the development environment behave differently than the production environment
+  * 183fc50 [Capistrano] remove packaging task, now moved to lib/task/packaging.rake to run using rake in the vagrant box
+  * 8294625 [Packaging] Minor tweaks to the packaging task
+  * 4c5459b Commit version 3.5.0
+  * 65f4de5 [README] Update the instructions to build a new version of the g5k-api package
+  * c049251 [Packaging] make the automatic inclusion of git logs in debian/changelog work again
+  * fdcaf45 [development environment] Update the default config to use a live OAR database made available through tunneling
+  * f0699ff [Vagrant] Update the developpment.pp file so that build dependencies of gems with native gems are made available out of the box
+  * b8af9c0 [Packaging] Allow usage of vendorized bundler
+  * 8222891 [Packaging] Correct posinst script creting /usr/bin/g5k-api
+  * 9acd344 [Packaging] Correct issue in ruby dependency version
+  * f78f9f2 [Packaging] Work on changes to package in the vagrant box, without capistrano
+  * 4e169a7 [Vagrant] Support of puppet 4 with vagrant 2.7.x seems difficult. Put a minimum requirement on the version of Vagrant to be used
+  * fd56af2 [Vagrant] update instructions to upload a box from the insecure vagrant.irisa.fr
+  * c4bbd9a [Vagrant] correct bundle install puppet exec step with proper unless clause
+  * 55d1e73 [Vagrant] add bundle install as a automated step during provisioning
+  * 1f24373 [Vagrant] use the puppet provisionner in a puppet 4 compatible way
+  * 6353419 [jessie] Cleanup the Gemfile so as to remove comments raom previous specification and version fixing that where probably no longer needed. Tested correct by running the unit tests
+  * 2cdd89c [jessie] The latest version of bundler sees our Gemfile.lock as being corrupt: seems linked to bundler issue #4147, that should be solved with the version pulled on Jessie but is not for us. Fix the version until this is investigated further.
+  * f9c9ed5 [jessie] ruby-dev package is required to build some gems
+  * 9e6bb62 [jessie] Update the yaml engine used to handle using ruby 2.1
+  * 2e029cb [jessie] Update the Gemfile to support ruby2.1 by replae rcov by simplecov
+  * 83f7de4 [jessie] iron out an other timezone heuristic handllin
+  * 484a330 [jessie] update the code of XMPP library to handle aliases better
+  * e2bb04c [ruby2.1] It seems that in ruby 2.1 Time.parse("Fri Mar 13 16:24:20 2009 +0000")==Time.parse("Fri Mar 13 16:24:20 2009 +0100") ! Update the test to circumvent the change in hueruistics used by parse
+  * c088162 [Jessie] update Vagrantfile and puppet recipes to be able to provision a debian 8.2 VM with no errors
+  * 7d8be29 [README] Attempt at a better looking second level item
+  * 31a62f9 [README] Cleanup the markup a bit more
+  * 909502f [README] Cleanup the markup
+  * eba0b8c [README] update the instruction to develop from the vagrant box
+  * a699ed0 [Vagrant] add directory to allow running rails from the vagrant box
+  * be7f838 [wheezy] update rake version to 11.1.1
+  * b0dc626 [cleanup] Clean up commented code used for tests
+  * 75dcd41 [wheezy] update blather using code (config/initializers/jabber.rb) to properly handle disconnects. Tested live
+  * 93c6f06 [Vagrant] Updating provisionning recipes and configuration so that the vagrant box can be used as development box
+  * bd697d9 [Wheezy] make the minimal updates to gems to use versions that compile on wheezy despite -Werror=format-security default behaviour by the gcc version used by wheezy (update blather, eventmachine, nokogiri), while keeping .gemspec files compatible with the native version of reubygems (downgrade autotest).
+  * 330428e [git] Add *~ to gitignore for emacs users such as myself
+  * 9f5bbd2 [Vagrant box] Change ports used by database so that tests can be run from the vagrant box itself
+  * dc71536 [Provisioning] Handle provisonning of development and test mysql databases in a nicer way
+  * a48f932 [packaging] make sure the packaging task does not block due to missing suitable DEBIAN_FRONTEND
+  * 977746f [Vagrant] Update vagrant instruction to stay compatible with older versions og vagrant while handling the removal of the insecure key promoted by recent versions
+  * bb02624 [README] Update instructions to bypass insecire https cert of vagrant.irisa.fr
+  * 1eca7dc [provisioning] add some more precise dependencies
+  * e2e1fec [packaging] Update version of thin gem so it can compile on wheezy
+  * cb6706c [packaging] Add postgres packages (libpq-dev) as explicit dependency
+  * 0d04250 [packaging] Update the version number for eventmachine'
+  * f6f3d49 [packaging] Attempt a quick update to event machine so it compiles on wheezy
+  * f1d7217 [packaging] Require bundler version 1.7.6 to attempt to bypass the "Your Gemfile.lock is corrupt. The following gems are missing from the DEPENDENCIES section: archive-tar-minitar hoe rcov" error message
+  * 748eff3 update the packaging instructions so as to be able to package on a wheezy system
+  * 609b87f Update vagrant VM to wheezy
+
+ -- David Margery <david.margery@inria.fr>  Mon, 26 Jun 2017 14:30:40 +0000
+
 g5k-api (3.5.6-1) jessie; urgency=low
 
   * d8aec14 No longer go through http requests to get the list of clusters of a given site
