@@ -142,6 +142,12 @@ module OAR
             resource.subnet_address,
             resource.subnet_prefix
           ].join("/"))
+        when 'disk'
+          h['disks'] ||= []
+          h['disks'].push([
+            resource.disk.split('.').first,
+            resource.host
+          ].join("."))
         end
       end
       h
