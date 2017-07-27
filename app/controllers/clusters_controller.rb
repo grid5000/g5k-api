@@ -26,6 +26,7 @@ class ClustersController < ResourcesController
     result = {
       "uid" => Time.now.to_i,
       "nodes" => OAR::Resource.status(:clusters => params[:id]),
+      "disks" => OAR::Resource.disk_status(:clusters => params[:id]),
       "links" => [
         {
           "rel" => "self",

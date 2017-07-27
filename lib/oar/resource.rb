@@ -85,45 +85,7 @@ module OAR
           end
 	end  #  .each do |resource_id, resource|
 
-        active_jobs_by_moldable_id = {}
-        Job.expanded.active.
-          find(:all, :include => [:job_types]).
-          each{|job|
-          active_jobs_by_moldable_id[job.moldable_id] = {
-            :resources => Set.new,
-            :job => job
-          }
-        }
-        
-        # if there are jobs
-        if active_jobs_by_moldable_id.length > 0
-          moldable_ids = active_jobs_by_moldable_id.keys.
-            map{|moldable_id| "'#{moldable_id}'"}.join(",")
-
-          # get all resources assigned to these jobs
-          %w{assigned_resources gantt_jobs_resources}.each do |table|
-            self.connection.execute(
-              QUERY_ASSIGNED_RESOURCES.gsub(
-                /%TABLE%/, table
-              ).gsub(
-                /%MOLDABLE_IDS%/, moldable_ids
-              )
-            ).each do |row|
-              if row.is_a?(Hash)
-                moldable_job_id=row["moldable_job_id"]
-                resource_id=row["resource_id"].to_i
-              else
-                (moldable_job_id,resource_id)=row
-                resource_id=resource_id.to_i
-              end
-
-              active_jobs_by_moldable_id[moldable_job_id][:resources].
-                add(resource_id)
-            end # .each do |(moldable_job_id, resource_id)|
-          end # .each do |table|
-        end # if active_jobs_by_moldable_id
-
-        active_jobs_by_moldable_id.each do |moldable_id, h|
+        get_active_jobs_by_moldable_id().each do |moldable_id, h|
           current = h[:job].running?
 
           # prepare job description now, since it will be added to each resource
@@ -184,6 +146,47 @@ module OAR
         result
       end # def status
 
+      def get_active_jobs_by_moldable_id()
+        active_jobs_by_moldable_id = {}
+        Job.expanded.active.
+          find(:all, :include => [:job_types]).
+          each{|job|
+          active_jobs_by_moldable_id[job.moldable_id] = {
+            :resources => Set.new,
+            :job => job
+          }
+        }
+
+        # if there are jobs
+        if active_jobs_by_moldable_id.length > 0
+          moldable_ids = active_jobs_by_moldable_id.keys.
+            map{|moldable_id| "'#{moldable_id}'"}.join(",")
+
+          # get all resources assigned to these jobs
+          %w{assigned_resources gantt_jobs_resources}.each do |table|
+            self.connection.execute(
+              QUERY_ASSIGNED_RESOURCES.gsub(
+                /%TABLE%/, table
+              ).gsub(
+                /%MOLDABLE_IDS%/, moldable_ids
+              )
+            ).each do |row|
+              if row.is_a?(Hash)
+                moldable_job_id=row["moldable_job_id"]
+                resource_id=row["resource_id"].to_i
+              else
+                (moldable_job_id,resource_id)=row
+                resource_id=resource_id.to_i
+              end
+
+              active_jobs_by_moldable_id[moldable_job_id][:resources].
+                add(resource_id)
+            end # .each do |(moldable_job_id, resource_id)|
+          end # .each do |table|
+        end # if active_jobs_by_moldable_id
+        active_jobs_by_moldable_id
+      end
+
       # Returns the initial status hash for a resource.
       def initial_status_for(resource)
         hard = resource.state
@@ -199,6 +202,87 @@ module OAR
         h[:comment] = resource.comment if resource.respond_to?(:comment)
         h
       end  # def initial_status_for
+
+      # Returns the status of all disks, indexed by the disk location.
+      # So, it returns only one entry per disk.
+      #
+      # Returns a hash of the following format:
+      #
+      #   {
+      #     'disk.host' => {
+      #       :soft => "free|busy",
+      #       :disk => disk identifier,
+      #       :diskpath => disk path,
+      #       :reservations => [...]
+      #     },
+      #     {...}
+      #   }
+      #
+      def disk_status(options = {})
+        result = {}
+
+        resources = Resource.select(
+          "resource_id, cluster, host, disk, diskpath"
+        )
+
+        # Keep only disks
+        resources = resources.where(
+          :type => 'disk'
+        )
+
+        resources = resources.where(
+          :cluster => options[:clusters]
+        ) unless options[:clusters].blank?
+        resources = resources.index_by(&:resource_id)
+
+        get_active_jobs_by_moldable_id().each do |moldable_id, h|
+          current = h[:job].running?
+
+          # prepare job description now, since it will be added to each resource
+          # For Result hash table, do not include events
+          # (otherwise the Set does not work with nested hash)
+          jobh = h[:job].to_reservation(:without => :events)
+
+          h[:resources].each do |resource_id|
+            resource = resources[resource_id]
+
+            # The resource is not a disk or does not belong to a valid cluster.
+            next if resource.nil?
+
+            disk_key = disk_key(resource.disk, resource.host)
+            result[disk_key] ||= initial_disk_status_for(resource)
+
+            if current
+              result[disk_key][:soft] = 'busy'
+            else
+              result[disk_key][:soft] = 'free'
+            end  # if current
+
+            result[disk_key][:reservations].add(jobh)
+          end  # .each do |resource_id|
+        end  # .each do |moldable_id, h|
+
+        # fallback for resources without jobs
+        resources.each do |resource_id, resource|
+          result[disk_key(resource.disk, resource.host)] ||= initial_disk_status_for(resource)
+        end  # .each do |resource_id, resource|
+
+        result
+      end # def disk_status
+
+      def disk_key(disk, host)
+        [disk.split('.').first, host].join('.')
+      end
+
+      # Returns the initial status hash for a disk.
+      def initial_disk_status_for(resource)
+        h = {
+          :soft => "free",
+          :diskpath => resource.diskpath,
+          :reservations => Set.new
+        }
+        h
+      end  # def initial_disk_status
     end # class << self
 
   end  # class Resource
