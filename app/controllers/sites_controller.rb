@@ -27,6 +27,7 @@ class SitesController < ResourcesController
     result = {
       "uid" => Time.now.to_i,
       "nodes" => OAR::Resource.status(:clusters => valid_clusters),
+      "disks" => OAR::Resource.disk_status(:clusters => valid_clusters),
       "links" => [
         {
           "rel" => "self",

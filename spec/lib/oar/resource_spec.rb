@@ -136,4 +136,67 @@ describe OAR::Resource do
       end.map{|(node, status)| node}.should == ["paramount-2.rennes.grid5000.fr"]
     end
   end
+
+  it "should return the status of all disks" do
+    expected_statuses = {
+      "sdb.parasilo-1.rennes.grid5000.fr" => {
+        soft: "busy",
+        diskpath: "/dev/disk/by-path/pci-0000:02:00.0-scsi-0:0:1:0",
+        reservations: [374198]
+      },
+      "sdc.parasilo-1.rennes.grid5000.fr" => {
+        soft: "busy",
+        diskpath: "/dev/disk/by-path/pci-0000:02:00.0-scsi-0:0:2:0",
+        reservations: [374198]
+      },
+      "sdb.parasilo-5.rennes.grid5000.fr" => {
+        soft: "free",
+        diskpath: "/dev/disk/by-path/pci-0000:02:00.0-scsi-0:0:1:0",
+        reservations: [374199]
+      },
+      "sdc.parasilo-5.rennes.grid5000.fr" => {
+        soft: "free",
+        diskpath: "/dev/disk/by-path/pci-0000:02:00.0-scsi-0:0:2:0",
+        reservations: [374199]
+      },
+      "sdb.paradent-9.rennes.grid5000.fr" => {
+        soft: "free",
+        diskpath: "/dev/disk/by-path/pci-0000:02:00.0-scsi-0:0:1:0",
+        reservations: []
+      },
+      "sdc.paradent-9.rennes.grid5000.fr" => {
+        soft: "free",
+        diskpath: "/dev/disk/by-path/pci-0000:02:00.0-scsi-0:0:2:0",
+        reservations: []
+      }
+    }
+
+    OAR::Resource.disk_status.each do |disk, status|
+      expected_status = expected_statuses[disk]
+      expected_jobs = expected_status[:reservations].sort
+      reservations = status[:reservations].map{|r| r[:uid]}.sort
+      reservations.should == expected_jobs
+      status[:soft].should == expected_status[:soft]
+      status[:diskpath].should == expected_status[:diskpath]
+    end
+
+  end
+
+  it "should return the status only for the disks belonging to the given clusters" do
+    OAR::Resource.disk_status(:clusters => ['parasilo']).keys.
+      map{|n| n.split('.')[1].split("-")[0]}.uniq.sort.should == ['parasilo']
+  end
+
+  it "should return all disks with status busy" do
+    OAR::Resource.disk_status.select do |disk, status|
+      status[:soft] == "busy"
+    end.map{|disk, status| disk}.sort.should == ["sdb.parasilo-1.rennes.grid5000.fr", "sdc.parasilo-1.rennes.grid5000.fr"].sort
+  end
+
+  it "should return all disk reservations with status free" do
+    OAR::Resource.disk_status.select do |disk, status|
+      status[:soft] == "free"
+    end.map{|disk, status| disk}.sort.should == ["sdb.parasilo-5.rennes.grid5000.fr", "sdc.parasilo-5.rennes.grid5000.fr", "sdb.paradent-9.rennes.grid5000.fr", "sdc.paradent-9.rennes.grid5000.fr"].sort
+  end  # it "should return all disks with status free"
+
 end # describe OAR::Resource
