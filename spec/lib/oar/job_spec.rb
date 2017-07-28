@@ -40,7 +40,7 @@ describe OAR::Job do
   end
   
   it "should fetch the list of active jobs" do
-    OAR::Job.active.map(&:uid).should == [374173, 374179, 374180, 374185, 374186, 374190, 374191, 374192, 374193, 374194, 374195, 374196, 374197]
+    OAR::Job.active.map(&:uid).should == [374173, 374179, 374180, 374185, 374186, 374190, 374191, 374192, 374193, 374194, 374195, 374196, 374197, 374198, 374199]
   # abasu -- updated jobs list as new jobs added to test different bugs -- 2015.04.07
   end
 
