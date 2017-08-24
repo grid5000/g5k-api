@@ -530,3 +530,5 @@
 374195	default	Running	parapluie-54.rennes.grid5000.fr	Alive
 374196	default	Running	parapluie-55.rennes.grid5000.fr	Alive
 374197	default	Waiting	parapluie-56.rennes.grid5000.fr	Dead
+374198	default Running parasilo-1.rennes.grid5000.fr	Alive
+374199	default Waiting parasilo-5.rennes.grid5000.fr	Alive

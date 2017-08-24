@@ -17,7 +17,7 @@ require 'spec_helper'
 describe JobsController do
   render_views
   before do
-    @job_uids = [374196, 374195, 374194, 374193, 374192, 374191, 374190, 374189, 374188, 374187, 374185, 374186, 374184, 374183, 374182, 374181, 374180, 374179, 374178, 374177, 374176, 374175, 374174, 374173, 374172, 374197]
+    @job_uids = [374196, 374195, 374194, 374193, 374192, 374191, 374190, 374189, 374188, 374187, 374185, 374186, 374184, 374183, 374182, 374181, 374180, 374179, 374178, 374177, 374176, 374175, 374174, 374173, 374172, 374197, 374198, 374199]
   end
 
   describe "GET /sites/{{site_id}}/jobs" do
@@ -32,7 +32,7 @@ describe JobsController do
       json['items'][0]['links'].should == [
         {
           "rel"=> "self",
-          "href"=> "/sites/rennes/jobs/374197",
+          "href"=> "/sites/rennes/jobs/374199",
           "type"=> media_type(:g5kitemjson)
         },
         {
@@ -60,7 +60,7 @@ describe JobsController do
       json['total'].should == @job_uids.length
       json['offset'].should == 11
       json['items'].length.should == 5
-      json['items'].map{|i| i['uid']}.should == [374186, 374185, 374184, 374183, 374182]
+      json['items'].map{|i| i['uid']}.should == [374188, 374187, 374186, 374185, 374184]
     end
     it "should correctly deal with other filters" do
       params = {:user => 'crohr', :name => 'whatever'}
