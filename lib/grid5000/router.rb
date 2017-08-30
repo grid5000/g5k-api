@@ -65,24 +65,21 @@ module Grid5000
         uri = "/" if uri.blank?
         # abasu / dmargery - bug ref 7360 - for correct URI construction
         if in_or_out == :out || relative_or_absolute == :absolute
-	  root_uri=URI(base_uri(in_or_out))
-	  if root_uri.path.blank?
-	    root_path=''
+          root_uri=URI(base_uri(in_or_out))
+          if root_uri.path.blank?
+            root_path=''
           else	
             root_path=root_uri.path+'/'
           end # if root_uri.path.blank?
-
           uri = URI.join(root_uri, root_path+uri).to_s
         end # if in_or_out == :out || relative_or_absolute == :absolute
         uri
       end # def uri_to()
 
-
       # FIXME: move Rails.config to Grid5000.config
       def base_uri(in_or_out = :in)
         Rails.my_config("base_uri_#{in_or_out}".to_sym)
       end # def base_uri()
-
     end
   end
 end
