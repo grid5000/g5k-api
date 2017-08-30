@@ -29,6 +29,12 @@ module Grid5000
     
     class << self
       def uri_to(request, path, in_or_out = :in, relative_or_absolute = :relative)
+        root_path = if request.env['HTTP_X_API_ROOT_PATH'].blank?
+          nil
+        else
+          File.join("/", (request.env['HTTP_X_API_ROOT_PATH'] || ""))
+        end # root_path = if request.env['HTTP_X_API_ROOT_PATH'].blank?
+
         api_version = if request.env['HTTP_X_API_VERSION'].blank?
           nil
         else
@@ -47,8 +53,9 @@ module Grid5000
           File.join("/", (request.env['HTTP_X_API_MOUNT_PATH'] || ""))
         end # mount_path = if request.env['HTTP_X_API_MOUNT_PATH'].blank?
 
-        uri = File.join("/", *[api_version, path_prefix, path].compact)
-        uri.gsub!(mount_path, '') unless mount_path.nil?
+        mounted_path=path
+        mounted_path.gsub!(/^#{mount_path}/,'') unless mount_path.nil?
+        uri = File.join("/", *[root_path, api_version, path_prefix, mounted_path].compact)
         uri = "/" if uri.blank?
         # abasu / dmargery - bug ref 7360 - for correct URI construction
         if in_or_out == :out || relative_or_absolute == :absolute
