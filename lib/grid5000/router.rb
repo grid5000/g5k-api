@@ -14,9 +14,14 @@
 
 module Grid5000
   # Computes the URI to a specific path.
-  # Takes into account the X-Api-Path-Prefix (additional prefix to add to URI
-  # path), and X-Api-Mount-Path (subset of the API path to take out of the URI
-  # path).
+  # X-Api-root-Path is the entry point for all versions of the API
+  # X-Api-version is the version string by which the server is reached
+  # X-Api-Path-Prefix is the entry point to access this service for a
+  #   given version. To use if a server does not wish to show the top level
+  #   hieararchy exposed by the services, for example to only publish the
+  #   resources of a single site (https://rennes.g5k/ ony giving access to
+  #   resources under the /sites/rennes path
+  # X-Api-Mount-Path (subset of the API path to take out of the URI path).
   class Router
     
     def initialize(where)
