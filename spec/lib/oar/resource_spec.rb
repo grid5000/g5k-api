@@ -118,15 +118,15 @@ describe OAR::Resource do
       @cobayes = OAR::Resource.
         find_all_by_network_address('paramount-2.rennes.grid5000.fr')
       @cobayes.each {|r| 
-        r.update_attribute(
-          :available_upto, OAR::Resource::STANDBY_AVAILABLE_UPTO
-        ).should be_true
+        expect(r.update_attribute(
+                 :available_upto, OAR::Resource::STANDBY_AVAILABLE_UPTO
+               )).to be true
       }
     end
     
     after do
       @cobayes.each {|r| 
-        r.update_attribute(:available_upto, 0).should be_true
+        expect(r.update_attribute(:available_upto, 0)).to be true
       }
     end
     

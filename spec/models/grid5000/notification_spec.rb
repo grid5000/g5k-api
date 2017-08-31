@@ -21,13 +21,13 @@ describe Grid5000::Notification do
   end
 
   it "should have the correct URI" do
-    Grid5000::Notification.uri.should == "http://fake.api/sid/notifications"
+    expect(Grid5000::Notification.uri).to eq "http://fake.api/sid/notifications"
   end
 
   it "should correcty populate the attributes" do
     notif = Grid5000::Notification.new(@body, :to => @recipients)
-    notif.message.should == @body
-    notif.recipients.should == @recipients
+    expect(notif.message).to eq @body
+    expect(notif.recipients).to eq @recipients
   end
 
   it "should send the HTTP request to the notifications API and return true if successful" do
@@ -44,7 +44,7 @@ describe Grid5000::Notification do
       to_return(:status => 202)
 
     notif = Grid5000::Notification.new(@body, :to => @recipients)
-    notif.deliver!.should be_true
+    expect(notif.deliver!).to be true
   end
 
   it "should send the HTTP request to the notifications API and return false if failed" do
@@ -61,6 +61,6 @@ describe Grid5000::Notification do
       to_return(:status => 500)
 
     notif = Grid5000::Notification.new(@body, :to => @recipients)
-    notif.deliver!.should be_false
+    expect(notif.deliver!).to be false
   end
 end

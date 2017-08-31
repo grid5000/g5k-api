@@ -87,10 +87,10 @@ end
 
 RSpec.configure do |config|
 
-
+  config.infer_spec_type_from_file_location!
   config.before(:each) do
     @now = Time.now
-    Time.stub!(:now).and_return(@now)
+    allow(Time).to receive(:now).and_return(@now)
 
 #    Grid5000::Deployment.delete_all
     @json = nil
