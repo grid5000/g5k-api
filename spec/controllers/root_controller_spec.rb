@@ -39,8 +39,8 @@ describe RootController do
     }
   end
   
-  it "should correcly add the api-prefix if any" do
-    @request.env['HTTP_X_API_PATH_PREFIX'] = 'sid'
+  it "should correcly add the version if any" do
+    @request.env['HTTP_X_API_VERSION'] = 'sid'
     get :show, :id => "grid5000", :format => :json
     response.status.should == 200
     json.should == {

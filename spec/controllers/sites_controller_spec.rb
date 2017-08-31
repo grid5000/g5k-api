@@ -46,7 +46,7 @@ describe SitesController do
       @request.env['HTTP_X_API_MOUNT_PATH'] = '/sites'
       get :index, :format => :json
       expect(response.status).to eq 200
-      expect(json['links'].find{|l| l['rel'] == 'self'}['href']).to eq "/sid"
+      expect(json['links'].find{|l| l['rel'] == 'self'}['href']).to eq "/sid/"
     end
 
   end # describe "GET /sites"
