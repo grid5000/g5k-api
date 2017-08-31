@@ -28,7 +28,7 @@ describe JobsController do
       json['offset'].should == 0
       json['items'].length.should == @job_uids.length
       json['items'].map{|i| i['uid']}.sort.should == @job_uids.sort
-      json['items'].all?{|i| i.has_key?('links')}.should be_true
+      json['items'].all?{|i| i.has_key?('links')}.should be true
       json['items'][0]['links'].should == [
         {
           "rel"=> "self",
@@ -194,11 +194,11 @@ describe JobsController do
           :body => fixture("oarapi-submitted-job.json")
         )
 
-      OAR::Job.stub!(:expanded).and_return(
-        expanded_jobs = mock("expanded jobs")
+      allow(OAR::Job).to receive(:expanded).and_return(
+        expanded_jobs = double("expanded jobs")
       )
-      expanded_jobs.should_receive(:find).with("961722", anything).and_return(
-        mock(OAR::Job, :uid => "961722", :to_json => {"key" => "value"}.to_json, :links= => nil)
+      expect(expanded_jobs).to receive(:find).with("961722", anything).and_return(
+        double(OAR::Job, :uid => "961722", :to_json => {"key" => "value"}.to_json, :links= => nil)
       )
 
       post :create, :site_id => "rennes", :format => :json
