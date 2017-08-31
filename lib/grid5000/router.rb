@@ -60,6 +60,7 @@ module Grid5000
 
         mounted_path=path
         mounted_path.gsub!(/^#{mount_path}/,'') unless mount_path.nil?
+        mounted_path='/' if mounted_path.blank?
         uri = File.join("/", *[root_path, api_version, path_prefix, mounted_path].compact)
         uri = "/" if uri.blank?
         # abasu / dmargery - bug ref 7360 - for correct URI construction
