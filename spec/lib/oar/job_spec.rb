@@ -22,12 +22,12 @@ require 'spec_helper'
 
 describe OAR::Job do
   it "should list the expanded jobs, filtered" do
-    jobs = mock("jobs")
-    OAR::Job.should_receive(:expanded).and_return(jobs)
-    jobs.should_receive(:order).with("job_id DESC").and_return(jobs)
-    jobs.should_receive(:where).with(:job_user => "crohr").and_return(jobs)
-    jobs.should_receive(:where).with(:job_name => "whatever").and_return(jobs)
-    jobs.should_receive(:where).with(:queue_name => "default").and_return(jobs)
+    jobs = double("jobs")
+    expect(OAR::Job).to receive(:expanded).and_return(jobs)
+    expect(jobs).to receive(:order).with("job_id DESC").and_return(jobs)
+    expect(jobs).to receive(:where).with(:job_user => "crohr").and_return(jobs)
+    expect(jobs).to receive(:where).with(:job_name => "whatever").and_return(jobs)
+    expect(jobs).to receive(:where).with(:queue_name => "default").and_return(jobs)
     OAR::Job.list(:user => 'crohr', :name => 'whatever', :queue => 'default').
       should == jobs
   end
@@ -195,11 +195,12 @@ describe OAR::Job do
         result['disks'].sort.should == ["sdb.parasilo-1.rennes.grid5000.fr", "sdc.parasilo-1.rennes.grid5000.fr"].sort
   end
   
-  it "should build a hash of resources indexed by their type [vlans]" do
-    pending "example with VLANs"
+  xit "should build a hash of resources indexed by their type [vlans]" do
+    pending "job with VLANs"
   end
   
-  it "should build a hash of resources indexed by their type [subnets]" do
+  xit "should build a hash of resources indexed by their type [subnets]" do
     pending "example with SUBNETs"
+    fail
   end
 end
