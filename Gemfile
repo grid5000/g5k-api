@@ -28,6 +28,7 @@ group :test do
   gem 'rspec-rails'
   gem 'autotest'
   gem 'autotest-growl'
+  gem 'rspec-autotest'
   gem 'factory_girl_rails'
   gem 'simplecov'
   gem 'net-ssh-multi'
