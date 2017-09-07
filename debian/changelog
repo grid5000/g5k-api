@@ -1,9 +1,41 @@
+g5k-api (4.0.1-1) jessie; urgency=low
+
+  * 339f949 Merge pull request #37 from grid5000/bug#8489_API_ROOT_PATH
+  * f66d0bc Clean indentation of lib/grid5000/router.rb
+  * 077fd17 Aggree that leaving a trailing / for root is OK
+  * b736b98 Document the semantics of the headers
+  * 3f7299d Implement and test API* headers as in bug #8489
+  * a83c90e Merge pull request #38 from grid5000/bugs/#8196
+  * f923737 Update support for autotest to handle new rspec
+  * 1ddf729 Upgrade the Box' packages upon provision
+  * cf8bb86 Handle that vagrant.irisa.fr's cert is outdateda
+  * e812b35 Update to rspec-rails & rspec supporting rake 12.0
+  * 6638f28 Merge pull request #36 from grid5000/bug8029-disk-reservation
+  * 07d8f68 Add disk reservations display in status API
+  * 58e462c Add disk reservations display in jobs API
+  * cb67ca8 Add jobs with disk reservations in test database and update existing tests
+  * 3562b94 Remove resources with blank network_address from "status" output
+  * 7d65162 Removes local implementation of a deployment API
+  * 886c3d5 Changes links for deployments (fixes #7364)
+  * 5a40e72 Fix bug #8266: correct XMPP reconnection retries
+  * 148cc0d Update the expected version of rake
+  * 2e5ee01 Applies cosmetic changes to limit diff
+  * ea49c95 Fixes some README typos and presentation issues
+  * 84d5c5e Updates the stress-script to use the public API
+  * 81aa936 Adds a script to stress a single instance
+  * 04cb48e Updates instructions on how to change test datasets
+  * 5b72930 Attempts to cleanly fix bundler and rake versions
+  * d02bdab Update rspec expectation syntax for cluster controller
+  * 9746f49 Adds spec test to check for /servers link
+
+ -- Florent Didier <florent.didier@inria.fr>  Thu, 07 Sep 2017 08:31:48 +0000
+
 g5k-api (4.0.0-1) jessie; urgency=low
 
-  * b6ee949 Fix bug #8266: correct XMPP reconnection retries
-  * e69d475 Update the expected version of rake
   * 7dc05ed Removes local implementation of a deployment API
   * 37ad90a Changes links for deployments (fixes #7364)
+  * b6ee949 Fix bug #8266: correct XMPP reconnection retries
+  * e69d475 Update the expected version of rake
   * 278e51e Applies cosmetic changes to limit diff
   * 00a8379 Fixes some README typos and presentation issues
   * 30d2430 Updates the stress-script to use the public API
