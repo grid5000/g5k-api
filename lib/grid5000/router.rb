@@ -65,9 +65,9 @@ module Grid5000
         uri = "/" if uri.blank?
         # abasu / dmargery - bug ref 7360 - for correct URI construction
         if in_or_out == :out || relative_or_absolute == :absolute
-	  root_uri=URI(base_uri(in_or_out))
-	  if root_uri.path.blank?
-	    root_path=''
+          root_uri=URI(base_uri(request, in_or_out))
+          if root_uri.path.blank?
+            root_path=''
           else	
             root_path=root_uri.path+'/'
           end # if root_uri.path.blank?
@@ -79,20 +79,18 @@ module Grid5000
 
 
       # FIXME: move Rails.config to Grid5000.config
-      def base_uri(in_or_out = :in)
-        Rails.my_config("base_uri_#{in_or_out}".to_sym)
-      end # def base_uri()
-
-      def tls_options_for(url, in_or_out = :in)
-        tls_options={}
-        [:cert_chain_file, :private_key_file, :verify_peer, :fail_if_no_peer_cert,
-         :cipher_list, :ecdh_curve, :dhparam, :ssl_version].each do |tls_param|
-          config_key=("uri_#{in_or_out.to_s}_"+tls_param.to_s).to_sym
-          if Rails.my_config(config_key)
-            tls_options[tls_param]=Rails.my_config(config_key)
+      def base_uri(request, in_or_out = :in)
+        if request.env.has_key?('HTTP_X_FORWARDED_HOST')
+          hosts=request.env['HTTP_X_FORWARDED_HOST'].split(',')
+          frontend=hosts[0]
+          if Rails.my_config(frontend.to_sym)
+            "#{Rails.my_config(frontend.to_sym)}://#{frontend}"
+          else
+            "https://#{frontend}"
           end
+        else
+          Rails.my_config("base_uri_#{in_or_out}".to_sym)
         end
-        tls_options
       end
     end
   end
