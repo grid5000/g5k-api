@@ -65,7 +65,7 @@ module Grid5000
         uri = "/" if uri.blank?
         # abasu / dmargery - bug ref 7360 - for correct URI construction
         if in_or_out == :out || relative_or_absolute == :absolute
-          root_uri=URI(base_uri(in_or_out))
+          root_uri=URI(base_uri(request, in_or_out))
           if root_uri.path.blank?
             root_path=''
           else	
@@ -77,9 +77,19 @@ module Grid5000
       end # def uri_to()
 
       # FIXME: move Rails.config to Grid5000.config
-      def base_uri(in_or_out = :in)
-        Rails.my_config("base_uri_#{in_or_out}".to_sym)
-      end # def base_uri()
+      def base_uri(request, in_or_out = :in)
+        if request.env.has_key?('HTTP_X_FORWARDED_HOST')
+          hosts=request.env['HTTP_X_FORWARDED_HOST'].split(',')
+          frontend=hosts[0]
+          if Rails.my_config(frontend.to_sym)
+            "#{Rails.my_config(frontend.to_sym)}://#{frontend}"
+          else
+            "https://#{frontend}"
+          end
+        else
+          Rails.my_config("base_uri_#{in_or_out}".to_sym)
+        end
+      end
     end
   end
 end
