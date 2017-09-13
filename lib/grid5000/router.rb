@@ -82,11 +82,13 @@ module Grid5000
       def base_uri(request, in_or_out = :in)
         if request.env.has_key?('HTTP_X_FORWARDED_HOST')
           hosts=request.env['HTTP_X_FORWARDED_HOST'].split(',')
-          frontend=hosts[0]
+          frontend_with_port=hosts[0]
+          frontend=frontend_with_port.split(':').first
           if Rails.my_config(frontend.to_sym)
             "#{Rails.my_config(frontend.to_sym)}://#{frontend}"
           else
-            "https://#{frontend}"
+            Rails.logger.debug "Did not find configuration entry for #{frontend.to_sym}, extracted from #{hosts}: redirecting to https"
+            "https://#{frontend_with_port}"
           end
         else
           Rails.my_config("base_uri_#{in_or_out}".to_sym)
