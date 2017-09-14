@@ -141,4 +141,5 @@ RSpec.configure do |config|
   # FIXME: this is bad, this should be removerd.
   include ApplicationHelper
 
+  config.raise_errors_for_deprecations!
 end
