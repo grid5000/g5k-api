@@ -80,17 +80,19 @@ module Grid5000
 
       # FIXME: move Rails.config to Grid5000.config
       def base_uri(request, in_or_out = :in)
-        if request.env.has_key?('HTTP_X_FORWARDED_HOST')
+        if request.env.has_key?('HTTP_X_FORWARDED_HOST') && in_or_out == :in
           hosts=request.env['HTTP_X_FORWARDED_HOST'].split(',')
           frontend_with_port=hosts[0]
           frontend=frontend_with_port.split(':').first
           if Rails.my_config(frontend.to_sym)
-            "#{Rails.my_config(frontend.to_sym)}://#{frontend}"
+            Rails.logger.debug "Using config defined protocoli to compute base_uri :in"
+            "#{Rails.my_config(frontend.to_sym)}://#{frontend_with_port}"
           else
             Rails.logger.debug "Did not find configuration entry for #{frontend.to_sym}, extracted from #{hosts}: redirecting to https"
             "https://#{frontend_with_port}"
           end
         else
+          Rails.logger.debug("HTTP_X_FORWARDED_HOST not present: suspect server was not reached through a proxy") if in_or_out == :in
           Rails.my_config("base_uri_#{in_or_out}".to_sym)
         end
       end
