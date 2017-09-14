@@ -33,6 +33,7 @@ development:
   reference_repository_path: ~/reference-repository
   smtp_host: localhost
   smtp_port: 2525
+  127.0.0.1: http
   oar:
     <<: *oar
     host: 127.0.0.1

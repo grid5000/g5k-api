@@ -195,6 +195,15 @@ describe Grid5000::Router do
       expect(Rails.my_config(:'from.config')).to eq "http"
       expect(Grid5000::Router.uri_to(request, "/sites/rennes/jobs", :in, :absolute)).to eq "http://from.config/sid/sites/rennes/jobs"
     end
+
+    it "Should allow override of protocol from config file (with explicit port)" do
+      request = double(Rack::MockRequest, :env => {
+        'HTTP_X_API_VERSION' => 'sid',
+        'HTTP_X_FORWARDED_HOST' => "from.config:8080, "+@proxy_header
+      })
+      expect(Rails.my_config(:'from.config')).to eq "http"
+      expect(Grid5000::Router.uri_to(request, "/sites/rennes/jobs", :in, :absolute)).to eq "http://from.config:8080/sid/sites/rennes/jobs"
+    end
   end
 
   it "should take into account the parameters of the config file with empty path" do
