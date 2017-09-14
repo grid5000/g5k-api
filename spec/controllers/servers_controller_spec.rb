@@ -24,8 +24,8 @@ describe ServersController do
     it "should return ONLY cluster talc-data in nancy" do      
       get :show, :branch => 'master', :site_id => "nancy", :id => "talc-data", :format => :json
       assert_media_type(:json)
-      response.body.should == '{"alias":[],"kind":"physical","monitoring":{"metric":"power","wattmeter":"multiple"},"network_adapters":{"bmc":{"ip":"172.17.79.21"},"default":{"ip":"172.16.79.21"}},"sensors":{"network":{"available":true,"resolution":1},"power":{"available":true,"resolution":1,"via":{"pdu":[{"port":20,"uid":"grisou-pdu1"},{"port":20,"uid":"grisou-pdu2"}]}}},"serial":"92ZLL82","type":"server","uid":"talc-data","warranty":11.202,"version":"8a562420c9a659256eeaafcfd89dfa917b5fb4d0","links":[{"rel":"self","type":"application/vnd.grid5000.item+json","href":"/sites/nancy/servers/talc-data"},{"rel":"parent","type":"application/vnd.grid5000.item+json","href":"/sites/nancy"},{"rel":"version","type":"application/vnd.grid5000.item+json","href":"/sites/nancy/servers/talc-data/versions/8a562420c9a659256eeaafcfd89dfa917b5fb4d0"},{"rel":"versions","type":"application/vnd.grid5000.collection+json","href":"/sites/nancy/servers/talc-data/versions"}]}'
-      response.status.should == 200
+      expect(response.body).to eq '{"alias":[],"kind":"physical","monitoring":{"metric":"power","wattmeter":"multiple"},"network_adapters":{"bmc":{"ip":"172.17.79.21"},"default":{"ip":"172.16.79.21"}},"sensors":{"network":{"available":true,"resolution":1},"power":{"available":true,"resolution":1,"via":{"pdu":[{"port":20,"uid":"grisou-pdu1"},{"port":20,"uid":"grisou-pdu2"}]}}},"serial":"92ZLL82","type":"server","uid":"talc-data","warranty":11.202,"version":"8a562420c9a659256eeaafcfd89dfa917b5fb4d0","links":[{"rel":"self","type":"application/vnd.grid5000.item+json","href":"/sites/nancy/servers/talc-data"},{"rel":"parent","type":"application/vnd.grid5000.item+json","href":"/sites/nancy"},{"rel":"version","type":"application/vnd.grid5000.item+json","href":"/sites/nancy/servers/talc-data/versions/8a562420c9a659256eeaafcfd89dfa917b5fb4d0"},{"rel":"versions","type":"application/vnd.grid5000.collection+json","href":"/sites/nancy/servers/talc-data/versions"}]}'
+      expect(response.status).to eq 200
     end # it "should return ONLY cluster talc in nancy without any queues filter" 
 
   end # "GET /sites/{{site_id}}/servers/{{id}}/"
@@ -40,14 +40,14 @@ describe ServersController do
     it "should return 2 servers in site nancy and their exact names" do
       get :index, :branch => 'master', :site_id => "nancy", :format => :json
       assert_media_type(:json)
-      response.status.should == 200
-      json["total"].should == 2
+      expect(response.status).to eq 200
+      expect(json["total"]).to eq 2
 
       serverList = []
       json["items"].each do |server|
          serverList = [server["uid"]] | serverList
       end
-      (serverList - ["storage5k", "talc-data"]).should be_empty
+      expect(serverList - ["storage5k", "talc-data"]).to be_empty
 
     end # it "should return ALL servers in site nancy" 
 
