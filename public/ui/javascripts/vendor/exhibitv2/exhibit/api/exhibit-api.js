@@ -186,7 +186,7 @@
         }
 
         if (useLocalResources) {
-            Exhibit.urlPrefix = "./javascripts/vendor/exhibitv2/exhibit/api/";
+            Exhibit.urlPrefix = "https://api.grid5000.fr/exhibitv2/exhibit/api/";
         }
 
         if (Exhibit.params.locale) { // ISO-639 language codes,
@@ -268,7 +268,7 @@
         window.SimileAjax_onLoad = loadMe;
 
         var url = useLocalResources ?
-            "./javascripts/vendor/exhibitv2/ajax/api/simile-ajax-api.js?bundle=false" :
+            "https://api.grid5000.fr/exhibitv2/ajax/api/simile-ajax-api.js?bundle=false" :
             "http://api.simile-widgets.org/ajax/2.2.3/simile-ajax-api.js";
 
         var createScriptElement = function() {

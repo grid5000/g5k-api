@@ -248,7 +248,7 @@ if (typeof SimileAjax == "undefined") {
             ];
             if (!("jQuery" in window) && !("$" in window)) {
 //                javascriptFiles.unshift("jquery-1.4.2.min.js");
-		SimileAjax.includeJavascriptFile(document, "./javascripts/vendor/exhibitv2/jquery/1.7.1/jquery.min.js");
+		SimileAjax.includeJavascriptFile(document, "https://api.grid5000.fr/exhibitv2/jquery/1.7.1/jquery.min.js");
             }
             
 
