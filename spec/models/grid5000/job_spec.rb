@@ -19,16 +19,16 @@ describe Grid5000::Job do
     it "should transform into integers a few properties" do
       now = Time.now
       job = Grid5000::Job.new(:exit_code => "0", :submitted_at => "12345", :started_at => "6789", :reservation => now, :signal => "1", :uid => "12321", :anterior => "34543", :scheduled_at => "56765", :walltime => "3600", :checkpoint => "7200")
-      job.exit_code.should == 0
-      job.submitted_at.should == 12345
-      job.started_at.should == 6789
-      job.reservation.should == now.to_i
-      job.signal.should == 1
-      job.uid.should == 12321
-      job.anterior.should == 34543
-      job.scheduled_at.should == 56765
-      job.walltime.should == 3600
-      job.checkpoint.should == 7200
+      expect(job.exit_code).to eq 0
+      expect(job.submitted_at).to eq 12345
+      expect(job.started_at).to eq 6789
+      expect(job.reservation).to eq now.to_i
+      expect(job.signal).to eq 1
+      expect(job.uid).to eq 12321
+      expect(job.anterior).to eq 34543
+      expect(job.scheduled_at).to eq 56765
+      expect(job.walltime).to eq 3600
+      expect(job.checkpoint).to eq 7200
     end
   end
   
@@ -63,10 +63,10 @@ describe Grid5000::Job do
     end
     it "should export only non-null attributes" do
       job = Grid5000::Job.new(:uid => 123)
-      job.to_hash.should == {"uid" => 123}
+      expect(job.to_hash).to eq ({"uid" => 123})
     end
     it "should return all the attributes given at creation in a hash" do
-      @job.to_hash.should == {
+      expect(@job.to_hash).to eq ({
         "walltime"=>32304, 
         "submitted_at"=>1258105888, 
         "mode" => "INTERACTIVE",
@@ -83,39 +83,39 @@ describe Grid5000::Job do
         "project" => "default",
         "properties"=>"(deploy = 'YES') AND desktop_computing = 'NO'",
         "state"=>"running"
-      }
+      })
     end
     it "should export to a hash structure valid for submitting a job to the oarapi" do
       reservation = Time.parse("2009-11-10 15:54:56Z")
       job = Grid5000::Job.new(:resources => "/nodes=1", :reservation => reservation, :command => "id", :types => ["deploy", "idempotent"], :walltime => 3600, :checkpoint => 40)
-      job.should be_valid
-      job.to_hash(:destination => "oar-2.4-submission").should == {
+      expect(job).to be_valid
+      expect(job.to_hash(:destination => "oar-2.4-submission")).to eq({
         "script"=>"id", 
         "checkpoint"=>40, 
         "walltime"=>3600, 
         "reservation"=>"2009-11-10 15:54:56", 
         "resource"=>"/nodes=1", 
         "type"=>["deploy", "idempotent"]
-      }
+      })
     end
     it "should not export the type or reservation attribute if nil or empty" do
       reservation = Time.parse("2009-11-10 14:54:56Z")
       job = Grid5000::Job.new(:resources => "/nodes=1", :reservation => nil, :command => "id", :types => nil, :walltime => 3600, :checkpoint => 40)
-      job.should be_valid
-      job.to_hash(:destination => "oar-2.4-submission").should == {
+      expect(job).to be_valid
+      expect(job.to_hash(:destination => "oar-2.4-submission")).to eq({
         "script"=>"id", 
         "checkpoint"=>40, 
         "walltime"=>3600, 
         "resource"=>"/nodes=1"
-      }
+      })
     end
 
     # abasu bug ref. 7360 - added test for import job_key_from_file --- 29.11.2016
     it "should copy import-job-key-from-file to a hash structure" do
       reservation = Time.parse("2009-11-10 15:54:56Z")
       job = Grid5000::Job.new(:resources => "/nodes=1", :reservation => reservation, :command => "id", :types => ["deploy", "idempotent"], :walltime => 3600, :checkpoint => 40, :'import-job-key-from-file' => "file://abcd")
-      job.should be_valid
-      job.to_hash(:destination => "oar-2.4-submission").should == {
+      expect(job).to be_valid
+      expect(job.to_hash(:destination => "oar-2.4-submission")).to eq({
         "script"=>"id", 
         "checkpoint"=>40, 
         "walltime"=>3600, 
@@ -123,7 +123,7 @@ describe Grid5000::Job do
         "resource"=>"/nodes=1", 
         "type"=>["deploy", "idempotent"],
         "import-job-key-from-file"=> "file://abcd"
-      }
+      })
     end # it "should copy import-job-key-from-file to a hash structure" do
   end
   
@@ -134,49 +134,49 @@ describe Grid5000::Job do
     end
     it "should correctly define the required entries for a job to be submitted" do
       job = Grid5000::Job.new(@valid_properties)
-      job.should be_valid
-      job.resources.should == '/nodes=1'
-      job.reservation.should == @at
-      job.walltime.should == 3600
-      job.command.should == 'id'
-      job.directory.should == '/home/crohr'
-      job.types.should == nil
+      expect(job).to be_valid
+      expect(job.resources).to eq '/nodes=1'
+      expect(job.reservation).to eq @at
+      expect(job.walltime).to eq 3600
+      expect(job.command).to eq 'id'
+      expect(job.directory).to eq '/home/crohr'
+      expect(job.types).to eq nil
     end
     it "should be valid if the reservation property is a Time" do
       job = Grid5000::Job.new(@valid_properties.merge(:reservation => Time.at(@at)))
-      job.should be_valid
-      job.reservation.should == @at
+      expect(job).to be_valid
+      expect(job.reservation).to eq @at
     end
     it "should be valid if the reservation property is a parseable date" do
       job = Grid5000::Job.new(@valid_properties.merge(:reservation => "2009/11/10 15:45:00 GMT+0100"))
-      job.should be_valid
-      job.reservation.should == Time.parse("2009/11/10 15:45:00 GMT+0100").to_i
+      expect(job).to be_valid
+      expect(job.reservation).to eq Time.parse("2009/11/10 15:45:00 GMT+0100").to_i
     end
     it "should should be valid if no command is passed, but this is a reservation" do
       job = Grid5000::Job.new(@valid_properties.merge(:command => ""))
-      job.should be_valid
+      expect(job).to be_valid
       job = Grid5000::Job.new(@valid_properties.merge(:command => nil))
-      job.should be_valid
+      expect(job).to be_valid
     end
     it "should not be valid if there is nothing to do on launch, and this is a submission" do
       job = Grid5000::Job.new(@valid_properties.merge(:command => "", :reservation => nil))
-      job.should_not be_valid
-      job.errors.first.should == "you must give a :command to execute on launch"
+      expect(job).to_not be_valid
+      expect(job.errors.first).to eq "you must give a :command to execute on launch"
       job = Grid5000::Job.new(@valid_properties.merge(:command => nil, :reservation => nil))
-      job.should_not be_valid
-      job.errors.first.should == "you must give a :command to execute on launch"
+      expect(job).to_not be_valid
+      expect(job.errors.first).to eq "you must give a :command to execute on launch"
     end
     it "should correctly export the property attribute, if specified" do
       job = Grid5000::Job.new(@valid_properties.merge(:properties => "cluster='genepi'", :queue => "admin"))
-      job.properties.should == "cluster='genepi'"
-      job.queue.should == "admin"
-      job.to_hash(:destination => "oar-2.4-submission").values_at('property', 'queue').should == ["cluster='genepi'", "admin"]
+      expect(job.properties).to eq "cluster='genepi'"
+      expect(job.queue).to eq "admin"
+      expect(job.to_hash(:destination => "oar-2.4-submission").values_at('property', 'queue')).to eq ["cluster='genepi'", "admin"]
     end
     it "should correctly export the std* attributes, if specified" do
       job = Grid5000::Job.new(@valid_properties.merge(:stdout => "/home/crohr/stdout", :stderr => "/home/crohr/stderr"))
-      job.stdout.should == "/home/crohr/stdout"
-      job.stderr.should == "/home/crohr/stderr"
-      job.to_hash(:destination => "oar-2.4-submission").values_at('stdout', 'stderr').should == ["/home/crohr/stdout", "/home/crohr/stderr"]
+      expect(job.stdout).to eq "/home/crohr/stdout"
+      expect(job.stderr).to eq "/home/crohr/stderr"
+      expect(job.to_hash(:destination => "oar-2.4-submission").values_at('stdout', 'stderr')).to eq ["/home/crohr/stdout", "/home/crohr/stderr"]
     end
   end
   

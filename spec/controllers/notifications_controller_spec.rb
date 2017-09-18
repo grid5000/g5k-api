@@ -19,14 +19,14 @@ describe NotificationsController do
   
   it "should return an empty list of notifications" do
     get :index, :format => :json
-    response.status.should == 200
-    json.should == {
+    expect(response.status).to eq 200
+    expect(json).to eq ({
       "items" => [],
       "total" => 0,
       "links"=>[
         {"rel"=>"parent", "href"=>"/"},
         {"rel"=>"self", "href"=>"/notifications"}
       ]
-    }
+    })
   end
 end

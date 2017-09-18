@@ -21,35 +21,35 @@ describe Grid5000::Router do
       request = double(Rack::MockRequest, :env => {
         'HTTP_X_API_VERSION' => 'sid'
       })
-      Grid5000::Router.uri_to(request, "/sites/rennes/jobs").should == "/sid/sites/rennes/jobs"
+      expect(Grid5000::Router.uri_to(request, "/sites/rennes/jobs")).to eq "/sid/sites/rennes/jobs"
     end
 
     it "should take into account X-Api-Path-Prefix header" do
       request = double(Rack::MockRequest, :env => {
         'HTTP_X_API_PATH_PREFIX' => 'grid5000'
       })
-      Grid5000::Router.uri_to(request, "/sites/rennes/jobs").should == "/grid5000/sites/rennes/jobs"
+      expect(Grid5000::Router.uri_to(request, "/sites/rennes/jobs")).to eq "/grid5000/sites/rennes/jobs"
     end
 
     it "should take into account X-Api-Root-Path header" do
       request = double(Rack::MockRequest, :env => {
         'HTTP_X_API_ROOT_PATH' => 'proxies/grid5000'
       })
-      Grid5000::Router.uri_to(request, "/sites/rennes/jobs").should == "/proxies/grid5000/sites/rennes/jobs"
+      expect(Grid5000::Router.uri_to(request, "/sites/rennes/jobs")).to eq "/proxies/grid5000/sites/rennes/jobs"
     end
 
     it "should take into account X-Api-Mount-Path header" do
       request = double(Rack::MockRequest, :env => {
         'HTTP_X_API_MOUNT_PATH' => 'sites/rennes'
       })
-      Grid5000::Router.uri_to(request, "/sites/rennes/jobs").should == "/jobs"
+      expect(Grid5000::Router.uri_to(request, "/sites/rennes/jobs")).to eq "/jobs"
     end
 
     it "should only substitute X-Api-Mount-Path header at the start of url" do
       request = double(Rack::MockRequest, :env => {
         'HTTP_X_API_MOUNT_PATH' => '/rennes'
       })
-      Grid5000::Router.uri_to(request, "/sites/rennes/jobs").should == "/sites/rennes/jobs"
+      expect(Grid5000::Router.uri_to(request, "/sites/rennes/jobs")).to eq "/sites/rennes/jobs"
     end
 
     it "should take into account both X-Api-Version and X-Api-Path-Prefix headers" do
@@ -57,7 +57,7 @@ describe Grid5000::Router do
         'HTTP_X_API_VERSION' => 'sid',
         'HTTP_X_API_PATH_PREFIX' => 'grid5000'
       })
-      Grid5000::Router.uri_to(request, "/sites/rennes/jobs").should == "/sid/grid5000/sites/rennes/jobs"
+      expect(Grid5000::Router.uri_to(request, "/sites/rennes/jobs")).to eq "/sid/grid5000/sites/rennes/jobs"
     end
 
     it "Should properly combine X-API-[Mount-Path,Version,Path-Prefix] headers" do
@@ -66,7 +66,7 @@ describe Grid5000::Router do
         'HTTP_X_API_VERSION' => 'sid',
         'HTTP_X_API_PATH_PREFIX' => 'g5k-api'
       })
-      Grid5000::Router.uri_to(request, "/sites/rennes/jobs").should == "/sid/g5k-api/jobs"
+      expect(Grid5000::Router.uri_to(request, "/sites/rennes/jobs")).to eq "/sid/g5k-api/jobs"
     end
 
     it "Should properly combine X-API-[Root-Path,Version,Path-Prefix] headers" do
@@ -75,7 +75,7 @@ describe Grid5000::Router do
         'HTTP_X_API_VERSION' => 'sid',
         'HTTP_X_API_PATH_PREFIX' => 'g5k-api'
       })
-      Grid5000::Router.uri_to(request, "/sites/rennes/jobs").should == "/proxies/grid5000/sid/g5k-api/sites/rennes/jobs"
+      expect(Grid5000::Router.uri_to(request, "/sites/rennes/jobs")).to eq "/proxies/grid5000/sid/g5k-api/sites/rennes/jobs"
     end
 
     it "Should properly combine all X-API headers supported" do
@@ -85,7 +85,7 @@ describe Grid5000::Router do
         'HTTP_X_API_VERSION' => 'sid',
         'HTTP_X_API_PATH_PREFIX' => 'g5k-api'
       })
-      Grid5000::Router.uri_to(request, "/sites/rennes/jobs").should == "/sites/fr/grid5000/sid/g5k-api/rennes/jobs"
+      expect(Grid5000::Router.uri_to(request, "/sites/rennes/jobs")).to eq "/sites/fr/grid5000/sid/g5k-api/rennes/jobs"
     end
   end
   
@@ -207,18 +207,18 @@ describe Grid5000::Router do
   end
 
   it "should take into account the parameters of the config file with empty path" do
-    Rails.my_config("base_uri_out".to_sym).should == "http://api-out.local"
+    expect(Rails.my_config("base_uri_out".to_sym)).to eq "http://api-out.local"
     request = double(Rack::MockRequest, :env => {
       'HTTP_X_API_VERSION' => 'sid'
     })
-    Grid5000::Router.uri_to(request, "/sites/rennes/internal/oarapi/jobs/374172.json", :out).should ==  "http://api-out.local/sid/sites/rennes/internal/oarapi/jobs/374172.json"
+    expect(Grid5000::Router.uri_to(request, "/sites/rennes/internal/oarapi/jobs/374172.json", :out)).to eq  "http://api-out.local/sid/sites/rennes/internal/oarapi/jobs/374172.json"
   end
 
   it "should take into account the parameters of the config file with path (for dev environment)" do
     Api::Application::CONFIG["base_uri_out"] = "http://api-out.local/sid"
-    Rails.my_config("base_uri_out".to_sym).should == "http://api-out.local/sid"
+    expect(Rails.my_config("base_uri_out".to_sym)).to eq "http://api-out.local/sid"
     request = double(Rack::MockRequest, :env => {})
-    Grid5000::Router.uri_to(request, "/sites/rennes/internal/oarapi/jobs/374172.json", :out).should ==  "http://api-out.local/sid/sites/rennes/internal/oarapi/jobs/374172.json"
+    expect(Grid5000::Router.uri_to(request, "/sites/rennes/internal/oarapi/jobs/374172.json", :out)).to eq  "http://api-out.local/sid/sites/rennes/internal/oarapi/jobs/374172.json"
   end	
 	
 end
