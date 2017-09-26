@@ -1,3 +1,21 @@
+g5k-api (4.0.2-1) jessie; urgency=low
+
+  * 3863f5b Merge pull request #39 from grid5000/bug8030-rebased-add-job-noop
+  * e407526 Add noop jobs in test database and update existing tests
+  * e664b28 Merge pull request #43 from grid5000/deprecate_should
+  * a1944ec Make sure .should syntax does not come back
+  * f6c842d Migrate specs from deprecated .should syntax
+  * 2fd3084 Merge pull request #42 from grid5000/bugs/#8542
+  * 3f24950 Use X_FORWARDED_HOST only for base_uri(:in)
+  * 7d94b4e Merge pull request #41 from grid5000/bugs/#8542
+  * 8a994fb Overide protocol for servers:port when routing
+  * 5b21807 Update webui dev environment
+  * aa68065 Make reference to exhibit relative
+  * 9391686 Merge pull request #40 from grid5000/bugs/#8536
+  * 17515ed Compute absolute urls using X-Forwarded-Host
+
+ -- David Margery <david.margery@inria.fr>  Tue, 26 Sep 2017 07:41:30 +0000
+
 g5k-api (4.0.1-1) jessie; urgency=low
 
   * 339f949 Merge pull request #37 from grid5000/bug#8489_API_ROOT_PATH
