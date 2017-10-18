@@ -70,6 +70,17 @@ module Grid5000
         Rails.my_config("base_uri_#{in_or_out}".to_sym)
       end # def base_uri()
 
+      def tls_options_for(url, in_or_out = :in)
+        tls_options={}
+        [:cert_chain_file, :private_key_file, :verify_peer, :fail_if_no_peer_cert,
+         :cipher_list, :ecdh_curve, :dhparam, :ssl_version].each do |tls_param|
+          config_key=("uri_#{in_or_out.to_s}_"+tls_param.to_s).to_sym
+          if Rails.my_config(config_key)
+            tls_options[tls_param]=Rails.my_config(config_key)
+          end
+        end
+        tls_options
+      end
     end
   end
 end
