@@ -129,7 +129,7 @@ class ApplicationController < ActionController::Base
       when 502
         raise BadGateway, msg
       else
-        raise ServerError, "Request to #{http.uri.to_s} failed with unexpected status #{status}: #{http.response} ; could be a problem with our version of eventmachine not supporting IPv6"
+        raise ServerError, "Request to #{http.uri.to_s} failed with unexpected status #{status}: #{http.response} ; could be a problem with our version of eventmachine not supporting IPv6, or TLS problems"
     end
   end
 
