@@ -5,6 +5,41 @@
 <% oardbsite = scope.lookupvar('oardbsite') -%>
 <% developer = scope.lookupvar('developer') -%>
 
+
+Listen 8443
+
+<VirtualHost *:8443>
+  TimeOut 300
+  ServerName <%= @fqdn %>
+  ServerAlias server api.grid5000.fr
+  DocumentRoot /vagrant/public
+
+	CustomLog /var/log/apache2/api-proxy-dev-ssl.log "%v %h %l %t %D \"%r\" %>s %b \"%{Referer}i\" \"%{User-agent}i\""
+  ErrorLog syslog:local1
+
+  # Set up SSL proxy engine
+  SSLEngine On
+  SSLProtocol all
+  SSLCipherSuite HIGH:MEDIUM
+  SSLCertificateFile /etc/ssl/certs/servercert.pem
+  SSLCertificateKeyFile /etc/ssl/certs/serverkey_nopass.pem
+
+  # Enable SSL client certificates verification
+  SSLCACertificateFile /etc/ssl/certs/ca.pem
+  SSLVerifyClient require
+  # the client certificate should be signed by the first CA (ca.grid5000.fr)
+  SSLVerifyDepth 1
+
+  <Location />
+    Require all granted
+    require ssl
+
+    ProxyPass http://127.0.0.1:8080/ retry=1
+  </Location>
+
+</VirtualHost>
+
+
 Listen 8080
 
 <VirtualHost *:8080>
