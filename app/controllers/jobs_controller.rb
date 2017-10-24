@@ -78,12 +78,14 @@ class JobsController < ApplicationController
       )+"/internal/oarapi/jobs/#{params[:id]}.json",
       :out
     )
+    options=tls_options_for(url, :out)
     http = EM::HttpRequest.new(url).delete(
       :timeout => 5,
       :head => {
         'X-Remote-Ident' => @credentials[:cn],
         'Accept' => media_type(:json)
-      }
+      },
+      :tls => options
     )
 
     continue_if!(http, :is => [200,202,204,404])
@@ -122,6 +124,7 @@ class JobsController < ApplicationController
     url = uri_to(
       site_path(params[:site_id])+"/internal/oarapi/jobs.json", :out
     )
+    options=tls_options_for(url, :out)
     http = EM::HttpRequest.new(url).post(
       :timeout => 20,
       :body => job_to_send.to_json,
@@ -129,7 +132,8 @@ class JobsController < ApplicationController
         'X-Remote-Ident' => @credentials[:cn],
         'Content-Type' => media_type(:json),
         'Accept' => media_type(:json)
-      }
+      },
+      :tls => options
     )
     continue_if!(http, :is => [201,202])
 

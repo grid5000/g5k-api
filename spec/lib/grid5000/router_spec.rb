@@ -220,5 +220,11 @@ describe Grid5000::Router do
     request = double(Rack::MockRequest, :env => {})
     expect(Grid5000::Router.uri_to(request, "/sites/rennes/internal/oarapi/jobs/374172.json", :out)).to eq  "http://api-out.local/sid/sites/rennes/internal/oarapi/jobs/374172.json"
   end	
-	
+
+  it "should take into account tls options" do
+    Api::Application::CONFIG["uri_out_verify_peer"] = true
+    Api::Application::CONFIG["uri_out_private_key_file"] = "/etc/ssl/certs/private/api.out.local.pem"
+    expect(tls_options_for("https://api-out.local/", :out)).to include ({private_key_file: "/etc/ssl/certs/private/api.out.local.pem"} )
+    expect(tls_options_for("https://api-out.local/", :out)).to include ({verify_peer: true} )
+  end
 end

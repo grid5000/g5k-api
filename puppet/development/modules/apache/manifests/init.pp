@@ -36,12 +36,71 @@ class apache {
   file {
     '/vagrant/lib/tasks/tunneling.rake':
       mode    => '0644',
-      owner   => root,
-      group   => root,
+      owner   => vagrant,
+      group   => vagrant,
       content => template('apache/tunneling.rake.erb'),
   }
   
-  exec {
+  file { "/etc/ssl/secret":
+    ensure => present,
+    content => "authority_pass\n",
+    mode => '0600', owner => root, group => root,
+  }
+
+  file { "/etc/ssl/certs/ca.srl":
+    ensure => present,
+    content => "01\n",
+    mode => '0644', owner => root, group => root,
+  }
+
+  exec { "Generate certificate authority":
+    command => "/usr/bin/openssl req -new -x509 -days 3650 -keyform PEM -keyout /etc/ssl/private/cakey.pem -outform PEM -out /etc/ssl/certs/ca.pem -passout file:/etc/ssl/secret -batch -subj \"/C=FR/ST=Bretagne/L=Rennes/O=dev/OU=Grid5000/CN=vagrant/emailAddress=support-staff@lists.grid5000.fr\"",
+    user => root, group => root,
+		require => File["/etc/ssl/secret"],
+    creates => "/etc/ssl/private/cakey.pem",
+  }
+
+  exec { "Create client key and csr":
+    user => root, group => root,
+    command => "/usr/bin/openssl req -new -newkey rsa:2048 -keyout /etc/ssl/certs/clientkey.pem -out /etc/ssl/clientcsr.pem  -batch -subj \"/C=FR/ST=Bretagne/L=Rennes/O=dev/OU=Grid5000/CN=client/emailAddress=support-staff@lists.grid5000.fr\" -passout file:/etc/ssl/secret",
+    creates => "/etc/ssl/clientcsr.pem",
+  }
+
+  exec { "Sign client csr":
+    user => root, group => root,
+    require => [Exec["Create client key and csr","Generate certificate authority"], File["/etc/ssl/certs/ca.srl"]],
+    command => "/usr/bin/openssl x509 -days 3650 -CA /etc/ssl/certs/ca.pem -CAkey /etc/ssl/private/cakey.pem -req -in /etc/ssl/clientcsr.pem -outform PEM -out /etc/ssl/certs/clientcert.pem  -extensions usr_cert -passin file:/etc/ssl/secret",
+    creates => "/etc/ssl/certs/clientcert.pem",
+  }
+
+  exec { "Remove client key password":
+    user => root, group => root,
+		require => Exec["Sign client csr"],
+		command => "/usr/bin/openssl rsa -in /etc/ssl/certs/clientkey.pem -out /etc/ssl/certs/clientkey_nopass.pem -passin file:/etc/ssl/secret -passout pass:''",
+		creates => "/etc/ssl/certs/clientkey_nopass.pem"
+  }
+
+  exec { "Create server key and csr":
+    user => root, group => root,
+    command => "/usr/bin/openssl req -new -newkey rsa:2048 -keyout /etc/ssl/private/serverkey.pem -out /etc/ssl/servercsr.pem -passout file:/etc/ssl/secret -batch -subj \"/C=FR/ST=Bretagne/L=Rennes/O=dev/OU=Grid5000/CN=server/emailAddress=support-staff@lists.grid5000.fr\"",
+    creates => ["/etc/ssl/servercsr.pem","/etc/ssl/private/serverkey.pem"]
+  }
+
+  exec { "Sign server csr":
+    user => root, group => root,
+    require => [Exec["Create server key and csr","Generate certificate authority"], File["/etc/ssl/certs/ca.srl"]],
+    command => "/usr/bin/openssl x509 -days 3650 -CA /etc/ssl/certs/ca.pem -CAkey /etc/ssl/private/cakey.pem -req -in /etc/ssl/servercsr.pem -outform PEM -out /etc/ssl/certs/servercert.pem -passin file:/etc/ssl/secret",
+    creates => "/etc/ssl/certs/servercert.pem",
+  }
+
+	exec { "Remove server key password":
+    user => root, group => root,
+		require => Exec["Sign server csr"],
+		command => "/usr/bin/openssl rsa -in /etc/ssl/private/serverkey.pem -out /etc/ssl/certs/serverkey_nopass.pem -passin file:/etc/ssl/secret -passout pass:''",
+		creates => "/etc/ssl/certs/serverkey_nopass.pem"
+  }
+
+	exec {
     "enable site api-proxy-dev":
       command => "/usr/sbin/a2ensite api-proxy-dev",
       unless => "/usr/bin/test -f /etc/apache2/sites-enabled/api-proxy-dev.conf",
@@ -93,6 +152,13 @@ class apache {
       before => Service["apache2"],
       notify => Service["apache2"],
       require => Package["apache2"];
+  }
+
+  exec{ "enable apache ssl module":
+	  command => "/usr/sbin/a2enmod ssl ",
+    notify => Service["apache2"],
+    creates => "/etc/apache2/mods-enabled/ssl.load",
+    require => Package["apache2-dev"];
   }
 
   exec {

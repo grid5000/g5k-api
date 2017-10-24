@@ -26,6 +26,10 @@ module ApplicationHelper
     Grid5000::Router.uri_to(request, path, in_or_out, relative_or_absolute)
   end
 
+  def tls_options_for(url, in_or_out = :in)
+    Grid5000::Router.tls_options_for(url, in_or_out)
+  end
+
   def repository
     @repository ||= Grid5000::Repository.new(
       File.expand_path(
