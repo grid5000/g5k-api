@@ -1,3 +1,12 @@
+g5k-api (4.0.3-1) jessie; urgency=low
+
+  * da382a4 Merge pull request #44 from grid5000/bugs/#8379/tls_client_certs
+  * f24a793 Add TLS as possible suspect for failed connexions
+  * dd2b063 Update dev environment to be able to test ssl
+  * 9289fc5 Implement support for tls options (bug #8379)
+
+ -- David Margery <david.margery@inria.fr>  Tue, 24 Oct 2017 14:54:23 +0000
+
 g5k-api (4.0.2-1) jessie; urgency=low
 
   * 3863f5b Merge pull request #39 from grid5000/bug8030-rebased-add-job-noop
