@@ -17,8 +17,6 @@ require 'spec_helper'
 describe Grid5000::Deployment do
 
   before(:each) do
-    @now = Time.now
-    Time.stub!(:now).and_return(@now)
     @deployment = Grid5000::Deployment.new({
       :environment => "lenny-x64-base",
       :user_uid => "crohr",
@@ -196,7 +194,7 @@ describe Grid5000::Deployment do
           "state" => "OK"
         }
       }
-      @deployment.save.should_not be_false
+      @deployment.save.should_not be false
       @deployment.reload
     end
 
@@ -236,7 +234,7 @@ describe Grid5000::Deployment do
   describe "creation" do
     it "should not allow to create a deployment if uid is nil" do
       @deployment.uid.should be_nil
-      @deployment.save.should be_false
+      @deployment.save.should be false
       @deployment.errors[:uid].should == ["must be set"]
     end
 
@@ -245,13 +243,13 @@ describe Grid5000::Deployment do
       @deployment.save
       dep = Grid5000::Deployment.new(@deployment.attributes)
       dep.uid = "whatever"
-      dep.save.should_not be_true
+      dep.save.should_not be true
       dep.errors[:uid].should == ["has already been taken"]
     end
 
     it "should set the :created_at and :updated_at attributes" do
       @deployment.uid = "1234"
-      @deployment.save.should be_true
+      @deployment.save.should be true
       @deployment.reload
       @deployment.uid.should == "1234"
       @deployment.created_at.should == @now.to_i
@@ -265,44 +263,44 @@ describe Grid5000::Deployment do
       @deployment.save!
     end
     it "should be able to go from waiting to processing" do
-      @deployment.status?(:waiting).should be_true
+      @deployment.status?(:waiting).should be true
       @deployment.should_not_receive(:deliver_notification)
       @deployment.should_receive(:launch_workflow!).and_return(true)
-      @deployment.launch.should be_true
-      @deployment.status?(:processing).should be_true
+      @deployment.launch.should be true
+      @deployment.status?(:processing).should be true
     end
     it "should not be able to go from waiting to processing if an exception is raised when launch_workflow" do
       @deployment.should_not_receive(:deliver_notification)
       @deployment.should_receive(:launch_workflow!).
         and_raise(Exception.new("some error"))
-      @deployment.status?(:waiting).should be_true
+      @deployment.status?(:waiting).should be true
       lambda{
         @deployment.launch!
       }.should raise_error(Exception, "some error")
-      @deployment.status?(:processing).should be_false
+      @deployment.status?(:processing).should be false
     end
 
     describe "once it is in the :processing state" do
       before do
-        @deployment.stub!(:launch_workflow!).and_return(true)
+        allow(@deployment).to receive(:launch_workflow!).and_return(true)
         @deployment.launch!
-        @deployment.status?(:processing).should be_true
+        @deployment.status?(:processing).should be true
       end
       it "should be able to go from processing to processing" do
         @deployment.should_not_receive(:deliver_notification)
-        @deployment.process.should be_true
-        @deployment.status?(:processing).should be_true
+        @deployment.process.should be true
+        @deployment.status?(:processing).should be true
       end
       it "should be able to go from processing to terminated, and should call :deliver_notification" do
         @deployment.should_receive(:deliver_notification)
-        @deployment.terminate.should be_true
-        @deployment.status?(:terminated).should be_true
+        @deployment.terminate.should be true
+        @deployment.status?(:terminated).should be true
       end
       it "should be able to go from processing to canceled, and should call :deliver_notification" do
         @deployment.should_receive(:cancel_workflow!).and_return(true)
         @deployment.should_receive(:deliver_notification)
-        @deployment.cancel.should be_true
-        @deployment.status?(:canceled).should be_true
+        @deployment.cancel.should be true
+        @deployment.status?(:canceled).should be true
       end
       it "should not be able to go from processing to canceled if an exception is raised when cancel_workflow" do
         @deployment.should_receive(:cancel_workflow!).
@@ -311,17 +309,17 @@ describe Grid5000::Deployment do
         lambda{
           @deployment.cancel
         }.should raise_error(Exception, "some error")
-        @deployment.status?(:canceled).should be_false
+        @deployment.status?(:canceled).should be false
       end
       it "should be able to go from processing to error, and should call :deliver_notification" do
         @deployment.should_receive(:deliver_notification)
-        @deployment.fail.should be_true
-        @deployment.status?(:error).should be_true
+        @deployment.fail.should be true
+        @deployment.status?(:error).should be true
       end
       it "should not be able to go from canceled to terminated" do
         @deployment.update_attribute(:status, "canceled")
-        @deployment.terminate.should be_false
-        @deployment.status?(:canceled).should be_true
+        @deployment.terminate.should be false
+        @deployment.status?(:canceled).should be true
       end
     end
   end
@@ -355,7 +353,7 @@ describe Grid5000::Deployment do
       before do
         @deployment.stub!(:launch_workflow!).and_return("some-uid")
         @deployment.launch!
-        @deployment.status?(:processing).should be_true
+        @deployment.status?(:processing).should be true
       end
 
       describe "cancel_workflow!" do
@@ -368,12 +366,12 @@ describe Grid5000::Deployment do
         end
         it "should return true if correctly canceled on the kadeploy-server" do
           @kserver.should_receive(:cancel!).and_return(true)
-          @deployment.cancel_workflow!.should be_true
+          @deployment.cancel_workflow!.should be true
         end
         it "should transition to the error state if not correctly canceled on the kadeploy-server" do
           @kserver.should_receive(:cancel!).and_return(false)
-          @deployment.cancel_workflow!.should be_true
-          @deployment.reload.status?(:error).should be_true
+          @deployment.cancel_workflow!.should be true
+          @deployment.reload.status?(:error).should be true
         end
       end
 
@@ -394,7 +392,7 @@ describe Grid5000::Deployment do
         it "should set the status to :terminated if deployment is finished" do
           @kserver.should_receive(:touch!).
             and_return([:terminated, @result, @output])
-          @deployment.touch!.should be_true
+          @deployment.touch!.should be true
           @deployment.reload
           @deployment.status.should == "terminated"
           @deployment.result.should == @result
@@ -404,7 +402,7 @@ describe Grid5000::Deployment do
           @kserver.should_receive(:touch!).
             and_return([:error, nil, @output])
 
-          @deployment.touch!.should be_true
+          @deployment.touch!.should be true
           @deployment.reload
           @deployment.status.should == "error"
           @deployment.output.should == @output
@@ -413,7 +411,7 @@ describe Grid5000::Deployment do
           @kserver.should_receive(:touch!).
             and_return([:canceled, nil, @output])
 
-          @deployment.touch!.should be_true
+          @deployment.touch!.should be true
           @deployment.reload
           @deployment.status.should == "error"
           @deployment.output.should == @output
@@ -429,27 +427,27 @@ describe Grid5000::Deployment do
     it "should not deliver a notification if notifications is blank" do
       @deployment.notifications = nil
       Grid5000::Notification.should_not_receive(:new)
-      @deployment.deliver_notification.should be_true
+      @deployment.deliver_notification.should be true
     end
 
     it "should deliver a notification if notifications is not empty" do
       @deployment.notifications = ["xmpp:crohr@jabber.grid5000.fr"]
-      @deployment.stub!(:notification_message).and_return(msg = "msg")
+      allow(@deployment).to receive(:notification_message).and_return(msg = "msg")
       Grid5000::Notification.should_receive(:new).
         with(msg, :to => ["xmpp:crohr@jabber.grid5000.fr"]).
-        and_return(notif = mock("notif"))
+        and_return(notif = double("notif"))
       notif.should_receive(:deliver!).and_return(true)
-      @deployment.deliver_notification.should be_true
+      @deployment.deliver_notification.should be true
     end
 
     it "should always return true even if the notification delivery failed" do
       @deployment.notifications = ["xmpp:crohr@jabber.grid5000.fr"]
-      @deployment.stub!(:notification_message).and_return(msg = "msg")
+      allow(@deployment).to receive(:notification_message).and_return(msg = "msg")
       Grid5000::Notification.should_receive(:new).
         with(msg, :to => ["xmpp:crohr@jabber.grid5000.fr"]).
-        and_return(notif = mock("notif"))
+        and_return(notif = double("notif"))
       notif.should_receive(:deliver!).and_raise(Exception.new("message"))
-      @deployment.deliver_notification.should be_true
+      @deployment.deliver_notification.should be true
     end
 
     it "build the correct notification message" do
