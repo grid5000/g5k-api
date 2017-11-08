@@ -1,3 +1,15 @@
+g5k-api (3.5.8-1) jessie; urgency=low
+
+  * 6b28b9d Merge pull request #45 from grid5000/bugs/#8379/tls_client_certs_v3
+  * f7616da Upgrade the Box' packages upon provision
+  * 3e63764 Add TLS as possible suspect for failed connexions
+  * 359e1ee Update dev environment to be able to test ssl
+  * b35ba75 Implement support for tls options (bug #8379)
+  * 893aee0 Update to rspecs supporting rake 12.0 for 3.x code
+  * d2a6790 Update to rspec-rails & rspec supporting rake 12.0
+
+ -- David Margery <david.margery@inria.fr>  Wed, 08 Nov 2017 10:56:03 +0000
+
 g5k-api (3.5.7-1) jessie; urgency=low
 
   * 5a40e72 Fix bug #8266: correct XMPP reconnection retries
