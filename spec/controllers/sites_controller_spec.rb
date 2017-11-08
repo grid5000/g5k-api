@@ -111,8 +111,8 @@ describe SitesController do
       response.status.should == 200
       json['uid'].should == 'rennes'
       json['links'].find{|l|
-        l['rel'] == 'deployment'
-      }['href'].should == "/sites/rennes/deployment"
+        l['rel'] == 'deployments'
+      }['href'].should == "/sites/rennes/deployments"
     end # it "should return link for deployment" do
     
     # abasu 26.10.2016 - bug #7301 should return link /servers if present in site

@@ -35,7 +35,7 @@ describe DeploymentsController do
       json['items'].length.should == 10
       json['items'].map{|i| i['uid']}.should == (0...10).map{|i| "uid#{i}"}.reverse
 
-      json['items'].all?{|i| i.has_key?('links')}.should be_true
+      json['items'].all?{|i| i.has_key?('links')}.should be true
 
 
       json['items'][0]['links'].should == [
@@ -172,7 +172,7 @@ describe DeploymentsController do
 
       dep = Grid5000::Deployment.find_by_uid("kadeploy-api-provided-wid")
       dep.should_not be_nil
-      dep.status?(:processing).should be_true
+      dep.status?(:processing).should be true
     end
   end # describe "POST /sites/{{site_id}}/deployments"
 

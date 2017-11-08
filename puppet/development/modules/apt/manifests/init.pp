@@ -1,6 +1,6 @@
 class apt {
   Package {
-    require => Exec["sources update"]
+    require => Exec["sources update","Box upgrade"]
   }
 
   exec { "sources update":
@@ -9,6 +9,12 @@ class apt {
       #refreshonly => true;
   }
   
+  exec { "Box upgrade":
+      command => "apt-get -y upgrade",
+      path => "/usr/bin:/usr/sbin:/bin:/usr/local/sbin:/sbin",
+      #refreshonly => true;
+  }
+
 }
 
 class apt::allowunauthenticated inherits apt {
