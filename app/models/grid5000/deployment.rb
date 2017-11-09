@@ -20,7 +20,7 @@ module Grid5000
   class Deployment < ActiveRecord::Base
     attr_accessor :links
     # Ugly hack to make the communication between the controller and the model possible
-    attr_accessor :base_uri, :user
+    attr_accessor :base_uri, :user, :tls_options
 
     SERIALIZED_ATTRIBUTES = [:nodes, :notifications, :result]
 
@@ -132,7 +132,8 @@ module Grid5000
         :head => {
           #'Accept' => '*/*',
           'X-Remote-Ident' => user,
-        }
+        },
+        :tls => tls_options
       )
       http.errback{ error("Unable to contact #{File.join(base_uri,uid)}"); raise self.output+"\n" }
 
@@ -155,7 +156,8 @@ module Grid5000
         case scheme
         when 'http','https'
           begin
-            http = EM::HttpRequest.new(environment).get(:timeout=>10)
+            http = EM::HttpRequest.new(environment).get(:timeout=>10,
+                                                        :tls => tls_options)
             params['environment'] = YAML.load(http.response)
             params['environment']['kind'] = 'anonymous'
           rescue Exception => e
@@ -176,7 +178,8 @@ module Grid5000
           'Content-Type' => Mime::Type.lookup_by_extension(:json).to_s,
           'Accept' => Mime::Type.lookup_by_extension(:json).to_s,
           'X-Remote-Ident' => user,
-        }
+        },
+        :tls => tls_options
       )
       http.errback{ error("Unable to contact #{base_uri}"); raise self.output+"\n" }
 
@@ -197,7 +200,8 @@ module Grid5000
         :head => {
           'Accept' => Mime::Type.lookup_by_extension(:json).to_s,
           'X-Remote-Ident' => user,
-        }
+        },
+        :tls => tls_options
       )
       http.errback{ error("Unable to contact #{File.join(base_uri,uid)}"); raise self.output+"\n" }
 
@@ -210,7 +214,8 @@ module Grid5000
             :head => {
               'Accept' => Mime::Type.lookup_by_extension(:json).to_s,
               'X-Remote-Ident' => user,
-            }
+            },
+            :tls => tls_options
           )
           http.errback{ error("Unable to contact #{File.join(base_uri,uid,'state')}"); raise self.output+"\n" }
           res = JSON.parse(http.response)
@@ -225,7 +230,8 @@ module Grid5000
             :head => {
               #'Accept' => '*/*',
               'X-Remote-Ident' => user,
-            }
+            },
+            :tls => tls_options
           )
           error(get_kaerror(http.response,http.response_header))
           http.errback{ error("Unable to contact #{File.join(base_uri,uid,'error')}"); raise self.output+"\n" }

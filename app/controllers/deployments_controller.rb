@@ -72,6 +72,7 @@ class DeploymentsController < ApplicationController
     dpl = find_item(params[:id])
     authorize!(dpl.user_uid)
     dpl.base_uri = api_path()
+    dpl.tls_options=tls_options_for(dpl.base_uri, :out)
     dpl.user = @credentials[:cn]
 
     begin
@@ -102,6 +103,7 @@ class DeploymentsController < ApplicationController
     dpl.site_uid = Rails.whoami
     dpl.user = @credentials[:cn]
     dpl.base_uri = api_path()
+    dpl.tls_options=tls_options_for(dpl.base_uri, :out)
 
     Rails.logger.info "Received deployment = #{dpl.inspect}"
     raise BadRequest, "The deployment you are trying to submit is not valid: #{dpl.errors.to_a.join("; ")}" unless dpl.valid?
@@ -143,6 +145,7 @@ class DeploymentsController < ApplicationController
   def update
     dpl = find_item(params[:id])
     dpl.base_uri = api_path()
+    dpl.tls_options=tls_options_for(dpl.base_uri, :out)
     dpl.user = 'root' # Ugly hack since no auth is needed for this method on theg5k API
 
     begin
