@@ -1,3 +1,10 @@
+g5k-api (3.5.9-1) jessie; urgency=low
+
+  * 67f20d5 Implement support for tls options (bug #8379)
+  * 2e1192b Patch tunnels for development to access v3 tunnels
+
+ -- David Margery <david.margery@inria.fr>  Thu, 09 Nov 2017 12:57:57 +0000
+
 g5k-api (3.5.8-1) jessie; urgency=low
 
   * 6b28b9d Merge pull request #45 from grid5000/bugs/#8379/tls_client_certs_v3
