@@ -83,6 +83,7 @@ class JobsController < ApplicationController
       :timeout => 5,
       :head => {
         'X-Remote-Ident' => @credentials[:cn],
+        'X-Api-User-Cn' => @credentials[:cn],
         'Accept' => media_type(:json)
       },
       :tls => options
@@ -130,6 +131,7 @@ class JobsController < ApplicationController
       :body => job_to_send.to_json,
       :head => {
         'X-Remote-Ident' => @credentials[:cn],
+        'X-Api-User-Cn' => @credentials[:cn],
         'Content-Type' => media_type(:json),
         'Accept' => media_type(:json)
       },
