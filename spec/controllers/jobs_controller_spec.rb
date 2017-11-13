@@ -111,7 +111,8 @@ describe JobsController do
           :headers => {
             'Accept' => media_type(:json),
             'Content-Type' => media_type(:json),
-            'X-Remote-Ident' => "crohr"
+            'X-Remote-Ident' => "crohr",
+            'X-Api-User-Cn' => "crohr"
           },
           :body => Grid5000::Job.new(payload).to_hash(:destination => "oar-2.4-submission").to_json
         ).
@@ -136,7 +137,8 @@ describe JobsController do
           :headers => {
             'Accept' => media_type(:json),
             'Content-Type' => media_type(:json),
-            'X-Remote-Ident' => "crohr"
+            'X-Remote-Ident' => "crohr",
+            'X-Api-User-Cn' => "crohr"
           },
           :body => Grid5000::Job.new(payload).to_hash(:destination => "oar-2.4-submission").to_json
         ).
@@ -161,7 +163,8 @@ describe JobsController do
           :headers => {
             'Accept' => media_type(:json),
             'Content-Type' => media_type(:json),
-            'X-Remote-Ident' => "xyz"
+            'X-Remote-Ident' => "xyz",
+            'X-Api-User-Cn' => "xyz"
           },
           :body => Grid5000::Job.new(payload).to_hash(:destination => "oar-2.4-submission").to_json
         ).
@@ -185,7 +188,8 @@ describe JobsController do
           :headers => {
             'Accept' => media_type(:json),
             'Content-Type' => media_type(:json),
-            'X-Remote-Ident' => "crohr"
+            'X-Remote-Ident' => "crohr",
+            'X-Api-User-Cn' => "crohr"
           },
           :body => Grid5000::Job.new(payload).to_hash(:destination => "oar-2.4-submission").to_json
         ).
@@ -215,7 +219,8 @@ describe JobsController do
       @expected_url = "http://api-out.local:80/sites/rennes/internal/oarapi/jobs/#{@job.uid}.json"
       @expected_headers = {
         'Accept' => media_type(:json),
-        'X-Remote-Ident' => @job.user
+        'X-Remote-Ident' => @job.user,
+        'X-Api-User-Cn' => @job.user
       }
     end
 
