@@ -1,3 +1,10 @@
+g5k-api (4.0.4-1) jessie; urgency=low
+
+  * 55ed2a5 Merge pull request #46 from grid5000/bug8464-api-headers
+  * 9f63136 Add 'X-Api-User-Cn' together with 'X-Remote-Ident' header when calling OAR API
+
+ -- David Margery <david.margery@inria.fr>  Tue, 05 Dec 2017 12:39:56 +0000
+
 g5k-api (4.0.3-1) jessie; urgency=low
 
   * da382a4 Merge pull request #44 from grid5000/bugs/#8379/tls_client_certs
