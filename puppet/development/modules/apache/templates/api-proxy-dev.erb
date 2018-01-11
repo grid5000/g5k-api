@@ -12,7 +12,7 @@ Listen 8443
   TimeOut 300
   ServerName <%= @fqdn %>
   ServerAlias server api.grid5000.fr
-  DocumentRoot /vagrant/public
+  DocumentRoot <%= @workspace %>/public
 
 	CustomLog /var/log/apache2/api-proxy-dev-ssl.log "%v %h %l %t %D \"%r\" %>s %b \"%{Referer}i\" \"%{User-agent}i\""
   ErrorLog syslog:local1
@@ -46,8 +46,8 @@ Listen 8080
   TimeOut 600
   ServerName <%= @fqdn %>
   ServerAlias api.grid5000.fr
-  DocumentRoot /vagrant/public
-  <Directory /vagrant/public/ui/javascripts/vendor/exhibitv2>
+  DocumentRoot <%= @workspace %>/public
+  <Directory <%= @workspace %>/public/ui/javascripts/vendor/exhibitv2>
     Options -Indexes
   </Directory>
   # see http://httpd.apache.org/docs/2.0/mod/mod_log_config.html#customlog
@@ -111,7 +111,7 @@ Listen 8080
 <VirtualHost *:4444>
   TimeOut 60
   ServerName <%= @fqdn %>
-  DocumentRoot /vagrant/public
+  DocumentRoot <%= @workspace %>/public
   # see http://httpd.apache.org/docs/2.0/mod/mod_log_config.html#customlog
   CustomLog /var/log/apache2/api-proxy-dev-2.log "%v %h %{X-Api-User-Cn}i %t %D \"%r\" %>s %b \"%{Referer}i\" \"%{User-agent}i\""
   ErrorLog syslog:local1

@@ -100,6 +100,8 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     puppet.environment = 'development'
     puppet.environment_path = "puppet"
     puppet.facter = {
+      "owner" => ENV['OWNER']||'vagrant',
+      "workspace" => ENV['WORKSPACE']||'/vagrant',
       "developer" => ENV['DEVELOPER']||'ajenkins',
       "oardbsite" => ENV['OAR_DB_SITE']||'rennes'
     }
