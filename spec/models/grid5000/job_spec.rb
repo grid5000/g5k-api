@@ -86,7 +86,7 @@ describe Grid5000::Job do
       }
     end
     it "should export to a hash structure valid for submitting a job to the oarapi" do
-      reservation = Time.parse("2009-11-10 15:54:56Z")
+      reservation = Time.parse("2009-11-10 15:54:56")
       job = Grid5000::Job.new(:resources => "/nodes=1", :reservation => reservation, :command => "id", :types => ["deploy", "idempotent"], :walltime => 3600, :checkpoint => 40)
       job.should be_valid
       job.to_hash(:destination => "oar-2.4-submission").should == {
@@ -99,7 +99,7 @@ describe Grid5000::Job do
       }
     end
     it "should not export the type or reservation attribute if nil or empty" do
-      reservation = Time.parse("2009-11-10 14:54:56Z")
+      reservation = Time.parse("2009-11-10 14:54:56")
       job = Grid5000::Job.new(:resources => "/nodes=1", :reservation => nil, :command => "id", :types => nil, :walltime => 3600, :checkpoint => 40)
       job.should be_valid
       job.to_hash(:destination => "oar-2.4-submission").should == {
