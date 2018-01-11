@@ -34,10 +34,10 @@ class apache {
   }
 
   file {
-    '/vagrant/lib/tasks/tunneling.rake':
+    "$workspace/lib/tasks/tunneling.rake":
       mode    => '0644',
-      owner   => vagrant,
-      group   => vagrant,
+      owner   => $owner,
+      group   => $owner,
       content => template('apache/tunneling.rake.erb'),
   }
   
@@ -54,7 +54,7 @@ class apache {
   }
 
   exec { "Generate certificate authority":
-    command => "/usr/bin/openssl req -new -x509 -days 3650 -keyform PEM -keyout /etc/ssl/private/cakey.pem -outform PEM -out /etc/ssl/certs/ca.pem -passout file:/etc/ssl/secret -batch -subj \"/C=FR/ST=Bretagne/L=Rennes/O=dev/OU=Grid5000/CN=vagrant/emailAddress=support-staff@lists.grid5000.fr\"",
+    command => "/usr/bin/openssl req -new -x509 -days 3650 -keyform PEM -keyout /etc/ssl/private/cakey.pem -outform PEM -out /etc/ssl/certs/ca.pem -passout file:/etc/ssl/secret -batch -subj \"/C=FR/ST=Bretagne/L=Rennes/O=dev/OU=Grid5000/CN=$owner/emailAddress=support-staff@lists.grid5000.fr\"",
     user => root, group => root,
 		require => File["/etc/ssl/secret"],
     creates => "/etc/ssl/private/cakey.pem",
