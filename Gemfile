@@ -26,6 +26,7 @@ group :test do
   gem 'webmock'
   gem 'rspec'
   gem 'rspec-rails'
+  gem 'rspec_junit_formatter', '~> 0.3.0' #for tests generated for Jenkins
   gem 'autotest'
   gem 'autotest-growl'
   gem 'factory_girl_rails'
