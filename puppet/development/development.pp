@@ -15,6 +15,7 @@ class development {
     'oar2_dev':
       ensure => present;
   }
+
   postgres::database {
     'oar2_test':
       ensure => present;
@@ -24,9 +25,16 @@ class development {
     user => postgres,
     command => "/bin/echo \"CREATE USER root PASSWORD 'oar'; GRANT ALL PRIVILEGES ON *.oar2_dev TO 'root' ;GRANT ALL PRIVILEGES ON *.oar2_test TO 'root' ;\" | /usr/bin/psql ",
     unless => "/bin/echo \"SELECT rolname FROM pg_roles;\" | /usr/bin/psql | grep root",
-    require => Service['postgresql']
+    require => [Service['postgresql'],Postgres::Database['oar2_test'],Postgres::Database['oar2_dev']]
   }
-  
+
+  exec{ "give ownership of oar2 databases to root":
+    user => postgres,
+    command => "/bin/echo \"ALTER DATABASE oar2_dev OWNER TO root; ALTER DATABASE oar2_test OWNER TO root;\" | /usr/bin/psql ",
+    unless => "/usr/bin/psql -l | grep oar2 | grep root",
+    require => Exec["allow connections to postgres for root"]
+  }
+
   mysql::database {
     'g5kapi_dev':
       ensure => present;

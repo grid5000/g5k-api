@@ -1,7 +1,7 @@
 class postgres {
 
   package{
-    'postgresql':
+    ['postgresql','postgresql-client']:
       ensure   => installed,
   }
 
