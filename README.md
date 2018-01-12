@@ -172,6 +172,7 @@ to create a test database, and a fake OAR database.
 
 * Create the fake OAR database as follows:
 
+        $ RAILS_ENV=test rake db:oar:create # provisioned by puppet
         $ RAILS_ENV=test rake db:oar:seed
 
 * Launch the tests:
