@@ -20,33 +20,33 @@ describe SitesController do
   describe "GET /sites" do
     it "should get the correct collection of sites" do
       get :index, :format => :json
-      response.status.should == 200
-      json['total'].should == 4
-      json['items'].length.should == 4
-      json['items'][0]['uid'].should == 'bordeaux'
-      json['items'][0]['links'].should be_a(Array)
+      expect(response.status).to eq 200
+      expect(json['total']).to eq 4
+      expect(json['items'].length).to eq 4
+      expect(json['items'][0]['uid']).to eq 'bordeaux'
+      expect(json['items'][0]['links']).to be_a(Array)
     end
 
     it "should correctly set the URIs when X-Api-Path-Prefix is present" do
       @request.env['HTTP_X_API_PATH_PREFIX'] = 'sid'
       get :index, :format => :json
-      response.status.should == 200
-      json['links'].find{|l| l['rel'] == 'self'}['href'].should == "/sid/sites"
+      expect(response.status).to eq 200
+      expect(json['links'].find{|l| l['rel'] == 'self'}['href']).to eq "/sid/sites"
     end
 
     it "should correctly set the URIs when X-Api-Mount-Path is present" do
       @request.env['HTTP_X_API_MOUNT_PATH'] = '/sites'
       get :index, :format => :json
-      response.status.should == 200
-      json['links'].find{|l| l['rel'] == 'self'}['href'].should == "/"
+      expect(response.status).to eq 200
+      expect(json['links'].find{|l| l['rel'] == 'self'}['href']).to eq "/"
     end
 
     it "should correctly set the URIs when X-Api-Mount-Path and X-Api-Path-Prefix are present" do
       @request.env['HTTP_X_API_PATH_PREFIX'] = 'sid'
       @request.env['HTTP_X_API_MOUNT_PATH'] = '/sites'
       get :index, :format => :json
-      response.status.should == 200
-      json['links'].find{|l| l['rel'] == 'self'}['href'].should == "/sid"
+      expect(response.status).to eq 200
+      expect(json['links'].find{|l| l['rel'] == 'self'}['href']).to eq "/sid"
     end
 
   end # describe "GET /sites"
@@ -54,15 +54,15 @@ describe SitesController do
   describe "GET /sites/{{site_id}}" do
     it "should fail if the site does not exist" do
       get :show, :id => "doesnotexist", :format => :json
-      response.status.should == 404
+      expect(response.status).to eq 404
     end
 
     it "should return the site" do      
       get :show, :id => "rennes", :format => :json
-      response.status.should == 200
+      expect(response.status).to eq 200
       assert_expires_in(60, :public => true)
-      json['uid'].should == 'rennes'
-      json['links'].map{|l| l['rel']}.sort.should == [
+      expect(json['uid']).to eq 'rennes'
+      expect(json['links'].map{|l| l['rel']}.sort).to eq [
         "clusters",
         "deployments",
         "environments",
@@ -75,21 +75,21 @@ describe SitesController do
         "versions",
         "vlans"
       ]
-      json['links'].find{|l|
+      expect(json['links'].find{|l|
         l['rel'] == 'self'
-      }['href'].should == "/sites/rennes"
-      json['links'].find{|l|
+      }['href']).to eq "/sites/rennes"
+      expect(json['links'].find{|l|
         l['rel'] == 'clusters'
-      }['href'].should == "/sites/rennes/clusters"
-      json['links'].find{|l|
+      }['href']).to eq "/sites/rennes/clusters"
+      expect(json['links'].find{|l|
         l['rel'] == 'version'
-      }['href'].should == "/sites/rennes/versions/8a562420c9a659256eeaafcfd89dfa917b5fb4d0"
+      }['href']).to eq "/sites/rennes/versions/8a562420c9a659256eeaafcfd89dfa917b5fb4d0"
     end
     
     it "should return subresource links that are only in testing branch" do
       get :show, :id => "lille", :format => :json, :branch => "testing"
-      response.status.should == 200
-      json['links'].map{|l| l['rel']}.sort.should == [
+      expect(response.status).to eq 200
+      expect(json['links'].map{|l| l['rel']}.sort).to eq [
         "clusters",
         "deployments",
         "environments",
@@ -108,32 +108,32 @@ describe SitesController do
     # abasu 19.10.2016 - bug #7364 changed "deployments" to "deployment"
     it "should return link for deployment" do
       get :show, :id => "rennes", :format => :json
-      response.status.should == 200
-      json['uid'].should == 'rennes'
-      json['links'].find{|l|
+      expect(response.status).to eq 200
+      expect(json['uid']).to eq 'rennes'
+      expect(json['links'].find{|l|
         l['rel'] == 'deployments'
-      }['href'].should == "/sites/rennes/deployments"
+      }['href']).to eq "/sites/rennes/deployments"
     end # it "should return link for deployment" do
     
     # abasu 26.10.2016 - bug #7301 should return link /servers if present in site
     it "should return link /servers if present in site" do
       get :show, :id => "nancy", :format => :json
-      response.status.should == 200
-      json['uid'].should == 'nancy'
-      json['links'].find{|l|
+      expect(response.status).to eq 200
+      expect(json['uid']).to eq 'nancy'
+      expect(json['links'].find{|l|
         l['rel'] == 'servers'
-      }['href'].should == "/sites/nancy/servers"
+      }['href']).to eq "/sites/nancy/servers"
     end # it "should return link /servers if present in site" do
 
     it "should return the specified version, and the max-age value in the Cache-Control header should be big" do
       get :show, :id => "rennes", :format => :json, :version => "b00bd30bf69c322ffe9aca7a9f6e3be0f29e20f4"
-      response.status.should == 200
+      expect(response.status).to eq 200
       assert_expires_in(24*3600*30, :public => true)
-      json['uid'].should == 'rennes'
-      json['version'].should == 'b00bd30bf69c322ffe9aca7a9f6e3be0f29e20f4'
-      json['links'].find{|l|
+      expect(json['uid']).to eq 'rennes'
+      expect(json['version']).to eq 'b00bd30bf69c322ffe9aca7a9f6e3be0f29e20f4'
+      expect(json['links'].find{|l|
         l['rel'] == 'version'
-      }['href'].should == "/sites/rennes/versions/b00bd30bf69c322ffe9aca7a9f6e3be0f29e20f4"
+      }['href']).to eq "/sites/rennes/versions/b00bd30bf69c322ffe9aca7a9f6e3be0f29e20f4"
     end
   end # describe "GET /sites/{{site_id}}"
 
@@ -141,15 +141,26 @@ describe SitesController do
   describe "GET /sites/{{site_id}}/status" do
     it "should return 200 and the site status" do
       get :status, :id => "rennes", :format => :json
-      response.status.should == 200
-
-      json['nodes'].length.should == 196
-      json['nodes'].keys.map{|k| k.split('-')[0]}.uniq.sort.should == [
+      expect(response.status).to eq 200
+      expect(json['nodes'].length).to eq 196
+      expect(json['nodes'].keys.map{|k| k.split('-')[0]}.uniq.sort).to eq [
         'paraquad',
         'paramount',
         'paravent'
       ].sort
+      expect(json['disks']).to be_empty # no reservable disks on paramount-4
+      expect(json['nodes']['paramount-4.rennes.grid5000.fr']['reservations']).not_to be_nil
     end
+
+    # GET /sites/{{site_id}}/status?network_address={{network_address}}
+    it "should return the status ONLY for the specified node" do      
+      get :status, :id => "rennes", :network_address => "paramount-4.rennes.grid5000.fr", :format => :json
+      expect(response.status).to eq 200
+      expect(json['nodes'].keys.map{|k| k.split('.')[0]}.uniq.sort).to eq ['paramount-4']
+      expect(json['disks']).to be_empty
+      expect(json['nodes']['paramount-4.rennes.grid5000.fr']['reservations']).not_to be_nil
+    end
+
     # it "should fail if the site does not exist" do
     #   pending "this will be taken care of at the api-proxy layer"
     # end
