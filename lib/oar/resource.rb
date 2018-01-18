@@ -60,14 +60,19 @@ module OAR
           "resource_id, cluster, network_address, core, state, available_upto#{include_comment ? ", comment" : ""}"
         )
 
-        # Remove blank network addresses
-        resources = resources.where("network_address <> ''")
+        resources = resources.where(
+          :network_address => options[:network_address]
+        ) unless options[:network_address].blank?
 
         resources = resources.where(
           :cluster => options[:clusters]
         ) unless options[:clusters].blank?
-        resources = resources.index_by(&:resource_id)
 
+        # Remove blank network addresses
+        resources = resources.where("network_address <> ''")
+
+        resources = resources.index_by(&:resource_id)
+        
  	# abasu : Introduce a hash table to store counts of free / busy cores per node - 05.02.2015
         # abasu : This hash table can be used to store other counters in future (add another element)
         nodes_counter = {}
@@ -77,7 +82,7 @@ module OAR
 	  nodes_counter[resource.network_address]= {
                 :totalcores => 0,
                 :busycounter => 0,
-                :besteffortcounter => 0 
+                :besteffortcounter => 0
               } if !nodes_counter.has_key?(resource.network_address)
           if !resource.core.zero?
             # core=0 for non default type of resources
@@ -225,14 +230,21 @@ module OAR
           "resource_id, cluster, host, disk, diskpath"
         )
 
+        # Column host of a disk resource is equal to column
+        # network_address of the node it belongs to
+        resources = resources.where(
+          :host => options[:network_address]
+        ) unless options[:network_address].blank?
+
+        resources = resources.where(
+          :cluster => options[:clusters]
+        ) unless options[:clusters].blank?
+
         # Keep only disks
         resources = resources.where(
           :type => 'disk'
         )
 
-        resources = resources.where(
-          :cluster => options[:clusters]
-        ) unless options[:clusters].blank?
         resources = resources.index_by(&:resource_id)
 
         get_active_jobs_by_moldable_id().each do |moldable_id, h|
