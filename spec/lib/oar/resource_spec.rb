@@ -67,6 +67,10 @@ describe OAR::Resource do
       map{|n| n.split(".")[0]}.uniq.sort).to eq ['parasilo-1']
   end
 
+  it "should not return the reservations" do
+    expect(OAR::Resource.status(:job_details => 'no').map{ |e| e[1]['reservations'] }.compact).to be_empty
+  end
+
   # abasu : test added to check new status values -- bug ref 5106
   it "should return a node with status free_busy" do
     expect(OAR::Resource.status.select do |node, status|
