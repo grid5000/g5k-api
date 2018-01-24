@@ -26,7 +26,7 @@ class SitesController < ResourcesController
 
     result = {
       "uid" => Time.now.to_i,
-      "nodes" => OAR::Resource.status(:clusters => valid_clusters, :network_address => params[:network_address]),
+      "nodes" => OAR::Resource.status(:clusters => valid_clusters, :network_address => params[:network_address], :job_details => params[:job_details]),
       "links" => [
         {
           "rel" => "self",
@@ -40,7 +40,7 @@ class SitesController < ResourcesController
         }
       ]
     }
-    result["disks"] = OAR::Resource.disk_status(:clusters => valid_clusters, :network_address => params[:network_address]) if params[:disks] != "no"
+    result["disks"] = OAR::Resource.disk_status(:clusters => valid_clusters, :network_address => params[:network_address], :job_details => params[:job_details]) if params[:disks] != "no"
     
     respond_to do |format|
       format.g5kitemjson { render :json => result }
