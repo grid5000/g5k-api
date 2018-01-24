@@ -26,7 +26,6 @@ class ClustersController < ResourcesController
     result = {
       "uid" => Time.now.to_i,
       "nodes" => OAR::Resource.status(:clusters => params[:id], :network_address => params[:network_address]),
-      "disks" => OAR::Resource.disk_status(:clusters => params[:id], :network_address => params[:network_address]),
       "links" => [
         {
           "rel" => "self",
@@ -40,7 +39,8 @@ class ClustersController < ResourcesController
         }
       ]
     }
-
+    result["disks"] = OAR::Resource.disk_status(:clusters => params[:id], :network_address => params[:network_address]) if params[:disks] != "no"
+    
     respond_to do |format|
       format.g5kitemjson { render :json => result }
       format.json { render :json => result }
