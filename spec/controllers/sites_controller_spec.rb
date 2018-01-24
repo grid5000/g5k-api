@@ -161,6 +161,20 @@ describe SitesController do
       expect(json['nodes']['paramount-4.rennes.grid5000.fr']['reservations']).not_to be_nil
     end
 
+    # GET /sites/{{site_id}}/status?disks=no
+    it "should return the status of nodes but not disks" do      
+      get :status, :id => "rennes", :disks => "no", :format => :json
+      expect(response.status).to eq 200
+      expect(json['nodes'].length).to eq 196
+      expect(json['nodes'].keys.map{|k| k.split('-')[0]}.uniq.sort).to eq [
+        'paraquad',
+        'paramount',
+        'paravent'
+      ].sort
+      expect(json['disks']).to be_nil
+      expect(json['nodes']['paramount-4.rennes.grid5000.fr']['reservations']).not_to be_nil
+    end
+
     # it "should fail if the site does not exist" do
     #   pending "this will be taken care of at the api-proxy layer"
     # end
