@@ -52,7 +52,7 @@ module OAR
       #
       def status(options = {})
         result = {}
-
+        job_details = options[:job_details] != 'no'
         include_comment = columns.find{|c| c.name == "comment"}
 
  	# abasu for bug 5106 : added cluster & core in MySQL request - 05.02.2015
@@ -96,14 +96,14 @@ module OAR
           # prepare job description now, since it will be added to each resource
           # For Result hash table, do not include events
           # (otherwise the Set does not work with nested hash)
-          jobh = h[:job].to_reservation(:without => :events)
+          jobh = h[:job].to_reservation(:without => :events) if job_details
 
           h[:resources].each do |resource_id|
             resource = resources[resource_id]
             # The resource does not belong to a valid cluster.
             next if resource.nil?
 
-            result[resource.network_address] ||= initial_status_for(resource)
+            result[resource.network_address] ||= initial_status_for(resource, job_details)
 
 	    # abasu : if job is current, increment corresponding counter(s) in hash table
             if current
@@ -113,7 +113,7 @@ module OAR
               end #  if h[:job].besteffort?
             end  # if current
 
-            result[resource.network_address][:reservations].add(jobh)
+            result[resource.network_address][:reservations].add(jobh) if job_details
           end  # .each do |resource_id|
         end  # .each do |moldable_id, h|
 
@@ -145,7 +145,7 @@ module OAR
 
         # fallback for resources without jobs
         resources.each do |resource_id, resource|
-          result[resource.network_address] ||= initial_status_for(resource)
+          result[resource.network_address] ||= initial_status_for(resource, job_details)
         end  # .each do |resource_id, resource|
 
         result
@@ -193,7 +193,7 @@ module OAR
       end
 
       # Returns the initial status hash for a resource.
-      def initial_status_for(resource)
+      def initial_status_for(resource, job_details)
         hard = resource.state
         # Check if resource is in standby state
         if hard == 'absent' && resource.available_upto && resource.available_upto == STANDBY_AVAILABLE_UPTO
@@ -202,8 +202,8 @@ module OAR
         h = {
           :hard => hard,
           :soft => resource.dead? ? "unknown" : "free",
-          :reservations => Set.new
         }
+        h[:reservations] = Set.new if job_details
         h[:comment] = resource.comment if resource.respond_to?(:comment)
         h
       end  # def initial_status_for
@@ -225,6 +225,7 @@ module OAR
       #
       def disk_status(options = {})
         result = {}
+        job_details = options[:job_details] != 'no'
 
         resources = Resource.select(
           "resource_id, cluster, host, disk, diskpath"
@@ -253,7 +254,7 @@ module OAR
           # prepare job description now, since it will be added to each resource
           # For Result hash table, do not include events
           # (otherwise the Set does not work with nested hash)
-          jobh = h[:job].to_reservation(:without => :events)
+          jobh = h[:job].to_reservation(:without => :events) if job_details
 
           h[:resources].each do |resource_id|
             resource = resources[resource_id]
@@ -262,7 +263,7 @@ module OAR
             next if resource.nil?
 
             disk_key = disk_key(resource.disk, resource.host)
-            result[disk_key] ||= initial_disk_status_for(resource)
+            result[disk_key] ||= initial_disk_status_for(resource, job_details)
 
             if current
               result[disk_key][:soft] = 'busy'
@@ -270,13 +271,13 @@ module OAR
               result[disk_key][:soft] = 'free'
             end  # if current
 
-            result[disk_key][:reservations].add(jobh)
+            result[disk_key][:reservations].add(jobh) if job_details
           end  # .each do |resource_id|
         end  # .each do |moldable_id, h|
 
         # fallback for resources without jobs
         resources.each do |resource_id, resource|
-          result[disk_key(resource.disk, resource.host)] ||= initial_disk_status_for(resource)
+          result[disk_key(resource.disk, resource.host)] ||= initial_disk_status_for(resource, job_details)
         end  # .each do |resource_id, resource|
 
         result
@@ -287,12 +288,12 @@ module OAR
       end
 
       # Returns the initial status hash for a disk.
-      def initial_disk_status_for(resource)
+      def initial_disk_status_for(resource, job_details)
         h = {
           :soft => "free",
           :diskpath => resource.diskpath,
-          :reservations => Set.new
         }
+        h[:reservations] = Set.new if job_details
         h
       end  # def initial_disk_status
     end # class << self
