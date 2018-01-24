@@ -61,6 +61,17 @@ describe ClustersController do
       expect(json['disks']['sdb.parasilo-5.rennes.grid5000.fr']['reservations']).to be_nil
     end # "should return the status of nodes without the reservations"
 
+    # GET /sites/{{site_id}}/clusters/{{id}}/status?waiting=no
+    it "should not return the reservations in Waiting state" do      
+      get :status, :site_id => "rennes", :id => "parasilo", :waiting => "no", :format => :json
+      expect(response.status).to eq 200
+      assert_media_type(:json)
+      expect(json['nodes'].keys.map{|k| k.split('-')[0]}.uniq.sort).to eq ['parasilo']
+      expect(json['disks']).not_to be_nil
+      expect(json['nodes']['parasilo-5.rennes.grid5000.fr']['reservations']).to be_empty
+      expect(json['disks']['sdb.parasilo-5.rennes.grid5000.fr']['reservations']).to be_empty
+    end # "should not return the reservations of nodes in Waiting state"
+
     it "should return all nodes in the specified cluster for which the status is requested" do      
       get :status, :site_id => "rennes", :id => "parapluie", :format => :json
       expect(response.status).to eq 200

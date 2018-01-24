@@ -90,7 +90,7 @@ module OAR
           end
 	end  #  .each do |resource_id, resource|
 
-        get_active_jobs_by_moldable_id().each do |moldable_id, h|
+        get_active_jobs_by_moldable_id(options).each do |moldable_id, h|
           current = h[:job].running?
 
           # prepare job description now, since it will be added to each resource
@@ -151,9 +151,10 @@ module OAR
         result
       end # def status
 
-      def get_active_jobs_by_moldable_id()
+      def get_active_jobs_by_moldable_id(options = {})
         active_jobs_by_moldable_id = {}
-        Job.expanded.active.
+        jobs = options[:waiting] == 'no' ? Job.expanded.active_not_waiting : Job.expanded.active
+        jobs.
           find(:all, :include => [:job_types]).
           each{|job|
           active_jobs_by_moldable_id[job.moldable_id] = {
@@ -248,7 +249,7 @@ module OAR
 
         resources = resources.index_by(&:resource_id)
 
-        get_active_jobs_by_moldable_id().each do |moldable_id, h|
+        get_active_jobs_by_moldable_id(options).each do |moldable_id, h|
           current = h[:job].running?
 
           # prepare job description now, since it will be added to each resource
