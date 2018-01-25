@@ -6,13 +6,13 @@ class apt {
   exec { "sources update":
       command => "apt-get update",
       path => "/usr/bin:/usr/sbin:/bin",
-      #refreshonly => true;
   }
-  
+
   exec { "Box upgrade":
-      command => "apt-get -y upgrade",
+      command => "apt-get -yq upgrade",
+      environment => ["DEBIAN_FRONTEND=noninteractive"],
       path => "/usr/bin:/usr/sbin:/bin:/usr/local/sbin:/sbin",
-      #refreshonly => true;
+      timeout => 900;
   }
 
 }

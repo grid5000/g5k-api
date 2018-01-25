@@ -61,7 +61,20 @@ describe OAR::Resource do
     expect(OAR::Resource.status(:clusters => ['paradent', 'paramount']).keys.
       map{|n| n.split("-")[0]}.uniq.sort).to eq ['paradent', 'paramount']
   end
-  
+
+  it "should return the status only for the resources belonging to the given node" do
+    expect(OAR::Resource.status(:network_address => 'parasilo-1.rennes.grid5000.fr').keys.
+      map{|n| n.split(".")[0]}.uniq.sort).to eq ['parasilo-1']
+  end
+
+  it "should not return the reservations" do
+    expect(OAR::Resource.status(:job_details => 'no').map{ |e| e[1]['reservations'] }.compact).to be_empty
+  end
+
+  it "should not return the reservations in Waiting state" do
+    expect(OAR::Resource.status(:waiting => 'no', :network_address => 'parasilo-5.rennes.grid5000.fr').first[1]['reservations']).to be_nil
+  end
+
   # abasu : test added to check new status values -- bug ref 5106
   it "should return a node with status free_busy" do
     expect(OAR::Resource.status.select do |node, status|

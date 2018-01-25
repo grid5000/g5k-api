@@ -52,7 +52,7 @@ module OAR
       #
       def status(options = {})
         result = {}
-
+        job_details = options[:job_details] != 'no'
         include_comment = columns.find{|c| c.name == "comment"}
 
  	# abasu for bug 5106 : added cluster & core in MySQL request - 05.02.2015
@@ -60,14 +60,19 @@ module OAR
           "resource_id, cluster, network_address, core, state, available_upto#{include_comment ? ", comment" : ""}"
         )
 
-        # Remove blank network addresses
-        resources = resources.where("network_address <> ''")
+        resources = resources.where(
+          :network_address => options[:network_address]
+        ) unless options[:network_address].blank?
 
         resources = resources.where(
           :cluster => options[:clusters]
         ) unless options[:clusters].blank?
-        resources = resources.index_by(&:resource_id)
 
+        # Remove blank network addresses
+        resources = resources.where("network_address <> ''")
+
+        resources = resources.index_by(&:resource_id)
+        
  	# abasu : Introduce a hash table to store counts of free / busy cores per node - 05.02.2015
         # abasu : This hash table can be used to store other counters in future (add another element)
         nodes_counter = {}
@@ -77,7 +82,7 @@ module OAR
 	  nodes_counter[resource.network_address]= {
                 :totalcores => 0,
                 :busycounter => 0,
-                :besteffortcounter => 0 
+                :besteffortcounter => 0
               } if !nodes_counter.has_key?(resource.network_address)
           if !resource.core.zero?
             # core=0 for non default type of resources
@@ -85,20 +90,20 @@ module OAR
           end
 	end  #  .each do |resource_id, resource|
 
-        get_active_jobs_by_moldable_id().each do |moldable_id, h|
+        get_active_jobs_by_moldable_id(options).each do |moldable_id, h|
           current = h[:job].running?
 
           # prepare job description now, since it will be added to each resource
           # For Result hash table, do not include events
           # (otherwise the Set does not work with nested hash)
-          jobh = h[:job].to_reservation(:without => :events)
+          jobh = h[:job].to_reservation(:without => :events) if job_details
 
           h[:resources].each do |resource_id|
             resource = resources[resource_id]
             # The resource does not belong to a valid cluster.
             next if resource.nil?
 
-            result[resource.network_address] ||= initial_status_for(resource)
+            result[resource.network_address] ||= initial_status_for(resource, job_details)
 
 	    # abasu : if job is current, increment corresponding counter(s) in hash table
             if current
@@ -108,7 +113,7 @@ module OAR
               end #  if h[:job].besteffort?
             end  # if current
 
-            result[resource.network_address][:reservations].add(jobh)
+            result[resource.network_address][:reservations].add(jobh) if job_details
           end  # .each do |resource_id|
         end  # .each do |moldable_id, h|
 
@@ -140,15 +145,16 @@ module OAR
 
         # fallback for resources without jobs
         resources.each do |resource_id, resource|
-          result[resource.network_address] ||= initial_status_for(resource)
+          result[resource.network_address] ||= initial_status_for(resource, job_details)
         end  # .each do |resource_id, resource|
 
         result
       end # def status
 
-      def get_active_jobs_by_moldable_id()
+      def get_active_jobs_by_moldable_id(options = {})
         active_jobs_by_moldable_id = {}
-        Job.expanded.active.
+        jobs = options[:waiting] == 'no' ? Job.expanded.active_not_waiting : Job.expanded.active
+        jobs.
           find(:all, :include => [:job_types]).
           each{|job|
           active_jobs_by_moldable_id[job.moldable_id] = {
@@ -188,7 +194,7 @@ module OAR
       end
 
       # Returns the initial status hash for a resource.
-      def initial_status_for(resource)
+      def initial_status_for(resource, job_details)
         hard = resource.state
         # Check if resource is in standby state
         if hard == 'absent' && resource.available_upto && resource.available_upto == STANDBY_AVAILABLE_UPTO
@@ -197,8 +203,8 @@ module OAR
         h = {
           :hard => hard,
           :soft => resource.dead? ? "unknown" : "free",
-          :reservations => Set.new
         }
+        h[:reservations] = Set.new if job_details
         h[:comment] = resource.comment if resource.respond_to?(:comment)
         h
       end  # def initial_status_for
@@ -220,28 +226,36 @@ module OAR
       #
       def disk_status(options = {})
         result = {}
+        job_details = options[:job_details] != 'no'
 
         resources = Resource.select(
           "resource_id, cluster, host, disk, diskpath"
         )
+
+        # Column host of a disk resource is equal to column
+        # network_address of the node it belongs to
+        resources = resources.where(
+          :host => options[:network_address]
+        ) unless options[:network_address].blank?
+
+        resources = resources.where(
+          :cluster => options[:clusters]
+        ) unless options[:clusters].blank?
 
         # Keep only disks
         resources = resources.where(
           :type => 'disk'
         )
 
-        resources = resources.where(
-          :cluster => options[:clusters]
-        ) unless options[:clusters].blank?
         resources = resources.index_by(&:resource_id)
 
-        get_active_jobs_by_moldable_id().each do |moldable_id, h|
+        get_active_jobs_by_moldable_id(options).each do |moldable_id, h|
           current = h[:job].running?
 
           # prepare job description now, since it will be added to each resource
           # For Result hash table, do not include events
           # (otherwise the Set does not work with nested hash)
-          jobh = h[:job].to_reservation(:without => :events)
+          jobh = h[:job].to_reservation(:without => :events) if job_details
 
           h[:resources].each do |resource_id|
             resource = resources[resource_id]
@@ -250,7 +264,7 @@ module OAR
             next if resource.nil?
 
             disk_key = disk_key(resource.disk, resource.host)
-            result[disk_key] ||= initial_disk_status_for(resource)
+            result[disk_key] ||= initial_disk_status_for(resource, job_details)
 
             if current
               result[disk_key][:soft] = 'busy'
@@ -258,13 +272,13 @@ module OAR
               result[disk_key][:soft] = 'free'
             end  # if current
 
-            result[disk_key][:reservations].add(jobh)
+            result[disk_key][:reservations].add(jobh) if job_details
           end  # .each do |resource_id|
         end  # .each do |moldable_id, h|
 
         # fallback for resources without jobs
         resources.each do |resource_id, resource|
-          result[disk_key(resource.disk, resource.host)] ||= initial_disk_status_for(resource)
+          result[disk_key(resource.disk, resource.host)] ||= initial_disk_status_for(resource, job_details)
         end  # .each do |resource_id, resource|
 
         result
@@ -275,12 +289,12 @@ module OAR
       end
 
       # Returns the initial status hash for a disk.
-      def initial_disk_status_for(resource)
+      def initial_disk_status_for(resource, job_details)
         h = {
           :soft => "free",
           :diskpath => resource.diskpath,
-          :reservations => Set.new
         }
+        h[:reservations] = Set.new if job_details
         h
       end  # def initial_disk_status
     end # class << self

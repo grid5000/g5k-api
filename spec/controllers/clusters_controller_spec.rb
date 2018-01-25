@@ -18,12 +18,59 @@ describe ClustersController do
   render_views
 
   describe "GET /sites/{{site_id}}/clusters/{{id}}/status" do
+    
     it "should return the status ONLY for the specified cluster" do      
-      get :status, :site_id => "rennes", :id => "parapluie", :format => :json
+      get :status, :site_id => "rennes", :id => "parasilo", :format => :json
       expect(response.status).to eq 200
       assert_media_type(:json)
-      expect(json['nodes'].keys.map{|k| k.split('-')[0]}.uniq.sort).to eq ['parapluie']
+      expect(json['nodes'].keys.map{|k| k.split('-')[0]}.uniq.sort).to eq ['parasilo']
+      expect(json['disks']).not_to be_nil
+      expect(json['nodes']['parasilo-5.rennes.grid5000.fr']['reservations']).not_to be_empty
+      expect(json['disks']['sdb.parasilo-5.rennes.grid5000.fr']['reservations']).not_to be_empty   
     end # "should return the status ONLY for the specified cluster"
+
+    # GET /sites/{{site_id}}/clusters/{{id}}/status?network_address={{network_address}}
+    it "should return the status ONLY for the specified node" do
+      get :status, :site_id => "rennes", :id => "parasilo", :network_address => "parasilo-5.rennes.grid5000.fr", :format => :json
+      expect(response.status).to eq 200
+      assert_media_type(:json)
+      expect(json['nodes'].keys.map{|k| k.split('.')[0]}.uniq.sort).to eq ['parasilo-5']
+      expect(json['disks'].keys.map{|k| k.split('.')[1]}.uniq.sort).to eq ['parasilo-5']
+      expect(json['nodes']['parasilo-5.rennes.grid5000.fr']['reservations']).not_to be_empty
+      expect(json['disks']['sdb.parasilo-5.rennes.grid5000.fr']['reservations']).not_to be_empty
+    end # "should return the status ONLY for the specified node"
+
+    # GET /sites/{{site_id}}/clusters/{{id}}/status?disks=no
+    it "should return the status of nodes but not disks" do      
+      get :status, :site_id => "rennes", :id => "parasilo", :disks => "no", :format => :json
+      expect(response.status).to eq 200
+      assert_media_type(:json)
+      expect(json['nodes'].keys.map{|k| k.split('-')[0]}.uniq.sort).to eq ['parasilo']
+      expect(json['disks']).to be_nil
+      expect(json['nodes']['parasilo-5.rennes.grid5000.fr']['reservations']).not_to be_empty
+    end # "should return the status of nodes but not disks"
+
+    # GET /sites/{{site_id}}/clusters/{{id}}/status?job_details=no
+    it "should return the status of nodes without the reservations" do      
+      get :status, :site_id => "rennes", :id => "parasilo", :job_details => "no", :format => :json
+      expect(response.status).to eq 200
+      assert_media_type(:json)
+      expect(json['nodes'].keys.map{|k| k.split('-')[0]}.uniq.sort).to eq ['parasilo']
+      expect(json['disks']).not_to be_nil
+      expect(json['nodes']['parasilo-5.rennes.grid5000.fr']['reservations']).to be_nil
+      expect(json['disks']['sdb.parasilo-5.rennes.grid5000.fr']['reservations']).to be_nil
+    end # "should return the status of nodes without the reservations"
+
+    # GET /sites/{{site_id}}/clusters/{{id}}/status?waiting=no
+    it "should not return the reservations in Waiting state" do      
+      get :status, :site_id => "rennes", :id => "parasilo", :waiting => "no", :format => :json
+      expect(response.status).to eq 200
+      assert_media_type(:json)
+      expect(json['nodes'].keys.map{|k| k.split('-')[0]}.uniq.sort).to eq ['parasilo']
+      expect(json['disks']).not_to be_nil
+      expect(json['nodes']['parasilo-5.rennes.grid5000.fr']['reservations']).to be_empty
+      expect(json['disks']['sdb.parasilo-5.rennes.grid5000.fr']['reservations']).to be_empty
+    end # "should not return the reservations of nodes in Waiting state"
 
     it "should return all nodes in the specified cluster for which the status is requested" do      
       get :status, :site_id => "rennes", :id => "parapluie", :format => :json
@@ -53,8 +100,6 @@ describe ClustersController do
     end # "should return the status with the correct links"
 
   end # "GET /sites/{{site_id}}/clusters/{{id}}/status"
-
-
 
   # abasu : unit test for bug ref 6363 to handle filter queues - 08.01.2016
   describe "GET /sites/{{site_id}}/clusters/{{id}}" do
