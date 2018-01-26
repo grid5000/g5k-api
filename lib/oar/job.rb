@@ -142,6 +142,12 @@ module OAR
             resource.subnet_address,
             resource.subnet_prefix
           ].join("/"))
+        when 'disk'
+          h['disks'] ||= []
+          h['disks'].push([
+            resource.disk.split('.').first,
+            resource.host
+          ].join("."))
         end
       end
       h
@@ -198,6 +204,10 @@ module OAR
         where("state IN ('Waiting','Hold','toLaunch','toError','toAckReservation','Launching','Running','Suspended','Resuming','Finishing')")
       end # def active
 
+      def active_not_waiting
+        where("state IN ('Hold','toLaunch','toError','toAckReservation','Launching','Running','Suspended','Resuming','Finishing')")
+      end # def active_not_waiting
+      
       def expanded
         Job.select("jobs.*, moldable_job_descriptions.moldable_walltime AS walltime, gantt_jobs_predictions.start_time AS predicted_start_time,  moldable_job_descriptions.moldable_id").
           joins("LEFT OUTER JOIN moldable_job_descriptions ON jobs.job_id = moldable_job_descriptions.moldable_job_id").

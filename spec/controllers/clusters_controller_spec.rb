@@ -18,38 +18,85 @@ describe ClustersController do
   render_views
 
   describe "GET /sites/{{site_id}}/clusters/{{id}}/status" do
+    
     it "should return the status ONLY for the specified cluster" do      
-      get :status, :site_id => "rennes", :id => "parapluie", :format => :json
-      response.status.should == 200
+      get :status, :site_id => "rennes", :id => "parasilo", :format => :json
+      expect(response.status).to eq 200
       assert_media_type(:json)
-      json['nodes'].keys.map{|k| k.split('-')[0]}.uniq.sort.should == ['parapluie']
+      expect(json['nodes'].keys.map{|k| k.split('-')[0]}.uniq.sort).to eq ['parasilo']
+      expect(json['disks']).not_to be_nil
+      expect(json['nodes']['parasilo-5.rennes.grid5000.fr']['reservations']).not_to be_empty
+      expect(json['disks']['sdb.parasilo-5.rennes.grid5000.fr']['reservations']).not_to be_empty   
     end # "should return the status ONLY for the specified cluster"
+
+    # GET /sites/{{site_id}}/clusters/{{id}}/status?network_address={{network_address}}
+    it "should return the status ONLY for the specified node" do
+      get :status, :site_id => "rennes", :id => "parasilo", :network_address => "parasilo-5.rennes.grid5000.fr", :format => :json
+      expect(response.status).to eq 200
+      assert_media_type(:json)
+      expect(json['nodes'].keys.map{|k| k.split('.')[0]}.uniq.sort).to eq ['parasilo-5']
+      expect(json['disks'].keys.map{|k| k.split('.')[1]}.uniq.sort).to eq ['parasilo-5']
+      expect(json['nodes']['parasilo-5.rennes.grid5000.fr']['reservations']).not_to be_empty
+      expect(json['disks']['sdb.parasilo-5.rennes.grid5000.fr']['reservations']).not_to be_empty
+    end # "should return the status ONLY for the specified node"
+
+    # GET /sites/{{site_id}}/clusters/{{id}}/status?disks=no
+    it "should return the status of nodes but not disks" do      
+      get :status, :site_id => "rennes", :id => "parasilo", :disks => "no", :format => :json
+      expect(response.status).to eq 200
+      assert_media_type(:json)
+      expect(json['nodes'].keys.map{|k| k.split('-')[0]}.uniq.sort).to eq ['parasilo']
+      expect(json['disks']).to be_nil
+      expect(json['nodes']['parasilo-5.rennes.grid5000.fr']['reservations']).not_to be_empty
+    end # "should return the status of nodes but not disks"
+
+    # GET /sites/{{site_id}}/clusters/{{id}}/status?job_details=no
+    it "should return the status of nodes without the reservations" do      
+      get :status, :site_id => "rennes", :id => "parasilo", :job_details => "no", :format => :json
+      expect(response.status).to eq 200
+      assert_media_type(:json)
+      expect(json['nodes'].keys.map{|k| k.split('-')[0]}.uniq.sort).to eq ['parasilo']
+      expect(json['disks']).not_to be_nil
+      expect(json['nodes']['parasilo-5.rennes.grid5000.fr']['reservations']).to be_nil
+      expect(json['disks']['sdb.parasilo-5.rennes.grid5000.fr']['reservations']).to be_nil
+    end # "should return the status of nodes without the reservations"
+
+    # GET /sites/{{site_id}}/clusters/{{id}}/status?waiting=no
+    it "should not return the reservations in Waiting state" do      
+      get :status, :site_id => "rennes", :id => "parasilo", :waiting => "no", :format => :json
+      expect(response.status).to eq 200
+      assert_media_type(:json)
+      expect(json['nodes'].keys.map{|k| k.split('-')[0]}.uniq.sort).to eq ['parasilo']
+      expect(json['disks']).not_to be_nil
+      expect(json['nodes']['parasilo-5.rennes.grid5000.fr']['reservations']).to be_empty
+      expect(json['disks']['sdb.parasilo-5.rennes.grid5000.fr']['reservations']).to be_empty
+    end # "should not return the reservations of nodes in Waiting state"
 
     it "should return all nodes in the specified cluster for which the status is requested" do      
       get :status, :site_id => "rennes", :id => "parapluie", :format => :json
-      response.status.should == 200
+      expect(response.status).to eq 200
       assert_media_type(:json)
-      json['nodes'].length.should == 46
-      json['nodes'].keys.uniq.sort.should == ["parapluie-1.rennes.grid5000.fr", "parapluie-10.rennes.grid5000.fr", "parapluie-11.rennes.grid5000.fr", "parapluie-12.rennes.grid5000.fr", "parapluie-13.rennes.grid5000.fr", "parapluie-14.rennes.grid5000.fr", "parapluie-15.rennes.grid5000.fr", "parapluie-16.rennes.grid5000.fr", "parapluie-17.rennes.grid5000.fr", "parapluie-18.rennes.grid5000.fr", "parapluie-19.rennes.grid5000.fr", "parapluie-2.rennes.grid5000.fr", "parapluie-20.rennes.grid5000.fr", "parapluie-21.rennes.grid5000.fr", "parapluie-22.rennes.grid5000.fr", "parapluie-23.rennes.grid5000.fr", "parapluie-24.rennes.grid5000.fr", "parapluie-25.rennes.grid5000.fr", "parapluie-26.rennes.grid5000.fr", "parapluie-27.rennes.grid5000.fr", "parapluie-28.rennes.grid5000.fr", "parapluie-29.rennes.grid5000.fr", "parapluie-3.rennes.grid5000.fr", "parapluie-30.rennes.grid5000.fr", "parapluie-31.rennes.grid5000.fr", "parapluie-32.rennes.grid5000.fr", "parapluie-33.rennes.grid5000.fr", "parapluie-34.rennes.grid5000.fr", "parapluie-35.rennes.grid5000.fr", "parapluie-36.rennes.grid5000.fr", "parapluie-37.rennes.grid5000.fr", "parapluie-38.rennes.grid5000.fr", "parapluie-39.rennes.grid5000.fr", "parapluie-4.rennes.grid5000.fr", "parapluie-40.rennes.grid5000.fr", "parapluie-5.rennes.grid5000.fr", "parapluie-51.rennes.grid5000.fr", "parapluie-52.rennes.grid5000.fr", "parapluie-53.rennes.grid5000.fr", "parapluie-54.rennes.grid5000.fr", "parapluie-55.rennes.grid5000.fr", "parapluie-56.rennes.grid5000.fr", "parapluie-6.rennes.grid5000.fr", "parapluie-7.rennes.grid5000.fr", "parapluie-8.rennes.grid5000.fr", "parapluie-9.rennes.grid5000.fr"]
+      expect(json['nodes'].length).to eq 46
+      expect(json['nodes'].keys.uniq.sort).to eq ["parapluie-1.rennes.grid5000.fr", "parapluie-10.rennes.grid5000.fr", "parapluie-11.rennes.grid5000.fr", "parapluie-12.rennes.grid5000.fr", "parapluie-13.rennes.grid5000.fr", "parapluie-14.rennes.grid5000.fr", "parapluie-15.rennes.grid5000.fr", "parapluie-16.rennes.grid5000.fr", "parapluie-17.rennes.grid5000.fr", "parapluie-18.rennes.grid5000.fr", "parapluie-19.rennes.grid5000.fr", "parapluie-2.rennes.grid5000.fr", "parapluie-20.rennes.grid5000.fr", "parapluie-21.rennes.grid5000.fr", "parapluie-22.rennes.grid5000.fr", "parapluie-23.rennes.grid5000.fr", "parapluie-24.rennes.grid5000.fr", "parapluie-25.rennes.grid5000.fr", "parapluie-26.rennes.grid5000.fr", "parapluie-27.rennes.grid5000.fr", "parapluie-28.rennes.grid5000.fr", "parapluie-29.rennes.grid5000.fr", "parapluie-3.rennes.grid5000.fr", "parapluie-30.rennes.grid5000.fr", "parapluie-31.rennes.grid5000.fr", "parapluie-32.rennes.grid5000.fr", "parapluie-33.rennes.grid5000.fr", "parapluie-34.rennes.grid5000.fr", "parapluie-35.rennes.grid5000.fr", "parapluie-36.rennes.grid5000.fr", "parapluie-37.rennes.grid5000.fr", "parapluie-38.rennes.grid5000.fr", "parapluie-39.rennes.grid5000.fr", "parapluie-4.rennes.grid5000.fr", "parapluie-40.rennes.grid5000.fr", "parapluie-5.rennes.grid5000.fr", "parapluie-51.rennes.grid5000.fr", "parapluie-52.rennes.grid5000.fr", "parapluie-53.rennes.grid5000.fr", "parapluie-54.rennes.grid5000.fr", "parapluie-55.rennes.grid5000.fr", "parapluie-56.rennes.grid5000.fr", "parapluie-6.rennes.grid5000.fr", "parapluie-7.rennes.grid5000.fr", "parapluie-8.rennes.grid5000.fr", "parapluie-9.rennes.grid5000.fr"]
     end # "should return all nodes in the specified cluster for which the status is requested"
 
     it "should return the status with the correct links" do      
       get :status, :site_id => "rennes", :id => "parapluie", :format => :json
-      response.status.should == 200
+      expect(response.status).to eq 200
       assert_media_type(:json)
 
       # the "links" section should be an array with only 2 elements "self" and "parent"
-      json["links"].should be_a(Array)
-      json["links"].length.should == 2
+      expect(json["links"]).to be_a(Array)
+      expect(json["links"].length).to eq 2
 
       # first element is "self"
-      json["links"][0].should == {"rel"=>"self",
+      expect(json["links"][0]).to eq ({"rel"=>"self",
                                   "href"=>"/sites/rennes/clusters/parapluie/status",
-                                  "type"=>"application/vnd.grid5000.item+json"}
+                                  "type"=>"application/vnd.grid5000.item+json"})
       # second element is "parent"
-      json["links"][1].should == {"rel"=>"parent",
+      expect(json["links"][1]).to eq ({"rel"=>"parent",
                                   "href"=>"/sites/rennes/clusters/parapluie",
-                                  "type"=>"application/vnd.grid5000.item+json"}
+                                  "type"=>"application/vnd.grid5000.item+json"})
     end # "should return the status with the correct links"
 
   end # "GET /sites/{{site_id}}/clusters/{{id}}/status"
@@ -74,8 +121,8 @@ describe ClustersController do
       get :show, :branch => 'master', :site_id => "nancy", :id => "mbi", :format => :json
       assert_media_type(:json)
 
-      response.status.should == 200
-      json["queues"].should == ["admin", "production"]
+      expect(response.status).to eq 200
+      expect(json["queues"]).to eq ["admin", "production"]
     end # it "should return ONLY cluster mbi in nancy without any queues filter" 
 
     it "should return ONLY cluster talc in nancy without any queues filter" do      
@@ -88,8 +135,8 @@ describe ClustersController do
       get :show, :branch => 'master', :site_id => "nancy", :id => "talc", :format => :json
       assert_media_type(:json)
 
-      response.status.should == 200
-      json["queues"].should == ["admin", "default"]
+      expect(response.status).to eq 200
+      expect(json["queues"]).to eq ["admin", "default"]
     end # it "should return ONLY cluster talc in nancy without any queues filter" 
 
     it "should return ONLY cluster graphique in nancy without any queues filter" do      
@@ -102,8 +149,8 @@ describe ClustersController do
       get :show, :branch => 'master', :site_id => "nancy", :id => "graphique", :format => :json
       assert_media_type(:json)
 
-      response.status.should == 200
-      (json["queues"] | []).should == ["admin", "default"]
+      expect(response.status).to eq 200
+      expect(json["queues"] | []).to eq ["admin", "default"]
     end # it "should return ONLY cluster graphique in nancy without any queues filter" 
 
     it "should return ONLY cluster mbi in nancy" do      
@@ -116,8 +163,8 @@ describe ClustersController do
       get :show, :branch => 'master', :site_id => "nancy", :id => "mbi", :queues => "production", :format => :json
       assert_media_type(:json)
 
-      response.status.should == 200
-      json["queues"].should == ["admin", "production"]
+      expect(response.status).to eq 200
+      expect(json["queues"]).to eq ["admin", "production"]
     end # it "should return ONLY cluster mbi in nancy" 
 
     # abasu : unit test for bug ref 6363 to handle filter queues - 08.01.2016
@@ -131,8 +178,8 @@ describe ClustersController do
       get :show, :branch => 'master', :site_id => "nancy", :id => "talc", :queues => "default", :format => :json
       assert_media_type(:json)
 
-      response.status.should == 200
-      json["queues"].should == ["admin", "default"]
+      expect(response.status).to eq 200
+      expect(json["queues"]).to eq ["admin", "default"]
     end # it "should return ONLY cluster talc in nancy" 
 
     it "should return NO cluster because talc is NOT production cluster" do      
@@ -144,8 +191,8 @@ describe ClustersController do
         to_return(:body => fixture("reference-repository/data/grid5000/sites/nancy/clusters/talc/talc.json"))
       get :show, :branch => 'master', :site_id => "nancy", :id => "talc", :queues => "production", :format => :json
 
-      response.status.should == 404
-      response.body.should == "Cannot find resource /sites/nancy/clusters/talc"
+      expect(response.status).to eq 404
+      expect(response.body).to eq "Cannot find resource /sites/nancy/clusters/talc"
     end # it "should return NO cluster because talc is NOT production cluster" 
   end # "GET /sites/{{site_id}}/clusters/{{id}}/"
 
@@ -164,14 +211,14 @@ describe ClustersController do
       get :index, :branch => 'master', :site_id => "nancy", :format => :json
       assert_media_type(:json)
 
-      response.status.should == 200
-      json["total"].should == 3
+      expect(response.status).to eq 200
+      expect(json["total"]).to eq 3
 
       clusterList = []
       json["items"].each do |cluster|
          clusterList = [cluster["uid"]] | clusterList
       end
-      (clusterList - ["graphique","mbi","talc"]).should be_empty
+      expect(clusterList - ["graphique","mbi","talc"]).to be_empty
 
     end # it "should return ALL clusters in site nancy without any queues param" 
 
@@ -185,10 +232,10 @@ describe ClustersController do
       get :index, :branch => 'master', :site_id => "nancy", :queues => "production", :format => :json
       assert_media_type(:json)
 
-      response.status.should == 200
-      json["total"].should == 1
-      json["items"][0]["uid"].should == "mbi"
-      json["items"][0]["queues"].should include("production")
+      expect(response.status).to eq 200
+      expect(json["total"]).to eq 1
+      expect(json["items"][0]["uid"]).to eq "mbi"
+      expect(json["items"][0]["queues"]).to include("production")
     end # it "should return ONLY cluster mbi in nancy" 
 
     # abasu : unit test for bug ref 6363 to handle filter queues - 08.01.2016
@@ -202,14 +249,14 @@ describe ClustersController do
       get :index, :branch => 'master', :site_id => "nancy", :queues => "default", :format => :json
       assert_media_type(:json)
 
-      response.status.should == 200
-      json["total"].should == 2
+      expect(response.status).to eq 200
+      expect(json["total"]).to eq 2
       clusterList = []
       json["items"].each do |cluster|
          clusterList = [cluster["uid"]] | clusterList
-         cluster["queues"].should include("default")
+         expect(cluster["queues"]).to include("default")
       end
-      (clusterList - ["graphique","talc"]).should be_empty
+      expect(clusterList - ["graphique","talc"]).to be_empty
 
     end # it "should return ONLY clusters talc & graphique in site nancy" 
 
@@ -218,8 +265,8 @@ describe ClustersController do
       get :index, :branch => 'master', :site_id => "nancy", :queues => "all", :format => :json
       assert_media_type(:json)
 
-      response.status.should == 200
-      json["total"].should == 3
+      expect(response.status).to eq 200
+      expect(json["total"]).to eq 3
 
       clusterList = []
       combined_queues = []
@@ -227,9 +274,9 @@ describe ClustersController do
          clusterList = [cluster["uid"]] | clusterList
          combined_queues = cluster["queues"] | combined_queues
       end
-      combined_queues.should == ["admin","default","production"]
+      expect(combined_queues).to eq ["admin","default","production"]
 
-      (clusterList - ["graphique","mbi","talc"]).should be_empty
+      expect(clusterList - ["graphique","mbi","talc"]).to be_empty
 
     end # it "should return ALL clusters in site nancy" 
 
