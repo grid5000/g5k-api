@@ -1,3 +1,27 @@
+g5k-api (3.5.10-1) jessie; urgency=low
+
+  * 8323955 Merge pull request #48 from grid5000/bug7970-status-api-performance-v3
+  * 2469dc0 status api: add waiting query string
+  * 093f3e5 status api: add job_details query string
+  * 2564378 status api: add disks query string
+  * bdb47a7 status api: add network_address query string
+  * a34b069 Fix puppet apt-get upgrade timeout error
+  * 6311791 Add noop jobs in test database and update existing tests
+  * 03778d5 Add disk reservations display in status API
+  * 78efe5b Add disk reservations display in jobs API
+  * 94bce38 Add jobs with disk reservations in test database and update existing tests
+  * c349d81 Remove resources with blank network_address from "status" output
+  * fc29ede Complement README with new rake task
+  * 0bf0ec0 Add rake tasks to manage the OAR2 database
+  * 709c98d Update versions used for rake, fix junit formater
+  * 2811847 fixup! Removes Timezone from reference Time in test
+  * 8e37609 Removes Timezone from reference Time in test
+  * a5952ff Add gem for better jenkins integration
+  * 6658299 fixup! Adapt puppet rule to usage outside vagrant
+  * ab5c1ba Adapt puppet rule to usage outside vagrant
+
+ -- Florent Didier <florent.didier@inria.fr>  Wed, 31 Jan 2018 17:55:00 +0000
+
 g5k-api (3.5.9-1) jessie; urgency=low
 
   * 67f20d5 Implement support for tls options (bug #8379)
