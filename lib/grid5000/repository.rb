@@ -39,12 +39,17 @@ module Grid5000
       logger.info "path = #{path.inspect}, options = #{options.inspect}"
       path = full_path(path)
       @commit = nil
-      @commit = find_commit_for(options)
-      logger.info "commit = #{@commit.inspect}"
-      return nil if @commit.nil?
-      object = find_object_at(path, @commit)
-      logger.debug "object = #{object.inspect}"
-      return nil if object.nil?
+      begin
+        @commit = find_commit_for(options)
+        logger.info "commit = #{@commit.inspect}"
+        return nil if @commit.nil?
+        object = find_object_at(path, @commit)
+        logger.debug "object = #{object.inspect}"
+        return nil if object.nil?
+      rescue Grit::Git::GitTimeout => e
+        logger.debug "#{Time.now}: Got a Grit::Git::GitTimeout exception #{e}"
+        return e
+      end
       result = expand_object(object, path, @commit)
       result
     end
