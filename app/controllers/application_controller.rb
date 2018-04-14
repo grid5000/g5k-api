@@ -35,6 +35,7 @@ class ApplicationController < ActionController::Base
   class ServerError < ActionController::ActionControllerError; end
   class UnsupportedMediaType < ServerError; end   # Error code 415 (moved to server-side)
   class BadGateway < ServerError; end             # Error code 50x (to be refined later)
+  class ServerUnavailable < ServerError; end      # Error code 503
 
   # This thing must alway come first, or it will override other rescue_from.
   rescue_from Exception, :with => :server_error
@@ -54,6 +55,7 @@ class ApplicationController < ActionController::Base
   # abasu : agreed to send exception to server_error (instead of unsupported_media_type)
   rescue_from ServerError, :with => :server_error                      # for 500
   rescue_from BadGateway, :with => :bad_gateway                        # for 502
+  rescue_from ServerUnavailable, :with => :server_unavailable          # for 503
 
   protected
   def set_default_format
@@ -128,6 +130,8 @@ class ApplicationController < ActionController::Base
         raise UnsupportedMediaType, msg
       when 502
         raise BadGateway, msg
+      when 503
+        raise ServerUnavailable, msg
       else
         raise ServerError, "Request to #{http.uri.to_s} failed with unexpected status #{status}: #{http.response} ; could be a problem with our version of eventmachine not supporting IPv6, or TLS problems"
     end
@@ -220,6 +224,12 @@ class ApplicationController < ActionController::Base
   def bad_gateway(exception)
     opts = {:status => 502}
     opts[:message] = "Bad Gateway" if exception.message == exception.class.name
+    render_error(exception, opts)
+  end
+
+  def server_unavailable(exception)
+    opts = {:status => 503}
+    opts[:message] = "Server Unavailable" if exception.message == exception.class.name
     render_error(exception, opts)
   end
 
