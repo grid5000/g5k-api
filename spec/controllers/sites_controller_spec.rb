@@ -189,6 +189,12 @@ describe SitesController do
       expect(json['nodes']['paramount-4.rennes.grid5000.fr']['reservations']).to be_nil
     end
 
+    it "should fail gracefully in the event of a grit timeout" do
+      expect_any_instance_of(Grid5000::Repository).to receive(:find_commit_for).and_raise(Grit::Git::GitTimeout)
+      get :status, :id => "rennes", :job_details => "no", :format => :json
+      expect(response.status).to eq 503
+    end
+
     # it "should fail if the site does not exist" do
     #   pending "this will be taken care of at the api-proxy layer"
     # end

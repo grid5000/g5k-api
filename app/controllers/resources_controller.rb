@@ -104,6 +104,8 @@ class ResourcesController < ApplicationController
       :branch => params[:branch],
       :version => params[:version]
     )
+
+    raise ServerUnavailable if object.is_a?(Exception)
     
     # abasu : case logic for treating different scenarios - 11.12.2015
     case [params[:controller], params[:action]]
