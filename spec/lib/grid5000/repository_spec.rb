@@ -45,6 +45,19 @@ describe Grid5000::Repository do
       )
     end
     
+    describe "find" do
+      it "should find / element" do
+        object=@repository.find('grid5000')
+        expect(object).to_not be_nil
+        expect(object['version']).to eq @latest_commit
+      end
+
+      it "should return an exception if Grit::Git::GitTimeout is raised" do
+        expect(@repository).to receive(:find_commit_for).and_raise(Grit::Git::GitTimeout)
+        object=@repository.find('grid5000')
+        expect(object).to be_an(Exception)
+      end
+    end
     describe "finding a specific version" do
       it "should return the latest commit of master if no specific version is given" do
         commit = @repository.find_commit_for(:version => nil)
@@ -86,7 +99,7 @@ describe Grid5000::Repository do
         )
         commit.should be_nil
       end
-  
+
     end # describe "finding a specific version"
     
     describe "finding a specific object" do
