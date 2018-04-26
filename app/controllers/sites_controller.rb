@@ -19,7 +19,9 @@ class SitesController < ResourcesController
   def status
     # fetch valid clusters
     enrich_params(params)
-    
+
+    params[:job_details]='no' if is_anonymous?
+
     site_clusters=lookup_path("/sites/#{params[:id]}/clusters", params)
     valid_clusters = site_clusters['items'].map{|i| i['uid']}
     Rails.logger.info "Valid clusters=#{valid_clusters.inspect}"

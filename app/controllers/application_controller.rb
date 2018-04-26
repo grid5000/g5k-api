@@ -82,8 +82,12 @@ class ApplicationController < ActionController::Base
     end
   end
 
+  def is_anonymous?
+    @credentials[:cn]=="anonymous"
+  end
+
   def ensure_authenticated!
-    @credentials[:cn] || raise(Forbidden)
+    (@credentials[:cn] && @credentials[:cn] != "anonymous") || raise(Forbidden)
   end
 
   def authorize!(user_id)
