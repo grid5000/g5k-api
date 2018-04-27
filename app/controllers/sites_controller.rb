@@ -21,6 +21,7 @@ class SitesController < ResourcesController
     enrich_params(params)
 
     params[:job_details]='no' if is_anonymous?
+    params[:waiting]='no' if is_anonymous?
 
     site_clusters=lookup_path("/sites/#{params[:id]}/clusters", params)
     valid_clusters = site_clusters['items'].map{|i| i['uid']}
