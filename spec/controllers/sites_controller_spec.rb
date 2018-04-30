@@ -152,7 +152,7 @@ describe SitesController do
         'paramount',
         'paravent'
       ].sort
-      expect(json['disks']).to be_empty # no reservable disks on paramount-4
+      expect(json['disks']).to be_empty # no reservable disks on requested clusters
       expect(json['nodes']['paramount-4.rennes.grid5000.fr']['reservations']).not_to be_nil
     end
 
