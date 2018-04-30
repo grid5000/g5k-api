@@ -29,10 +29,15 @@ describe OAR::Resource do
       expect(OAR::Resource.status.keys).to eq ["nodes"]
     end
 
+    it "should return nodes when requesting default type" do
+      expect(OAR::Resource.status({types: ['default']}).keys).to eq ["nodes"]
+    end
+
     it "should return status for all requested resource types" do
       expect(OAR::Resource.status({types: ['node', 'disk']}).keys.sort).to eq ["nodes","disks"].sort
     end
   end
+
   describe "status for nodes" do
 
     it "should return the status of all the default resources" do
