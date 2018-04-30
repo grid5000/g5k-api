@@ -23,8 +23,8 @@ module OAR
     # disable inheritance guessed by Rails because of the "type" column.
     set_inheritance_column :_type_disabled
 
-    QUERY_ASSIGNED_RESOURCES = "SELECT moldable_job_id, resource_id FROM %TABLE% WHERE moldable_job_id IN (%MOLDABLE_IDS%)"
-
+    QUERY_ASSIGNED_RESOURCES = "SELECT moldable_job_id, resource_id FROM assigned_resources WHERE moldable_job_id IN (%MOLDABLE_IDS%)"
+    QUERY_GANTT_JOBS_RESOURCES = "SELECT moldable_job_id, resource_id FROM gantt_jobs_resources WHERE moldable_job_id IN (%MOLDABLE_IDS%)"
     def dead?
       state && state == "dead"
     end
@@ -168,27 +168,25 @@ module OAR
           moldable_ids = active_jobs_by_moldable_id.keys.
             map{|moldable_id| "'#{moldable_id}'"}.join(",")
 
-          # get all resources assigned to these jobs
-          %w{assigned_resources gantt_jobs_resources}.each do |table|
-            self.connection.execute(
-              QUERY_ASSIGNED_RESOURCES.gsub(
-                /%TABLE%/, table
-              ).gsub(
-                /%MOLDABLE_IDS%/, moldable_ids
-              )
-            ).each do |row|
-              if row.is_a?(Hash)
-                moldable_job_id=row["moldable_job_id"]
-                resource_id=row["resource_id"].to_i
-              else
-                (moldable_job_id,resource_id)=row
-                resource_id=resource_id.to_i
-              end
 
-              active_jobs_by_moldable_id[moldable_job_id][:resources].
-                add(resource_id)
-            end # .each do |(moldable_job_id, resource_id)|
-          end # .each do |table|
+          # get all resources assigned to these jobs in one query
+          query= "(#{QUERY_ASSIGNED_RESOURCES}) UNION (#{QUERY_GANTT_JOBS_RESOURCES})"
+          self.connection.execute(
+            query.gsub(
+              /%MOLDABLE_IDS%/, moldable_ids
+            )
+          ).each do |row|
+            if row.is_a?(Hash)
+              moldable_job_id=row["moldable_job_id"]
+              resource_id=row["resource_id"].to_i
+            else
+              (moldable_job_id,resource_id)=row
+              resource_id=resource_id.to_i
+            end
+
+            active_jobs_by_moldable_id[moldable_job_id][:resources].
+              add(resource_id)
+          end # .each do |(moldable_job_id, resource_id)|
         end # if active_jobs_by_moldable_id
         active_jobs_by_moldable_id
       end
