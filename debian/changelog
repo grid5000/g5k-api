@@ -1,3 +1,35 @@
+g5k-api (4.1.0-1) jessie; urgency=low
+
+  * 9cf761b Merge pull request #51 from grid5000/bugs/#9230
+  * df0842f make status code readable again
+  * 4b0753e Explicitly test for handling of oar's default type
+  * 1024983 Correct comment on sites_controller_spec
+  * 78ac3c8 Merge implementations of status & status_for_disk
+  * 9d5fd85 Limit the queries to oar's db by using a union
+  * 11536e8 Limit queried jobs to build status for anonymous
+  * f87da0e Explicitly handle anonymous users
+  * 087786a Test correct behaviour for anonymous users
+  * 3311bc0 Merge pull request #50 from grid5000/bugs/#6809
+  * 0b2a7ed Unit test Repository.find's exception handling
+  * d08b2e8 Handle Grit::Git::GitTimeout gracefully in find
+  * a749a57 Test for when Grit::Git::GitTimeout is raised
+  * 3d71ee7 Merge pull request #47 from grid5000/bug7970-status-api-performance-rebased
+  * a8ee28b status api: add waiting query string
+  * 205874b status api: add job_details query string
+  * 3f6fe47 status api: add disks query string
+  * 912548d status api: add network_address query string
+  * 1bb1578 Fix puppet apt-get upgrade timeout error
+  * 115d05d Complement README with new rake task
+  * c86b18e Add rake tasks to manage the OAR2 database
+  * d68fa90 Update versions used for rake, fix junit formater
+  * d297f8a fixup! Removes Timezone from reference Time in test
+  * 07c48a7 Removes Timezone from reference Time in test
+  * 0341738 Add gem for better jenkins integration
+  * 8a6286f fixup! Adapt puppet rule to usage outside vagrant
+  * c62edb4 Adapt puppet rule to usage outside vagrant
+
+ -- David Margery <david.margery@inria.fr>  Fri, 18 May 2018 12:33:36 +0000
+
 g5k-api (4.0.4-1) jessie; urgency=low
 
   * 55ed2a5 Merge pull request #46 from grid5000/bug8464-api-headers
