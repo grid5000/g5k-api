@@ -138,7 +138,11 @@ describe SitesController do
   end # describe "GET /sites/{{site_id}}"
 
 
-  describe "GET /sites/{{site_id}}/status" do
+  describe "GET /sites/{{site_id}}/status (authenticated)" do
+    before do
+      authenticate_as("crohr")
+    end
+
     it "should return 200 and the site status" do
       get :status, :id => "rennes", :format => :json
       expect(response.status).to eq 200
@@ -148,7 +152,7 @@ describe SitesController do
         'paramount',
         'paravent'
       ].sort
-      expect(json['disks']).to be_empty # no reservable disks on paramount-4
+      expect(json['disks']).to be_empty # no reservable disks on requested clusters
       expect(json['nodes']['paramount-4.rennes.grid5000.fr']['reservations']).not_to be_nil
     end
 
@@ -200,4 +204,27 @@ describe SitesController do
     # end
   end # "GET /sites/{{site_id}}/status"
 
+  describe "GET /sites/{{site_id}}/status (authenticated)" do
+    before do
+      authenticate_as("anonymous")
+      get :status, :id => "rennes", :format => :json
+      expect(response.status).to eq 200
+    end
+
+    it "should not include reservations" do
+      expect(json['nodes']['paramount-4.rennes.grid5000.fr']['reservations']).to be_nil
+    end
+  end
+  describe "GET /sites/{{site_id}}/status (unknown)" do
+    # unknown users are authenticated users for which we don't have the precise login
+    before do
+      authenticate_as("unknown")
+      get :status, :id => "rennes", :format => :json
+      expect(response.status).to eq 200
+    end
+
+    it "should include reservations" do
+      expect(json['nodes']['paramount-4.rennes.grid5000.fr']['reservations']).to_not be_nil
+    end
+  end
 end

@@ -100,6 +100,12 @@ describe JobsController do
       expect(response.status).to eq 403
       expect(response.body).to eq "You are not authorized to access this resource"
     end
+    it "should return 403 if the user is anonymous" do
+      authenticate_as("anonymous")
+      post :create, :site_id => "rennes", :format => :json
+      expect(response.status).to eq 403
+      expect(response.body).to eq "You are not authorized to access this resource"
+    end
     it "should fail if the OAR api does not return 201, 202 or 400" do
       payload = @valid_job_attributes
       authenticate_as("crohr")

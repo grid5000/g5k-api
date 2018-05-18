@@ -23,8 +23,8 @@ module OAR
     # disable inheritance guessed by Rails because of the "type" column.
     set_inheritance_column :_type_disabled
 
-    QUERY_ASSIGNED_RESOURCES = "SELECT moldable_job_id, resource_id FROM %TABLE% WHERE moldable_job_id IN (%MOLDABLE_IDS%)"
-
+    QUERY_ASSIGNED_RESOURCES = "SELECT moldable_job_id, resource_id FROM assigned_resources WHERE moldable_job_id IN (%MOLDABLE_IDS%)"
+    QUERY_GANTT_JOBS_RESOURCES = "SELECT moldable_job_id, resource_id FROM gantt_jobs_resources WHERE moldable_job_id IN (%MOLDABLE_IDS%)"
     def dead?
       state && state == "dead"
     end
@@ -35,129 +35,181 @@ module OAR
       value
     end
 
+    def api_type
+      Resource.api_type(type)
+    end
+
+    def api_name
+      case type
+      when 'default'
+        network_address
+      when 'disk'
+        [disk.split('.').first, host].join('.')
+      else
+        resource_id
+      end
+    end
+
     class << self
-      # Returns the status of all resources, indexed by the network address.
-      # So, it returns only one entry per node, not per core.
-      #
-      # Returns a hash of the following format:
-      #
-      #   {
-      #     'resource-network-address' => {
-      #       :soft => "free|busy|besteffort|unknown",
-      #       :hard => "dead|alive|absent|suspected|standby",
-      #       :reservations => [...]
-      #     },
-      #     {...}
-      #   }
-      #
-      def status(options = {})
-        result = {}
-        job_details = options[:job_details] != 'no'
+
+      def api_type(oar_type)
+        if oar_type=="default"
+          "nodes"
+        else
+          oar_type.pluralize
+        end
+      end
+
+      def list_some(options)
+        #   Do OAR resources have a comment column
         include_comment = columns.find{|c| c.name == "comment"}
 
- 	# abasu for bug 5106 : added cluster & core in MySQL request - 05.02.2015
+        #   abasu for bug 5106 : we need cluster & core
+        #   dmargery for bug 9230 : we need type, disk and diskpath
         resources = Resource.select(
-          "resource_id, cluster, network_address, core, state, available_upto#{include_comment ? ", comment" : ""}"
+          "resource_id, type, cluster, host, network_address, disk, diskpath, core, state, available_upto#{include_comment ? ", comment" : ""}"
         )
 
         resources = resources.where(
-          :network_address => options[:network_address]
+          '"network_address" = ? OR "host" = ?',options[:network_address],options[:network_address]
         ) unless options[:network_address].blank?
 
         resources = resources.where(
           :cluster => options[:clusters]
         ) unless options[:clusters].blank?
 
-        # Remove blank network addresses
-        resources = resources.where("network_address <> ''")
+        resources = resources.where(:type => options[:oar_types])
 
-        resources = resources.index_by(&:resource_id)
+        return resources
+      end
+
+      # Returns the status of all resources from the types requested,
+      # indexed_by type
+      # in addition to OAR's types, node is supported, where
+      # the result is indexed by the network address when present.
+      # So, it returns only one entry per node, not per core for resources
+      # of type default.
+      #
+      # Returns a hash of the following format when called with types => ["node", "disk"]:
+      #
+      #   {
+      #     "nodes" => {
+      #       'resource-network-address' => {
+      #         :soft => "free|busy|besteffort|unknown",
+      #         :hard => "dead|alive|absent|suspected|standby",
+      #         :reservations => [...]
+      #       }, {...}
+      #     }
+      #     "disks" => {
+      #       'disk.host => {
+      #         :soft => "free|busy",
+      #         :disk => disk identifier,
+      #         :diskpath => disk path,
+      #         :reservations => [...]
+      #       }, {...}
+      #     },
+      #     {...}
+      #   }
+      #
+      def status(options = {})
+        # Handle options
+
+        #   No types requested implies default
+        #   and default is returned as nodes
+        options[:types]=["node"] if options[:types].nil?
+
+        options[:oar_types]=options[:types]
+        had_node=options[:oar_types].delete("node")=="node"
+        options[:oar_types].push("default") if had_node
+
+        #   Control verbosity of result
+        #   job_details controls whether future reservations
+        #   of a given resources are returned
+        include_details = options[:job_details] != 'no'
+
+        # Build the list of resources for which status is requested
+        resource_list=list_some(options)
+
+        # Build the list of active jobs with the resources they use
+        active_jobs=get_active_jobs_with_resources(options).values
         
- 	# abasu : Introduce a hash table to store counts of free / busy cores per node - 05.02.2015
-        # abasu : This hash table can be used to store other counters in future (add another element)
-        nodes_counter = {}
-	resources.each do |resource_id, resource|
+        api_status = {}
+        api_status_data = {} # used later to aggregate oar resource status date at api resource level
+
+        # answer with some data for all requested types
+        # even when no resources of that type can be found
+        options[:oar_types].each do |oar_type|
+          api_status[api_type(oar_type)]={}
+          api_status_data[api_type(oar_type)]={}
+        end
+
+        resources={}
+
+        # Go though the list of resource (oar's definition) to
+        # - index by resource_id (.index_by(&:resource_id))
+        # - set the API status of resources (API's definition) with no jobs ;
+        # - setup any data required to compute the API status when it depends on the
+        #   status of multiple OAR resources (eg. nodes)
+        resource_list.each do |resource|
           next if resource.nil?
+          resources[resource.resource_id]=resource
 
-	  nodes_counter[resource.network_address]= {
-                :totalcores => 0,
-                :busycounter => 0,
-                :besteffortcounter => 0
-              } if !nodes_counter.has_key?(resource.network_address)
-          if !resource.core.zero?
-            # core=0 for non default type of resources
-	    nodes_counter[resource.network_address][:totalcores] += 1
-          end
-	end  #  .each do |resource_id, resource|
+          api_status[resource.api_type][resource.api_name] ||= initial_status_for(resource, include_details)
 
-        get_active_jobs_by_moldable_id(options).each do |moldable_id, h|
-          current = h[:job].running?
+          api_status_data[resource.api_type][resource.api_name] ||= initial_status_data_for(resource, include_details)
 
-          # prepare job description now, since it will be added to each resource
-          # For Result hash table, do not include events
+          api_status_data[resource.api_type][resource.api_name]=
+            update_with_resource(api_status_data[resource.api_type][resource.api_name],
+                                 resource,
+                                 include_details)
+	      end  #  .each do |resource_id, resource|
+
+        # Go through active jobs and update status data for all the
+        # resources of the job
+        active_jobs.each do |h|
+          # prepare job description now, since it will be the same for each
+          # resource of the job
+          # For api_status hash table, do not include events
           # (otherwise the Set does not work with nested hash)
-          jobh = h[:job].to_reservation(:without => :events) if job_details
+          job_for_api = nil
+          job_for_api = h[:job].to_reservation(:without => :events) if include_details
 
           h[:resources].each do |resource_id|
             resource = resources[resource_id]
-            # The resource does not belong to a valid cluster.
+            # The resource does not belong to the list of resources the caller is interested in.
             next if resource.nil?
 
-            result[resource.network_address] ||= initial_status_for(resource, job_details)
-
-	    # abasu : if job is current, increment corresponding counter(s) in hash table
-            if current
-              nodes_counter[resource.network_address][:busycounter] += 1
-              if h[:job].besteffort?
-                nodes_counter[resource.network_address][:besteffortcounter] += 1
-              end #  if h[:job].besteffort?
-            end  # if current
-
-            result[resource.network_address][:reservations].add(jobh) if job_details
+            api_status_data[resource.api_type][resource.api_name]=
+              update_with_job(resource.api_type,
+                              api_status_data[resource.api_type][resource.api_name],
+                              h[:job],
+                              job_for_api)
           end  # .each do |resource_id|
-        end  # .each do |moldable_id, h|
+        end  # .each do |h|
 
-        # abasu : At this stage we have the the complete status over all cores in each node (network_address)
-        # abasu : Now add logic to sum up the status over all cores and push final status to result hash table
-
- 
-        nodes_counter.each do |network_address, node_counter|
-          next if result[network_address].nil?
-          next if result[network_address][:hard] == 'dead'
-
-          if node_counter[:busycounter] == 0
-            result[network_address][:soft] = "free"      # all cores in node are free
+        # We now compute the final status from the api_status_data
+        api_status_data.each do |api_type, type_status_data|
+          type_status_data.each do |api_resource_name, aggregatated_status_data|
+            api_status[api_type] ||= {}
+            api_status[api_type][api_resource_name]=derive_api_status(api_type,
+                                                                      api_status[api_type][api_resource_name],
+                                                                      aggregatated_status_data)
           end
-          if node_counter[:busycounter] > 0 && node_counter[:busycounter] <= node_counter[:totalcores] / 2
-	    result[network_address][:soft] = "free_busy" # more free cores in node than busy cores
-          end
-          if node_counter[:busycounter] > node_counter[:totalcores] / 2 && node_counter[:busycounter] < node_counter[:totalcores]
-	    result[network_address][:soft] = "busy_free" # more busy cores in node than free cores
-          end
-          if node_counter[:busycounter] == node_counter[:totalcores] 
-	    result[network_address][:soft] = "busy"      # all cores in node are busy
-	  end  # nested if
+        end
 
-          if node_counter[:besteffortcounter] > 0
-	    result[network_address][:soft] += "_besteffort" # add "_besteffort" after status if it is so
-          end # if node_counter[:besteffortcounter]
-        end  # .each do |network_address, node_counter|
-
-        # fallback for resources without jobs
-        resources.each do |resource_id, resource|
-          result[resource.network_address] ||= initial_status_for(resource, job_details)
-        end  # .each do |resource_id, resource|
-
-        result
+        api_status
       end # def status
 
-      def get_active_jobs_by_moldable_id(options = {})
+      def get_active_jobs_with_resources(options = {})
         active_jobs_by_moldable_id = {}
         jobs = options[:waiting] == 'no' ? Job.expanded.active_not_waiting : Job.expanded.active
-        jobs.
-          find(:all, :include => [:job_types]).
+        jobs.find(:all, :include => [:job_types]).
           each{|job|
           active_jobs_by_moldable_id[job.moldable_id] = {
+            # using job.resources will generate a query by job,
+            # and eager loading (the :include => [:job_types, :resources]  will not work
+            # for association defined by :finder_sql such a resources
+            # initialize resources to an empty set
             :resources => Set.new,
             :job => job
           }
@@ -168,137 +220,116 @@ module OAR
           moldable_ids = active_jobs_by_moldable_id.keys.
             map{|moldable_id| "'#{moldable_id}'"}.join(",")
 
-          # get all resources assigned to these jobs
-          %w{assigned_resources gantt_jobs_resources}.each do |table|
-            self.connection.execute(
-              QUERY_ASSIGNED_RESOURCES.gsub(
-                /%TABLE%/, table
-              ).gsub(
-                /%MOLDABLE_IDS%/, moldable_ids
-              )
-            ).each do |row|
-              if row.is_a?(Hash)
-                moldable_job_id=row["moldable_job_id"]
-                resource_id=row["resource_id"].to_i
-              else
-                (moldable_job_id,resource_id)=row
-                resource_id=resource_id.to_i
-              end
 
-              active_jobs_by_moldable_id[moldable_job_id][:resources].
-                add(resource_id)
-            end # .each do |(moldable_job_id, resource_id)|
-          end # .each do |table|
+          # get all resources assigned to these jobs in one query
+          query= "(#{QUERY_ASSIGNED_RESOURCES}) UNION (#{QUERY_GANTT_JOBS_RESOURCES})"
+          self.connection.execute(
+            query.gsub(
+              /%MOLDABLE_IDS%/, moldable_ids
+            )
+          ).each do |row|
+            if row.is_a?(Hash)
+              moldable_job_id=row["moldable_job_id"]
+              resource_id=row["resource_id"].to_i
+            else
+              (moldable_job_id,resource_id)=row
+              resource_id=resource_id.to_i
+            end
+
+            active_jobs_by_moldable_id[moldable_job_id][:resources].
+              add(resource_id)
+          end # .each do |(moldable_job_id, resource_id)|
         end # if active_jobs_by_moldable_id
         active_jobs_by_moldable_id
       end
 
-      # Returns the initial status hash for a resource.
-      def initial_status_for(resource, job_details)
-        hard = resource.state
+      # Returns the status hash for a resource with no jobs
+      def initial_status_for(resource, include_details)
+        h = {:hard => resource.state}
         # Check if resource is in standby state
-        if hard == 'absent' && resource.available_upto && resource.available_upto == STANDBY_AVAILABLE_UPTO
-          hard = 'standby'
+        if resource.state == 'absent' && resource.available_upto && resource.available_upto == STANDBY_AVAILABLE_UPTO
+          h[:hard] = 'standby'
         end
-        h = {
-          :hard => hard,
-          :soft => resource.dead? ? "unknown" : "free",
-        }
-        h[:reservations] = Set.new if job_details
-        h[:comment] = resource.comment if resource.respond_to?(:comment)
+        case resource.type
+        when 'default'
+          h[:soft]= resource.dead? ? "unknown" : "free"
+          h[:comment] = resource.comment if resource.respond_to?(:comment)
+        when 'disk'
+          h[:soft]= "free"
+          h[:diskpath] = resource.diskpath
+        end
         h
       end  # def initial_status_for
 
-      # Returns the status of all disks, indexed by the disk location.
-      # So, it returns only one entry per disk.
-      #
-      # Returns a hash of the following format:
-      #
-      #   {
-      #     'disk.host' => {
-      #       :soft => "free|busy",
-      #       :disk => disk identifier,
-      #       :diskpath => disk path,
-      #       :reservations => [...]
-      #     },
-      #     {...}
-      #   }
-      #
-      def disk_status(options = {})
-        result = {}
-        job_details = options[:job_details] != 'no'
-
-        resources = Resource.select(
-          "resource_id, cluster, host, disk, diskpath"
-        )
-
-        # Column host of a disk resource is equal to column
-        # network_address of the node it belongs to
-        resources = resources.where(
-          :host => options[:network_address]
-        ) unless options[:network_address].blank?
-
-        resources = resources.where(
-          :cluster => options[:clusters]
-        ) unless options[:clusters].blank?
-
-        # Keep only disks
-        resources = resources.where(
-          :type => 'disk'
-        )
-
-        resources = resources.index_by(&:resource_id)
-
-        get_active_jobs_by_moldable_id(options).each do |moldable_id, h|
-          current = h[:job].running?
-
-          # prepare job description now, since it will be added to each resource
-          # For Result hash table, do not include events
-          # (otherwise the Set does not work with nested hash)
-          jobh = h[:job].to_reservation(:without => :events) if job_details
-
-          h[:resources].each do |resource_id|
-            resource = resources[resource_id]
-
-            # The resource is not a disk or does not belong to a valid cluster.
-            next if resource.nil?
-
-            disk_key = disk_key(resource.disk, resource.host)
-            result[disk_key] ||= initial_disk_status_for(resource, job_details)
-
-            if current
-              result[disk_key][:soft] = 'busy'
-            else
-              result[disk_key][:soft] = 'free'
-            end  # if current
-
-            result[disk_key][:reservations].add(jobh) if job_details
-          end  # .each do |resource_id|
-        end  # .each do |moldable_id, h|
-
-        # fallback for resources without jobs
-        resources.each do |resource_id, resource|
-          result[disk_key(resource.disk, resource.host)] ||= initial_disk_status_for(resource, job_details)
-        end  # .each do |resource_id, resource|
-
-        result
-      end # def disk_status
-
-      def disk_key(disk, host)
-        [disk.split('.').first, host].join('.')
+      # Creates accumulator for resources described at API level
+      # that are an aggregation of OAR resources
+      # so as to be able to compute their aggregated status
+      def initial_status_data_for(resource, include_details)
+        initial_data=
+          if resource.api_type=="nodes"
+	          {
+              :totalcores => 0,
+              :busycounter => 0,
+              :besteffortcounter => 0
+            }
+          else
+            {}
+          end
+        initial_data[:reservations]=Set.new if include_details
+        initial_data
       end
 
-      # Returns the initial status hash for a disk.
-      def initial_disk_status_for(resource, job_details)
-        h = {
-          :soft => "free",
-          :diskpath => resource.diskpath,
-        }
-        h[:reservations] = Set.new if job_details
-        h
-      end  # def initial_disk_status
+      def update_with_resource(current_data, resource, include_details)
+        current_data[:totalcores] += 1 if resource.api_type=="nodes"
+        return current_data
+      end
+
+      def update_with_job(api_type, current_data, oar_job, job_for_api)
+        if oar_job.running?
+          if api_type=="nodes"
+            current_data[:busycounter] += 1
+            if oar_job.besteffort?
+              current_data[:besteffortcounter] += 1
+            end
+          else
+            current_data[:soft] = 'busy'
+          end
+        end
+        current_data[:reservations].add(job_for_api) unless job_for_api.nil?
+        return current_data
+      end
+
+      def derive_api_status(api_type, initial_status, current_data)
+        derived_status=initial_status
+
+        [:reservations, :soft].each do |key|
+          if current_data.has_key?(key)
+            derived_status[key]=current_data[key]
+          end
+        end
+
+        #do specific calculation for some api_types
+        if api_type=="nodes"
+          # abasu : At this stage we have the the complete status over all cores in each node (network_address)
+          # abasu : Now add logic to sum up the status over all cores and push final status to api_status hash table
+          if current_data[:busycounter] > 0
+            if current_data[:busycounter] <= current_data[:totalcores] / 2
+	            derived_status[:soft] = "free_busy" # more free cores in node than busy cores
+            elsif current_data[:busycounter] > current_data[:totalcores] / 2 && current_data[:busycounter] < current_data[:totalcores]
+	            derived_status[:soft] = "busy_free" # more busy cores in node than free cores
+            else
+              derived_status[:soft] = "busy"      # all cores in node are busy
+	          end
+            if current_data[:besteffortcounter] > 0
+	            derived_status[:soft] += "_besteffort" # add "_besteffort" after status if it is so
+            end
+            derived_status[:freeslots]=current_data[:totalcores]-current_data[:busycounter]
+            derived_status[:freeableslots]=current_data[:besteffortcounter]
+          end
+        end
+        derived_status
+      end
     end # class << self
 
   end  # class Resource
-
 end  # module OAR
