@@ -1,3 +1,11 @@
+g5k-api (4.1.1-1) jessie; urgency=low
+
+  * 83ab5f6 Finalize advertissement of free_slots by status
+  * 9d00877 Update test case name to reflect what is tested
+  * bf53af8 Test that status uid is a unix timestamp
+
+ -- David Margery <david.margery@inria.fr>  Wed, 30 May 2018 09:01:48 +0000
+
 g5k-api (4.1.0-1) jessie; urgency=low
 
   * 9cf761b Merge pull request #51 from grid5000/bugs/#9230
