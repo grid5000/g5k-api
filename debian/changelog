@@ -1,3 +1,19 @@
+g5k-api (3.6.0-1) jessie; urgency=low
+
+  * ba0dd08 Finalize advertissement of free_slots by status
+  * 1d379fd Update test case name to reflect what is tested
+  * a8f483c Test that status uid is a unix timestamp
+  * 1ae4ad7 make status code readable again
+  * f2723bd Explicitly test for handling of oar's default type
+  * 58dcb4b Correct comment on sites_controller_spec
+  * 9b60ff5 Merge implementations of status & status_for_disk
+  * 0dc8cba Limit the queries to oar's db by using a union
+  * 837a75e Limit queried jobs to build status for anonymous
+  * 75548af Explicitly handle anonymous users
+  * a7117ad Test correct behaviour for anonymous users
+
+ -- David Margery <david.margery@inria.fr>  Wed, 30 May 2018 09:33:19 +0000
+
 g5k-api (3.5.10-1) jessie; urgency=low
 
   * 8323955 Merge pull request #48 from grid5000/bug7970-status-api-performance-v3
