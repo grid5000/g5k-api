@@ -61,7 +61,14 @@ describe OAR::Resource do
         end
         expected_statuses[node][:reservations].push(job_id.to_i)
       }
-
+      fixture('grid5000-rennes-status-count').
+        split("\n").reject{|line| line[0] == "#" || line =~ /^\s*$/}.
+        map{|line| line.split(/\s/)}.
+        each {|node,nb_free,nb_busy,nb_busy_best_effort|
+        expected_statuses[node].merge!({:free_slots => nb_free.to_i,
+                                       :freeable_slots => nb_busy.to_i,
+                                       :busy_slots => nb_busy_best_effort.to_i})
+      }
       OAR::Resource.status["nodes"].each do |node, status|
         expected_status = expected_statuses[node]
         expected_jobs = expected_status[:reservations].sort
@@ -69,6 +76,9 @@ describe OAR::Resource do
         expect(reservations).to eq expected_jobs
         expect(status[:soft]).to match /#{expected_status[:soft]}/
         expect(status[:hard]).to eq expected_status[:hard]
+        expect(status[:free_slots]).to eq expected_status[:free_slots]
+        expect(status[:freeable_slots]).to eq expected_status[:freeable_slots]
+        expect(status[:busy_slots]).to eq expected_status[:busy_slots]
       end
     end
 

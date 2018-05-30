@@ -154,6 +154,9 @@ describe SitesController do
       ].sort
       expect(json['disks']).to be_empty # no reservable disks on requested clusters
       expect(json['nodes']['paramount-4.rennes.grid5000.fr']['reservations']).not_to be_nil
+      expect(json['nodes']['paramount-4.rennes.grid5000.fr']['free_slots']).not_to be_nil
+      expect(json['nodes']['paramount-4.rennes.grid5000.fr']['busy_slots']).not_to be_nil
+      expect(json['nodes']['paramount-4.rennes.grid5000.fr']['freeable_slots']).not_to be_nil
       expect(json.keys).to include("uid")
       expect(json['uid']).to eq @now.to_i
     end

@@ -323,8 +323,13 @@ module OAR
             if current_data[:besteffortcounter] > 0
 	            derived_status[:soft] += "_besteffort" # add "_besteffort" after status if it is so
             end
-            derived_status[:freeslots]=current_data[:totalcores]-current_data[:busycounter]
-            derived_status[:freeableslots]=current_data[:besteffortcounter]
+          end
+          unless derived_status[:soft]=="unknown"
+            derived_status[:free_slots]=current_data[:totalcores]-current_data[:busycounter]
+            derived_status[:freeable_slots]=current_data[:besteffortcounter]
+            derived_status[:busy_slots]=current_data[:busycounter]-current_data[:besteffortcounter]
+          else
+            [:free_slots,:freeable_slots,:busy_slots].each {|slot| derived_status[slot]=0}
           end
         end
         derived_status
