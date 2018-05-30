@@ -206,7 +206,7 @@ describe SitesController do
     # end
   end # "GET /sites/{{site_id}}/status"
 
-  describe "GET /sites/{{site_id}}/status (authenticated)" do
+  describe "GET /sites/{{site_id}}/status (by anonymous)" do
     before do
       authenticate_as("anonymous")
       get :status, :id => "rennes", :format => :json
