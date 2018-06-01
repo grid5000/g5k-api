@@ -36,6 +36,39 @@ describe OAR::Resource do
     it "should return status for all requested resource types" do
       expect(OAR::Resource.status({types: ['node', 'disk']}).keys.sort).to eq ["nodes","disks"].sort
     end
+
+  end
+
+  describe "with pre-comment database schema for OAR" do
+    before do
+      OAR::Base.connection.execute("ALTER TABLE resources RENAME comment to comments")
+      OAR::Resource.reset_column_information
+    end
+
+    it "should work on a db with no comments" do
+      expect(OAR::Resource.status["nodes"].size).to be > 0
+    end
+
+    after do
+      OAR::Base.connection.execute("ALTER TABLE resources RENAME comments to comment")
+      OAR::Resource.reset_column_information
+    end
+  end
+
+  describe "with pre-disk database schema for OAR" do
+    before(:each) do
+      OAR::Base.connection.execute("ALTER TABLE resources RENAME disk to renamed_disk")
+      OAR::Resource.reset_column_information
+    end
+
+    it "should lists available nodes" do
+      expect(OAR::Resource.status["nodes"].size).to be > 0
+    end
+
+    after(:each) do
+      OAR::Base.connection.execute("ALTER TABLE resources RENAME renamed_disk to disk")
+      OAR::Resource.reset_column_information
+    end
   end
 
   describe "status for nodes" do
