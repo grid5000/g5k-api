@@ -1,3 +1,12 @@
+g5k-api (4.1.2-1) jessie; urgency=low
+
+  * 31d0871 Handle OAR databases with no disk in resources
+  * cff98d8 Test handling of different OAR database schemas
+  * e713d4a Update configuration for development env with oar
+  * 1ba34f2 Romove duplicate config.use_transactional_fixtures
+
+ -- David Margery <david.margery@inria.fr>  Fri, 01 Jun 2018 09:52:12 +0000
+
 g5k-api (4.1.1-1) jessie; urgency=low
 
   * 83ab5f6 Finalize advertissement of free_slots by status
