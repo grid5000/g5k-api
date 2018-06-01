@@ -64,10 +64,13 @@ module OAR
         #   Do OAR resources have a comment column
         include_comment = columns.find{|c| c.name == "comment"}
 
+        #   Do OAR resources have a disk column
+        include_disk = columns.find{|c| c.name == "disk"}
+
         #   abasu for bug 5106 : we need cluster & core
         #   dmargery for bug 9230 : we need type, disk and diskpath
         resources = Resource.select(
-          "resource_id, type, cluster, host, network_address, disk, diskpath, core, state, available_upto#{include_comment ? ", comment" : ""}"
+          "resource_id, type, cluster, host, network_address, #{include_disk ? "disk, diskpath,":""} core, state, available_upto#{include_comment ? ", comment" : ""}"
         )
 
         resources = resources.where(
