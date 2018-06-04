@@ -1,3 +1,13 @@
+g5k-api (3.6.1-1) jessie; urgency=low
+
+  * e88adc5 Merge pull request #52 from grid5000/bugs/#9337
+  * d299885 Handle OAR databases with no disk in resources
+  * d0e5399 Test handling of different OAR database schemas
+  * 98ee697 Update configuration for development env with oar
+  * 196a54d Romove duplicate config.use_transactional_fixtures
+
+ -- David Margery <david.margery@inria.fr>  Mon, 04 Jun 2018 14:57:51 +0000
+
 g5k-api (3.6.0-1) jessie; urgency=low
 
   * ba0dd08 Finalize advertissement of free_slots by status
