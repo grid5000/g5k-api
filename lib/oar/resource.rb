@@ -115,98 +115,122 @@ module OAR
       #   }
       #
       def status(options = {})
-        # Handle options
+        ActiveSupport::Notifications.instrument("OAR::Resource.status complete call",
+                                                options) do
+          # Handle options
 
-        #   No types requested implies default
-        #   and default is returned as nodes
-        options[:types]=["node"] if options[:types].nil?
+          #   No types requested implies default
+          #   and default is returned as nodes
+          options[:types]=["node"] if options[:types].nil?
 
-        options[:oar_types]=options[:types]
-        had_node=options[:oar_types].delete("node")=="node"
-        options[:oar_types].push("default") if had_node
+          options[:oar_types]=options[:types]
+          had_node=options[:oar_types].delete("node")=="node"
+          options[:oar_types].push("default") if had_node
 
-        #   Control verbosity of result
-        #   job_details controls whether future reservations
-        #   of a given resources are returned
-        include_details = options[:job_details] != 'no'
+          #   Control verbosity of result
+          #   job_details controls whether future reservations
+          #   of a given resources are returned
+          include_details = options[:job_details] != 'no'
 
-        # Build the list of resources for which status is requested
-        resource_list=list_some(options)
-
-        # Build the list of active jobs with the resources they use
-        active_jobs=get_active_jobs_with_resources(options).values
-        
-        api_status = {}
-        api_status_data = {} # used later to aggregate oar resource status date at api resource level
-
-        # answer with some data for all requested types
-        # even when no resources of that type can be found
-        options[:oar_types].each do |oar_type|
-          api_status[api_type(oar_type)]={}
-          api_status_data[api_type(oar_type)]={}
-        end
-
-        resources={}
-
-        # Go though the list of resource (oar's definition) to
-        # - index by resource_id (.index_by(&:resource_id))
-        # - set the API status of resources (API's definition) with no jobs ;
-        # - setup any data required to compute the API status when it depends on the
-        #   status of multiple OAR resources (eg. nodes)
-        resource_list.each do |resource|
-          next if resource.nil?
-          resources[resource.resource_id]=resource
-
-          api_status[resource.api_type][resource.api_name] ||= initial_status_for(resource, include_details)
-
-          api_status_data[resource.api_type][resource.api_name] ||= initial_status_data_for(resource, include_details)
-
-          api_status_data[resource.api_type][resource.api_name]=
-            update_with_resource(api_status_data[resource.api_type][resource.api_name],
-                                 resource,
-                                 include_details)
-	      end  #  .each do |resource_id, resource|
-
-        # Go through active jobs and update status data for all the
-        # resources of the job
-        active_jobs.each do |h|
-          # prepare job description now, since it will be the same for each
-          # resource of the job
-          # For api_status hash table, do not include events
-          # (otherwise the Set does not work with nested hash)
-          job_for_api = nil
-          job_for_api = h[:job].to_reservation(:without => :events) if include_details
-
-          h[:resources].each do |resource_id|
-            resource = resources[resource_id]
-            # The resource does not belong to the list of resources the caller is interested in.
-            next if resource.nil?
-
-            api_status_data[resource.api_type][resource.api_name]=
-              update_with_job(resource.api_type,
-                              api_status_data[resource.api_type][resource.api_name],
-                              h[:job],
-                              job_for_api)
-          end  # .each do |resource_id|
-        end  # .each do |h|
-
-        # We now compute the final status from the api_status_data
-        api_status_data.each do |api_type, type_status_data|
-          type_status_data.each do |api_resource_name, aggregatated_status_data|
-            api_status[api_type] ||= {}
-            api_status[api_type][api_resource_name]=derive_api_status(api_type,
-                                                                      api_status[api_type][api_resource_name],
-                                                                      aggregatated_status_data)
+          resource_list=nil
+          ActiveSupport::Notifications.instrument("OAR::Resource.status build resource list",
+                                                  options) do
+            # Build the list of resources for which status is requested
+            resource_list=list_some(options)
           end
-        end
+          active_jobs=nil
+          ActiveSupport::Notifications.instrument("OAR::Resource.status get_active_jobs_with_resources",
+                                                  options) do
+            # Build the list of active jobs with the resources they use
+            active_jobs=get_active_jobs_with_resources(options).values
+          end
 
-        api_status
+          api_status = {}
+          api_status_data = {} # used later to aggregate oar resource status date at api resource level
+
+          # answer with some data for all requested types
+          # even when no resources of that type can be found
+          options[:oar_types].each do |oar_type|
+            api_status[api_type(oar_type)]={}
+            api_status_data[api_type(oar_type)]={}
+          end
+
+          resources={}
+          ActiveSupport::Notifications.instrument("OAR::Resource.status setup resources",
+                                                  options) do
+            # Go though the list of resource (oar's definition) to
+            # - index by resource_id (.index_by(&:resource_id))
+            # - set the API status of resources (API's definition) with no jobs ;
+            # - setup any data required to compute the API status when it depends on the
+            #   status of multiple OAR resources (eg. nodes)
+            resource_list.each do |resource|
+              next if resource.nil?
+              resources[resource.resource_id]=resource
+
+              api_status[resource.api_type][resource.api_name] ||= initial_status_for(resource, include_details)
+
+              api_status_data[resource.api_type][resource.api_name] ||= initial_status_data_for(resource, include_details)
+
+              api_status_data[resource.api_type][resource.api_name]=
+                update_with_resource(api_status_data[resource.api_type][resource.api_name],
+                                     resource,
+                                     include_details)
+	          end  #  .each do |resource_id, resource|
+          end
+
+          ActiveSupport::Notifications.instrument("OAR::Resource.status update resources with job info",
+                                                  options) do
+            # Go through active jobs and update status data for all the
+            # resources of the job
+            active_jobs.each do |h|
+              # prepare job description now, since it will be the same for each
+              # resource of the job
+              # For api_status hash table, do not include events
+              # (otherwise the Set does not work with nested hash)
+              job_for_api = nil
+              job_for_api = h[:job].to_reservation(:without => :events) if include_details
+
+              h[:resources].each do |resource_id|
+                resource = resources[resource_id]
+                # The resource does not belong to the list of resources the caller is interested in.
+                next if resource.nil?
+
+                api_status_data[resource.api_type][resource.api_name]=
+                  update_with_job(resource.api_type,
+                                  api_status_data[resource.api_type][resource.api_name],
+                                  h[:job],
+                                  job_for_api)
+              end  # .each do |resource_id|
+            end  # .each do |h|
+          end
+
+          ActiveSupport::Notifications.instrument("OAR::Resource.status compute result",
+                                                  options) do
+            # We now compute the final status from the api_status_data
+            api_status_data.each do |api_type, type_status_data|
+              type_status_data.each do |api_resource_name, aggregatated_status_data|
+                api_status[api_type] ||= {}
+                api_status[api_type][api_resource_name]=derive_api_status(api_type,
+                                                                          api_status[api_type][api_resource_name],
+                                                                          aggregatated_status_data)
+              end
+            end
+          end
+
+          api_status
+        end
       end # def status
 
       def get_active_jobs_with_resources(options = {})
         active_jobs_by_moldable_id = {}
         jobs = options[:waiting] == 'no' ? Job.expanded.active_not_waiting : Job.expanded.active
-        jobs.find(:all, :include => [:job_types]).
+        usefull_jobs=nil
+        ActiveSupport::Notifications.instrument("OAR::Resource.get_active_jobs_with_resources build usefull_jobs",options) do
+          usefull_jobs=jobs.all(:include => [:job_types])
+        end
+        ActiveSupport::Notifications.instrument("OAR::Resource.get_active_jobs_with_resources create active_jobs_by_moldable_id",
+                                                options) do
+        usefull_jobs.
           each{|job|
           active_jobs_by_moldable_id[job.moldable_id] = {
             # using job.resources will generate a query by job,
@@ -217,14 +241,18 @@ module OAR
             :job => job
           }
         }
-
+        end
         # if there are jobs
         if active_jobs_by_moldable_id.length > 0
-          moldable_ids = active_jobs_by_moldable_id.keys.
-            map{|moldable_id| "'#{moldable_id}'"}.join(",")
-
+          moldable_ids=nil
+          ActiveSupport::Notifications.instrument("OAR::Resource.get_active_jobs_with_resources build moldable_ids",
+                                                  options) do
+            moldable_ids = active_jobs_by_moldable_id.keys.
+                             map{|moldable_id| "'#{moldable_id}'"}.join(",")
+          end
 
           # get all resources assigned to these jobs in one query
+          ActiveSupport::Notifications.instrument("OAR::Resource.get_active_jobs_with_resources find associated resources",options) do
           query= "(#{QUERY_ASSIGNED_RESOURCES}) UNION (#{QUERY_GANTT_JOBS_RESOURCES})"
           self.connection.execute(
             query.gsub(
@@ -242,6 +270,7 @@ module OAR
             active_jobs_by_moldable_id[moldable_job_id][:resources].
               add(resource_id)
           end # .each do |(moldable_job_id, resource_id)|
+          end
         end # if active_jobs_by_moldable_id
         active_jobs_by_moldable_id
       end

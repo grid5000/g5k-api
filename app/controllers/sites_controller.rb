@@ -17,39 +17,48 @@ require 'resources_controller'
 class SitesController < ResourcesController
 
   def status
-    # fetch valid clusters
-    enrich_params(params)
+    ActiveSupport::Notifications.instrument("SitesController.status complete call",
+                                            params) do
+      valid_clusters=nil
+      ActiveSupport::Notifications.instrument("SitesController.status fetch valid clusters",
+                                              params) do
+        # fetch valid clusters
+        enrich_params(params)
 
-    params[:job_details]='no' if is_anonymous?
-    params[:waiting]='no' if is_anonymous?
+        params[:job_details]='no' if is_anonymous?
+        params[:waiting]='no' if is_anonymous?
 
-    site_clusters=lookup_path("/sites/#{params[:id]}/clusters", params)
-    valid_clusters = site_clusters['items'].map{|i| i['uid']}
-    Rails.logger.info "Valid clusters=#{valid_clusters.inspect}"
-
-    result = {
-      "uid" => Time.now.to_i,
-      "links" => [
-        {
-          "rel" => "self",
-          "href" => uri_to(status_site_path(params[:id])),
-          "type" => media_type(:g5kitemjson)
-        },
-        {
-          "rel" => "parent",
-          "href" => uri_to(site_path(params[:id])),
-          "type" => media_type(:g5kitemjson)
+        site_clusters=lookup_path("/sites/#{params[:id]}/clusters", params)
+        valid_clusters = site_clusters['items'].map{|i| i['uid']}
+        Rails.logger.info "  Valid clusters=#{valid_clusters.inspect}"
+      end
+      result=nil
+      ActiveSupport::Notifications.instrument("SitesController.status build result",
+                                              params) do
+        result = {
+          "uid" => Time.now.to_i,
+          "links" => [
+            {
+              "rel" => "self",
+              "href" => uri_to(status_site_path(params[:id])),
+              "type" => media_type(:g5kitemjson)
+            },
+            {
+              "rel" => "parent",
+              "href" => uri_to(site_path(params[:id])),
+              "type" => media_type(:g5kitemjson)
+            }
+          ]
         }
-      ]
-    }
 
-    expected_rtypes=['node']
-    expected_rtypes.push('disk') if params[:disks] != "no"
-    result.merge!(OAR::Resource.status(:clusters => valid_clusters, :network_address => params[:network_address], :job_details => params[:job_details], :waiting => params[:waiting], :types => expected_rtypes))
-
-    respond_to do |format|
-      format.g5kitemjson { render :json => result }
-      format.json { render :json => result }
+        expected_rtypes=['node']
+        expected_rtypes.push('disk') if params[:disks] != "no"
+        result.merge!(OAR::Resource.status(:clusters => valid_clusters, :network_address => params[:network_address], :job_details => params[:job_details], :waiting => params[:waiting], :types => expected_rtypes))
+      end
+      respond_to do |format|
+        format.g5kitemjson { render :json => result }
+        format.json { render :json => result }
+      end
     end
   end
   
