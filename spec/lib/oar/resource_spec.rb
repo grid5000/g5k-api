@@ -185,19 +185,11 @@ describe OAR::Resource do
     describe "standby state" do
       before do
         # resource with absent state
-        @cobayes = OAR::Resource.
-                     find_all_by_network_address('paramount-2.rennes.grid5000.fr')
-        @cobayes.each {|r|
-          expect(r.update_attribute(
-                   :available_upto, OAR::Resource::STANDBY_AVAILABLE_UPTO
-                 )).to be true
-        }
+        OAR::Base.connection.execute("Update resources SET available_upto=#{OAR::Resource::STANDBY_AVAILABLE_UPTO} where network_address='paramount-2.rennes.grid5000.fr'")
       end
 
       after do
-        @cobayes.each {|r|
-          expect(r.update_attribute(:available_upto, 0)).to be true
-        }
+        OAR::Base.connection.execute("Update resources SET available_upto=0 where network_address='paramount-2.rennes.grid5000.fr'")
       end
 
       it "should return a standby node" do
