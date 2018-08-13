@@ -18,10 +18,10 @@ module OAR
     # be in the standby state.
     STANDBY_AVAILABLE_UPTO = 2147483646
 
-    set_table_name "resources"
-    set_primary_key :resource_id
+    self.table_name = "resources"
+    self.primary_key = :resource_id
     # disable inheritance guessed by Rails because of the "type" column.
-    set_inheritance_column :_type_disabled
+    self.inheritance_column = :_type_disabled
 
     QUERY_ASSIGNED_RESOURCES = "SELECT moldable_job_id, resource_id FROM assigned_resources WHERE moldable_job_id IN (%MOLDABLE_IDS%)"
     QUERY_GANTT_JOBS_RESOURCES = "SELECT moldable_job_id, resource_id FROM gantt_jobs_resources WHERE moldable_job_id IN (%MOLDABLE_IDS%)"

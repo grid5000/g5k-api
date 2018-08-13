@@ -28,6 +28,13 @@ class development {
     require => [Service['postgresql'],Postgres::Database['oar2_test'],Postgres::Database['oar2_dev']]
   }
 
+  exec{ "allow connections to postgres for oarreader":
+    user => postgres,
+    command => "/bin/echo \"CREATE USER oarreader PASSWORD 'read'; GRANT CONNECT ON *.oar2_dev TO 'oarreader' ;GRANT CONNECT ON *.oar2_test TO 'oarreader' ; GRANT SELECT ON *.oar2_dev TO 'oarreader' ;GRANT SELECT ON *.oar2_test TO 'oarreader' ;\" | /usr/bin/psql ",
+    unless => "/bin/echo \"SELECT rolname FROM pg_roles;\" | /usr/bin/psql | grep oarreader",
+    require => [Service['postgresql'],Postgres::Database['oar2_test'],Postgres::Database['oar2_dev']]
+  }
+
   exec{ "give ownership of oar2 databases to root":
     user => postgres,
     command => "/bin/echo \"ALTER DATABASE oar2_dev OWNER TO root; ALTER DATABASE oar2_test OWNER TO root;\" | /usr/bin/psql ",

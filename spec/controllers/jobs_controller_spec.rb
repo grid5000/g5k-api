@@ -75,7 +75,7 @@ describe JobsController do
     it "should return 404 if the job does not exist" do
       get :show, :site_id => "rennes", :id => "doesnotexist", :format => :json
       expect(response.status).to eq 404
-      expect(response.body).to eq "Couldn't find OAR::Job with ID=doesnotexist"
+      expect(response.body).to eq "Couldn't find OAR::Job with job_id=doesnotexist"
     end
     it "should return 200 and the job" do
       get :show, :site_id => "rennes", :id => @job_uids[5], :format => :json
@@ -111,7 +111,7 @@ describe JobsController do
       authenticate_as("crohr")
       send_payload(payload, :json)
 
-      expected_url = "http://api-out.local:80/sites/rennes/internal/oarapi/jobs.json"
+      expected_url = "http://api-out.local/sites/rennes/internal/oarapi/jobs.json"
       stub_request(:post, expected_url).
         with(
           :headers => {
@@ -137,7 +137,7 @@ describe JobsController do
       authenticate_as("crohr")
       send_payload(payload, :json)
 
-      expected_url = "http://api-out.local:80/sites/rennes/internal/oarapi/jobs.json"
+      expected_url = "http://api-out.local/sites/rennes/internal/oarapi/jobs.json"
       stub_request(:post, expected_url).
         with(
           :headers => {
@@ -163,7 +163,7 @@ describe JobsController do
       authenticate_as("xyz")
       send_payload(payload, :json)
 
-      expected_url = "http://api-out.local:80/sites/rennes/internal/oarapi/jobs.json"
+      expected_url = "http://api-out.local/sites/rennes/internal/oarapi/jobs.json"
       stub_request(:post, expected_url).
         with(
           :headers => {
@@ -188,7 +188,7 @@ describe JobsController do
       authenticate_as("crohr")
       send_payload(payload, :json)
 
-      expected_url = "http://api-out.local:80/sites/rennes/internal/oarapi/jobs.json"
+      expected_url = "http://api-out.local/sites/rennes/internal/oarapi/jobs.json"
       stub_request(:post, expected_url).
         with(
           :headers => {
@@ -222,7 +222,7 @@ describe JobsController do
   describe "DELETE /sites/{{site_id}}/jobs/{{id}}" do
     before do
       @job = OAR::Job.first
-      @expected_url = "http://api-out.local:80/sites/rennes/internal/oarapi/jobs/#{@job.uid}.json"
+      @expected_url = "http://api-out.local/sites/rennes/internal/oarapi/jobs/#{@job.uid}.json"
       @expected_headers = {
         'Accept' => media_type(:json),
         'X-Remote-Ident' => @job.user,
@@ -241,7 +241,7 @@ describe JobsController do
       authenticate_as("crohr")
       delete :destroy, :site_id => "rennes", :id => "doesnotexist", :format => :json
       expect(response.status).to eq 404
-      expect(response.body).to eq "Couldn't find OAR::Job with ID=doesnotexist"
+      expect(response.body).to eq "Couldn't find OAR::Job with job_id=doesnotexist"
     end
 
     it "should return 403 if the requester does not own the job" do
