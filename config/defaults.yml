@@ -24,6 +24,8 @@ defaults: &defaults
     port: 3306
     username: oarreader
     password:
+    owner: oar
+    owner_password: oar
 
 development:
   <<: *defaults
@@ -40,9 +42,9 @@ development:
     <<: *oar
     host: 127.0.0.1
     port: 15432
-    username: root
-    password: oar
-    database: oar2
+    username: oarreader
+    password: read
+    database: oar2_dev
 
 test: &test
   <<: *defaults
@@ -56,7 +58,7 @@ test: &test
     <<: *oar
     host: 127.0.0.1
     port: 15432
-    username: root
+    username: oar
     password: oar
     database: oar2_test
 
