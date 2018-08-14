@@ -71,7 +71,6 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   end
 
   # Ease access to stats.g5kadmin
-  config.vm.provision "file", source: "ssh/config", destination: ".ssh/config"
   config.ssh.forward_agent = true
 
   #Configure git for within the file
