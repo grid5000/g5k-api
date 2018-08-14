@@ -1,3 +1,21 @@
+g5k-api (4.2.0-1) jessie; urgency=low
+
+  * 394ebf2 Move generated file out of status
+  * d0290b3 Rework ssh tunneling and proxy setup
+  * d1aba2d Change the way ssh is setup for vagrant user
+  * 999d5dd Change the way postgresql databases are setup
+  * 8ec0576 Refresh README contents
+  * 9b2442f Migrate to factory_bot from factory_girl
+  * f76a7c5 Use our own version of em-postgresql-adapter gem
+  * 1acc316 Work around broken redirect for status
+  * f2d01a9 Update deprecated call to redirect
+  * 2bbe0f9 Reduce size of mysql pool used
+  * d4b5d3a Update bundler and state_machine
+  * fce9a58 Move to rails 3.2. Initial work passes rspec tests
+  * f41310f Update rake in Gemfile
+
+ -- David Margery <david.margery@inria.fr>  Tue, 14 Aug 2018 14:02:32 +0000
+
 g5k-api (4.1.3-1) jessie; urgency=low
 
   * 7956fca Merge pull request #53 from grid5000/bugs/#9455
