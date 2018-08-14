@@ -1,9 +1,0 @@
-Host g5kadmin
-  User g5kadmin
-  Hostname access.grid5000.fr
-  StrictHostKeyChecking no
-	
-Host *.g5kadmin
-  User g5kadmin
-  ProxyCommand ssh g5kadmin -W "`basename %h .g5kadmin`:%p"
-  StrictHostKeyChecking no
