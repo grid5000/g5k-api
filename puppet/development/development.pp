@@ -21,10 +21,10 @@ class development {
       ensure => present;
   }
 
-  exec{ "allow connections to postgres for root":
+  exec{ "allow connections to postgres for oar":
     user => postgres,
-    command => "/bin/echo \"CREATE USER root PASSWORD 'oar'; GRANT ALL PRIVILEGES ON *.oar2_dev TO 'root' ;GRANT ALL PRIVILEGES ON *.oar2_test TO 'root' ;\" | /usr/bin/psql ",
-    unless => "/bin/echo \"SELECT rolname FROM pg_roles;\" | /usr/bin/psql | grep root",
+    command => "/bin/echo \"CREATE USER oar PASSWORD 'oar'; GRANT ALL PRIVILEGES ON *.oar2_dev TO 'oar' ;GRANT ALL PRIVILEGES ON *.oar2_test TO 'oar' ;\" | /usr/bin/psql ",
+    unless => "/bin/echo \"SELECT rolname FROM pg_roles;\" | /usr/bin/psql | grep oar",
     require => [Service['postgresql'],Postgres::Database['oar2_test'],Postgres::Database['oar2_dev']]
   }
 
@@ -35,11 +35,11 @@ class development {
     require => [Service['postgresql'],Postgres::Database['oar2_test'],Postgres::Database['oar2_dev']]
   }
 
-  exec{ "give ownership of oar2 databases to root":
+  exec{ "give ownership of oar2 databases to oar":
     user => postgres,
-    command => "/bin/echo \"ALTER DATABASE oar2_dev OWNER TO root; ALTER DATABASE oar2_test OWNER TO root;\" | /usr/bin/psql ",
-    unless => "/usr/bin/psql -l | grep oar2 | grep root",
-    require => Exec["allow connections to postgres for root"]
+    command => "/bin/echo \"ALTER DATABASE oar2_dev OWNER TO oar; ALTER DATABASE oar2_test OWNER TO oar;\" | /usr/bin/psql ",
+    unless => "/usr/bin/psql -l | grep oar2 | grep oar",
+    require => Exec["allow connections to postgres for oar"]
   }
 
   mysql::database {
