@@ -49,7 +49,7 @@ Api::Application.routes.draw do
   end
   resources :notifications, :only => [:index, :create]
 
-  match '/ui/events' => redirect('https://www.grid5000.fr/status')
+  match '/ui/events' => redirect('https://www.grid5000.fr/status/')
 
   # Could be simplified once we use Rails >= 3.1 (remove the proc)
   match '/ui' => redirect(proc {|params, request|
