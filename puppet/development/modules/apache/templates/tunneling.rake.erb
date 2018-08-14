@@ -10,10 +10,11 @@ namespace :tunnels do
 <% tunnels="" -%>
 <% sites.each_index do |site_index| -%>
 <%   unless sites[site_index] == oardbsite -%>
-    sh "ssh -NL 800<%= site_index+1 %>:localhost:8000 -L 880<%= site_index+1 %>:localhost:8888 -L 900<%= site_index+1 %>:public.<%= sites[site_index]%>.grid5000.fr:80 api-server-v3.<%= sites[site_index]%>.g5kadmin &"
+    sh "ssh -f -NL 800<%= site_index+1 %>:localhost:8000 -L 900<%= site_index+1 %>:public.<%= sites[site_index]%>.grid5000.fr:80 api-server-v3.<%= sites[site_index]%>.g5kadmin"
 <%   else -%>
-    sh "ssh -NL 800<%= site_index+1 %>:localhost:8000 -L 880<%= site_index+1 %>:localhost:8888 -L 900<%= site_index+1 %>:public.<%= sites[site_index]%>.grid5000.fr:80 -L 15433:oardb.<%= sites[site_index]%>.grid5000.fr:5432 api-server-v3.<%= sites[site_index]%>.g5kadmin &"
+    sh "ssh -f -NL 800<%= site_index+1 %>:localhost:8000 -L 900<%= site_index+1 %>:public.<%= sites[site_index]%>.grid5000.fr:80 -L 15433:oardb.<%= sites[site_index]%>.grid5000.fr:5432 api-server-v3.<%= sites[site_index]%>.g5kadmin"
 <%   end -%>
+		sh "ssh -f -NL 880<%= site_index+1 %>:api.grid5000.fr:443 f<%= sites[site_index]%>.<%= sites[site_index]%>.g5k"
 <% end -%>
 end		 
 
