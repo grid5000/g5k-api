@@ -1,13 +1,4 @@
 GIT
-  remote: git://github.com/cadicallegari/em-postgresql-adapter.git
-  revision: 3dfcc60378e961fca48dd4dcdc930a368a5d052d
-  specs:
-    em-postgresql-adapter (0.3)
-      activerecord (>= 3.1.0)
-      eventmachine
-      pg (>= 0.8.0)
-
-GIT
   remote: https://gforge.inria.fr/git/g5k-campaign/g5k-campaign.git
   revision: cac93c26c7c998da96182980736b4d17fb070570
   ref: cac93c26c7c998da96182980736b4d17fb070570
@@ -20,6 +11,15 @@ GIT
       net-ssh-gateway
       net-ssh-multi
       restfully (~> 1.0)
+
+GIT
+  remote: https://github.com/grid5000/em-postgresql-adapter.git
+  revision: a2ffbf0d6cc1056f32ec8cef3367a3ca6bd38746
+  specs:
+    em-postgresql-adapter (0.3)
+      activerecord (>= 3.1.0)
+      eventmachine
+      pg (>= 0.8.0)
 
 GEM
   remote: https://rubygems.org/

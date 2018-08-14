@@ -20,7 +20,7 @@ gem 'syslogger'
 gem 'haml', '~> 4.0.4'
 gem 'rack-jsonp'
 gem 'pg', '< 1.0.0'
-gem 'em-postgresql-adapter', :git => 'git://github.com/cadicallegari/em-postgresql-adapter.git'
+gem 'em-postgresql-adapter', :git => 'https://github.com/grid5000/em-postgresql-adapter.git'
 #gem 'activerecord-em_postgresql-adapter'
 #gem 'em-postgresql-adapter', :git => 'git://github.com/cadicallegari/em-postgresql-adapter.git', :ref => '2a0d31b663b7'
 gem 'nokogiri', '~> 1.5.6' #oldest version that blather handles
