@@ -41,7 +41,7 @@ group :test do
   gem 'autotest'
   gem 'autotest-growl'
   gem 'rspec-autotest'
-  gem 'factory_girl_rails'
+  gem 'factory_bot_rails'
   gem 'simplecov'
   gem 'net-ssh', "< 5.0.0" #version as from 5.0.0 require ruby > 2.2.6
   gem 'net-ssh-multi'
