@@ -73,7 +73,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.ssh.forward_agent = true
 
   #Configure git for within the file
-  if File.exists?("~/.gitconfig")
+  if File.exists?("#{Dir.home}/.gitconfig")
     config.vm.provision "file", source: "~/.gitconfig", destination: ".gitconfig"
   end
   
