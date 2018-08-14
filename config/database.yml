@@ -12,7 +12,7 @@ development:
   adapter: em_mysql2
   encoding: utf8
   database: g5kapi_dev
-  pool: 250
+  pool: 100
   timeout: 5000
   username: root
   password:
