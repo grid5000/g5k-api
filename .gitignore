@@ -9,3 +9,4 @@ coverage
 .DS_Store
 .vagrant
 *~
+lib/tasks/tunneling.rake
