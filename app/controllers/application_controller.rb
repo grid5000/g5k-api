@@ -107,7 +107,7 @@ class ApplicationController < ActionController::Base
     if status.between?(400, 599)  # error status
       # http.method always returns nil. Bug?
       # msg = "#{http.method} #{http.uri} failed with status #{status}"
-      msg = "Request to #{http.uri.to_s} failed with status #{status}: #{http.response}"
+      msg = "Request to #{http.last_effective_url.to_s} failed with status #{status}: #{http.response}"
       Rails.logger.error msg
     end
 
@@ -133,7 +133,35 @@ class ApplicationController < ActionController::Base
       when 502
         raise BadGateway, msg
       else
-        raise ServerError, "Request to #{http.uri.to_s} failed with unexpected status #{status}: #{http.response} ; could be a problem with our version of eventmachine not supporting IPv6, or TLS problems"
+        raise ServerError, "Request to #{http.last_effective_url.to_s} failed with status #{status}: #{http.response}"
+      Rails.logger.error msg
+    end
+
+    case status
+      when *allowed_status   # Status codes (200, ..., 299)
+        true
+      when 400
+        raise BadRequest, msg
+      when 401
+        raise AuthorizationRequired, msg
+      when 403
+        raise Forbidden, msg
+      when 404
+        raise NotFound, msg
+      when 405
+        raise MethodNotAllowed, msg
+      when 406
+        raise NotAcceptable, msg
+      when 412
+        raise PreconditionFailed, msg
+      when 415
+        raise UnsupportedMediaType, msg
+      when 502
+        raise BadGateway, msg
+      when 503
+        raise ServerUnavailable, msg
+      else
+        raise ServerError, "Request to #{http.last_effective_url.to_s} failed with unexpected status #{status}: #{http.response} ; could be a problem with our version of eventmachine not supporting IPv6, or TLS problems"
     end
   end
 
