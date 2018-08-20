@@ -54,7 +54,7 @@ module Api
     # config.middleware.delete ActionDispatch::ShowExceptions
 
     config.generators do |g|
-      g.fixture_replacement :factory_girl, :dir => "spec/factories"
+      g.fixture_replacement :factory_bot, :dir => "spec/factories"
     end
 
     config.time_zone = 'UTC'
