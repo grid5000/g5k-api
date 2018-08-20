@@ -1,3 +1,10 @@
+g5k-api (4.2.3-1) jessie; urgency=low
+
+  * 906ce48 Update handling of tls options for rails 3.2
+  * f863a73 stop calling uri on http object when logging
+
+ -- David Margery <david.margery@inria.fr>  Mon, 20 Aug 2018 12:50:19 +0000
+
 g5k-api (4.2.2-1) jessie; urgency=low
 
   * 1782c88 stop calling uri on http object when logging
