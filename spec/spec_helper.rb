@@ -88,6 +88,7 @@ end
 RSpec.configure do |config|
 
   config.infer_spec_type_from_file_location!
+  config.include FactoryBot::Syntax::Methods
   config.before(:each) do
     @now = Time.now
     allow(Time).to receive(:now).and_return(@now)
