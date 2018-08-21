@@ -14,14 +14,18 @@
 
 require 'digest/sha1'
 
-Factory.sequence(:uid) do |n|
-  Digest::SHA1.hexdigest("uid-#{n}")
+FactoryBot.define do
+  sequence :uid do |n|
+    Digest::SHA1.hexdigest("uid-#{n}")
+  end
 end
 
-Factory.define(:deployment, :class => Grid5000::Deployment) do |e|
-  e.uid { Factory.next(:uid) }
-  e.environment "lenny-x64-base"
-  e.nodes ["paradent-1.rennes.grid5000.fr", "parapluie-1.rennes.grid5000.fr"]
-  e.user_uid "crohr"
-  e.site_uid "rennes"
+FactoryBot.define do
+  factory :deployment, :class => Grid5000::Deployment do
+    uid { generate(:uid) }
+    site_uid { "rennes" }
+    user_uid { "crohr" }
+    environment { "lenny-x64-base" }
+    nodes { ["paradent-1.rennes.grid5000.fr", "parapluie-1.rennes.grid5000.fr"] }
+  end
 end
