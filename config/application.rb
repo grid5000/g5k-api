@@ -18,10 +18,12 @@ require File.expand_path('../boot', __FILE__)
 require "active_record/railtie"
 require "action_controller/railtie"
 
-# If you have a Gemfile, require the gems listed there, including any gems
-# you've limited to :test, :development, or :production.
-
-Bundler.require(:default, Rails.env) if defined?(Bundler)
+if defined?(Bundler)
+  # If you precompile assets before deploying to production, use this line
+  Bundler.require *Rails.groups(:assets => %w(development test))
+  # If you want your assets lazily compiled in production, use this line
+  # Bundler.require(:default, :assets, Rails.env)
+end
 
 # Explicitly require libs when gem name is not sufficient
 require 'em-synchrony'
@@ -42,7 +44,8 @@ module Api
     # config.middleware.insert_before Rack::Runtime, Rack::FiberPool
 
     # Custom directories with classes and modules you want to be autoloadable.
-    config.autoload_paths += Dir["#{config.root}/lib/**/"]
+    #config.autoload_paths += Dir["#{config.root}/lib/**/"]
+    config.autoload_paths += %W(#{config.root}/lib)
 
     require 'rack/pretty_json'
     config.middleware.insert_before Rack::Runtime, Rack::FiberPool, :size => 15
@@ -51,7 +54,7 @@ module Api
     # config.middleware.delete ActionDispatch::ShowExceptions
 
     config.generators do |g|
-      g.fixture_replacement :factory_girl, :dir => "spec/factories"
+      g.fixture_replacement :factory_bot, :dir => "spec/factories"
     end
 
     config.time_zone = 'UTC'
@@ -61,6 +64,10 @@ module Api
 
     # Configure sensitive parameters which will be filtered from the log file.
     config.filter_parameters += [:password]
+
+    # 3.0.0 to 3.13 : add asset pipeline
+    config.assets.enabled = true
+    config.assets.version = '1.0'
 
     CONFIG = YAML.load_file(File.join(Rails.root, "config", "defaults.yml"))[Rails.env]
   end

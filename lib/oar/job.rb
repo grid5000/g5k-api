@@ -14,8 +14,8 @@
 
 module OAR
   class Job < Base
-    set_table_name "jobs"
-    set_primary_key :job_id
+    self.table_name = "jobs"
+    self.primary_key = :job_id
 
     has_many :job_types
     has_many :job_events, :order => 'date ASC'

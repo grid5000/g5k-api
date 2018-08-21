@@ -53,29 +53,6 @@ In particular, runtime dependencies of the app include `ruby2.1.5` and `git-core
   A useful set of ssh tunnels is created with
 	
         vagrant> rake tunnels:setup
-
-* For those of you that prefer working with the more classical rvm approach, you'll 
-  need 
-  
-  * a working installation of `ruby` 2.1 We recommend using `rvm` to manage your ruby
-  installations.
-  
-  * As with every Rails app, it uses the `bundler` gem to manage dependencies:
-  
-        $ gem install bundler --no-ri --no-rdoc
-  
-  Note: in the next sections we'll run `rake` or `cap` executables. If you're
-  using an old version of bundler and are not using `rvm` to manage your ruby
-  installations, you will probably need to prefix every executable with
-  `bundle exec`. E.g. `rake -T` will become `bundle exec rake -T`.
-  
-  * From the application root, install the application dependencies,
-  For nokogiri see
-  [Nokogiri](http://nokogiri.org/tutorials/installing_nokogiri.html):
-
-        $ sudo apt-get install libmysqlclient-dev  # needed for the mysql2 gem
-        $ sudo apt-get install libpq-dev           # needed for the pg gem
-        $ bundle install
   
 ### Development environment's access to data
 
@@ -100,13 +77,16 @@ In particular, runtime dependencies of the app include `ruby2.1.5` and `git-core
 
   Do not attempt to use the directory directly, as unit test play with the git.rename dir.
 
-* Get access to a OAR database
+* Get access to a OAR database, unsing one of the two methods described hereafter:
   
-  * Get your hands on a copy of an active database
+  * Get your hands on a copy of an active database, and install it. Don't worry about the
+    error messages when seeding the development database: most of them come from the fact
+	that the database is empty and therefore the drop statements fail.
    
-        $ ssh oardb.reims.g5kadmin sudo cat /var/backups/all_db.sql.gz > all_db.sql.gz
-        $ gunzip all_db.sqp
-        vagrant>SEED=all_db.sqp RAILS_ENV=development rake db:oar:seed
+        $ export OAR_DB_SITE=rennes
+		$ ssh oardb.$OAR_DB_SITE.g5kadmin sudo cat /var/backups/dumps/postgresql/oar2.sql.gz > tmp/oar2_$OAR_DB_SITE.sql.gz
+        $ gunzip tmp/oar2_$OAR_DB_SITE.sql.gz
+        vagrant>SEED=tmp/oar2_rennes.sql RAILS_ENV=development rake db:oar:seed
   
   * Or tunnel your way to a live database (as g5k-api only requires read-only access)
     This is particularly usefull if you want to develop on the UI (but with bad site 
@@ -117,6 +97,7 @@ In particular, runtime dependencies of the app include `ruby2.1.5` and `git-core
         $ vagrant ssh -- -R 15433:localhost:15433
 
         $ #In an other shell, create a tunnel from your machine to Grid'5000 
+		$ #(done as part of rake tunnels:setup)
         $ ssh -NL 15433:oardb.rennes.grid5000.fr:5432 access.grid5000.fr
 
         $ #finally, edit the development section of config/defaults.yml to 
