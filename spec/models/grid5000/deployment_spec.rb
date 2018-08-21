@@ -184,18 +184,17 @@ describe Grid5000::Deployment do
 
   describe "serialization" do
     before do
-      @deployment.uid = "1234"
-      @deployment.notifications = [
-        "xmpp:crohr@jabber.grid5000.fr",
-        "mailto:cyril.rohr@irisa.fr"
-      ]
-      @deployment.result = {
-        "paradent-1.rennes.grid5000.fr" => {
-          "state" => "OK"
-        }
-      }
-      @deployment.save.should_not be false
-      @deployment.reload
+      @deployment=create(:deployment,
+                         notifications: [
+                           "xmpp:crohr@jabber.grid5000.fr",
+                           "mailto:cyril.rohr@irisa.fr"
+                         ],
+                         result: {
+                           "paradent-1.rennes.grid5000.fr" => {
+                             "state" => "OK"
+                           }
+                         }
+                        )
     end
 
     it "should correctly serialize the to-be-serialized attributes" do
@@ -313,7 +312,7 @@ describe Grid5000::Deployment do
       end
       it "should be able to go from processing to error, and should call :deliver_notification" do
         @deployment.should_receive(:deliver_notification)
-        @deployment.fail.should be true
+        @deployment.failed.should be true
         @deployment.status?(:error).should be true
       end
       it "should not be able to go from canceled to terminated" do
@@ -418,7 +417,7 @@ describe Grid5000::Deployment do
         end
 
       end # describe "touch!"
-    end # describe "with a deployment in the :processing state"
+    end # describe "with a deployment in the :processing status"
   end # describe "calls to kadeploy server"
 =end
 

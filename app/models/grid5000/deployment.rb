@@ -66,7 +66,7 @@ module Grid5000
       event :terminate do
         transition :processing => :terminated
       end
-      event :fail do
+      event :failed do
         transition :processing => :error
       end
     end
@@ -257,7 +257,7 @@ module Grid5000
       # Delete the workflow from the kadeploy server
       cancel_workflow! if uid
 
-      fail
+      failed
     end
 
     def as_json(*args)
