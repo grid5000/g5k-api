@@ -14,7 +14,7 @@ gem "mysql2", '~> 0.3.6'
 gem "ruby-mysql", :require => "mysql"
 gem 'addressable', '~> 2.2'
 gem 'thin', '~> 1.5.0'
-gem 'state_machine', '~> 0.9'
+gem 'state_machine'
 gem 'gitlab-grit', :require => ['grit']
 gem 'syslogger'
 gem 'haml', '~> 4.0.4'
@@ -38,15 +38,11 @@ group :test do
   gem 'rspec'
   gem 'rspec-rails'
   gem 'rspec_junit_formatter', '~> 0.3.0' #for tests generated for Jenkins
-  gem 'autotest'
-  gem 'autotest-growl'
-  gem 'factory_girl_rails'
+  gem 'factory_bot_rails'
   gem 'simplecov'
   gem 'net-ssh', "< 5.0.0" #version as from 5.0.0 require ruby > 2.2.6
   gem 'net-ssh-multi'
 	#gem 'pkgr', '>= 1.4.4' #pkgr comes with debian-8 buildpack as from 1.4.4, but is not compatible with rails 3.0 (incompatible dependencies on rake and thor)
-  #gem 'capistrano'
-  gem 'g5k-campaign', :git => 'https://gforge.inria.fr/git/g5k-campaign/g5k-campaign.git', :ref => 'cac93c26c7c998da96182980736b4d17fb070570' # '~> 0.9.7'
 end
 
 
