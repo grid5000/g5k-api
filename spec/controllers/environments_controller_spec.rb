@@ -52,9 +52,9 @@ describe EnvironmentsController do
       expect(first["type"]).to eq "environment"
     end
     
-    it "should return 500 if the site does not exist" do
+    it "should return 404 if the site does not exist" do
       get :index, :site_id => "does/not/exist", :id => "sid-x64-base-1.0", :format => :json
-      expect(response.status).to eq 500
+      expect(response.status).to eq 404
     end
   end # describe "GET /sites/{{site_id}}/environments/{{id}}"
   

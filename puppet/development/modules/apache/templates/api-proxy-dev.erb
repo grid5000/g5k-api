@@ -58,7 +58,6 @@ Listen 8080
   # Force privileges to empty
   RequestHeader set X-Api-User-Privileges ""
 
-
   <Location />
     Order Deny,Allow
     Allow from all
@@ -74,23 +73,38 @@ Listen 8080
   </Location>
   <Location /sites/<%= sites[site_index] %>/jobs>
     RequestHeader set X-Api-Version "sid"
+    RequestHeader set X-Api-User-CN <%= developer %>
+    ProxyPass http://127.0.0.1:800<%= site_index+1 %>/sites/<%= sites[site_index] %>/jobs retry=0
+  </Location>
+	# because requests to real api-servers will return
+	# urls including API version, add a proxy to remove them
+  <Location /sid/sites/<%= sites[site_index] %>/jobs>
+    RequestHeader set X-Api-Version "sid"
+    RequestHeader set X-Api-User-CN <%= developer %>
     ProxyPass http://127.0.0.1:800<%= site_index+1 %>/sites/<%= sites[site_index] %>/jobs retry=0
   </Location>
   <%   end %>
   <% end %>
 
+  # we are tunneling to the real api.grid5000.fr
+	# but don't want to setup certificate verfication
+  # through ssh tunnels
+	SSLProxyEngine On
+	SSLProxyCheckPeerCN Off
+	SSLProxyCheckPeerName Off
+
 	<% sites.each_index do |site_index| %>
   <Location /sites/<%= sites[site_index] %>/internal/oarapi>
     RequestHeader set X-Api-Version "sid"
-    RequestHeader set Host "localhost"
+    RequestHeader set Host "api.grid5000.fr"
     ProxyPreserveHost On
-    ProxyPass http://127.0.0.1:880<%= site_index+1 %>/sites/<%= sites[site_index] %>/internal/oarapi retry=0
+    ProxyPass https://127.0.0.1:880<%= site_index+1 %>/sid/sites/<%= sites[site_index] %>/internal/oarapi retry=0
   </Location>
   <Location /sites/<%= sites[site_index] %>/internal/kadeployapi>
     RequestHeader set X-Api-Version "sid"
-    RequestHeader set Host "localhost"
+    RequestHeader set Host "api.grid5000.fr"
     ProxyPreserveHost On
-    ProxyPass http://127.0.0.1:880<%= site_index+1 %>/sites/<%= sites[site_index] %>/internal/kadeployapi retry=0
+    ProxyPass https://127.0.0.1:880<%= site_index+1 %>/sid/sites/<%= sites[site_index] %>/internal/kadeployapi retry=0
   </Location>
   <Location /sites/<%= sites[site_index] %>/public/~/>
     RequestHeader set X-Api-Version "sid"

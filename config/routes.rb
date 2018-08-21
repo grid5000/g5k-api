@@ -18,7 +18,7 @@ Api::Application.routes.draw do
   # The priority is based upon order of creation:
   # first created -> highest priority.
 
-  match "/exhibitv2/*rest", :to => redirect {|params| "/ui/javascripts/vendor/exhibitv2/#{params[:rest]}"}
+  match "/exhibitv2/*rest", :to => redirect {|params,request| "/ui/javascripts/vendor/exhibitv2/#{params[:rest]}"}
   match '/versions' => 'versions#index', :via => [:get]
   match '/versions/:id' => 'versions#show', :via => [:get]
   match '*resource/versions' => 'versions#index', :via => [:get]
@@ -50,7 +50,7 @@ Api::Application.routes.draw do
   end
   resources :notifications, :only => [:index, :create]
 
-  match '/ui/events' => redirect('https://www.grid5000.fr/status')
+  match '/ui/events' => redirect('https://www.grid5000.fr/status/')
 
   # Could be simplified once we use Rails >= 3.1 (remove the proc)
   match '/ui' => redirect(proc {|params, request|

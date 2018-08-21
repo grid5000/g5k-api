@@ -17,7 +17,7 @@ class ruby {
 
   exec { "install bundler":
     user => root, group => root,
-    command => "/usr/bin/gem install --no-ri --no-rdoc bundler --version 1.7.6",
+    command => "/usr/bin/gem install --no-ri --no-rdoc bundler",
     require => Package["ruby"],
     creates => "/usr/local/bin/bundle"
   }
