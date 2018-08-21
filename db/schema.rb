@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110109203813) do
+ActiveRecord::Schema.define(:version => 20180821092321) do
 
   create_table "deployments", :force => true do |t|
     t.string  "uid"
@@ -19,7 +19,7 @@ ActiveRecord::Schema.define(:version => 20110109203813) do
     t.string  "user_uid"
     t.string  "environment"
     t.string  "version"
-    t.string  "status",                     :default => "processing"
+    t.string  "status",                     :default => "waiting"
     t.text    "key"
     t.text    "nodes"
     t.text    "notifications"
