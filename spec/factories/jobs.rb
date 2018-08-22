@@ -1,4 +1,4 @@
-# Copyright (c) 2009-2011 Cyril Rohr, INRIA Rennes - Bretagne Atlantique
+# Copyright (c) 2018 David Margery, INRIA Rennes - Bretagne Atlantique
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -12,9 +12,18 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-module OAR
-  class Gantt < Base
-    self.table_name="gantt_jobs_predictions"
-    self.primary_key=:moldable_job_id
+require 'digest/sha1'
+
+FactoryBot.define do
+  sequence :job_id do |n|
+    Digest::SHA1.hexdigest("job-#{n}")
+  end
+end
+
+FactoryBot.define do
+  factory :job, :class => OAR::Job do
+    job_id { generate(:job_id) }
+    launching_directory { "/home/vagrant" }
+    checkpoint_signal { "USR3" }
   end
 end

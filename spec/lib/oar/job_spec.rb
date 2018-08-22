@@ -128,7 +128,7 @@ describe OAR::Job do
   # abasu : updated job from "last" to '374191' to return same dump -- 2015.04.07
   it "should dump the job" do
     result = JSON.parse(
-      OAR::Job.expanded.active.find(:'374191', :include => [:gantt, :job_events, :job_types]).to_json
+      OAR::Job.expanded.active.includes(:gantt, :job_events, :job_types).find(374191).to_json
     )
     expect(result).to eq({
       "uid"=>374191, 

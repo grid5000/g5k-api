@@ -24,12 +24,9 @@ class JobsController < ApplicationController
     limit = [(params[:limit] || LIMIT).to_i, LIMIT_MAX].min
 
     jobs = OAR::Job.list(params)
-    total = jobs.count
+    total = jobs.count(:all)
 
-    jobs = jobs.offset(offset).limit(limit).find(
-      :all,
-      :include => [:job_types, :job_events, :gantt]
-    )
+    jobs = jobs.offset(offset).limit(limit).includes(:job_types, :job_events, :gantt)
 
     jobs.each{|job|
       job.links = links_for_item(job)
@@ -51,9 +48,8 @@ class JobsController < ApplicationController
   # Display the details of a job
   def show
     allow :get, :delete; vary_on :accept
-    job = OAR::Job.expanded.find(
-      params[:id],
-      :include => [:job_types, :job_events, :gantt]
+    job = OAR::Job.expanded.includes(:job_types, :job_events, :gantt).find(
+      params[:id]
     )
     job.links = links_for_item(job)
 
@@ -102,7 +98,7 @@ class JobsController < ApplicationController
         :in, :absolute
       )
 
-      render  :text => "",
+      render  :plain => "",
               :head => :ok,
               :location => location_uri,
               :status => 202
@@ -142,10 +138,7 @@ class JobsController < ApplicationController
       :in, :absolute
     )
 
-    job = OAR::Job.expanded.find(
-      job_uid,
-      :include => [:job_types, :job_events, :gantt]
-    )
+    job = OAR::Job.expanded.includes(:job_types, :job_events, :gantt).find(job_uid)
     job.links = links_for_item(job)
     
     render_opts = {
