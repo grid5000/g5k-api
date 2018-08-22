@@ -94,6 +94,12 @@ describe JobsController do
     before do
       @valid_job_attributes = {"command" => "sleep 3600"}
     end
+    after do
+      begin
+        OAR::Job.find(961722).delete
+      rescue Exception => e
+      end
+    end
     it "should return 403 if the user is not authenticated" do
       authenticate_as("")
       post :create, :site_id => "rennes", :format => :json
@@ -195,21 +201,19 @@ describe JobsController do
           },
           :body => Grid5000::Job.new(payload).to_hash(:destination => "oar-2.4-submission").to_json
         ).
-        to_return(
-          :status => 201,
-          :body => fixture("oarapi-submitted-job.json")
-        )
-
-      allow(OAR::Job).to receive(:expanded).and_return(
-        expanded_jobs = double("expanded jobs")
-      )
-      expect(expanded_jobs).to receive(:find).with("961722", anything).and_return(
-        double(OAR::Job, :uid => "961722", :to_json => {"key" => "value"}.to_json, :links= => nil)
-      )
+        to_return ( lambda { |request|
+                      # use a side_effect to really test active_record finders
+                      create(:job, job_id: 961722)
+                      {
+                        :status => 201,
+                        :body => fixture("oarapi-submitted-job.json")
+                      }
+                    }
+                  )
 
       post :create, :site_id => "rennes", :format => :json
       expect(response.status).to eq 201
-      expect(response.body).to eq ({"key" => "value"}.to_json)
+      expect(JSON.parse(response.body)).to include ({"uid" => 961722})
       expect(response.location).to eq "http://api-in.local/sites/rennes/jobs/961722"
     end
   end # describe "POST /sites/{{site_id}}/jobs"

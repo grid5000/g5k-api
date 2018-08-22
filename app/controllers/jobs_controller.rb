@@ -136,10 +136,7 @@ class JobsController < ApplicationController
       :in, :absolute
     )
 
-    job = OAR::Job.expanded.find(
-      job_uid,
-      :include => [:job_types, :job_events, :gantt]
-    )
+    job = OAR::Job.expanded.includes(:job_types, :job_events, :gantt).find(job_uid)
     job.links = links_for_item(job)
     
     render_opts = {
