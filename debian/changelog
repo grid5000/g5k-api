@@ -1,3 +1,9 @@
+g5k-api (4.2.5-1) jessie; urgency=low
+
+  * d4f8feb Revert to old boot.rb to allow vendored bundler
+
+ -- David Margery <david.margery@inria.fr>  Wed, 22 Aug 2018 13:42:29 +0000
+
 g5k-api (4.2.4-1) jessie; urgency=low
 
   * d79b5d5 Merge pull request #55 from grid5000/rails_4.2
