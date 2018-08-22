@@ -18,7 +18,7 @@ module OAR
     self.primary_key = :job_id
 
     has_many :job_types
-    has_many :job_events, :order => 'date ASC'
+    has_many :job_events, -> { order "date ASC" }
     belongs_to :gantt, :foreign_key => 'assigned_moldable_job', :class_name => 'Gantt'
 
     # There may be a way to do that more cleanly ;-)
@@ -29,7 +29,30 @@ module OAR
     # abasu : Removed "GROUP BY resources.network_address" for bug ref 5694 -- 2015.04.17
     # abasu : To show all cores (even if same network address). Required by MPI programme
 
-    QUERY_RESOURCES = Proc.new{ "
+
+    #has_many :resources, -> {select QUERY_RESOURCES}
+
+    attr_accessor :links
+
+    def self.list(params = {})
+      jobs = self.expanded.order("job_id DESC")
+      jobs = jobs.where(:job_user => params[:user]) unless params[:user].blank?
+      jobs = jobs.where(:job_name => params[:name]) unless params[:name].blank?
+      jobs = jobs.where(:project => params[:project]) unless params[:project].blank?
+      # abasu 1 line introduced below for correction to bug ref 5347 -- 2015.01.23
+      jobs = jobs.where(:job_id => params[:job_id]) unless params[:job_id].blank?
+      if params[:state]
+        states = (params[:state] || "").split(/\s*,\s*/).
+          map(&:capitalize).
+          uniq
+        jobs = jobs.where(:state => states)
+      end
+      jobs = jobs.where(:queue_name => params[:queue]) if params[:queue]
+      jobs
+    end
+
+    def resources
+    query = "
       (
         SELECT resources.*
         FROM resources
@@ -55,27 +78,7 @@ module OAR
           AND jobs.job_id = moldable_job_descriptions.moldable_job_id
         ORDER BY resources.network_address ASC
       )"
-    }
-
-    has_many :resources, :finder_sql => QUERY_RESOURCES
-
-    attr_accessor :links
-
-    def self.list(params = {})
-      jobs = self.expanded.order("job_id DESC")
-      jobs = jobs.where(:job_user => params[:user]) unless params[:user].blank?
-      jobs = jobs.where(:job_name => params[:name]) unless params[:name].blank?
-      jobs = jobs.where(:project => params[:project]) unless params[:project].blank?
-      # abasu 1 line introduced below for correction to bug ref 5347 -- 2015.01.23
-      jobs = jobs.where(:job_id => params[:job_id]) unless params[:job_id].blank?
-      if params[:state]
-        states = (params[:state] || "").split(/\s*,\s*/).
-          map(&:capitalize).
-          uniq
-        jobs = jobs.where(:state => states)
-      end
-      jobs = jobs.where(:queue_name => params[:queue]) if params[:queue]
-      jobs
+      Resource.find_by_sql(query)
     end
 
     def state

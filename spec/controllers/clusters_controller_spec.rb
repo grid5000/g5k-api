@@ -20,7 +20,7 @@ describe ClustersController do
   describe "GET /sites/{{site_id}}/clusters/{{id}}/status" do
     
     it "should return the status ONLY for the specified cluster" do      
-      get :status, :site_id => "rennes", :id => "parasilo", :format => :json
+      get :status, {:site_id => "rennes", :id => "parasilo", :format => "json"}
       expect(response.status).to eq 200
       assert_media_type(:json)
       expect(json['nodes'].keys.map{|k| k.split('-')[0]}.uniq.sort).to eq ['parasilo']

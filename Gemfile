@@ -2,7 +2,7 @@
 source 'https://rubygems.org'
 
 gem 'rake'
-gem 'rails', '~> 3.2.0'
+gem 'rails', '~> 4.0.0'
 # jQuery is the default JavaScript library in Rails 3.1
 gem 'jquery-rails'
 
@@ -27,11 +27,9 @@ gem 'nokogiri', '~> 1.5.6' #oldest version that blather handles
 
 gem 'blather', '>= 1.2.0'
 
-group :assets do
-  gem 'sass-rails',   "~> 3.2.3"
-  gem 'coffee-rails', "~> 3.2.1"
-  gem 'uglifier',     ">= 1.0.3"
-end
+gem 'sass-rails',   "~> 4.0.0"
+gem 'coffee-rails', "~> 4.0.0"
+gem 'uglifier',     ">= 1.0.3"
 
 group :test do
   gem 'webmock'

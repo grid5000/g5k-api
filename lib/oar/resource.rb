@@ -206,18 +206,22 @@ module OAR
       def get_active_jobs_with_resources(options = {})
         active_jobs_by_moldable_id = {}
         jobs = options[:waiting] == 'no' ? Job.expanded.active_not_waiting : Job.expanded.active
-        jobs.find(:all, :include => [:job_types]).
-          each{|job|
-          active_jobs_by_moldable_id[job.moldable_id] = {
-            # using job.resources will generate a query by job,
-            # and eager loading (the :include => [:job_types, :resources]  will not work
-            # for association defined by :finder_sql such a resources
-            # initialize resources to an empty set
-            :resources => Set.new,
-            :job => job
+        usefull_jobs=nil
+        usefull_jobs=jobs.includes(:job_types)
+        ActiveSupport::Notifications.instrument("OAR::Resource.get_active_jobs_with_resources do the SQL and create active_jobs_by_moldable_id",
+                                                options) do
+          usefull_jobs.
+            each{|job|
+            active_jobs_by_moldable_id[job.moldable_id] = {
+              # using job.resources will generate a query by job,
+              # and eager loading (the :include => [:job_types, :resources]  will not work
+              # for association defined by :finder_sql such a resources
+              # initialize resources to an empty set
+              :resources => Set.new,
+              :job => job
+            }
           }
-        }
-
+        end
         # if there are jobs
         if active_jobs_by_moldable_id.length > 0
           moldable_ids = active_jobs_by_moldable_id.keys.
@@ -232,13 +236,13 @@ module OAR
             )
           ).each do |row|
             if row.is_a?(Hash)
-              moldable_job_id=row["moldable_job_id"]
+              moldable_job_id=row["moldable_job_id"].to_i
               resource_id=row["resource_id"].to_i
             else
               (moldable_job_id,resource_id)=row
               resource_id=resource_id.to_i
+              moldable_job_id=moldable_job_id.to_i
             end
-
             active_jobs_by_moldable_id[moldable_job_id][:resources].
               add(resource_id)
           end # .each do |(moldable_job_id, resource_id)|

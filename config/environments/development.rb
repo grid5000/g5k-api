@@ -19,9 +19,7 @@ Api::Application.configure do
   # every request.  This slows down response time but is perfect for development
   # since you don't have to restart the webserver when you make code changes.
   config.cache_classes = false
-
-  # Log error messages when you accidentally call methods on nil.
-  config.whiny_nils = true
+  config.eager_load = false #added when migrating to rails 4.0.0 to ensure thread_safe! behaviour
 
   # Show full error reports and disable caching
   config.consider_all_requests_local       = true
@@ -42,13 +40,8 @@ Api::Application.configure do
   # Expands the lines which load the assets
   config.assets.debug = true
 
-  # Raise exception on mass assignment protection for Active Record models
-  config.active_record.mass_assignment_sanitizer = :strict
-
   # Log the query plan for queries taking more than this (works
   #  with SQLite, MySQL, and PostgreSQL)
   config.active_record.auto_explain_threshold_in_seconds = 0.5
-
-  config.threadsafe!
 end
 

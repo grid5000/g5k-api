@@ -9,9 +9,9 @@
 # from scratch. The latter is a flawed and unsustainable approach (the more migrations
 # you'll amass, the slower it'll run and the greater likelihood for issues).
 #
-# It's strongly recommended to check this file into your version control system.
+# It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20180821092321) do
+ActiveRecord::Schema.define(version: 20180821092321) do
 
   create_table "deployments", :force => true do |t|
     t.string  "uid"
