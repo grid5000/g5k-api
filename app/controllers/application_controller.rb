@@ -178,9 +178,8 @@ class ApplicationController < ActionController::Base
   def render_error(exception, options = {})
     log_exception(exception)
     message = options[:message] || exception.message
-    render  :text => message,
-            :status => options[:status],
-            :content_type => 'text/plain'
+    render  :plain => message,
+            :status => options[:status]
   end
 
   def log_exception(exception)

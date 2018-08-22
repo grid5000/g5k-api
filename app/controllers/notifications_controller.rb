@@ -53,7 +53,7 @@ class NotificationsController < ApplicationController
       head    :accepted
     else
       render  :status => :bad_request,
-              :text => "Your notification is invalid: #{@notification.errors.join("; ")}."
+              :plain => "Your notification is invalid: #{@notification.errors.join("; ")}."
     end
   end
 

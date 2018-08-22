@@ -75,7 +75,7 @@ describe JobsController do
     it "should return 404 if the job does not exist" do
       get :show, :site_id => "rennes", :id => "doesnotexist", :format => :json
       expect(response.status).to eq 404
-      expect(response.body).to eq "Couldn't find OAR::Job with job_id=doesnotexist"
+      expect(response.body).to eq "Couldn't find OAR::Job with 'job_id'=doesnotexist"
     end
     it "should return 200 and the job" do
       get :show, :site_id => "rennes", :id => @job_uids[5], :format => :json
@@ -236,7 +236,7 @@ describe JobsController do
       authenticate_as("crohr")
       delete :destroy, :site_id => "rennes", :id => "doesnotexist", :format => :json
       expect(response.status).to eq 404
-      expect(response.body).to eq "Couldn't find OAR::Job with job_id=doesnotexist"
+      expect(response.body).to eq "Couldn't find OAR::Job with 'job_id'=doesnotexist"
     end
 
     it "should return 403 if the requester does not own the job" do

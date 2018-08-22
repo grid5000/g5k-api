@@ -24,7 +24,7 @@ class JobsController < ApplicationController
     limit = [(params[:limit] || LIMIT).to_i, LIMIT_MAX].min
 
     jobs = OAR::Job.list(params)
-    total = jobs.count
+    total = jobs.count(:all)
 
     jobs = jobs.offset(offset).limit(limit).includes(:job_types, :job_events, :gantt)
 
@@ -97,7 +97,7 @@ class JobsController < ApplicationController
         :in, :absolute
       )
 
-      render  :text => "",
+      render  :plain => "",
               :head => :ok,
               :location => location_uri,
               :status => 202

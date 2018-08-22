@@ -21,17 +21,6 @@ module OAR
     has_many :job_events, -> { order "date ASC" }
     belongs_to :gantt, :foreign_key => 'assigned_moldable_job', :class_name => 'Gantt'
 
-    # There may be a way to do that more cleanly ;-)
-
-    # abasu : 4 lines introduced below by for correction to bug ref 5694 -- 2015.01.26
-    #   GROUP BY resources.network_address
-    #   ORDER BY resources.network_address ASC
-    # abasu : Removed "GROUP BY resources.network_address" for bug ref 5694 -- 2015.04.17
-    # abasu : To show all cores (even if same network address). Required by MPI programme
-
-
-    #has_many :resources, -> {select QUERY_RESOURCES}
-
     attr_accessor :links
 
     def self.list(params = {})
@@ -214,7 +203,7 @@ module OAR
       def expanded
         Job.select("jobs.*, moldable_job_descriptions.moldable_walltime AS walltime, gantt_jobs_predictions.start_time AS predicted_start_time,  moldable_job_descriptions.moldable_id").
           joins("LEFT OUTER JOIN moldable_job_descriptions ON jobs.job_id = moldable_job_descriptions.moldable_job_id").
-          joins("LEFT OUTER JOIN gantt_jobs_predictions ON gantt_jobs_predictions.moldable_job_id = moldable_job_descriptions.moldable_id")
+          joins("LEFT OUTER JOIN gantt_jobs_predictions ON gantt_jobs_predictions.moldable_job_id = moldable_job_descriptions.moldable_id")          
       end # def expanded
     end
   end
