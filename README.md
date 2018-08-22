@@ -93,14 +93,11 @@ In particular, runtime dependencies of the app include `ruby2.1.5` and `git-core
     information). You should setup an SSH tunnel between your machine and one of the 
     oardb servers of Grid'5000, so that you can access the current jobs:
 
-        $ #first create a reverse port from the vagrant machine to your own machine
-        $ vagrant ssh -- -R 15433:localhost:15433
+        $ # In an other shell, create a tunnel from the vagrant machine to Grid'5000
+		$ # (done as part of rake tunnels:setup)
+        vagrant> ssh -NL 15433:oardb.rennes.grid5000.fr:5432 access.grid5000.fr
 
-        $ #In an other shell, create a tunnel from your machine to Grid'5000 
-		$ #(done as part of rake tunnels:setup)
-        $ ssh -NL 15433:oardb.rennes.grid5000.fr:5432 access.grid5000.fr
-
-        $ #finally, edit the development section of config/defaults.yml to 
+        $ # edit the development section of config/defaults.yml to
                                   oar:
                                     <<: *oar
                                     host: 127.0.0.1
