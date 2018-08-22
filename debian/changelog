@@ -1,3 +1,24 @@
+g5k-api (4.2.4-1) jessie; urgency=low
+
+  * d79b5d5 Merge pull request #55 from grid5000/rails_4.2
+  * 9e9c7c6 Rework test and fix remaining issue with rails 4.2
+  * b567de7 Remove complex instructions about tunneling
+  * c2a6ca5 Migrate to Rails 4.2.x & adapt code so tests pass
+  * d0430ed Migrate to Rails 4.1.x & adapt code so tests pass
+  * 356aa7a Migrate to Rails 4.0.x & adapt code so tests pass
+  * b10d73d Add a secret key base for sessions to please rails
+  * 6e8da79 Merge branch 'master' of https://github.com/grid5000/g5k-api
+  * a1064d8 Merge pull request #54 from grid5000/rails_3.2
+  * e6a2546 Really copy .gitconfig into box when it exists
+  * 0d3c672 Move generated file out of status
+  * 153d019 Rework ssh tunneling and proxy setup
+  * 5a477ac Change the way ssh is setup for vagrant user
+  * c27c017 Change the way postgresql databases are setup
+  * 72fe1e5 Work around broken redirect for status
+  * 7023031 Reduce size of mysql pool used
+
+ -- David Margery <david.margery@inria.fr>  Wed, 22 Aug 2018 13:17:32 +0000
+
 g5k-api (4.2.3-1) jessie; urgency=low
 
   * 906ce48 Update handling of tls options for rails 3.2
