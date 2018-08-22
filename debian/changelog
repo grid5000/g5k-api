@@ -1,3 +1,9 @@
+g5k-api (4.2.7-1) jessie; urgency=low
+
+  * c685203 Change defaults for production environment
+
+ -- David Margery <david.margery@inria.fr>  Wed, 22 Aug 2018 14:27:19 +0000
+
 g5k-api (4.2.6-1) jessie; urgency=low
 
   * 6e2c78d Make the package depend on nodejs
