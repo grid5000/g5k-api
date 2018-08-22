@@ -18,11 +18,11 @@ Api::Application.routes.draw do
   # The priority is based upon order of creation:
   # first created -> highest priority.
 
-  match "/exhibitv2/*rest", :to => redirect {|params,request| "/ui/javascripts/vendor/exhibitv2/#{params[:rest]}"}
-  match '/versions' => 'versions#index', :via => [:get]
-  match '/versions/:id' => 'versions#show', :via => [:get]
-  match '*resource/versions' => 'versions#index', :via => [:get]
-  match '*resource/versions/:id' => 'versions#show', :via => [:get]
+  get "/exhibitv2/*rest", :to => redirect {|params,request| "/ui/javascripts/vendor/exhibitv2/#{params[:rest]}"}
+  get '/versions' => 'versions#index', :via => [:get]
+  get '/versions/:id' => 'versions#show', :via => [:get]
+  get '*resource/versions' => 'versions#index', :via => [:get]
+  get '*resource/versions/:id' => 'versions#show', :via => [:get]
 
   # abasu : 1 line introduced below for correction to bug ref 5065 -- 2015.01.23  
   resources :environments, :only => [:index, :show], :constraints => { :id => /[0-9A-Za-z\-\.]+/ 	}
@@ -50,17 +50,17 @@ Api::Application.routes.draw do
   end
   resources :notifications, :only => [:index, :create]
 
-  match '/ui/events' => redirect('https://www.grid5000.fr/status/')
+  get '/ui/events' => redirect('https://www.grid5000.fr/status/')
 
   # Could be simplified once we use Rails >= 3.1 (remove the proc)
-  match '/ui' => redirect(proc {|params, request|
+  get '/ui' => redirect(proc {|params, request|
     Grid5000::Router.new("/ui/dashboard").call(params, request)
   })
-  match '/ui/index' => redirect(proc {|params, request|
+  get '/ui/index' => redirect(proc {|params, request|
     Grid5000::Router.new("/ui/dashboard").call(params, request)
   })
-  match '/ui/:page' => 'ui#show', :via => [:get]
-  match '/ui/visualizations/:page' => 'ui#visualization', :via => [:get]
+  get '/ui/:page' => 'ui#show'
+  get '/ui/visualizations/:page' => 'ui#visualization'
 
   # You can have the root of your site routed with "root"
   # just remember to delete public/index.html.

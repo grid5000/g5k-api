@@ -17,7 +17,7 @@ require 'spec_helper'
 describe OAR::Resource do
 
   it "should return the downcased state" do
-    expect(OAR::Resource.find(:first).state).to eq "dead"
+    expect(OAR::Resource.first.state).to eq "dead"
   end
 
   it "should return true to #dead? if resource id dead" do
