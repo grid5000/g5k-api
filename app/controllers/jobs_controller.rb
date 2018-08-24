@@ -110,7 +110,7 @@ class JobsController < ApplicationController
   def create
     ensure_authenticated!
 
-    job = Grid5000::Job.new(payload)
+    job = Grid5000::Job.new(job_params)
     Rails.logger.info "Received job = #{job.inspect}"
     raise BadRequest, "The job you are trying to submit is not valid: #{job.errors.join("; ")}" unless job.valid?
     job_to_send = job.to_hash(:destination => "oar-2.4-submission")
@@ -151,6 +151,14 @@ class JobsController < ApplicationController
   end
 
   protected
+
+  def job_params
+    # as g5k-api has readonly access to oar2 databases, do not attempt
+    # to whitelist acceptable parameters to prevent mass_assignement
+    # vulnerabilities
+    params.permit!
+  end
+
   def collection_path
     site_jobs_path(params[:site_id])
   end

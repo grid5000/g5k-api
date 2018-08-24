@@ -273,11 +273,4 @@ class ApplicationController < ActionController::Base
   def last_modified(time)
     response.last_modified = time.utc
   end
-
-  # ===========
-  # = Payload =
-  # ===========
-  def payload
-    params.reject{ |k,v| %w{site_id id format controller action}.include?(k) }
-  end
 end

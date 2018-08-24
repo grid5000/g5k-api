@@ -97,15 +97,21 @@ class DeploymentsController < ApplicationController
   # Delegates the request to the Kadeploy API.
   def create
     ensure_authenticated!
+    begin
+      payload=deployment_params
+      Rails.logger.debug "Creating deployment with #{payload} from #{params} (after permit)"
 
-    dpl = Grid5000::Deployment.new(payload)
-    dpl.user_uid = @credentials[:cn]
-    dpl.site_uid = Rails.whoami
-    dpl.user = @credentials[:cn]
-    dpl.base_uri = api_path()
-    dpl.tls_options=tls_options_for(dpl.base_uri, :out)
+      dpl = Grid5000::Deployment.new(payload)
+      dpl.user_uid = @credentials[:cn]
+      dpl.site_uid = Rails.whoami
+      dpl.user = @credentials[:cn]
+      dpl.base_uri = api_path()
+      dpl.tls_options=tls_options_for(dpl.base_uri, :out)
 
-    Rails.logger.info "Received deployment = #{dpl.inspect}"
+      Rails.logger.info "Received deployment = #{dpl.inspect}"
+    rescue Exception => e
+      raise BadRequest, "The deployment you are trying to submit is not valid: #{e.message}"
+    end
     raise BadRequest, "The deployment you are trying to submit is not valid: #{dpl.errors.to_a.join("; ")}" unless dpl.valid?
 
     # WARN: this is a blocking call as it creates a file on disk.
@@ -166,6 +172,14 @@ class DeploymentsController < ApplicationController
   end
 
   protected
+
+  def deployment_params
+    params.permit(:environment, :version, :key,
+                  :partition_number, :block_device, :reformat_tmp,
+                  :disable_disk_partitioning, :disable_bootloader_install,
+                  :reboot_classical_timeout, :reboot_kexec_timeout,
+                  :ignore_nodes_deploying, :vlan, notifications: [],nodes: [])
+  end
 
   def collection_path
     site_deployments_path(params[:site_id])

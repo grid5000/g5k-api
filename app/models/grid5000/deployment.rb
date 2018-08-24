@@ -21,15 +21,12 @@ module Grid5000
     attr_accessor :links
     # Ugly hack to make the communication between the controller and the model possible
     attr_accessor :base_uri, :user, :tls_options
-
-    SERIALIZED_ATTRIBUTES = [:nodes, :notifications, :result]
+    serialize :nodes, JSON
+    serialize :notifications, JSON
+    serialize :result, JSON
 
     validates_presence_of :user_uid, :site_uid, :environment, :nodes
     validates_uniqueness_of :uid
-
-    before_save :json_serialize
-    after_save :json_deserialize
-    after_find :json_deserialize
 
     before_create do
       self.created_at ||= Time.now.to_i
@@ -266,22 +263,6 @@ module Grid5000
 
     def notification_message
       ::JSON.pretty_generate(as_json)
-    end
-
-    def json_serialize
-      SERIALIZED_ATTRIBUTES.each do |att|
-        value = send(att)
-        if value == [] or ! value.blank?
-          send("#{att}=".to_sym, value.to_json)
-        end
-      end
-    end
-
-    def json_deserialize
-      SERIALIZED_ATTRIBUTES.each do |att|
-        value = send(att) rescue nil
-        send("#{att}=".to_sym, (JSON.parse(value) rescue value)) unless value.blank?
-      end
     end
 
     def to_hash
