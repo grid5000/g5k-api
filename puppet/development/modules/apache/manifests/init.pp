@@ -18,7 +18,6 @@ class apache {
     'lyon',
     'luxembourg',
     'nancy',
-    'reims',
     'rennes',
     'sophia',
     'nantes'
