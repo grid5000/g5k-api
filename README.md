@@ -119,7 +119,7 @@ In particular, runtime dependencies of the app include `ruby2.1.5` and `git-core
 
 * If you need to be authenticated for some development, use:
 
-        $ HTTP_X_API_USER_CN=dmargery ./bin/g5k-api server start -e development
+        $ HTTP_X_API_USER_CN=dmargery WHOAMI=rennes ./bin/g5k-api server start -e development
 
 * If you want to develop on the UI, using the apache proxy, run your browser on 
         
