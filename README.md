@@ -4,8 +4,14 @@ This application is in charge of providing the core APIs for Grid'5000.
 
 The project is hosted at <https://github.com/grid5000/g5kapi>.
 
-Please send an email to <support-staff@lists.grid5000.fr> if you cannot access the code,
-but if you read this, it's normally good…
+Please send an email to <support-staff@lists.grid5000.fr> if you cannot access the code, but if you read this, it's normally good…
+
+This code base uses Ruby On Rails with Eventmachine. You might want to become more familiar with this combination by reading one or more of the following blogs:
+
+  - [Motivation](https://www.igvita.com/2008/05/27/ruby-eventmachine-the-speed-demon/) and introduction to the reactor pattern
+  - [Introduction material](https://everburning.com/news/eventmachine-introductions.html)
+  - [About threads and Fibers](https://everburning.com/images/2009/02/eventmachine_introduction_10.pdf), the clearest document I've read with enough details for someone who might need to debug code mixing both.
+  - [The iconic 'untangling evented code with ruby fibers'](https://www.igvita.com/2010/03/22/untangling-evented-code-with-ruby-fibers/), introducing em-synchrony to ease bringing it all together
 
 ## Installation
 
