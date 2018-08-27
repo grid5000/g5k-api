@@ -96,7 +96,7 @@ Listen 8080
 	<% sites.each_index do |site_index| %>
   <Location /sites/<%= sites[site_index] %>/internal/oarapi>
     RequestHeader set X-Api-Version "sid"
-    RequestHeader set Host "oar-api.<%= sites[site_index] %>.grid5000.fr"
+    RequestHeader set Host "api.grid5000.fr"
     ProxyPreserveHost On
     ProxyPass https://127.0.0.1:880<%= site_index+1 %>/sid/sites/<%= sites[site_index] %>/internal/oarapi retry=0
   </Location>
