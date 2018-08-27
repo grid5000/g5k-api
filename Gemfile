@@ -13,7 +13,7 @@ gem "mysql2", '~> 0.3.6'
 gem "ruby-mysql", :require => "mysql"
 gem 'addressable', '~> 2.2'
 gem 'thin', '~> 1.5.0'
-gem 'state_machine'
+gem 'state_machines-activerecord'
 gem 'gitlab-grit', :require => ['grit']
 gem 'syslogger'
 gem 'haml', '~> 4.0.4'
@@ -39,7 +39,6 @@ group :test do
   gem 'net-ssh', "< 5.0.0" #version as from 5.0.0 require ruby > 2.2.6
   gem 'net-ssh-multi'
 	#gem 'pkgr', '>= 1.4.4' #pkgr comes with debian-8 buildpack as from 1.4.4, but is not compatible with rails 3.0 (incompatible dependencies on rake and thor)
-  #gem 'capistrano'
 end
 
 
