@@ -24,12 +24,9 @@ class JobsController < ApplicationController
     limit = [(params[:limit] || LIMIT).to_i, LIMIT_MAX].min
 
     jobs = OAR::Job.list(params)
-    total = jobs.count
+    total = jobs.count(:all)
 
-    jobs = jobs.offset(offset).limit(limit).find(
-      :all,
-      :include => [:job_types, :job_events, :gantt]
-    )
+    jobs = jobs.offset(offset).limit(limit).includes(:job_types, :job_events, :gantt)
 
     jobs.each{|job|
       job.links = links_for_item(job)
@@ -51,9 +48,8 @@ class JobsController < ApplicationController
   # Display the details of a job
   def show
     allow :get, :delete; vary_on :accept
-    job = OAR::Job.expanded.find(
-      params[:id],
-      :include => [:job_types, :job_events, :gantt]
+    job = OAR::Job.expanded.includes(:job_types, :job_events, :gantt).find(
+      params[:id]
     )
     job.links = links_for_item(job)
 
@@ -79,13 +75,13 @@ class JobsController < ApplicationController
       :out
     )
     options=tls_options_for(url, :out)
-    http = EM::HttpRequest.new(url).delete(
+    http = EM::HttpRequest.new(url,{:tls => options}).delete(
       :timeout => 5,
       :head => {
         'X-Remote-Ident' => @credentials[:cn],
+        'X-Api-User-Cn' => @credentials[:cn],
         'Accept' => media_type(:json)
-      },
-      :tls => options
+      }
     )
 
     continue_if!(http, :is => [200,202,204,404])
@@ -102,7 +98,7 @@ class JobsController < ApplicationController
         :in, :absolute
       )
 
-      render  :text => "",
+      render  :plain => "",
               :head => :ok,
               :location => location_uri,
               :status => 202
@@ -115,7 +111,7 @@ class JobsController < ApplicationController
   def create
     ensure_authenticated!
 
-    job = Grid5000::Job.new(payload)
+    job = Grid5000::Job.new(job_params)
     Rails.logger.info "Received job = #{job.inspect}"
     raise BadRequest, "The job you are trying to submit is not valid: #{job.errors.join("; ")}" unless job.valid?
     job_to_send = job.to_hash(:destination => "oar-2.4-submission")
@@ -125,16 +121,15 @@ class JobsController < ApplicationController
       site_path(params[:site_id])+"/internal/oarapi/jobs.json", :out
     )
     options=tls_options_for(url, :out)
-    http = EM::HttpRequest.new(url).post(
+    http = EM::HttpRequest.new(url, {:tls => options}).post(
       :timeout => 20,
       :body => job_to_send.to_json,
       :head => {
         'X-Remote-Ident' => @credentials[:cn],
+        'X-Api-User-Cn' => @credentials[:cn],
         'Content-Type' => media_type(:json),
         'Accept' => media_type(:json)
-      },
-      :tls => options
-    )
+      }    )
     continue_if!(http, :is => [201,202])
 
     job_uid = JSON.parse(http.response)['id']
@@ -143,10 +138,7 @@ class JobsController < ApplicationController
       :in, :absolute
     )
 
-    job = OAR::Job.expanded.find(
-      job_uid,
-      :include => [:job_types, :job_events, :gantt]
-    )
+    job = OAR::Job.expanded.includes(:job_types, :job_events, :gantt).find(job_uid)
     job.links = links_for_item(job)
     
     render_opts = {
@@ -161,6 +153,14 @@ class JobsController < ApplicationController
   end
 
   protected
+
+  def job_params
+    # as g5k-api has readonly access to oar2 databases, do not attempt
+    # to whitelist acceptable parameters to prevent mass_assignement
+    # vulnerabilities
+    params.permit!
+  end
+
   def collection_path
     site_jobs_path(params[:site_id])
   end

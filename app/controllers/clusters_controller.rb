@@ -28,12 +28,12 @@ class ClustersController < ResourcesController
       "links" => [
         {
           "rel" => "self",
-          "href" => uri_to(status_site_cluster_path(params[:site_id])),
+          "href" => uri_to(status_site_cluster_path(params[:site_id],params[:id])),
           "type" => media_type(:g5kitemjson)
         },
         {
           "rel" => "parent",
-          "href" => uri_to(site_cluster_path(params[:site_id])),
+          "href" => uri_to(site_cluster_path(params[:site_id],params[:id])),
           "type" => media_type(:g5kitemjson)
         }
       ]

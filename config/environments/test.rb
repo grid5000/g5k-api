@@ -20,12 +20,10 @@ Api::Application.configure do
   # your test database is "scratch space" for the test suite and is wiped
   # and recreated between test runs.  Don't rely on the data there!
   config.cache_classes = true
+  config.eager_load = false #added when migrating to rails 4.0.0 to ensure thread_safe! behaviour
   
   # config.middleware.insert_after ActionDispatch::BestStandardsSupport, Rack::Async2Sync
   
-  # Log error messages when you accidentally call methods on nil.
-  config.whiny_nils = true
-
   # Show full error reports and disable caching
   config.consider_all_requests_local       = true
   config.action_controller.perform_caching = false
@@ -48,6 +46,9 @@ Api::Application.configure do
 
   # Print deprecation notices to the stderr
   config.active_support.deprecation = :stderr
-  
-  config.threadsafe!
+
+  # Configure static asset server for tests with Cache-Control for performance
+  config.serve_static_files = true
+  config.static_cache_control = "public, max-age=3600"
+
 end

@@ -7,14 +7,14 @@ namespace :db do
       fail "You should be executing this with RAILS_ENV=test or with SEED pointing to a file" unless Rails.env == "test" || ENV.has_key?('SEED')
       seed = ENV['SEED'] || File.expand_path("../../../spec/fixtures/oar2_2011-01-07.sql", __FILE__)
       fail "Can't load seed file located at #{seed.inspect}" unless File.exist?(seed)
-      cmd = "PGPASSWORD=#{config['password']} psql -U #{config['username']} -h #{config['host']} -p #{config['port'] || 5432} #{config['database']} < \"#{seed}\""
+      cmd = "PGPASSWORD=#{config['owner_password']} psql -U #{config['owner']} -h #{config['host']} -p #{config['port'] || 5432} #{config['database']} < \"#{seed}\""
       puts "Executing " + cmd
       system cmd
     end
 
     desc "Drop OAR2 database"
     task :drop do
-      cmd = "export PGPASSWORD=#{config['password']} && dropdb  -U #{config['username']} -h #{config['host']} -p #{config['port'] || 5432} #{config['database']}"
+      cmd = "export PGPASSWORD=#{config['owner_password']} && dropdb  -U #{config['owner']} -h #{config['host']} -p #{config['port'] || 5432} #{config['database']}"
       puts "Executing " + cmd
       system cmd
     end

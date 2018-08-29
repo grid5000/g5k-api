@@ -24,6 +24,8 @@ defaults: &defaults
     port: 3306
     username: oarreader
     password:
+    owner: oar
+    owner_password: oar
 
 development:
   <<: *defaults
@@ -36,18 +38,20 @@ development:
   reference_repository_path: ~/reference-repository
   smtp_host: localhost
   smtp_port: 2525
+  127.0.0.1: http
   oar:
     <<: *oar
     host: 127.0.0.1
     port: 15432
-    username: root
-    password: oar
-    database: oar2
+    username: oarreader
+    password: read
+    database: oar2_dev
 
 test: &test
   <<: *defaults
   base_uri_in: http://api-in.local
   base_uri_out: http://api-out.local
+  from.config: http
   reference_repository_path: spec/fixtures/reference-repository
   notifications_uri: http://fake.api/sid/notifications
   smtp_host: localhost
@@ -56,7 +60,7 @@ test: &test
     <<: *oar
     host: 127.0.0.1
     port: 15432
-    username: root
+    username: oar
     password: oar
     database: oar2_test
 

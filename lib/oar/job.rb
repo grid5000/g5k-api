@@ -14,22 +14,34 @@
 
 module OAR
   class Job < Base
-    set_table_name "jobs"
-    set_primary_key :job_id
+    self.table_name = "jobs"
+    self.primary_key = :job_id
 
     has_many :job_types
-    has_many :job_events, :order => 'date ASC'
+    has_many :job_events, -> { order "date ASC" }
     belongs_to :gantt, :foreign_key => 'assigned_moldable_job', :class_name => 'Gantt'
 
-    # There may be a way to do that more cleanly ;-)
+    attr_accessor :links
 
-    # abasu : 4 lines introduced below by for correction to bug ref 5694 -- 2015.01.26
-    #   GROUP BY resources.network_address
-    #   ORDER BY resources.network_address ASC
-    # abasu : Removed "GROUP BY resources.network_address" for bug ref 5694 -- 2015.04.17
-    # abasu : To show all cores (even if same network address). Required by MPI programme
+    def self.list(params = {})
+      jobs = self.expanded.order("job_id DESC")
+      jobs = jobs.where(:job_user => params[:user]) unless params[:user].blank?
+      jobs = jobs.where(:job_name => params[:name]) unless params[:name].blank?
+      jobs = jobs.where(:project => params[:project]) unless params[:project].blank?
+      # abasu 1 line introduced below for correction to bug ref 5347 -- 2015.01.23
+      jobs = jobs.where(:job_id => params[:job_id]) unless params[:job_id].blank?
+      if params[:state]
+        states = (params[:state] || "").split(/\s*,\s*/).
+          map(&:capitalize).
+          uniq
+        jobs = jobs.where(:state => states)
+      end
+      jobs = jobs.where(:queue_name => params[:queue]) if params[:queue]
+      jobs
+    end
 
-    QUERY_RESOURCES = Proc.new{ "
+    def resources
+    query = "
       (
         SELECT resources.*
         FROM resources
@@ -55,27 +67,7 @@ module OAR
           AND jobs.job_id = moldable_job_descriptions.moldable_job_id
         ORDER BY resources.network_address ASC
       )"
-    }
-
-    has_many :resources, :finder_sql => QUERY_RESOURCES
-
-    attr_accessor :links
-
-    def self.list(params = {})
-      jobs = self.expanded.order("job_id DESC")
-      jobs = jobs.where(:job_user => params[:user]) unless params[:user].blank?
-      jobs = jobs.where(:job_name => params[:name]) unless params[:name].blank?
-      jobs = jobs.where(:project => params[:project]) unless params[:project].blank?
-      # abasu 1 line introduced below for correction to bug ref 5347 -- 2015.01.23
-      jobs = jobs.where(:job_id => params[:job_id]) unless params[:job_id].blank?
-      if params[:state]
-        states = (params[:state] || "").split(/\s*,\s*/).
-          map(&:capitalize).
-          uniq
-        jobs = jobs.where(:state => states)
-      end
-      jobs = jobs.where(:queue_name => params[:queue]) if params[:queue]
-      jobs
+      Resource.find_by_sql(query)
     end
 
     def state
@@ -211,7 +203,7 @@ module OAR
       def expanded
         Job.select("jobs.*, moldable_job_descriptions.moldable_walltime AS walltime, gantt_jobs_predictions.start_time AS predicted_start_time,  moldable_job_descriptions.moldable_id").
           joins("LEFT OUTER JOIN moldable_job_descriptions ON jobs.job_id = moldable_job_descriptions.moldable_job_id").
-          joins("LEFT OUTER JOIN gantt_jobs_predictions ON gantt_jobs_predictions.moldable_job_id = moldable_job_descriptions.moldable_id")
+          joins("LEFT OUTER JOIN gantt_jobs_predictions ON gantt_jobs_predictions.moldable_job_id = moldable_job_descriptions.moldable_id")          
       end # def expanded
     end
   end

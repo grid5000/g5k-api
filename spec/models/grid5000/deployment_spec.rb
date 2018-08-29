@@ -17,55 +17,55 @@ require 'spec_helper'
 describe Grid5000::Deployment do
 
   before(:each) do
-    @deployment = Grid5000::Deployment.new({
-      :environment => "lenny-x64-base",
-      :user_uid => "crohr",
-      :site_uid => "rennes",
-      :nodes => ["paradent-1.rennes.grid5000.fr"]
-    })
+    @deployment = build(:deployment,
+                        :environment => "lenny-x64-base",
+                        :user_uid => "crohr",
+                        :site_uid => "rennes",
+                        :nodes => ["paradent-1.rennes.grid5000.fr"])
   end
 
 
   describe "validations" do
     it "should be valid" do
-      @deployment.should be_valid
+      expect(@deployment).to be_valid
     end
 
     [[], nil, ""].each do |value|
       it "should not be valid if :nodes is set to #{value.inspect}" do
         @deployment.nodes = value
-        @deployment.should_not be_valid
-        @deployment.errors[:nodes].
-          should == ["can't be blank", "must be a non-empty list of node FQDN"]
+        expect(@deployment).to_not be_valid
+        expect(@deployment.errors[:nodes]).
+          to eq ["can't be blank",
+                 "must be a non-empty list of node FQDN"]
       end
     end
 
     [nil, ""].each do |value|
       it "should not be valid if :environment is set to #{value.inspect}" do
         @deployment.environment = value
-        @deployment.should_not be_valid
-        @deployment.errors[:environment].
-          should == ["can't be blank"]
+        expect(@deployment).to_not be_valid
+        expect(@deployment.errors[:environment]).
+          to eq ["can't be blank"]
       end
       it "should not be valid if :user_uid is set to  #{value.inspect}" do
         @deployment.user_uid = value
-        @deployment.should_not be_valid
-        @deployment.errors[:user_uid].
-          should == ["can't be blank"]
+        expect(@deployment).to_not be_valid
+        expect(@deployment.errors[:user_uid]).
+          to eq ["can't be blank"]
       end
       it "should not be valid if :site_uid is set to  #{value.inspect}" do
         @deployment.site_uid = value
-        @deployment.should_not be_valid
-        @deployment.errors[:site_uid].
-          should == ["can't be blank"]
+        expect(@deployment).to_not be_valid
+        expect(@deployment.errors[:site_uid]).
+          to eq ["can't be blank"]
       end
     end
 
     it "should not be valid if :notifications is not null but is not a list" do
       @deployment.notifications = ""
-      @deployment.should_not be_valid
-      @deployment.errors[:notifications].
-        should == ["must be a list of notification URIs"]
+      expect(@deployment).to_not be_valid
+      expect(@deployment.errors[:notifications]).
+        to eq ["must be a list of notification URIs"]
     end
   end # describe "validations"
 
@@ -73,7 +73,7 @@ describe Grid5000::Deployment do
   describe "export to hash" do
 
     it "should correctly export the attributes to an array [simple]" do
-      @deployment.to_hash.should == {
+      expect(@deployment.to_hash).to be == {
         "environment" => {
           "name" => "lenny-x64-base",
         },
@@ -87,7 +87,7 @@ describe Grid5000::Deployment do
         "paradent-1.rennes.grid5000.fr",
         "paramount-10.rennes.grid5000.fr"
       ]
-      @deployment.to_hash.should == {
+      expect(@deployment.to_hash).to be == {
         "environment" => {
           "name" => "lenny-x64-base",
         },
@@ -101,7 +101,7 @@ describe Grid5000::Deployment do
 
     it "should work [environment description file]" do
       @deployment.environment = "http://server.com/some/file.dsc"
-      @deployment.to_hash.should == {
+      expect(@deployment.to_hash).to be == {
         "environment"=>{}, 
         "nodes"=>["paradent-1.rennes.grid5000.fr"], 
         "hook"=>true
@@ -110,7 +110,7 @@ describe Grid5000::Deployment do
 
     it "should work [environment associated to a specific user]" do
       @deployment.environment = "lenny-x64-base@crohr"
-      @deployment.to_hash.should == {
+      expect(@deployment.to_hash).to be == {
         "environment" => {
           "name" => "lenny-x64-base",
           "user" => "crohr",
@@ -122,7 +122,7 @@ describe Grid5000::Deployment do
 
     it "should work [environment version]" do
       @deployment.version = 3
-      @deployment.to_hash.should == {
+      expect(@deployment.to_hash).to be == {
         "environment" => {
           "name" => "lenny-x64-base",
           "version" => "3",
@@ -140,7 +140,7 @@ describe Grid5000::Deployment do
       @deployment.ignore_nodes_deploying = true
       @deployment.disable_bootloader_install = true
       @deployment.disable_disk_partitioning = true
-      @deployment.to_hash.should == {
+      expect(@deployment.to_hash).to be == {
         "environment" => {
           "name" => "lenny-x64-base",
         },
@@ -165,48 +165,50 @@ describe Grid5000::Deployment do
       @deployment.transform_blobs_into_files!(
         Rails.tmp,
         "https://api.grid5000.fr/sid/grid5000/sites/rennes/files")
-      @deployment.key.should == "https://api.grid5000.fr/sid/grid5000/sites/rennes/files/#{expected_filename}"
-      File.read(
-        File.join(Rails.tmp, expected_filename)
-      ).should == "ssh-dsa XMKSFNJCNJSJNJDNJSBCJSJ"
+      expect(@deployment.key).to be == "https://api.grid5000.fr/sid/grid5000/sites/rennes/files/#{expected_filename}"
+      expect(File.read(
+               File.join(Rails.tmp, expected_filename)
+             )).to be == "ssh-dsa XMKSFNJCNJSJNJDNJSBCJSJ"
     end
 
     it "should do nothing if the key is already a URI" do
-       @deployment.key = "http://public.rennes.grid5000.fr/~crohr/my-key.pub"
+      @deployment.key = "http://public.rennes.grid5000.fr/~crohr/my-key.pub"
       @deployment.transform_blobs_into_files!(
          Rails.tmp,
         "https://api.grid5000.fr/sid/grid5000/sites/rennes/files")
-      @deployment.key.
-        should == "http://public.rennes.grid5000.fr/~crohr/my-key.pub"
+      expect(@deployment.key).
+        to be == "http://public.rennes.grid5000.fr/~crohr/my-key.pub"
     end
   end # describe "transform blobs into files"
 
 
   describe "serialization" do
     before do
-      @deployment.uid = "1234"
-      @deployment.notifications = [
-        "xmpp:crohr@jabber.grid5000.fr",
-        "mailto:cyril.rohr@irisa.fr"
-      ]
-      @deployment.result = {
-        "paradent-1.rennes.grid5000.fr" => {
-          "state" => "OK"
-        }
-      }
-      @deployment.save.should_not be false
-      @deployment.reload
+      @deployment=create(:deployment,
+                         uid: "1234",
+                         nodes: ["paradent-1.rennes.grid5000.fr"],
+                         notifications: [
+                           "xmpp:crohr@jabber.grid5000.fr",
+                           "mailto:cyril.rohr@irisa.fr"
+                         ],
+                         result: {
+                           "paradent-1.rennes.grid5000.fr" => {
+                             "state" => "OK"
+                           }
+                         }
+                        )
     end
 
     it "should correctly serialize the to-be-serialized attributes" do
-      @deployment.nodes.should == [
-        "paradent-1.rennes.grid5000.fr"
-      ]
-      @deployment.notifications.should == [
-        "xmpp:crohr@jabber.grid5000.fr",
-        "mailto:cyril.rohr@irisa.fr"
-      ]
-      @deployment.result.should == {
+      expect(@deployment.nodes).
+        to be == ["paradent-1.rennes.grid5000.fr"]
+      expect(@deployment.notifications).
+        to be == [
+             "xmpp:crohr@jabber.grid5000.fr",
+             "mailto:cyril.rohr@irisa.fr"
+           ]
+      expect(@deployment.result).
+        to be == {
         "paradent-1.rennes.grid5000.fr" => {
           "state" => "OK"
         }
@@ -214,17 +216,17 @@ describe Grid5000::Deployment do
     end
 
     it "correctly build the attributes hash for JSON export" do
-      @deployment.as_json.should == {"created_at"=>@now.to_i, "disable_bootloader_install"=>false, "disable_disk_partitioning"=>false, "environment"=>"lenny-x64-base", "ignore_nodes_deploying"=>false, "nodes"=>["paradent-1.rennes.grid5000.fr"], "notifications"=>["xmpp:crohr@jabber.grid5000.fr", "mailto:cyril.rohr@irisa.fr"], "result"=>{"paradent-1.rennes.grid5000.fr"=>{"state"=>"OK"}}, "site_uid"=>"rennes", "status"=>"waiting", "uid"=>"1234", "updated_at"=>@now.to_i, "user_uid"=>"crohr"}
+      expect(@deployment.as_json).to be == {"created_at"=>@now.to_i, "disable_bootloader_install"=>false, "disable_disk_partitioning"=>false, "environment"=>"lenny-x64-base", "ignore_nodes_deploying"=>false, "nodes"=>["paradent-1.rennes.grid5000.fr"], "notifications"=>["xmpp:crohr@jabber.grid5000.fr", "mailto:cyril.rohr@irisa.fr"], "result"=>{"paradent-1.rennes.grid5000.fr"=>{"state"=>"OK"}}, "site_uid"=>"rennes", "status"=>"waiting", "uid"=>"1234", "updated_at"=>@now.to_i, "user_uid"=>"crohr"}
     end
 
     it "should correctly export to json" do
       export = JSON.parse(@deployment.to_json)
-      export['nodes'].should == [
+      expect(export['nodes']).to be == [
         "paradent-1.rennes.grid5000.fr"]
-      export['notifications'].should == [
+      expect(export['notifications']).to be == [
         "xmpp:crohr@jabber.grid5000.fr",
         "mailto:cyril.rohr@irisa.fr"]
-      export['result'].should == {
+      expect(export['result']).to be == {
         "paradent-1.rennes.grid5000.fr"=>{"state"=>"OK"}
       }
     end
@@ -233,9 +235,10 @@ describe Grid5000::Deployment do
 
   describe "creation" do
     it "should not allow to create a deployment if uid is nil" do
-      @deployment.uid.should be_nil
-      @deployment.save.should be false
-      @deployment.errors[:uid].should == ["must be set"]
+      @deployment.uid=nil
+      expect(@deployment.uid).to be_nil
+      expect(@deployment.save).to be false
+      expect(@deployment.errors[:uid]).to be == ["must be set"]
     end
 
     it "should not allow to create a deployment if uid already exists" do
@@ -243,17 +246,17 @@ describe Grid5000::Deployment do
       @deployment.save
       dep = Grid5000::Deployment.new(@deployment.attributes)
       dep.uid = "whatever"
-      dep.save.should_not be true
-      dep.errors[:uid].should == ["has already been taken"]
+      expect(dep.save).to_not be true
+      expect(dep.errors[:uid]).to be == ["has already been taken"]
     end
 
     it "should set the :created_at and :updated_at attributes" do
       @deployment.uid = "1234"
       @deployment.save.should be true
       @deployment.reload
-      @deployment.uid.should == "1234"
-      @deployment.created_at.should == @now.to_i
-      @deployment.updated_at.should == @now.to_i
+      expect(@deployment.uid).to be == "1234"
+      expect(@deployment.created_at).to be == @now.to_i
+      expect(@deployment.updated_at).to be == @now.to_i
     end
   end
 
@@ -313,7 +316,7 @@ describe Grid5000::Deployment do
       end
       it "should be able to go from processing to error, and should call :deliver_notification" do
         @deployment.should_receive(:deliver_notification)
-        @deployment.fail.should be true
+        @deployment.failed.should be true
         @deployment.status?(:error).should be true
       end
       it "should not be able to go from canceled to terminated" do
@@ -344,7 +347,7 @@ describe Grid5000::Deployment do
       it "should return the deployment uid if submission successful" do
         @kserver.should_receive(:submit!).
           and_return("some-uid")
-        @deployment.launch_workflow!.should == "some-uid"
+        expect(@deployment.launch_workflow!).to be == "some-uid"
       end
     end
 
@@ -394,9 +397,9 @@ describe Grid5000::Deployment do
             and_return([:terminated, @result, @output])
           @deployment.touch!.should be true
           @deployment.reload
-          @deployment.status.should == "terminated"
-          @deployment.result.should == @result
-          @deployment.output.should == @output
+          expect(@deployment.status).to be == "terminated"
+          expect(@deployment.result).to be == @result
+          expect(@deployment.output).to be == @output
         end
         it "should set the status to :error if an error occurred while trying to fetch the results from the kadeploy server" do
           @kserver.should_receive(:touch!).
@@ -404,8 +407,8 @@ describe Grid5000::Deployment do
 
           @deployment.touch!.should be true
           @deployment.reload
-          @deployment.status.should == "error"
-          @deployment.output.should == @output
+          expect(@deployment.status).to be == "error"
+          expect(@deployment.output).to be == @output
         end
         it "should set the status to :error if the deployment no longer exist on the kadeploy server" do
           @kserver.should_receive(:touch!).
@@ -413,12 +416,12 @@ describe Grid5000::Deployment do
 
           @deployment.touch!.should be true
           @deployment.reload
-          @deployment.status.should == "error"
-          @deployment.output.should == @output
+          expect(@deployment.status).to be == "error"
+          expect(@deployment.output).to be == @output
         end
 
       end # describe "touch!"
-    end # describe "with a deployment in the :processing state"
+    end # describe "with a deployment in the :processing status"
   end # describe "calls to kadeploy server"
 =end
 
@@ -452,7 +455,7 @@ describe Grid5000::Deployment do
 
     it "build the correct notification message" do
       @deployment.notifications = ["xmpp:crohr@jabber.grid5000.fr"]
-      @deployment.notification_message.should == JSON.pretty_generate(@deployment.as_json)
+      expect(@deployment.notification_message).to be == JSON.pretty_generate(@deployment.as_json)
     end
   end
 

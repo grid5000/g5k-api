@@ -21,15 +21,12 @@ module Grid5000
     attr_accessor :links
     # Ugly hack to make the communication between the controller and the model possible
     attr_accessor :base_uri, :user, :tls_options
-
-    SERIALIZED_ATTRIBUTES = [:nodes, :notifications, :result]
+    serialize :nodes, JSON
+    serialize :notifications, JSON
+    serialize :result, JSON
 
     validates_presence_of :user_uid, :site_uid, :environment, :nodes
     validates_uniqueness_of :uid
-
-    before_save :json_serialize
-    after_save :json_deserialize
-    after_find :json_deserialize
 
     before_create do
       self.created_at ||= Time.now.to_i
@@ -66,7 +63,7 @@ module Grid5000
       event :terminate do
         transition :processing => :terminated
       end
-      event :fail do
+      event :failed do
         transition :processing => :error
       end
     end
@@ -127,13 +124,12 @@ module Grid5000
     def cancel_workflow!
       raise "cancel_workflow!" if !user or !base_uri # Ugly hack
 
-      http = EM::HttpRequest.new(File.join(base_uri,uid)).delete(
-        :timeout => 15,
+      connect_options={:timeout => 15,:tls => tls_options}
+      http = EM::HttpRequest.new(File.join(base_uri,uid), connect_options).delete(
         :head => {
           #'Accept' => '*/*',
           'X-Remote-Ident' => user,
-        },
-        :tls => tls_options
+        }
       )
       http.errback{ error("Unable to contact #{File.join(base_uri,uid)}"); raise self.output+"\n" }
 
@@ -156,8 +152,8 @@ module Grid5000
         case scheme
         when 'http','https'
           begin
-            http = EM::HttpRequest.new(environment).get(:timeout=>10,
-                                                        :tls => tls_options)
+            connect_options={:timeout => 10,:tls => tls_options}
+            http = EM::HttpRequest.new(environment, connect_options).get()
             params['environment'] = YAML.load(http.response)
             params['environment']['kind'] = 'anonymous'
           rescue Exception => e
@@ -171,15 +167,14 @@ module Grid5000
       end
       Rails.logger.info "Submitting: #{params.inspect}"
 
-      http = EM::HttpRequest.new(base_uri).post(
-        :timeout => 20,
+      connect_options={:timeout => 20,:tls => tls_options}
+      http = EM::HttpRequest.new(base_uri, connect_options).post(
         :body => params.to_json,
         :head => {
           'Content-Type' => Mime::Type.lookup_by_extension(:json).to_s,
           'Accept' => Mime::Type.lookup_by_extension(:json).to_s,
           'X-Remote-Ident' => user,
-        },
-        :tls => tls_options
+        }
       )
       http.errback{ error("Unable to contact #{base_uri}"); raise self.output+"\n" }
 
@@ -195,13 +190,12 @@ module Grid5000
     end
 
     def touch!
-      http = EM::HttpRequest.new(File.join(base_uri,uid)).get(
-        :timeout => 10,
+      connect_options={:timeout => 10,:tls => tls_options}
+      http = EM::HttpRequest.new(File.join(base_uri,uid), connect_options).get(
         :head => {
           'Accept' => Mime::Type.lookup_by_extension(:json).to_s,
           'X-Remote-Ident' => user,
-        },
-        :tls => tls_options
+        }
       )
       http.errback{ error("Unable to contact #{File.join(base_uri,uid)}"); raise self.output+"\n" }
 
@@ -209,13 +203,12 @@ module Grid5000
         item = JSON.parse(http.response)
 
         unless item['error']
-          http = EM::HttpRequest.new(File.join(base_uri,uid,'state')).get(
-            :timeout => 15,
+          connect_options={:timeout => 15,:tls => tls_options}
+          http = EM::HttpRequest.new(File.join(base_uri,uid,'state'), connect_options).get(
             :head => {
               'Accept' => Mime::Type.lookup_by_extension(:json).to_s,
               'X-Remote-Ident' => user,
-            },
-            :tls => tls_options
+            }
           )
           http.errback{ error("Unable to contact #{File.join(base_uri,uid,'state')}"); raise self.output+"\n" }
           res = JSON.parse(http.response)
@@ -225,13 +218,12 @@ module Grid5000
           end
           self.result = res
         else
-          http = EM::HttpRequest.new(File.join(base_uri,uid,'error')).get(
-            :timeout => 15,
+          connect_options={:timeout => 15,:tls => tls_options}
+          http = EM::HttpRequest.new(File.join(base_uri,uid,'error'), connect_options).get(
             :head => {
               #'Accept' => '*/*',
               'X-Remote-Ident' => user,
-            },
-            :tls => tls_options
+            }
           )
           error(get_kaerror(http.response,http.response_header))
           http.errback{ error("Unable to contact #{File.join(base_uri,uid,'error')}"); raise self.output+"\n" }
@@ -262,7 +254,7 @@ module Grid5000
       # Delete the workflow from the kadeploy server
       cancel_workflow! if uid
 
-      fail
+      failed
     end
 
     def as_json(*args)
@@ -271,22 +263,6 @@ module Grid5000
 
     def notification_message
       ::JSON.pretty_generate(as_json)
-    end
-
-    def json_serialize
-      SERIALIZED_ATTRIBUTES.each do |att|
-        value = send(att)
-        if value == [] or ! value.blank?
-          send("#{att}=".to_sym, value.to_json)
-        end
-      end
-    end
-
-    def json_deserialize
-      SERIALIZED_ATTRIBUTES.each do |att|
-        value = send(att) rescue nil
-        send("#{att}=".to_sym, (JSON.parse(value) rescue value)) unless value.blank?
-      end
     end
 
     def to_hash

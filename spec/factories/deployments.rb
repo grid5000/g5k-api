@@ -12,5 +12,20 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-Autotest.add_discovery { "rails" }
-Autotest.add_discovery { "rspec2" }
+require 'digest/sha1'
+
+FactoryBot.define do
+  sequence :uid do |n|
+    Digest::SHA1.hexdigest("uid-#{n}")
+  end
+end
+
+FactoryBot.define do
+  factory :deployment, :class => Grid5000::Deployment do
+    uid { generate(:uid) }
+    site_uid { "rennes" }
+    user_uid { "crohr" }
+    environment { "lenny-x64-base" }
+    nodes { ["paradent-1.rennes.grid5000.fr", "parapluie-1.rennes.grid5000.fr"] }
+  end
+end

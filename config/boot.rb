@@ -13,6 +13,9 @@
 # limitations under the License.
 
 require 'rubygems'
+# Do not use the standard boot options
+# has we use a vendored bundler
+# require 'bundler/setup' # Set up gems listed in the Gemfile.
 
 require 'yaml'
 YAML::ENGINE.yamler = "psych"

@@ -46,7 +46,7 @@ describe SitesController do
       @request.env['HTTP_X_API_MOUNT_PATH'] = '/sites'
       get :index, :format => :json
       expect(response.status).to eq 200
-      expect(json['links'].find{|l| l['rel'] == 'self'}['href']).to eq "/sid"
+      expect(json['links'].find{|l| l['rel'] == 'self'}['href']).to eq "/sid/"
     end
 
   end # describe "GET /sites"
@@ -196,6 +196,12 @@ describe SitesController do
       ].sort
       expect(json['disks']).to be_empty
       expect(json['nodes']['paramount-4.rennes.grid5000.fr']['reservations']).to be_nil
+    end
+
+    it "should fail gracefully in the event of a grit timeout" do
+      expect_any_instance_of(Grid5000::Repository).to receive(:find_commit_for).and_raise(Grit::Git::GitTimeout)
+      get :status, :id => "rennes", :job_details => "no", :format => :json
+      expect(response.status).to eq 503
     end
 
     # it "should fail if the site does not exist" do

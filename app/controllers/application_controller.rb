@@ -35,6 +35,7 @@ class ApplicationController < ActionController::Base
   class ServerError < ActionController::ActionControllerError; end
   class UnsupportedMediaType < ServerError; end   # Error code 415 (moved to server-side)
   class BadGateway < ServerError; end             # Error code 50x (to be refined later)
+  class ServerUnavailable < ServerError; end      # Error code 503
 
   # This thing must alway come first, or it will override other rescue_from.
   rescue_from Exception, :with => :server_error
@@ -54,6 +55,7 @@ class ApplicationController < ActionController::Base
   # abasu : agreed to send exception to server_error (instead of unsupported_media_type)
   rescue_from ServerError, :with => :server_error                      # for 500
   rescue_from BadGateway, :with => :bad_gateway                        # for 502
+  rescue_from ServerUnavailable, :with => :server_unavailable          # for 503
 
   protected
   def set_default_format
@@ -107,7 +109,7 @@ class ApplicationController < ActionController::Base
     if status.between?(400, 599)  # error status
       # http.method always returns nil. Bug?
       # msg = "#{http.method} #{http.uri} failed with status #{status}"
-      msg = "Request to #{http.uri.to_s} failed with status #{status}: #{http.response}"
+      msg = "Request to #{http.last_effective_url.to_s} failed with status #{status}: #{http.response}"
       Rails.logger.error msg
     end
 
@@ -132,8 +134,38 @@ class ApplicationController < ActionController::Base
         raise UnsupportedMediaType, msg
       when 502
         raise BadGateway, msg
+      when 503
+        raise ServerUnavailable, msg
       else
-        raise ServerError, "Request to #{http.uri.to_s} failed with unexpected status #{status}: #{http.response} ; could be a problem with our version of eventmachine not supporting IPv6, or TLS problems"
+        raise ServerError, "Request to #{http.last_effective_url.to_s} failed with status #{status}: #{http.response}"
+      Rails.logger.error msg
+    end
+
+    case status
+      when *allowed_status   # Status codes (200, ..., 299)
+        true
+      when 400
+        raise BadRequest, msg
+      when 401
+        raise AuthorizationRequired, msg
+      when 403
+        raise Forbidden, msg
+      when 404
+        raise NotFound, msg
+      when 405
+        raise MethodNotAllowed, msg
+      when 406
+        raise NotAcceptable, msg
+      when 412
+        raise PreconditionFailed, msg
+      when 415
+        raise UnsupportedMediaType, msg
+      when 502
+        raise BadGateway, msg
+      when 503
+        raise ServerUnavailable, msg
+      else
+        raise ServerError, "Request to #{http.last_effective_url.to_s} failed with unexpected status #{status}: #{http.response} ; could be a problem with our version of eventmachine not supporting IPv6, or TLS problems"
     end
   end
 
@@ -150,9 +182,8 @@ class ApplicationController < ActionController::Base
   def render_error(exception, options = {})
     log_exception(exception)
     message = options[:message] || exception.message
-    render  :text => message,
-            :status => options[:status],
-            :content_type => 'text/plain'
+    render  :plain => message,
+            :status => options[:status]
   end
 
   def log_exception(exception)
@@ -227,6 +258,12 @@ class ApplicationController < ActionController::Base
     render_error(exception, opts)
   end
 
+  def server_unavailable(exception)
+    opts = {:status => 503}
+    opts[:message] = "Server Unavailable" if exception.message == exception.class.name
+    render_error(exception, opts)
+  end
+
   # ================
   # = HTTP Headers =
   # ================
@@ -245,12 +282,5 @@ class ApplicationController < ActionController::Base
   end
   def last_modified(time)
     response.last_modified = time.utc
-  end
-
-  # ===========
-  # = Payload =
-  # ===========
-  def payload
-    params.reject{ |k,v| %w{site_id id format controller action}.include?(k) }
   end
 end

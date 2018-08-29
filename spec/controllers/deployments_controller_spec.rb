@@ -20,7 +20,7 @@ describe DeploymentsController do
   before do
     @now = Time.now
     10.times do |i|
-      Factory.create(:deployment, :uid => "uid#{i}", :created_at => (@now+i).to_i).should_not be_nil
+      deployment=FactoryBot.create(:deployment, :uid => "uid#{i}", :created_at => (@now+i).to_i)
     end
 
   end
@@ -95,7 +95,7 @@ describe DeploymentsController do
     before do
       @valid_attributes = {
         "nodes" => ["paradent-1.rennes.grid5000.fr"],
-        "environment" => "lenny-x64-base"      }
+        "environment" => "lenny-x64-base" }
       @deployment = Grid5000::Deployment.new(@valid_attributes)
     end
 

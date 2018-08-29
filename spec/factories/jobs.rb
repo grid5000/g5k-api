@@ -1,4 +1,4 @@
-# Copyright (c) 2009-2011 Cyril Rohr, INRIA Rennes - Bretagne Atlantique
+# Copyright (c) 2018 David Margery, INRIA Rennes - Bretagne Atlantique
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -14,14 +14,16 @@
 
 require 'digest/sha1'
 
-Factory.sequence(:uid) do |n|
-  Digest::SHA1.hexdigest("uid-#{n}")
+FactoryBot.define do
+  sequence :job_id do |n|
+    Digest::SHA1.hexdigest("job-#{n}")
+  end
 end
 
-Factory.define(:deployment, :class => Grid5000::Deployment) do |e|
-  e.uid { Factory.next(:uid) }
-  e.environment "lenny-x64-base"
-  e.nodes ["paradent-1.rennes.grid5000.fr", "parapluie-1.rennes.grid5000.fr"]
-  e.user_uid "crohr"
-  e.site_uid "rennes"
+FactoryBot.define do
+  factory :job, :class => OAR::Job do
+    job_id { generate(:job_id) }
+    launching_directory { "/home/vagrant" }
+    checkpoint_signal { "USR3" }
+  end
 end

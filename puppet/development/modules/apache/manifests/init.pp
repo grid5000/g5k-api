@@ -18,13 +18,20 @@ class apache {
     'lyon',
     'luxembourg',
     'nancy',
-    'reims',
     'rennes',
     'sophia',
     'nantes'
   ]
 
   file {
+    '/home/vagrant/.ssh/config':
+      mode    => '0600',
+      owner   => vagrant,
+      group   => vagrant,
+      content => template('apache/ssh_config.erb'),
+  }
+
+file {
     '/etc/apache2/sites-available/api-proxy-dev.conf':
       mode    => '0644',
       owner   => root,
