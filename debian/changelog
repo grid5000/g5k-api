@@ -1,3 +1,60 @@
+g5k-api (3.7.0-1) jessie; urgency=low
+
+  * 5238362 Merge pull request #56 from grid5000/v3_rails_4.2
+  * e1f983e Add isntructions to start a deployment for dev env
+  * 030d0c6 Reduce diff to master due to cherry-pick conflicts
+  * 3d179c6 Change url generation for quick-start for dev env
+  * 86645b0 Remove Reims from the sites expected for dev env
+  * 0ba05e5 Indent logs
+  * d008370 Unit test Repository.find's exception handling
+  * 640a1ef Handle Grit::Git::GitTimeout gracefully in find
+  * f51ca70 Test for when Grit::Git::GitTimeout is raised
+  * e3e1532 Add 'X-Api-User-Cn' together with 'X-Remote-Ident' header when calling OAR API
+  * 6c0a204 Implement support for tls options (bug #8379)
+  * 5355d08 Use X_FORWARDED_HOST only for base_uri(:in)
+  * 0e67749 Overide protocol for servers:port when routing
+  * 9d5e591 Make reference to exhibit relative
+  * 684a45f Compute absolute urls using X-Forwarded-Host
+  * 8d8325e Aggree that leaving a trailing / for root is OK
+  * c192723 Document the semantics of the headers
+  * e0c83fa Implement and test API* headers as in bug #8489
+  * 1953176 Update deployment model and controller to rails 4
+  * 476a236 Change defaults for production environment
+  * d1dbb32 Make the package depend on nodejs
+  * c083da5 Revert to old boot.rb to allow vendored bundler
+  * a0903cb Rework test and fix remaining issue with rails 4.2
+  * 425d603 Remove complex instructions about tunneling
+  * 4dee48b Migrate to Rails 4.2.x & adapt code so tests pass
+  * 80c352c Migrate to Rails 4.1.x & adapt code so tests pass
+  * 7f8fd72 Migrate to Rails 4.0.x & adapt code so tests pass
+  * 7d6d41a Add a secret key base for sessions to please rails
+  * 9ef794e modernize test data setup dans rename fail state
+  * b66f85c explicitly setup factory_box helpers
+  * 6e53d05 stop constraining the version of bundler used
+  * 5bf8e0c Make default in DB same as in state_machine
+  * d607a90 Use new syntax for factory_bot factories
+  * ac4df1c Require bundled gems and use implicit config
+  * 9eb2e5d Tweak gem versions and removed unuses dependencies
+  * 4560957 Update handling of tls options for kadeploy
+  * e4dcae9 Update handling of tls options for rails 3.2
+  * 7911ece stop calling uri on http object when logging
+  * 2b7d520 Complete migration to factory_bot
+  * 69ec104 Use version of em-postgresl-adapter avoiding race
+  * c76efdf Really copy .gitconfig into box when it exists
+  * aef5a06 Move generated file out of status
+  * 3813fcc Rework ssh tunneling and proxy setup
+  * 1e99471 Change the way ssh is setup for vagrant user
+  * 20939ad Change the way postgresql databases are setup
+  * 9586d40 Refresh README contents
+  * 630b147 Migrate to factory_bot from factory_girl
+  * 5808c4b Use our own version of em-postgresql-adapter gem
+  * 3e1bf95 Work around broken redirect for status
+  * 888ad2f Update deprecated call to redirect
+  * 98b8a2a Reduce size of mysql pool used
+  * 3b9c09f Move to rails 3.2. Initial work passes rspec tests
+
+ -- David Margery <david.margery@inria.fr>  Wed, 29 Aug 2018 13:40:37 +0000
+
 g5k-api (3.6.1-1) jessie; urgency=low
 
   * e88adc5 Merge pull request #52 from grid5000/bugs/#9337
