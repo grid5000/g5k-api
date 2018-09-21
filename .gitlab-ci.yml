@@ -1,0 +1,38 @@
+stages:
+ - test
+ - deb
+ - deploy
+
+test-in-vagrant:
+  stage: test
+  tags:
+    - shell
+  script:
+    # call the following script which is hosted on the ci-runner.grid5000.fr VM (script versioned and pushed by puppet4)
+    - /srv/ci-runner-scripts/bin/test-g5k-api
+  coverage: '/\(\d+.\d+\%\) covered/'
+
+deb:
+  image: debian:jessie
+  stage: deb
+  tags:
+  - docker
+  script:
+  - apt-get update
+  - apt-get install -y git git-core bundler rake libxml2-dev ruby-dev libicu-dev build-essential libmysqlclient-dev libxslt-dev libpq-dev nodejs curl pkg-config
+  - bundle install --path vendor/bundle
+  - bundle exec rake package:build:debian 
+  artifacts:
+    paths:
+    - pkg/g5k-api*.deb
+    expire_in: '1 day'
+
+push-package:
+  stage: deploy
+  # tags must be 'packages' so that we use the runner on packages.grid5000.fr
+  tags:
+    - packages
+  only: # we only execute this job for tagged commits
+    - tags
+  script:
+    - g5k-deploy-files --files 'pkg/g5k-api_*.deb' --directory deb/g5k-api/jessie/devel
