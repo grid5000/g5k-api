@@ -34,6 +34,6 @@ push-package:
     - packages
   only: # we only execute this job for tagged commits
     - tags
-	script:
+  script:
     - g5k-deploy-files --files 'pkg/g5ka-pi_*.deb' --directory deb/g5k-api/jessie/v3
 
