@@ -1,3 +1,6 @@
+# You'll need to activate pipelines for this file to have any effect
+# in gitlab, go to Settings -> General -> Permissions -> Pipeline
+
 stages:
  - test
  - deb
