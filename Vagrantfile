@@ -13,11 +13,8 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # please see the online documentation at vagrantup.com.
 
   # Every Vagrant virtual environment requires a box to build off of.
-  config.vm.box = "debian-jessie-x64-puppet_4"
-
-  # The url from where the 'config.vm.box' box will be fetched if it
-  # doesn't already exist on the user's system.
-  config.vm.box_url = "https://vagrant.irisa.fr/boxes/debian-jessie-x64-puppet_4_2.box"
+  config.vm.box = "debian/contrib-jessie64"
+  config.vm.hostname = "g5k-local"
 
   # Create a forwarded port mapping which allows access to a specific port
   # within the machine from a port on the host machine. In the example below,
@@ -77,6 +74,18 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     config.vm.provision "file", source: "~/.gitconfig", destination: ".gitconfig"
   end
   
+  # Provisioning with shell commands on the VM
+  config.vm.provision "shell", inline: <<-SHELL
+    #!/bin/bash -x
+    if ! which pupppet > /dev/null ; then
+      sed -i s/httpredir/deb/ /etc/apt/sources.list # faster mirror
+      export DEBIAN_FRONTEND=noninteractive
+      cd /tmp && wget -q http://apt.puppetlabs.com/puppetlabs-release-pc1-jessie.deb && dpkg -i puppetlabs-release-pc1-jessie.deb
+      apt-get update
+      apt-get -y install --no-install-recommends puppet-agent
+    fi
+  SHELL
+
   # Enable provisioning with Puppet stand alone.  Puppet manifests
   # are contained in a directory path relative to this Vagrantfile.
   # You will need to create the manifests directory and a manifest in
