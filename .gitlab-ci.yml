@@ -20,6 +20,9 @@ test-in-docker:
     MYSQL_DATABASE: g5kapi_test
     MYSQL_USER: g5kapi
     MYSQL_PASSWORD: Pe9IeCei
+    POSTGRES_USER: oar
+    POSTGRES_PASSWORD: oar
+    POSTGRES_DB: oar2_test
   script:
     - apt update
     - apt install -y postgresql-client git bundler rake libxml2-dev libxslt-dev libicu-dev libmysqlclient-dev libpq-dev nodejs
