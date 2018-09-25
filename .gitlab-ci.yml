@@ -38,6 +38,13 @@ test-for-stretch:
   services:
     - postgres
     - mariadb:10.1
+  script:
+    - apt update
+    - apt install -y postgresql-client git bundler rake libxml2-dev libxslt-dev libicu-dev default-libmysqlclient-dev libpq-dev nodejs
+    - bundle install --path vendor/bundle
+    - bundle exec rake db:migrate
+    - bundle exec rake db:oar:seed
+    - bundle exec rspec spec/
   
 deb:
   image: debian:jessie
