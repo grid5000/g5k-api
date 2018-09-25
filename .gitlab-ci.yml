@@ -45,6 +45,7 @@ test-for-stretch:
     - bundle exec rake db:migrate
     - bundle exec rake db:oar:seed
     - bundle exec rspec spec/
+  allow_failure: true
   
 deb:
   image: debian:jessie
