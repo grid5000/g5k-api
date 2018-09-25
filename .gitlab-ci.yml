@@ -71,4 +71,3 @@ push-package:
     - tags
   script:
     - g5k-deploy-files --files 'pkg/g5k-api_*.deb' --directory deb/g5k-api/jessie/devel
-
