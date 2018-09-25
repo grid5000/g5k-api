@@ -70,5 +70,5 @@ push-package:
   only: # we only execute this job for tagged commits
     - tags
   script:
-    - g5k-deploy-files --files 'pkg/g5k-api_*.deb' --directory deb/g5k-api/jessie/v3
+    - g5k-deploy-files --files 'pkg/g5k-api_*.deb' --directory deb/g5k-api/jessie/devel
 
