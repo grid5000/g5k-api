@@ -41,7 +41,7 @@ test-for-stretch:
   script:
     - apt update
     - apt install -y postgresql-client git bundler rake libxml2-dev libxslt-dev libicu-dev default-libmysqlclient-dev libpq-dev nodejs
-    - sed -e -i 's/host: mysql/host: maria/' config/database.yml
+    - "sed -e -i 's/host: mysql/host: maria/' config/database.yml"
     - bundle install --path vendor/bundle
     - bundle exec rake db:migrate
     - bundle exec rake db:oar:seed
