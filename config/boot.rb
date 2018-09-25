@@ -18,7 +18,6 @@ require 'rubygems'
 # require 'bundler/setup' # Set up gems listed in the Gemfile.
 
 require 'yaml'
-YAML::ENGINE.yamler = "psych"
 
 # Attempts to use a vendored Bundler, if any
 vendored_gems = File.expand_path(
