@@ -65,6 +65,8 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.provider :virtualbox do |vb|
     #make sure DNS will resolve 
     vb.customize ["modifyvm", :id, "--natdnshostresolver1", "on"]
+    # disable host IO cache (speeds things up in tests with virtual box 5.2 and debian 8)
+    vb.customize ["storagectl", :id, "--name", "SATA Controller","--hostiocache", "off"]
     vb.memory = 2048
     vb.cpus = 2
   end
