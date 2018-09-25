@@ -62,6 +62,14 @@ class development {
     unless => "/bin/su -c '/usr/local/bin/bundle show' $owner"
   }
 	
+  # Because of the way access to mysql and postgres work in
+	# docker for gitlab.inria.fr
+  exec { "Make sure mysql and postgres resolve to 127.0.0.1":
+    user => root,
+    group => root,
+    command => "/bin/sed -i -e 's/^127.0.0.1\tlocalhost/127.0.0.1\tlocalhost postgres mysql/' /etc/hosts",
+    unless => "/bin/grep 'postgres mysql' /etc/hosts"
+	}
 
   file {
     "/root/.ssh":
