@@ -58,8 +58,8 @@ test: &test
   smtp_port: 2525
   oar:
     <<: *oar
-    host: 127.0.0.1
-    port: 15432
+    host: postgres
+    port: 5432
     username: oar
     password: oar
     database: oar2_test
