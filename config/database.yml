@@ -28,8 +28,8 @@ test:
   database: g5kapi_test
   pool: 50
   timeout: 5000
-  username: root
-  password:
-  host: 127.0.0.1
-  port: 13306
+  username: g5kapi
+  password: Pe9IeCei
+  host: mysql
+  port: 3306
 

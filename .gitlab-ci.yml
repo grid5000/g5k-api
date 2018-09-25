@@ -6,13 +6,26 @@ stages:
  - deb
  - deploy
 
-test-in-vagrant:
+test-in-docker:
+  image: debian:jessie
   stage: test
   tags:
-    - shell
+    - docker
+  services:
+    - mysql
+    - postgres
+  variables:
+    MYSQL_ROOT_PASSWORD: uheiN4pe
+    MYSQL_DATABASE: g5kapi_test
+    MYSQL_USER: g5kapi
+    MYSQL_PASSWORD: Pe9IeCei
   script:
-    # call the following script which is hosted on the ci-runner.grid5000.fr VM (script versioned and pushed by puppet4)
-    - /srv/ci-runner-scripts/bin/test-g5k-api
+    - apt update
+    - apt install -y git bundler rake libxml2-dev libxslt-dev libicu-dev libmysqlclient-dev libpq-dev nodejs
+    - bundle install --path vendor/bundle
+    - bundle exec rake db:migrate
+    - bundle exec rake db:oar:seed
+    - bundle exec rspec spec/
   coverage: '/\(\d+.\d+\%\) covered/'
 
 deb:
