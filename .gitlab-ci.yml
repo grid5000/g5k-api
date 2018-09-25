@@ -12,7 +12,7 @@ test-in-docker:
   tags:
     - docker
   services:
-    - mysql: 5.5
+    - mysql:5.5
     - postgres
   variables:
     RAILS_ENV: test
