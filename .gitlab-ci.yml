@@ -6,7 +6,7 @@ stages:
  - deb
  - deploy
 
-test-in-docker:
+test-in-docker: &test-in-docker
   image: debian:jessie
   stage: test
   tags:
@@ -32,6 +32,13 @@ test-in-docker:
     - bundle exec rspec spec/
   coverage: '/\(\d+.\d+\%\) covered/'
 
+test-for-stretch:
+  <<: *test-in-docker
+  image: debian:stretch
+  services:
+    - postgres
+    - mariadb:10.1
+  
 deb:
   image: debian:jessie
   stage: deb
