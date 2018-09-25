@@ -20,7 +20,7 @@ defaults: &defaults
     pool: 20
     timeout: 5000
     database: oar2
-    host: mysql
+    host: postgres
     port: 3306
     username: oarreader
     password:
@@ -41,8 +41,8 @@ development:
   127.0.0.1: http
   oar:
     <<: *oar
-    host: 127.0.0.1
-    port: 15432
+    host: postgres
+    port: 5432
     username: oarreader
     password: read
     database: oar2_dev
