@@ -22,7 +22,7 @@ test-in-docker:
     MYSQL_PASSWORD: Pe9IeCei
   script:
     - apt update
-    - apt install -y git bundler rake libxml2-dev libxslt-dev libicu-dev libmysqlclient-dev libpq-dev nodejs
+    - apt install -y postgresql-client git bundler rake libxml2-dev libxslt-dev libicu-dev libmysqlclient-dev libpq-dev nodejs
     - bundle install --path vendor/bundle
     - bundle exec rake db:migrate
     - bundle exec rake db:oar:seed
