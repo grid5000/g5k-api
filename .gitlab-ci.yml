@@ -6,7 +6,7 @@ stages:
  - deb
  - deploy
 
-test-in-docker:
+test-in-docker: &test-in-docker
   image: debian:jessie
   stage: test
   tags:
@@ -32,6 +32,20 @@ test-in-docker:
     - bundle exec rspec spec/
   coverage: '/\(\d+.\d+\%\) covered/'
 
+test-for-stretch:
+  <<: *test-in-docker
+  image: debian:stretch
+  services:
+    - postgres
+    - mariadb:10.1
+  script:
+    - apt update
+    - apt install -y postgresql-client git bundler rake libxml2-dev libxslt-dev libicu-dev default-libmysqlclient-dev libpq-dev nodejs
+    - bundle install --path vendor/bundle
+    - bundle exec rake db:migrate
+    - bundle exec rake db:oar:seed
+    - bundle exec rspec spec/
+  
 deb:
   image: debian:jessie
   stage: deb
