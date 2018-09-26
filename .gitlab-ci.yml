@@ -85,8 +85,8 @@ push-package: &push-package
     - g5k-deploy-files --files 'pkg/g5k-api_*.deb' --directory deb/g5k-api/jessie/devel
 
 push-stretch-package:
-   <<: *push-package
-   dependencies:
-     - deb-for-stretch
+  <<: *push-package
+  dependencies:
+    - deb-for-stretch
   script:
     - g5k-deploy-files --files 'pkg/g5k-api_*.deb' --directory deb/g5k-api/stretch/devel
