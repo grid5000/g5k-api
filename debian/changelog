@@ -1,3 +1,9 @@
+g5k-api (4.2.11-1) jessie; urgency=low
+
+  * 08f52a8 [Gitlab CI] Correct typos in .gitlab-ci.yml
+
+ -- David Margery <david.margery@inria.fr>  Wed, 26 Sep 2018 12:11:09 +0000
+
 g5k-api (4.2.10-1) jessie; urgency=low
 
   * ca206fe [Gitlab CI] correct destination of stretch packages
