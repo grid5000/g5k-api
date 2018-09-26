@@ -54,7 +54,7 @@ deb: &deb
   - docker
   script:
   - apt-get update
-  - apt-get install -y git git-core bundler rake libxml2-dev ruby-dev libicu-dev build-essential libmysqlclient-dev libxslt-dev libpq-dev nodejs curl pkg-config
+  - apt-get install -y lsb-release git git-core bundler rake libxml2-dev ruby-dev libicu-dev build-essential libmysqlclient-dev libxslt-dev libpq-dev nodejs curl pkg-config
   - bundle install --path vendor/bundle
   - bundle exec rake package:build:debian 
   artifacts:
@@ -67,7 +67,7 @@ deb-for-stretch:
   image: debian:stretch
   script:
   - apt-get update
-  - apt-get install -y git git-core bundler rake libxml2-dev ruby-dev libicu-dev build-essential default-libmysqlclient-dev libxslt-dev libpq-dev nodejs curl pkg-config
+  - apt-get install -y lsb-release git git-core bundler rake libxml2-dev ruby-dev libicu-dev build-essential default-libmysqlclient-dev libxslt-dev libpq-dev nodejs curl pkg-config
   - bundle install --path vendor/bundle
   - bundle exec rake package:build:debian
   allow_failure: true
