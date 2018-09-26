@@ -6,7 +6,7 @@ NAME = ENV['PKG_NAME'] || "g5k-api"
 USER_NAME = `git config --get user.name`.chomp
 USER_EMAIL = `git config --get user.email`.chomp
 
-LSBDISTCODENAME= `lsb_release -s -c`
+LSBDISTCODENAME= `lsb_release -s -c`.chomp
 
 require VERSION_FILE
 
