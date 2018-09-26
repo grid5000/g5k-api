@@ -1,3 +1,10 @@
+g5k-api (4.2.10-1) jessie; urgency=low
+
+  * ca206fe [Gitlab CI] correct destination of stretch packages
+  * 136485c [Gitlab CI] make git push message clearer
+
+ -- David Margery <david.margery@inria.fr>  Wed, 26 Sep 2018 12:09:12 +0000
+
 g5k-api (4.2.9-1) jessie; urgency=low
 
   * 6ee1104 [Gitlab CI] Teach bump tasks to tag releases
