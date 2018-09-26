@@ -1,3 +1,43 @@
+g5k-api (4.2.8-1) jessie; urgency=low
+
+  * 5b15ddc [Gitlab CI] work on packaging for stretch
+  * 37d8c9c [Gitlab CI] Require lsb-release to vary build
+  * a54770e [Gitlab CI] update dependencies in rake build task
+  * 5e7133c [Gitlab CI] Typo corrected
+  * 5be15d1 [Gitlab CI] Build .deb for stretch
+  * 3f7f4cb [Gitlab CI] Use proper name for mariadb service
+  * ff84ac5 [Gitlab CI] Use proper sed command
+  * 06c70ab [Gitlab CI] learn to quote scripts for sed
+  * c22f33d [Gitlab CI] Handle the mysql -> maria migration
+  * 710a2ee Merge branch 'master' of gitlab.inria.fr:grid5000/g5k-api
+  * 45477a3 [Gitlab CI] Publish the packages in the devel repo
+  * cdee8eb Stop explicitly require psych as yaml library
+  * 3ef1646 [Gitlab CI] Update provisionning for compatibility
+  * 653224e [Gitlab CI] Allow failure for tests run in stretch
+  * b8fd7c4 [Gitlab CI] Update name of a package for stretch
+  * f707c16 [Gitlab CI] Attempt at also testing in stretch
+  * 05bbed3 [Gitlab CI] Setup postgres db, with user and pass
+  * a4775c9 [Gitlab CI] Add a postgres client for test setup
+  * bc846f5 [Gitlab CI] Change version specification for mysql
+  * 0b40949 [Gitlab CI] Attempt to fix mysql version
+  * 8e4ef84 [Gitlab CI] Setup RAILS_ENV to test when testing
+  * a9394e0 [Gitlab CI] First attempt at testing in docker
+  * fe015f9 [Gitlab CI] Attempt to improve the performance
+  * 0d59ff6 [Gitlab CI] No longer require reference-repository
+  * 968a5d3 [Gitlab CI] Use public vagrant box
+  * 7eafc40 [Gitlab CI] Document pipeline activation
+  * 4f9a1fe [Gitlab CI] Correct package name for deploy stage
+  * c884ecc [Gitlab CI] Remove unwanted tab character
+  * 6a3b668 [Gitlab CI] Add initial version of .gitlab-ci.yml
+  * 909393f Update README.md after migration to gitlab.inria.fr
+  * ccc41a4 Add .gitlab-ci.yml
+  * 1685b26 Update to limit differences with v3
+  * e5813ae Add pointer to reference material about EM
+  * 635977e Update to recommendations to whitelist params
+  * 75737e9 Add isntructions to start a deployment for dev env
+
+ -- David Margery <david.margery@inria.fr>  Wed, 26 Sep 2018 11:18:34 +0000
+
 g5k-api (4.2.7-1) jessie; urgency=low
 
   * c685203 Change defaults for production environment
