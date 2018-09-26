@@ -64,7 +64,7 @@ deb: &deb
 
 deb-for-stretch:
   <<: *deb
-  images: debian:stretch
+  image: debian:stretch
   script:
   - apt-get update
   - apt-get install -y git git-core bundler rake libxml2-dev ruby-dev libicu-dev build-essential default-libmysqlclient-dev libxslt-dev libpq-dev nodejs curl pkg-config
