@@ -3,9 +3,10 @@ CHANGELOG_FILE = File.join(ROOT_DIR, "debian", "changelog")
 VERSION_FILE = File.join(ROOT_DIR, "lib", "grid5000", "version.rb")
 
 NAME = ENV['PKG_NAME'] || "g5k-api"
-BUILD_MACHINE = ENV['BUILD_MACHINE'] || "debian-build"
 USER_NAME = `git config --get user.name`.chomp
 USER_EMAIL = `git config --get user.email`.chomp
+
+LSBDISTCODENAME= `lsb_release -s -c`
 
 require VERSION_FILE
 
@@ -141,7 +142,12 @@ namespace :package do
     end 
     desc "Build debian package with our own scripts"
     task :debian => :'package:setup' do
-      pkg_dependencies= %w{libmysqlclient-dev libxml2-dev libxslt-dev libssl-dev libpq-dev}
+      case LSBDISTCODENAME
+      when 'stretch'
+        pkg_dependencies= %w{default-libmysqlclient-dev libxml2-dev libxslt-dev libssl-dev libpq-dev}
+      else
+        pkg_dependencies= %w{libmysqlclient-dev libxml2-dev libxslt-dev libssl-dev libpq-dev}
+      end
       cmd = "sudo apt-get install #{pkg_dependencies.join(" ")} git-core dh-make dpkg-dev libicu-dev --yes && rm -rf /tmp/#{NAME}"
       sh cmd
 
