@@ -66,7 +66,67 @@ def bump(index)
 		return
   end	 
   content_changelog = [
-    "#{NAME} (#{new_version}-1) jessie; urgency=low",
+    "#{NAME} (#{new_version}-1) LSBDISTCODENAME= `lsb_release -s -c`.chomp
+
+require VERSION_FILE
+
+PACKAGING_DIR = '/tmp/'+NAME+'-'+Grid5000::VERSION
+
+def in_working_dir(dir,&block)
+  #Dir.choidr does not change ENV['PWD']
+  old_wd=ENV['PWD']
+  Dir.chdir(dir) do
+    ENV['PWD']=dir
+    yield
+  end
+  ENV['PWD']=old_wd
+end
+
+def without_bundle_env(forced_values={}, &block)
+  to_clean=["BUNDLE_GEMFILE","RUBYOPT"]
+  saved_values={}
+  to_clean.each do |env_value|
+    saved_values[env_value]=ENV[env_value]
+    if forced_values.has_key?(env_value)
+      ENV[env_value]=forced_values[env_value]
+    else
+      ENV.delete(env_value)
+    end
+  end
+  
+  yield
+  
+  to_clean.each do |env_value|
+    ENV[env_value]=saved_values[env_value]
+  end
+end
+
+def bump(index)  
+  fragments = Grid5000::VERSION.split(".")
+  fragments[index] = fragments[index].to_i+1
+  ((index+1)..2).each{|i|
+    fragments[i] = 0
+  }
+  new_version = fragments.join(".")
+
+  changelog = File.read(CHANGELOG_FILE)
+  last_commit = changelog.scan(/\s+\* ([a-f0-9]{7}) /).flatten[0]
+
+  cmd = "git log --oneline"
+  cmd << " #{last_commit}..HEAD" unless last_commit.nil?
+
+	commit_logs=`#{cmd}`.split("\n")
+	purged_logs=commit_logs.reject{|l| l =~ / v#{Grid5000::VERSION}/}.reject{|l| l =~ /Commit version #{Grid5000::VERSION}/}
+	if purged_logs.size == 0
+	  puts 'No real changes except version changes since last version bump. Aborting unless EMPTYBUMP set'
+		return unless ENV['EMPTYBUMP']
+  end	
+	if USER_NAME==""
+	  puts 'No git user: running in Vagrant box ? Use git config --global user.name "firstname lastename" before bumping version'  
+		return
+  end	 
+  content_changelog = [
+    "#{NAME} (#{new_version}-1) #{LSBDISTCODENAME}; urgency=low",
     "",
     purged_logs.map{|l| "  * #{l}"}.join("\n"),
     "",
