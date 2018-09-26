@@ -91,6 +91,9 @@ def bump(index)
   unless ENV['NOCOMMIT']
     puts "Committing changelog and version file..."
     sh "git commit -m 'Commit version #{new_version}' #{CHANGELOG_FILE} #{VERSION_FILE}"
+    puts "Tagging the release"
+    sh "git tag -a v#{new_version} -m \"v#{new_version} tagged by rake package:bump:[patch|minor|major]\""
+    puts "INFO: git push --tags required for package publication by gitlab CI/CD"
   end
 end
 
