@@ -1,3 +1,9 @@
+g5k-api (4.2.9-1) jessie; urgency=low
+
+  * 6ee1104 [Gitlab CI] Teach bump tasks to tag releases
+
+ -- David Margery <david.margery@inria.fr>  Wed, 26 Sep 2018 11:47:29 +0000
+
 g5k-api (4.2.8-1) jessie; urgency=low
 
   * 5b15ddc [Gitlab CI] work on packaging for stretch
