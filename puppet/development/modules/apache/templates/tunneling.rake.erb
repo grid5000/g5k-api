@@ -13,6 +13,11 @@ namespace :tunnels do
     sh "ssh -f -NL 800<%= site_index+1 %>:localhost:8000 -L 900<%= site_index+1 %>:public.<%= sites[site_index]%>.grid5000.fr:80 api-server-v3.<%= sites[site_index]%>.g5kadmin"
 <%   else -%>
     sh "ssh -f -NL 800<%= site_index+1 %>:localhost:8000 -L 900<%= site_index+1 %>:public.<%= sites[site_index]%>.grid5000.fr:80 -L 15433:oardb.<%= sites[site_index]%>.grid5000.fr:5432 api-server-v3.<%= sites[site_index]%>.g5kadmin"
+		# make sure kadpeloy3 can call back so as to be able to test
+		# interactions between kadeploy3 and g5k-api in dev environment
+    # as files are served by apache, got to 8080 locally
+    sh "ssh -f -NR 127.0.0.1:8080:127.0.0.1:8080 kadeploy.<%= sites[site_index]%>.g5kadmin"
+    sh "ssh -f -NR 127.0.0.1:8080:127.0.0.1:8080 kadeploy-devel.<%= sites[site_index]%>.g5kadmin"
 <%   end -%>
 		sh "ssh -f -NL 880<%= site_index+1 %>:api.grid5000.fr:443 f<%= sites[site_index]%>.<%= sites[site_index]%>.g5k"
 <% end -%>
@@ -20,6 +25,6 @@ end
 
   desc "Teardow all ssh tunnels"
   task :teardown do
-    sh "ps -C 'ssh' -o pid=,args | grep 'NL' | sed -e 's/^ *//' | cut -d ' ' -f 1 | xargs kill"
+    sh "ps -C 'ssh' -o pid=,args | grep -E 'NL|NR' | sed -e 's/^ *//' | cut -d ' ' -f 1 | xargs kill"
   end	
 end

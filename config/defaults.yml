@@ -45,7 +45,8 @@ distant_oar_dev_db: &distant_oar_dev_db
 
 development:
   <<: *defaults
-  base_uri_in: http://localhost:8000
+  tmp_path: /vagrant/tmp
+  base_uri_in: http://localhost:8080
   base_uri_out: https://127.0.0.1:8443
   uri_out_private_key_file: /etc/ssl/certs/clientkey_nopass.pem
   uri_out_cert_chain_file: /etc/ssl/certs/clientcert.pem

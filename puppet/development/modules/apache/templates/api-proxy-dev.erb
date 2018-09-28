@@ -58,6 +58,14 @@ Listen 8080
   # Force privileges to empty
   RequestHeader set X-Api-User-Privileges ""
 
+  # Serve static files that may be written by the API (e.g. SSH public keys for
+  # use with Kadeploy)
+  RewriteEngine On
+  RewriteRule ^/sites/<%= oardbsite %>/files(.*) /vagrant/tmp$1 [L]
+  <Directory /vagrant/tmp>
+  Require all granted
+  </Directory>
+
   <Location />
     Order Deny,Allow
     Allow from all

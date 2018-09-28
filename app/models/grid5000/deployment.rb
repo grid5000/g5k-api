@@ -165,7 +165,7 @@ module Grid5000
       else
         params['environment']['kind'] = 'database'
       end
-      Rails.logger.info "Submitting: #{params.inspect}"
+      Rails.logger.info "Submitting: #{params.inspect} to #{base_uri}"
 
       connect_options={:timeout => 20,:tls => tls_options}
       http = EM::HttpRequest.new(base_uri, connect_options).post(
