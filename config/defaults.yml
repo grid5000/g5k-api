@@ -27,6 +27,22 @@ defaults: &defaults
     owner: oar
     owner_password: oar
 
+local_oar_dev_db: &local_oar_dev_db
+  <<: *oar
+  host: postgres
+  port: 5432
+  username: oarreader
+  password: read
+  database: oar2_dev
+
+distant_oar_dev_db: &distant_oar_dev_db
+  <<: *oar
+  host: postgres
+  port: 15433
+  username: oarreader
+  password: read
+  database: oar2
+
 development:
   <<: *defaults
   base_uri_in: http://localhost:8000
@@ -40,12 +56,7 @@ development:
   smtp_port: 2525
   127.0.0.1: http
   oar:
-    <<: *oar
-    host: postgres
-    port: 5432
-    username: oarreader
-    password: read
-    database: oar2_dev
+    <<: *distant_oar_dev_db
 
 test: &test
   <<: *defaults
