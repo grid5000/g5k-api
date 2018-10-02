@@ -2,14 +2,14 @@
 
 This application is in charge of providing the core APIs for Grid'5000.
 
-The project is hosted at <https://github.com/grid5000/g5kapi>.
+The project is hosted at <https://gitlab.inria.fr/grid5000/g5kapi>.
 
 Please send an email to <support-staff@lists.grid5000.fr> if you cannot access the code,
 but if you read this, it's normally good…
 
 ## Installation
 
-The app is packaged for Debian Jessie. Therefore installation is as follows:
+The app is packaged for Debian jessie and Debian stretch. Therefore installation is as follows:
 
     sudo apt-get update
     sudo apt-get install g5k-api
@@ -17,6 +17,12 @@ The app is packaged for Debian Jessie. Therefore installation is as follows:
 In particular, runtime dependencies of the app include `ruby2.1.5` and `git-core`.
 
 ## Development
+
+### Development process
+
+* The `master` branch has the code for the stable version of g5k-api. This is the version pushed to api-server-v3 servers on Grid'5000
+* The `develop` branch has the code for the development version of g5k-api. This is the version pushed to api-server-devel servers on Grid'5000. It is expected that this branch is regularly rebased on the `master` branch
+* New features and fixes are expected to be developped in specific branches, and submitted for inclusion using Merge Requests. Fixes to be pushed to production to the `master` branch, triggering a rebased of the `develop` branch after acceptation. New functionnality to be merge on the `develop` branch
 
 ### Development environment
 
