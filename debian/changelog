@@ -1,3 +1,82 @@
+g5k-api (4.4.2-1) jessie; urgency=low
+
+  * 5ed9ed7 [Gitlab CI] new attempt at filtering deployment
+  * ca4282a [Gitlab CI] new attempt at filtering deployment
+
+ -- David Margery <david.margery@inria.fr>  Wed, 03 Oct 2018 15:14:10 +0000
+
+g5k-api (4.4.1-1) jessie; urgency=low
+
+  * 949a281 [Gitlab CI] attempt to understand failure of job
+
+ -- David Margery <david.margery@inria.fr>  Wed, 03 Oct 2018 14:23:12 +0000
+
+g5k-api (4.4.0-1) jessie; urgency=low
+
+  * 6feba38 Merge branch 'remove-jabber-connection' into 'devel'
+  * 95d282b Merge branch 'devel' of gitlab.inria.fr:grid5000/g5k-api into devel
+  * 8ae7931 Commit version 4.3.1
+  * 343acc0 Commit version 4.3.0
+  * a488c89 [Gitlab CI] Go back to previous solution
+  * 965edc1 [jabber] remove any mention to xmpp and jabber
+  * 9a38447 [Gitlab CI] Explicitly require lissl-dev
+  * ef27302 delete jabber.rb and remove blather from gem dependencies
+
+ -- David Margery <david.margery@inria.fr>  Wed, 03 Oct 2018 13:31:31 +0000
+
+g5k-api (4.3.2-1) jessie; urgency=low
+
+  * c9685ca Merge branch 'devel' of gitlab.inria.fr:grid5000/g5k-api into devel
+  * 9d356bd Commit version 4.3.0
+  * 1c821e0 [Gitlab CI] use except to limit to specific branch
+  * 164043a [Gitlab CI] Quote script commands
+  * a3e2d1b Merge branch 'devel' of gitlab.inria.fr:grid5000/g5k-api into devel
+  * d49fd79 Commit version 4.3.0
+  * 939fe21 [Gitlab CI] Guard against bad deployment
+
+ -- David Margery <david.margery@inria.fr>  Wed, 03 Oct 2018 11:20:04 +0000
+
+g5k-api (4.3.1-1) jessie; urgency=low
+
+  * 8bf2cf3 Merge branch 'devel' of gitlab.inria.fr:grid5000/g5k-api into devel
+  * 4f31d53 [Gitlab CI] Make tagged commits really deploy
+  * 2866d27 Rename develop branch to devel
+
+ -- David Margery <david.margery@inria.fr>  Wed, 03 Oct 2018 08:22:44 +0000
+
+g5k-api (4.3.0-1) jessie; urgency=low
+
+  * 2427b7f Update development instructions
+  * dc3f431 [Gitlab CI] make a common .gitlab-ci.yml
+  * c0a6c61 Stop taking into account HTTP_XFORWARDED_HOST
+  * 04cf276 [Dev env] improve setup to test deployments
+  * 3815636 Add test script in ruby-cute to test deploy API
+  * 90db983 [Dev env] make it easier to switch between dev dbs
+  * 43eeb80 fixup! [Packaging] Include distrib codename in changelog
+  * 4a5c008 [Packaging] Include distrib codename in changelog
+  * 773dd12 [Gitlab CI] Build and publish for stretch
+  * e283d65 Stop explicitly require psych as yaml library
+  * fba9158 [Gitlab CI] Update provisionning for compatibility
+  * c793cd0 [Gitlab CI] Allow failure for tests run in stretch
+  * 14b95f5 [Gitlab CI] Update name of a package for stretch
+  * a8e6724 [Gitlab CI] Attempt at also testing in stretch
+  * 80af85e [Gitlab CI] Setup postgres db, with user and pass
+  * 3d8e554 [Gitlab CI] Add a postgres client for test setup
+  * 89f918a [Gitlab CI] Change version specification for mysql
+  * 45aff0c [Gitlab CI] Attempt to fix mysql version
+  * 637a7b6 [Gitlab CI] Setup RAILS_ENV to test when testing
+  * 1be6423 [Gitlab CI] First attempt at testing in docker
+  * 2cbff41 [Gitlab CI] Attempt to improve the performance
+  * 720a317 [Gitlab CI] No longer require reference-repository
+  * 2c19460 [Gitlab CI] Use public vagrant box
+  * afbd89f [Gitlab CI] Document pipeline activation
+  * 9be1216 [Gitlab CI] Correct package name for deploy stage
+  * c5f4eba [Gitlab CI] Remove unwanted tab character
+  * d9f66aa [Gitlab CI] Add initial version of .gitlab-ci.yml
+  * 80f1300 Commit version 3.7.0
+
+ -- David Margery <david.margery@inria.fr>  Tue, 02 Oct 2018 15:13:10 +0000
+
 g5k-api (3.7.0-1) jessie; urgency=low
 
   * 5238362 Merge pull request #56 from grid5000/v3_rails_4.2
