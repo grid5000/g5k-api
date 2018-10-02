@@ -6,7 +6,7 @@ stages:
  - deb
  - deploy
 
-test-in-docker: &test-in-docker
+test-for-jessie: &test-for-jessie
   image: debian:jessie
   stage: test
   tags:
@@ -33,7 +33,7 @@ test-in-docker: &test-in-docker
   coverage: '/\(\d+.\d+\%\) covered/'
 
 test-for-stretch:
-  <<: *test-in-docker
+  <<: *test-for-jessie
   image: debian:stretch
   services:
     - postgres
@@ -47,7 +47,7 @@ test-for-stretch:
     - bundle exec rake db:oar:seed
     - bundle exec rspec spec/
   
-deb: &deb
+deb-for-jessie: &deb-for-jessie
   image: debian:jessie
   stage: deb
   tags:
@@ -63,7 +63,7 @@ deb: &deb
     expire_in: '1 day'
 
 deb-for-stretch:
-  <<: *deb
+  <<: *deb-for-jessie
   image: debian:stretch
   script:
   - apt-get update
@@ -72,21 +72,42 @@ deb-for-stretch:
   - bundle exec rake package:build:debian
   allow_failure: true
 
-push-package: &push-package
+push-jessie-package-v3: &push-jessie-package-v3
   stage: deploy
   # tags must be 'packages' so that we use the runner on packages.grid5000.fr
   tags:
     - packages
-  only: # we only execute this job for tagged commits
-    - tags
+  only: # we only execute this job for tagged commits on the master branch
+    refs:
+      - master
+    variables:
+      - $CI_COMMIT_TAG =~ /v\d+\.\d+\.\d+/
   dependencies:
-    - deb
+    - deb-for-jessie
   script:
     - g5k-deploy-files --files 'pkg/g5k-api_*.deb' --directory deb/g5k-api/jessie/v3
 
-push-stretch-package:
-  <<: *push-package
+push-jessie-package-devel: &push-jessie-package-devel
+  <<: *push-jessie-package-v3
+  script:
+    - g5k-deploy-files --files 'pkg/g5k-api_*.deb' --directory deb/g5k-api/jessie/devel
+  only: # we only execute this job for tagged commits on the master branch
+    refs:
+      - devel
+    variables:
+      - $CI_COMMIT_TAG =~ /v\d+\.\d+\.\d+/
+    
+push-stretch-package-v3:
+  <<: *push-jessie-package-v3
   dependencies:
     - deb-for-stretch
   script:
     - g5k-deploy-files --files 'pkg/g5k-api_*.deb' --directory deb/g5k-api/stretch/v3
+
+push-stretch-package-devel:
+  <<: *push-jessie-package-devel
+  dependencies:
+    - deb-for-stretch
+  script:
+    - g5k-deploy-files --files 'pkg/g5k-api_*.deb' --directory deb/g5k-api/stretch/devel
+  
