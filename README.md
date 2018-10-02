@@ -21,8 +21,8 @@ In particular, runtime dependencies of the app include `ruby2.1.5` and `git-core
 ### Development process
 
 * The `master` branch has the code for the stable version of g5k-api. This is the version pushed to api-server-v3 servers on Grid'5000
-* The `develop` branch has the code for the development version of g5k-api. This is the version pushed to api-server-devel servers on Grid'5000. It is expected that this branch is regularly rebased on the `master` branch
-* New features and fixes are expected to be developped in specific branches, and submitted for inclusion using Merge Requests. Fixes to be pushed to production to the `master` branch, triggering a rebased of the `develop` branch after acceptation. New functionnality to be merge on the `develop` branch
+* The `devel` branch has the code for the development version of g5k-api. This is the version pushed to api-server-devel servers on Grid'5000. It is expected that this branch is regularly rebased on the `master` branch
+* New features and fixes are expected to be developped in specific branches, and submitted for inclusion using Merge Requests. Fixes to be pushed to production to the `master` branch, triggering a rebased of the `devel` branch after acceptation. New functionnality to be merge on the `devel` branch
 
 ### Development environment
 
