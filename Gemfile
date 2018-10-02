@@ -29,6 +29,12 @@ gem 'sass-rails'
 gem 'coffee-rails'
 gem 'uglifier'
 
+group :development do
+  # for ruby scripts written to replicate
+  # bugs
+  gem 'ruby-cute'
+end
+
 group :test do
   gem 'webmock'
   gem 'rspec'
