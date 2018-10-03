@@ -23,8 +23,6 @@ gem 'em-postgresql-adapter', :git => 'https://github.com/grid5000/em-postgresql-
 gem 'nokogiri'
 #gem 'nokogiri', '~> 1.5.6' #oldest version that blather handles
 
-gem 'blather', '>= 1.2.0'
-
 gem 'sass-rails'
 gem 'coffee-rails'
 gem 'uglifier'
