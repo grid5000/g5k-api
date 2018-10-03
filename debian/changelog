@@ -1,3 +1,9 @@
+g5k-api (4.4.1-1) jessie; urgency=low
+
+  * 949a281 [Gitlab CI] attempt to understand failure of job
+
+ -- David Margery <david.margery@inria.fr>  Wed, 03 Oct 2018 14:23:12 +0000
+
 g5k-api (4.4.0-1) jessie; urgency=low
 
   * 6feba38 Merge branch 'remove-jabber-connection' into 'devel'
