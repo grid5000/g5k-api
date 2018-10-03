@@ -97,18 +97,18 @@ push-jessie-package-v3: &push-jessie-package-v3
   dependencies:
     - deb-for-jessie
   variables:
-    - EXPECTED_SOURCE_BRANCH: master
-    - TARGET_DEBIAN_VERSION: jessie
-    - TARGET_G5K_API_VARIANT: v3
+    EXPECTED_SOURCE_BRANCH: master
+    TARGET_DEBIAN_VERSION: jessie
+    TARGET_G5K_API_VARIANT: v3
   script:
     - *push-packages-script
 
 push-jessie-package-devel: &push-jessie-package-devel
   <<: *push-jessie-package-v3
   variables:
-    - EXPECTED_SOURCE_BRANCH: devel
-    - TARGET_DEBIAN_VERSION: jessie
-    - TARGET_G5K_API_VARIANT: devel
+    EXPECTED_SOURCE_BRANCH: devel
+    TARGET_DEBIAN_VERSION: jessie
+    TARGET_G5K_API_VARIANT: devel
   only: # we only execute this job for tagged commits on the master branch
     refs:
       - tags
@@ -121,16 +121,16 @@ push-stretch-package-v3:
   dependencies:
     - deb-for-stretch
   variables:
-    - EXPECTED_SOURCE_BRANCH: master
-    - TARGET_DEBIAN_VERSION: stretch
-    - TARGET_G5K_API_VARIANT: v3
+    EXPECTED_SOURCE_BRANCH: master
+    TARGET_DEBIAN_VERSION: stretch
+    TARGET_G5K_API_VARIANT: v3
 
 push-stretch-package-devel:
   <<: *push-jessie-package-devel
   dependencies:
     - deb-for-stretch
   variables:
-    - EXPECTED_SOURCE_BRANCH: devel
-    - TARGET_DEBIAN_VERSION: stretch
-    - TARGET_G5K_API_VARIANT: devel
+    EXPECTED_SOURCE_BRANCH: devel
+    TARGET_DEBIAN_VERSION: stretch
+    TARGET_G5K_API_VARIANT: devel
   
