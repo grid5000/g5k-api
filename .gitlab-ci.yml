@@ -83,8 +83,6 @@ push-jessie-package-v3: &push-jessie-package-v3
       - master
     variables:
       - $CI_COMMIT_TAG =~ /^v\d+\.\d+\.\d+$/
-  except:
-    - /^(?!master$).*$/
   dependencies:
     - deb-for-jessie
   script:
@@ -100,8 +98,6 @@ push-jessie-package-devel: &push-jessie-package-devel
       - devel
     variables:
       - $CI_COMMIT_TAG =~ /^v\d+\.\d+\.\d+$/
-  except:
-    - /^(?!devel$).*$/
     
 push-stretch-package-v3:
   <<: *push-jessie-package-v3
