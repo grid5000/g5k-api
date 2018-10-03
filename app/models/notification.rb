@@ -18,7 +18,7 @@ require 'uri'
 # This is the class that handles notifications sent to the notifications API.
 class Notification
 
-  VALID_URI_SCHEMES = %w{http https xmpp mailto}
+  VALID_URI_SCHEMES = %w{http https mailto}
 
   attr_reader :errors
   attr_accessor :to
@@ -95,30 +95,6 @@ class Notification
         Rails.logger.info "Sending email with following options: #{email.inspect}"
         result = EM::Synchrony.sync(EM::Protocols::SmtpClient.send(email))
         Rails.logger.info "Sent email. Result=#{result.inspect}"
-      # XMPP processing
-      when /xmpp/
-        Rails.logger.info "XMPP URI, processing..."
-
-        to = Blather::JID.new("#{uri.opaque}/notifier")
-
-        presence = Blather::Stanza::Presence.new
-        presence.from = XMPP.jid
-
-        msg = Blather::Stanza::Message.new
-        msg.body = body.to_s
-        if to.domain == "conference.jabber.grid5000.fr"
-          msg.to = Blather::JID.new(to.node, to.domain)
-          msg.type = :groupchat
-        else
-          msg.to = to
-          msg.type = :chat
-        end
-
-        presence.to = to
-        Rails.logger.info "Connected to XMPP server. Sending presence: #{presence.to_s}..."
-        XMPP << presence
-        Rails.logger.info "Sending stanza: #{msg.to_s}..."
-        XMPP << msg
       end
     end
   rescue Timeout::Error, StandardError => e
