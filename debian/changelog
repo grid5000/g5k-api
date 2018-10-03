@@ -1,3 +1,11 @@
+g5k-api (4.3.1-1) jessie; urgency=low
+
+  * 8bf2cf3 Merge branch 'devel' of gitlab.inria.fr:grid5000/g5k-api into devel
+  * 4f31d53 [Gitlab CI] Make tagged commits really deploy
+  * 2866d27 Rename develop branch to devel
+
+ -- David Margery <david.margery@inria.fr>  Wed, 03 Oct 2018 08:22:44 +0000
+
 g5k-api (4.3.0-1) jessie; urgency=low
 
   * 2427b7f Update development instructions
