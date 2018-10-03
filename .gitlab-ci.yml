@@ -79,9 +79,10 @@ push-jessie-package-v3: &push-jessie-package-v3
     - packages
   only: # we only execute this job for tagged commits on the master branch
     refs:
+      - tags
       - master
     variables:
-      - $CI_COMMIT_TAG =~ /v\d+\.\d+\.\d+/
+      - $CI_COMMIT_TAG =~ /^v\d+\.\d+\.\d+$/
   dependencies:
     - deb-for-jessie
   script:
@@ -93,9 +94,10 @@ push-jessie-package-devel: &push-jessie-package-devel
     - g5k-deploy-files --files 'pkg/g5k-api_*.deb' --directory deb/g5k-api/jessie/devel
   only: # we only execute this job for tagged commits on the master branch
     refs:
+      - tags
       - devel
     variables:
-      - $CI_COMMIT_TAG =~ /v\d+\.\d+\.\d+/
+      - $CI_COMMIT_TAG =~ /^v\d+\.\d+\.\d+$/
     
 push-stretch-package-v3:
   <<: *push-jessie-package-v3
