@@ -40,7 +40,7 @@ test-for-stretch:
     - mariadb:10.1
   script:
     - apt update
-    - apt install -y postgresql-client git bundler rake libxml2-dev libxslt-dev libicu-dev default-libmysqlclient-dev libpq-dev nodejs
+    - apt install -y postgresql-client git bundler rake libssl-dev libxml2-dev libxslt-dev libicu-dev default-libmysqlclient-dev libpq-dev nodejs
     - "sed -i -e 's/host: mysql/host: mariadb/' config/database.yml"
     - bundle install --path vendor/bundle
     - bundle exec rake db:migrate
@@ -54,7 +54,7 @@ deb-for-jessie: &deb-for-jessie
   - docker
   script:
   - apt-get update
-  - apt-get install -y lsb-release git git-core bundler rake libxml2-dev ruby-dev libicu-dev build-essential libmysqlclient-dev libxslt-dev libpq-dev nodejs curl pkg-config
+  - apt-get install -y lsb-release git git-core bundler rake libssl-dev libxml2-dev ruby-dev libicu-dev build-essential libmysqlclient-dev libxslt-dev libpq-dev nodejs curl pkg-config
   - bundle install --path vendor/bundle
   - bundle exec rake package:build:debian 
   artifacts:
