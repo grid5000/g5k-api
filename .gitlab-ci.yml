@@ -31,6 +31,8 @@ test-for-jessie: &test-for-jessie
     - bundle exec rake db:oar:seed
     - bundle exec rspec spec/
   coverage: '/\(\d+.\d+\%\) covered/'
+  except:
+    - tags
 
 test-for-stretch:
   <<: *test-for-jessie
@@ -61,6 +63,8 @@ deb-for-jessie: &deb-for-jessie
     paths:
     - pkg/g5k-api*.deb
     expire_in: '1 day'
+  except:
+    - tags
 
 deb-for-stretch:
   <<: *deb-for-jessie
@@ -70,46 +74,57 @@ deb-for-stretch:
   - apt-get install -y lsb-release git git-core bundler rake libxml2-dev ruby-dev libicu-dev build-essential default-libmysqlclient-dev libxslt-dev libpq-dev nodejs curl pkg-config
   - bundle install --path vendor/bundle
   - bundle exec rake package:build:debian
-  allow_failure: true
 
+.push-packages-script: &push-packages-script |
+  git tag --points-at $CI_COMMIT_SHA #debug output
+  IS_TAGGED=$(git tag --points-at $CI_COMMIT_SHA)
+  if [ -n "$IS_TAGGED"  ] ; then
+    echo "Request to push for debian version ${TARGET_DEBIAN_VERSION} for branch ${TARGET_G5K_API_VARIANT}"
+    g5k-deploy-files --files 'pkg/g5k-api_*.deb' --directory deb/g5k-api/${TARGET_DEBIAN_VERSION}/${TARGET_G5K_API_VARIANT}
+  else
+    echo "commit is not tagged"
+    exit 1
+  fi
+  
+  
 push-jessie-package-v3: &push-jessie-package-v3
   stage: deploy
+  when: manual
+  allow_failure: false
   # tags must be 'packages' so that we use the runner on packages.grid5000.fr
   tags:
     - packages
   only: # we only execute this job for tagged commits on the master branch
-    refs:
-      - tags
-      - master
-    variables:
-      - $CI_COMMIT_TAG =~ /^v\d+\.\d+\.\d+$/
+    - master
   dependencies:
     - deb-for-jessie
+  variables:
+    TARGET_DEBIAN_VERSION: jessie
+    TARGET_G5K_API_VARIANT: v3
   script:
-    - "[ $CI_COMMIT_REF_NAME = 'master' ] && g5k-deploy-files --files 'pkg/g5k-api_*.deb' --directory deb/g5k-api/jessie/v3"
+    - *push-packages-script
 
 push-jessie-package-devel: &push-jessie-package-devel
   <<: *push-jessie-package-v3
-  script:
-    - "[ $CI_COMMIT_REF_NAME = 'devel' ] && g5k-deploy-files --files 'pkg/g5k-api_*.deb' --directory deb/g5k-api/jessie/devel"
-  only: # we only execute this job for tagged commits on the master branch
-    refs:
-      - tags
-      - devel
-    variables:
-      - $CI_COMMIT_TAG =~ /^v\d+\.\d+\.\d+$/
+  variables:
+    TARGET_DEBIAN_VERSION: jessie
+    TARGET_G5K_API_VARIANT: devel
+  only: 
+    - devel
     
 push-stretch-package-v3:
   <<: *push-jessie-package-v3
   dependencies:
     - deb-for-stretch
-  script:
-    - "[ $CI_COMMIT_REF_NAME = 'master' ] && g5k-deploy-files --files 'pkg/g5k-api_*.deb' --directory deb/g5k-api/stretch/v3"
+  variables:
+    TARGET_DEBIAN_VERSION: stretch
+    TARGET_G5K_API_VARIANT: v3
 
 push-stretch-package-devel:
   <<: *push-jessie-package-devel
   dependencies:
     - deb-for-stretch
-  script:
-    - "[ $CI_COMMIT_REF_NAME = 'devel' ] && g5k-deploy-files --files 'pkg/g5k-api_*.deb' --directory deb/g5k-api/stretch/devel"
+  variables:
+    TARGET_DEBIAN_VERSION: stretch
+    TARGET_G5K_API_VARIANT: devel
   
