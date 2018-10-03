@@ -86,12 +86,12 @@ push-jessie-package-v3: &push-jessie-package-v3
   dependencies:
     - deb-for-jessie
   script:
-    - [ $CI_COMMIT_REF_NAME = 'master' ] && g5k-deploy-files --files 'pkg/g5k-api_*.deb' --directory deb/g5k-api/jessie/v3
+    - "[ $CI_COMMIT_REF_NAME = 'master' ] && g5k-deploy-files --files 'pkg/g5k-api_*.deb' --directory deb/g5k-api/jessie/v3"
 
 push-jessie-package-devel: &push-jessie-package-devel
   <<: *push-jessie-package-v3
   script:
-    - [ $CI_COMMIT_REF_NAME = 'devel' ] && g5k-deploy-files --files 'pkg/g5k-api_*.deb' --directory deb/g5k-api/jessie/devel
+    - "[ $CI_COMMIT_REF_NAME = 'devel' ] && g5k-deploy-files --files 'pkg/g5k-api_*.deb' --directory deb/g5k-api/jessie/devel"
   only: # we only execute this job for tagged commits on the master branch
     refs:
       - tags
@@ -104,12 +104,12 @@ push-stretch-package-v3:
   dependencies:
     - deb-for-stretch
   script:
-    - [ $CI_COMMIT_REF_NAME = 'master' ] && g5k-deploy-files --files 'pkg/g5k-api_*.deb' --directory deb/g5k-api/stretch/v3
+    - "[ $CI_COMMIT_REF_NAME = 'master' ] && g5k-deploy-files --files 'pkg/g5k-api_*.deb' --directory deb/g5k-api/stretch/v3"
 
 push-stretch-package-devel:
   <<: *push-jessie-package-devel
   dependencies:
     - deb-for-stretch
   script:
-    - [ $CI_COMMIT_REF_NAME = 'devel' ] && g5k-deploy-files --files 'pkg/g5k-api_*.deb' --directory deb/g5k-api/stretch/devel
+    - "[ $CI_COMMIT_REF_NAME = 'devel' ] && g5k-deploy-files --files 'pkg/g5k-api_*.deb' --directory deb/g5k-api/stretch/devel"
   
