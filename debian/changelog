@@ -1,3 +1,15 @@
+g5k-api (4.3.2-1) jessie; urgency=low
+
+  * c9685ca Merge branch 'devel' of gitlab.inria.fr:grid5000/g5k-api into devel
+  * 9d356bd Commit version 4.3.0
+  * 1c821e0 [Gitlab CI] use except to limit to specific branch
+  * 164043a [Gitlab CI] Quote script commands
+  * a3e2d1b Merge branch 'devel' of gitlab.inria.fr:grid5000/g5k-api into devel
+  * d49fd79 Commit version 4.3.0
+  * 939fe21 [Gitlab CI] Guard against bad deployment
+
+ -- David Margery <david.margery@inria.fr>  Wed, 03 Oct 2018 11:20:04 +0000
+
 g5k-api (4.3.1-1) jessie; urgency=low
 
   * 8bf2cf3 Merge branch 'devel' of gitlab.inria.fr:grid5000/g5k-api into devel
