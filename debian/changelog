@@ -1,3 +1,10 @@
+g5k-api (4.4.2-1) jessie; urgency=low
+
+  * 5ed9ed7 [Gitlab CI] new attempt at filtering deployment
+  * ca4282a [Gitlab CI] new attempt at filtering deployment
+
+ -- David Margery <david.margery@inria.fr>  Wed, 03 Oct 2018 15:14:10 +0000
+
 g5k-api (4.4.1-1) jessie; urgency=low
 
   * 949a281 [Gitlab CI] attempt to understand failure of job
