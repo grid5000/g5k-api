@@ -1,3 +1,16 @@
+g5k-api (4.4.0-1) jessie; urgency=low
+
+  * 6feba38 Merge branch 'remove-jabber-connection' into 'devel'
+  * 95d282b Merge branch 'devel' of gitlab.inria.fr:grid5000/g5k-api into devel
+  * 8ae7931 Commit version 4.3.1
+  * 343acc0 Commit version 4.3.0
+  * a488c89 [Gitlab CI] Go back to previous solution
+  * 965edc1 [jabber] remove any mention to xmpp and jabber
+  * 9a38447 [Gitlab CI] Explicitly require lissl-dev
+  * ef27302 delete jabber.rb and remove blather from gem dependencies
+
+ -- David Margery <david.margery@inria.fr>  Wed, 03 Oct 2018 13:31:31 +0000
+
 g5k-api (4.3.2-1) jessie; urgency=low
 
   * c9685ca Merge branch 'devel' of gitlab.inria.fr:grid5000/g5k-api into devel
