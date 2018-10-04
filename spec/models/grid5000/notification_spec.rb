@@ -17,7 +17,7 @@ require 'spec_helper'
 describe Grid5000::Notification do
   before do
     @body = "some message"
-    @recipients = ["xmpp:crohr@jabber.grid5000.fr", "mailto:cyril.rohr@inria.fr"]
+    @recipients = ["mailto:cyril.rohr@inria.fr"]
   end
 
   it "should have the correct URI" do
@@ -33,7 +33,7 @@ describe Grid5000::Notification do
   it "should send the HTTP request to the notifications API and return true if successful" do
     stub_request(:post, "http://fake.api/sid/notifications").
       with(
-        :body => "{\n  \"to\": [\n    \"xmpp:crohr@jabber.grid5000.fr\",\n    \"mailto:cyril.rohr@inria.fr\"\n  ],\n  \"body\": \"some message\"\n}",
+        :body => "{\n  \"to\": [\n    \"mailto:cyril.rohr@inria.fr\"\n  ],\n  \"body\": \"some message\"\n}",
         :headers => {
           'Accept'=>'*/*',
           'Content-Type'=>'application/json',
@@ -50,7 +50,7 @@ describe Grid5000::Notification do
   it "should send the HTTP request to the notifications API and return false if failed" do
     stub_request(:post, "http://fake.api/sid/notifications").
       with(
-        :body => "{\n  \"to\": [\n    \"xmpp:crohr@jabber.grid5000.fr\",\n    \"mailto:cyril.rohr@inria.fr\"\n  ],\n  \"body\": \"some message\"\n}",
+        :body => "{\n  \"to\": [\n    \"mailto:cyril.rohr@inria.fr\"\n  ],\n  \"body\": \"some message\"\n}",
         :headers => {
           'Accept'=>'*/*',
           'Content-Type'=>'application/json',

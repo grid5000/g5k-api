@@ -188,7 +188,6 @@ describe Grid5000::Deployment do
                          uid: "1234",
                          nodes: ["paradent-1.rennes.grid5000.fr"],
                          notifications: [
-                           "xmpp:crohr@jabber.grid5000.fr",
                            "mailto:cyril.rohr@irisa.fr"
                          ],
                          result: {
@@ -204,7 +203,6 @@ describe Grid5000::Deployment do
         to be == ["paradent-1.rennes.grid5000.fr"]
       expect(@deployment.notifications).
         to be == [
-             "xmpp:crohr@jabber.grid5000.fr",
              "mailto:cyril.rohr@irisa.fr"
            ]
       expect(@deployment.result).
@@ -216,7 +214,7 @@ describe Grid5000::Deployment do
     end
 
     it "correctly build the attributes hash for JSON export" do
-      expect(@deployment.as_json).to be == {"created_at"=>@now.to_i, "disable_bootloader_install"=>false, "disable_disk_partitioning"=>false, "environment"=>"lenny-x64-base", "ignore_nodes_deploying"=>false, "nodes"=>["paradent-1.rennes.grid5000.fr"], "notifications"=>["xmpp:crohr@jabber.grid5000.fr", "mailto:cyril.rohr@irisa.fr"], "result"=>{"paradent-1.rennes.grid5000.fr"=>{"state"=>"OK"}}, "site_uid"=>"rennes", "status"=>"waiting", "uid"=>"1234", "updated_at"=>@now.to_i, "user_uid"=>"crohr"}
+      expect(@deployment.as_json).to be == {"created_at"=>@now.to_i, "disable_bootloader_install"=>false, "disable_disk_partitioning"=>false, "environment"=>"lenny-x64-base", "ignore_nodes_deploying"=>false, "nodes"=>["paradent-1.rennes.grid5000.fr"], "notifications"=>["mailto:cyril.rohr@irisa.fr"], "result"=>{"paradent-1.rennes.grid5000.fr"=>{"state"=>"OK"}}, "site_uid"=>"rennes", "status"=>"waiting", "uid"=>"1234", "updated_at"=>@now.to_i, "user_uid"=>"crohr"}
     end
 
     it "should correctly export to json" do
@@ -224,7 +222,6 @@ describe Grid5000::Deployment do
       expect(export['nodes']).to be == [
         "paradent-1.rennes.grid5000.fr"]
       expect(export['notifications']).to be == [
-        "xmpp:crohr@jabber.grid5000.fr",
         "mailto:cyril.rohr@irisa.fr"]
       expect(export['result']).to be == {
         "paradent-1.rennes.grid5000.fr"=>{"state"=>"OK"}
@@ -434,27 +431,27 @@ describe Grid5000::Deployment do
     end
 
     it "should deliver a notification if notifications is not empty" do
-      @deployment.notifications = ["xmpp:crohr@jabber.grid5000.fr"]
+      @deployment.notifications = ["mailto:cyril.rohr@inria.fr"]
       allow(@deployment).to receive(:notification_message).and_return(msg = "msg")
       Grid5000::Notification.should_receive(:new).
-        with(msg, :to => ["xmpp:crohr@jabber.grid5000.fr"]).
+        with(msg, :to => ["mailto:cyril.rohr@inria.fr"]).
         and_return(notif = double("notif"))
       notif.should_receive(:deliver!).and_return(true)
       @deployment.deliver_notification.should be true
     end
 
     it "should always return true even if the notification delivery failed" do
-      @deployment.notifications = ["xmpp:crohr@jabber.grid5000.fr"]
+      @deployment.notifications = ["mailto:cyril.rohr@inria.fr"]
       allow(@deployment).to receive(:notification_message).and_return(msg = "msg")
       Grid5000::Notification.should_receive(:new).
-        with(msg, :to => ["xmpp:crohr@jabber.grid5000.fr"]).
+        with(msg, :to => ["mailto:cyril.rohr@inria.fr"]).
         and_return(notif = double("notif"))
       notif.should_receive(:deliver!).and_raise(Exception.new("message"))
       @deployment.deliver_notification.should be true
     end
 
     it "build the correct notification message" do
-      @deployment.notifications = ["xmpp:crohr@jabber.grid5000.fr"]
+      @deployment.notifications = ["mailto:cyril.rohr@inria.fr"]
       expect(@deployment.notification_message).to be == JSON.pretty_generate(@deployment.as_json)
     end
   end
