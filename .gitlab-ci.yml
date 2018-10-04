@@ -86,6 +86,7 @@ deb-for-stretch:
 push-jessie-package-v3: &push-jessie-package-v3
   stage: deploy
   when: manual
+  allow_failure: false
   # tags must be 'packages' so that we use the runner on packages.grid5000.fr
   tags:
     - packages
