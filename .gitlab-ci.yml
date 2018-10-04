@@ -72,7 +72,7 @@ deb-for-stretch:
   - bundle exec rake package:build:debian
 
 .push-packages-script: &push-packages-script |
-  git tag --points-at $CI_COMMIT_REF_NAME #debug output
+  git tag --points-at $CI_COMMIT_SHA #debug output
   IS_TAGGED=$(git tag --points-at $CI_COMMIT_REF_NAME)
   if [ -n "$IS_TAGGED"  ] ; then
     echo "Request to push for debian version ${TARGET_DEBIAN_VERSION} for branch ${TARGET_G5K_API_VARIANT}"
