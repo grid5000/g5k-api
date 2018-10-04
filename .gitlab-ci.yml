@@ -31,6 +31,8 @@ test-for-jessie: &test-for-jessie
     - bundle exec rake db:oar:seed
     - bundle exec rspec spec/
   coverage: '/\(\d+.\d+\%\) covered/'
+  except:
+    - tags
 
 test-for-stretch:
   <<: *test-for-jessie
@@ -74,13 +76,16 @@ deb-for-stretch:
 
 .push-packages-script: &push-packages-script |
   git branch -r --contains $CI_COMMIT_REF_NAME #debug output
-  INCLUDES_EXPECTED_BRANCH=$(git branch -r --contains $CI_COMMIT_REF_NAME | grep ${EXPECTED_SOURCE_BRANCH}\$)
-  echo ${INCLUDES_EXPECTED_BRANCH}
-  if [ -n ${INCLUDES_EXPECTED_BRANCH}  ] ; then
+  export INCLUDES_EXPECTED_BRANCH=$(git branch -r --contains $CI_COMMIT_REF_NAME | grep ${EXPECTED_SOURCE_BRANCH}\$)
+  echo "Found the following expected source branch fot this job: ${INCLUDES_EXPECTED_BRANCH}"
+  if [ -n "$INCLUDES_EXPECTED_BRANCH"  ] ; then
     echo "Request to push for debian version ${TARGET_DEBIAN_VERSION} for branch ${TARGET_G5K_API_VARIANT}"
     g5k-deploy-files --files 'pkg/g5k-api_*.deb' --directory deb/g5k-api/${TARGET_DEBIAN_VERSION}/${TARGET_G5K_API_VARIANT}
   else
-    curl --request POST --header "JOB-TOKEN: $CI_JOB_TOKEN" "https://gitlab.inria.fr/api/v4/projects/$CI_PROJECT_ID/jobs/$CI_JOB_ID/cancel"
+    echo curl --request POST --header "JOB-TOKEN: $CI_JOB_TOKEN" "https://gitlab.inria.fr/api/v4/projects/$CI_PROJECT_ID/jobs/$CI_JOB_ID/cancel"
+    sleep 600
+    echo "doing it"
+    curl --request POST --header "JOB-TOKEN: $CI_JOB_TOKEN" "https://gitlab.inria.fr/api/v4/projects/$CI_PROJECT_ID/jobs/$CI_JOB_ID/cancel" ; echo "done"
     echo "Attempt to cancel job ${CI_JOB_ID} made"
   fi
   
@@ -101,6 +106,7 @@ push-jessie-package-v3: &push-jessie-package-v3
     EXPECTED_SOURCE_BRANCH: master
     TARGET_DEBIAN_VERSION: jessie
     TARGET_G5K_API_VARIANT: v3
+    CI_DEBUG_TRACE: "true"
   script:
     - *push-packages-script
 
