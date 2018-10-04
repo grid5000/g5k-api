@@ -73,8 +73,10 @@ deb-for-stretch:
   allow_failure: true
 
 .push-packages-script: &push-packages-script |
-  BRANCH=$(git symbolic-ref --short HEAD)
-  if [ ${BRANCH} = ${EXPECTED_SOURCE_BRANCH} ] ; then
+  git branch -r --contains $CI_COMMIT_REF_NAME #debug output
+  INCLUDES_EXPECTED_BRANCH=$(git branch -r --contains $CI_COMMIT_REF_NAME | grep ${EXPECTED_SOURCE_BRANCH}\$)
+  echo ${INCLUDES_EXPECTED_BRANCH}
+  if [ -n ${INCLUDES_EXPECTED_BRANCH}  ] ; then
     echo "Request to push for debian version ${TARGET_DEBIAN_VERSION} for branch ${TARGET_G5K_API_VARIANT}"
     g5k-deploy-files --files 'pkg/g5k-api_*.deb' --directory deb/g5k-api/${TARGET_DEBIAN_VERSION}/${TARGET_G5K_API_VARIANT}
   else
@@ -91,9 +93,8 @@ push-jessie-package-v3: &push-jessie-package-v3
   only: # we only execute this job for tagged commits on the master branch
     refs:
       - tags
-      - master
     variables:
-      - $CI_COMMIT_TAG =~ /^v\d+\.\d+\.\d+$/
+      - $CI_COMMIT_TAG =~ /^v\d+\.\d+\.\d+(-\d)?$/
   dependencies:
     - deb-for-jessie
   variables:
@@ -114,7 +115,7 @@ push-jessie-package-devel: &push-jessie-package-devel
       - tags
       - devel
     variables:
-      - $CI_COMMIT_TAG =~ /^v\d+\.\d+\.\d+$/
+      - $CI_COMMIT_TAG =~ /^v\d+\.\d+\.\d+(-\d)$/
     
 push-stretch-package-v3:
   <<: *push-jessie-package-v3
