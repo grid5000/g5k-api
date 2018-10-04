@@ -70,36 +70,30 @@ deb-for-stretch:
   - apt-get install -y lsb-release git git-core bundler rake libxml2-dev ruby-dev libicu-dev build-essential default-libmysqlclient-dev libxslt-dev libpq-dev nodejs curl pkg-config
   - bundle install --path vendor/bundle
   - bundle exec rake package:build:debian
-  allow_failure: true
 
 .push-packages-script: &push-packages-script |
-  git branch -r --contains $CI_COMMIT_REF_NAME #debug output
-  export INCLUDES_EXPECTED_BRANCH=$(git branch -r --contains $CI_COMMIT_REF_NAME | grep ${EXPECTED_SOURCE_BRANCH}\$)
-  echo "Found the following expected source branch fot this job: ${INCLUDES_EXPECTED_BRANCH}"
-  if [ -n "$INCLUDES_EXPECTED_BRANCH"  ] ; then
+  git tag --points-at $CI_COMMIT_REF_NAME #debug output
+  IS_TAGGED=$(git tag --points-at $CI_COMMIT_REF_NAME)
+  if [ -n "$IS_TAGGED"  ] ; then
     echo "Request to push for debian version ${TARGET_DEBIAN_VERSION} for branch ${TARGET_G5K_API_VARIANT}"
     g5k-deploy-files --files 'pkg/g5k-api_*.deb' --directory deb/g5k-api/${TARGET_DEBIAN_VERSION}/${TARGET_G5K_API_VARIANT}
   else
-    curl --request POST --header "JOB-TOKEN: $CI_JOB_TOKEN" "https://gitlab.inria.fr/api/v4/projects/$CI_PROJECT_ID/jobs/$CI_JOB_ID/cancel"
-    kill -9 $$
-    echo "Attempt to cancel job ${CI_JOB_ID} made"
+    echo "commit is not tagged"
+    exit 1
   fi
   
   
 push-jessie-package-v3: &push-jessie-package-v3
   stage: deploy
+  when: manual
   # tags must be 'packages' so that we use the runner on packages.grid5000.fr
   tags:
     - packages
   only: # we only execute this job for tagged commits on the master branch
-    refs:
-      - tags
-    variables:
-      - $CI_COMMIT_TAG =~ /^v\d+\.\d+\.\d+(-\d)?$/
+    - master
   dependencies:
     - deb-for-jessie
   variables:
-    EXPECTED_SOURCE_BRANCH: master
     TARGET_DEBIAN_VERSION: jessie
     TARGET_G5K_API_VARIANT: v3
   script:
@@ -108,22 +102,16 @@ push-jessie-package-v3: &push-jessie-package-v3
 push-jessie-package-devel: &push-jessie-package-devel
   <<: *push-jessie-package-v3
   variables:
-    EXPECTED_SOURCE_BRANCH: devel
     TARGET_DEBIAN_VERSION: jessie
     TARGET_G5K_API_VARIANT: devel
-  only: # we only execute this job for tagged commits on the master branch
-    refs:
-      - tags
-      - devel
-    variables:
-      - $CI_COMMIT_TAG =~ /^v\d+\.\d+\.\d+(-\d)$/
+  only: 
+    - devel
     
 push-stretch-package-v3:
   <<: *push-jessie-package-v3
   dependencies:
     - deb-for-stretch
   variables:
-    EXPECTED_SOURCE_BRANCH: master
     TARGET_DEBIAN_VERSION: stretch
     TARGET_G5K_API_VARIANT: v3
 
@@ -132,7 +120,6 @@ push-stretch-package-devel:
   dependencies:
     - deb-for-stretch
   variables:
-    EXPECTED_SOURCE_BRANCH: devel
     TARGET_DEBIAN_VERSION: stretch
     TARGET_G5K_API_VARIANT: devel
   
