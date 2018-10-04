@@ -31,6 +31,8 @@ test-for-jessie: &test-for-jessie
     - bundle exec rake db:oar:seed
     - bundle exec rspec spec/
   coverage: '/\(\d+.\d+\%\) covered/'
+  except:
+    - tags
 
 test-for-stretch:
   <<: *test-for-jessie
@@ -61,6 +63,8 @@ deb-for-jessie: &deb-for-jessie
     paths:
     - pkg/g5k-api*.deb
     expire_in: '1 day'
+  except:
+    - tags
 
 deb-for-stretch:
   <<: *deb-for-jessie
