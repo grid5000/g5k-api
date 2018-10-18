@@ -1,3 +1,15 @@
+g5k-api (4.4.3-1) jessie; urgency=low
+
+  * 23102ec Merge branch 'master' of gitlab.inria.fr:grid5000/g5k-api
+  * f33a2be Depend on proper version of em-postgresql-adapter
+  * bd4964c Add a logger and logger options to track Fibers
+  * f1acbc0 [Gitlab CI] change deployment mode
+  * f3d5a28 [jabber] remove any mention of xmpp and jabber
+  * 5946829 Merge branch 'cherry-pick-6feba383' into 'master'
+  * b4d623d Merge branch 'remove-jabber-connection' into 'devel'
+
+ -- David Margery <david.margery@inria.fr>  Thu, 18 Oct 2018 07:51:44 +0000
+
 g5k-api (4.4.2-1) jessie; urgency=low
 
   * 5ed9ed7 [Gitlab CI] new attempt at filtering deployment
