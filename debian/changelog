@@ -1,3 +1,10 @@
+g5k-api (3.8.1-1) jessie; urgency=low
+
+  * eb3a118 Go back to Integers to query moldable_ids
+  * 5c9e0d8 [bug 9560] Increase max persistant connections
+
+ -- David Margery <david.margery@inria.fr>  Fri, 19 Oct 2018 12:13:29 +0000
+
 g5k-api (3.8.0-1) jessie; urgency=low
 
   * 23102ec Merge branch 'master' of gitlab.inria.fr:grid5000/g5k-api
