@@ -212,6 +212,7 @@ module OAR
                                                 options) do
           usefull_jobs.
             each{|job|
+            Rails.logger.warn "#{job} has a bad moldable_id" if job.moldable_id.nil? || job.moldable_id==0
             active_jobs_by_moldable_id[job.moldable_id] = {
               # using job.resources will generate a query by job,
               # and eager loading (the :include => [:job_types, :resources]  will not work
@@ -224,9 +225,7 @@ module OAR
         end
         # if there are jobs
         if active_jobs_by_moldable_id.length > 0
-          moldable_ids = active_jobs_by_moldable_id.keys.
-            map{|moldable_id| "'#{moldable_id}'"}.join(",")
-
+          moldable_ids = active_jobs_by_moldable_id.keys.join(",")
 
           # get all resources assigned to these jobs in one query
           query= "(#{QUERY_ASSIGNED_RESOURCES}) UNION (#{QUERY_GANTT_JOBS_RESOURCES})"
