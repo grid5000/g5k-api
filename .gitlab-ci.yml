@@ -10,7 +10,7 @@ test-for-jessie: &test-for-jessie
   image: debian:jessie
   stage: test
   tags:
-    - docker
+    - grid5000-docker
   services:
     - mysql:5.5
     - postgres
@@ -53,7 +53,7 @@ deb-for-jessie: &deb-for-jessie
   image: debian:jessie
   stage: deb
   tags:
-  - docker
+  - grid5000-docker
   script:
   - apt-get update
   - apt-get install -y lsb-release git git-core bundler rake libssl-dev libxml2-dev ruby-dev libicu-dev build-essential libmysqlclient-dev libxslt-dev libpq-dev nodejs curl pkg-config
@@ -93,7 +93,7 @@ push-jessie-package-v3: &push-jessie-package-v3
   allow_failure: false
   # tags must be 'packages' so that we use the runner on packages.grid5000.fr
   tags:
-    - packages
+    - grid5000-packages
   only: # we only execute this job for tagged commits on the master branch
     - master
   dependencies:
