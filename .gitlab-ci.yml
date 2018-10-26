@@ -59,7 +59,7 @@ deb-for-jessie: &deb-for-jessie
     - apt-get update && apt-get -y --no-install-recommends install devscripts build-essential equivs
     - "sed -i -e 's/default-libmysqlclient-dev/libmysqlclient-dev/' debian/control"
     - mk-build-deps -ir -t 'apt-get -y --no-install-recommends'
-    - apt-get install -y lsb-release curl pkg-config
+    - apt-get install -y curl pkg-config
     - bundle install --path vendor/bundle
     - bundle exec rake package:build:debian
   artifacts:
@@ -75,7 +75,7 @@ deb-for-stretch:
   script:
     - apt-get update && apt-get -y --no-install-recommends install devscripts build-essential equivs
     - mk-build-deps -ir -t 'apt-get -y --no-install-recommends'
-    - apt-get install -y lsb-release curl pkg-config
+    - apt-get install -y curl pkg-config
     - bundle install --path vendor/bundle
     - bundle exec rake package:build:debian
 
