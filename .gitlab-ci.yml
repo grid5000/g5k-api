@@ -24,8 +24,9 @@ test-for-jessie: &test-for-jessie
     POSTGRES_PASSWORD: oar
     POSTGRES_DB: oar2_test
   script:
-    - apt update
-    - apt install -y postgresql-client git bundler rake libxml2-dev libxslt-dev libicu-dev libmysqlclient-dev libpq-dev nodejs
+    - apt-get update && apt-get -y --no-install-recommends install devscripts build-essential equivs
+    - "sed -i -e 's/default-libmysqlclient-dev/libmysqlclient-dev/' debian/control"
+    - mk-build-deps -ir -t 'apt-get -y --no-install-recommends'
     - bundle install --path vendor/bundle
     - bundle exec rake db:migrate
     - bundle exec rake db:oar:seed
@@ -41,8 +42,8 @@ test-for-stretch:
     - postgres
     - mariadb:10.1
   script:
-    - apt update
-    - apt install -y postgresql-client git bundler rake libssl-dev libxml2-dev libxslt-dev libicu-dev default-libmysqlclient-dev libpq-dev nodejs
+    - apt-get update && apt-get -y --no-install-recommends install devscripts build-essential equivs
+    - mk-build-deps -ir -t 'apt-get -y --no-install-recommends'
     - "sed -i -e 's/host: mysql/host: mariadb/' config/database.yml"
     - bundle install --path vendor/bundle
     - bundle exec rake db:migrate
@@ -55,10 +56,12 @@ deb-for-jessie: &deb-for-jessie
   tags:
   - grid5000-docker
   script:
-  - apt-get update
-  - apt-get install -y lsb-release git git-core bundler rake libssl-dev libxml2-dev ruby-dev libicu-dev build-essential libmysqlclient-dev libxslt-dev libpq-dev nodejs curl pkg-config
-  - bundle install --path vendor/bundle
-  - bundle exec rake package:build:debian 
+    - apt-get update && apt-get -y --no-install-recommends install devscripts build-essential equivs
+    - "sed -i -e 's/default-libmysqlclient-dev/libmysqlclient-dev/' debian/control"
+    - mk-build-deps -ir -t 'apt-get -y --no-install-recommends'
+    - apt-get install -y lsb-release ruby-dev curl pkg-config
+    - bundle install --path vendor/bundle
+    - bundle exec rake package:build:debian
   artifacts:
     paths:
     - pkg/g5k-api*.deb
@@ -70,10 +73,11 @@ deb-for-stretch:
   <<: *deb-for-jessie
   image: debian:stretch
   script:
-  - apt-get update
-  - apt-get install -y lsb-release git git-core bundler rake libxml2-dev ruby-dev libicu-dev build-essential default-libmysqlclient-dev libxslt-dev libpq-dev nodejs curl pkg-config
-  - bundle install --path vendor/bundle
-  - bundle exec rake package:build:debian
+    - apt-get update && apt-get -y --no-install-recommends install devscripts build-essential equivs
+    - mk-build-deps -ir -t 'apt-get -y --no-install-recommends'
+    - apt-get install -y lsb-release ruby-dev curl pkg-config
+    - bundle install --path vendor/bundle
+    - bundle exec rake package:build:debian
 
 .push-packages-script: &push-packages-script |
   echo "Request to push for debian version ${TARGET_DEBIAN_VERSION} for branch ${TARGET_G5K_API_VARIANT}"
