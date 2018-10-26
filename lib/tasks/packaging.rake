@@ -151,7 +151,12 @@ namespace :package do
       else
         pkg_dependencies= %w{libmysqlclient-dev libxml2-dev libxslt-dev libssl-dev libpq-dev}
       end
-      cmd = "sudo apt-get install #{pkg_dependencies.join(" ")} git-core dh-make dpkg-dev libicu-dev --yes && rm -rf /tmp/#{NAME}"
+      if Process.uid == 0
+        sudo=""
+      else
+        sudo='sudo '
+      end
+      cmd = "#{sudo}apt-get install #{pkg_dependencies.join(" ")} git-core dh-make dpkg-dev libicu-dev --yes && rm -rf /tmp/#{NAME}"
       sh cmd
 
       Dir.chdir('/tmp') do
