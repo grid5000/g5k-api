@@ -145,19 +145,20 @@ namespace :package do
     end 
     desc "Build debian package with our own scripts"
     task :debian => :'package:setup' do
-      case LSBDISTCODENAME
-      when 'stretch'
-        pkg_dependencies= %w{default-libmysqlclient-dev libxml2-dev libxslt-dev libssl-dev libpq-dev}
-      else
-        pkg_dependencies= %w{libmysqlclient-dev libxml2-dev libxslt-dev libssl-dev libpq-dev}
-      end
       if Process.uid == 0
         sudo=""
       else
         sudo='sudo '
       end
-      cmd = "#{sudo}apt-get install #{pkg_dependencies.join(" ")} git-core dh-make dpkg-dev libicu-dev --yes && rm -rf /tmp/#{NAME}"
-      sh cmd
+      commands=[
+        "#{sudo}apt-get -y --no-install-recommends install devscripts build-essential equivs",
+        "#{sudo}mk-build-deps -ir -t 'apt-get -y --no-install-recommends'",
+        "rm -rf /tmp/#{NAME}"
+      ]
+      for cmd in commands do
+        sh cmd
+      end
+#        cmd = "#{sudo}apt-get install #{pkg_dependencies.join(" ")} git-core dh-make dpkg-dev libicu-dev --yes && rm -rf /tmp/#{NAME}"
 
       Dir.chdir('/tmp') do
         sh "tar xf #{NAME}.tar -C #{PACKAGING_DIR}"

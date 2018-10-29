@@ -25,7 +25,6 @@ test-for-jessie: &test-for-jessie
     POSTGRES_DB: oar2_test
   script:
     - apt-get update && apt-get -y --no-install-recommends install devscripts build-essential equivs
-    - "sed -i -e 's/default-libmysqlclient-dev/libmysqlclient-dev/' debian/control"
     - mk-build-deps -ir -t 'apt-get -y --no-install-recommends'
     - bundle install --path vendor/bundle
     - bundle exec rake db:migrate
@@ -57,7 +56,6 @@ deb-for-jessie: &deb-for-jessie
   - grid5000-docker
   script:
     - apt-get update && apt-get -y --no-install-recommends install devscripts build-essential equivs
-    - "sed -i -e 's/default-libmysqlclient-dev/libmysqlclient-dev/' debian/control"
     - mk-build-deps -ir -t 'apt-get -y --no-install-recommends'
     - apt-get install -y curl pkg-config
     - bundle install --path vendor/bundle
