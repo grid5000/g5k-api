@@ -1,14 +1,14 @@
 Source: g5k-api
-Section: unknown
+Section: ruby
 Priority: extra
 Maintainer: Grid'5000 developpers <g5k-developers@lists.grid5000.fr>
 Uploaders: David Margery <david.margery@inria.fr>
-Build-Depends: debhelper (>= 7), git, bundler, rake, libssl-dev, libxml2-dev, libxslt-dev, libicu-dev, default-libmysqlclient-dev | libmysqlclient-dev, libpq-dev, nodejs, ruby-dev, lsb-release, postgresql-client
+Build-Depends: debhelper (>= 7), git, bundler, rake, libssl-dev, libxml2-dev, libxslt-dev, libicu-dev, default-libmysqlclient-dev | libmysqlclient-dev, libpq-dev, nodejs, ruby-dev, lsb-release, postgresql-client, pkg-config
 Standards-Version: 3.7.3
 Homepage: https://api.grid5000.fr
 
 Package: g5k-api
 Architecture: amd64
-Depends: ${shlibs:Depends}, ${misc:Depends}, ruby2.1, git-core, libxml2, libxslt1.1, nodejs
+Depends: ${shlibs:Depends}, ${misc:Depends}, ruby | ruby-interpreter, git-core, libxml2, libxslt1.1, nodejs
 Description: Grid'5000 API
  The API built on top of the Grid'5000 tools.
