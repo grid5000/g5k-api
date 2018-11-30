@@ -7,8 +7,8 @@ After=network.target
 User=g5k-api
 Group=g5k-api
 Environment=PORT=8000
-ExecStart=/usr/bin/g5k-api server -d --log /var/log/g5k-api/thin.log" --max-persistent-conns 200 start
-Restart=always
+ExecStart=/usr/bin/g5k-api server --log /var/log/g5k-api/thin.log --max-persistent-conns 200 start
+Restart=on-failure
 StandardOutput=syslog
 StandardError=syslog
 SyslogIdentifier=%n
