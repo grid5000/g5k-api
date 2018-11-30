@@ -201,7 +201,7 @@ namespace :package do
       # make sure no pending changes need to be commited to repository
       uncommitted_changes=`git status --untracked-files=no --porcelain`
       if uncommitted_changes != ""
-        fail "You are building from a directory with uncommited files in git. Please commit pending changes so there is a chance the build can be traked back to a specific state in the repository"
+        fail "You are building from a directory with uncommited files in git. Please commit pending changes so there is a chance the build can be traked back to a specific state in the repository\n#{uncommitted_changes}"
       end
 
       # prepare the build directory
