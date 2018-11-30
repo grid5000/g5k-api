@@ -2,6 +2,19 @@
 
 export DH_VERBOSE=1
 
-
 %:
 	dh $@
+
+# Run 'bundle install --standalone' at the beginning of the Debian build process
+override_dh_auto_build:
+	debian/setup_bundle --bundle-bundler --generate-binstubs
+	dh_auto_build
+
+# When started from bundler context, prime the build dir with a copy of the current bundle
+override_dh_auto_configure:
+	debian/setup_bundle --auto-configure
+	dh_auto_configure
+
+override_dh_auto_clean:
+	debian/setup_bundle --clean
+	dh_auto_clean

@@ -1,0 +1,17 @@
+config/*.yml etc/g5k-api/
+config opt/g5k-api
+Gemfile opt/g5k-api
+Gemfile.lock opt/g5k-api
+config.ru opt/g5k-api
+Rakefile opt/g5k-api
+app opt/g5k-api
+bin opt/g5k-api
+db opt/g5k-api
+lib opt/g5k-api
+public opt/g5k-api
+script opt/g5k-api
+spec opt/g5k-api
+bundle/bundler usr/lib/ruby/bundles/g5k-api
+bundle/ruby usr/lib/ruby/bundles/g5k-api
+bundle/bin usr
+bundle/.bundle opt/g5k-api

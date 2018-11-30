@@ -1,0 +1,13 @@
+#!/bin/bash
+
+set -e
+
+export APP_USER="g5k-api"
+export APP_GROUP="g5k-api"
+
+if ! getent passwd "${APP_USER}" > /dev/null; then
+  if ! getent group "${APP_GROUP}" > /dev/null; then
+    addgroup "${APP_GROUP}" --system --quiet
+  fi
+  adduser "${APP_USER}" --disabled-login --ingroup "${APP_GROUP}" --system --quiet --shell /bin/bash
+fi

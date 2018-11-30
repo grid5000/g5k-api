@@ -17,24 +17,24 @@ set -e
 # for details, see http://www.debian.org/doc/debian-policy/ or
 # the debian-policy package
 
-NAME="g5k-api"
+NAME=g5k-api
 
 case "$1" in
     configure)
-
-        if [ ! -f /opt/local/$NAME/bin/$NAME.rb ]; then 
-          mv /opt/local/$NAME/bin/$NAME /opt/local/$NAME/bin/$NAME.rb
-        fi
-        echo "#!/usr/bin/env ruby
-require '/opt/local/$NAME/bin/$NAME'
-        " > /usr/bin/$NAME && chmod a+x /usr/bin/$NAME
-        # Creating the user if it does not exist
-        if ! getent passwd $NAME > /dev/null; then
-          adduser --no-create-home --system --group $NAME
-        fi
+        chmod a+x /usr/bin/$NAME
+        /usr/bin/$NAME rake assets:precompile
         chown -R $NAME.$NAME /etc/$NAME/
         chown -R $NAME.$NAME /var/db/$NAME/
         chown -R $NAME.$NAME /var/log/$NAME/
+        chown -R $NAME.$NAME /opt/$NAME/
+        chmod 0600 /opt/$NAME/config/*.yml
+        if ! [ -e /etc/${NAME}/conf.d/secret.sh ]; then
+          SECRET=`${NAME} rake secret`
+          echo "export SECRET_KEY_BASE=\${SECRET_KEY_BASE:-${SECRET}}" > /etc/${NAME}/conf.d/secret.sh
+        fi
+        `${NAME} rake db:migrate` || true #attempt to migrate db is there is one
+        chown $NAME.$NAME /etc/${NAME}/conf.d/secret.sh
+        chmod 0600 /etc/${NAME}/conf.d/secret.sh
     ;;
 
     abort-upgrade|abort-remove|abort-deconfigure)

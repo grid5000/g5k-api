@@ -1,0 +1,152 @@
+#!/usr/bin/env ruby
+
+require 'optparse'
+require 'ostruct'
+
+NAME = "g5k-api"
+
+options = OpenStruct.new
+options.verbose=ENV['DH_VERBOSE'].to_i==1
+options.bundle_bundler=false
+options.generate_binstubs=false
+
+def import_bundle_files(options)
+  if defined?(Bundler)
+    puts '  Running from bundler context: install local bundle files into source directory' if options.verbose
+    # Do not copy .bundle so as to bundle install with no persistant options
+    # system "cp -r #{Bundler.app_config_path} ."
+    if Bundler.bundle_path.to_s =~ /#{Bundler.ruby_scope}/
+      system "cp -r #{Bundler.bundle_path.to_s.gsub(Bundler.ruby_scope,'')} bundle"
+    else
+      system "mkdir -p bundle/#{Bundler.ruby_scope}"
+      system "cp -r #{Bundler.bundle_path.to_s}/* bundle/#{Bundler.ruby_scope}"
+    end
+  else
+    puts '  No bundler context found. Do not prime build directory with bundler files' if options.verbose
+  end
+  true
+end
+
+optparse = OptionParser.new do |opts|
+  opts.on('-h', '--help', 'show help') do
+    puts opts
+    exit
+  end
+
+  opts.on('--clean', 'dh_auto_clean helper') do
+    puts '   Clean source directory from bundler files' if options.verbose
+    system "rm -rf bundle .bundle"
+    exit(0)
+  end
+
+  opts.on('--auto-configure', 'dh_auto_configure helper') do
+    exit import_bundle_files(options)
+  end
+
+  opts.on('--[no-]bundle-bundler', 'build bundler as part of the bundle') do |opt|
+    options.bundle_bundler=opt
+  end
+
+  opts.on('--[no-]generate-binstubs', 'generate executables running in bundler context in bundle/bin for all ruby files in bin/') do |opt|
+    options.generate_binstubs=opt
+  end
+
+end
+optparse.parse!
+
+def without_bundle_env(options, &block)
+  to_clean=["BUNDLE_GEMFILE","RUBYOPT"]
+  saved_values={}
+  to_clean.each do |env_value|
+    saved_values[env_value]=ENV[env_value]
+    ENV.delete(env_value)
+  end
+  if File.directory?('.bundle')
+    puts '   Unexpected .bundle directory in sources. Removing it' if options.verbose 
+    #Remove saved bundler options
+    File.unlink(".bundle/config")
+    Dir.unlink(".bundle")
+  end
+
+  yield
+
+  to_clean.each do |env_value|
+    ENV[env_value]=saved_values[env_value]
+  end
+end
+
+without_bundle_env(options) do
+  puts "   Installing vendored #{NAME} dependencies..." if options.verbose
+  system 'bundle install --standalone --no-binstubs --without=development --path bundle '
+  system 'bundle clean'
+  abort "Error: bundle not installed" unless Dir.exist? 'bundle'
+  if options.bundle_bundler
+    require 'bundler' unless defined? Bundler
+    system "gem install bundler --no-ri --no-rdoc --version #{Bundler::VERSION} -i bundle/#{Bundler.ruby_scope}"
+  end
+end
+
+RUBY_INSTALL_ROOT = '/usr/lib/ruby'
+
+#Override bundle-generated setup.rb
+#Gem native extensions load paths are generated relative to current directory, which is incorrect
+File.open "bundle/bundler/setup.rb", "w" do |f|
+  f.puts "deps_root = '#{RUBY_INSTALL_ROOT}/bundles/#{NAME}'"
+  
+  Dir["bundle/ruby/**/lib"].each do |dir|
+    dir = dir.gsub('bundle/', '')
+    f.puts %Q[$:.unshift "\#{deps_root}/#{dir}"]
+  end
+end
+
+if options.generate_binstubs
+  # create binaries that will use the bundle
+  PACKAGED_DIR="bundle/bin"
+  system "mkdir -p #{PACKAGED_DIR}"
+  # use gem2deb JUNK_PATTERNS
+  JUNK_PATTERNS = [ /^#/, /^\.#/, /^cvslog/, /^,/, /^\.del-*/, /\.olb$/,
+                    /~$/, /\.(old|bak|BAK|orig|rej)$/, /^_\$/, /\$$/, /\.org$/, /\.in$/, /^\./ ]
+  
+  puts "  Looking for executable ruby scripts in bin" if options.verbose
+  
+  Dir.foreach ("bin") do |file|
+    if JUNK_PATTERNS.all? {|p| file !~ p}
+      next if ['rails','bundle','setup','rake'].include?(file)
+      filename=File.join('bin',file)
+      if File.file?(filename) && File.executable?(filename)
+        shebang=nil
+        File.open(filename,'r') {|f| shebang=f.gets}
+        if shebang =~ /ruby/ && shebang =~ /#!/
+          puts "    Creating wrapper for #{filename} in usr/bin/" if options.verbose
+          File.open "#{PACKAGED_DIR}/#{file}", "w" do |f|
+            f.puts "#!/bin/sh"
+            f.puts "# Generated during debian build process by #{$0} #{$@}"
+            f.puts "\n"
+            f.puts "export GEM_HOME=#{RUBY_INSTALL_ROOT}/bundles/#{NAME}/#{Bundler.ruby_scope}"
+            f.puts "export BUNDLE_GEMFILE=/opt/#{NAME}/Gemfile"
+            f.puts "export RUBYOPT=-rbundler/setup"
+            f.puts "export RUBYLIB=#{RUBY_INSTALL_ROOT}/bundles/#{NAME}/#{Bundler.ruby_scope}/gems/bundler-#{Bundler::VERSION}/lib"
+            f.puts "for config_file in /etc/#{NAME}/conf.d/*.sh ; do"
+            f.puts "  if [ -f $config_file ]; then" 
+            f.puts "    . $config_file"
+            f.puts "  fi"
+            f.puts "done"
+            f.puts "exec /opt/#{NAME}/bin/#{file} \"\$@\""
+          end
+        end
+      end
+    end
+  end
+end
+
+puts "  Generating fake bundle config file" if options.verbose
+# create fake bundle setup in application dir
+DOT_BUNDLE_DIR="bundle/.bundle"
+BUNDLE_CONFIG_FILE="#{DOT_BUNDLE_DIR}/config"
+system "mkdir -p #{DOT_BUNDLE_DIR}"
+File.open(BUNDLE_CONFIG_FILE, "w") do |f|
+  f.puts '----'
+  f.puts "BUNDLE_PATH: #{RUBY_INSTALL_ROOT}/bundles/#{NAME}"
+  f.puts "BUNDLE_DISABLE_SHARED_GEMS: '1'"
+  f.puts "BUNDLE_WITHOUT: development"
+end

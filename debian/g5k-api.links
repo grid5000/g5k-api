@@ -1,0 +1,4 @@
+opt/g5k-api/config/database.yml etc/g5k-api/database.yml
+opt/g5k-api/config/config.yml etc/g5k-api/config.yml
+opt/g5k-api/config/secrets.yml etc/g5k-api/secrets.yml
+var/log/g5k-api opt/g5k-api/log

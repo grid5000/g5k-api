@@ -20,9 +20,8 @@ NAME="g5k-api"
 
 cleanup()
 {
-  /etc/init.d/$NAME stop || true
+  systemctl stop $NAME || true
   rm /usr/bin/$NAME
-  mv /opt/local/$NAME/bin/$NAME.rb /opt/local/$NAME/bin/$NAME
   return 0;
 }
 

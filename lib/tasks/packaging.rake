@@ -1,79 +1,151 @@
+# Copyright (c) 2010-2012 INRIA Rennes Bretagne Atlantique by Cyril Rohr (Grid'5000 and BonFIRE projects)
+# Copyright (c) 2015-2018 INRIA Rennes Bretagne Atlantique by David Margery (Grid'5000)
+
 ROOT_DIR = File.expand_path("../../..", __FILE__)
 CHANGELOG_FILE = File.join(ROOT_DIR, "debian", "changelog")
-VERSION_FILE = File.join(ROOT_DIR, "lib", "grid5000", "version.rb")
+VERSION_FILE = File.join(ROOT_DIR, 'lib', 'grid5000', 'version.rb')
 
 NAME = ENV['PKG_NAME'] || "g5k-api"
-USER_NAME = `git config --get user.name`.chomp
-USER_EMAIL = `git config --get user.email`.chomp
-
-LSBDISTCODENAME= `lsb_release -s -c`.chomp
 
 require VERSION_FILE
 
-PACKAGING_DIR = '/tmp/'+NAME+'-'+Grid5000::VERSION
+PACKAGING_DIR = '/tmp/'+NAME+'_'+Grid5000::VERSION
+PACKAGES_DIR = File.join(ROOT_DIR, 'pkg')
 
-def in_working_dir(dir,&block)
-  #Dir.choidr does not change ENV['PWD']
-  old_wd=ENV['PWD']
-  Dir.chdir(dir) do
-    ENV['PWD']=dir
-    yield
-  end
-  ENV['PWD']=old_wd
+def lsb_dist_codename
+   return `lsb_release -s -c`.chomp
 end
 
-def without_bundle_env(forced_values={}, &block)
-  to_clean=["BUNDLE_GEMFILE","RUBYOPT"]
-  saved_values={}
-  to_clean.each do |env_value|
-    saved_values[env_value]=ENV[env_value]
-    if forced_values.has_key?(env_value)
-      ENV[env_value]=forced_values[env_value]
+def date_of_commit(tag_or_commit)
+  date=`git show --pretty=tformat:"MyDate: %aD" #{tag_or_commit}`.chomp
+  if date =~ /MyDate\: (.*)$/
+    date=$1
+  end
+  date
+end
+
+def deb_version_from_date(date)
+  Time.parse(date).strftime("%Y%m%d%H%M%S")
+end
+
+def deb_version_of_commit(tag_or_commit)
+  deb_version_from_date(date_of_commit(tag_or_commit))
+end
+
+def purged_commits_between(version1,version2)
+  cmd = "git log --oneline"
+  cmd << " #{version1}..#{version2}" unless version1.nil?
+  commit_logs=`#{cmd}`.split("\n")
+  purged_logs=commit_logs.reject{|l| l =~ / v#{Grid5000::VERSION}/}.
+                reject{|l| l =~ / v#{version2}/}.
+                reject{|l| l =~ /Commit version #{Grid5000::VERSION}/}
+  purged_logs
+end
+
+def generate_changelog_entry(version, deb_version, logs, author, email, date)
+  return [
+    "#{NAME} (#{version.gsub('_','~')}-#{deb_version}) #{lsb_dist_codename}; urgency=low",
+    "",
+    logs.map{|l| "  * #{l}"}.join("\n"),
+    "",
+    " -- #{author} <#{email}>  #{date}",
+    ""
+  ].join("\n")
+end
+
+def changelog_for_version(version, deb_version, change_logs)
+  cmd="git show #{version}"
+  tagger=`#{cmd}`
+  if tagger =~ /Tagger\: ([^<]*)<([^>]*)>/
+    author=$1
+    email=$2
+  elsif tagger =~ /Author\: ([^<]*)<([^>]*)>/
+    author=$1
+    email=$2
+  else
+    puts "#{cmd} has #{tagger} as output: could not find Tagger or Author"
+  end
+  date=date_of_commit(version)
+  if deb_version.nil?
+    deb_version=deb_version_from_date(date)
+  end
+  return generate_changelog_entry(version, deb_version, change_logs, author, email, date)
+end
+
+def generate_changelog
+  versions = `git tag`.split("\n")
+  versions.sort! do |v1,v2|
+    major1,minor1,rest1=v1.split('.')
+    major2,minor2,rest2=v2.split('.')
+    unless major1==major2
+      major1 <=> major2
     else
-      ENV.delete(env_value)
+      unless minor1==minor2
+        minor1 <=> monor2
+      else
+        patch1,rc1=rest1.split('_rc')
+        patch2,rc2=rest2.split('_rc')
+        unless patch1==patch2
+          patch1.to_i <=> patch2.to_i
+        else
+          rc1.to_i <=> rc2.to_i
+        end
+      end
     end
   end
-  
-  yield
-  
-  to_clean.each do |env_value|
-    ENV[env_value]=saved_values[env_value]
+  versions.reject! {|v| v !~ /[0-9]+\.[0-9]+\..*/}
+  change_logs=[]
+  previous_version=versions.shift
+  change_logs << changelog_for_version(previous_version, nil, ["First version tagged for packaging"])
+  versions.each do |version|
+    purged_logs=purged_commits_between(previous_version, version)
+    if purged_logs.empty?
+      purged_logs=["Retagged #{previous_version}. No other changes"]
+    end
+    change_logs << changelog_for_version(version, nil, purged_logs)
+    previous_version=version
   end
+  change_logs.reverse.join("\n")
 end
 
-def bump(index)  
+def update_changelog(changelog_file,new_version)
+  content_changelog=''
+  if File.exists?(changelog_file)
+    changelog=File.read(changelog_file)
+    last_commit = changelog.scan(/\s+\* ([a-f0-9]{7}) /).flatten[0]
+    deb_version=deb_version_of_commit('HEAD')
+    purged_logs=purged_commits_between(last_commit, 'HEAD')
+    if purged_logs.size != 0
+      user_name=`git config --get user.name`.chomp
+      if user_name==""
+        puts 'No git user: running in Vagrant box ? Use git config --global user.name "firstname lastname" before bumping version'
+        return
+      end
+      user_email=`git config --get user.email`.chomp
+      content_changelog = generate_changelog_entry(new_version,
+                                                   deb_version,
+                                                   purged_logs,
+                                                   user_name,
+                                                   user_email,
+                                                   Time.now.strftime("%a, %d %b %Y %H:%M:%S %z"))
+      File.open(changelog_file, "w+") do |f|
+        f << content_changelog+"\n"
+        f << changelog
+      end
+    end
+  else
+    warn "Update_changelog called on inexistant file #{changelog_file}"
+  end
+  return content_changelog.size > 0
+end
+
+def bump(index)
   fragments = Grid5000::VERSION.split(".")
   fragments[index] = fragments[index].to_i+1
   ((index+1)..2).each{|i|
     fragments[i] = 0
   }
   new_version = fragments.join(".")
-
-  changelog = File.read(CHANGELOG_FILE)
-  last_commit = changelog.scan(/\s+\* ([a-f0-9]{7}) /).flatten[0]
-
-  cmd = "git log --oneline"
-  cmd << " #{last_commit}..HEAD" unless last_commit.nil?
-
-	commit_logs=`#{cmd}`.split("\n")
-	purged_logs=commit_logs.reject{|l| l =~ / v#{Grid5000::VERSION}/}.reject{|l| l =~ /Commit version #{Grid5000::VERSION}/}
-	if purged_logs.size == 0
-	  puts 'No real changes except version changes since last version bump. Aborting unless EMPTYBUMP set'
-		return unless ENV['EMPTYBUMP']
-  end	
-	if USER_NAME==""
-	  puts 'No git user: running in Vagrant box ? Use git config --global user.name "firstname lastename" before bumping version'  
-		return
-  end	 
-  content_changelog = [
-    "#{NAME} (#{new_version}-1) #{LSBDISTCODENAME}; urgency=low",
-    "",
-    purged_logs.map{|l| "  * #{l}"}.join("\n"),
-    "",
-    " -- #{USER_NAME} <#{USER_EMAIL}>  #{Time.now.strftime("%a, %d %b %Y %H:%M:%S %z")}",
-    "",
-    changelog
-  ].join("\n")
 
   content_version = File.read(VERSION_FILE).gsub(
     Grid5000::VERSION,
@@ -83,46 +155,27 @@ def bump(index)
   File.open(VERSION_FILE, "w+") do |f|
     f << content_version
   end
-  File.open(CHANGELOG_FILE, "w+") do |f|
-    f << content_changelog
+
+  changed=update_changelog(CHANGELOG_FILE, new_version)
+
+  unless changed
+    puts 'No real changes except version changes since last version bump. Aborting unless EMPTYBUMP set'
+    exit -1 unless ENV['EMPTYBUMP']
   end
 
   puts "Generated changelog for version #{new_version}."
-  unless ENV['NOCOMMIT']
+  unless ENV['NO_COMMIT']
     puts "Committing changelog and version file..."
     sh "git commit -m 'Commit version #{new_version}' #{CHANGELOG_FILE} #{VERSION_FILE}"
-    puts "Tagging the release"
-    sh "git tag -a v#{new_version} -m \"v#{new_version} tagged by rake package:bump:[patch|minor|major]\""
-    puts "INFO: git push --follow-tags (push with relevant tags) required for package publication by gitlab CI/CD"
+    unless ENV['NO_COMMIT']
+      puts "Tagging the release"
+      sh "git tag -a v#{new_version} -m \"v#{new_version} tagged by rake package:bump:[patch|minor|major]\""
+      puts "INFO: git push --follow-tags (push with relevant tags) required for package publication by gitlab CI/CD"
+    end
   end
 end
 
 namespace :package do
-  task :setup do
-    mkdir_p "#{PACKAGING_DIR}/pkg"
-    # remove previous versions
-    rm_rf "#{PACKAGING_DIR}/pkg/#{NAME}_*.deb"
-    sh "mkdir -p pkg/ && git archive HEAD > /tmp/#{NAME}.tar"
-  end
-  
-  desc "Bundle the dependencies for the current platform"
-  task :bundle => :setup do
-    in_working_dir(PACKAGING_DIR) do
-      without_bundle_env({}) do 
-        BUNDLER_VERSION=`bundle --version | cut -d ' ' -f 3`.chomp
-        %w{bin gems specifications}.each{|dir|
-          rm_rf "vendor/ruby/#{RUBY_VERSION}/#{dir}"
-        }
-        sh "bundle install --deployment --without test development --path vendor"
-        # Vendor bundler
-        sh "gem install bundler --no-ri --no-rdoc --version #{BUNDLER_VERSION} -i #{PACKAGING_DIR}/vendor/bundle/ruby/#{RUBY_VERSION}/"
-        %w{cache doc}.each{|dir|
-          rm_rf "vendor/bundle/ruby/#{RUBY_VERSION}/#{dir}"
-        }
-      end
-    end
-  end
-
   namespace :bump do
     desc "Increment the patch fragment of the version number by 1"
     task :patch do
@@ -139,12 +192,34 @@ namespace :package do
   end
 
   namespace :build do
-    desc "Build debian package with pkgr"
-    task :debian_pkgr do
-      sh "pkgr package . --version #{Grid5000::VERSION} --name #{NAME} --auto"
-    end 
-    desc "Build debian package with our own scripts"
-    task :debian => :'package:setup' do
+    desc "Prepare dirs for building debian package"
+    task :prepare do
+      version = Grid5000::VERSION
+      # prepare the dir where the result will be stored
+      mkdir_p "#{PACKAGES_DIR}"
+
+      # make sure no pending changes need to be commited to repository
+      uncommitted_changes=`git status --untracked-files=no --porcelain`
+      if uncommitted_changes != ""
+        fail "You are building from a directory with uncommited files in git. Please commit pending changes so there is a chance the build can be traked back to a specific state in the repository"
+      end
+
+      # prepare the build directory
+      mkdir_p "#{PACKAGING_DIR}/pkg"
+      # remove previous versions built from the build directory
+      rm_rf "#{PACKAGING_DIR}/pkg/#{NAME}_*.deb"
+
+      # extract the commited state of the repository to the build directory
+      sh "git archive HEAD > /tmp/#{NAME}_#{version}.tar"
+      Dir.chdir("/tmp") do
+        mkdir_p "#{NAME}_#{version}"
+        sh "tar xf #{NAME}_#{version}.tar -C #{NAME}_#{version}"
+        sh "rm #{NAME}_#{version}.tar"
+      end
+    end
+
+    desc "Build debian package"
+    task :debian => :prepare do
       if Process.uid == 0
         sudo=""
       else
@@ -153,23 +228,33 @@ namespace :package do
       commands=[
         "#{sudo}apt-get -y --no-install-recommends install devscripts build-essential equivs",
         "#{sudo}mk-build-deps -ir -t 'apt-get -y --no-install-recommends'",
-        "rm -rf /tmp/#{NAME}"
       ]
       for cmd in commands do
         sh cmd
       end
-#        cmd = "#{sudo}apt-get install #{pkg_dependencies.join(" ")} git-core dh-make dpkg-dev libicu-dev --yes && rm -rf /tmp/#{NAME}"
 
+      update_changelog(File.join(PACKAGING_DIR,'debian','changelog'), Grid5000::VERSION)
       Dir.chdir('/tmp') do
-        sh "tar xf #{NAME}.tar -C #{PACKAGING_DIR}"
         Dir.chdir(PACKAGING_DIR) do
-          Rake::Task[:'package:bundle'].invoke
           sh "dpkg-buildpackage -us -uc -d"
         end
       end
-      sh "cp #{PACKAGING_DIR}/../#{NAME}_#{Grid5000::VERSION}*.deb pkg/"     
+      sh "cp #{PACKAGING_DIR}/../#{NAME}_#{Grid5000::VERSION}*.deb pkg/"
     end
-  end                            
+  end
 
+  namespace :changelog do
+    desc "Generate a changelog from git log and tags and save it in #{CHANGELOG_FILE}"
+    task :generate do
+      File.open(CHANGELOG_FILE, "w+") do |f|
+        f << generate_changelog
+      end
+    end
+
+    desc "Show what a generated changelog from git log and tags would look like"
+    task :show do
+      puts generate_changelog
+    end
+
+  end
 end
-

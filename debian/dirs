@@ -1,2 +1,3 @@
 var/log/g5k-api
 var/db/g5k-api
+etc/g5k-api/conf.d

@@ -11,10 +11,23 @@ but if you read this, it's normally good…
 
 The app is packaged for Debian jessie and Debian stretch. Therefore installation is as follows:
 
-    sudo apt-get update
-    sudo apt-get install g5k-api
+        $ sudo apt-get update
+        $ sudo apt-get install g5k-api
 
-In particular, runtime dependencies of the app include `ruby2.1.5` and `git-core`.
+Most configuration file for the application are those in `/opt/g5k-api/config`. They are linked from `/etc/g5k-api`, but should the link be broken, the application will use the version `/opt/g5k-api/config`.
+
+If the database is not configured when the package is installed, you'll need to run migration after it has been setup
+
+       $ sudo g5k-api rake db:migrate
+
+The service's execution environment is built by the `/usr/bin/g5k-api` script, that will source any `.sh` file in `/etc/g5k-api/conf.d/` before calling `/opt/ug5k-api/bin/g5k-api`. This is how bundled gems are setup before execution, and `SECRET_KEY_BASE` is set for production environment.
+
+You can check the installation by running a few commands to gather information about the application's execution environment
+
+        $ sudo g5k-api rake db:migrate:status
+        $ sudo g5k-api rake about
+        $ sudo g5k-api console #this will drop you in the rails console
+        $ sudo g5k-api rake dbconsole #this will drop you in the database's console
 
 ## Development
 
@@ -129,13 +142,13 @@ In particular, runtime dependencies of the app include `ruby2.1.5` and `git-core
 
 * If you want to develop on the UI, using the apache proxy, run your browser on 
         
-				$ firefox http://127.0.0.1:8080/ui
+        $ firefox http://127.0.0.1:8080/ui
 
 * If you want to develop on the UI, interacting directly with the server, run your browser on 
         
-				$ firefox http://127.0.0.1:8000/ui
+        $ firefox http://127.0.0.1:8000/ui
 
-That's it. If you're not too familiar with `rails` 3, have a look at
+That's it. If you're not too familiar with `rails` 4, have a look at
 <http://guides.rubyonrails.org/>.
 
 You can also list the available rake tasks and capistrano tasks to see what's
@@ -194,73 +207,61 @@ Updating the OAR2 test db therefore requires either
 
 ## Packaging
 
-* Bumping the version number is done as follows (a new changelog entry is
-  automatically generated in `debian/changelog`):
+### Use the build infrastructure
+The debian package build is done automatically as a stage in gitlab-ci. See `.gitlab-ci.yaml` and https://gitlab.inria.fr/grid5000/g5k-api/pipelines , but only tagged commits get pushed to the packages.grid5000.fr repository.
 
-        $ rake package:bump:patch # or: package:bump:minor, package:bump:major
+Tasks described in `lib/tasks/packaging.rake` are available to automatically manage version bumping, changelog generation and package building. If you use these tasks, a tag will be created each time version is bumped. Therefore, the `lib/grid5000/version.rb` file should only be changed using these tasks, at the end of a development cycle (if production has version X.Y.Z running, the file will keep that version during the next development cycle and it will only change at the end of the development cycle).
 
-* Building the `.deb` package is easy, since we kindly provide a rake task 
-  to run in the vagrant box, that will copy the latest committed code 
-  (`HEAD`) in /tmp/g5k-api, generate a `.deb` package, and move the generated
-  package to the `pkg/` directory.
+For this to work properly, you need a working .gitconfig.
 
-  Just execute from the host machine:
+- You can copy your main .gitconfig into the vagrant box
 
-        $ vagrant ssh -- "cd /vagrant ; rake package:build:debian"
+        $ cat ~/.gitconfig | vagrant ssh -- 'cat - > ~/.gitconfig'
+
+- Or you can configure the vagrant box to your needs
+
+        vagrant@g5k-local: git config --global user.name "Your Name"
+        vagrant@g5k-local: git config --global user.email you@example.com
+
+- You can now name the version you are about to package
+
+        vagrant@g5k-local: rake package:bump:patch #replace patch by minor or major when appropriate)
+
+- And then build the debian package
+
+        vagrant@g5k-local: rake package:build:debian
+
+
+The `package:build:debian` rake task has several arguments:
+
+* NO_COMMIT: when bumping version number, do not commit the version file
+* NO_TAG: do not tag the current git commit with the built version. Default is to tag. Has no effect with NO_COMMIT
+
+If everything went ok you should have a package like: `pkg/g5k-api_X.Y.Z-<date of last commit>_amd64.deb`
+
+See the `.gitlab-ci.yml` file for the use of the rake package commands in the gitlab pipelines.
+
+### Debug the build infrastructure
+
+From time to time, someone will have to look into `lib/taks/packaging.rake` to understand why `rake package:build:debian` does not do what is expected or to update the way the package is built. This is what happens when you call the rake task
+
+1.  The rake task creates a temporary directory named /tmp/g5k-api_version, and extracts the lasted commited version of your code using `git archive HEAD` to it.
+2.  The rake task makes sure the build dependencies are installed using `mk-build-deps`, which in turn uses info in the `debian/control` file.
+3.  The changelog in the extracted version of the sources is updated with information from the latest commits.
+4.  The rake task finally calls `dpkg-buildpackage -us -uc -d` to generate the package. dpkg-buildpackage then uses the `debian/rules` makefile to go through all the steps needed for packaging. This in turn falls back to `dh` for most steps, using datafiles in the `debian` directory.
+    * Most tasks use the default implementation relying on the datafile found in the `debian` directory. Of particular interest are `logrotate`, `g5k-api.service`, `dirs`, `g5k-api.install` and `g5k-api.links`.
+	* The magic happens in the `debian/setup_bundle` script. That script handles all the instructions required so that the gems needed by the application are installed and usable on the target system.
+	    * It will prime the temporary directory from wich the application is packaged with the developper's bundle
+		* It will run bundle install to setup the gems to package
+		* It will generate a g5k-api binary so that the application is started in the context of the installed bundle without the user noticing bundler usage. This happens by generating a script to be installed in `/usr/bin` for all ruby executable found in `bin/`
+    * `debian/setup_bundle`'s work is completed by lines in `debian/dirs` and `debian/g5k-api.install` to setup the final execution context of the application
 
 ## Releasing and Installing and new version
 
 * Once you've packaged the new version, you must release it to the APT
-  repository hosted on apt.grid5000.fr. There is Capistrano task for this:
-  By default it will release to g5k-api-devel repository hosted by apt.grid5000.fr
+  repository hosted on packages.grid5000.fr. Their is a manual step in gitlab's CI for this.
 
-        $ REMOTE_USER=g5kadmin cap release
-
-  The system does not support different keys for the gateway and the remote node.
-  In this case, the following might work for you
-
-        $ SSH_KEY=~/.ssh/id_rsa_grid5000_g5k NOPROXY=true REMOTE_USER=g5kadmin cap release
-
-  Note that you can use the same task to release on a different host (for
-  testing purposes for example), by setting the HOST environment variable to
-  another server (a Grid'5000 node for instance).
-
-  To release to stable API, you will need to set PROD_REPO before running the task
-
-	$ REMOTE_USER=g5kadmin PROD_REPO=true cap release
-
-* If you released on apt.grid5000.fr, then you are now able to install the new
-  version on any server by launching the following commands:
-  	  
-	puppet-repo $ cap cmd HOST="api-server-devel.[sites]" CMD='sudo apt-get update && sudo apt-get install -y -o Dpkg::Options::="--force-confold" g5k-api'
-        
-  A more flexible mechanism can be used base on the script/puppet-repo-custom.rb file
-
-	puppet-repo $ bundle exec cap shell ROLES=devel
-        cap> sudo apt-get update && sudo apt-get install g5k-api -y && sudo puppetd -t
-
-  For this command to work, you should have a look in the
-  `script/puppet-repo-custom.rb` file, which in my case was dropped into the
-  `config/` directory of the `puppet-repo` repository.
-
-  Then you can check that every server has the correct version running by
-  grepping through the processlist to check the version numbers:
-
-        puppet-repo $ bundle exec cap shell ROLES=devel
-        cap> ps aux | grep g5k-api | grep -v grep
-        [establishing connection(s) to api-server-devel.bordeaux.grid5000.fr, api-server-devel.grenoble.grid5000.fr, api-server-devel.lille.grid5000.fr, api-server-devel.lyon.grid5000.fr, api-server-devel.luxembourg.grid5000.fr, api-server-devel.nancy.grid5000.fr, api-server-devel.reims.grid5000.fr, api-server-devel.rennes.grid5000.fr, api-server-devel.orsay.grid5000.fr, api-server-devel.sophia.grid5000.fr, api-server-devel.toulouse.grid5000.fr]
-         ** [out :: api-server-devel.bordeaux.grid5000.fr] g5k-api  26110  0.3 13.9 246432 72840 ?        Sl   Nov20  14:43 thin server (0.0.0.0:8000) [g5k-api-3.0.16]
-         ** [out :: api-server-devel.grenoble.grid5000.fr] g5k-api  18510  0.3  7.5 249072 78620 ?        Sl   Nov18  22:48 thin server (0.0.0.0:8000) [g5k-api-3.0.16]
-         ** [out :: api-server-devel.luxembourg.grid5000.fr] g5k-api  13384  0.1 13.6 203396 71184 ?        Sl   Nov22   1:29 thin server (0.0.0.0:8000) [g5k-api-3.0.16]
-         ** [out :: api-server-devel.nancy.grid5000.fr] g5k-api  12702  0.3 26.9 312236 69704 ?        Sl   Nov20  17:27 thin server (0.0.0.0:8000) [g5k-api-3.0.16]
-         ** [out :: api-server-devel.sophia.grid5000.fr] g5k-api  19366  0.2 16.2 325972 84864 ?        Sl   Nov18  21:03 thin server (0.0.0.0:8000) [g5k-api-3.0.16]
-         ** [out :: api-server-devel.rennes.grid5000.fr] g5k-api  19353  0.9  7.2 246492 76220 ?        Sl   05:53   4:38 thin server (0.0.0.0:8000) [g5k-api-3.0.16]
-         ** [out :: api-server-devel.lille.grid5000.fr] g5k-api  18563  0.2 35.3 262788 92760 ?        Sl   Nov18  19:43 thin server (0.0.0.0:8000) [g5k-api-3.0.16]
-         ** [out :: api-server-devel.orsay.grid5000.fr] g5k-api  30348  0.3 27.4 244552 71028 ?        Sl   Nov22   4:57 thin server (0.0.0.0:8000) [g5k-api-3.0.16]
-         ** [out :: api-server-devel.toulouse.grid5000.fr] g5k-api   3825  0.3 32.3 259840 83660 ?        Sl   Nov18  23:54 thin server (0.0.0.0:8000) [g5k-api-3.0.16]
-         ** [out :: api-server-devel.reims.grid5000.fr] g5k-api   1749  0.8 31.9 324736 82696 ?        Sl   Nov18  65:08 thin server (0.0.0.0:8000) [g5k-api-3.0.16]
-         ** [out :: api-server-devel.lyon.grid5000.fr] g5k-api   9940  0.5 33.9 329864 87796 ?        Sl   Nov18  40:32 thin server (0.0.0.0:8000) [g5k-api-3.0.16]
-
+* If you released on packages.grid5000.fr, then api-server-devel servers will pick it up, but you'll need to change the hiera data for the production versions.
 
 ## Statistics
 
@@ -294,17 +295,6 @@ Updating the OAR2 test db therefore requires either
 ## Maintenance
 
 * <https://www.grid5000.fr/mediawiki/index.php/API_Maintenance>;
-
-* There exist monit recipes that send emails when an alert is raised. At the
-  time of writing (2011-10-18), these alerts are sent to
-  <cyril.rohr@irisa.fr>. You might want to change that.
-
-## Kadeploy update process
-
-Since Kadeploy3 uses DRb to communicate with clients, and that a lot of code is
-shared between the client and server, clients must have the whole kadeploy3 code
-accessible. So, each time a new version of Kadeploy is released and installed on
-the Grid5000 sites, you MUST remember to update the kadeploy-common package.
 
 ## Authors
 * Cyril Rohr <cyril.rohr@inria.fr>, David Margery <david.margery@inria.fr> and others

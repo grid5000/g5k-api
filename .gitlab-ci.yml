@@ -77,7 +77,7 @@ deb-for-stretch:
 
 .push-packages-script: &push-packages-script |
   echo "Request to push for debian version ${TARGET_DEBIAN_VERSION} for branch ${TARGET_G5K_API_VARIANT}"
-  g5k-deploy-files --only-if-tag '^\d+\.\d+\.\d+' --files 'pkg/g5k-api_*.deb' --directory deb/g5k-api/${TARGET_DEBIAN_VERSION}/${TARGET_G5K_API_VARIANT}
+  g5k-deploy-files --only-if-tag '^v\d+\.\d+\.\d+' --files 'pkg/g5k-api_*.deb' --directory deb/g5k-api/${TARGET_DEBIAN_VERSION}/${TARGET_G5K_API_VARIANT}
 
 push-jessie-package-v3: &push-jessie-package-v3
   stage: deploy
