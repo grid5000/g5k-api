@@ -1,3 +1,33 @@
+g5k-api (4.4.4-20181130132139) jessie; urgency=low
+
+  * 3cdbdd3 Update bundle due to security vulnerabilies
+  * 742eeab Allow for uncommited changes in Gemfile.lock
+  * eba2e26 Output unexpected diff to STDERR
+  * f8005bd Even more info in the case packaging fails
+  * 65bda88 Add helpfull debug message if git state not clean
+  * 3e42f07 Update packaging to converge with users-api-ror
+  * bf760f7 Update debian packaging compat file
+  * c8b23c4 Update script to latest users-api-ror development
+  * 93f7a6d Add explicit format file for debian packaging
+  * 6a0f5eb Update init from init.d to systemd service file
+  * 448fe6f Cleanup debian dir by removing example files
+  * 34d6beb Limit un-needed differences with users-api-ror
+  * 3faa19f [Packaging] uses the | construct in debian/control
+  * a716105 [bug #9792] Make packaging by root easier
+  * 692e4b1 fixup! [Bug #9792] Update and use build dependencies
+  * 90fea2c fixup! [Bug #9792] Update and use build dependencies
+  * 4d43033 fixup! [Bug #9792] Update and use build dependencies
+  * 49cd75b fixup! [Bug #9792] Update and use build dependencies
+  * 671cb42 [Bug #9792] Update and use build dependencies
+  * 6580297 .gitlab-ci.yml: use g5k-deploy-files --only-if-tag instead of shell snippet
+  * d7cf2a7 .gitlab-ci.yml: change tags to grid5000-specific tags
+  * 3540b4e Commit version 3.8.1
+  * eb3a118 Go back to Integers to query moldable_ids
+  * 5c9e0d8 [bug 9560] Increase max persistant connections
+  * d5a7a3e Commit version 3.8.0
+
+ -- David Margery <david.margery@inria.fr>  Fri, 30 Nov 2018 13:22:57 +0000
+
 g5k-api (4.4.3-1) jessie; urgency=low
 
   * 23102ec Merge branch 'master' of gitlab.inria.fr:grid5000/g5k-api
