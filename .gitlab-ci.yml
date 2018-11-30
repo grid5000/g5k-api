@@ -96,6 +96,14 @@ push-jessie-package-v3: &push-jessie-package-v3
   script:
     - *push-packages-script
 
+push-jessie-package-v4: &push-jessie-package-v4
+  <<: *push-jessie-package-v3
+  variables:
+    TARGET_DEBIAN_VERSION: jessie
+    TARGET_G5K_API_VARIANT: v4
+  only: 
+    - devel
+    
 push-jessie-package-devel: &push-jessie-package-devel
   <<: *push-jessie-package-v3
   variables:
@@ -112,6 +120,14 @@ push-stretch-package-v3:
     TARGET_DEBIAN_VERSION: stretch
     TARGET_G5K_API_VARIANT: v3
 
+push-stretch-package-v4:
+  <<: *push-jessie-package-v4
+  dependencies:
+    - deb-for-stretch
+  variables:
+    TARGET_DEBIAN_VERSION: stretch
+    TARGET_G5K_API_VARIANT: v4
+  
 push-stretch-package-devel:
   <<: *push-jessie-package-devel
   dependencies:
