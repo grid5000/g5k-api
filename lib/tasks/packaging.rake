@@ -202,7 +202,7 @@ namespace :package do
       uncommitted_changes=`git status --untracked-files=no --porcelain`
       if uncommitted_changes != ""
         STDERR.puts "Unexpected diff:"
-        git diff
+        STDERR.puts `git diff`
         fail "You are building from a directory with uncommited files in git. Please commit pending changes so there is a chance the build can be traked back to a specific state in the repository\n#{uncommitted_changes}"
         
       end
