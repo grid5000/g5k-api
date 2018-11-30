@@ -3,35 +3,40 @@
 # Launcher for the Grid5000 API
 # Run <tt>g5k-api -h</tt> to get more usage.
 
-require File.dirname(__FILE__)+"/../config/boot"
-require File.dirname(__FILE__)+"/../lib/grid5000/version"
-
-supported_commands = ["server", "rake", "console"]
+supported_commands = ["server", "rake", "console", "rails"]
 command = ARGV.shift
 
 case command
 when "rake"
-  ENV['RACK_ENV'] ||= "production"
+  ENV['RAILS_ENV'] ||= "production"
   ARGV << "-f" << File.expand_path(File.dirname(__FILE__)+"/../Rakefile")
   require 'rake'
   Rake.application.run
+when "rails"
+  ENV['RAILS_ENV'] ||= "production"
+  APP_PATH = File.expand_path('../../config/application',  __FILE__)
+  require_relative "../config/boot"
+  require 'rails/commands'
 when "console"
   APP_PATH = File.expand_path('../../config/application',  __FILE__)
-  require File.expand_path('../../config/boot',  __FILE__)
+  require_relative "../config/boot"
   ARGV.push("production") if ARGV.empty?
   ARGV.unshift("console")
   require 'rails/commands'
 when "server"
   require 'thin'
+  require_relative "../lib/grid5000/version"
+  ENV['PORT']||='8000'
   rackup_file = ::File.expand_path('../../config.ru',  __FILE__)
   argv = ARGV
   argv << ["-R", rackup_file] unless ARGV.include?("-R")
-  argv << ["-p", "8000"] unless ARGV.include?("-p")
+  argv << ["-p", ENV['PORT']] unless ARGV.include?("-p")
   argv << ["--max-persistent-conns","200"] unless ARGV.include?("--max-persistent-conns")
   argv << ["-a", "::"] unless ARGV.include?("-a")
   argv << ["-e", "production"] unless ARGV.include?("-e")
   argv << ["--tag", "g5k-api-#{Grid5000::VERSION}"] unless ARGV.include?("--tag")
   Thin::Runner.new(argv.flatten).run!
+  STDERR.puts "Finished running thin"
 else
   STDERR.puts "You must choose one of the following commands: #{supported_commands.inspect}"
   exit(1)
