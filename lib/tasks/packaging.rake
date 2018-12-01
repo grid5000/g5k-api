@@ -118,10 +118,20 @@ def update_changelog(changelog_file,new_version)
     if purged_logs.size != 0
       user_name=`git config --get user.name`.chomp
       if user_name==""
-        puts 'No git user: running in Vagrant box ? Use git config --global user.name "firstname lastname" before bumping version'
-        return
+        user_name=ENV['GITLAB_USER_NAME']
+        if user_name.nil? || user_name==""
+          puts 'No git or gitlab user: running in Vagrant box ? Use git config --global user.name "firstname lastname" before bumping version'
+          exit -1
+        end
       end
       user_email=`git config --get user.email`.chomp
+      if user_email==""
+        user_email=ENV['GITLAB_USER_EMAIL']
+        if user_email.nil? || user_email ==""
+          puts "No mail found"
+          exit -1
+        end
+      end
       content_changelog = generate_changelog_entry(new_version,
                                                    deb_version,
                                                    purged_logs,
