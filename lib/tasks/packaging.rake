@@ -173,13 +173,14 @@ def bump(index)
     exit -1 unless ENV['EMPTYBUMP']
   end
 
-  puts "Generated changelog for version #{new_version}."
+  deb_version=deb_version_of_commit('HEAD')
+  puts "Generated changelog for version #{new_version}-#{deb_version}."
   unless ENV['NO_COMMIT']
     puts "Committing changelog and version file..."
-    sh "git commit -m 'Commit version #{new_version}' #{CHANGELOG_FILE} #{VERSION_FILE}"
+    sh "git commit -m 'Commit version #{new_version}-#{deb_version}' #{CHANGELOG_FILE} #{VERSION_FILE}"
     unless ENV['NO_COMMIT']
       puts "Tagging the release"
-      sh "git tag -a v#{new_version} -m \"v#{new_version} tagged by rake package:bump:[patch|minor|major]\""
+      sh "git tag -a v#{new_version}-#{deb_version} -m \"v#{new_version}-#{deb_version} tagged by rake package:bump:[patch|minor|major]\""
       puts "INFO: git push --follow-tags (push with relevant tags) required for package publication by gitlab CI/CD"
     end
   end
