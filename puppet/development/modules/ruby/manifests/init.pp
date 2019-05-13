@@ -17,7 +17,8 @@ class ruby {
 
   exec { "install bundler":
     user => root, group => root,
-    command => "/usr/bin/gem install --no-ri --no-rdoc bundler",
+    # bundler version must be less than 2.0.0 until running with ruby version < 2.3.0 as with debian jessie
+    command => "/usr/bin/gem install --no-ri --no-rdoc bundler --version '< 2.0.0'",
     require => Package["ruby"],
     creates => "/usr/local/bin/bundle"
   }
