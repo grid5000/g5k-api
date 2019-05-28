@@ -32,9 +32,16 @@ case "$1" in
           SECRET=`${NAME} rake secret`
           echo "export SECRET_KEY_BASE=\${SECRET_KEY_BASE:-${SECRET}}" > /etc/${NAME}/conf.d/secret.sh
         fi
-        `${NAME} rake db:migrate` || true #attempt to migrate db is there is one
         chown $NAME.$NAME /etc/${NAME}/conf.d/secret.sh
         chmod 0600 /etc/${NAME}/conf.d/secret.sh
+
+        if /usr/bin/${NAME} rake db:migrate ; then
+            echo "Success in migrating the db"
+        else
+            echo "No database configured for ${NAME}. No attempt made to migrate it."
+            echo "  run /usr/bin/${NAME} rake db:create db:migrate when /opt/${NAME}/config/database.yml points to"
+            echo "  a running database server."
+        fi
     ;;
 
     abort-upgrade|abort-remove|abort-deconfigure)
