@@ -1,3 +1,18 @@
+g5k-api (4.4.5-20190603131116) jessie; urgency=low
+
+  * 7fd1811 [bug #10556] Correct call to :out urls from proxy
+  * 175c7ba Keep rake version in Gemfile in sync with dev env
+  * 8dc11b4 Update packaging rules to latest version
+  * 60a8931 fix #10462: bundler's version must be capped
+  * 05e2805 Fail explictly if changelog could not be generated
+  * 5547fad Leave logging to systemd, listen only on 127.0.0.1
+  * 2c70b6b Update bundle due to security vulnerabilies
+  * 42c43ed Commit version 4.4.3
+  * 1f089af Avoid daemonization, as is confuses systemd
+  * 513f3af Push packages for api-server-v4.*
+
+ -- David Margery <david.margery@inria.fr>  Mon, 03 Jun 2019 13:13:38 +0000
+
 g5k-api (4.4.4-20181130132139) jessie; urgency=low
 
   * 3cdbdd3 Update bundle due to security vulnerabilies
