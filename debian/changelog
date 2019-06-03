@@ -1,3 +1,15 @@
+g5k-api (3.8.3-20190603131116) jessie; urgency=low
+
+  * d9a7a1f [bug #10556] Correct call to :out urls from proxy
+  * 7ad8801 Keep rake version in Gemfile in sync with dev env
+  * 2251754 Update packaging rules to latest version
+  * 486ce16 fix #10462: bundler's version must be capped
+  * 9c9509f Configuration file is defaults.yml, not config.yml
+  * d73731f Declare configuration files as such for packaging
+  * e46292c Add debian version to tag to stay in sync
+
+ -- David Margery <david.margery@inria.fr>  Mon, 03 Jun 2019 13:16:25 +0000
+
 g5k-api (3.8.2-20181201154555) jessie; urgency=low
 
   * 0377c14 Fail explictly if changelog could not be generated
