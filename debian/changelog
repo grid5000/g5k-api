@@ -1,3 +1,9 @@
+g5k-api (3.8.4-20190107161401) jessie; urgency=low
+
+  * 41fc132 Resist jobs with bad moldable_ids (see #9998)
+
+ -- David Margery <david.margery@inria.fr>  Tue, 04 Jun 2019 11:53:29 +0000
+
 g5k-api (3.8.3-20190603131116) jessie; urgency=low
 
   * d9a7a1f [bug #10556] Correct call to :out urls from proxy
