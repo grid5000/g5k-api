@@ -23,9 +23,15 @@ class SitesController < ResourcesController
     params[:job_details]='no' if is_anonymous?
     params[:waiting]='no' if is_anonymous?
 
-    site_clusters=lookup_path("/sites/#{params[:id]}/clusters", params)
-    valid_clusters = site_clusters['items'].map{|i| i['uid']}
-    Rails.logger.info "Valid clusters=#{valid_clusters.inspect}"
+    if params[:network_address]
+      # optimization: when a network_address is specified, we can restrict the cluster to the one of the node
+      # this avoids fetching the list of clusters, which is costly
+      valid_clusters = [ params[:network_address].split('-').first ]
+    else
+      site_clusters=lookup_path("/sites/#{params[:id]}/clusters", params)
+      valid_clusters = site_clusters['items'].map{|i| i['uid']}
+      Rails.logger.info "Valid clusters=#{valid_clusters.inspect}"
+    end
 
     result = {
       "uid" => Time.now.to_i,
