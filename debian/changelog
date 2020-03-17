@@ -1,3 +1,9 @@
+g5k-api (4.4.7) unstable; urgency=low
+
+  * 829057c Optimize sites/:site/status when a network_address is specified
+
+ -- Lucas Nussbaum <lucas.nussbaum@loria.fr>  Tue, 17 Mar 2020 22:33:47 +0100
+
 g5k-api (4.4.6-20190107161401) jessie; urgency=low
 
   * b25b121 Resist jobs with bad moldable_ids (see #9998)
