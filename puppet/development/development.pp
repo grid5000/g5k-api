@@ -1,4 +1,4 @@
-# This puppet manifest is just here to configure a vanilla squeeze with the
+# This puppet manifest is just here to configure a vanilla buster with the
 # required libs and configuration to serve as a development machine for the
 # g5k-api software. Production recipes are in the Grid'5000 puppet repository.
 class development {
@@ -40,6 +40,13 @@ class development {
     command => "/bin/echo \"ALTER DATABASE oar2_dev OWNER TO oar; ALTER DATABASE oar2_test OWNER TO oar;\" | /usr/bin/psql ",
     unless => "/usr/bin/psql -l | grep oar2 | grep oar",
     require => Exec["allow connections to postgres for oar"]
+  }
+
+  exec{ "allow connections to postgres for root":
+    user => postgres,
+    command => "/bin/echo \"CREATE ROLE root LOGIN; GRANT ALL PRIVILEGES ON *.oar2_dev TO 'root' ;GRANT ALL PRIVILEGES ON *.oar2_test TO 'root' ;\" | /usr/bin/psql ",
+    unless => "/usr/bin/psql -l | grep root",
+    require => Service["postgresql"]
   }
 
   mysql::database {

@@ -10,7 +10,7 @@ class ruby {
   
   exec { "install rake":
     user => root, group => root,
-    command => "/usr/bin/gem install --no-ri --no-rdoc rake",
+    command => "/usr/bin/gem install --no-ri --no-rdoc rake -v 12.3.2",
     require => Package["ruby"],
     creates => "/usr/local/bin/rake"
   }

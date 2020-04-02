@@ -9,7 +9,7 @@ gem 'eventmachine'
 gem 'rack-fiber_pool', '~> 0.9'
 gem 'em-synchrony'
 gem 'em-http-request'
-gem "mysql2", '~> 0.3.6'
+gem "mysql2", '~> 0.4.0'
 gem "ruby-mysql", :require => "mysql"
 gem 'addressable', '~> 2.2'
 gem 'thin', '~> 1.5.0'
