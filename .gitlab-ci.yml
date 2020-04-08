@@ -39,14 +39,6 @@ test-for-jessie: &test-for-jessie
   except:
     - tags
 
-test-for-stretch:
-  <<: *test-for-jessie
-  image: debian:stretch
-  services:
-    - name: mariadb:10.1
-      alias: mysql
-    - name: postgres
-
 test-for-buster:
   <<: *test-for-jessie
   image: debian:buster
@@ -72,10 +64,6 @@ deb-for-jessie: &deb-for-jessie
     expire_in: '1 day'
   except:
     - tags
-
-deb-for-stretch:
-  <<: *deb-for-jessie
-  image: debian:stretch
 
 deb-for-buster:
   <<: *deb-for-jessie
@@ -118,27 +106,35 @@ push-jessie-package-devel: &push-jessie-package-devel
   only:
     - devel
 
-push-stretch-package-v3:
-  <<: *push-jessie-package-v3
+push-buster-package-v3: &push-buster-package-v3
+  stage: deploy
+  when: manual
+  allow_failure: false
+  # tags must be 'packages' so that we use the runner on packages.grid5000.fr
+  tags:
+    - grid5000-packages
+  only: # we only execute this job for tagged commits on the master branch
+    - master
   dependencies:
-    - deb-for-stretch
+    - deb-for-buster
   variables:
-    TARGET_DEBIAN_VERSION: stretch
+    TARGET_DEBIAN_VERSION: buster
     TARGET_G5K_API_VARIANT: v3
+  script:
+    - *push-packages-script
 
-push-stretch-package-v4:
-  <<: *push-jessie-package-v4
-  dependencies:
-    - deb-for-stretch
+push-buster-package-v4: &push-buster-package-v4
+  <<: *push-buster-package-v3
   variables:
-    TARGET_DEBIAN_VERSION: stretch
+    TARGET_DEBIAN_VERSION: buster
     TARGET_G5K_API_VARIANT: v4
+  only:
+    - devel
 
-push-stretch-package-devel:
-  <<: *push-jessie-package-devel
-  dependencies:
-    - deb-for-stretch
+push-buster-package-devel: &push-buster-package-devel
+  <<: *push-buster-package-v3
   variables:
-    TARGET_DEBIAN_VERSION: stretch
+    TARGET_DEBIAN_VERSION: buster
     TARGET_G5K_API_VARIANT: devel
-
+  only:
+    - devel
