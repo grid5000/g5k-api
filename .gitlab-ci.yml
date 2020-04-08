@@ -64,11 +64,11 @@ deb-for-jessie: &deb-for-jessie
     - apt-get update && apt-get -y --no-install-recommends install devscripts build-essential equivs
     - mk-build-deps -ir -t 'apt-get -y --no-install-recommends'
     - apt-get install -y curl pkg-config
-    - bundle install --path vendor/bundle
-    - bundle exec rake package:build:debian
+    - dpkg-buildpackage
+    - cp ../*deb .
   artifacts:
     paths:
-    - pkg/g5k-api*.deb
+    - ./g5k-api*.deb
     expire_in: '1 day'
   except:
     - tags
@@ -76,23 +76,10 @@ deb-for-jessie: &deb-for-jessie
 deb-for-stretch:
   <<: *deb-for-jessie
   image: debian:stretch
-  script:
-    - apt-get update && apt-get -y --no-install-recommends install devscripts build-essential equivs
-    - mk-build-deps -ir -t 'apt-get -y --no-install-recommends'
-    - apt-get install -y curl pkg-config
-    - bundle install --path vendor/bundle
-    - bundle exec rake package:build:debian
 
 deb-for-buster:
   <<: *deb-for-jessie
   image: debian:buster
-  script:
-    - apt-get update && apt-get -y --no-install-recommends install devscripts build-essential equivs
-    - mk-build-deps -ir -t 'apt-get -y --no-install-recommends'
-    - apt-get install -y curl pkg-config
-    - bundle install --path vendor/bundle
-    - bundle install --standalone --no-binstubs --without=development --path bundle
-    - bundle exec rake package:build:debian
 
 .push-packages-script: &push-packages-script |
   echo "Request to push for debian version ${TARGET_DEBIAN_VERSION} for branch ${TARGET_G5K_API_VARIANT}"
