@@ -22,7 +22,7 @@ describe JobsController do
 
   describe "GET /sites/{{site_id}}/jobs" do
     it "should fetch the list of jobs, with their links" do
-      get :index, :site_id => "rennes", :format => :json
+      get :index, params: { :site_id => "rennes", :format => :json }
       expect(response.status).to eq 200
       expect(json['total']).to eq @job_uids.length
       expect(json['offset']).to eq 0
@@ -55,7 +55,7 @@ describe JobsController do
       ])
     end
     it "should correctly deal with pagination filters" do
-      get :index, :site_id => "rennes", :offset => 11, :limit => 5, :format => :json
+      get :index, params: { :site_id => "rennes", :offset => 11, :limit => 5, :format => :json }
       expect(response.status).to eq 200
       expect(json['total']).to eq @job_uids.length
       expect(json['offset']).to eq 11
@@ -66,19 +66,19 @@ describe JobsController do
       params = {:user => 'crohr', :name => 'whatever'}
       expect(OAR::Job).to receive(:list).with(hash_including(params)).
         and_return(OAR::Job.limit(5))
-      get :index, params.merge(:site_id => "rennes", :format => :json)
+      get :index, params: params.merge(:site_id => "rennes", :format => :json)
       expect(response.status).to eq 200
     end
   end # describe "GET /sites/{{site_id}}/jobs"
 
   describe "GET /sites/{{site_id}}/jobs/{{id}}" do
     it "should return 404 if the job does not exist" do
-      get :show, :site_id => "rennes", :id => "doesnotexist", :format => :json
+      get :show, params: { :site_id => "rennes", :id => "doesnotexist", :format => :json }
       expect(response.status).to eq 404
       expect(response.body).to eq "Couldn't find OAR::Job with 'job_id'=doesnotexist"
     end
     it "should return 200 and the job" do
-      get :show, :site_id => "rennes", :id => @job_uids[5], :format => :json
+      get :show, params: { :site_id => "rennes", :id => @job_uids[5], :format => :json }
       expect(response.status).to eq 200
       expect(json["uid"]).to eq @job_uids[5]
       expect(json["links"]).to be_a(Array)
@@ -102,13 +102,13 @@ describe JobsController do
     end
     it "should return 403 if the user is not authenticated" do
       authenticate_as("")
-      post :create, :site_id => "rennes", :format => :json
+      post :create, params: { :site_id => "rennes", :format => :json }
       expect(response.status).to eq 403
       expect(response.body).to eq "You are not authorized to access this resource"
     end
     it "should return 403 if the user is anonymous" do
       authenticate_as("anonymous")
-      post :create, :site_id => "rennes", :format => :json
+      post :create, params: { :site_id => "rennes", :format => :json }
       expect(response.status).to eq 403
       expect(response.body).to eq "You are not authorized to access this resource"
     end
@@ -133,7 +133,7 @@ describe JobsController do
           :body => "some error"
         )
 
-      post :create, :site_id => "rennes", :format => :json
+      post :create, params: { :site_id => "rennes", :format => :json }
       expect(response.status).to eq 400
       expect(response.body).to eq "Request to #{expected_url} failed with status 400: some error"
     end
@@ -159,7 +159,7 @@ describe JobsController do
           :body => "Bad Request"
         )
 
-      post :create, :site_id => "rennes", :format => :json
+      post :create, params: { :site_id => "rennes", :format => :json }
       expect(response.status).to eq 400
       expect(response.body).to eq "Request to #{expected_url} failed with status 400: Bad Request"
     end # "should return a 400 error if the OAR API returns 400 error code"
@@ -185,7 +185,7 @@ describe JobsController do
           :body => "Authorization Required"
         )
 
-      post :create, :site_id => "rennes", :format => :json
+      post :create, params: { :site_id => "rennes", :format => :json }
       expect(response.status).to eq 401
       expect(response.body).to eq "Request to #{expected_url} failed with status 401: Authorization Required"
     end # "should return a 401 error if the OAR API returns 400 error code"
@@ -215,7 +215,7 @@ describe JobsController do
                     }
                   )
 
-      post :create, :site_id => "rennes", :format => :json
+      post :create, params: { :site_id => "rennes", :format => :json }
       expect(response.status).to eq 201
       expect(JSON.parse(response.body)).to include ({"uid" => 961722})
       expect(response.location).to eq "http://api-in.local/sites/rennes/jobs/961722"
@@ -236,21 +236,21 @@ describe JobsController do
 
     it "should return 403 if the user is not authenticated" do
       authenticate_as("")
-      delete :destroy, :site_id => "rennes", :id => @job.uid, :format => :json
+      delete :destroy, params: { :site_id => "rennes", :id => @job.uid, :format => :json }
       expect(response.status).to eq 403
       expect(response.body).to eq "You are not authorized to access this resource"
     end
 
     it "should return 404 if the job does not exist" do
       authenticate_as("crohr")
-      delete :destroy, :site_id => "rennes", :id => "doesnotexist", :format => :json
+      delete :destroy, params: { :site_id => "rennes", :id => "doesnotexist", :format => :json }
       expect(response.status).to eq 404
       expect(response.body).to eq "Couldn't find OAR::Job with 'job_id'=doesnotexist"
     end
 
     it "should return 403 if the requester does not own the job" do
       authenticate_as(@job.user+"whatever")
-      delete :destroy, :site_id => "rennes", :id => @job.uid, :format => :json
+      delete :destroy, params: { :site_id => "rennes", :id => @job.uid, :format => :json }
       expect(response.status).to eq 403
       expect(response.body).to eq "You are not authorized to access this resource"
     end
@@ -262,7 +262,7 @@ describe JobsController do
         to_return(
           :status => 404, :body => "not found"
         )
-      delete :destroy, :site_id => "rennes", :id => @job.uid, :format => :json
+      delete :destroy, params: { :site_id => "rennes", :id => @job.uid, :format => :json }
       expect(response.status).to eq 404
       expect(response.body).to eq "Cannot find job#374172 on the OAR server"
     end
@@ -275,7 +275,7 @@ describe JobsController do
           :status => 400, :body => "some error"
         )
 
-      delete :destroy, :site_id => "rennes", :id => @job.uid, :format => :json
+      delete :destroy, params: { :site_id => "rennes", :id => @job.uid, :format => :json }
       expect(response.status).to eq 400
       expect(response.body).to eq "Request to #{@expected_url} failed with status 400: some error"
     end
@@ -288,7 +288,7 @@ describe JobsController do
           :status => 202, :body => fixture("oarapi-deleted-job.json")
         )
 
-      delete :destroy, :site_id => "rennes", :id => @job.uid, :format => :json
+      delete :destroy, params: { :site_id => "rennes", :id => @job.uid, :format => :json } 
       expect(response.status).to eq 202
       expect(response.body).to be_empty
       expect(response.location).to eq "http://api-in.local/sites/rennes/jobs/#{@job.uid}"
