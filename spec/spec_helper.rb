@@ -41,7 +41,7 @@ module MediaTypeHelper
   class MediaTypeError < StandardError; end
 
   def assert_media_type(type)
-    response.headers['Content-Type'].should =~ case type
+    expect(response.headers['Content-Type']).to match case type
     when :json
       %r{application/json}
     when :txt
@@ -58,15 +58,15 @@ module HeaderHelper
   class HeaderError < StandardError; end
 
   def assert_vary_on(*args)
-    (response.headers['Vary'] || "").downcase.split(/\s*,\s*/).sort.should == args.map{|v| v.to_s.dasherize}.sort
+    expect((response.headers['Vary'] || "").downcase.split(/\s*,\s*/).sort).to eq(args.map{|v| v.to_s.dasherize}.sort)
   end
   def assert_allow(*args)
-    (response.headers['Allow'] || "").downcase.split(/\s*,\s*/).sort.should == args.map{|v| v.to_s.dasherize}.sort
+    expect((response.headers['Allow'] || "").downcase.split(/\s*,\s*/).sort).to eq(args.map{|v| v.to_s.dasherize}.sort)
   end
   def assert_expires_in(seconds, options = {})
     values = (response.headers['Cache-Control'] || "").downcase.split(/\s*,\s*/)
-    values.should include("public") if options[:public]
-    values.should include("max-age=#{seconds}")
+    expect(values).to include("public") if options[:public]
+    expect(values).to include("max-age=#{seconds}")
   end
 
   def authenticate_as(username)
