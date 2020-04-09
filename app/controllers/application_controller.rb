@@ -15,9 +15,9 @@
 class ApplicationController < ActionController::Base
   include ApplicationHelper
 
-  before_filter :lookup_credentials
-  before_filter :parse_json_payload, :only => [:create, :update, :destroy]
-  before_filter :set_default_format
+  before_action :lookup_credentials
+  before_action :parse_json_payload, :only => [:create, :update, :destroy]
+  before_action :set_default_format
 
   # abasu : additional classes introduced to handle all possible exceptions - 02.04.2015
   # abasu : as per status codes https://api.grid5000.fr/doc/stable/reference/spec.html

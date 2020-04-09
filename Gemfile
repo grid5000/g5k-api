@@ -1,7 +1,7 @@
 source 'https://rubygems.org'
 
 gem 'rake'
-gem 'rails', '~> 4.2.10'
+gem 'rails', '~> 5.0.7'
 # jQuery is the default JavaScript library as from Rails 3.1
 gem 'jquery-rails'
 
@@ -18,7 +18,7 @@ gem 'gitlab-grit', :require => ['grit']
 gem 'syslogger'
 gem 'haml', '~> 4.0.4'
 gem 'rack-jsonp'
-gem 'pg', '< 1.0.0'
+gem 'pg'#, '< 1.0.0'
 gem 'em-postgresql-adapter', :git => 'https://github.com/grid5000/em-postgresql-adapter.git'
 gem 'nokogiri'
 #gem 'nokogiri', '~> 1.5.6' #oldest version that blather handles
