@@ -35,7 +35,7 @@ class Job
   
   def initialize(h = {})
     @errors = []
-    h = h.symbolize_keys
+    h = h.to_h.symbolize_keys
     (READ_ONLY_ATTRIBUTES+READ_WRITE_ATTRIBUTES+READ_ONLY_UNDERSCORE_ATTRIBUTES).each do |attribute|
       if READ_ONLY_UNDERSCORE_ATTRIBUTES.include?(attribute)
         value = h[attribute.to_s.gsub('_','-').to_sym]

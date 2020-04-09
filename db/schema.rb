@@ -1,4 +1,3 @@
-# encoding: UTF-8
 # This file is auto-generated from the current state of the database. Instead
 # of editing this file, please use the migrations feature of Active Record to
 # incrementally modify your database, and then regenerate this schema definition.
@@ -13,35 +12,34 @@
 
 ActiveRecord::Schema.define(version: 20180821092321) do
 
-  create_table "deployments", force: :cascade do |t|
-    t.string  "uid",                        limit: 255
-    t.string  "site_uid",                   limit: 255
-    t.string  "user_uid",                   limit: 255
-    t.string  "environment",                limit: 255
-    t.string  "version",                    limit: 255
-    t.string  "status",                     limit: 255,   default: "waiting"
+  create_table "deployments", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.string  "uid"
+    t.string  "site_uid"
+    t.string  "user_uid"
+    t.string  "environment"
+    t.string  "version"
+    t.string  "status",                                   default: "waiting"
     t.text    "key",                        limit: 65535
     t.text    "nodes",                      limit: 65535
     t.text    "notifications",              limit: 65535
     t.text    "result",                     limit: 65535
     t.text    "output",                     limit: 65535
-    t.integer "partition_number",           limit: 4
-    t.string  "block_device",               limit: 255
-    t.string  "reformat_tmp",               limit: 255
+    t.integer "partition_number"
+    t.string  "block_device"
+    t.string  "reformat_tmp"
     t.boolean "disable_disk_partitioning",                default: false
     t.boolean "disable_bootloader_install",               default: false
     t.boolean "ignore_nodes_deploying",                   default: false
-    t.integer "vlan",                       limit: 4
-    t.integer "created_at",                 limit: 4
-    t.integer "updated_at",                 limit: 4
+    t.integer "vlan"
+    t.integer "created_at"
+    t.integer "updated_at"
+    t.index ["created_at"], name: "index_deployments_on_created_at", using: :btree
+    t.index ["environment"], name: "index_deployments_on_environment", using: :btree
+    t.index ["site_uid"], name: "index_deployments_on_site_uid", using: :btree
+    t.index ["status"], name: "index_deployments_on_status", using: :btree
+    t.index ["uid"], name: "index_deployments_on_uid", using: :btree
+    t.index ["updated_at"], name: "index_deployments_on_updated_at", using: :btree
+    t.index ["user_uid"], name: "index_deployments_on_user_uid", using: :btree
   end
-
-  add_index "deployments", ["created_at"], name: "index_deployments_on_created_at", using: :btree
-  add_index "deployments", ["environment"], name: "index_deployments_on_environment", using: :btree
-  add_index "deployments", ["site_uid"], name: "index_deployments_on_site_uid", using: :btree
-  add_index "deployments", ["status"], name: "index_deployments_on_status", using: :btree
-  add_index "deployments", ["uid"], name: "index_deployments_on_uid", using: :btree
-  add_index "deployments", ["updated_at"], name: "index_deployments_on_updated_at", using: :btree
-  add_index "deployments", ["user_uid"], name: "index_deployments_on_user_uid", using: :btree
 
 end
