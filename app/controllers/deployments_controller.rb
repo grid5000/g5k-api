@@ -86,7 +86,7 @@ class DeploymentsController < ApplicationController
       :in, :absolute
     )
 
-    render  :text => "",
+    render  :plain => "",
             :head => :ok,
             :location => location_uri,
             :status => 202
@@ -98,7 +98,7 @@ class DeploymentsController < ApplicationController
   def create
     ensure_authenticated!
     begin
-      payload=deployment_params
+      payload=deployment_params.to_h
       Rails.logger.debug "Creating deployment with #{payload} from #{params} (after permit)"
 
       dpl = Grid5000::Deployment.new(payload)
@@ -120,8 +120,10 @@ class DeploymentsController < ApplicationController
     dpl.transform_blobs_into_files!(Rails.tmp, files_base_uri)
 
     begin
-      dpl.launch || raise(ServerError,
-        "#{dpl.errors.full_messages.join("; ")}")
+      unless dpl.launch
+        raise(ServerError, "#{dpl.errors.full_messages.join("; ")}")
+        throw :abort
+      end
     rescue Exception => e
       raise ServerError, "Cannot launch deployment: #{e.message}"
     end
@@ -165,7 +167,7 @@ class DeploymentsController < ApplicationController
       :in, :absolute
     )
 
-    render  :text => "",
+    render  :plain => "",
             :head => :ok,
             :location => location_uri,
             :status => 204

@@ -1,4 +1,4 @@
-class ChangeDeploymentDefaultStatus < ActiveRecord::Migration
+class ChangeDeploymentDefaultStatus < ActiveRecord::Migration[4.2]
   def up
     change_column_default(:deployments, :status, 'waiting')
   end
