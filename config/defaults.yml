@@ -13,7 +13,7 @@ defaults: &defaults
   smtp_domain: api-server-devel.rennes.grid5000.fr
   smtp_host: localhost
   smtp_port: 25
-  smtp_from: notifications@api.grid5000.fr
+  smtp_from: api@grid5000.fr
   oar: &oar
     adapter: em_postgresql
     encoding: utf8
