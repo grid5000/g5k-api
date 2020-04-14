@@ -1,3 +1,9 @@
+g5k-api (3.8.6) unstable; urgency=medium
+
+  * b6152e81 Email sender change
+
+ -- Nicolas Perrin <nicolas.perrin@inria.fr>  Tue, 14 Apr 2020 08:15:29 +0200
+
 g5k-api (3.8.5) unstable; urgency=low
 
   * cc16729 Optimize sites/:site/status when a network_address is specified
