@@ -3,6 +3,7 @@
 # g5k-api software. Production recipes are in the Grid'5000 puppet repository.
 class development {
   include apt
+  include ssl
   include mysql
   include postgres
   include ruby
