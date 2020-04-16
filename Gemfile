@@ -1,7 +1,7 @@
 source 'https://rubygems.org'
 
 gem 'rake'
-gem 'rails', '~> 5.0.7'
+gem 'rails', '~> 5.1.7'
 # jQuery is the default JavaScript library as from Rails 3.1
 gem 'jquery-rails'
 
@@ -9,7 +9,7 @@ gem 'eventmachine'
 gem 'rack-fiber_pool', '~> 0.9'
 gem 'em-synchrony'
 gem 'em-http-request'
-gem "mysql2", '~> 0.4.0'
+gem "mysql2", '~> 0.5.3'
 gem "ruby-mysql", :require => "mysql"
 gem 'addressable', '~> 2.2'
 gem 'thin', '~> 1.5.0'
@@ -26,6 +26,7 @@ gem 'nokogiri'
 gem 'sass-rails'
 gem 'coffee-rails'
 gem 'uglifier'
+gem 'erubis', '~> 2.7'
 
 group :development do
   # for ruby scripts written to replicate
