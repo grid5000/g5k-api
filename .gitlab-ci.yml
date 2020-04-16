@@ -24,7 +24,7 @@ test-for-jessie: &test-for-jessie
     POSTGRES_PASSWORD: oar
     POSTGRES_DB: oar2_test
   script:
-    - apt-get update && apt-get -y --no-install-recommends install devscripts build-essential equivs
+    - apt-get update && apt-get -y --no-install-recommends install devscripts build-essential equivs libssl-dev
     - mk-build-deps -ir -t 'apt-get -y --no-install-recommends'
     - bundle install --path vendor/bundle
     - bundle exec rake db:migrate
@@ -53,7 +53,7 @@ deb-for-jessie: &deb-for-jessie
   tags:
   - grid5000-docker
   script:
-    - apt-get update && apt-get -y --no-install-recommends install devscripts build-essential equivs
+    - apt-get update && apt-get -y --no-install-recommends install devscripts build-essential equivs libssl-dev
     - mk-build-deps -ir -t 'apt-get -y --no-install-recommends'
     - apt-get install -y curl pkg-config
     - dpkg-buildpackage
