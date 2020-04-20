@@ -34,7 +34,10 @@ module Grid5000
 
     before_save do
       self.updated_at = Time.now.to_i
-      errors.add(:uid, "must be set") if uid.nil?
+      if uid.nil?
+        errors.add(:uid, "must be set")
+        throw(:abort)
+      end
       errors.empty?
     end
 
