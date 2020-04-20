@@ -120,10 +120,8 @@ class DeploymentsController < ApplicationController
     dpl.transform_blobs_into_files!(Rails.tmp, files_base_uri)
 
     begin
-      unless dpl.launch
-        raise(ServerError, "#{dpl.errors.full_messages.join("; ")}")
-        throw :abort
-      end
+      dpl.launch || raise(ServerError,
+        "#{dpl.errors.full_messages.join("; ")}")
     rescue Exception => e
       raise ServerError, "Cannot launch deployment: #{e.message}"
     end
