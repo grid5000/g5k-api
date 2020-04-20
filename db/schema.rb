@@ -10,9 +10,9 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180821092321) do
+ActiveRecord::Schema.define(version: 2018_08_21_092321) do
 
-  create_table "deployments", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+  create_table "deployments", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "uid"
     t.string "site_uid"
     t.string "user_uid"

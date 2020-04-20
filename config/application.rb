@@ -42,6 +42,8 @@ module Api
 
     # config.middleware.insert_before Rack::Runtime, Rack::FiberPool
 
+    config.load_defaults "5.2"
+
     # Custom directories with classes and modules you want to be autoloadable.
     #config.autoload_paths += Dir["#{config.root}/lib/**/"]
     config.autoload_paths += %W(#{config.root}/lib)

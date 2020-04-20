@@ -18,12 +18,13 @@ require 'rubygems'
 # Do not use the standard boot options
 # has we use a vendored bundler
 require 'bundler/setup' # Set up gems listed in the Gemfile.
+require 'bootsnap/setup' # Speed up boot time by caching expensive operations.
 
 require 'yaml'
 
 # Attempts to use a vendored Bundler, if any
 vendored_gems = File.expand_path(
-  '../../vendor/bundle/ruby/2.1.5/gems', __FILE__
+  '../../vendor/bundle/ruby/2.5.0/gems', __FILE__
 )
 
 vendored_bundler = Dir["#{vendored_gems}/bundler-*/lib"].sort.last
