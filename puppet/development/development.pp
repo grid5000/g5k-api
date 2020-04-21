@@ -10,7 +10,7 @@ class development {
   include git
   include dpkg::dev
   include apache
-  
+
   postgres::database {
     'oar2_dev':
       ensure => present;
@@ -53,7 +53,7 @@ class development {
     'g5kapi_dev':
       ensure => present;
   }
-  
+
   mysql::database {
     'g5kapi_test':
       ensure => present;
@@ -63,12 +63,12 @@ class development {
     user => root,
     group => root,
     cwd => $workspace,
-    command => "/bin/su -c '/usr/local/bin/bundle install' $owner",
-    require => [Exec["install bundler"],Package['libxml2-dev','libxslt-dev']],
+    command => "/bin/su -c 'bundle install' $owner",
+    require => [Package['bundler'],Package['libxml2-dev','libxslt-dev']],
     logoutput => true,
-    unless => "/bin/su -c '/usr/local/bin/bundle show' $owner"
+    unless => "/bin/su -c 'bundle show' $owner"
   }
-	
+
   # Because of the way access to mysql and postgres work in
 	# docker for gitlab.inria.fr
   exec { "Make sure mysql and postgres resolve to 127.0.0.1":
@@ -98,9 +98,8 @@ class development {
 
 stage { "init": before  => Stage["main"] }
 
-class {"apt": 
+class {"apt":
   stage => init,
 }
-
 
 include development

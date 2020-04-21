@@ -39,14 +39,14 @@ You can check the installation by running a few commands to gather information a
 
 ### Development environment
 
-* This app comes with a Vagrant box used for development, testing and packaging. 
+* This app comes with a Vagrant box used for development, testing and packaging.
 
   By default, the vagrant box will provision a proxy, to get access to the live status
 	of sites and to the home directory of users, except on one site where status will be
 	served locally through a tunnel to that site's oardb. This is specially useful to
-	debug the web ui, but the tunnel to the db is also used for site status information. 
+	debug the web ui, but the tunnel to the db is also used for site status information.
 
-  For users with a working installation of vagrant and virtualbox, setting up a 
+  For users with a working installation of vagrant and virtualbox, setting up a
   working environement starts with a simple
 
         $ DEVELOPER=dmargery OAR_DB_SITE=rennes vagrant up --provision
@@ -54,15 +54,15 @@ You can check the installation by running a few commands to gather information a
         vagrant> cd /vagrant
 
   The vagrant provisionning script will attempt to configure the VM's root and vagrant
-  accounts to be accessible by ssh. By default, it will copy your authorized_keys, but you 
-  can control the keypair used with SSH_KEY=filename_of_private_key  
+  accounts to be accessible by ssh. By default, it will copy your authorized_keys, but you
+  can control the keypair used with SSH_KEY=filename_of_private_key
 
   Of course, reality is a bit more complex. You might have troubles with the insecure
-  certificate of the vagrant box provider. In that case, you'll need to start with 
+  certificate of the vagrant box provider. In that case, you'll need to start with
 
         $ vagrant box add --insecure --name debian-jessie-x64-puppet_4 \
 	  https://vagrant.irisa.fr/boxes/irisa_debian-8.2.0_puppet4.box
-	  
+
   And as the application relies on external data sources, you'll need to connect
   it with a reference-repository, an OAR database, a kadeploy3 server, and a jabber server
   to exercice all its functionnality, in addition to its own backend services that
@@ -70,14 +70,14 @@ You can check the installation by running a few commands to gather information a
   the development of this application relies strongly on unit tests.
 
   A useful set of ssh tunnels is created with
-	
-        vagrant> rake tunnels:setup
-  
+
+        vagrant> bundle exec rake tunnels:setup
+
 ### Development environment's access to data
 
 * Setup the database schema:
 
-        vagrant> rake db:setup RAILS_ENV=development
+        vagrant> bundle exec rake db:setup RAILS_ENV=development
 
 * Give access to reference data to expose. The scripts expect you
   have a checkout version of the reference-repository in a sibling directory
@@ -86,10 +86,10 @@ You can check the installation by running a few commands to gather information a
 
         (g5k-api) $ cd ..
         (..) $ git clone ssh://g5kadmin@git.grid5000.fr/srv/git/repos/reference-repository.git reference-repository
-  
-  You might not have admin access to Grid'5000's reference repository. in this case, you 
-  could duplicate the fake repository used for tests, in the 
-  spec/fixtures/reference-repository directory. 
+
+  You might not have admin access to Grid'5000's reference repository. in this case, you
+  could duplicate the fake repository used for tests, in the
+  spec/fixtures/reference-repository directory.
 
         (g5k-api) $ cp -r spec/fixtures/reference-repository ..
         (g5k-api) $ mv ../reference-repository/git.rename ../reference-repository/.git
@@ -97,23 +97,23 @@ You can check the installation by running a few commands to gather information a
   Do not attempt to use the directory directly, as unit test play with the git.rename dir.
 
 * Get access to a OAR database, unsing one of the two methods described hereafter:
-  
+
   * Get your hands on a copy of an active database, and install it. Don't worry about the
     error messages when seeding the development database: most of them come from the fact
 	that the database is empty and therefore the drop statements fail.
-   
+
         $ export OAR_DB_SITE=rennes
 		$ ssh oardb.$OAR_DB_SITE.g5kadmin sudo cat /var/backups/dumps/postgresql/oar2.sql.gz > tmp/oar2_$OAR_DB_SITE.sql.gz
         $ gunzip tmp/oar2_$OAR_DB_SITE.sql.gz
-        vagrant>SEED=tmp/oar2_rennes.sql RAILS_ENV=development rake db:oar:seed
-  
+        vagrant>SEED=tmp/oar2_rennes.sql RAILS_ENV=development bundle exec rake db:oar:seed
+
   * Or tunnel your way to a live database (as g5k-api only requires read-only access)
-    This is particularly usefull if you want to develop on the UI (but with bad site 
-    information). You should setup an SSH tunnel between your machine and one of the 
+    This is particularly usefull if you want to develop on the UI (but with bad site
+    information). You should setup an SSH tunnel between your machine and one of the
     oardb servers of Grid'5000, so that you can access the current jobs:
 
         $ # In an other shell, create a tunnel from the vagrant machine to Grid'5000
-		$ # (done as part of rake tunnels:setup)
+		$ # (done as part of bundle exec rake tunnels:setup)
         vagrant> ssh -NL 15433:oardb.rennes.grid5000.fr:5432 access.grid5000.fr
 
         $ # edit the development section of config/defaults.yml to
@@ -124,7 +124,7 @@ You can check the installation by running a few commands to gather information a
                                     username: oarreader
                                     password: read
                                     database: oar2
-				
+
 
 ### Wrapping it up to run the server
 
@@ -140,12 +140,12 @@ You can check the installation by running a few commands to gather information a
 
         $ HTTP_X_API_USER_CN=dmargery WHOAMI=rennes ./bin/g5k-api server start -e development
 
-* If you want to develop on the UI, using the apache proxy, run your browser on 
-        
+* If you want to develop on the UI, using the apache proxy, run your browser on
+
         $ firefox http://127.0.0.1:8080/ui
 
-* If you want to develop on the UI, interacting directly with the server, run your browser on 
-        
+* If you want to develop on the UI, interacting directly with the server, run your browser on
+
         $ firefox http://127.0.0.1:8000/ui
 
 That's it. If you're not too familiar with `rails` 4, have a look at
@@ -154,7 +154,7 @@ That's it. If you're not too familiar with `rails` 4, have a look at
 You can also list the available rake tasks and capistrano tasks to see what's
 already automated for you:
 
-    $ rake -T
+    $ bundle exec rake -T
     $ cap -T
 
 
@@ -165,16 +165,16 @@ to create a test database, and a fake OAR database.
 
 * Create the test database as follows:
 
-        $ RAILS_ENV=test rake db:setup
+        $ RAILS_ENV=test bundle exec rake db:setup
 
 * Create the fake OAR database as follows:
 
-        $ RAILS_ENV=test rake db:oar:create # provisioned by puppet
-        $ RAILS_ENV=test rake db:oar:seed
+        $ RAILS_ENV=test bundle exec rake db:oar:create # provisioned by puppet
+        $ RAILS_ENV=test bundle exec rake db:oar:seed
 
 * Launch the tests:
 
-        $ RAILS_ENV=test rspec spec/ # or `bundle exec autotest` if rake fails (issue with Rails<3.1 and em_mysql2 adapter with evented code).
+        $ RAILS_ENV=test bundle exec rspec spec/ # or `bundle exec autotest` if rake fails (issue with Rails<3.1 and em_mysql2 adapter with evented code).
 
 * Adding data to the reference repository used for tests
 
@@ -198,12 +198,12 @@ After these changes, a lot of tests will fail as they rely on the hash of the la
 
 * Adding data to the test OAR2 database
 
-The test OAR2 database is loaded in the test environment using the `RAILS_ENV=test rake db:oar:seed` task defined in `lib/tasks/test.rake`. This tasks loads a SQL dump pointed by the SEED environment variable, and defaults to `spec/fixtures/oar2_2011-01-07.sql`
+The test OAR2 database is loaded in the test environment using the `RAILS_ENV=test bundle exec rake db:oar:seed` task defined in `lib/tasks/test.rake`. This tasks loads a SQL dump pointed by the SEED environment variable, and defaults to `spec/fixtures/oar2_2011-01-07.sql`
 
 Updating the OAR2 test db therefore requires either
 
 * Updating the contents of the `spec/fixtures/oar2_2011-01-07.sql` directly
-* creating a new dump of the `oar2_test` database running on the vagrant box, and updating `lib/tasks/test.rake` to use that dump a the new seed (be sure to git add it to the repo). As that `oar2_test` database should be a valid oar2 database, its contents should be updatable using oar commands. You'll need to apt-get install oar2 first and configure `oar2.conf` to point to the test database first. If you do so, please consider spending a few minutes to update the puppet provisonning recipes so as to pre-configure the vagrant VM to manage the test database out of the box. Furture developper will thank you for that. 
+* creating a new dump of the `oar2_test` database running on the vagrant box, and updating `lib/tasks/test.rake` to use that dump a the new seed (be sure to git add it to the repo). As that `oar2_test` database should be a valid oar2 database, its contents should be updatable using oar commands. You'll need to apt-get install oar2 first and configure `oar2.conf` to point to the test database first. If you do so, please consider spending a few minutes to update the puppet provisonning recipes so as to pre-configure the vagrant VM to manage the test database out of the box. Furture developper will thank you for that.
 
 ## Packaging
 
@@ -225,11 +225,11 @@ For this to work properly, you need a working .gitconfig.
 
 - You can now name the version you are about to package
 
-        vagrant@g5k-local: rake package:bump:patch #replace patch by minor or major when appropriate)
+        vagrant@g5k-local: bundle exec rake package:bump:patch #replace patch by minor or major when appropriate)
 
 - And then build the debian package
 
-        vagrant@g5k-local: rake package:build:debian
+        vagrant@g5k-local: bundle exec rake package:build:debian
 
 
 The `package:build:debian` rake task has several arguments:
@@ -288,7 +288,7 @@ From time to time, someone will have to look into `lib/taks/packaging.rake` to u
 
 * Generate the test coverage:
 
-        $ RAILS_ENV=test rspec spec/
+        $ RAILS_ENV=test bundle exec rspec spec/
         $ open coverage/index.html
 
 
