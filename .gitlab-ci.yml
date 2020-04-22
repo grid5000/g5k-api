@@ -57,10 +57,11 @@ deb-for-jessie: &deb-for-jessie
     - mk-build-deps -ir -t 'apt-get -y --no-install-recommends'
     - apt-get install -y curl pkg-config
     - dpkg-buildpackage
-    - cp ../*deb .
+    - mkdir pkg
+    - cp ../*deb pkg/
   artifacts:
     paths:
-    - ./g5k-api*.deb
+    - pkg/g5k-api*.deb
     expire_in: '1 day'
   except:
     - tags
