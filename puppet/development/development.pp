@@ -1,4 +1,4 @@
-# This puppet manifest is just here to configure a vanilla squeeze with the
+# This puppet manifest is just here to configure a vanilla buster with the
 # required libs and configuration to serve as a development machine for the
 # g5k-api software. Production recipes are in the Grid'5000 puppet repository.
 class development {
@@ -10,7 +10,7 @@ class development {
   include git
   include dpkg::dev
   include apache
-  
+
   postgres::database {
     'oar2_dev':
       ensure => present;
@@ -42,11 +42,18 @@ class development {
     require => Exec["allow connections to postgres for oar"]
   }
 
+  exec{ "allow connections to postgres for root":
+    user => postgres,
+    command => "/bin/echo \"CREATE ROLE root LOGIN; GRANT ALL PRIVILEGES ON *.oar2_dev TO 'root' ;GRANT ALL PRIVILEGES ON *.oar2_test TO 'root' ;\" | /usr/bin/psql ",
+    unless => "/usr/bin/psql -l | grep root",
+    require => Service["postgresql"]
+  }
+
   mysql::database {
     'g5kapi_dev':
       ensure => present;
   }
-  
+
   mysql::database {
     'g5kapi_test':
       ensure => present;
@@ -56,12 +63,12 @@ class development {
     user => root,
     group => root,
     cwd => $workspace,
-    command => "/bin/su -c '/usr/local/bin/bundle install' $owner",
-    require => [Exec["install bundler"],Package['libxml2-dev','libxslt-dev']],
+    command => "/bin/su -c 'bundle install' $owner",
+    require => [Package['bundler'],Package['libxml2-dev','libxslt-dev']],
     logoutput => true,
-    unless => "/bin/su -c '/usr/local/bin/bundle show' $owner"
+    unless => "/bin/su -c 'bundle show' $owner"
   }
-	
+
   # Because of the way access to mysql and postgres work in
 	# docker for gitlab.inria.fr
   exec { "Make sure mysql and postgres resolve to 127.0.0.1":
@@ -91,9 +98,8 @@ class development {
 
 stage { "init": before  => Stage["main"] }
 
-class {"apt": 
+class {"apt":
   stage => init,
 }
-
 
 include development

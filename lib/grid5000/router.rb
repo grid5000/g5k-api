@@ -71,7 +71,7 @@ module Grid5000
           if root_uri.path.blank?
             root_path=''
           else	
-            root_path=root_uri.path+'/'
+            root_path=root_uri.path
           end # if root_uri.path.blank?
 
           uri = URI.join(root_uri, root_path+uri).to_s

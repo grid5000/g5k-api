@@ -39,14 +39,14 @@ test-for-jessie: &test-for-jessie
   except:
     - tags
 
-test-for-stretch:
+test-for-buster:
   <<: *test-for-jessie
-  image: debian:stretch
+  image: debian:buster
   services:
-    - name: mariadb:10.1
+    - name: mariadb:10.3
       alias: mysql
     - name: postgres
-  
+
 deb-for-jessie: &deb-for-jessie
   image: debian:jessie
   stage: deb
@@ -56,24 +56,18 @@ deb-for-jessie: &deb-for-jessie
     - apt-get update && apt-get -y --no-install-recommends install devscripts build-essential equivs
     - mk-build-deps -ir -t 'apt-get -y --no-install-recommends'
     - apt-get install -y curl pkg-config
-    - bundle install --path vendor/bundle
-    - bundle exec rake package:build:debian
+    - dpkg-buildpackage
+    - cp ../*deb .
   artifacts:
     paths:
-    - pkg/g5k-api*.deb
+    - ./g5k-api*.deb
     expire_in: '1 day'
   except:
     - tags
 
-deb-for-stretch:
+deb-for-buster:
   <<: *deb-for-jessie
-  image: debian:stretch
-  script:
-    - apt-get update && apt-get -y --no-install-recommends install devscripts build-essential equivs
-    - mk-build-deps -ir -t 'apt-get -y --no-install-recommends'
-    - apt-get install -y curl pkg-config
-    - bundle install --path vendor/bundle
-    - bundle exec rake package:build:debian
+  image: debian:buster
 
 .push-packages-script: &push-packages-script |
   echo "Request to push for debian version ${TARGET_DEBIAN_VERSION} for branch ${TARGET_G5K_API_VARIANT}"
@@ -101,38 +95,46 @@ push-jessie-package-v4: &push-jessie-package-v4
   variables:
     TARGET_DEBIAN_VERSION: jessie
     TARGET_G5K_API_VARIANT: v4
-  only: 
+  only:
     - devel
-    
+
 push-jessie-package-devel: &push-jessie-package-devel
   <<: *push-jessie-package-v3
   variables:
     TARGET_DEBIAN_VERSION: jessie
     TARGET_G5K_API_VARIANT: devel
-  only: 
+  only:
     - devel
-    
-push-stretch-package-v3:
-  <<: *push-jessie-package-v3
-  dependencies:
-    - deb-for-stretch
-  variables:
-    TARGET_DEBIAN_VERSION: stretch
-    TARGET_G5K_API_VARIANT: v3
 
-push-stretch-package-v4:
-  <<: *push-jessie-package-v4
+push-buster-package-v3: &push-buster-package-v3
+  stage: deploy
+  when: manual
+  allow_failure: false
+  # tags must be 'packages' so that we use the runner on packages.grid5000.fr
+  tags:
+    - grid5000-packages
+  only: # we only execute this job for tagged commits on the master branch
+    - master
   dependencies:
-    - deb-for-stretch
+    - deb-for-buster
   variables:
-    TARGET_DEBIAN_VERSION: stretch
+    TARGET_DEBIAN_VERSION: buster
+    TARGET_G5K_API_VARIANT: v3
+  script:
+    - *push-packages-script
+
+push-buster-package-v4: &push-buster-package-v4
+  <<: *push-buster-package-v3
+  variables:
+    TARGET_DEBIAN_VERSION: buster
     TARGET_G5K_API_VARIANT: v4
-  
-push-stretch-package-devel:
-  <<: *push-jessie-package-devel
-  dependencies:
-    - deb-for-stretch
+  only:
+    - devel
+
+push-buster-package-devel: &push-buster-package-devel
+  <<: *push-buster-package-v3
   variables:
-    TARGET_DEBIAN_VERSION: stretch
+    TARGET_DEBIAN_VERSION: buster
     TARGET_G5K_API_VARIANT: devel
-  
+  only:
+    - devel
