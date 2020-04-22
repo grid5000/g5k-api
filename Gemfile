@@ -16,7 +16,7 @@ gem 'thin', '~> 1.5.0'
 gem 'state_machines-activerecord'
 gem 'gitlab-grit', :require => ['grit']
 gem 'syslogger'
-gem 'haml', '~> 4.0.4'
+gem 'haml', '~> 5.0.0'
 gem 'rack-jsonp'
 gem 'pg', '< 1.0.0'
 gem 'em-postgresql-adapter', :git => 'https://github.com/grid5000/em-postgresql-adapter.git'
