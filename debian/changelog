@@ -1,3 +1,15 @@
+g5k-api (3.8.7) unstable; urgency=low
+
+  * 2608d24 remove stretch from ci, indeed we don't use it for g5k-api
+  * cecf3a2 change the way to generate debian packages
+  * cd5ed9a fix pool size for development database so rake db:setup doesn't fail
+  * 1f9efdd add buster to ci
+  * c5d30e2 fix non wanted double '/' in Grid5000::Router.uri_to uri contruction
+  * a414ff2 change the way of installing bundler and rake inside the Vagrant VM and update the README
+  * 7b2b032 upgrade the development environment to buster
+
+ -- Samir Noir <samir.noir@inria.fr>  Wed, 22 Apr 2020 14:12:23 +0200
+
 g5k-api (3.8.6) unstable; urgency=medium
 
   * b6152e81 Email sender change
