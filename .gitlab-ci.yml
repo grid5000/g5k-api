@@ -6,14 +6,15 @@ stages:
  - deb
  - deploy
 
-test-for-jessie: &test-for-jessie
-  image: debian:jessie
+test-for-buster: &test-for-buster
+  image: debian:buster
   stage: test
+  services:
+    - name: mariadb:10.3
+      alias: mysql
+    - name: postgres
   tags:
     - grid5000-docker
-  services:
-    - mysql:5.5
-    - postgres
   variables:
     RAILS_ENV: test
     MYSQL_ROOT_PASSWORD: uheiN4pe
@@ -26,6 +27,7 @@ test-for-jessie: &test-for-jessie
   script:
     - apt-get update && apt-get -y --no-install-recommends install devscripts build-essential equivs libssl-dev
     - mk-build-deps -ir -t 'apt-get -y --no-install-recommends'
+    - gem install bundler -v 2.1.4
     - bundle install --path vendor/bundle
     - bundle exec rake db:migrate
     - bundle exec rake db:oar:seed
@@ -39,16 +41,8 @@ test-for-jessie: &test-for-jessie
   except:
     - tags
 
-test-for-buster:
-  <<: *test-for-jessie
+deb-for-buster: &deb-for-buster
   image: debian:buster
-  services:
-    - name: mariadb:10.3
-      alias: mysql
-    - name: postgres
-
-deb-for-jessie: &deb-for-jessie
-  image: debian:jessie
   stage: deb
   tags:
   - grid5000-docker
@@ -66,46 +60,9 @@ deb-for-jessie: &deb-for-jessie
   except:
     - tags
 
-deb-for-buster:
-  <<: *deb-for-jessie
-  image: debian:buster
-
 .push-packages-script: &push-packages-script |
   echo "Request to push for debian version ${TARGET_DEBIAN_VERSION} for branch ${TARGET_G5K_API_VARIANT}"
   g5k-deploy-files --only-if-tag '^v\d+\.\d+\.\d+' --files 'pkg/g5k-api_*.deb' --directory deb/g5k-api/${TARGET_DEBIAN_VERSION}/${TARGET_G5K_API_VARIANT}
-
-push-jessie-package-v3: &push-jessie-package-v3
-  stage: deploy
-  when: manual
-  allow_failure: false
-  # tags must be 'packages' so that we use the runner on packages.grid5000.fr
-  tags:
-    - grid5000-packages
-  only: # we only execute this job for tagged commits on the master branch
-    - master
-  dependencies:
-    - deb-for-jessie
-  variables:
-    TARGET_DEBIAN_VERSION: jessie
-    TARGET_G5K_API_VARIANT: v3
-  script:
-    - *push-packages-script
-
-push-jessie-package-v4: &push-jessie-package-v4
-  <<: *push-jessie-package-v3
-  variables:
-    TARGET_DEBIAN_VERSION: jessie
-    TARGET_G5K_API_VARIANT: v4
-  only:
-    - devel
-
-push-jessie-package-devel: &push-jessie-package-devel
-  <<: *push-jessie-package-v3
-  variables:
-    TARGET_DEBIAN_VERSION: jessie
-    TARGET_G5K_API_VARIANT: devel
-  only:
-    - devel
 
 push-buster-package-v3: &push-buster-package-v3
   stage: deploy

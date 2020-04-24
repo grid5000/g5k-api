@@ -64,10 +64,10 @@ class development {
     user => root,
     group => root,
     cwd => $workspace,
-    command => "/bin/su -c 'bundle install' $owner",
-    require => [Package['bundler'],Package['libxml2-dev','libxslt-dev']],
+    command => "/bin/su -c '/usr/local/bin/bundle install' $owner",
+    require => [Exec['install bundler'],Package['libxml2-dev','libxslt-dev']],
     logoutput => true,
-    unless => "/bin/su -c 'bundle show' $owner"
+    unless => "/bin/su -c '/usr/local/bin/bundle show' $owner"
   }
 
   # Because of the way access to mysql and postgres work in
