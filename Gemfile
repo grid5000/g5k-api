@@ -1,7 +1,7 @@
 source 'https://rubygems.org'
 
 gem 'rake'
-gem 'rails', '~> 5.2.4'
+gem 'rails', '~> 6.0.2'
 gem 'bootsnap', require: false
 # jQuery is the default JavaScript library as from Rails 3.1
 gem 'jquery-rails'
@@ -19,7 +19,7 @@ gem 'gitlab-grit', :require => ['grit']
 gem 'syslogger'
 gem 'haml', '~> 5.1.2'
 gem 'rack-jsonp'
-gem 'pg'#, '< 1.0.0'
+gem 'pg'
 gem 'em-postgresql-adapter', :git => 'https://github.com/grid5000/em-postgresql-adapter.git'
 gem 'nokogiri'
 
