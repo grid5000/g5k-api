@@ -73,16 +73,6 @@ module HeaderHelper
     header = "HTTP_"+Rails.my_config(:header_user_cn).gsub("-","_").upcase
     @request.env[header] = username
   end
-
-  def send_payload(h, type)
-    case type
-    when :json
-      @request.env['RAW_POST_DATA'] = JSON.dump(h)
-      @request.env['CONTENT_TYPE'] = media_type(type)
-    else
-      raise StandardError, "Don't know how to send payload of type #{type.inspect}"
-    end
-  end
 end
 
 RSpec.configure do |config|
@@ -115,7 +105,7 @@ RSpec.configure do |config|
       system "mv #{File.join(@repository_path, '.git')} #{File.join(@repository_path, 'git.rename')}"
     end
   end
-  
+
   config.around(:each) do |example|
     Rails.logger.debug example.metadata[:full_description]
     EM.synchrony do
