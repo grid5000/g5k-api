@@ -115,7 +115,6 @@ describe JobsController do
     it "should fail if the OAR api does not return 201, 202 or 400" do
       payload = @valid_job_attributes
       authenticate_as("crohr")
-      send_payload(payload, :json)
 
       expected_url = "http://api-out.local/sites/rennes/internal/oarapi/jobs.json"
       stub_request(:post, expected_url).
@@ -133,7 +132,7 @@ describe JobsController do
           :body => "some error"
         )
 
-      post :create, params: { :site_id => "rennes", :format => :json }
+      post :create, params: { :site_id => "rennes", :format => :json }, body: payload.to_json, as: :json
       expect(response.status).to eq 400
       expect(response.body).to eq "Request to #{expected_url} failed with status 400: some error"
     end
@@ -141,7 +140,6 @@ describe JobsController do
     it "should return a 400 error if the OAR API returns 400 error code" do
       payload = @valid_job_attributes.merge("resources" => "{ib30g='YES'}/nodes=2")
       authenticate_as("crohr")
-      send_payload(payload, :json)
 
       expected_url = "http://api-out.local/sites/rennes/internal/oarapi/jobs.json"
       stub_request(:post, expected_url).
@@ -159,7 +157,8 @@ describe JobsController do
           :body => "Bad Request"
         )
 
-      post :create, params: { :site_id => "rennes", :format => :json }
+      post :create, params: { :site_id => "rennes", :format => :json }, body: payload.to_json, as: :json
+
       expect(response.status).to eq 400
       expect(response.body).to eq "Request to #{expected_url} failed with status 400: Bad Request"
     end # "should return a 400 error if the OAR API returns 400 error code"
@@ -167,7 +166,6 @@ describe JobsController do
     it "should return a 401 error if the OAR API returns 401 error code" do
       payload = @valid_job_attributes
       authenticate_as("xyz")
-      send_payload(payload, :json)
 
       expected_url = "http://api-out.local/sites/rennes/internal/oarapi/jobs.json"
       stub_request(:post, expected_url).
@@ -185,14 +183,14 @@ describe JobsController do
           :body => "Authorization Required"
         )
 
-      post :create, params: { :site_id => "rennes", :format => :json }
+      post :create, params: { :site_id => "rennes", :format => :json }, body: payload.to_json, as: :json
+
       expect(response.status).to eq 401
       expect(response.body).to eq "Request to #{expected_url} failed with status 401: Authorization Required"
     end # "should return a 401 error if the OAR API returns 400 error code"
     it "should return 201, the job details, and the Location header" do
       payload = @valid_job_attributes
       authenticate_as("crohr")
-      send_payload(payload, :json)
 
       expected_url = "http://api-out.local/sites/rennes/internal/oarapi/jobs.json"
       stub_request(:post, expected_url).
@@ -215,7 +213,8 @@ describe JobsController do
                     }
                   )
 
-      post :create, params: { :site_id => "rennes", :format => :json }
+      post :create, params: { :site_id => "rennes", :format => :json }, body: payload.to_json, as: :json
+
       expect(response.status).to eq 201
       expect(JSON.parse(response.body)).to include ({"uid" => 961722})
       expect(response.location).to eq "http://api-in.local/sites/rennes/jobs/961722"

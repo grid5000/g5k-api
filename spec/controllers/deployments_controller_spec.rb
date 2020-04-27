@@ -108,9 +108,9 @@ describe DeploymentsController do
 
     it "should fail if the deployment is not valid" do
       authenticate_as("crohr")
-      send_payload(@valid_attributes.merge("nodes" => []), :json)
+      payload = @valid_attributes.merge("nodes" => [])
 
-      post :create, params: { :site_id => "rennes", :format => :json }
+      post :create, params: { :site_id => "rennes", :format => :json }, body: payload.to_json, as: :json
 
       expect(response.status).to eq(400)
       expect(response.body).to match /The deployment you are trying to submit is not valid/
@@ -122,9 +122,8 @@ describe DeploymentsController do
       expect(@deployment).to receive(:launch_workflow!).and_raise(Exception.new("some error message"))
 
       authenticate_as("crohr")
-      send_payload(@valid_attributes, :json)
 
-      post :create, params: { :site_id => "rennes", :format => :json }
+      post :create, params: { :site_id => "rennes", :format => :json }, body: @valid_attributes.to_json, as: :json
 
       expect(response.status).to eq(500)
       expect(response.body).to eq("Cannot launch deployment: some error message")
@@ -137,9 +136,8 @@ describe DeploymentsController do
       expect(@deployment).to receive(:launch_workflow!).and_return(nil)
 
       authenticate_as("crohr")
-      send_payload(@valid_attributes, :json)
 
-      post :create, params: { :site_id => "rennes", :format => :json }
+      post :create, params: { :site_id => "rennes", :format => :json }, body: @valid_attributes.to_json, as: :json
 
       expect(response.status).to eq(500)
       expect(response.body).to eq("Cannot launch deployment: Uid must be set")
@@ -159,9 +157,8 @@ describe DeploymentsController do
       @deployment.uid="kadeploy-api-provided-wid"
 
       authenticate_as("crohr")
-      send_payload(@valid_attributes, :json)
 
-      post :create, params: { :site_id => "rennes", :format => :json }
+      post :create, params: { :site_id => "rennes", :format => :json }, body: @valid_attributes.to_json, as: :json
 
       expect(response.status).to eq(201)
       expect(response.headers['Location']).to eq("http://api-in.local/sites/rennes/deployments/kadeploy-api-provided-wid")
