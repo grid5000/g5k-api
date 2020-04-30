@@ -26,7 +26,7 @@ module Grid5000
     serialize :result, JSON
 
     validates_presence_of :user_uid, :site_uid, :environment, :nodes
-    validates_uniqueness_of :uid
+    validates_uniqueness_of :uid, :case_sensitive => true
 
     before_create do
       self.created_at ||= Time.now.to_i
