@@ -39,12 +39,12 @@ class SitesController < ResourcesController
         {
           "rel" => "self",
           "href" => uri_to(status_site_path(params[:id])),
-          "type" => media_type(:g5kitemjson)
+          "type" => api_media_type(:g5kitemjson)
         },
         {
           "rel" => "parent",
           "href" => uri_to(site_path(params[:id])),
-          "type" => media_type(:g5kitemjson)
+          "type" => api_media_type(:g5kitemjson)
         }
       ]
     }
@@ -70,13 +70,13 @@ class SitesController < ResourcesController
     %w{jobs deployments vlans metrics}.each do |rel|
       links.push({
         "rel" => rel,
-        "type" => media_type(:g5kcollectionjson),
+        "type" => api_media_type(:g5kcollectionjson),
         "href" => uri_to(File.join(resource_path(item["uid"]), rel))
       })
     end
     links.push({
       "rel" => "status",
-      "type" => media_type(:g5kitemjson),
+      "type" => api_media_type(:g5kitemjson),
       "href" => uri_to(File.join(resource_path(item["uid"]), "status"))
     })
     links

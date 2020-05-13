@@ -29,12 +29,12 @@ class ClustersController < ResourcesController
         {
           "rel" => "self",
           "href" => uri_to(status_site_cluster_path(params[:site_id],params[:id])),
-          "type" => media_type(:g5kitemjson)
+          "type" => api_media_type(:g5kitemjson)
         },
         {
           "rel" => "parent",
           "href" => uri_to(site_cluster_path(params[:site_id],params[:id])),
-          "type" => media_type(:g5kitemjson)
+          "type" => api_media_type(:g5kitemjson)
         }
       ]
     }
@@ -61,7 +61,7 @@ class ClustersController < ResourcesController
 
     links.push({
       "rel" => "status",
-      "type" => media_type(:g5kitemjson),
+      "type" => api_media_type(:g5kitemjson),
       "href" => uri_to(File.join(resource_path(item["uid"]), "status"))
     })
     links
