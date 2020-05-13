@@ -198,12 +198,12 @@ class DeploymentsController < ApplicationController
       {
         "rel" => "self",
         "href" => uri_to(resource_path(item['uid'])),
-        "type" => media_type(:g5kitemjson)
+        "type" => api_media_type(:g5kitemjson)
       },
       {
         "rel" => "parent",
         "href" => uri_to(parent_path),
-        "type" => media_type(:g5kitemjson)
+        "type" => api_media_type(:g5kitemjson)
       }
     ]
   end
@@ -213,12 +213,12 @@ class DeploymentsController < ApplicationController
       {
         "rel" => "self",
         "href" => uri_to(collection_path),
-        "type" => media_type(:g5kcollectionjson)
+        "type" => api_media_type(:g5kcollectionjson)
       },
       {
         "rel" => "parent",
         "href" => uri_to(parent_path),
-        "type" => media_type(:g5kitemjson)
+        "type" => api_media_type(:g5kitemjson)
       }
     ]
   end

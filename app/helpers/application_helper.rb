@@ -41,7 +41,7 @@ module ApplicationHelper
     )
   end
 
-  def media_type(type)
+  def api_media_type(type)
     t = Mime::Type.lookup_by_extension(type)
     if t
       t.to_s

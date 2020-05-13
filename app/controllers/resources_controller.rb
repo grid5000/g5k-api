@@ -156,28 +156,28 @@ class ResourcesController < ApplicationController
       links.push({
         "rel" => subresource.name, 
         "href" => href, 
-        "type" => media_type(:g5kcollectionjson)
+        "type" => api_media_type(:g5kcollectionjson)
       })
     end
 
     links.push({
       "rel" => "self",
-      "type" => media_type(:g5kitemjson),
+      "type" => api_media_type(:g5kitemjson),
       "href" => uri_to(resource_path(item["uid"]))
     })
     links.push({
       "rel" => "parent",
-      "type" => media_type(:g5kitemjson),
+      "type" => api_media_type(:g5kitemjson),
       "href" => uri_to(parent_path)
     })
     links.push({
       "rel" => "version",
-      "type" => media_type(:g5kitemjson),
+      "type" => api_media_type(:g5kitemjson),
       "href" => uri_to(File.join(resource_path(item["uid"]), "versions", item["version"]))
     })
     links.push({
       "rel" => "versions",
-      "type" => media_type(:g5kcollectionjson),
+      "type" => api_media_type(:g5kcollectionjson),
       "href" => uri_to(File.join(resource_path(item["uid"]), "versions"))
     })
     links
@@ -188,12 +188,12 @@ class ResourcesController < ApplicationController
     links = []
     links.push({
       "rel" => "self",
-      "type" => media_type(:g5kcollectionjson),
+      "type" => api_media_type(:g5kcollectionjson),
       "href" => uri_to(collection_path)
     })
     links.push({
       "rel" => "parent",
-      "type" => media_type(:g5kitemjson),
+      "type" => api_media_type(:g5kitemjson),
       "href" => uri_to(parent_path)
     }) unless parent_path.blank?
     links
