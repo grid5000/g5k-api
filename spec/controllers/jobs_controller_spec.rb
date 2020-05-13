@@ -33,24 +33,24 @@ describe JobsController do
         {
           "rel"=> "self",
           "href"=> "/sites/rennes/jobs/374210",
-          "type"=> media_type(:g5kitemjson)
+          "type"=> api_media_type(:g5kitemjson)
         },
         {
           "rel"=> "parent",
           "href"=> "/sites/rennes",
-          "type"=> media_type(:g5kitemjson)
+          "type"=> api_media_type(:g5kitemjson)
         }
       ])
       expect(json['links']).to eq ([
         {
           "rel"=>"self",
           "href"=>"/sites/rennes/jobs",
-          "type"=>media_type(:g5kcollectionjson)
+          "type"=> api_media_type(:g5kcollectionjson)
         },
         {
           "rel"=>"parent",
           "href"=>"/sites/rennes",
-          "type"=>media_type(:g5kitemjson)
+          "type"=> api_media_type(:g5kitemjson)
         }
       ])
     end
@@ -120,8 +120,8 @@ describe JobsController do
       stub_request(:post, expected_url).
         with(
           :headers => {
-            'Accept' => media_type(:json),
-            'Content-Type' => media_type(:json),
+            'Accept' => api_media_type(:json),
+            'Content-Type' => api_media_type(:json),
             'X-Remote-Ident' => "crohr",
             'X-Api-User-Cn' => "crohr"
           },
@@ -145,8 +145,8 @@ describe JobsController do
       stub_request(:post, expected_url).
         with(
           :headers => {
-            'Accept' => media_type(:json),
-            'Content-Type' => media_type(:json),
+            'Accept' => api_media_type(:json),
+            'Content-Type' => api_media_type(:json),
             'X-Remote-Ident' => "crohr",
             'X-Api-User-Cn' => "crohr"
           },
@@ -171,8 +171,8 @@ describe JobsController do
       stub_request(:post, expected_url).
         with(
           :headers => {
-            'Accept' => media_type(:json),
-            'Content-Type' => media_type(:json),
+            'Accept' => api_media_type(:json),
+            'Content-Type' => api_media_type(:json),
             'X-Remote-Ident' => "xyz",
             'X-Api-User-Cn' => "xyz"
           },
@@ -196,8 +196,8 @@ describe JobsController do
       stub_request(:post, expected_url).
         with(
           :headers => {
-            'Accept' => media_type(:json),
-            'Content-Type' => media_type(:json),
+            'Accept' => api_media_type(:json),
+            'Content-Type' => api_media_type(:json),
             'X-Remote-Ident' => "crohr",
             'X-Api-User-Cn' => "crohr"
           },
@@ -227,7 +227,7 @@ describe JobsController do
       @job = OAR::Job.first
       @expected_url = "http://api-out.local/sites/rennes/internal/oarapi/jobs/#{@job.uid}.json"
       @expected_headers = {
-        'Accept' => media_type(:json),
+        'Accept' => api_media_type(:json),
         'X-Remote-Ident' => @job.user,
         'X-Api-User-Cn' => @job.user
       }

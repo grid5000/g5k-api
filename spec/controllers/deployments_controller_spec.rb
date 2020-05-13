@@ -42,24 +42,24 @@ describe DeploymentsController do
         {
           "rel"=> "self",
           "href"=> "/sites/rennes/deployments/uid9",
-          "type"=> media_type(:g5kitemjson)
+          "type"=> api_media_type(:g5kitemjson)
         },
         {
           "rel"=> "parent",
           "href"=> "/sites/rennes",
-          "type"=> media_type(:g5kitemjson)
+          "type"=> api_media_type(:g5kitemjson)
         }
       ])
       expect(json['links']).to eq([
         {
           "rel"=>"self",
           "href"=>"/sites/rennes/deployments",
-          "type"=>media_type(:g5kcollectionjson)
+          "type"=> api_media_type(:g5kcollectionjson)
         },
         {
           "rel"=>"parent",
           "href"=>"/sites/rennes",
-          "type"=>media_type(:g5kitemjson)
+          "type"=> api_media_type(:g5kitemjson)
         }
       ])
     end

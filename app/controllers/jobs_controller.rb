@@ -80,7 +80,7 @@ class JobsController < ApplicationController
       :head => {
         'X-Remote-Ident' => @credentials[:cn],
         'X-Api-User-Cn' => @credentials[:cn],
-        'Accept' => media_type(:json)
+        'Accept' => api_media_type(:json)
       }
     )
 
@@ -127,8 +127,8 @@ class JobsController < ApplicationController
       :head => {
         'X-Remote-Ident' => @credentials[:cn],
         'X-Api-User-Cn' => @credentials[:cn],
-        'Content-Type' => media_type(:json),
-        'Accept' => media_type(:json)
+        'Content-Type' => api_media_type(:json),
+        'Accept' => api_media_type(:json)
       }    )
     continue_if!(http, :is => [201,202])
 
@@ -178,12 +178,12 @@ class JobsController < ApplicationController
       {
         "rel" => "self",
         "href" => uri_to(resource_path(item.uid)),
-        "type" => media_type(:g5kitemjson)
+        "type" => api_media_type(:g5kitemjson)
       },
       {
         "rel" => "parent",
         "href" => uri_to(parent_path),
-        "type" => media_type(:g5kitemjson)
+        "type" => api_media_type(:g5kitemjson)
       }
     ]
   end
@@ -193,12 +193,12 @@ class JobsController < ApplicationController
       {
         "rel" => "self",
         "href" => uri_to(collection_path),
-        "type" => media_type(:g5kcollectionjson)
+        "type" => api_media_type(:g5kcollectionjson)
       },
       {
         "rel" => "parent",
         "href" => uri_to(parent_path),
-        "type" => media_type(:g5kitemjson)
+        "type" => api_media_type(:g5kitemjson)
       }
     ]
   end

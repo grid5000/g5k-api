@@ -115,7 +115,7 @@ describe ClustersController do
       expected_url = "http://api-out.local:80/sites/nancy/clusters/mbi?branch=master&pretty=yes"
       stub_request(:get, expected_url).
         with(
-          :headers => {'Accept' => media_type(:json)}
+          :headers => {'Accept' => api_media_type(:json)}
         ).
         to_return(:body => fixture("reference-repository/data/grid5000/sites/nancy/clusters/mbi/mbi.json"))
       get :show, params: { :branch => 'master', :site_id => "nancy", :id => "mbi", :format => :json }
@@ -129,7 +129,7 @@ describe ClustersController do
       expected_url = "http://api-out.local:80/sites/nancy/clusters/talc?branch=master&pretty=yes"
       stub_request(:get, expected_url).
         with(
-          :headers => {'Accept' => media_type(:json)}
+          :headers => {'Accept' => api_media_type(:json)}
         ).
         to_return(:body => fixture("reference-repository/data/grid5000/sites/nancy/clusters/talc/talc.json"))
       get :show, params: { :branch => 'master', :site_id => "nancy", :id => "talc", :format => :json }
@@ -143,7 +143,7 @@ describe ClustersController do
       expected_url = "http://api-out.local:80/sites/nancy/clusters/graphique?branch=master&pretty=yes"
       stub_request(:get, expected_url).
         with(
-          :headers => {'Accept' => media_type(:json)}
+          :headers => {'Accept' => api_media_type(:json)}
         ).
         to_return(:body => fixture("reference-repository/data/grid5000/sites/nancy/clusters/graphique/graphique.json"))
       get :show, params: { :branch => 'master', :site_id => "nancy", :id => "graphique", :format => :json }
@@ -157,7 +157,7 @@ describe ClustersController do
       expected_url = "http://api-out.local:80/sites/nancy/clusters/mbi?branch=master&queues=production&pretty=yes"
       stub_request(:get, expected_url).
         with(
-          :headers => {'Accept' => media_type(:json)}
+          :headers => {'Accept' => api_media_type(:json)}
         ).
         to_return(:body => fixture("reference-repository/data/grid5000/sites/nancy/clusters/mbi/mbi.json"))
       get :show, params: { :branch => 'master', :site_id => "nancy", :id => "mbi", :queues => "production", :format => :json }
@@ -172,7 +172,7 @@ describe ClustersController do
       expected_url = "http://api-out.local:80/sites/nancy/clusters/talc?branch=master&queues=default&pretty=yes"
       stub_request(:get, expected_url).
         with(
-          :headers => {'Accept' => media_type(:json)}
+          :headers => {'Accept' => api_media_type(:json)}
         ).
         to_return(:body => fixture("reference-repository/data/grid5000/sites/nancy/clusters/talc/talc.json"))
       get :show, params: { :branch => 'master', :site_id => "nancy", :id => "talc", :queues => "default", :format => :json }
@@ -186,7 +186,7 @@ describe ClustersController do
       expected_url = "http://api-out.local:80/sites/nancy/clusters/talc?branch=master&queues=production&pretty=yes"
       stub_request(:get, expected_url).
         with(
-          :headers => {'Accept' => media_type(:json)}
+          :headers => {'Accept' => api_media_type(:json)}
         ).
         to_return(:body => fixture("reference-repository/data/grid5000/sites/nancy/clusters/talc/talc.json"))
       get :show, params: { :branch => 'master', :site_id => "nancy", :id => "talc", :queues => "production", :format => :json }
@@ -226,7 +226,7 @@ describe ClustersController do
       expected_url = "http://api-out.local:80/sites/nancy/clusters?branch=master&queues=production&pretty=yes"
       stub_request(:get, expected_url).
         with(
-          :headers => {'Accept' => media_type(:json)}
+          :headers => {'Accept' => api_media_type(:json)}
         ).
         to_return(:body => fixture("reference-repository/data/grid5000/sites/nancy/clusters/mbi/mbi.json"))
       get :index, params: { :branch => 'master', :site_id => "nancy", :queues => "production", :format => :json }
@@ -243,7 +243,7 @@ describe ClustersController do
       expected_url = "http://api-out.local:80/sites/nancy/clusters?branch=master&queues=default&pretty=yes"
       stub_request(:get, expected_url).
         with(
-          :headers => {'Accept' => media_type(:json)}
+          :headers => {'Accept' => api_media_type(:json)}
         ).
         to_return(:body => fixture("reference-repository/data/grid5000/sites/nancy/clusters/talc/talc.json"))
       get :index, params: { :branch => 'master', :site_id => "nancy", :queues => "default", :format => :json }
