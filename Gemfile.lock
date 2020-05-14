@@ -1,6 +1,6 @@
 GIT
   remote: https://github.com/grid5000/em-postgresql-adapter.git
-  revision: acc606da4a26d0bdbc6984aefecabaf08e3674bb
+  revision: 6b28d457889281e95ad103c10d751a3f769ad2f6
   specs:
     em-postgresql-adapter (0.3)
       activerecord (>= 3.1.0)
