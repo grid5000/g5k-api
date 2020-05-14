@@ -13,7 +13,7 @@ gem 'em-http-request'
 gem "mysql2", '~> 0.5.3'
 gem "ruby-mysql", :require => "mysql"
 gem 'addressable', '~> 2.2'
-gem 'thin', '~> 1.5.0'
+gem 'thin', '~> 1.7.0'
 gem 'state_machines-activerecord'
 gem 'gitlab-grit', :require => ['grit']
 gem 'syslogger'
