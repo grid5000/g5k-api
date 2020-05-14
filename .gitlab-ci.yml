@@ -49,6 +49,7 @@ deb-for-buster: &deb-for-buster
   script:
     - apt-get update && apt-get -y --no-install-recommends install devscripts build-essential equivs libssl-dev
     - mk-build-deps -ir -t 'apt-get -y --no-install-recommends'
+    - gem install bundler -v 2.1.4
     - apt-get install -y curl pkg-config
     - dpkg-buildpackage
     - mkdir pkg
