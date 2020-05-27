@@ -149,7 +149,6 @@ class DeploymentsController < ApplicationController
   # from the kadeploy-server, and update the <tt>result</tt> attribute if the
   # deployment has finished.
   def update
-    byebug
     dpl = find_item(params[:id])
     dpl.base_uri = api_path()
     dpl.tls_options=tls_options_for(dpl.base_uri, :out)

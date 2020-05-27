@@ -128,8 +128,9 @@ describe JobsController do
           :body => Grid5000::Job.new(payload).to_hash(:destination => "oar-2.4-submission").to_json
         ).
         to_return(
-          :status => 400,
-          :body => "some error"
+          :headers => { 'Location' => expected_url },
+          :status => [400, 'Bad Request'],
+          :body => 'some error',
         )
 
       post :create, params: { :site_id => "rennes", :format => :json }, body: payload.to_json, as: :json
@@ -153,8 +154,9 @@ describe JobsController do
           :body => Grid5000::Job.new(payload).to_hash(:destination => "oar-2.4-submission").to_json
         ).
         to_return(
-          :status => 400,
-          :body => "Bad Request"
+          :status => [400, 'Bad Request'],
+          :body => 'Bad Request',
+          :headers => { 'Location' => expected_url },
         )
 
       post :create, params: { :site_id => "rennes", :format => :json }, body: payload.to_json, as: :json
@@ -179,8 +181,9 @@ describe JobsController do
           :body => Grid5000::Job.new(payload).to_hash(:destination => "oar-2.4-submission").to_json
         ).
         to_return(
-          :status => 401,
-          :body => "Authorization Required"
+          :status => [401, 'Authorization Required'],
+          :body => 'Authorization Required',
+          :headers => { 'Location' => expected_url },
         )
 
       post :create, params: { :site_id => "rennes", :format => :json }, body: payload.to_json, as: :json
@@ -271,7 +274,8 @@ describe JobsController do
       stub_request(:delete, @expected_url).
         with(:headers => @expected_headers).
         to_return(
-          :status => 400, :body => "some error"
+          :headers => { 'Location' => @expected_url },
+          :status => [400, "Bad Request"], :body => "some error"
         )
 
       delete :destroy, params: { :site_id => "rennes", :id => @job.uid, :format => :json }
@@ -287,7 +291,7 @@ describe JobsController do
           :status => 202, :body => fixture("oarapi-deleted-job.json")
         )
 
-      delete :destroy, params: { :site_id => "rennes", :id => @job.uid, :format => :json } 
+      delete :destroy, params: { :site_id => "rennes", :id => @job.uid, :format => :json }
       expect(response.status).to eq 202
       expect(response.body).to be_empty
       expect(response.location).to eq "http://api-in.local/sites/rennes/jobs/#{@job.uid}"

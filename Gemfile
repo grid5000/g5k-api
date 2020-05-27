@@ -6,10 +6,7 @@ gem 'bootsnap', require: false
 # jQuery is the default JavaScript library as from Rails 3.1
 gem 'jquery-rails'
 
-gem 'eventmachine'
 gem 'rack-fiber_pool', '~> 0.9'
-gem 'em-synchrony'
-gem 'em-http-request'
 gem "mysql2", '~> 0.5.3'
 gem "ruby-mysql", :require => "mysql"
 gem 'addressable', '~> 2.2'
@@ -20,7 +17,6 @@ gem 'syslogger'
 gem 'haml', '~> 5.1.2'
 gem 'rack-jsonp'
 gem 'pg'
-gem 'em-postgresql-adapter', :git => 'https://github.com/grid5000/em-postgresql-adapter.git'
 gem 'nokogiri'
 
 gem 'sass-rails'
@@ -46,5 +42,4 @@ group :test do
   gem 'net-ssh-multi'
   gem 'byebug'
 end
-
 
