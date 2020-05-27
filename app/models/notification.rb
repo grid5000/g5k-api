@@ -66,15 +66,12 @@ class Notification
       case uri.scheme
       # HTTP processing
       when /http/
-        http = EM::HttpRequest.new(uri.to_s).post(
-          :timeout => 5,
-          :body => body.to_s,
-          :head => {
-            'Content-Type' => "text/plain",
-            'Accept' => "*/*"
-          }
-        )
-        Rails.logger.info "Sent notification, received status=#{http.response_header.status}: #{http.response.inspect}"
+        headers = { 'Content-Type' => 'text/plain', 'Accept' => '*/*' }
+        request = Net::Http::Post.new(uri, headers)
+        request.body = body.to_s
+        response = http.request(request)
+
+        Rails.logger.info "Sent notification, received status=#{response.status}: #{response.inspect}"
       # EMAIL processing
       when /mailto/
         subject = uri.headers.detect{|array| array.first == "subject"}

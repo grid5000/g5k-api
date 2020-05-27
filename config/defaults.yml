@@ -15,7 +15,7 @@ defaults: &defaults
   smtp_port: 25
   smtp_from: api@grid5000.fr
   oar: &oar
-    adapter: em_postgresql
+    adapter: postgresql
     encoding: utf8
     pool: 20
     timeout: 5000
@@ -85,7 +85,7 @@ test_mysql:
   <<: *test
   oar:
     <<: *oar
-    adapter: em_mysql2
+    adapter: mysql2
     host: 127.0.0.1
     port: 13306
     username: root

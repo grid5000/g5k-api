@@ -10,3 +10,4 @@ coverage
 .vagrant
 *~
 lib/tasks/tunneling.rake
+.byebug_history
