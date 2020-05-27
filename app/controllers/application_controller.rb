@@ -104,12 +104,12 @@ class ApplicationController < ActionController::Base
     # Allow the list of "non-error" http codes
     allowed_status = [options[:is] || (200..299).to_a].flatten
 
-    status = http.response_header.status  # get the status from the http response
+    status = http.code.to_i  # get the status from the http response
 
     if status.between?(400, 599)  # error status
       # http.method always returns nil. Bug?
       # msg = "#{http.method} #{http.uri} failed with status #{status}"
-      msg = "Request to #{http.last_effective_url.to_s} failed with status #{status}: #{http.response}"
+      msg = "Request to #{http.uri} failed with status #{status}: #{http.message}"
       Rails.logger.error msg
     end
 
@@ -137,7 +137,7 @@ class ApplicationController < ActionController::Base
       when 503
         raise ServerUnavailable, msg
       else
-        raise ServerError, "Request to #{http.last_effective_url.to_s} failed with status #{status}: #{http.response}"
+        raise ServerError, "Request to #{http.uri.to_s} failed with status #{status}: #{http}"
       Rails.logger.error msg
     end
 
@@ -165,7 +165,7 @@ class ApplicationController < ActionController::Base
       when 503
         raise ServerUnavailable, msg
       else
-        raise ServerError, "Request to #{http.last_effective_url.to_s} failed with unexpected status #{status}: #{http.response} ; could be a problem with our version of eventmachine not supporting IPv6, or TLS problems"
+        raise ServerError, "Request to #{http.uri.to_s} failed with unexpected status #{status}: #{http} ; could be a problem with our version of eventmachine not supporting IPv6, or TLS problems"
     end
   end
 

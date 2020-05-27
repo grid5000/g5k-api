@@ -108,11 +108,8 @@ RSpec.configure do |config|
 
   config.around(:each) do |example|
     Rails.logger.debug example.metadata[:full_description]
-    EM.synchrony do
-      ActiveRecord::Base.connection_pool.with_connection do
-        example.run
-      end
-      EM.stop
+    ActiveRecord::Base.connection_pool.with_connection do
+      example.run
     end
   end
 

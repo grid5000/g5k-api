@@ -128,13 +128,14 @@ describe JobsController do
           :body => Grid5000::Job.new(payload).to_hash(:destination => "oar-2.4-submission").to_json
         ).
         to_return(
-          :status => 400,
-          :body => "some error"
+          :headers => { "Location" => expected_url, "Custom" => "foo" },
+          :status => [400, "Bad Request"],
+          :body => "some error",
         )
 
       post :create, params: { :site_id => "rennes", :format => :json }, body: payload.to_json, as: :json
       expect(response.status).to eq 400
-      expect(response.body).to eq "Request to #{expected_url} failed with status 400: some error"
+      expect(response.body).to eq "Request to #{expected_url} failed with status 400: Bad Request"
     end
   # abasu : unit test for bug ref 5912 to handle error codes - 02.04.2015
     it "should return a 400 error if the OAR API returns 400 error code" do
@@ -287,7 +288,7 @@ describe JobsController do
           :status => 202, :body => fixture("oarapi-deleted-job.json")
         )
 
-      delete :destroy, params: { :site_id => "rennes", :id => @job.uid, :format => :json } 
+      delete :destroy, params: { :site_id => "rennes", :id => @job.uid, :format => :json }
       expect(response.status).to eq 202
       expect(response.body).to be_empty
       expect(response.location).to eq "http://api-in.local/sites/rennes/jobs/#{@job.uid}"

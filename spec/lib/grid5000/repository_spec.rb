@@ -195,14 +195,6 @@ describe Grid5000::Repository do
       end
     end # describe "expanding an object"
 
-    describe "async find" do
-      it "should defer the execution and return the result" do
-        result = EM::Synchrony.sync @repository.async_find(
-          "grid5000/sites/bordeaux/clusters/bordemer/nodes/bordemer-1"
-        )
-      end
-    end
-
     describe "versions_for" do
       it "find the versions for a resource" do
         # abasu - 24.10.2016 - update "total" value from 8 to 10
@@ -213,7 +205,6 @@ describe Grid5000::Repository do
       end
     end # describe versions_for
   end # describe "with a working repository"
-
 
 
   # it "should description" do

@@ -25,13 +25,13 @@ if defined?(Bundler)
 end
 
 # Explicitly require libs when gem name is not sufficient
-require 'em-synchrony'
-require 'em-synchrony/em-http'
-require 'em-http'
 require 'addressable/uri'
 require 'rack/fiber_pool'
 require 'rack/jsonp'
 require 'rack/lint'
+
+# Use net/http to contact other g5k's services
+require "net/http"
 
 module Api
 
