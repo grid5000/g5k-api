@@ -24,6 +24,9 @@ Api::Application.configure do
   config.eager_load = false
   # Show full error reports.
   config.consider_all_requests_local = true
+  #
+  # Disable request forgery protection in development environment.
+  config.action_controller.allow_forgery_protection = false
 
   # Enable/disable caching. By default caching is disabled.
   # Run rails dev:cache to toggle caching.
