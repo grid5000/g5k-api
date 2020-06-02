@@ -205,12 +205,4 @@ describe Grid5000::Repository do
       end
     end # describe versions_for
   end # describe "with a working repository"
-
-
-  # it "should description" do
-  #   object = repository.async_find(sha, :branch => "master") do |hash, uri|
-  #     hash['links'] = links_for(hash, uri)
-  #   end
-  #
-  # end
 end

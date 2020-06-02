@@ -143,19 +143,6 @@ module Grid5000
       path
     end
 
-    def async_find(*args)
-      require 'eventmachine'
-      self.extend(EventMachine::Deferrable)
-      callback = proc { |result|
-        set_deferred_status :succeeded, result
-      }
-
-      EM.defer(proc{
-        result = find(*args)
-      }, callback)
-      self
-    end
-
     def versions_for(path, options = {})
       branch, offset, limit = options.values_at(:branch, :offset, :limit)
       branch ||= 'master'
