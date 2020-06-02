@@ -102,10 +102,10 @@ describe Grid5000::Deployment do
     it "should work [environment description file]" do
       @deployment.environment = "http://server.com/some/file.dsc"
       expect(@deployment.to_hash).to be == {
-        "environment"=>{}, 
-        "nodes"=>["paradent-1.rennes.grid5000.fr"], 
+        "environment"=>{},
+        "nodes"=>["paradent-1.rennes.grid5000.fr"],
         "hook"=>true
-      }    
+      }
     end
 
     it "should work [environment associated to a specific user]" do
@@ -151,7 +151,7 @@ describe Grid5000::Deployment do
         "vlan" => "3",
         "disable_disk_partitioning" => true,
         "disable_bootloader_install" => true,
-        "force" => true,        
+        "force" => true,
         "hook" => true
       }
     end
@@ -421,39 +421,4 @@ describe Grid5000::Deployment do
     end # describe "with a deployment in the :processing status"
   end # describe "calls to kadeploy server"
 =end
-
-  describe "notification delivery" do
-
-    it "should not deliver a notification if notifications is blank" do
-      @deployment.notifications = nil
-      expect(Grid5000::Notification).not_to receive(:new)
-      expect(@deployment.deliver_notification).to be true
-    end
-
-    it "should deliver a notification if notifications is not empty" do
-      @deployment.notifications = ["mailto:cyril.rohr@inria.fr"]
-      allow(@deployment).to receive(:notification_message).and_return(msg = "msg")
-      expect(Grid5000::Notification).to receive(:new).
-        with(msg, :to => ["mailto:cyril.rohr@inria.fr"]).
-        and_return(notif = double("notif"))
-      expect(notif).to receive(:deliver!).and_return(true)
-      expect(@deployment.deliver_notification).to be true
-    end
-
-    it "should always return true even if the notification delivery failed" do
-      @deployment.notifications = ["mailto:cyril.rohr@inria.fr"]
-      allow(@deployment).to receive(:notification_message).and_return(msg = "msg")
-      expect(Grid5000::Notification).to receive(:new).
-        with(msg, :to => ["mailto:cyril.rohr@inria.fr"]).
-        and_return(notif = double("notif"))
-      expect(notif).to receive(:deliver!).and_raise(Exception.new("message"))
-      expect(@deployment.deliver_notification).to be true
-    end
-
-    it "build the correct notification message" do
-      @deployment.notifications = ["mailto:cyril.rohr@inria.fr"]
-      expect(@deployment.notification_message).to be == JSON.pretty_generate(@deployment.as_json)
-    end
-  end
-
 end
