@@ -128,7 +128,7 @@ describe JobsController do
           :body => Grid5000::Job.new(payload).to_hash(:destination => "oar-2.4-submission").to_json
         ).
         to_return(
-          :headers => { "Location" => expected_url, "Custom" => "foo" },
+          :headers => { "Location" => expected_url },
           :status => [400, "Bad Request"],
           :body => "some error",
         )
@@ -154,8 +154,8 @@ describe JobsController do
           :body => Grid5000::Job.new(payload).to_hash(:destination => "oar-2.4-submission").to_json
         ).
         to_return(
-          :status => 400,
-          :body => "Bad Request"
+          :status => [400, "Bad Request"],
+          :headers => { 'Location' => expected_url },
         )
 
       post :create, params: { :site_id => "rennes", :format => :json }, body: payload.to_json, as: :json
@@ -180,8 +180,8 @@ describe JobsController do
           :body => Grid5000::Job.new(payload).to_hash(:destination => "oar-2.4-submission").to_json
         ).
         to_return(
-          :status => 401,
-          :body => "Authorization Required"
+          :status => [401, "Authorization Required"],
+          :headers => { 'Location' => expected_url },
         )
 
       post :create, params: { :site_id => "rennes", :format => :json }, body: payload.to_json, as: :json
@@ -272,12 +272,13 @@ describe JobsController do
       stub_request(:delete, @expected_url).
         with(:headers => @expected_headers).
         to_return(
-          :status => 400, :body => "some error"
+          :headers => { 'Location' => @expected_url },
+          :status => [400, "Bad Request"], :body => "some error"
         )
 
       delete :destroy, params: { :site_id => "rennes", :id => @job.uid, :format => :json }
       expect(response.status).to eq 400
-      expect(response.body).to eq "Request to #{@expected_url} failed with status 400: some error"
+      expect(response.body).to eq "Request to #{@expected_url} failed with status 400: Bad Request"
     end
 
     it "should return 202, and the Location header if successful" do

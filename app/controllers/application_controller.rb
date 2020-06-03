@@ -106,6 +106,10 @@ class ApplicationController < ActionController::Base
 
     status = http.code.to_i  # get the status from the http response
 
+    # hack to make rspec tests working, indeed for a unknown reason, http.uri is
+    # nil when running the specs suite
+    http.uri = http.header['Location'] if http.uri.nil?
+
     if status.between?(400, 599)  # error status
       # http.method always returns nil. Bug?
       # msg = "#{http.method} #{http.uri} failed with status #{status}"
