@@ -82,14 +82,6 @@ push-buster-package-v3: &push-buster-package-v3
   script:
     - *push-packages-script
 
-push-buster-package-v4: &push-buster-package-v4
-  <<: *push-buster-package-v3
-  variables:
-    TARGET_DEBIAN_VERSION: buster
-    TARGET_G5K_API_VARIANT: v4
-  only:
-    - devel
-
 push-buster-package-devel: &push-buster-package-devel
   <<: *push-buster-package-v3
   variables:
