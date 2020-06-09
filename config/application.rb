@@ -52,6 +52,7 @@ module Api
     config.middleware.insert_before Rack::Runtime, Rack::FiberPool, :size => 15
     config.middleware.use Rack::PrettyJSON, :warning => true
     config.middleware.use Rack::JSONP, :carriage_return => true
+    config.middleware.use ActionDispatch::Flash
     # config.middleware.delete ActionDispatch::ShowExceptions
 
     config.generators do |g|

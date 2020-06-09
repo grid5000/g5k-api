@@ -15,6 +15,10 @@
 class ApplicationController < ActionController::Base
   include ApplicationHelper
 
+  # Enable forgery request protection only in API
+  # See: https://api.rubyonrails.org/classes/ActionController/RequestForgeryProtection.html
+  protect_from_forgery unless: -> { request.format.json? }
+
   before_action :lookup_credentials
   before_action :parse_json_payload, :only => [:create, :update, :destroy]
   before_action :set_default_format
