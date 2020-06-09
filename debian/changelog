@@ -1,3 +1,30 @@
+g5k-api (4.5.0) unstable; urgency=low
+
+  * de98b73 simplify boot.rb file
+  * 177a3a0 Fix job_controller_spec api's returned URI
+  * d40e107 Remove async_find method which used EventMachine
+  * a121b9c Remove notifications: controller, model and test (bug 11928)
+  * fc8229f Remove eventmachine and em-synchrony
+  * 70ab850 Disable forgery protection in development environment
+  * d5731ef Add byebug to test and development Gems
+  * d2fe67f Update rails to 6.0.3 and thin to 1.7.2
+  * 68a67d8 [ci] Fix debian packages generation by installing the required bundler
+  * eac865e Update em-postgresql-adapter to last version (supporting rails > 5)
+  * 90b5c82 Rename media_type helper to api_media_type helper.
+  * 1556181 Fix validates_uniqueness_of deprecated case sensitive
+  * 24af88d Use mysql2 adapter instead of em-mysql2
+  * fd37bf9 Update to rails 6.0
+  * f7c9025 Fix post rspec requests by using `body:` instead of send_payload method
+  * 40d2aa4 Fix the way of installing bundler and rake (via gem) and remove jessie support from CI
+  * e069c09 Update to rails 5.2
+  * ea11179 Correctly use throw(:abort) to return false when uid is missing to start a deployment
+  * 09f1711 Add libssl-dev to test and build process (required when installing event machine gem)
+  * 039ab66 Update to rails 5.1
+  * 954d71b Remove deprecated in rspecs
+  * 064ef15 Update to rails 5.0.7
+
+ -- Samir Noir <samir.noir@inria.fr>  Tue, 09 Jun 2020 15:54:03 +0200
+
 g5k-api (4.4.8) unstable; urgency=low
 
   * 95ef50b fix ci when uploading packages
