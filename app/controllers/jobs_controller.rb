@@ -68,29 +68,26 @@ class JobsController < ApplicationController
     job = OAR::Job.find(params[:id])
     authorize!(job.user)
 
-    url = uri_to(
+    uri = URI(uri_to(
       site_path(
         params[:site_id]
       )+"/internal/oarapi/jobs/#{params[:id]}.json",
       :out
-    )
-    options=tls_options_for(url, :out)
-    http = EM::HttpRequest.new(url,{:tls => options}).delete(
-      :timeout => 5,
-      :head => {
-        'X-Remote-Ident' => @credentials[:cn],
-        'X-Api-User-Cn' => @credentials[:cn],
-        'Accept' => media_type(:json)
-      }
-    )
+    ))
+    tls_options = tls_options_for(uri, :out)
+    headers = { 'Accept' => api_media_type(:json),
+                'X-Remote-Ident' => @credentials[:cn],
+                'X-Api-User-Cn' => @credentials[:cn],
+              }
+    http = http_request(:delete, uri, tls_options, 5, headers)
 
     continue_if!(http, :is => [200,202,204,404])
 
-    if http.response_header.status == 404
+    if http.code.to_i == 404
       raise NotFound, "Cannot find job##{params[:id]} on the OAR server"
     else
-      response.headers['X-Oar-Info'] = (
-        JSON.parse(http.response)['oardel_output'] || ""
+      response.header['X-Oar-Info'] = (
+        JSON.parse(http.body)['oardel_output'] || ""
       ).split("\n").join(" ") rescue "-"
 
       location_uri = uri_to(
@@ -117,22 +114,21 @@ class JobsController < ApplicationController
     job_to_send = job.to_hash(:destination => "oar-2.4-submission")
     Rails.logger.info "Submitting #{job_to_send.inspect}"
 
-    url = uri_to(
+    uri = URI(uri_to(
       site_path(params[:site_id])+"/internal/oarapi/jobs.json", :out
-    )
-    options=tls_options_for(url, :out)
-    http = EM::HttpRequest.new(url, {:tls => options}).post(
-      :timeout => 20,
-      :body => job_to_send.to_json,
-      :head => {
-        'X-Remote-Ident' => @credentials[:cn],
-        'X-Api-User-Cn' => @credentials[:cn],
-        'Content-Type' => media_type(:json),
-        'Accept' => media_type(:json)
-      }    )
+    ))
+    tls_options = tls_options_for(uri, :out)
+    headers = { 'X-Remote-Ident' => @credentials[:cn],
+                'X-Api-User-Cn' => @credentials[:cn],
+                'Content-Type' => api_media_type(:json),
+                'Accept' => api_media_type(:json)
+              }
+
+    http = http_request(:post, uri, tls_options, 5, headers, job_to_send.to_json)
+
     continue_if!(http, :is => [201,202])
 
-    job_uid = JSON.parse(http.response)['id']
+    job_uid = JSON.parse(http.body)['id']
     location_uri = uri_to(
       resource_path(job_uid),
       :in, :absolute
@@ -140,7 +136,7 @@ class JobsController < ApplicationController
 
     job = OAR::Job.expanded.includes(:job_types, :job_events, :gantt).find(job_uid)
     job.links = links_for_item(job)
-    
+
     render_opts = {
       :methods => [:resources_by_type, :assigned_nodes],
       :location => location_uri,
@@ -178,12 +174,12 @@ class JobsController < ApplicationController
       {
         "rel" => "self",
         "href" => uri_to(resource_path(item.uid)),
-        "type" => media_type(:g5kitemjson)
+        "type" => api_media_type(:g5kitemjson)
       },
       {
         "rel" => "parent",
         "href" => uri_to(parent_path),
-        "type" => media_type(:g5kitemjson)
+        "type" => api_media_type(:g5kitemjson)
       }
     ]
   end
@@ -193,12 +189,12 @@ class JobsController < ApplicationController
       {
         "rel" => "self",
         "href" => uri_to(collection_path),
-        "type" => media_type(:g5kcollectionjson)
+        "type" => api_media_type(:g5kcollectionjson)
       },
       {
         "rel" => "parent",
         "href" => uri_to(parent_path),
-        "type" => media_type(:g5kitemjson)
+        "type" => api_media_type(:g5kitemjson)
       }
     ]
   end

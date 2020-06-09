@@ -53,12 +53,12 @@ describe SitesController do
 
   describe "GET /sites/{{site_id}}" do
     it "should fail if the site does not exist" do
-      get :show, :id => "doesnotexist", :format => :json
+      get :show, params: { :id => "doesnotexist", :format => :json }
       expect(response.status).to eq 404
     end
 
-    it "should return the site" do      
-      get :show, :id => "rennes", :format => :json
+    it "should return the site" do
+      get :show, params: { :id => "rennes", :format => :json }
       expect(response.status).to eq 200
       assert_expires_in(60, :public => true)
       expect(json['uid']).to eq 'rennes'
@@ -85,9 +85,9 @@ describe SitesController do
         l['rel'] == 'version'
       }['href']).to eq "/sites/rennes/versions/8a562420c9a659256eeaafcfd89dfa917b5fb4d0"
     end
-    
+
     it "should return subresource links that are only in testing branch" do
-      get :show, :id => "lille", :format => :json, :branch => "testing"
+      get :show, params: { :id => "lille", :format => :json, :branch => "testing" }
       expect(response.status).to eq 200
       expect(json['links'].map{|l| l['rel']}.sort).to eq [
         "clusters",
@@ -104,20 +104,20 @@ describe SitesController do
         "vlans"
       ]
     end
-    
+
     # abasu 19.10.2016 - bug #7364 changed "deployments" to "deployment"
     it "should return link for deployment" do
-      get :show, :id => "rennes", :format => :json
+      get :show, params: { :id => "rennes", :format => :json }
       expect(response.status).to eq 200
       expect(json['uid']).to eq 'rennes'
       expect(json['links'].find{|l|
         l['rel'] == 'deployments'
       }['href']).to eq "/sites/rennes/deployments"
     end # it "should return link for deployment" do
-    
+
     # abasu 26.10.2016 - bug #7301 should return link /servers if present in site
     it "should return link /servers if present in site" do
-      get :show, :id => "nancy", :format => :json
+      get :show, params: { :id => "nancy", :format => :json }
       expect(response.status).to eq 200
       expect(json['uid']).to eq 'nancy'
       expect(json['links'].find{|l|
@@ -126,7 +126,7 @@ describe SitesController do
     end # it "should return link /servers if present in site" do
 
     it "should return the specified version, and the max-age value in the Cache-Control header should be big" do
-      get :show, :id => "rennes", :format => :json, :version => "b00bd30bf69c322ffe9aca7a9f6e3be0f29e20f4"
+      get :show, params: { :id => "rennes", :format => :json, :version => "b00bd30bf69c322ffe9aca7a9f6e3be0f29e20f4" }
       expect(response.status).to eq 200
       assert_expires_in(24*3600*30, :public => true)
       expect(json['uid']).to eq 'rennes'
@@ -144,7 +144,7 @@ describe SitesController do
     end
 
     it "should return 200 and the site status" do
-      get :status, :id => "rennes", :format => :json
+      get :status, params: { :id => "rennes", :format => :json }
       expect(response.status).to eq 200
       expect(json['nodes'].length).to eq 196
       expect(json['nodes'].keys.map{|k| k.split('-')[0]}.uniq.sort).to eq [
@@ -162,8 +162,8 @@ describe SitesController do
     end
 
     # GET /sites/{{site_id}}/status?network_address={{network_address}}
-    it "should return the status ONLY for the specified node" do      
-      get :status, :id => "rennes", :network_address => "paramount-4.rennes.grid5000.fr", :format => :json
+    it "should return the status ONLY for the specified node" do
+      get :status, params: { :id => "rennes", :network_address => "paramount-4.rennes.grid5000.fr", :format => :json }
       expect(response.status).to eq 200
       expect(json['nodes'].keys.map{|k| k.split('.')[0]}.uniq.sort).to eq ['paramount-4']
       expect(json['disks']).to be_empty
@@ -171,8 +171,8 @@ describe SitesController do
     end
 
     # GET /sites/{{site_id}}/status?disks=no
-    it "should return the status of nodes but not disks" do      
-      get :status, :id => "rennes", :disks => "no", :format => :json
+    it "should return the status of nodes but not disks" do
+      get :status, params: { :id => "rennes", :disks => "no", :format => :json }
       expect(response.status).to eq 200
       expect(json['nodes'].length).to eq 196
       expect(json['nodes'].keys.map{|k| k.split('-')[0]}.uniq.sort).to eq [
@@ -185,8 +185,8 @@ describe SitesController do
     end
 
     # GET /sites/{{site_id}}/status?job_details=no
-    it "should return the status without the reservations" do      
-      get :status, :id => "rennes", :job_details => "no", :format => :json
+    it "should return the status without the reservations" do
+      get :status, params: { :id => "rennes", :job_details => "no", :format => :json }
       expect(response.status).to eq 200
       expect(json['nodes'].length).to eq 196
       expect(json['nodes'].keys.map{|k| k.split('-')[0]}.uniq.sort).to eq [
@@ -200,7 +200,7 @@ describe SitesController do
 
     it "should fail gracefully in the event of a grit timeout" do
       expect_any_instance_of(Grid5000::Repository).to receive(:find_commit_for).and_raise(Grit::Git::GitTimeout)
-      get :status, :id => "rennes", :job_details => "no", :format => :json
+      get :status, params: { :id => "rennes", :job_details => "no", :format => :json }
       expect(response.status).to eq 503
     end
 
@@ -212,7 +212,7 @@ describe SitesController do
   describe "GET /sites/{{site_id}}/status (by anonymous)" do
     before do
       authenticate_as("anonymous")
-      get :status, :id => "rennes", :format => :json
+      get :status, params: { :id => "rennes", :format => :json }
       expect(response.status).to eq 200
     end
 
@@ -224,7 +224,7 @@ describe SitesController do
     # unknown users are authenticated users for which we don't have the precise login
     before do
       authenticate_as("unknown")
-      get :status, :id => "rennes", :format => :json
+      get :status, params: { :id => "rennes", :format => :json }
       expect(response.status).to eq 200
     end
 

@@ -25,13 +25,13 @@ if defined?(Bundler)
 end
 
 # Explicitly require libs when gem name is not sufficient
-require 'em-synchrony'
-require 'em-synchrony/em-http'
-require 'em-http'
 require 'addressable/uri'
 require 'rack/fiber_pool'
 require 'rack/jsonp'
 require 'rack/lint'
+
+# Use net/http to contact other g5k's services
+require "net/http"
 
 module Api
 
@@ -41,6 +41,8 @@ module Api
     # -- all .rb files in that directory are automatically loaded.
 
     # config.middleware.insert_before Rack::Runtime, Rack::FiberPool
+
+    config.load_defaults "6.0"
 
     # Custom directories with classes and modules you want to be autoloadable.
     #config.autoload_paths += Dir["#{config.root}/lib/**/"]

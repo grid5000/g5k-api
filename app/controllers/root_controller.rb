@@ -66,7 +66,7 @@ class RootController < ResourcesController
     %w{users notifications}.each do |rel|
       links.push({
         "rel" => rel,
-        "type" => media_type(:g5kcollectionjson),
+        "type" => api_media_type(:g5kcollectionjson),
         "href" => uri_to(File.join(resource_path(item["uid"]), rel))
       })
     end

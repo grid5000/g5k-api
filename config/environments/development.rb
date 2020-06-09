@@ -19,10 +19,30 @@ Api::Application.configure do
   # every request.  This slows down response time but is perfect for development
   # since you don't have to restart the webserver when you make code changes.
   config.cache_classes = false
-  config.eager_load = false #added when migrating to rails 4.0.0 to ensure thread_safe! behaviour
 
-  # Show full error reports and disable caching
-  config.consider_all_requests_local       = true
+  # Do not eager load code on boot.
+  config.eager_load = false
+  # Show full error reports.
+  config.consider_all_requests_local = true
+  #
+  # Disable request forgery protection in development environment.
+  config.action_controller.allow_forgery_protection = false
+
+  # Enable/disable caching. By default caching is disabled.
+  # Run rails dev:cache to toggle caching.
+  if Rails.root.join('tmp', 'caching-dev.txt').exist?
+    config.action_controller.perform_caching = true
+
+    config.cache_store = :memory_store
+    config.public_file_server.headers = {
+      'Cache-Control' => "public, max-age=#{2.days.to_i}"
+    }
+  else
+    config.action_controller.perform_caching = false
+
+    config.cache_store = :null_store
+  end
+
   config.action_controller.perform_caching = false
 
   # Don't care if the mailer can't send
@@ -31,14 +51,31 @@ Api::Application.configure do
   # Print deprecation notices to the Rails logger
   config.active_support.deprecation = :log
 
+  # Raise an error on page load if there are pending migrations.
+  config.active_record.migration_error = :page_load
+
+  # Highlight code that triggered database queries in logs.
+  config.active_record.verbose_query_logs = true
+
   # Only use best-standards-support built into browsers
   config.action_dispatch.best_standards_support = :builtin
 
   # Do not compress assets
   config.assets.compress = false
 
-  # Expands the lines which load the assets
+  # Debug mode disables concatenation and preprocessing of assets.
+  # This option may cause significant delays in view rendering with a large
+  # number of complex assets.
   config.assets.debug = true
 
+  # Suppress logger output for asset requests.
+  config.assets.quiet = true
+
+  # Raises error for missing translations
+  # config.action_view.raise_on_missing_translations = true
+
+  # Use an evented file watcher to asynchronously detect changes in source code,
+  # routes, locales, etc. This feature depends on the listen gem.
+  # config.file_watcher = ActiveSupport::EventedFileUpdateChecker
 end
 

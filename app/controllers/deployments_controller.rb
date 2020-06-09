@@ -86,7 +86,7 @@ class DeploymentsController < ApplicationController
       :in, :absolute
     )
 
-    render  :text => "",
+    render  :plain => "",
             :head => :ok,
             :location => location_uri,
             :status => 202
@@ -98,7 +98,7 @@ class DeploymentsController < ApplicationController
   def create
     ensure_authenticated!
     begin
-      payload=deployment_params
+      payload=deployment_params.to_h
       Rails.logger.debug "Creating deployment with #{payload} from #{params} (after permit)"
 
       dpl = Grid5000::Deployment.new(payload)
@@ -165,7 +165,7 @@ class DeploymentsController < ApplicationController
       :in, :absolute
     )
 
-    render  :text => "",
+    render  :plain => "",
             :head => :ok,
             :location => location_uri,
             :status => 204
@@ -198,12 +198,12 @@ class DeploymentsController < ApplicationController
       {
         "rel" => "self",
         "href" => uri_to(resource_path(item['uid'])),
-        "type" => media_type(:g5kitemjson)
+        "type" => api_media_type(:g5kitemjson)
       },
       {
         "rel" => "parent",
         "href" => uri_to(parent_path),
-        "type" => media_type(:g5kitemjson)
+        "type" => api_media_type(:g5kitemjson)
       }
     ]
   end
@@ -213,12 +213,12 @@ class DeploymentsController < ApplicationController
       {
         "rel" => "self",
         "href" => uri_to(collection_path),
-        "type" => media_type(:g5kcollectionjson)
+        "type" => api_media_type(:g5kcollectionjson)
       },
       {
         "rel" => "parent",
         "href" => uri_to(parent_path),
-        "type" => media_type(:g5kitemjson)
+        "type" => api_media_type(:g5kitemjson)
       }
     ]
   end

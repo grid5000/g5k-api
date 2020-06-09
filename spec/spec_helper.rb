@@ -41,7 +41,7 @@ module MediaTypeHelper
   class MediaTypeError < StandardError; end
 
   def assert_media_type(type)
-    response.headers['Content-Type'].should =~ case type
+    expect(response.headers['Content-Type']).to match case type
     when :json
       %r{application/json}
     when :txt
@@ -58,30 +58,20 @@ module HeaderHelper
   class HeaderError < StandardError; end
 
   def assert_vary_on(*args)
-    (response.headers['Vary'] || "").downcase.split(/\s*,\s*/).sort.should == args.map{|v| v.to_s.dasherize}.sort
+    expect((response.headers['Vary'] || "").downcase.split(/\s*,\s*/).sort).to eq(args.map{|v| v.to_s.dasherize}.sort)
   end
   def assert_allow(*args)
-    (response.headers['Allow'] || "").downcase.split(/\s*,\s*/).sort.should == args.map{|v| v.to_s.dasherize}.sort
+    expect((response.headers['Allow'] || "").downcase.split(/\s*,\s*/).sort).to eq(args.map{|v| v.to_s.dasherize}.sort)
   end
   def assert_expires_in(seconds, options = {})
     values = (response.headers['Cache-Control'] || "").downcase.split(/\s*,\s*/)
-    values.should include("public") if options[:public]
-    values.should include("max-age=#{seconds}")
+    expect(values).to include("public") if options[:public]
+    expect(values).to include("max-age=#{seconds}")
   end
 
   def authenticate_as(username)
     header = "HTTP_"+Rails.my_config(:header_user_cn).gsub("-","_").upcase
     @request.env[header] = username
-  end
-
-  def send_payload(h, type)
-    case type
-    when :json
-      @request.env['RAW_POST_DATA'] = JSON.dump(h)
-      @request.env['CONTENT_TYPE'] = media_type(type)
-    else
-      raise StandardError, "Don't know how to send payload of type #{type.inspect}"
-    end
   end
 end
 
@@ -115,14 +105,11 @@ RSpec.configure do |config|
       system "mv #{File.join(@repository_path, '.git')} #{File.join(@repository_path, 'git.rename')}"
     end
   end
-  
+
   config.around(:each) do |example|
     Rails.logger.debug example.metadata[:full_description]
-    EM.synchrony do
-      ActiveRecord::Base.connection_pool.with_connection do
-        example.run
-      end
-      EM.stop
+    ActiveRecord::Base.connection_pool.with_connection do
+      example.run
     end
   end
 

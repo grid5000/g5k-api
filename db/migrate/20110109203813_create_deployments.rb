@@ -12,7 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-class CreateDeployments < ActiveRecord::Migration
+class CreateDeployments < ActiveRecord::Migration[4.2]
   def self.up
     create_table :deployments, :options => 'ENGINE=InnoDB DEFAULT CHARSET=utf8' do |t|
       t.string    :uid
