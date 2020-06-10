@@ -1,3 +1,11 @@
+g5k-api (4.5.1) unstable; urgency=low
+
+  * 1a9e275 Remove a mention about eventmachine in application_controller
+  * 0bd79bb Add missing ActionDispatch::Flash middleware and forgery protection
+  * 1e4ec69 [ci] Remove v4 package generation since only devel is used
+
+ -- Samir Noir <samir.noir@inria.fr>  Wed, 10 Jun 2020 09:25:29 +0200
+
 g5k-api (4.5.0) unstable; urgency=low
 
   * de98b73 simplify boot.rb file
