@@ -173,7 +173,7 @@ class ApplicationController < ActionController::Base
       when 503
         raise ServerUnavailable, msg
       else
-        raise ServerError, "Request to #{http.uri.to_s} failed with unexpected status #{status}: #{http} ; could be a problem with our version of eventmachine not supporting IPv6, or TLS problems"
+        raise ServerError, "Request to #{http.uri.to_s} failed with unexpected status #{status}: #{http} ; could be a TLS problem"
     end
   end
 
