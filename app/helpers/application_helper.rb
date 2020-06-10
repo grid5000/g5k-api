@@ -30,6 +30,10 @@ module ApplicationHelper
     Grid5000::Router.tls_options_for(url, in_or_out)
   end
 
+  def http_request(method, uri, tls_options, timeout = nil, headers = {}, body = nil)
+    Grid5000::Router.http_request(method, uri, tls_options, timeout, headers, body)
+  end
+
   def repository
     @repository ||= Grid5000::Repository.new(
       File.expand_path(
@@ -46,31 +50,5 @@ module ApplicationHelper
     if t
       t.to_s
     end
-  end
-
-  def http_request(method, uri, tls_options, timeout = nil, headers = {}, body = nil)
-    http = Net::HTTP.new(uri.host, uri.port)
-    http.read_timeout = 5 if timeout
-    http.use_ssl = true if uri.scheme == 'https'
-
-    if tls_options && !tls_options.empty?
-      http.cert = OpenSSL::X509::Certificate.new(File.read(tls_options[:cert_chain_file]))
-      http.key = OpenSSL::PKey::RSA.new(File.read(tls_options[:private_key_file]))
-      http.verify_mode = tls_options[:verify_peer]
-    end
-
-    request = case method
-              when :post
-                Net::HTTP::Post.new(uri, headers)
-              when :get
-                Net::HTTP::Get.new(uri, headers)
-              when :delete
-                Net::HTTP::Delete.new(uri, headers)
-              else
-                raise "Unknown http method: #{method}"
-              end
-
-    request.body = body if body
-    http.request(request)
   end
 end
