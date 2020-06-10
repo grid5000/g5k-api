@@ -18,6 +18,8 @@ require 'fileutils'
 module Grid5000
   # The Deployment class represents a deployment that is launched using the Kadeploy3 tool.
   class Deployment < ActiveRecord::Base
+    include ApplicationHelper
+
     attr_accessor :links
     # Ugly hack to make the communication between the controller and the model possible
     attr_accessor :base_uri, :user, :tls_options
@@ -129,15 +131,15 @@ module Grid5000
 
       headers = { 'X-Remote-Ident' => user }
       uri = base_uri + uid
-      response = http_request(:delete, uri, tls_options, 15, headers, body.to_s)
+      http = http_request(:delete, uri, tls_options, 15, headers)
 
-      unless %w{200 201 202 204}.include?(response.status.to_s)
+      unless %w{200 201 202 204}.include?(http.code.to_s)
         error("Unable to contact #{File.join(base_uri,uid)}")
         raise self.output+"\n"
       end
 
       # Not checked since it avoid touch! to cancel the deployment
-      #unless %w{200 201 202 204}.include?(http.response_header.status.to_s)
+      #unless %w{200 201 202 204}.include?(http.response_header.code.to_s)
       #  fail
       #  raise "The deployment no longer exists on the Kadeploy server"
       #end
@@ -170,17 +172,17 @@ module Grid5000
       Rails.logger.info "Submitting: #{params.inspect} to #{base_uri}"
 
       headers = { 'Content-Type' => Mime::Type.lookup_by_extension(:json).to_s,
-                  'Accept' => Mime::Type.lookup_by_extension,
+                  'Accept' => Mime::Type.lookup_by_extension(:json).to_s,
                   'X-Remote-Ident' => user,
                 }
-      http = http_request(:post, base_uri, tls_options, 20, headers)
+      http = http_request(:post, base_uri, tls_options, 20, headers, params.to_json)
 
-      unless %w{200 201 202 204}.include?(http.status.to_s)
+      unless %w{200 201 202 204}.include?(http.code.to_s)
         error("Unable to contact #{base_uri}")
         raise self.output+"\n"
       end
 
-      if %w{200 201 202 204}.include?(http.status.to_s)
+      if %w{200 201 202 204}.include?(http.code.to_s)
         update_attribute(:uid, JSON.parse(http.body)['wid'])
       else
         error(get_kaerror(http,http.headers))
@@ -203,7 +205,7 @@ module Grid5000
         raise self.output+"\n"
       end
 
-      if %w{200 201 202 204}.include?(http.status.to_s)
+      if %w{200 201 202 204}.include?(http.code.to_s)
         item = JSON.parse(http.body)
 
         unless item['error']

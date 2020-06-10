@@ -68,12 +68,12 @@ class JobsController < ApplicationController
     job = OAR::Job.find(params[:id])
     authorize!(job.user)
 
-    uri = URI(uri_to(
+    uri = uri_to(
       site_path(
         params[:site_id]
       )+"/internal/oarapi/jobs/#{params[:id]}.json",
       :out
-    ))
+    )
     tls_options = tls_options_for(uri, :out)
     headers = { 'Accept' => api_media_type(:json),
                 'X-Remote-Ident' => @credentials[:cn],
@@ -114,9 +114,9 @@ class JobsController < ApplicationController
     job_to_send = job.to_hash(:destination => "oar-2.4-submission")
     Rails.logger.info "Submitting #{job_to_send.inspect}"
 
-    uri = URI(uri_to(
+    uri = uri_to(
       site_path(params[:site_id])+"/internal/oarapi/jobs.json", :out
-    ))
+    )
     tls_options = tls_options_for(uri, :out)
     headers = { 'X-Remote-Ident' => @credentials[:cn],
                 'X-Api-User-Cn' => @credentials[:cn],

@@ -25,15 +25,15 @@ module Grid5000
   #   resources of a single site (https://rennes.g5k/ ony giving access to
   #   resources under the /sites/rennes path
   class Router
-    
+
     def initialize(where)
       @where = where
     end
-    
+
     def call(params, request)
       self.class.uri_to(request, @where, :in, :absolute)
     end
-    
+
     class << self
       def uri_to(request, path, in_or_out = :in, relative_or_absolute = :relative)
         root_path = if request.env['HTTP_X_API_ROOT_PATH'].blank? || in_or_out == :out
@@ -70,7 +70,7 @@ module Grid5000
           root_uri=URI(base_uri(in_or_out))
           if root_uri.path.blank?
             root_path=''
-          else	
+          else
             root_path=root_uri.path
           end # if root_uri.path.blank?
 
@@ -79,22 +79,48 @@ module Grid5000
         uri
       end # def uri_to()
 
-
       # FIXME: move Rails.config to Grid5000.config
       def base_uri(in_or_out = :in)
         Rails.my_config("base_uri_#{in_or_out}".to_sym)
       end
 
       def tls_options_for(url, in_or_out = :in)
-        tls_options={}
+        tls_options = {}
         [:cert_chain_file, :private_key_file, :verify_peer, :fail_if_no_peer_cert,
          :cipher_list, :ecdh_curve, :dhparam, :ssl_version].each do |tls_param|
-          config_key=("uri_#{in_or_out.to_s}_"+tls_param.to_s).to_sym
+          config_key = ("uri_#{in_or_out.to_s}_" + tls_param.to_s).to_sym
           if Rails.my_config(config_key)
-            tls_options[tls_param]=Rails.my_config(config_key)
+            tls_options[tls_param] = Rails.my_config(config_key)
           end
         end
         tls_options
+      end
+
+      def http_request(method, uri, tls_options, timeout = nil, headers = {}, body = nil)
+        uri = URI(uri)
+        http = Net::HTTP.new(uri.host, uri.port)
+        http.read_timeout = 5 if timeout
+        http.use_ssl = true if uri.scheme == 'https'
+
+        if tls_options && !tls_options.empty?
+          http.cert = OpenSSL::X509::Certificate.new(File.read(tls_options[:cert_chain_file]))
+          http.key = OpenSSL::PKey::RSA.new(File.read(tls_options[:private_key_file]))
+          http.verify_mode = tls_options[:verify_peer]
+        end
+
+        request = case method
+                  when :post
+                    Net::HTTP::Post.new(uri, headers)
+                  when :get
+                    Net::HTTP::Get.new(uri, headers)
+                  when :delete
+                    Net::HTTP::Delete.new(uri, headers)
+                  else
+                    raise "Unknown http method: #{method}"
+                  end
+
+        request.body = body if body
+        http.request(request)
       end
     end
   end
