@@ -51,20 +51,18 @@ deb-for-buster: &deb-for-buster
     - mk-build-deps -ir -t 'apt-get -y --no-install-recommends'
     - gem install bundler -v 2.1.4
     - apt-get install -y curl pkg-config
-    - mkdir pkg
-    - rm ../*deb
     - dpkg-buildpackage
-    - cp ../*deb pkg/
+    - cp ../*deb .
   artifacts:
     paths:
-    - pkg/g5k-api*.deb
+    - ./*.deb
     expire_in: '1 day'
   except:
     - tags
 
 .push-packages-script: &push-packages-script |
   echo "Request to push for debian version ${TARGET_DEBIAN_VERSION} for branch ${TARGET_G5K_API_VARIANT}"
-  g5k-deploy-files --only-if-tag '^v\d+\.\d+\.\d+' --files 'pkg/g5k-api_*.deb' --directory deb/g5k-api/${TARGET_DEBIAN_VERSION}/${TARGET_G5K_API_VARIANT}
+  g5k-deploy-files --only-if-tag '^v\d+\.\d+\.\d+' --debian --directory deb/g5k-api/${TARGET_DEBIAN_VERSION}/${TARGET_G5K_API_VARIANT}
 
 push-buster-package-v3: &push-buster-package-v3
   stage: deploy
