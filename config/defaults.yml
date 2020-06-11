@@ -27,6 +27,7 @@ defaults: &defaults
     owner: oar
     owner_password: oar
     prepared_statements: false
+    reconnect: true
 
 local_oar_dev_db: &local_oar_dev_db
   <<: *oar
@@ -89,7 +90,7 @@ test_mysql:
     host: 127.0.0.1
     port: 13306
     username: root
-    password:  
+    password:
     database: oar2
 
 
