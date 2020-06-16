@@ -130,7 +130,7 @@ module Grid5000
       raise "cancel_workflow!" if !user or !base_uri # Ugly hack
 
       headers = { 'X-Remote-Ident' => user }
-      uri = base_uri + uid
+      uri = File.join(base_uri, uid)
       http = http_request(:delete, uri, tls_options, 15, headers)
 
       unless %w{200 201 202 204}.include?(http.code.to_s)
@@ -195,10 +195,10 @@ module Grid5000
 
     def touch!
       begin
-        header = { 'Accept' => Mime::Type.lookup_by_extension(:json).to_s,
-                   'X-Remote-Ident' => user
-                 }
-        uri = base_uri + uid
+        headers = { 'Accept' => Mime::Type.lookup_by_extension(:json).to_s,
+                    'X-Remote-Ident' => user
+                  }
+        uri = File.join(base_uri, uid)
         http = http_request(:get, uri, tls_options, 10, headers)
       rescue
         error("Unable to contact #{File.join(base_uri,uid)}")
@@ -210,10 +210,7 @@ module Grid5000
 
         unless item['error']
           begin
-            header = { 'Accept' => Mime::Type.lookup_by_extension(:json).to_s,
-                       'X-Remote-Ident' => user
-                     }
-            uri = base_uir + uid + 'state'
+            uri = File.join(base_uri, uid, 'state')
             http = http_request(:get, uri, tls_options, 15, headers)
           rescue
             error("Unable to contact #{File.join(base_uri,uid, 'state')}")
@@ -229,7 +226,7 @@ module Grid5000
         else
           begin
             headers = { 'X-Remote-Ident' => user }
-            uri = base_uri + uid + 'error'
+            uri = File.join(base_uri, uid, 'error')
             http = http_request(:get, uri, tls_options, 15, headers)
           rescue
             error(get_kaerror(http,http.headers))
