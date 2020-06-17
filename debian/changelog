@@ -1,3 +1,11 @@
+g5k-api (4.5.3) unstable; urgency=low
+
+  * be1f4f2 Fix variables typo and kadeploy API uri concatenation
+  * 109357e Set reconnect to true in databases configuration
+  * 800407a [ci] Fix the way of pushing package, using --debian option
+
+ -- Samir Noir <samir.noir@inria.fr>  Wed, 17 Jun 2020 15:01:19 +0200
+
 g5k-api (4.5.2) unstable; urgency=low
 
   * 48c5584 [ci] Remove old packages before building
