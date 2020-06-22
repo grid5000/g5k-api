@@ -24,7 +24,6 @@ module Grid5000
     # Ugly hack to make the communication between the controller and the model possible
     attr_accessor :base_uri, :user, :tls_options
     serialize :nodes, JSON
-    serialize :notifications, JSON
     serialize :result, JSON
 
     validates_presence_of :user_uid, :site_uid, :environment, :nodes
@@ -49,10 +48,6 @@ module Grid5000
 
     # Experiment states
     state_machine :status, :initial => :waiting do
-      after_transition :processing => :canceled, :do => :deliver_notification
-      after_transition :processing => :error, :do => :deliver_notification
-      after_transition :processing => :terminated, :do => :deliver_notification
-
       before_transition :processing => :canceled, :do => :cancel_workflow!
       before_transition :waiting => :processing, :do => :launch_workflow!
 
@@ -79,25 +74,10 @@ module Grid5000
 
     validate do
       errors.add :nodes, "must be a non-empty list of node FQDN" unless (nodes.kind_of?(Array) && nodes.length > 0)
-      errors.add :notifications, "must be a list of notification URIs" unless (notifications.nil? || notifications.kind_of?(Array))
     end
 
     def processing?
       status.nil? || status == "processing"
-    end
-
-    def deliver_notification
-      unless notifications.blank?
-        begin
-          Grid5000::Notification.new(
-            notification_message,
-            :to => notifications
-          ).deliver!
-        rescue Exception => e
-          Rails.logger.warn "Unable to deliver notification to #{notifications.inspect} for deployment ##{uid}: #{e.class.name} - #{e.message} - #{e.backtrace.join("; ")}"
-        end
-      end
-      true
     end
 
     # When some attributes such as :key are passed as text strings,
@@ -266,10 +246,6 @@ module Grid5000
 
     def as_json(*args)
       attributes.merge(:links => links).reject{|k,v| v.nil? || k=="id"}
-    end
-
-    def notification_message
-      ::JSON.pretty_generate(as_json)
     end
 
     def to_hash

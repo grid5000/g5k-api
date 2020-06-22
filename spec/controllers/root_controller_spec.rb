@@ -34,7 +34,6 @@ describe RootController do
         {"rel"=>"version", "type"=>"application/vnd.grid5000.item+json", "href"=>"/versions/8a562420c9a659256eeaafcfd89dfa917b5fb4d0"},
         {"rel"=>"versions", "type"=>"application/vnd.grid5000.collection+json", "href"=>"/versions"},
         {"rel"=>"users", "type"=>"application/vnd.grid5000.collection+json", "href"=>"/users"},
-        {"rel"=>"notifications", "type"=>"application/vnd.grid5000.collection+json", "href"=>"/notifications"}
       ]
     })
   end
@@ -57,7 +56,6 @@ describe RootController do
         {"rel"=>"version", "type"=>"application/vnd.grid5000.item+json", "href"=>"/sid/versions/8a562420c9a659256eeaafcfd89dfa917b5fb4d0"},
         {"rel"=>"versions", "type"=>"application/vnd.grid5000.collection+json", "href"=>"/sid/versions"},
         {"rel"=>"users", "type"=>"application/vnd.grid5000.collection+json", "href"=>"/sid/users"},
-        {"rel"=>"notifications", "type"=>"application/vnd.grid5000.collection+json", "href"=>"/sid/notifications"}
       ]
     })
   end
