@@ -1,3 +1,9 @@
+g5k-api (4.5.4) unstable; urgency=low
+
+  * 27e834e No headers are required when getting environments from Kadeploy
+
+ -- Samir Noir <samir.noir@inria.fr>  Tue, 23 Jun 2020 14:28:17 +0200
+
 g5k-api (4.5.3) unstable; urgency=low
 
   * be1f4f2 Fix variables typo and kadeploy API uri concatenation
