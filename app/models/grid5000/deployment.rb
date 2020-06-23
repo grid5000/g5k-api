@@ -157,7 +157,7 @@ module Grid5000
         case scheme
         when 'http','https'
           begin
-            http = http_request(:get, environment, tls_options, 10, headers)
+            http = http_request(:get, environment, tls_options, 10)
             params['environment'] = YAML.load(http.body)
             params['environment']['kind'] = 'anonymous'
           rescue Exception => e
