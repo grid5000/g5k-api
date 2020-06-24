@@ -1,3 +1,38 @@
+g5k-api (3.9.0) unstable; urgency=low
+
+  * e512131 No headers are required when getting environments from Kadeploy
+  * 27fc4cc Fix variables typo and kadeploy API uri concatenation
+  * f3a6e39 Set reconnect to true in databases configuration
+  * 369b3b9 [ci] Fix the way of pushing package, using --debian option
+  * 4e82652 [ci] Remove old packages before building
+  * 28dde4e Fix http requests done in deployment model
+  * 11c6dc0 Remove a mention about eventmachine in application_controller
+  * 6308927 Add missing ActionDispatch::Flash middleware and forgery protection
+  * ad36111 [ci] Remove v4 package generation since only devel is used
+  * 46edb9d simplify boot.rb file
+  * 4c4b045 Remove async_find method which used EventMachine
+  * ae262d0 Remove notifications: controller, model and test (bug 11928)
+  * 170482e Remove eventmachine and em-synchrony
+  * a67b707 Disable forgery protection in development environment
+  * de72ca9 Add byebug to test and development Gems
+  * a539587 Update rails to 6.0.3 and thin to 1.7.2
+  * 5baacd7 [ci] Fix debian packages generation by installing the required bundler
+  * 6a40084 Update em-postgresql-adapter to last version (supporting rails > 5)
+  * 2d34dd4 Rename media_type helper to api_media_type helper.
+  * 5f3d4c3 Fix validates_uniqueness_of deprecated case sensitive
+  * 5075f91 Use mysql2 adapter instead of em-mysql2
+  * 24509f0 Update to rails 6.0
+  * 9a16a2e Fix post rspec requests by using `body:` instead of send_payload method
+  * a2b3329 Fix the way of installing bundler and rake (via gem) and remove jessie support from CI
+  * b645240 Update to rails 5.2
+  * c30f875 Correctly use throw(:abort) to return false when uid is missing to start a deployment
+  * 338c3d5 Add libssl-dev to test and build process (required when installing event machine gem)
+  * f32322c Update to rails 5.1
+  * c113f1c Remove deprecated in rspecs
+  * 77d5c17 Update to rails 5.0.7
+
+ -- Samir Noir <samir.noir@inria.fr>  Wed, 24 Jun 2020 17:17:10 +0200
+
 g5k-api (3.8.7) unstable; urgency=low
 
   * 2608d24 remove stretch from ci, indeed we don't use it for g5k-api
