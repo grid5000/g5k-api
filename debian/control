@@ -3,7 +3,7 @@ Section: ruby
 Priority: extra
 Maintainer: Grid'5000 developpers <g5k-developers@lists.grid5000.fr>
 Uploaders: David Margery <david.margery@inria.fr>
-Build-Depends: debhelper (>= 7), dh-systemd (>= 1.5), git, bundler, rake, libssl-dev, libxml2-dev, libxslt-dev, libicu-dev, default-libmysqlclient-dev | libmysqlclient-dev, libpq-dev, nodejs, ruby-dev, lsb-release, postgresql-client, pkg-config
+Build-Depends: debhelper (>= 7), dh-systemd (>= 1.5), git, bundler, rake, libssl-dev, libxml2-dev, libxslt-dev, libicu-dev, default-libmysqlclient-dev | libmysqlclient-dev, libpq-dev, nodejs, ruby-dev, lsb-release, postgresql-client, pkg-config, cmake
 Standards-Version: 3.7.3
 Homepage: https://api.grid5000.fr
 

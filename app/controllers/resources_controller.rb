@@ -45,9 +45,9 @@ class ResourcesController < ApplicationController
       object['links'] = links_for_item(object)
     end
 
-    object["version"] = repository.commit.id
+    object["version"] = repository.commit.oid
 
-    last_modified [repository.commit.committed_date, File.mtime(__FILE__)].max
+    last_modified [repository.commit.time, File.mtime(__FILE__)].max
 
     # If client asked for a specific version, it won't change anytime soon
     if params[:version] && params[:version] == object["version"]
@@ -152,9 +152,9 @@ class ResourcesController < ApplicationController
     links = []
 
     (item.delete('subresources') || []).each do |subresource|
-      href = uri_to(resource_path(item["uid"]) + "/" + subresource.name)
+      href = uri_to(resource_path(item["uid"]) + "/" + subresource[:name])
       links.push({
-        "rel" => subresource.name,
+        "rel" => subresource[:name],
         "href" => href,
         "type" => api_media_type(:g5kcollectionjson)
       })
