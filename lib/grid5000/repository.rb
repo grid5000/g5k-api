@@ -12,9 +12,9 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-require 'grid5000/extensions/grit'
 require 'json'
 require 'logger'
+require 'rugged'
 
 module Grid5000
   class Repository
@@ -31,7 +31,7 @@ module Grid5000
         @logger = Logger.new(STDOUT)
         @logger.level = Logger::WARN
       end
-      @instance = Grit::Repo.new(repository_path)
+      @instance = Rugged::Repository.new(repository_path)
     end
 
     def find(path, options = {})
@@ -41,15 +41,16 @@ module Grid5000
       @commit = nil
       begin
         @commit = find_commit_for(options)
-        logger.info "    commit = #{@commit.inspect}"
+        logger.info "    commit = #{@commit} {id: #{@commit.oid}, message: #{@commit.message.chomp}}"
         return nil if @commit.nil?
         object = find_object_at(path, @commit)
-        logger.debug "    object = #{object.inspect}"
+        logger.debug "    object = #{object}"
         return nil if object.nil?
-      rescue Grit::Git::GitTimeout => e
-        logger.debug "#{Time.now}: Got a Grit::Git::GitTimeout exception #{e}"
+      rescue => e
+        logger.debug "#{Time.now}: Got a Rugged exception #{e}"
         return e
       end
+
       result = expand_object(object, path, @commit)
       result
     end
@@ -58,36 +59,41 @@ module Grid5000
       File.join(repository_path_prefix, path)
     end
 
-    def expand_object(object, path, commit)
-      return nil if object.nil?
+    def expand_object(hash_object, path, commit)
+      return nil if hash_object.nil?
 
-      if object.mode == "120000"
-        object = find_object_at(object.data, commit, relative_to=path)
+      object = instance.lookup(hash_object[:oid])
+
+      # If it's a symlink
+      if hash_object[:filemode] == 40960
+        hash_object = find_object_at(object.content, commit, relative_to=path)
+        object = instance.lookup(hash_object[:oid])
       end
 
-      case object
-      when Grit::Blob
+      case object.type
+      when :blob
         @subresources = []
-        JSON.parse(object.data).merge("version" => commit.id)
-      when Grit::Tree
-        groups = object.contents.group_by{|content| content.class}
-        blobs, trees = [groups[Grit::Blob] || [], groups[Grit::Tree] || []]
+        JSON.parse(object.content).merge("version" => commit.oid)
+      when :tree
+        groups = object.each.group_by{|content| content[:type]}
+        blobs, trees = [groups[:blob] || [], groups[:tree] || []]
+
         # select only json files
-        blobs = blobs.select{|blob| File.extname(blob.name) == '.json'}
+        blobs = blobs.select{|blob| File.extname(blob[:name]) == '.json'}
         if (blobs.size > 0 && trees.size > 0) # item
           blobs.inject({'subresources' => trees}) do |accu, blob|
             content = expand_object(
               blob,
-              File.join(path, blob.name.gsub(".json", "")),
+              File.join(path, blob[:name].gsub(".json", "")),
               commit
             )
             accu.merge(content)
           end
         else # collection
-          items = object.contents.map do |object|
+          items = object.map do |object|
             content = expand_object(
               object,
-              File.join(path, object.name.gsub(".json", "")),
+              File.join(path, object[:name].gsub(".json", "")),
               commit
             )
           end
@@ -95,7 +101,7 @@ module Grid5000
             "total" => items.length,
             "offset" => 0,
             "items" => items,
-            "version" => commit.id
+            "version" => commit.oid
           }
           result
         end
@@ -108,25 +114,43 @@ module Grid5000
       options[:branch] ||= 'master'
       version, branch = options.values_at(:version, :branch)
       if version.nil?
-        instance.commits(branch)[0]
+        instance.branches[branch].target
       elsif version.to_s.length == 40 # SHA
-        instance.commit(version)
+        instance.lookup(version)
       else
         # version should be a date, get the closest commit
-        date = Time.at(version.to_i).strftime("%Y-%m-%d %H:%M:%S")
-        sha = instance.git.rev_list({
-          :pretty => :raw, :until => date
-        }, branch)
-        sha = sha.split("\n")[0]
+        date = version.to_i
+
+        return nil if instance.branches[branch].nil?
+
+        walker = Rugged::Walker.new(instance)
+        walker.sorting(Rugged::SORT_DATE)
+        walker.push(instance.branches[branch].target.oid)
+
+        commits = walker.select do |commit|
+          commit.epoch_time <= date
+        end
+        commits.map! { |commit| commit.oid }
+
+        sha = commits.first
         find_commit_for(options.merge(:version => sha))
       end
-    rescue Grit::GitRuby::Repository::NoSuchShaFound => e
+    rescue Rugged::OdbError
       nil
     end
 
     def find_object_at(path, commit, relative_to = nil)
       path = relative_path_to(path, relative_to) unless relative_to.nil?
-      object = commit.tree/path || commit.tree/(path+".json")
+
+      begin
+        object = commit.tree.path(path)
+      rescue Rugged::TreeError
+        begin
+          object = commit.tree.path(path + '.json')
+        rescue Rugged::TreeError
+          nil
+        end
+      end
     end
 
     # Return the physical path within the repository
@@ -149,21 +173,44 @@ module Grid5000
       offset = (offset || 0).to_i
       limit = (limit || 100).to_i
       path = full_path(path)
-      commits = instance.log(
-        branch,
-        path
-      )
-      commits = instance.log(
-        branch,
-        path+".json"
-      ) if commits.empty?
+      commits = []
+
+      if instance.branches.exist?(branch)
+        oid = instance.branches[branch].target.oid
+      else
+        begin
+          if instance.exists?(branch)
+            oid = instance.lookup(branch).oid
+          else
+            oid = nil
+          end
+        rescue
+          oid = nil
+        end
+      end
+
+      if oid
+        walker = Rugged::Walker.new(instance)
+        walker.sorting(Rugged::SORT_DATE)
+        walker.push(oid)
+
+        commits = walker.select do |commit|
+          commit.diff(paths: [path]).size > 0
+        end
+
+        if commits.empty?
+          commits = walker.select do |commit|
+            commit.diff(paths: [path + '.json']).size > 0
+          end
+        end
+      end
+
       {
         "total" => commits.length,
         "offset" => offset,
         "items" => commits.slice(offset, limit)
       }
     end
-
   end
 
 end # module Grid5000

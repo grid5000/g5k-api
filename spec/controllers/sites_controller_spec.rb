@@ -199,7 +199,7 @@ describe SitesController do
     end
 
     it "should fail gracefully in the event of a grit timeout" do
-      expect_any_instance_of(Grid5000::Repository).to receive(:find_commit_for).and_raise(Grit::Git::GitTimeout)
+      expect_any_instance_of(Grid5000::Repository).to receive(:find_commit_for).and_raise(Rugged::RepositoryError)
       get :status, params: { :id => "rennes", :job_details => "no", :format => :json }
       expect(response.status).to eq 503
     end

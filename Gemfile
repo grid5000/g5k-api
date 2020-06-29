@@ -12,12 +12,12 @@ gem "ruby-mysql", :require => "mysql"
 gem 'addressable', '~> 2.2'
 gem 'thin', '~> 1.7.0'
 gem 'state_machines-activerecord'
-gem 'gitlab-grit', :require => ['grit']
 gem 'syslogger'
 gem 'haml', '~> 5.1.2'
 gem 'rack-jsonp'
 gem 'pg'
 gem 'nokogiri'
+gem 'rugged'
 
 gem 'sass-rails'
 gem 'coffee-rails'
