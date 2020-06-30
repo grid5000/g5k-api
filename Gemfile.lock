@@ -132,8 +132,9 @@ GEM
       mini_portile2 (~> 2.4.0)
     pg (1.2.3)
     public_suffix (4.0.5)
+    puma (4.3.5)
+      nio4r (~> 2.0)
     rack (2.2.2)
-    rack-fiber_pool (0.9.3)
     rack-jsonp (1.3.1)
       rack
     rack-test (1.1.0)
@@ -271,7 +272,7 @@ DEPENDENCIES
   net-ssh-multi
   nokogiri
   pg
-  rack-fiber_pool (~> 0.9)
+  puma
   rack-jsonp
   rails (~> 6.0.2)
   rake

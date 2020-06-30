@@ -6,11 +6,12 @@ gem 'bootsnap', require: false
 # jQuery is the default JavaScript library as from Rails 3.1
 gem 'jquery-rails'
 
-gem 'rack-fiber_pool', '~> 0.9'
+#gem 'rack-fiber_pool', '~> 0.9'
 gem "mysql2", '~> 0.5.3'
 gem "ruby-mysql", :require => "mysql"
 gem 'addressable', '~> 2.2'
 gem 'thin', '~> 1.7.0'
+gem 'puma'
 gem 'state_machines-activerecord'
 gem 'syslogger'
 gem 'haml', '~> 5.1.2'

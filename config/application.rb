@@ -26,7 +26,7 @@ end
 
 # Explicitly require libs when gem name is not sufficient
 require 'addressable/uri'
-require 'rack/fiber_pool'
+#require 'rack/fiber_pool'
 require 'rack/jsonp'
 require 'rack/lint'
 
@@ -49,7 +49,8 @@ module Api
     config.autoload_paths += %W(#{config.root}/lib)
 
     require 'rack/pretty_json'
-    config.middleware.insert_before Rack::Runtime, Rack::FiberPool, :size => 15
+    #config.middleware.insert_before Rack::Runtime, Rack::FiberPool, :size => 15
+    #config.middleware.insert_before Rack::Runtime
     config.middleware.use Rack::PrettyJSON, :warning => true
     config.middleware.use Rack::JSONP, :carriage_return => true
     config.middleware.use ActionDispatch::Flash
