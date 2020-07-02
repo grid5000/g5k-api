@@ -51,7 +51,7 @@ module Grid5000
         return e
       end
 
-      result = expand_object(object, path, @commit)
+      result = expand_object(object, path, @commit, options[:branch])
       result
     end
 
@@ -59,9 +59,71 @@ module Grid5000
       File.join(repository_path_prefix, path)
     end
 
-    def expand_object(hash_object, path, commit)
+    def full_path_absolute(path)
+      File.join(repository_path, path)
+    end
+
+    def expand_object(hash_object, path, commit, branch)
       return nil if hash_object.nil?
 
+      logger.debug "#{Time.now}: Expanding object for branch #{branch}"
+
+      if branch == 'master' || branch == 'origin/master'
+        logger.debug "#{Time.now}: master branch, accessing files directly"
+        expand_file_master(path, commit)
+      else
+        expand_git_object(hash_object, path, commit)
+      end
+    end
+
+    def expand_file_master(path, commit)
+      work_path = full_path_absolute(path)
+      file_path = File.exists?(work_path) ?
+                    work_path :
+                    work_path + '.json'
+      file_type = File.directory?(file_path) ? :dir : :file
+
+      case file_type
+      when :file
+        JSON.parse(File.read(file_path)).merge("version" => commit.oid)
+      when :dir
+        blobs = []
+        trees = []
+        Dir.foreach(work_path) do |file|
+          if File.directory?(work_path + '/' + file)
+            trees << file unless ['.', '..'].include?(file)
+          else
+            blobs << file
+          end
+        end
+
+        # select only json files
+        blobs = blobs.select{ |blob| File.extname(blob) == '.json' }
+        if (blobs.size > 0 && trees.size > 0) # item
+          blobs.inject({'subresources' => trees.sort}) do |accu, blob|
+            content = expand_file_master((path + '/' + blob), commit)
+            accu.merge(content)
+          end
+        else # collection
+          objects = blobs + trees
+          items = objects.sort.map do |object|
+            content = expand_file_master(
+               (path + '/' + object),
+               commit
+            )
+          end
+          result = {
+            "total" => items.length,
+            "offset" => 0,
+            "items" => items,
+            "version" => commit.oid
+          }
+          result
+        end
+      end
+    end
+
+    def expand_git_object(hash_object, path, commit)
       object = instance.lookup(hash_object[:oid])
 
       # If it's a symlink
@@ -82,7 +144,7 @@ module Grid5000
         blobs = blobs.select{|blob| File.extname(blob[:name]) == '.json'}
         if (blobs.size > 0 && trees.size > 0) # item
           blobs.inject({'subresources' => trees}) do |accu, blob|
-            content = expand_object(
+            content = expand_git_object(
               blob,
               File.join(path, blob[:name].gsub(".json", "")),
               commit
@@ -91,7 +153,7 @@ module Grid5000
           end
         else # collection
           items = object.map do |object|
-            content = expand_object(
+            content = expand_git_object(
               object,
               File.join(path, object[:name].gsub(".json", "")),
               commit
