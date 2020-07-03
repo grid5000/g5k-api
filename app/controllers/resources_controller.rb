@@ -45,9 +45,9 @@ class ResourcesController < ApplicationController
       object['links'] = links_for_item(object)
     end
 
-    object["version"] = repository.commit.oid
+    object["version"] = repository.commit ? repository.commit.oid : "null"
 
-    last_modified [repository.commit.time, File.mtime(__FILE__)].max
+    last_modified [repository.commit.time, File.mtime(__FILE__)].max if repository.commit
 
     # If client asked for a specific version, it won't change anytime soon
     if params[:version] && params[:version] == object["version"]

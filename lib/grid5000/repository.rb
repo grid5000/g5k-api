@@ -39,16 +39,19 @@ module Grid5000
       logger.info "    path = #{path.inspect}, options = #{options.inspect}"
       path = full_path(path)
       @commit = nil
-      begin
-        @commit = find_commit_for(options)
-        logger.info "    commit = #{@commit.inspect}"
-        return nil if @commit.nil?
-        object = find_object_at(path, @commit)
-        logger.debug "    object = #{object.inspect}"
-        return nil if object.nil?
-      rescue => e
-        logger.debug "#{Time.now}: Got a Rugged exception #{e}"
-        return e
+      object = {}
+      unless options[:branch] == 'master' || options[:branch] == 'origin/master'
+        begin
+          @commit = find_commit_for(options)
+          logger.info "    commit = #{@commit.inspect}"
+          return nil if @commit.nil?
+          object = find_object_at(path, @commit)
+          logger.debug "    object = #{object.inspect}"
+          return nil if object.nil?
+        rescue => e
+          logger.debug "#{Time.now}: Got a Rugged exception #{e}"
+          return e
+        end
       end
 
       result = expand_object(object, path, @commit, options[:branch])
@@ -85,7 +88,7 @@ module Grid5000
 
       case file_type
       when :file
-        JSON.parse(File.read(file_path)).merge("version" => commit.oid)
+        JSON.parse(File.read(file_path)).merge("version" => "null")
       when :dir
         blobs = []
         trees = []
@@ -116,7 +119,7 @@ module Grid5000
             "total" => items.length,
             "offset" => 0,
             "items" => items,
-            "version" => commit.oid
+            "version" => "null"
           }
           result
         end
