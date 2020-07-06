@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_08_21_092321) do
+ActiveRecord::Schema.define(version: 2020_07_06_075317) do
 
   create_table "deployments", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "uid"
@@ -21,7 +21,6 @@ ActiveRecord::Schema.define(version: 2018_08_21_092321) do
     t.string "status", default: "waiting"
     t.text "key"
     t.text "nodes"
-    t.text "notifications"
     t.text "result"
     t.text "output"
     t.integer "partition_number"

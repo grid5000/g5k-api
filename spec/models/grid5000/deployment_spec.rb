@@ -60,13 +60,6 @@ describe Grid5000::Deployment do
           to eq ["can't be blank"]
       end
     end
-
-    it "should not be valid if :notifications is not null but is not a list" do
-      @deployment.notifications = ""
-      expect(@deployment).to_not be_valid
-      expect(@deployment.errors[:notifications]).
-        to eq ["must be a list of notification URIs"]
-    end
   end # describe "validations"
 
 
@@ -187,9 +180,6 @@ describe Grid5000::Deployment do
       @deployment=create(:deployment,
                          uid: "1234",
                          nodes: ["paradent-1.rennes.grid5000.fr"],
-                         notifications: [
-                           "mailto:cyril.rohr@irisa.fr"
-                         ],
                          result: {
                            "paradent-1.rennes.grid5000.fr" => {
                              "state" => "OK"
@@ -201,10 +191,6 @@ describe Grid5000::Deployment do
     it "should correctly serialize the to-be-serialized attributes" do
       expect(@deployment.nodes).
         to be == ["paradent-1.rennes.grid5000.fr"]
-      expect(@deployment.notifications).
-        to be == [
-             "mailto:cyril.rohr@irisa.fr"
-           ]
       expect(@deployment.result).
         to be == {
         "paradent-1.rennes.grid5000.fr" => {
@@ -214,15 +200,13 @@ describe Grid5000::Deployment do
     end
 
     it "correctly build the attributes hash for JSON export" do
-      expect(@deployment.as_json).to be == {"created_at"=>@now.to_i, "disable_bootloader_install"=>false, "disable_disk_partitioning"=>false, "environment"=>"lenny-x64-base", "ignore_nodes_deploying"=>false, "nodes"=>["paradent-1.rennes.grid5000.fr"], "notifications"=>["mailto:cyril.rohr@irisa.fr"], "result"=>{"paradent-1.rennes.grid5000.fr"=>{"state"=>"OK"}}, "site_uid"=>"rennes", "status"=>"waiting", "uid"=>"1234", "updated_at"=>@now.to_i, "user_uid"=>"crohr"}
+      expect(@deployment.as_json).to be == {"created_at"=>@now.to_i, "disable_bootloader_install"=>false, "disable_disk_partitioning"=>false, "environment"=>"lenny-x64-base", "ignore_nodes_deploying"=>false, "nodes"=>["paradent-1.rennes.grid5000.fr"], "result"=>{"paradent-1.rennes.grid5000.fr"=>{"state"=>"OK"}}, "site_uid"=>"rennes", "status"=>"waiting", "uid"=>"1234", "updated_at"=>@now.to_i, "user_uid"=>"crohr"}
     end
 
     it "should correctly export to json" do
       export = JSON.parse(@deployment.to_json)
       expect(export['nodes']).to be == [
         "paradent-1.rennes.grid5000.fr"]
-      expect(export['notifications']).to be == [
-        "mailto:cyril.rohr@irisa.fr"]
       expect(export['result']).to be == {
         "paradent-1.rennes.grid5000.fr"=>{"state"=>"OK"}
       }
@@ -264,13 +248,11 @@ describe Grid5000::Deployment do
     end
     it "should be able to go from waiting to processing" do
       expect(@deployment.status?(:waiting)).to be true
-      expect(@deployment).not_to receive(:deliver_notification)
       expect(@deployment).to receive(:launch_workflow!).and_return(true)
       expect(@deployment.launch).to be true
       expect(@deployment.status?(:processing)).to be true
     end
     it "should not be able to go from waiting to processing if an exception is raised when launch_workflow" do
-      expect(@deployment).not_to receive(:deliver_notification)
       expect(@deployment).to receive(:launch_workflow!).
         and_raise(Exception.new("some error"))
       expect(@deployment.status?(:waiting)).to be true
@@ -287,32 +269,27 @@ describe Grid5000::Deployment do
         expect(@deployment.status?(:processing)).to be true
       end
       it "should be able to go from processing to processing" do
-        expect(@deployment).not_to receive(:deliver_notification)
         expect(@deployment.process).to be true
         expect(@deployment.status?(:processing)).to be true
       end
-      it "should be able to go from processing to terminated, and should call :deliver_notification" do
-        expect(@deployment).to receive(:deliver_notification)
+      it "should be able to go from processing to terminated" do
         expect(@deployment.terminate).to be true
         expect(@deployment.status?(:terminated)).to be true
       end
-      it "should be able to go from processing to canceled, and should call :deliver_notification" do
+      it "should be able to go from processing to canceled" do
         expect(@deployment).to receive(:cancel_workflow!).and_return(true)
-        expect(@deployment).to receive(:deliver_notification)
         expect(@deployment.cancel).to be true
         expect(@deployment.status?(:canceled)).to be true
       end
       it "should not be able to go from processing to canceled if an exception is raised when cancel_workflow" do
         expect(@deployment).to receive(:cancel_workflow!).
           and_raise(Exception.new("some error"))
-        expect(@deployment).not_to receive(:deliver_notification)
         expect(lambda{
           @deployment.cancel
         }).to raise_error(Exception, "some error")
         expect(@deployment.status?(:canceled)).to be false
       end
-      it "should be able to go from processing to error, and should call :deliver_notification" do
-        expect(@deployment).to receive(:deliver_notification)
+      it "should be able to go from processing to error" do
         expect(@deployment.failed).to be true
         expect(@deployment.status?(:error)).to be true
       end

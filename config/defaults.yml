@@ -56,7 +56,6 @@ development:
   uri_out_private_key_file: /etc/ssl/certs/clientkey_nopass.pem
   uri_out_cert_chain_file: /etc/ssl/certs/clientcert.pem
   uri_out_verify_peer: false
-  notifications_uri: https://localhost:3443/sid/notifications
   reference_repository_path: ~/reference-repository
   smtp_host: localhost
   smtp_port: 2525
@@ -71,7 +70,6 @@ test: &test
   base_uri_out: http://api-out.local
   from.config: http
   reference_repository_path: spec/fixtures/reference-repository
-  notifications_uri: http://fake.api/sid/notifications
   smtp_host: localhost
   smtp_port: 2525
   oar:
@@ -96,5 +94,4 @@ test_mysql:
 
 production:
   <<: *defaults
-  notifications_uri: http://localhost:8888/sid/notifications
 

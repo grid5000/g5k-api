@@ -14,7 +14,7 @@
 
 class RootController < ResourcesController
   # Display links to sub resources.
-    # 
+    #
     # def show
     #   root = {
     #     :uid => "grid5000",
@@ -48,13 +48,13 @@ class RootController < ResourcesController
     #     format.json { render :json => root }
     #   end
     # end
-    
+
   protected
 
   def collection_path
     "/"
   end
-  
+
   def resource_path(id)
     ""
   end
@@ -63,7 +63,7 @@ class RootController < ResourcesController
     links = super(item)
     item['release'] = Grid5000::VERSION
     item['timestamp'] = Time.now.to_i
-    %w{users notifications}.each do |rel|
+    %w{users}.each do |rel|
       links.push({
         "rel" => rel,
         "type" => api_media_type(:g5kcollectionjson),
