@@ -1,3 +1,10 @@
+g5k-api (4.5.5) unstable; urgency=low
+
+  * ce5a887 Replace Grit by Rugged libgit2 binding for accessing git repository
+  * 2afcbc4 Remove remaining notifications usage
+
+ -- Samir Noir <samir.noir@inria.fr>  Tue, 07 Jul 2020 15:47:27 +0200
+
 g5k-api (4.5.4) unstable; urgency=low
 
   * 27e834e No headers are required when getting environments from Kadeploy
