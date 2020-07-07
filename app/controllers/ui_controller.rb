@@ -13,24 +13,27 @@
 # limitations under the License.
 
 class UiController < ApplicationController
-  
+  rescue_from ActionView::MissingTemplate do
+    @title = 'Page not found'
+    render :template => "ui/404.html.haml", :status => 404
+  end
+
   def show
     params[:page] ||= "dashboard"
     @id = params[:page].downcase.gsub(/[^a-z]/,'_').squeeze('_')
     @title = params[:page]
-    
+
     respond_to do |format|
       format.html {
         render params[:page].to_sym
       }
     end
   end
-  
-  def visualization
 
+  def visualization
     @id = params[:page].downcase.gsub(/[^a-z]/,'_').squeeze('_')
     @title = params[:page]
-    
+
     respond_to do |format|
       format.html {
         render "ui/visualizations/#{params[:page]}.html.haml"
