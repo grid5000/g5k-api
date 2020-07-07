@@ -34,7 +34,7 @@ describe Grid5000::Repository do
         "/does/not/exist",
         @repository_path_prefix
       )
-    }).to raise_error(Grit::NoSuchPathError)
+    }).to raise_error(Rugged::OSError)
   end
 
   describe "with a working repository" do
@@ -52,35 +52,36 @@ describe Grid5000::Repository do
         expect(object['version']).to eq @latest_commit
       end
 
-      it "should return an exception if Grit::Git::GitTimeout is raised" do
-        expect(@repository).to receive(:find_commit_for).and_raise(Grit::Git::GitTimeout)
+      it "should return an exception if Rugged::PathError is raised" do
+        expect(@repository).to receive(:find_commit_for).and_raise(Rugged::RepositoryError)
         object=@repository.find('grid5000')
         expect(object).to be_an(Exception)
       end
     end
+
     describe "finding a specific version" do
       it "should return the latest commit of master if no specific version is given" do
         commit = @repository.find_commit_for(:version => nil)
-        expect(commit.id).to eq(@latest_commit)
+        expect(commit.oid).to eq(@latest_commit)
       end
 
       it "should find the commit associated with the given version [version=DATE] 1/2" do
         date = Time.parse("2009-03-13 17:24:20 +0100")
         commit = @repository.find_commit_for(:version => date.to_i)
-        expect(commit.id).to eq("b00bd30bf69c322ffe9aca7a9f6e3be0f29e20f4")
+        expect(commit.oid).to eq("b00bd30bf69c322ffe9aca7a9f6e3be0f29e20f4")
       end
 
       it "should find the commit associated with the given version [version=DATE] 2/2" do
         date = Time.parse("2009-03-13 17:24:47 +0100")
         commit = @repository.find_commit_for(:version => date.to_i)
-        expect(commit.id).to eq("e07895a4b480aaa8e11c35549a97796dcc4a307d")
+        expect(commit.oid).to eq("e07895a4b480aaa8e11c35549a97796dcc4a307d")
       end
 
       it "should find the commit associated with the given version [version=SHA]" do
         commit = @repository.find_commit_for(
           :version => "e07895a4b480aaa8e11c35549a97796dcc4a307d"
         )
-        expect(commit.id).to eq("e07895a4b480aaa8e11c35549a97796dcc4a307d")
+        expect(commit.oid).to eq("e07895a4b480aaa8e11c35549a97796dcc4a307d")
       end
 
       it "should return nil when asking for a version from a branch that does not exist" do
@@ -108,32 +109,38 @@ describe Grid5000::Repository do
       end
 
       it "should find a tree object" do
-        object = @repository.find_object_at(
+        hash_object = @repository.find_object_at(
           @repository.full_path('grid5000'), @commit)
-        expect(object).to be_a(Grit::Tree)
+
+        object = @repository.instance.lookup(hash_object[:oid])
+        expect(object).to be_a(Rugged::Tree)
       end
 
       it "should find a relative object (symlink)" do
         relative_to=@repository.full_path(
           'grid5000/sites/rennes/environments/sid-x64-base-1.0.json'
         )
-        object = @repository.find_object_at(
+        hash_object = @repository.find_object_at(
           '../../../../grid5000/environments/sid-x64-base-1.0.json',
           @commit,
           relative_to)
-        expect(object).to be_a(Grit::Blob)
-        expect(object.data).to match /kernel/
+
+        object = @repository.instance.lookup(hash_object[:oid])
+        expect(object).to be_a(Rugged::Blob)
+        expect(object.content).to match /kernel/
       end
 
       it "should find a blob" do
-        object = @repository.find_object_at(
+        hash_object = @repository.find_object_at(
           @repository.full_path(
             'grid5000/environments/sid-x64-base-1.0.json'
           ),
           @commit
         )
-        expect(object).to be_a(Grit::Blob)
-        expect(object.data).to match /kernel/
+
+        object = @repository.instance.lookup(hash_object[:oid])
+        expect(object).to be_a(Rugged::Blob)
+        expect(object.content).to match /kernel/
       end
 
       it "should return nil if the object cannot be found" do
