@@ -145,7 +145,7 @@ class ApplicationController < ActionController::Base
       when 503
         raise ServerUnavailable, msg
       else
-        raise ServerError, "Request to #{http.uri.to_s} failed with status #{status}: #{http}"
+        raise ServerError, "Request to #{http.uri.to_s} failed with status #{status}: #{http.body}"
       Rails.logger.error msg
     end
 
@@ -173,7 +173,7 @@ class ApplicationController < ActionController::Base
       when 503
         raise ServerUnavailable, msg
       else
-        raise ServerError, "Request to #{http.uri.to_s} failed with unexpected status #{status}: #{http} ; could be a TLS problem"
+        raise ServerError, "Request to #{http.uri.to_s} failed with unexpected status #{status}: #{http.body} ; could be a TLS problem"
     end
   end
 
