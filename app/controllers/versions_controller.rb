@@ -15,7 +15,6 @@
 class VersionsController < ApplicationController
   MAX_AGE = 60.seconds
 
-
   def index
     vary_on :accept; allow :get
     versions = repository.versions_for(

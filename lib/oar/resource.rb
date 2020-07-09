@@ -51,7 +51,6 @@ module OAR
     end
 
     class << self
-
       def api_type(oar_type)
         if oar_type=="default"
           "nodes"
@@ -61,14 +60,14 @@ module OAR
       end
 
       def list_some(options)
-        #   Do OAR resources have a comment column
+        # Do OAR resources have a comment column
         include_comment = columns.find{|c| c.name == "comment"}
 
-        #   Do OAR resources have a disk column
+        # Do OAR resources have a disk column
         include_disk = columns.find{|c| c.name == "disk"}
 
-        #   abasu for bug 5106 : we need cluster & core
-        #   dmargery for bug 9230 : we need type, disk and diskpath
+        # bug 5106 : we need cluster & core
+        # bug 9230 : we need type, disk and diskpath
         resources = Resource.select(
           "resource_id, type, cluster, host, network_address, #{include_disk ? "disk, diskpath,":""} core, state, available_upto#{include_comment ? ", comment" : ""}"
         )
@@ -113,7 +112,7 @@ module OAR
       #     },
       #     {...}
       #   }
-      #
+
       def status(options = {})
         # Handle options
 
@@ -135,7 +134,7 @@ module OAR
 
         # Build the list of active jobs with the resources they use
         active_jobs=get_active_jobs_with_resources(options).values
-        
+
         api_status = {}
         api_status_data = {} # used later to aggregate oar resource status date at api resource level
 
@@ -146,7 +145,7 @@ module OAR
           api_status_data[api_type(oar_type)]={}
         end
 
-        resources={}
+        resources = {}
 
         # Go though the list of resource (oar's definition) to
         # - index by resource_id (.index_by(&:resource_id))
@@ -155,17 +154,17 @@ module OAR
         #   status of multiple OAR resources (eg. nodes)
         resource_list.each do |resource|
           next if resource.nil?
-          resources[resource.resource_id]=resource
+          resources[resource.resource_id] = resource
 
           api_status[resource.api_type][resource.api_name] ||= initial_status_for(resource, include_details)
 
           api_status_data[resource.api_type][resource.api_name] ||= initial_status_data_for(resource, include_details)
 
-          api_status_data[resource.api_type][resource.api_name]=
+          api_status_data[resource.api_type][resource.api_name] =
             update_with_resource(api_status_data[resource.api_type][resource.api_name],
                                  resource,
                                  include_details)
-	      end  #  .each do |resource_id, resource|
+        end
 
         # Go through active jobs and update status data for all the
         # resources of the job
@@ -187,8 +186,8 @@ module OAR
                               api_status_data[resource.api_type][resource.api_name],
                               h[:job],
                               job_for_api)
-          end  # .each do |resource_id|
-        end  # .each do |h|
+          end
+        end
 
         # We now compute the final status from the api_status_data
         api_status_data.each do |api_type, type_status_data|
@@ -259,6 +258,7 @@ module OAR
         if resource.state == 'absent' && resource.available_upto && resource.available_upto == STANDBY_AVAILABLE_UPTO
           h[:hard] = 'standby'
         end
+
         case resource.type
         when 'default'
           h[:soft]= resource.dead? ? "unknown" : "free"
@@ -268,7 +268,7 @@ module OAR
           h[:diskpath] = resource.diskpath
         end
         h
-      end  # def initial_status_for
+      end
 
       # Creates accumulator for resources described at API level
       # that are an aggregation of OAR resources
@@ -319,20 +319,21 @@ module OAR
 
         #do specific calculation for some api_types
         if api_type=="nodes"
-          # abasu : At this stage we have the the complete status over all cores in each node (network_address)
-          # abasu : Now add logic to sum up the status over all cores and push final status to api_status hash table
+          # At this stage we have the the complete status over all cores in each node (network_address)
+          # Now add logic to sum up the status over all cores and push final status to api_status hash table
           if current_data[:busycounter] > 0
             if current_data[:busycounter] <= current_data[:totalcores] / 2
-	            derived_status[:soft] = "free_busy" # more free cores in node than busy cores
+              derived_status[:soft] = "free_busy" # more free cores in node than busy cores
             elsif current_data[:busycounter] > current_data[:totalcores] / 2 && current_data[:busycounter] < current_data[:totalcores]
-	            derived_status[:soft] = "busy_free" # more busy cores in node than free cores
+              derived_status[:soft] = "busy_free" # more busy cores in node than free cores
             else
               derived_status[:soft] = "busy"      # all cores in node are busy
-	          end
+            end
             if current_data[:besteffortcounter] > 0
-	            derived_status[:soft] += "_besteffort" # add "_besteffort" after status if it is so
+              derived_status[:soft] += "_besteffort" # add "_besteffort" after status if it is so
             end
           end
+
           unless derived_status[:soft]=="unknown"
             derived_status[:free_slots]=current_data[:totalcores]-current_data[:busycounter]
             derived_status[:freeable_slots]=current_data[:besteffortcounter]
