@@ -81,21 +81,15 @@ class ResourcesController < ApplicationController
     branch = ['origin', branch].join("/") unless Rails.env == "test"
     params[:branch]=branch
 
-        # abasu : Added code for getting 'queues' element in hash params - 11.12.2015
-    # abasu : In request to feature bug ref. #6363
-    # abasu : params_queues is the array with 'queues' values passed in 'params'
-    if params[:queues].nil? # no filter, so assign everything except "production"
-       params[:queues] = ["admin","default"]
-    # As of 11.12.2015 the queues accepted are:
-    # "all" or any combination of "admin", "default", "production"
+    if params[:queues].nil?
+      params[:queues] = ["admin","default"]
     else
-       if params[:queues] == "all" # for use by sys-admin
-          params[:queues] = ["admin","default","production"]
-       else
-          params[:queues] = params[:queues].split(",")
-       end # if params[:queues] == "all"
-    end # if params[:queues].nil?
-
+      if params[:queues] == "all"
+        params[:queues] = ["admin","default","production"]
+      else
+        params[:queues] = params[:queues].split(",")
+      end
+    end
   end
 
   def lookup_path(path, params)

@@ -21,5 +21,4 @@ class NodesController < ResourcesController
   def collection_path
     site_cluster_nodes_path(params[:site_id], params[:cluster_id])
   end
-
 end

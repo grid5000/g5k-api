@@ -17,6 +17,7 @@ class RackDebugger
     @app = app
     @logger = logger
   end
+
   def call(env)
     @logger.info ["  HEAD:", env['REQUEST_METHOD'], env['PATH_INFO'], "-", env.reject{|k,v|
       k !~ /^HTTP\_/ || ["HTTP_X_FORWARDED_HOST", "HTTP_VIA", "HTTP_X_FORWARDED_SERVER", "HTTP_X_FORWARDED_FOR", "HTTP_AUTHORIZATION"].include?(k)

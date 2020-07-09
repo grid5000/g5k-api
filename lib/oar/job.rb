@@ -28,7 +28,6 @@ module OAR
       jobs = jobs.where(:job_user => params[:user]) unless params[:user].blank?
       jobs = jobs.where(:job_name => params[:name]) unless params[:name].blank?
       jobs = jobs.where(:project => params[:project]) unless params[:project].blank?
-      # abasu 1 line introduced below for correction to bug ref 5347 -- 2015.01.23
       jobs = jobs.where(:job_id => params[:job_id]) unless params[:job_id].blank?
       if params[:state]
         states = (params[:state] || "").split(/\s*,\s*/).
@@ -113,7 +112,6 @@ module OAR
       state && state == "running"
     end
 
-
     def assigned_nodes
       (resources_by_type['cores'] || []).uniq
     end
@@ -144,7 +142,6 @@ module OAR
       end
       h
     end
-
 
     def to_reservation(options = {})
       without = [options[:without] || []].flatten
@@ -189,22 +186,20 @@ module OAR
       h
     end
 
-
-
     class << self
       def active
         where("state IN ('Waiting','Hold','toLaunch','toError','toAckReservation','Launching','Running','Suspended','Resuming','Finishing')")
-      end # def active
+      end
 
       def active_not_waiting
         where("state IN ('Hold','toLaunch','toError','toAckReservation','Launching','Running','Suspended','Resuming','Finishing')")
-      end # def active_not_waiting
-      
+      end
+
       def expanded
         Job.select("jobs.*, moldable_job_descriptions.moldable_walltime AS walltime, gantt_jobs_predictions.start_time AS predicted_start_time,  moldable_job_descriptions.moldable_id").
           joins("LEFT OUTER JOIN moldable_job_descriptions ON jobs.job_id = moldable_job_descriptions.moldable_job_id").
-          joins("LEFT OUTER JOIN gantt_jobs_predictions ON gantt_jobs_predictions.moldable_job_id = moldable_job_descriptions.moldable_id")          
-      end # def expanded
+          joins("LEFT OUTER JOIN gantt_jobs_predictions ON gantt_jobs_predictions.moldable_job_id = moldable_job_descriptions.moldable_id")
+      end
     end
   end
 end

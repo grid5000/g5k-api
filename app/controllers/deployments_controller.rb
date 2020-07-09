@@ -114,8 +114,6 @@ class DeploymentsController < ApplicationController
     end
     raise BadRequest, "The deployment you are trying to submit is not valid: #{dpl.errors.to_a.join("; ")}" unless dpl.valid?
 
-    # WARN: this is a blocking call as it creates a file on disk.
-    # we may want to defer it or implement it natively with EventMachine
     files_base_uri = uri_to(parent_path+"/files",:in, :absolute)
     dpl.transform_blobs_into_files!(Rails.tmp, files_base_uri)
 
@@ -134,7 +132,6 @@ class DeploymentsController < ApplicationController
     dpl.links = links_for_item(dpl)
 
     render_opts = {
-      #:methods => [:resources_by_type, :assigned_nodes],
       :location => location_uri,
       :status => 201
     }
@@ -239,50 +236,4 @@ class DeploymentsController < ApplicationController
       :out
     )
   end
-
-  # Not useful atm
-=begin
-  def wrap_item(item,params,orig=false)
-    ret = item
-    item = item.dup
-    ret.clear
-    ret['orig'] = item if orig
-
-    ret['uid'] = item['wid'] || item['id']
-    ret['site_uid'] = params[:site_id]
-    ret['user_uid'] = item['user']
-    #item['created_at'] = item['start_time']
-    if item['nodes'].is_a?(Hash)
-      nodes = item['nodes']
-      ret['nodes'] = []
-      ret['result'] = {}
-      nodes['ok'].each do |node|
-        ret['nodes'] << node
-        ret['result'][node] = { 'state' => 'OK' }
-      end
-      nodes['processing'].each do |node|
-        ret['nodes'] << node
-        ret['result'][node] = { 'state' => 'OK' }
-      end
-      nodes['ko'].each do |node|
-        ret['nodes'] << node
-        ret['result'][node] = { 'state' => 'KO' }
-      end
-    else
-      ret['nodes'] = item['nodes']
-    end
-
-    if item['error']
-      ret['status'] = :error
-    elsif item['done']
-      ret['status'] = :terminated
-    else
-      ret['status'] = :processing
-    end
-
-    ret['links'] = links_for_item(ret)
-
-    ret
-  end
-=end
 end

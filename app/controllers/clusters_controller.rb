@@ -14,14 +14,14 @@
 
 require 'resources_controller'
 
-# abasu : changed inheritance of class ClustersController - bug ref 5856 -- 2015.3.19
+# changed inheritance of class ClustersController - bug 5856
 # from ResourcesController to SitesController
 # Logic for changing inheritance : From the perspective of a controller,
-# the ClustersController is a special case of a SitesController,  
+# the ClustersController is a special case of a SitesController,
 # for specific clusters, insofar that this attribute is limited to the status function
 class ClustersController < ResourcesController
 
-  # abasu : method to return status of a specific cluster - bug ref 5856 -- 2015.03.19
+  # method to return status of a specific cluster - bug 5856
   def status
     result = {
       "uid" => Time.now.to_i,
@@ -50,12 +50,13 @@ class ClustersController < ResourcesController
   end
 
   protected
-  
-  def collection_path # abasu the parameter passed should be :site_id not :id (cluster)
-    site_clusters_path(params[:site_id]) 
+
+  # the parameter passed should be :site_id not :id (cluster)
+  def collection_path
+    site_clusters_path(params[:site_id])
   end
 
-  # abasu : method to prepare links for status of a cluster - bug ref 5856 -- 2015.04.17
+  # method to prepare links for status of a cluster - bug 5856
   def links_for_item(item)
     links = super(item)
 
@@ -66,5 +67,4 @@ class ClustersController < ResourcesController
     })
     links
   end
-
 end
