@@ -58,13 +58,13 @@ class SitesController < ResourcesController
       format.json { render :json => result }
     end
   end
-  
+
   protected
-  
+
   def collection_path
     sites_path
   end
-  
+
   def links_for_item(item)
     links = super(item)
     %w{jobs deployments vlans metrics}.each do |rel|
@@ -81,5 +81,4 @@ class SitesController < ResourcesController
     })
     links
   end
-
 end

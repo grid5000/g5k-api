@@ -23,9 +23,9 @@ class ApplicationController < ActionController::Base
   before_action :parse_json_payload, :only => [:create, :update, :destroy]
   before_action :set_default_format
 
-  # abasu : additional classes introduced to handle all possible exceptions - 02.04.2015
-  # abasu : as per status codes https://api.grid5000.fr/doc/stable/reference/spec.html
-  # abasu : class & subclasses to handle client-side exceptions (Error codes 4xx)
+  # additional classes introduced to handle all possible exceptions
+  # as per status codes https://api.grid5000.fr/doc/stable/reference/spec.html
+  # class & subclasses to handle client-side exceptions (Error codes 4xx)
   class ClientError < ActionController::ActionControllerError; end
   class BadRequest < ClientError; end             # Error code 400
   class AuthorizationRequired < ClientError; end  # Error code 401
@@ -44,7 +44,7 @@ class ApplicationController < ActionController::Base
   # This thing must alway come first, or it will override other rescue_from.
   rescue_from Exception, :with => :server_error
 
-  # abasu : exception-handlers for client-side exceptions - 02.04.2015
+  # exception-handlers for client-side exceptions
   rescue_from BadRequest, :with => :bad_request                        # for 400
   rescue_from AuthorizationRequired, :with => :authorization_required  # for 401
   rescue_from Forbidden, :with => :forbidden                           # for 403
@@ -54,9 +54,9 @@ class ApplicationController < ActionController::Base
   rescue_from NotAcceptable, :with => :not_acceptable                  # for 406
   rescue_from PreconditionFailed, :with => :precondition_failed        # for 412
 
-  # abasu : exception-handlers for client-side exceptions - 02.04.2015
+  # exception-handlers for client-side exceptions
   rescue_from UnsupportedMediaType, :with => :server_error             # for 415
-  # abasu : agreed to send exception to server_error (instead of unsupported_media_type)
+  # agreed to send exception to server_error (instead of unsupported_media_type)
   rescue_from ServerError, :with => :server_error                      # for 500
   rescue_from BadGateway, :with => :bad_gateway                        # for 502
   rescue_from ServerUnavailable, :with => :server_unavailable          # for 503
@@ -202,10 +202,10 @@ class ApplicationController < ActionController::Base
   # ===============
   # = HTTP Errors =
   # ===============
-  # abasu : Most of the new methods added are just stubs for introduced for
-  # abasu : the sake of completeness  of HTTP error codes handling.
-  # abasu : If such error conditions become prominent in the the future,
-  # abasu : they should be overloaded in subclasses.
+  # Most of the new methods added are just stubs for introduced for
+  # the sake of completeness  of HTTP error codes handling.
+  # If such error conditions become prominent in the the future,
+  # they should be overloaded in subclasses.
   def bad_request(exception)
     opts = {:status => 400}
     opts[:message] = "Bad Request" if exception.message == exception.class.name

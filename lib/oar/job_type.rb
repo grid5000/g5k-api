@@ -16,10 +16,10 @@ module OAR
   class JobType < Base
     self.table_name = "job_types"
     self.primary_key = :job_type_id
-    
+
     # disable inheritance guessed by Rails because of the "type" column.
     self.inheritance_column = :_type_disabled
-    
+
     def name
       type
     end

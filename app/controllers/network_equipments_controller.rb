@@ -25,5 +25,4 @@ class NetworkEquipmentsController < ResourcesController
       network_equipments_path
     end
   end
-
 end
