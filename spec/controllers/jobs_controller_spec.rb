@@ -29,7 +29,7 @@ describe JobsController do
       expect(json['items'].length).to eq @job_uids.length
       expect(json['items'].map{|i| i['uid']}.sort).to eq @job_uids.sort
       expect(json['items'].all?{|i| i.has_key?('links')}).to be true
-      expect(json['items'][0]['links']).to eq ([
+      expect(json['items'][0]['links']).to eq [
         {
           "rel"=> "self",
           "href"=> "/sites/rennes/jobs/374210",
@@ -40,8 +40,8 @@ describe JobsController do
           "href"=> "/sites/rennes",
           "type"=> api_media_type(:g5kitemjson)
         }
-      ])
-      expect(json['links']).to eq ([
+      ]
+      expect(json['links']).to eq [
         {
           "rel"=>"self",
           "href"=>"/sites/rennes/jobs",
@@ -52,7 +52,7 @@ describe JobsController do
           "href"=>"/sites/rennes",
           "type"=> api_media_type(:g5kitemjson)
         }
-      ])
+      ]
     end
     it "should correctly deal with pagination filters" do
       get :index, params: { :site_id => "rennes", :offset => 11, :limit => 5, :format => :json }
@@ -60,12 +60,12 @@ describe JobsController do
       expect(json['total']).to eq @job_uids.length
       expect(json['offset']).to eq 11
       expect(json['items'].length).to eq 5
-      expect(json['items'].map{|i| i['uid']}).to eq ([374190, 374189, 374188, 374187, 374186])
+      expect(json['items'].map{|i| i['uid']}).to eq [374190, 374189, 374188, 374187, 374186]
     end
     it "should correctly deal with other filters" do
       params = {:user => 'crohr', :name => 'whatever'}
-      expect(OAR::Job).to receive(:list).with(hash_including(params)).
-        and_return(OAR::Job.limit(5))
+      expect(OAR::Job).to receive(:list).with(hash_including(params))
+                                        .and_return(OAR::Job.limit(5))
       get :index, params: params.merge(:site_id => "rennes", :format => :json)
       expect(response.status).to eq 200
     end
@@ -82,11 +82,11 @@ describe JobsController do
       expect(response.status).to eq 200
       expect(json["uid"]).to eq @job_uids[5]
       expect(json["links"]).to be_a(Array)
-      expect(json.keys.sort).to eq (["assigned_nodes", "command", "directory", "events", "links", "message", "mode", "project", "properties", "queue", "resources_by_type", "scheduled_at", "started_at", "state", "submitted_at", "types", "uid", "user", "user_uid", "walltime"])
-      expect(json['types']).to eq (['deploy'])
+      expect(json.keys.sort).to eq ["assigned_nodes", "command", "directory", "events", "links", "message", "mode", "project", "properties", "queue", "resources_by_type", "scheduled_at", "started_at", "state", "submitted_at", "types", "uid", "user", "user_uid", "walltime"]
+      expect(json['types']).to eq ['deploy']
       expect(json['scheduled_at']).to eq 1294395995
-      expect(json['assigned_nodes'].sort).to eq (["paramount-4.rennes.grid5000.fr", "paramount-30.rennes.grid5000.fr", "paramount-32.rennes.grid5000.fr", "paramount-33.rennes.grid5000.fr"].sort)
-      expect(json['resources_by_type']["cores"].sort).to eq (["paramount-4.rennes.grid5000.fr", "paramount-4.rennes.grid5000.fr", "paramount-4.rennes.grid5000.fr", "paramount-4.rennes.grid5000.fr", "paramount-30.rennes.grid5000.fr", "paramount-30.rennes.grid5000.fr", "paramount-30.rennes.grid5000.fr", "paramount-30.rennes.grid5000.fr", "paramount-32.rennes.grid5000.fr", "paramount-32.rennes.grid5000.fr", "paramount-32.rennes.grid5000.fr", "paramount-32.rennes.grid5000.fr", "paramount-33.rennes.grid5000.fr", "paramount-33.rennes.grid5000.fr", "paramount-33.rennes.grid5000.fr", "paramount-33.rennes.grid5000.fr"].sort)
+      expect(json['assigned_nodes'].sort).to eq ["paramount-4.rennes.grid5000.fr", "paramount-30.rennes.grid5000.fr", "paramount-32.rennes.grid5000.fr", "paramount-33.rennes.grid5000.fr"].sort
+      expect(json['resources_by_type']["cores"].sort).to eq ["paramount-4.rennes.grid5000.fr", "paramount-4.rennes.grid5000.fr", "paramount-4.rennes.grid5000.fr", "paramount-4.rennes.grid5000.fr", "paramount-30.rennes.grid5000.fr", "paramount-30.rennes.grid5000.fr", "paramount-30.rennes.grid5000.fr", "paramount-30.rennes.grid5000.fr", "paramount-32.rennes.grid5000.fr", "paramount-32.rennes.grid5000.fr", "paramount-32.rennes.grid5000.fr", "paramount-32.rennes.grid5000.fr", "paramount-33.rennes.grid5000.fr", "paramount-33.rennes.grid5000.fr", "paramount-33.rennes.grid5000.fr", "paramount-33.rennes.grid5000.fr"].sort
     end
   end # describe "GET /sites/{{site_id}}/jobs/{{id}}"
 
@@ -95,9 +95,8 @@ describe JobsController do
       @valid_job_attributes = {"command" => "sleep 3600"}
     end
     after do
-      begin
+      suppress(Exception) do
         OAR::Job.find(961722).delete
-      rescue Exception => e
       end
     end
     it "should return 403 if the user is not authenticated" do
@@ -117,8 +116,8 @@ describe JobsController do
       authenticate_as("crohr")
 
       expected_url = "http://api-out.local/sites/rennes/internal/oarapi/jobs.json"
-      stub_request(:post, expected_url).
-        with(
+      stub_request(:post, expected_url)
+        .with(
           :headers => {
             'Accept' => api_media_type(:json),
             'Content-Type' => api_media_type(:json),
@@ -126,8 +125,8 @@ describe JobsController do
             'X-Api-User-Cn' => "crohr"
           },
           :body => Grid5000::Job.new(payload).to_hash(:destination => "oar-2.4-submission").to_json
-        ).
-        to_return(
+        )
+        .to_return(
           :headers => { 'Location' => expected_url },
           :status => [400, 'Bad Request'],
           :body => 'some error',
@@ -137,14 +136,14 @@ describe JobsController do
       expect(response.status).to eq 400
       expect(response.body).to eq "Request to #{expected_url} failed with status 400: some error"
     end
-  # abasu : unit test for bug ref 5912 to handle error codes - 02.04.2015
+    # abasu : unit test for bug ref 5912 to handle error codes - 02.04.2015
     it "should return a 400 error if the OAR API returns 400 error code" do
       payload = @valid_job_attributes.merge("resources" => "{ib30g='YES'}/nodes=2")
       authenticate_as("crohr")
 
       expected_url = "http://api-out.local/sites/rennes/internal/oarapi/jobs.json"
-      stub_request(:post, expected_url).
-        with(
+      stub_request(:post, expected_url)
+        .with(
           :headers => {
             'Accept' => api_media_type(:json),
             'Content-Type' => api_media_type(:json),
@@ -152,8 +151,8 @@ describe JobsController do
             'X-Api-User-Cn' => "crohr"
           },
           :body => Grid5000::Job.new(payload).to_hash(:destination => "oar-2.4-submission").to_json
-        ).
-        to_return(
+        )
+        .to_return(
           :status => [400, 'Bad Request'],
           :body => 'Bad Request',
           :headers => { 'Location' => expected_url },
@@ -164,14 +163,14 @@ describe JobsController do
       expect(response.status).to eq 400
       expect(response.body).to eq "Request to #{expected_url} failed with status 400: Bad Request"
     end # "should return a 400 error if the OAR API returns 400 error code"
-  # abasu : unit test for bug ref 5912 to handle error codes - 02.04.2015
+    # abasu : unit test for bug ref 5912 to handle error codes - 02.04.2015
     it "should return a 401 error if the OAR API returns 401 error code" do
       payload = @valid_job_attributes
       authenticate_as("xyz")
 
       expected_url = "http://api-out.local/sites/rennes/internal/oarapi/jobs.json"
-      stub_request(:post, expected_url).
-        with(
+      stub_request(:post, expected_url)
+        .with(
           :headers => {
             'Accept' => api_media_type(:json),
             'Content-Type' => api_media_type(:json),
@@ -179,8 +178,8 @@ describe JobsController do
             'X-Api-User-Cn' => "xyz"
           },
           :body => Grid5000::Job.new(payload).to_hash(:destination => "oar-2.4-submission").to_json
-        ).
-        to_return(
+        )
+        .to_return(
           :status => [401, 'Authorization Required'],
           :body => 'Authorization Required',
           :headers => { 'Location' => expected_url },
@@ -196,8 +195,8 @@ describe JobsController do
       authenticate_as("crohr")
 
       expected_url = "http://api-out.local/sites/rennes/internal/oarapi/jobs.json"
-      stub_request(:post, expected_url).
-        with(
+      stub_request(:post, expected_url)
+        .with(
           :headers => {
             'Accept' => api_media_type(:json),
             'Content-Type' => api_media_type(:json),
@@ -205,25 +204,23 @@ describe JobsController do
             'X-Api-User-Cn' => "crohr"
           },
           :body => Grid5000::Job.new(payload).to_hash(:destination => "oar-2.4-submission").to_json
-        ).
-        to_return ( lambda { |request|
-                      # use a side_effect to really test active_record finders
-                      create(:job, job_id: 961722)
-                      {
-                        :status => 201,
-                        :body => fixture("oarapi-submitted-job.json")
-                      }
-                    }
-                  )
+        )
+        .to_return(lambda { |_|
+                     # use a side_effect to really test active_record finders
+                     create(:job, job_id: 961722)
+                     {
+                       :status => 201,
+                       :body => fixture("oarapi-submitted-job.json")
+                     }
+                   })
 
       post :create, params: { :site_id => "rennes", :format => :json }, body: payload.to_json, as: :json
 
       expect(response.status).to eq 201
-      expect(JSON.parse(response.body)).to include ({"uid" => 961722})
+      expect(JSON.parse(response.body)).to include({"uid" => 961722})
       expect(response.location).to eq "http://api-in.local/sites/rennes/jobs/961722"
     end
   end # describe "POST /sites/{{site_id}}/jobs"
-
 
   describe "DELETE /sites/{{site_id}}/jobs/{{id}}" do
     before do
@@ -259,9 +256,9 @@ describe JobsController do
 
     it "should return 404 if the OAR api returns 404" do
       authenticate_as(@job.user)
-      stub_request(:delete, @expected_url).
-        with(:headers => @expected_headers).
-        to_return(
+      stub_request(:delete, @expected_url)
+        .with(:headers => @expected_headers)
+        .to_return(
           :status => 404, :body => "not found"
         )
       delete :destroy, params: { :site_id => "rennes", :id => @job.uid, :format => :json }
@@ -271,9 +268,9 @@ describe JobsController do
 
     it "should fail if the OAR api does not return 200, 202 or 204" do
       authenticate_as(@job.user)
-      stub_request(:delete, @expected_url).
-        with(:headers => @expected_headers).
-        to_return(
+      stub_request(:delete, @expected_url)
+        .with(:headers => @expected_headers)
+        .to_return(
           :headers => { 'Location' => @expected_url },
           :status => [400, "Bad Request"], :body => "some error"
         )
@@ -285,9 +282,9 @@ describe JobsController do
 
     it "should return 202, and the Location header if successful" do
       authenticate_as(@job.user)
-      stub_request(:delete, @expected_url).
-        with(:headers => @expected_headers).
-        to_return(
+      stub_request(:delete, @expected_url)
+        .with(:headers => @expected_headers)
+        .to_return(
           :status => 202, :body => fixture("oarapi-deleted-job.json")
         )
 

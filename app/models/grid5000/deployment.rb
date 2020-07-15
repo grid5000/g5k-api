@@ -91,6 +91,7 @@ module Grid5000
       [:key].each do |attribute|
         value = send(attribute)
         next if value.nil?
+
         scheme = URI.parse(value).scheme rescue nil
         if scheme.nil?
           filename = [
@@ -104,7 +105,7 @@ module Grid5000
           send("#{attribute}=".to_sym, uri)
         end
       end
-    end # def transform_blobs_into_files!
+    end
 
     def cancel_workflow!
       raise "cancel_workflow!" if !user or !base_uri # Ugly hack
@@ -112,7 +113,7 @@ module Grid5000
       begin
         headers = { 'X-Remote-Ident' => user }
         uri = File.join(base_uri, uid)
-        http = http_request(:delete, uri, tls_options, 15, headers)
+        http_request(:delete, uri, tls_options, 15, headers)
       rescue
         error("Unable to contact #{File.join(base_uri,uid)}")
         raise self.output+"\n"
@@ -140,7 +141,7 @@ module Grid5000
             http = http_request(:get, environment, tls_options, 10)
             params['environment'] = YAML.load(http.body)
             params['environment']['kind'] = 'anonymous'
-          rescue Exception => e
+          rescue => e
             raise "Error fetching the image description file: #{e.class.name}, #{e.message}"
           end
         else
@@ -153,8 +154,7 @@ module Grid5000
 
       headers = { 'Content-Type' => Mime::Type.lookup_by_extension(:json).to_s,
                   'Accept' => Mime::Type.lookup_by_extension(:json).to_s,
-                  'X-Remote-Ident' => user,
-                }
+                  'X-Remote-Ident' => user,}
       http = http_request(:post, base_uri, tls_options, 20, headers, params.to_json)
 
       unless %w{200 201 202 204}.include?(http.code.to_s)
@@ -176,8 +176,7 @@ module Grid5000
     def touch!
       begin
         headers = { 'Accept' => Mime::Type.lookup_by_extension(:json).to_s,
-                    'X-Remote-Ident' => user
-                  }
+                    'X-Remote-Ident' => user}
         uri = File.join(base_uri, uid)
         http = http_request(:get, uri, tls_options, 10, headers)
       rescue
@@ -199,7 +198,7 @@ module Grid5000
 
           res = JSON.parse(http.body)
           # Ugly compatibility hack
-          res.each_pair do |node,stat|
+          res.each_pair do |node, _stat|
             res[node]['state'] = res[node]['state'].upcase
           end
           self.result = res
@@ -228,10 +227,10 @@ module Grid5000
     end
 
     def get_kaerror(resp,hdr)
-      if hdr['X_APPLICATION_ERROR_CODE'] and hdr['X_APPLICATION_ERROR_INFO']
+      if hdr['X_APPLICATION_ERROR_CODE'] && hdr['X_APPLICATION_ERROR_INFO']
         "Kadeploy error ##{hdr['X_APPLICATION_ERROR_CODE']}: #{Base64.strict_decode64(hdr['X_APPLICATION_ERROR_INFO'])}"
       else
-        "HTTP error ##{resp.code.to_s}: #{resp.body}"
+        "HTTP error ##{resp.code}: #{resp.body}"
       end
     end
 
@@ -244,7 +243,7 @@ module Grid5000
       failed
     end
 
-    def as_json(*args)
+    def as_json(*)
       attributes.merge(:links => links).reject{|k,v| v.nil? || k=="id"}
     end
 
@@ -271,5 +270,5 @@ module Grid5000
 
       params
     end
-  end # class Deployment
+  end
 end

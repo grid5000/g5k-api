@@ -15,7 +15,6 @@
 require 'resources_controller'
 
 class PdusController < ResourcesController
-
   protected
 
   def collection_path

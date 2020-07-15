@@ -22,11 +22,9 @@ describe DeploymentsController do
     10.times do |i|
       deployment=FactoryBot.create(:deployment, :uid => "uid#{i}", :created_at => (@now+i).to_i)
     end
-
   end
 
   describe "GET /sites/{{site_id}}/deployments" do
-
     it "should return the list of deployments with the correct links, in created_at DESC order" do
       get :index, params: { :site_id => "rennes", :format => :json }
       expect(response.status).to eq(200)
@@ -37,31 +35,30 @@ describe DeploymentsController do
 
       expect(json['items'].all?{|i| i.has_key?('links')}).to be true
 
-
       expect(json['items'][0]['links']).to eq([
-        {
-          "rel"=> "self",
-          "href"=> "/sites/rennes/deployments/uid9",
-          "type"=> api_media_type(:g5kitemjson)
-        },
-        {
-          "rel"=> "parent",
-          "href"=> "/sites/rennes",
-          "type"=> api_media_type(:g5kitemjson)
-        }
-      ])
+                                                {
+                                                  "rel"=> "self",
+                                                  "href"=> "/sites/rennes/deployments/uid9",
+                                                  "type"=> api_media_type(:g5kitemjson)
+                                                },
+                                                {
+                                                  "rel"=> "parent",
+                                                  "href"=> "/sites/rennes",
+                                                  "type"=> api_media_type(:g5kitemjson)
+                                                }
+                                              ])
       expect(json['links']).to eq([
-        {
-          "rel"=>"self",
-          "href"=>"/sites/rennes/deployments",
-          "type"=> api_media_type(:g5kcollectionjson)
-        },
-        {
-          "rel"=>"parent",
-          "href"=>"/sites/rennes",
-          "type"=> api_media_type(:g5kitemjson)
-        }
-      ])
+                                    {
+                                      "rel"=>"self",
+                                      "href"=>"/sites/rennes/deployments",
+                                      "type"=> api_media_type(:g5kcollectionjson)
+                                    },
+                                    {
+                                      "rel"=>"parent",
+                                      "href"=>"/sites/rennes",
+                                      "type"=> api_media_type(:g5kitemjson)
+                                    }
+                                  ])
     end
     it "should correctly deal with pagination filters" do
       get :index, params: { :site_id => "rennes", :offset => 3, :limit => 5, :format => :json }
@@ -72,7 +69,6 @@ describe DeploymentsController do
       expect(json['items'].map{|i| i['uid']}).to eq((0...10).map{|i| "uid#{i}"}.reverse.slice(3,5))
     end
   end # describe "GET /sites/{{site_id}}/deployments"
-
 
   describe "GET /sites/{{site_id}}/deployments/{{id}}" do
     it "should return 404 if the deployment does not exist" do
@@ -90,12 +86,12 @@ describe DeploymentsController do
     end
   end # describe "GET /sites/{{site_id}}/deployments/{{id}}"
 
-
   describe "POST /sites/{{site_id}}/deployments" do
     before do
       @valid_attributes = {
         "nodes" => ["paradent-1.rennes.grid5000.fr"],
-        "environment" => "lenny-x64-base" }
+        "environment" => "lenny-x64-base" 
+      }
       @deployment = Grid5000::Deployment.new(@valid_attributes)
     end
 
@@ -113,12 +109,12 @@ describe DeploymentsController do
       post :create, params: { :site_id => "rennes", :format => :json }, body: payload.to_json, as: :json
 
       expect(response.status).to eq(400)
-      expect(response.body).to match /The deployment you are trying to submit is not valid/
+      expect(response.body).to match(/The deployment you are trying to submit is not valid/)
     end
 
     it "should raise an error if an error occurred when launching the deployment" do
-      expect(Grid5000::Deployment).to receive(:new).with(@valid_attributes).
-        and_return(@deployment)
+      expect(Grid5000::Deployment).to receive(:new).with(@valid_attributes)
+                                                   .and_return(@deployment)
       expect(@deployment).to receive(:launch_workflow!).and_raise(Exception.new("some error message"))
 
       authenticate_as("crohr")
@@ -130,8 +126,8 @@ describe DeploymentsController do
     end
 
     it "should return 500 if the deploymet cannot be launched" do
-      expect(Grid5000::Deployment).to receive(:new).with(@valid_attributes).
-        and_return(@deployment)
+      expect(Grid5000::Deployment).to receive(:new).with(@valid_attributes)
+                                                   .and_return(@deployment)
 
       expect(@deployment).to receive(:launch_workflow!).and_return(nil)
 
@@ -144,11 +140,11 @@ describe DeploymentsController do
     end
 
     it "should call transform_blobs_into_files! before sending the deployment, and return 201 if OK" do
-      expect(Grid5000::Deployment).to receive(:new).with(@valid_attributes).
-        and_return(@deployment)
+      expect(Grid5000::Deployment).to receive(:new).with(@valid_attributes)
+                                                   .and_return(@deployment)
 
-      expect(@deployment).to receive(:transform_blobs_into_files!).
-        with(
+      expect(@deployment).to receive(:transform_blobs_into_files!)
+        .with(
           Rails.tmp,
           "http://api-in.local/sites/rennes/files"
         )
@@ -172,7 +168,6 @@ describe DeploymentsController do
       expect(dep.status?(:processing)).to be true
     end
   end # describe "POST /sites/{{site_id}}/deployments"
-
 
   describe "DELETE /sites/{{site_id}}/deployments/{{id}}" do
     before do
@@ -201,9 +196,9 @@ describe DeploymentsController do
     end
 
     it "should do nothing and return 204 if the deployment is not in an active state" do
-      expect(Grid5000::Deployment).to receive(:find_by_uid).
-        with(@deployment.uid).
-        and_return(@deployment)
+      expect(Grid5000::Deployment).to receive(:find_by_uid)
+        .with(@deployment.uid)
+        .and_return(@deployment)
 
       expect(@deployment).to receive(:can_cancel?).and_return(false)
 
@@ -217,9 +212,9 @@ describe DeploymentsController do
     end
 
     it "should call Grid5000::Deployment#cancel! if deployment active" do
-      expect(Grid5000::Deployment).to receive(:find_by_uid).
-        with(@deployment.uid).
-        and_return(@deployment)
+      expect(Grid5000::Deployment).to receive(:find_by_uid)
+        .with(@deployment.uid)
+        .and_return(@deployment)
 
       expect(@deployment).to receive(:can_cancel?).and_return(true)
       expect(@deployment).to receive(:cancel!).and_return(true)
@@ -232,7 +227,6 @@ describe DeploymentsController do
       expect(response.body).to be_empty
       expect(response.headers['Location']).to eq("http://api-in.local/sites/rennes/deployments/#{@deployment.uid}")
     end
-
   end # describe "DELETE /sites/{{site_id}}/deployments/{{id}}"
 
   describe "PUT /sites/{{site_id}}/deployments/{{id}}" do
@@ -248,10 +242,9 @@ describe DeploymentsController do
     end
 
     it "should call Grid5000::Deployment#touch!" do
-      expect(Grid5000::Deployment).to receive(:find_by_uid).
-        with(@deployment.uid).
-        and_return(@deployment)
-
+      expect(Grid5000::Deployment).to receive(:find_by_uid)
+        .with(@deployment.uid)
+        .and_return(@deployment)
 
       expect(@deployment).to receive(:active?).and_return(true)
       expect(@deployment).to receive(:touch!)
@@ -262,6 +255,5 @@ describe DeploymentsController do
       expect(response.body).to be_empty
       expect(response.headers['Location']).to eq("http://api-in.local/sites/rennes/deployments/#{@deployment.uid}")
     end
-
   end # describe "PUT /sites/{{site_id}}/deployments/{{id}}"
 end

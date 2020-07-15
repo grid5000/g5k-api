@@ -48,7 +48,6 @@ describe SitesController do
       expect(response.status).to eq 200
       expect(json['links'].find{|l| l['rel'] == 'self'}['href']).to eq "/sid/"
     end
-
   end # describe "GET /sites"
 
   describe "GET /sites/{{site_id}}" do
@@ -136,7 +135,6 @@ describe SitesController do
       }['href']).to eq "/sites/rennes/versions/b00bd30bf69c322ffe9aca7a9f6e3be0f29e20f4"
     end
   end # describe "GET /sites/{{site_id}}"
-
 
   describe "GET /sites/{{site_id}}/status (authenticated)" do
     before do

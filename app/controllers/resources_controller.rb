@@ -13,7 +13,6 @@
 # limitations under the License.
 
 class ResourcesController < ApplicationController
-
   MAX_AGE = 60.seconds
 
   # Return a collection of resources
@@ -26,6 +25,7 @@ class ResourcesController < ApplicationController
   end
 
   protected
+
   def fetch(path)
     allow :get; vary_on :accept
     Rails.logger.info "Fetching #{path}"
@@ -37,7 +37,7 @@ class ResourcesController < ApplicationController
     raise NotFound, "Cannot find resource #{path}" if object.nil?
 
     if object.has_key?('items')
-      object['links'] = links_for_collection(object)
+      object['links'] = links_for_collection
       object['items'].each{|item|
         item['links'] = links_for_item(item)
       }
@@ -148,49 +148,48 @@ class ResourcesController < ApplicationController
     (item.delete('subresources') || []).each do |subresource|
       href = uri_to(resource_path(item["uid"]) + "/" + subresource[:name])
       links.push({
-        "rel" => subresource[:name],
+                   "rel" => subresource[:name],
         "href" => href,
         "type" => api_media_type(:g5kcollectionjson)
-      })
+                 })
     end
 
     links.push({
-      "rel" => "self",
+                 "rel" => "self",
       "type" => api_media_type(:g5kitemjson),
       "href" => uri_to(resource_path(item["uid"]))
-    })
+               })
     links.push({
-      "rel" => "parent",
+                 "rel" => "parent",
       "type" => api_media_type(:g5kitemjson),
       "href" => uri_to(parent_path)
-    })
+               })
     links.push({
-      "rel" => "version",
+                 "rel" => "version",
       "type" => api_media_type(:g5kitemjson),
       "href" => uri_to(File.join(resource_path(item["uid"]), "versions", item["version"]))
-    })
+               })
     links.push({
-      "rel" => "versions",
+                 "rel" => "versions",
       "type" => api_media_type(:g5kcollectionjson),
       "href" => uri_to(File.join(resource_path(item["uid"]), "versions"))
-    })
+               })
     links
   end
 
   # Should be overwritten
-  def links_for_collection(collection)
+  def links_for_collection
     links = []
     links.push({
-      "rel" => "self",
+                 "rel" => "self",
       "type" => api_media_type(:g5kcollectionjson),
       "href" => uri_to(collection_path)
-    })
+               })
     links.push({
-      "rel" => "parent",
+                 "rel" => "parent",
       "type" => api_media_type(:g5kitemjson),
       "href" => uri_to(parent_path)
-    }) unless parent_path.blank?
+               }) unless parent_path.blank?
     links
   end
-
 end

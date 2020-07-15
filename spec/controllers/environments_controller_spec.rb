@@ -57,5 +57,4 @@ describe EnvironmentsController do
       expect(response.status).to eq 404
     end
   end # describe "GET /sites/{{site_id}}/environments/{{id}}"
-
 end
