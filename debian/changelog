@@ -1,3 +1,12 @@
+g5k-api (3.9.1) unstable; urgency=low
+
+  * 17b90cb Return 404 when an ui template cannot be found
+  * 41b3560 Fix the message sent to client when a http request to an upstream fail
+  * ce79581 Replace Grit by Rugged libgit2 binding for accessing git repository
+  * 7add77f Remove remaining notifications usage
+
+ -- Samir Noir <samir.noir@inria.fr>  Wed, 15 Jul 2020 18:29:25 +0200
+
 g5k-api (3.9.0) unstable; urgency=low
 
   * e512131 No headers are required when getting environments from Kadeploy
