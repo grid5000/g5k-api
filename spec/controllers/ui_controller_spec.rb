@@ -12,31 +12,15 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-class UiController < ApplicationController
-  rescue_from ActionView::MissingTemplate do
-    render :template => "ui/404.html.haml", :status => 404
-  end
+require 'spec_helper'
 
-  def show
-    params[:page] ||= "dashboard"
-    @id = params[:page].downcase.gsub(/[^a-z]/,'_').squeeze('_')
-    @title = params[:page]
+describe UiController do
+  render_views
 
-    respond_to do |format|
-      format.html {
-        render params[:page].to_sym
-      }
-    end
-  end
-
-  def visualization
-    @id = params[:page].downcase.gsub(/[^a-z]/,'_').squeeze('_')
-    @title = params[:page]
-
-    respond_to do |format|
-      format.html {
-        render "ui/visualizations/#{params[:page]}.html.haml"
-      }
+  describe "GET /ui/doesnotexist" do
+    it "should return 404 if the page does not exist" do
+      get :visualization, format: :html, params: { :page => 'doesnotexist' }
+      expect(response.status).to eq(404)
     end
   end
 end
