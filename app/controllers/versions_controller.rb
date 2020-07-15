@@ -62,6 +62,7 @@ class VersionsController < ApplicationController
       :limit => 1
     )
     raise NotFound, "The requested version '#{version}' does not exist or the resource '#{resource_path}' does not exist." if versions["total"] == 0
+
     # etag compute_etag(commit.id, resource_uri, response['Content-Type'], options.release_hash)
 
     output = metadata_for_commit(versions["items"][0], resource_path)
@@ -76,6 +77,7 @@ class VersionsController < ApplicationController
   end
 
   protected
+
   def resource_path
     @resource_path ||= params[:resource].gsub(/\/?platforms/, '')
   end

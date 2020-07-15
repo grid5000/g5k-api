@@ -20,7 +20,7 @@ module OAR
     # disable inheritance guessed by Rails because of the "type" column.
     self.inheritance_column = :_type_disabled
 
-    def as_json(*args)
+    def as_json(*)
       {
         :uid => event_id,
         :created_at => date,

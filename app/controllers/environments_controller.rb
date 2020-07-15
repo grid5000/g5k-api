@@ -15,7 +15,6 @@
 require 'resources_controller'
 
 class EnvironmentsController < ResourcesController
-
   protected
 
   def collection_path

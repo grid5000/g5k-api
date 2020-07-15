@@ -15,7 +15,6 @@
 require 'resources_controller'
 
 class NodesController < ResourcesController
-
   protected
 
   def collection_path

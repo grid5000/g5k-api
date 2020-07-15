@@ -13,14 +13,13 @@
 # limitations under the License.
 
 class RootController < ResourcesController
-
   protected
 
   def collection_path
     "/"
   end
 
-  def resource_path(id)
+  def resource_path(_id)
     ""
   end
 
@@ -30,10 +29,10 @@ class RootController < ResourcesController
     item['timestamp'] = Time.now.to_i
     %w{users}.each do |rel|
       links.push({
-        "rel" => rel,
+                   "rel" => rel,
         "type" => api_media_type(:g5kcollectionjson),
         "href" => uri_to(File.join(resource_path(item["uid"]), rel))
-      })
+                 })
     end
     links
   end

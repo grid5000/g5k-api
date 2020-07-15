@@ -66,7 +66,7 @@ module Grid5000
 
       # If it's a symlink
       if hash_object[:filemode] == 40960
-        hash_object = find_object_at(object.content, commit, relative_to=path)
+        hash_object = find_object_at(object.content, commit, path)
         object = instance.lookup(hash_object[:oid])
       end
 
@@ -90,10 +90,10 @@ module Grid5000
             accu.merge(content)
           end
         else # collection
-          items = object.map do |object|
-            content = expand_object(
-              object,
-              File.join(path, object[:name].gsub(".json", "")),
+          items = object.map do |object_map|
+            expand_object(
+              object_map,
+              File.join(path, object_map[:name].gsub(".json", "")),
               commit
             )
           end
@@ -151,6 +151,8 @@ module Grid5000
           nil
         end
       end
+
+      object
     end
 
     # Return the physical path within the repository

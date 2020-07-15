@@ -56,7 +56,7 @@ class JobsController < ApplicationController
     render_opts = {:methods => [:resources_by_type, :assigned_nodes]}
     respond_to do |format|
       format.g5kitemjson { render render_opts.merge(:json => job) }
-      format.json { render render_opts.merge(:json => job)  }
+      format.json { render render_opts.merge(:json => job) }
     end
   end
 
@@ -74,11 +74,10 @@ class JobsController < ApplicationController
       )+"/internal/oarapi/jobs/#{params[:id]}.json",
       :out
     )
-    tls_options = tls_options_for(uri, :out)
+    tls_options = tls_options_for(:out)
     headers = { 'Accept' => api_media_type(:json),
                 'X-Remote-Ident' => @credentials[:cn],
-                'X-Api-User-Cn' => @credentials[:cn],
-              }
+                'X-Api-User-Cn' => @credentials[:cn] }
     http = http_request(:delete, uri, tls_options, 10, headers)
 
     continue_if!(http, :is => [200,202,204,404])
@@ -111,18 +110,18 @@ class JobsController < ApplicationController
     job = Grid5000::Job.new(job_params)
     Rails.logger.info "Received job = #{job.inspect}"
     raise BadRequest, "The job you are trying to submit is not valid: #{job.errors.join("; ")}" unless job.valid?
+
     job_to_send = job.to_hash(:destination => "oar-2.4-submission")
     Rails.logger.info "Submitting #{job_to_send.inspect}"
 
     uri = uri_to(
       site_path(params[:site_id])+"/internal/oarapi/jobs.json", :out
     )
-    tls_options = tls_options_for(uri, :out)
+    tls_options = tls_options_for(:out)
     headers = { 'X-Remote-Ident' => @credentials[:cn],
                 'X-Api-User-Cn' => @credentials[:cn],
                 'Content-Type' => api_media_type(:json),
-                'Accept' => api_media_type(:json)
-              }
+                'Accept' => api_media_type(:json)}
 
     http = http_request(:post, uri, tls_options, 20, headers, job_to_send.to_json)
 

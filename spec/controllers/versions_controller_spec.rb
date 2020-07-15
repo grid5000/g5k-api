@@ -56,5 +56,4 @@ describe VersionsController do
       expect(json["author"]).to eq("Cyril Rohr")
     end
   end # describe "GET {{resource}}/versions/{{version_id}}"
-
 end

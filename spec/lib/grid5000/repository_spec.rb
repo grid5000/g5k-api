@@ -100,7 +100,6 @@ describe Grid5000::Repository do
         )
         expect(commit).to be_nil
       end
-
     end # describe "finding a specific version"
 
     describe "finding a specific object" do
@@ -110,7 +109,8 @@ describe Grid5000::Repository do
 
       it "should find a tree object" do
         hash_object = @repository.find_object_at(
-          @repository.full_path('grid5000'), @commit)
+          @repository.full_path('grid5000'), @commit
+        )
 
         object = @repository.instance.lookup(hash_object[:oid])
         expect(object).to be_a(Rugged::Tree)
@@ -123,11 +123,12 @@ describe Grid5000::Repository do
         hash_object = @repository.find_object_at(
           '../../../../grid5000/environments/sid-x64-base-1.0.json',
           @commit,
-          relative_to)
+          relative_to
+        )
 
         object = @repository.instance.lookup(hash_object[:oid])
         expect(object).to be_a(Rugged::Blob)
-        expect(object.content).to match /kernel/
+        expect(object.content).to match(/kernel/)
       end
 
       it "should find a blob" do
@@ -140,7 +141,7 @@ describe Grid5000::Repository do
 
         object = @repository.instance.lookup(hash_object[:oid])
         expect(object).to be_a(Rugged::Blob)
-        expect(object.content).to match /kernel/
+        expect(object.content).to match(/kernel/)
       end
 
       it "should return nil if the object cannot be found" do
@@ -160,7 +161,7 @@ describe Grid5000::Repository do
         expect(result).not_to be_nil
         # bordemer_nodes = object.expand
         expect(result["total"]).to eq(48)
-        expect(result["items"].map{|i| i['uid']}.first).to eq( "bordemer-1")
+        expect(result["items"].map{|i| i['uid']}.first).to eq("bordemer-1")
       end
       it "should expand a tree of trees into a collection [sites]" do
         result = @repository.find(

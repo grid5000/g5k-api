@@ -15,7 +15,6 @@
 require 'spec_helper'
 
 describe Grid5000::Deployment do
-
   before(:each) do
     @deployment = build(:deployment,
                         :environment => "lenny-x64-base",
@@ -23,7 +22,6 @@ describe Grid5000::Deployment do
                         :site_uid => "rennes",
                         :nodes => ["paradent-1.rennes.grid5000.fr"])
   end
-
 
   describe "validations" do
     it "should be valid" do
@@ -34,9 +32,9 @@ describe Grid5000::Deployment do
       it "should not be valid if :nodes is set to #{value.inspect}" do
         @deployment.nodes = value
         expect(@deployment).to_not be_valid
-        expect(@deployment.errors[:nodes]).
-          to eq ["can't be blank",
-                 "must be a non-empty list of node FQDN"]
+        expect(@deployment.errors[:nodes])
+          .to eq ["can't be blank",
+                  "must be a non-empty list of node FQDN"]
       end
     end
 
@@ -44,27 +42,25 @@ describe Grid5000::Deployment do
       it "should not be valid if :environment is set to #{value.inspect}" do
         @deployment.environment = value
         expect(@deployment).to_not be_valid
-        expect(@deployment.errors[:environment]).
-          to eq ["can't be blank"]
+        expect(@deployment.errors[:environment])
+          .to eq ["can't be blank"]
       end
       it "should not be valid if :user_uid is set to  #{value.inspect}" do
         @deployment.user_uid = value
         expect(@deployment).to_not be_valid
-        expect(@deployment.errors[:user_uid]).
-          to eq ["can't be blank"]
+        expect(@deployment.errors[:user_uid])
+          .to eq ["can't be blank"]
       end
       it "should not be valid if :site_uid is set to  #{value.inspect}" do
         @deployment.site_uid = value
         expect(@deployment).to_not be_valid
-        expect(@deployment.errors[:site_uid]).
-          to eq ["can't be blank"]
+        expect(@deployment.errors[:site_uid])
+          .to eq ["can't be blank"]
       end
     end
   end # describe "validations"
 
-
   describe "export to hash" do
-
     it "should correctly export the attributes to an array [simple]" do
       expect(@deployment.to_hash).to be == {
         "environment" => {
@@ -150,14 +146,14 @@ describe Grid5000::Deployment do
     end
   end # describe "export to array"
 
-
   describe "transform blobs into files" do
     it "should transform a plain text key into a URI pointing to a physical file that contains the key content" do
       expected_filename = "crohr-key-d971f6c5dfeeaf64c9699e2a81f6d4cb5532ed96"
       @deployment.key = "ssh-dsa XMKSFNJCNJSJNJDNJSBCJSJ"
       @deployment.transform_blobs_into_files!(
         Rails.tmp,
-        "https://api.grid5000.fr/sid/grid5000/sites/rennes/files")
+        "https://api.grid5000.fr/sid/grid5000/sites/rennes/files"
+      )
       expect(@deployment.key).to be == "https://api.grid5000.fr/sid/grid5000/sites/rennes/files/#{expected_filename}"
       expect(File.read(
                File.join(Rails.tmp, expected_filename)
@@ -167,13 +163,13 @@ describe Grid5000::Deployment do
     it "should do nothing if the key is already a URI" do
       @deployment.key = "http://public.rennes.grid5000.fr/~crohr/my-key.pub"
       @deployment.transform_blobs_into_files!(
-         Rails.tmp,
-        "https://api.grid5000.fr/sid/grid5000/sites/rennes/files")
-      expect(@deployment.key).
-        to be == "http://public.rennes.grid5000.fr/~crohr/my-key.pub"
+        Rails.tmp,
+        "https://api.grid5000.fr/sid/grid5000/sites/rennes/files"
+      )
+      expect(@deployment.key)
+        .to be == "http://public.rennes.grid5000.fr/~crohr/my-key.pub"
     end
   end # describe "transform blobs into files"
-
 
   describe "serialization" do
     before do
@@ -184,19 +180,18 @@ describe Grid5000::Deployment do
                            "paradent-1.rennes.grid5000.fr" => {
                              "state" => "OK"
                            }
-                         }
-                        )
+                         })
     end
 
     it "should correctly serialize the to-be-serialized attributes" do
-      expect(@deployment.nodes).
-        to be == ["paradent-1.rennes.grid5000.fr"]
-      expect(@deployment.result).
-        to be == {
-        "paradent-1.rennes.grid5000.fr" => {
-          "state" => "OK"
+      expect(@deployment.nodes)
+        .to be == ["paradent-1.rennes.grid5000.fr"]
+      expect(@deployment.result)
+        .to be == {
+          "paradent-1.rennes.grid5000.fr" => {
+            "state" => "OK"
+          }
         }
-      }
     end
 
     it "correctly build the attributes hash for JSON export" do
@@ -206,13 +201,13 @@ describe Grid5000::Deployment do
     it "should correctly export to json" do
       export = JSON.parse(@deployment.to_json)
       expect(export['nodes']).to be == [
-        "paradent-1.rennes.grid5000.fr"]
+        "paradent-1.rennes.grid5000.fr"
+      ]
       expect(export['result']).to be == {
         "paradent-1.rennes.grid5000.fr"=>{"state"=>"OK"}
       }
     end
   end # describe "serialization"
-
 
   describe "creation" do
     it "should not allow to create a deployment if uid is nil" do
@@ -253,8 +248,8 @@ describe Grid5000::Deployment do
       expect(@deployment.status?(:processing)).to be true
     end
     it "should not be able to go from waiting to processing if an exception is raised when launch_workflow" do
-      expect(@deployment).to receive(:launch_workflow!).
-        and_raise(Exception.new("some error"))
+      expect(@deployment).to receive(:launch_workflow!)
+        .and_raise(Exception.new("some error"))
       expect(@deployment.status?(:waiting)).to be true
       expect(lambda{
         @deployment.launch!
@@ -282,8 +277,8 @@ describe Grid5000::Deployment do
         expect(@deployment.status?(:canceled)).to be true
       end
       it "should not be able to go from processing to canceled if an exception is raised when cancel_workflow" do
-        expect(@deployment).to receive(:cancel_workflow!).
-          and_raise(Exception.new("some error"))
+        expect(@deployment).to receive(:cancel_workflow!)
+          .and_raise(Exception.new("some error"))
         expect(lambda{
           @deployment.cancel
         }).to raise_error(Exception, "some error")

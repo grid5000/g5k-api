@@ -156,14 +156,13 @@ module OAR
           next if resource.nil?
           resources[resource.resource_id] = resource
 
-          api_status[resource.api_type][resource.api_name] ||= initial_status_for(resource, include_details)
+          api_status[resource.api_type][resource.api_name] ||= initial_status_for(resource)
 
           api_status_data[resource.api_type][resource.api_name] ||= initial_status_data_for(resource, include_details)
 
           api_status_data[resource.api_type][resource.api_name] =
             update_with_resource(api_status_data[resource.api_type][resource.api_name],
-                                 resource,
-                                 include_details)
+                                 resource)
         end
 
         # Go through active jobs and update status data for all the
@@ -252,7 +251,7 @@ module OAR
       end
 
       # Returns the status hash for a resource with no jobs
-      def initial_status_for(resource, include_details)
+      def initial_status_for(resource)
         h = {:hard => resource.state}
         # Check if resource is in standby state
         if resource.state == 'absent' && resource.available_upto && resource.available_upto == STANDBY_AVAILABLE_UPTO
@@ -288,7 +287,7 @@ module OAR
         initial_data
       end
 
-      def update_with_resource(current_data, resource, include_details)
+      def update_with_resource(current_data, resource)
         current_data[:totalcores] += 1 if resource.api_type=="nodes"
         return current_data
       end

@@ -25,7 +25,7 @@ require 'webmock/rspec'
 
 # Requires supporting ruby files with custom matchers and macros, etc,
 # in spec/support/ and its subdirectories.
-Dir[Rails.root.join("spec/support/**/*.rb")].each {|f| require f}
+Dir[Rails.root.join("spec/support/**/*.rb")].sort.each {|f| require f}
 
 def fixture(filename)
   File.read(File.join(File.dirname(__FILE__), "fixtures", filename))
@@ -40,14 +40,14 @@ module MediaTypeHelper
 
   def assert_media_type(type)
     expect(response.headers['Content-Type']).to match case type
-    when :json
-      %r{application/json}
-    when :txt
-      %r{text/plain}
-    when :json_collection
-      %r{application/json}
-    else
-      raise MediaTypeError, "Media type #{type.inspect} was not expected."
+                                                      when :json
+                                                        %r{application/json}
+                                                      when :txt
+                                                        %r{text/plain}
+                                                      when :json_collection
+                                                        %r{application/json}
+                                                      else
+                                                        raise MediaTypeError, "Media type #{type.inspect} was not expected."
     end
   end
 end
@@ -58,9 +58,11 @@ module HeaderHelper
   def assert_vary_on(*args)
     expect((response.headers['Vary'] || "").downcase.split(/\s*,\s*/).sort).to eq(args.map{|v| v.to_s.dasherize}.sort)
   end
+
   def assert_allow(*args)
     expect((response.headers['Allow'] || "").downcase.split(/\s*,\s*/).sort).to eq(args.map{|v| v.to_s.dasherize}.sort)
   end
+
   def assert_expires_in(seconds, options = {})
     values = (response.headers['Cache-Control'] || "").downcase.split(/\s*,\s*/)
     expect(values).to include("public") if options[:public]
@@ -74,7 +76,6 @@ module HeaderHelper
 end
 
 RSpec.configure do |config|
-
   config.infer_spec_type_from_file_location!
   config.include FactoryBot::Syntax::Methods
   config.before(:each) do
@@ -92,14 +93,14 @@ RSpec.configure do |config|
       '../fixtures/reference-repository',
       __FILE__
     )
-    if File.exist?( File.join(@repository_path, 'git.rename') )
+    if File.exist?(File.join(@repository_path, 'git.rename'))
       cmd = "mv #{File.join(@repository_path, 'git.rename')} #{File.join(@repository_path, '.git')}"
       system cmd
     end
   end
 
   config.after(:all) do
-    if File.exist?( File.join(@repository_path, '.git') )
+    if File.exist?(File.join(@repository_path, '.git'))
       system "mv #{File.join(@repository_path, '.git')} #{File.join(@repository_path, 'git.rename')}"
     end
   end
@@ -121,5 +122,4 @@ RSpec.configure do |config|
   include HeaderHelper
   # FIXME: this is bad, this should be removed.
   include ApplicationHelper
-
 end

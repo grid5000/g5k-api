@@ -1,0 +1,90 @@
+AllCops:
+  Exclude:
+    - 'db/**/*'
+    - 'config/**/*'
+    - 'script/**/*'
+    - 'bin/**/*'
+    - 'Vagrantfile'
+    - 'config.ru'
+    - 'debian/**/*'
+    - 'vendor/**/*'
+
+Rails:
+  Enabled: true
+
+#FIXME A lot of useless assignement in spec
+Lint/UselessAssignment:
+  Exclude:
+    - 'spec/**/*'
+
+Lint/RescueException:
+  Enabled: false
+
+Style/Encoding:
+  Enabled: false
+
+#FIXME Use simple quote when no interpolation is needed
+Style/StringLiterals:
+  Enabled: false
+
+#FIXME Usage of {a: 1} instead of {:a => 1}
+Style/HashSyntax:
+  EnforcedStyle: 'no_mixed_keys'
+
+#FIXME A bunch of style error related to space
+Layout/SpaceAroundOperators:
+  Enabled: false
+
+#FIXME Up the value of complexity metrics
+Metrics/PerceivedComplexity:
+ Enabled: false
+Metrics/CyclomaticComplexity:
+ Enabled: false
+
+Style/Documentation:
+  Enabled: false
+
+Layout/SpaceInsideHashLiteralBraces:
+  Enabled: false
+
+Layout/SpaceInsideBlockBraces:
+  Enabled: false
+
+Layout/SpaceAfterComma:
+  Enabled: false
+
+Layout/IndentationStyle:
+  Enabled: false
+
+Layout/LeadingCommentSpace:
+  Enabled: false
+
+Layout/TrailingWhitespace:
+  Enabled: false
+
+Layout/SpaceBeforeBlockBraces:
+  Enabled: false
+
+Layout/HashAlignment:
+  Enabled: false
+
+#FIXME simpler method ?
+
+Metrics/BlockLength:
+  Exclude:
+    - 'spec/**/*'
+    - 'lib/tasks/**/*'
+Metrics/MethodLength:
+  Max: 40
+  Exclude:
+    - 'spec/**/*'
+    - 'lib/tasks/**/*'
+Metrics/ClassLength:
+  Max: 200
+  Exclude:
+    - 'spec/**/*'
+    - 'lib/tasks/**/*'
+Layout/LineLength:
+  Max: 200
+Metrics/AbcSize:
+   Enabled: false

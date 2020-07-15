@@ -21,7 +21,7 @@ describe RootController do
     get :show, params: { :id => "grid5000", :format => :json }
     expect(response.status).to eq(200)
     expect(json).to eq({
-      "type"=>"grid",
+                         "type"=>"grid",
       "uid"=>"grid5000",
       "version"=>"8a562420c9a659256eeaafcfd89dfa917b5fb4d0",
       "release"=>Grid5000::VERSION,
@@ -35,7 +35,7 @@ describe RootController do
         {"rel"=>"versions", "type"=>"application/vnd.grid5000.collection+json", "href"=>"/versions"},
         {"rel"=>"users", "type"=>"application/vnd.grid5000.collection+json", "href"=>"/users"},
       ]
-    })
+                       })
   end
 
   it "should correcly add the version if any" do
@@ -43,7 +43,7 @@ describe RootController do
     get :show, params: { :id => "grid5000", :format => :json }
     expect(response.status).to eq(200)
     expect(json).to eq({
-      "type"=>"grid",
+                         "type"=>"grid",
       "uid"=>"grid5000",
       "version"=>"8a562420c9a659256eeaafcfd89dfa917b5fb4d0",
       "release"=>Grid5000::VERSION,
@@ -57,6 +57,6 @@ describe RootController do
         {"rel"=>"versions", "type"=>"application/vnd.grid5000.collection+json", "href"=>"/sid/versions"},
         {"rel"=>"users", "type"=>"application/vnd.grid5000.collection+json", "href"=>"/sid/users"},
       ]
-    })
+                       })
   end
 end

@@ -72,12 +72,12 @@ class DeploymentsController < ApplicationController
     dpl = find_item(params[:id])
     authorize!(dpl.user_uid)
     dpl.base_uri = api_path()
-    dpl.tls_options=tls_options_for(dpl.base_uri, :out)
+    dpl.tls_options=tls_options_for(:out)
     dpl.user = @credentials[:cn]
 
     begin
       dpl.cancel! if dpl.can_cancel?
-    rescue Exception => e
+    rescue => e
       raise ServerError, "Cannot cancel deployment: #{e.message}"
     end
 
@@ -106,10 +106,10 @@ class DeploymentsController < ApplicationController
       dpl.site_uid = Rails.whoami
       dpl.user = @credentials[:cn]
       dpl.base_uri = api_path()
-      dpl.tls_options=tls_options_for(dpl.base_uri, :out)
+      dpl.tls_options=tls_options_for(:out)
 
       Rails.logger.info "Received deployment = #{dpl.inspect}"
-    rescue Exception => e
+    rescue => e
       raise BadRequest, "The deployment you are trying to submit is not valid: #{e.message}"
     end
     raise BadRequest, "The deployment you are trying to submit is not valid: #{dpl.errors.to_a.join("; ")}" unless dpl.valid?
@@ -119,7 +119,7 @@ class DeploymentsController < ApplicationController
 
     begin
       dpl.launch || raise(ServerError,
-        "#{dpl.errors.full_messages.join("; ")}")
+                          "#{dpl.errors.full_messages.join("; ")}")
     rescue Exception => e
       raise ServerError, "Cannot launch deployment: #{e.message}"
     end
@@ -148,12 +148,12 @@ class DeploymentsController < ApplicationController
   def update
     dpl = find_item(params[:id])
     dpl.base_uri = api_path()
-    dpl.tls_options=tls_options_for(dpl.base_uri, :out)
+    dpl.tls_options=tls_options_for(:out)
     dpl.user = 'root' # Ugly hack since no auth is needed for this method on theg5k API
 
     begin
       dpl.touch! if dpl.active?
-    rescue Exception => e
+    rescue => e
       raise ServerError, e.message
     end
 
@@ -223,10 +223,11 @@ class DeploymentsController < ApplicationController
   def find_item(id)
     item = Grid5000::Deployment.find_by_uid(id)
     raise NotFound, "Couldn't find #{Grid5000::Deployment} with ID=#{id}" if item.nil?
+
     item
   end
 
-  def api_path(path='')
+  def api_path(path = '')
     uri_to(
       File.join(
         site_path(params[:site_id]),

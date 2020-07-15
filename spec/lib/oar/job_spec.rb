@@ -14,11 +14,11 @@
 
 require 'spec_helper'
 
-  # abasu : General comment for new / modified tests -- 2015.04.07
-  # In some tests, updated job from "last" to "first" (which remains same)
-  # This is because the last job has changed as new (active) jobs were added in the DB
-  # But the first (active) job in DB remains unchanged. 
-  # Moreover, the first job has a larger variety of resources (nodes, cores, events, etc)
+# abasu : General comment for new / modified tests -- 2015.04.07
+# In some tests, updated job from "last" to "first" (which remains same)
+# This is because the last job has changed as new (active) jobs were added in the DB
+# But the first (active) job in DB remains unchanged. 
+# Moreover, the first job has a larger variety of resources (nodes, cores, events, etc)
 
 describe OAR::Job do
   it "should list the expanded jobs, filtered" do
@@ -40,7 +40,7 @@ describe OAR::Job do
   
   it "should fetch the list of active jobs" do
     expect(OAR::Job.active.map(&:uid)).to eq([374173, 374179, 374180, 374185, 374186, 374190, 374191, 374192, 374193, 374194, 374195, 374196, 374197, 374198, 374199, 374205, 374210])
-  # abasu -- updated jobs list as new jobs added to test different bugs -- 2015.04.07
+    # abasu -- updated jobs list as new jobs added to test different bugs -- 2015.04.07
   end
 
   it "should fetch the list of active jobs being not in Waiting state" do
@@ -50,14 +50,14 @@ describe OAR::Job do
   # abasu : test introduced below for correction to bug ref 5347 -- 2015.03.09
   it "should fetch the job with the jobid AND match all job parameters" do
     params = {
-       :job_id => 374191
+      :job_id => 374191
     }
     expect(OAR::Job.list(params)).to exist
     result = JSON.parse(
       OAR::Job.expanded.active.list(params).to_json
     )
     expect(result).to eq([{
-      "uid"=>374191, 
+                           "uid"=>374191, 
       "user_uid"=>"jgallard", 
       "user"=>"jgallard", 
       "walltime" => 7200,
@@ -99,16 +99,16 @@ describe OAR::Job do
           "description"=>"[bipbip 374191] Ask to change the job state"
         }
       ]
-    }])
+                         }])
   end
 
   # abasu : test introduced below for correction to bug ref 5347 -- 2015.03.09
   it "should return null if the job does NOT exist" do
     params = {
-       :job_id => 999999
+      :job_id => 999999
     }
     expect(OAR::Job.list(params)).to_not exist
-  end  # "should return null if the job does NOT exist" 
+  end # "should return null if the job does NOT exist" 
   
   # abasu : updated job from "last" to "first" (which remains same) -- 2015.04.07
   it "should fetch the list of resources" do
@@ -131,7 +131,7 @@ describe OAR::Job do
       OAR::Job.expanded.active.includes(:gantt, :job_events, :job_types).find(374191).to_json
     )
     expect(result).to eq({
-      "uid"=>374191, 
+                           "uid"=>374191, 
       "user_uid"=>"jgallard", 
       "user"=>"jgallard", 
       "walltime" => 7200,
@@ -173,7 +173,7 @@ describe OAR::Job do
           "description"=>"[bipbip 374191] Ask to change the job state"
         }
       ]
-    })
+                         })
   end
 
   # abasu : test introduced below for correction to bug ref 5694 -- 2015.03.13
@@ -195,7 +195,7 @@ describe OAR::Job do
   it "should build a hash of resources indexed by their type [disks]" do
     result = OAR::Job.active.find(374198).resources_by_type
     expect(result.keys.sort).to eq(['cores', 'disks'])
-        expect(result['disks'].sort).to eq(["sdb.parasilo-1.rennes.grid5000.fr", "sdc.parasilo-1.rennes.grid5000.fr"].sort)
+    expect(result['disks'].sort).to eq(["sdb.parasilo-1.rennes.grid5000.fr", "sdc.parasilo-1.rennes.grid5000.fr"].sort)
   end
   
   xit "should build a hash of resources indexed by their type [vlans]" do

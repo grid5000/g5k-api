@@ -67,7 +67,7 @@ describe Grid5000::Job do
     end
     it "should return all the attributes given at creation in a hash" do
       expect(@job.to_hash).to eq({
-        "walltime"=>32304,
+                                   "walltime"=>32304,
         "submitted_at"=>1258105888,
         "mode" => "INTERACTIVE",
         "events"=>[{:type=>"REDUCE_RESERVATION_WALLTIME", :created_at=>1258106496, :uid=>2934161, :to_check=>"NO", :description=>"Change walltime from 32400 to 32304"}],
@@ -83,31 +83,31 @@ describe Grid5000::Job do
         "project" => "default",
         "properties"=>"(deploy = 'YES') AND desktop_computing = 'NO'",
         "state"=>"running"
-      })
+                                 })
     end
     it "should export to a hash structure valid for submitting a job to the oarapi" do
       reservation = Time.parse("2009-11-10 15:54:56")
       job = Grid5000::Job.new(:resources => "/nodes=1", :reservation => reservation, :command => "id", :types => ["deploy", "idempotent"], :walltime => 3600, :checkpoint => 40)
       expect(job).to be_valid
       expect(job.to_hash(:destination => "oar-2.4-submission")).to eq({
-        "script"=>"id",
+                                                                        "script"=>"id",
         "checkpoint"=>40,
         "walltime"=>3600,
         "reservation"=>"2009-11-10 15:54:56",
         "resource"=>"/nodes=1",
         "type"=>["deploy", "idempotent"]
-      })
+                                                                      })
     end
     it "should not export the type or reservation attribute if nil or empty" do
       reservation = Time.parse("2009-11-10 14:54:56")
       job = Grid5000::Job.new(:resources => "/nodes=1", :reservation => nil, :command => "id", :types => nil, :walltime => 3600, :checkpoint => 40)
       expect(job).to be_valid
       expect(job.to_hash(:destination => "oar-2.4-submission")).to eq({
-        "script"=>"id",
+                                                                        "script"=>"id",
         "checkpoint"=>40,
         "walltime"=>3600,
         "resource"=>"/nodes=1"
-      })
+                                                                      })
     end
 
     # abasu bug ref. 7360 - added test for import job_key_from_file --- 29.11.2016
@@ -116,14 +116,14 @@ describe Grid5000::Job do
       job = Grid5000::Job.new(:resources => "/nodes=1", :reservation => reservation, :command => "id", :types => ["deploy", "idempotent"], :walltime => 3600, :checkpoint => 40, :'import-job-key-from-file' => "file://abcd")
       expect(job).to be_valid
       expect(job.to_hash(:destination => "oar-2.4-submission")).to eq({
-        "script"=>"id",
+                                                                        "script"=>"id",
         "checkpoint"=>40,
         "walltime"=>3600,
         "reservation"=>"2009-11-10 15:54:56",
         "resource"=>"/nodes=1",
         "type"=>["deploy", "idempotent"],
         "import-job-key-from-file"=> "file://abcd"
-      })
+                                                                      })
     end # it "should copy import-job-key-from-file to a hash structure" do
   end
 
@@ -179,5 +179,4 @@ describe Grid5000::Job do
       expect(job.to_hash(:destination => "oar-2.4-submission").values_at('stdout', 'stderr')).to eq(["/home/crohr/stdout", "/home/crohr/stderr"])
     end
   end
-
 end

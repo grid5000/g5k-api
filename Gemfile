@@ -28,7 +28,6 @@ group :development do
   # for ruby scripts written to replicate
   # bugs
   gem 'ruby-cute'
-  gem 'byebug'
 end
 
 group :test do
@@ -40,6 +39,10 @@ group :test do
   gem 'simplecov'
   gem 'net-ssh', "< 5.0.0" #version as from 5.0.0 require ruby > 2.2.6
   gem 'net-ssh-multi'
-  gem 'byebug'
 end
 
+group :development, :test do
+  gem 'byebug'
+  gem 'rubocop'
+  gem 'rubocop-rails'
+end

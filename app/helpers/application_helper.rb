@@ -16,7 +16,6 @@ require 'grid5000/repository'
 require 'grid5000/router'
 
 module ApplicationHelper
-
   def link_attributes_for(attributes = {})
     attributes[:type] ||= default_media_type
     attributes
@@ -26,8 +25,8 @@ module ApplicationHelper
     Grid5000::Router.uri_to(request, path, in_or_out, relative_or_absolute)
   end
 
-  def tls_options_for(url, in_or_out = :in)
-    Grid5000::Router.tls_options_for(url, in_or_out)
+  def tls_options_for(in_or_out = :in)
+    Grid5000::Router.tls_options_for(in_or_out)
   end
 
   def http_request(method, uri, tls_options, timeout = nil, headers = {}, body = nil)
