@@ -25,73 +25,70 @@ module Grid5000
   #   resources of a single site (https://rennes.g5k/ ony giving access to
   #   resources under the /sites/rennes path
   class Router
-
     def initialize(where)
       @where = where
     end
 
-    def call(params, request)
+    def call(request)
       self.class.uri_to(request, @where, :in, :absolute)
     end
 
     class << self
       def uri_to(request, path, in_or_out = :in, relative_or_absolute = :relative)
         root_path = if request.env['HTTP_X_API_ROOT_PATH'].blank? || in_or_out == :out
-          nil
-        else
-          File.join("/", (request.env['HTTP_X_API_ROOT_PATH'] || ""))
-        end # root_path = if request.env['HTTP_X_API_ROOT_PATH'].blank?
+                      nil
+                    else
+                      File.join("/", (request.env['HTTP_X_API_ROOT_PATH'] || ""))
+                    end
 
         api_version = if request.env['HTTP_X_API_VERSION'].blank?
-          nil
-        else
-          File.join("/", (request.env['HTTP_X_API_VERSION'] || ""))
-        end # api_version = if request.env['HTTP_X_API_VERSION'].blank?
+                        nil
+                      else
+                        File.join("/", (request.env['HTTP_X_API_VERSION'] || ""))
+                      end
 
         path_prefix = if request.env['HTTP_X_API_PATH_PREFIX'].blank?
-          nil
-        else
-          File.join("/", (request.env['HTTP_X_API_PATH_PREFIX'] || ""))
-        end # path_prefix = if request.env['HTTP_X_API_PATH_PREFIX'].blank?
+                        nil
+                      else
+                        File.join("/", (request.env['HTTP_X_API_PATH_PREFIX'] || ""))
+                      end
 
         mount_path = if request.env['HTTP_X_API_MOUNT_PATH'].blank?
-          nil
-        else
-          File.join("/", (request.env['HTTP_X_API_MOUNT_PATH'] || ""))
-        end # mount_path = if request.env['HTTP_X_API_MOUNT_PATH'].blank?
+                       nil
+                     else
+                       File.join("/", (request.env['HTTP_X_API_MOUNT_PATH'] || ""))
+                     end
 
         mounted_path=path
         mounted_path.gsub!(/^#{mount_path}/,'') unless mount_path.nil?
         mounted_path='/' if mounted_path.blank?
         uri = File.join("/", *[root_path, api_version, path_prefix, mounted_path].compact)
         uri = "/" if uri.blank?
-        # abasu / dmargery - bug ref 7360 - for correct URI construction
+        # bug ref 7360 - for correct URI construction
         if in_or_out == :out || relative_or_absolute == :absolute
           root_uri=URI(base_uri(in_or_out))
           if root_uri.path.blank?
             root_path=''
           else
             root_path=root_uri.path
-          end # if root_uri.path.blank?
+          end
 
           uri = URI.join(root_uri, root_path+uri).to_s
-        end # if in_or_out == :out || relative_or_absolute == :absolute
+        end
         uri
-      end # def uri_to()
+      end
 
       # FIXME: move Rails.config to Grid5000.config
       def base_uri(in_or_out = :in)
         Rails.my_config("base_uri_#{in_or_out}".to_sym)
       end
 
-      def tls_options_for(url, in_or_out = :in)
+      def tls_options_for(in_or_out = :in)
         tls_options = {}
         [:cert_chain_file, :private_key_file, :verify_peer, :fail_if_no_peer_cert,
          :cipher_list, :ecdh_curve, :dhparam, :ssl_version].each do |tls_param|
-          config_key = ("uri_#{in_or_out.to_s}_" + tls_param.to_s).to_sym
-          if Rails.my_config(config_key)
-            tls_options[tls_param] = Rails.my_config(config_key)
-          end
+          config_key = ("uri_#{in_or_out}_" + tls_param.to_s).to_sym
+          tls_options[tls_param] = Rails.my_config(config_key) if Rails.my_config(config_key)
         end
         tls_options
       end
@@ -103,7 +100,7 @@ module Grid5000
         http.use_ssl = true if uri.scheme == 'https'
         http.max_retries = 0
 
-        if tls_options && !tls_options.empty?
+        if tls_options.present?
           http.cert = OpenSSL::X509::Certificate.new(File.read(tls_options[:cert_chain_file]))
           http.key = OpenSSL::PKey::RSA.new(File.read(tls_options[:private_key_file]))
           http.verify_mode = tls_options[:verify_peer]

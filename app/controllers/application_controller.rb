@@ -55,13 +55,14 @@ class ApplicationController < ActionController::Base
   rescue_from PreconditionFailed, :with => :precondition_failed        # for 412
 
   # exception-handlers for client-side exceptions
-  rescue_from UnsupportedMediaType, :with => :server_error             # for 415
+  rescue_from UnsupportedMediaType, :with => :server_error # for 415
   # agreed to send exception to server_error (instead of unsupported_media_type)
   rescue_from ServerError, :with => :server_error                      # for 500
   rescue_from BadGateway, :with => :bad_gateway                        # for 502
   rescue_from ServerUnavailable, :with => :server_unavailable          # for 503
 
   protected
+
   def set_default_format
     params[:format] ||= begin
       first_mime_type = (
@@ -74,7 +75,7 @@ class ApplicationController < ActionController::Base
   def lookup_credentials
     invalid_values = ["", "unknown", "(unknown)"]
     cn = request.env["HTTP_#{Rails.my_config(:header_user_cn).gsub("-","_").upcase}"] ||
-      ENV["HTTP_#{Rails.my_config(:header_user_cn).gsub("-","_").upcase}"]
+         ENV["HTTP_#{Rails.my_config(:header_user_cn).gsub("-","_").upcase}"]
     if cn.nil? || invalid_values.include?(cn)
       @credentials = {
         :cn => nil,
@@ -108,13 +109,13 @@ class ApplicationController < ActionController::Base
     # Allow the list of "non-error" http codes
     allowed_status = [options[:is] || (200..299).to_a].flatten
 
-    status = http.code.to_i  # get the status from the http response
+    status = http.code.to_i # get the status from the http response
 
     # hack to make rspec tests working, indeed for a unknown reason, http.uri is
     # nil when running the specs suite
     http.uri = http.header['Location'] if http.uri.nil?
 
-    if status.between?(400, 599)  # error status
+    if status.between?(400, 599) # error status
       # http.method always returns nil. Bug?
       # msg = "#{http.method} #{http.uri} failed with status #{status}"
       msg = "Request to #{http.uri} failed with status #{status}: #{http.body}"
@@ -122,58 +123,57 @@ class ApplicationController < ActionController::Base
     end
 
     case status
-      when *allowed_status   # Status codes (200, ..., 299)
-        true
-      when 400
-        raise BadRequest, msg
-      when 401
-        raise AuthorizationRequired, msg
-      when 403
-        raise Forbidden, msg
-      when 404
-        raise NotFound, msg
-      when 405
-        raise MethodNotAllowed, msg
-      when 406
-        raise NotAcceptable, msg
-      when 412
-        raise PreconditionFailed, msg
-      when 415
-        raise UnsupportedMediaType, msg
-      when 502
-        raise BadGateway, msg
-      when 503
-        raise ServerUnavailable, msg
-      else
-        raise ServerError, "Request to #{http.uri.to_s} failed with status #{status}: #{http.body}"
-      Rails.logger.error msg
+    when *allowed_status   # Status codes (200, ..., 299)
+      true
+    when 400
+      raise BadRequest, msg
+    when 401
+      raise AuthorizationRequired, msg
+    when 403
+      raise Forbidden, msg
+    when 404
+      raise NotFound, msg
+    when 405
+      raise MethodNotAllowed, msg
+    when 406
+      raise NotAcceptable, msg
+    when 412
+      raise PreconditionFailed, msg
+    when 415
+      raise UnsupportedMediaType, msg
+    when 502
+      raise BadGateway, msg
+    when 503
+      raise ServerUnavailable, msg
+    else
+      raise ServerError, "Request to #{http.uri} failed with status #{status}: #{http.body}"
     end
 
     case status
-      when *allowed_status   # Status codes (200, ..., 299)
-        true
-      when 400
-        raise BadRequest, msg
-      when 401
-        raise AuthorizationRequired, msg
-      when 403
-        raise Forbidden, msg
-      when 404
-        raise NotFound, msg
-      when 405
-        raise MethodNotAllowed, msg
-      when 406
-        raise NotAcceptable, msg
-      when 412
-        raise PreconditionFailed, msg
-      when 415
-        raise UnsupportedMediaType, msg
-      when 502
-        raise BadGateway, msg
-      when 503
-        raise ServerUnavailable, msg
-      else
-        raise ServerError, "Request to #{http.uri.to_s} failed with unexpected status #{status}: #{http.body} ; could be a TLS problem"
+    when *allowed_status   # Status codes (200, ..., 299)
+      true
+    when 400
+      raise BadRequest, msg
+    when 401
+      raise AuthorizationRequired, msg
+    when 403
+      raise Forbidden, msg
+    when 404
+      raise NotFound, msg
+    when 405
+      raise MethodNotAllowed, msg
+    when 406
+      raise NotAcceptable, msg
+    when 412
+      raise PreconditionFailed, msg
+    when 415
+      raise UnsupportedMediaType, msg
+    when 502
+      raise BadGateway, msg
+    when 503
+      raise ServerUnavailable, msg
+    else
+      raise ServerError, "Request to #{http.uri} failed with unexpected status #{status}: #{http.body} ; could be a TLS problem"
     end
   end
 
@@ -278,6 +278,7 @@ class ApplicationController < ActionController::Base
   def allow(*args)
     response.headers['Allow'] = args.flatten.map{|m| m.to_s.upcase}.join(",")
   end
+
   def vary_on(*args)
     response.headers['Vary'] ||= ''
     response.headers['Vary'] = [
@@ -285,9 +286,11 @@ class ApplicationController < ActionController::Base
       args
     ].flatten.join(",")
   end
+
   def etag(*args)
     response.etag = args.join(".")
   end
+
   def last_modified(time)
     response.last_modified = time.utc
   end

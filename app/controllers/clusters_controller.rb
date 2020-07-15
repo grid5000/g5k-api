@@ -20,7 +20,6 @@ require 'resources_controller'
 # the ClustersController is a special case of a SitesController,
 # for specific clusters, insofar that this attribute is limited to the status function
 class ClustersController < ResourcesController
-
   # method to return status of a specific cluster - bug 5856
   def status
     result = {
@@ -61,10 +60,10 @@ class ClustersController < ResourcesController
     links = super(item)
 
     links.push({
-      "rel" => "status",
+                 "rel" => "status",
       "type" => api_media_type(:g5kitemjson),
       "href" => uri_to(File.join(resource_path(item["uid"]), "status"))
-    })
+               })
     links
   end
 end

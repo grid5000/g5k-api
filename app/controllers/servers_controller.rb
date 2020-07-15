@@ -17,7 +17,6 @@ require 'resources_controller'
 # This initial ServersController prepared in response to bug ref. 7301
 # To be decorated later as features develop for /servers
 class ServersController < ResourcesController
-
   protected
 
   def collection_path

@@ -37,5 +37,4 @@ describe NetworkEquipmentsController do
       expect(json['items'].length).to eq(6)
     end
   end # describe "GET /network_equipments"
-
 end

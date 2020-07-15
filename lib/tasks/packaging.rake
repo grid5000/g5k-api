@@ -110,7 +110,7 @@ end
 
 def update_changelog(changelog_file,new_version)
   content_changelog=''
-  if File.exists?(changelog_file)
+  if File.exist?(changelog_file)
     changelog=File.read(changelog_file)
     last_commit = changelog.scan(/\s+\* ([a-f0-9]{7}) /).flatten[0]
     deb_version=deb_version_of_commit('HEAD')
@@ -121,7 +121,7 @@ def update_changelog(changelog_file,new_version)
         user_name=ENV['GITLAB_USER_NAME']
         if user_name.nil? || user_name==""
           puts 'No git or gitlab user: running in Vagrant box ? Use git config --global user.name "firstname lastname" before bumping version'
-          exit -1
+          exit(-1)
         end
       end
       user_email=`git config --get user.email`.chomp
@@ -129,7 +129,7 @@ def update_changelog(changelog_file,new_version)
         user_email=ENV['GITLAB_USER_EMAIL']
         if user_email.nil? || user_email ==""
           puts "No mail found"
-          exit -1
+          exit(-1)
         end
       end
       content_changelog = generate_changelog_entry(new_version,
@@ -170,7 +170,7 @@ def bump(index)
 
   unless changed
     puts 'No real changes except version changes since last version bump. Aborting unless EMPTYBUMP set'
-    exit -1 unless ENV['EMPTYBUMP']
+    exit(-1) unless ENV['EMPTYBUMP']
   end
 
   deb_version=deb_version_of_commit('HEAD')

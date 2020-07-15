@@ -15,7 +15,6 @@
 require 'resources_controller'
 
 class SitesController < ResourcesController
-
   def status
     # fetch valid clusters
     enrich_params(params)
@@ -26,7 +25,7 @@ class SitesController < ResourcesController
     if params[:network_address]
       # optimization: when a network_address is specified, we can restrict the cluster to the one of the node
       # this avoids fetching the list of clusters, which is costly
-      valid_clusters = [ params[:network_address].split('-').first ]
+      valid_clusters = [params[:network_address].split('-').first]
     else
       site_clusters=lookup_path("/sites/#{params[:id]}/clusters", params)
       valid_clusters = site_clusters['items'].map{|i| i['uid']}
@@ -69,16 +68,16 @@ class SitesController < ResourcesController
     links = super(item)
     %w{jobs deployments vlans metrics}.each do |rel|
       links.push({
-        "rel" => rel,
+                   "rel" => rel,
         "type" => api_media_type(:g5kcollectionjson),
         "href" => uri_to(File.join(resource_path(item["uid"]), rel))
-      })
+                 })
     end
     links.push({
-      "rel" => "status",
+                 "rel" => "status",
       "type" => api_media_type(:g5kitemjson),
       "href" => uri_to(File.join(resource_path(item["uid"]), "status"))
-    })
+               })
     links
   end
 end
