@@ -1,3 +1,10 @@
+g5k-api (4.5.6) unstable; urgency=low
+
+  * 3e65322 Return 404 when an ui template cannot be found
+  * 09c69e4 Fix the message sent to client when a http request to an upstream fail
+
+ -- Samir Noir <samir.noir@inria.fr>  Wed, 15 Jul 2020 09:48:19 +0200
+
 g5k-api (4.5.5) unstable; urgency=low
 
   * ce5a887 Replace Grit by Rugged libgit2 binding for accessing git repository
