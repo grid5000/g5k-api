@@ -165,7 +165,7 @@ module Grid5000
       if %w{200 201 202 204}.include?(http.code.to_s)
         update_attribute(:uid, JSON.parse(http.body)['wid'])
       else
-        error(get_kaerror(http,http.headers))
+        error(get_kaerror(http,http.header))
         # Cannot continue since :uid is not set
         raise self.output+"\n"
       end
@@ -209,7 +209,7 @@ module Grid5000
             uri = File.join(base_uri, uid, 'error')
             http = http_request(:get, uri, tls_options, 15, headers)
           rescue
-            error(get_kaerror(http,http.headers))
+            error(get_kaerror(http,http.header))
             error("Unable to contact #{File.join(base_uri,uid,'error')}")
             raise self.output + "\n"
           end
@@ -231,7 +231,7 @@ module Grid5000
       if hdr['X_APPLICATION_ERROR_CODE'] and hdr['X_APPLICATION_ERROR_INFO']
         "Kadeploy error ##{hdr['X_APPLICATION_ERROR_CODE']}: #{Base64.strict_decode64(hdr['X_APPLICATION_ERROR_INFO'])}"
       else
-        "HTTP error ##{hdr.status}: #{resp}"
+        "HTTP error ##{resp.code.to_s}: #{resp.body}"
       end
     end
 
