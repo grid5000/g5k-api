@@ -1,3 +1,9 @@
+g5k-api (3.9.3) unstable; urgency=low
+
+  * a0d0027 Increase timeout when calling OAR api
+
+ -- Samir Noir <samir.noir@inria.fr>  Fri, 17 Jul 2020 09:54:41 +0200
+
 g5k-api (3.9.2) unstable; urgency=low
 
   * a072f47 Fix the get_kaerror method in deployment model
