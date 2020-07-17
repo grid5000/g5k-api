@@ -109,11 +109,11 @@ module Grid5000
     def cancel_workflow!
       raise "cancel_workflow!" if !user or !base_uri # Ugly hack
 
-      headers = { 'X-Remote-Ident' => user }
-      uri = File.join(base_uri, uid)
-      http = http_request(:delete, uri, tls_options, 15, headers)
-
-      unless %w{200 201 202 204}.include?(http.code.to_s)
+      begin
+        headers = { 'X-Remote-Ident' => user }
+        uri = File.join(base_uri, uid)
+        http = http_request(:delete, uri, tls_options, 15, headers)
+      rescue
         error("Unable to contact #{File.join(base_uri,uid)}")
         raise self.output+"\n"
       end
