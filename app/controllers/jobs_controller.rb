@@ -79,7 +79,7 @@ class JobsController < ApplicationController
                 'X-Remote-Ident' => @credentials[:cn],
                 'X-Api-User-Cn' => @credentials[:cn],
               }
-    http = http_request(:delete, uri, tls_options, 5, headers)
+    http = http_request(:delete, uri, tls_options, 10, headers)
 
     continue_if!(http, :is => [200,202,204,404])
 
@@ -124,7 +124,7 @@ class JobsController < ApplicationController
                 'Accept' => api_media_type(:json)
               }
 
-    http = http_request(:post, uri, tls_options, 5, headers, job_to_send.to_json)
+    http = http_request(:post, uri, tls_options, 20, headers, job_to_send.to_json)
 
     continue_if!(http, :is => [201,202])
 
