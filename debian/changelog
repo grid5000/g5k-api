@@ -1,3 +1,9 @@
+g5k-api (4.5.9) unstable; urgency=low
+
+  * 15aa1a8 Fix the read_timeout definition in http_request method
+
+ -- Samir Noir <samir.noir@inria.fr>  Mon, 20 Jul 2020 11:19:06 +0200
+
 g5k-api (4.5.8) unstable; urgency=low
 
   * beeccc0 Fix cancel_workflow! failure with rescue
