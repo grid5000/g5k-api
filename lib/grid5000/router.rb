@@ -99,7 +99,7 @@ module Grid5000
       def http_request(method, uri, tls_options, timeout = nil, headers = {}, body = nil)
         uri = URI(uri)
         http = Net::HTTP.new(uri.host, uri.port)
-        http.read_timeout = 5 if timeout
+        http.read_timeout = timeout || 5
         http.use_ssl = true if uri.scheme == 'https'
 
         if tls_options && !tls_options.empty?
