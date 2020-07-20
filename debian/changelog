@@ -1,3 +1,9 @@
+g5k-api (4.5.8) unstable; urgency=low
+
+  * beeccc0 Fix cancel_workflow! failure with rescue
+
+ -- Samir Noir <samir.noir@inria.fr>  Mon, 20 Jul 2020 10:07:21 +0200
+
 g5k-api (4.5.7) unstable; urgency=low
 
   * aaf269f [ci] remove old debs before building
