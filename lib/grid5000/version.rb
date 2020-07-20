@@ -13,5 +13,5 @@
 # limitations under the License.
 
 module Grid5000
-  VERSION = "3.9.3"
+  VERSION = "3.9.4"
 end
