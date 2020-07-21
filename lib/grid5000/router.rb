@@ -101,6 +101,7 @@ module Grid5000
         http = Net::HTTP.new(uri.host, uri.port)
         http.read_timeout = timeout || 5
         http.use_ssl = true if uri.scheme == 'https'
+        http.max_retries = 0
 
         if tls_options && !tls_options.empty?
           http.cert = OpenSSL::X509::Certificate.new(File.read(tls_options[:cert_chain_file]))
