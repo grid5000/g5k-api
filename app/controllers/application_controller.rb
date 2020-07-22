@@ -35,7 +35,7 @@ class ApplicationController < ActionController::Base
   class NotAcceptable < ClientError; end          # Error code 406
   class PreconditionFailed < ClientError; end     # Error code 412
 
-  # abasu : class & subclasses to handle server-side exceptions (Error codes 5xx)
+  # class & subclasses to handle server-side exceptions (Error codes 5xx)
   class ServerError < ActionController::ActionControllerError; end
   class UnsupportedMediaType < ServerError; end   # Error code 415 (moved to server-side)
   class BadGateway < ServerError; end             # Error code 50x (to be refined later)

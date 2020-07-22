@@ -205,7 +205,6 @@ describe Grid5000::Repository do
 
     describe "versions_for" do
       it "find the versions for a resource" do
-        # abasu - 24.10.2016 - update "total" value from 8 to 10
         expect(@repository.versions_for("grid5000/sites")["total"]).to eq(10)
       end
       it "should return an empty list if the resource does not exist" do

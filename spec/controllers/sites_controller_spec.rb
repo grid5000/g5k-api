@@ -104,7 +104,6 @@ describe SitesController do
       ]
     end
 
-    # abasu 19.10.2016 - bug #7364 changed "deployments" to "deployment"
     it "should return link for deployment" do
       get :show, params: { :id => "rennes", :format => :json }
       expect(response.status).to eq 200
@@ -112,9 +111,8 @@ describe SitesController do
       expect(json['links'].find{|l|
         l['rel'] == 'deployments'
       }['href']).to eq "/sites/rennes/deployments"
-    end # it "should return link for deployment" do
+    end
 
-    # abasu 26.10.2016 - bug #7301 should return link /servers if present in site
     it "should return link /servers if present in site" do
       get :show, params: { :id => "nancy", :format => :json }
       expect(response.status).to eq 200
@@ -122,7 +120,7 @@ describe SitesController do
       expect(json['links'].find{|l|
         l['rel'] == 'servers'
       }['href']).to eq "/sites/nancy/servers"
-    end # it "should return link /servers if present in site" do
+    end
 
     it "should return the specified version, and the max-age value in the Cache-Control header should be big" do
       get :show, params: { :id => "rennes", :format => :json, :version => "b00bd30bf69c322ffe9aca7a9f6e3be0f29e20f4" }
@@ -134,7 +132,7 @@ describe SitesController do
         l['rel'] == 'version'
       }['href']).to eq "/sites/rennes/versions/b00bd30bf69c322ffe9aca7a9f6e3be0f29e20f4"
     end
-  end # describe "GET /sites/{{site_id}}"
+  end
 
   describe "GET /sites/{{site_id}}/status (authenticated)" do
     before do
@@ -201,10 +199,6 @@ describe SitesController do
       get :status, params: { :id => "rennes", :job_details => "no", :format => :json }
       expect(response.status).to eq 503
     end
-
-    # it "should fail if the site does not exist" do
-    #   pending "this will be taken care of at the api-proxy layer"
-    # end
   end # "GET /sites/{{site_id}}/status"
 
   describe "GET /sites/{{site_id}}/status (by anonymous)" do
