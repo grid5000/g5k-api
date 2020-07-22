@@ -27,7 +27,7 @@ module ConfigurationHelper
     if Rails.env == "test"
       "rennes"
     else
-      ENV['WHOAMI'] || `hostname`.split(".")[1]
+      ENV['WHOAMI'] || `hostname -f`.split(".")[1]
     end
   end
 
