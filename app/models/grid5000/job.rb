@@ -24,7 +24,7 @@ module Grid5000
                             :scheduled_at, :walltime, :queue, :state, :mode,
                             :command, :directory, :exit_code, :signal, :checkpoint, :anterior,
                             :message, :stderr, :stdout]
-    # abasu bug ref. 7360 - added :job_key_from_file --- 29.11.2016
+
     # OAR expects these as import-job-key-from-file
     READ_ONLY_UNDERSCORE_ATTRIBUTES = [:import_job_key_from_file]
     READ_WRITE_ATTRIBUTES = [:name, :project]

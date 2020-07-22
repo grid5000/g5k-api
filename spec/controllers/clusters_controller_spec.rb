@@ -26,7 +26,7 @@ describe ClustersController do
       expect(json['disks']).not_to be_nil
       expect(json['nodes']['parasilo-5.rennes.grid5000.fr']['reservations']).not_to be_empty
       expect(json['disks']['sdb.parasilo-5.rennes.grid5000.fr']['reservations']).not_to be_empty
-    end # "should return the status ONLY for the specified cluster"
+    end
 
     # GET /sites/{{site_id}}/clusters/{{id}}/status?network_address={{network_address}}
     it "should return the status ONLY for the specified node" do
@@ -37,7 +37,7 @@ describe ClustersController do
       expect(json['disks'].keys.map{|k| k.split('.')[1]}.uniq.sort).to eq ['parasilo-5']
       expect(json['nodes']['parasilo-5.rennes.grid5000.fr']['reservations']).not_to be_empty
       expect(json['disks']['sdb.parasilo-5.rennes.grid5000.fr']['reservations']).not_to be_empty
-    end # "should return the status ONLY for the specified node"
+    end
 
     # GET /sites/{{site_id}}/clusters/{{id}}/status?disks=no
     it "should return the status of nodes but not disks" do
@@ -47,7 +47,7 @@ describe ClustersController do
       expect(json['nodes'].keys.map{|k| k.split('-')[0]}.uniq.sort).to eq ['parasilo']
       expect(json['disks']).to be_nil
       expect(json['nodes']['parasilo-5.rennes.grid5000.fr']['reservations']).not_to be_empty
-    end # "should return the status of nodes but not disks"
+    end
 
     # GET /sites/{{site_id}}/clusters/{{id}}/status?job_details=no
     it "should return the status of nodes without the reservations" do
@@ -58,7 +58,7 @@ describe ClustersController do
       expect(json['disks']).not_to be_nil
       expect(json['nodes']['parasilo-5.rennes.grid5000.fr']['reservations']).to be_nil
       expect(json['disks']['sdb.parasilo-5.rennes.grid5000.fr']['reservations']).to be_nil
-    end # "should return the status of nodes without the reservations"
+    end
 
     # GET /sites/{{site_id}}/clusters/{{id}}/status?waiting=no
     it "should not return the reservations in Waiting state" do
@@ -69,7 +69,7 @@ describe ClustersController do
       expect(json['disks']).not_to be_nil
       expect(json['nodes']['parasilo-5.rennes.grid5000.fr']['reservations']).to be_empty
       expect(json['disks']['sdb.parasilo-5.rennes.grid5000.fr']['reservations']).to be_empty
-    end # "should not return the reservations of nodes in Waiting state"
+    end
 
     it "should return all nodes in the specified cluster for which the status is requested" do
       get :status, params: { :site_id => "rennes", :id => "parapluie", :format => :json }
@@ -77,7 +77,7 @@ describe ClustersController do
       assert_media_type(:json)
       expect(json['nodes'].length).to eq 46
       expect(json['nodes'].keys.uniq.sort).to eq ["parapluie-1.rennes.grid5000.fr", "parapluie-10.rennes.grid5000.fr", "parapluie-11.rennes.grid5000.fr", "parapluie-12.rennes.grid5000.fr", "parapluie-13.rennes.grid5000.fr", "parapluie-14.rennes.grid5000.fr", "parapluie-15.rennes.grid5000.fr", "parapluie-16.rennes.grid5000.fr", "parapluie-17.rennes.grid5000.fr", "parapluie-18.rennes.grid5000.fr", "parapluie-19.rennes.grid5000.fr", "parapluie-2.rennes.grid5000.fr", "parapluie-20.rennes.grid5000.fr", "parapluie-21.rennes.grid5000.fr", "parapluie-22.rennes.grid5000.fr", "parapluie-23.rennes.grid5000.fr", "parapluie-24.rennes.grid5000.fr", "parapluie-25.rennes.grid5000.fr", "parapluie-26.rennes.grid5000.fr", "parapluie-27.rennes.grid5000.fr", "parapluie-28.rennes.grid5000.fr", "parapluie-29.rennes.grid5000.fr", "parapluie-3.rennes.grid5000.fr", "parapluie-30.rennes.grid5000.fr", "parapluie-31.rennes.grid5000.fr", "parapluie-32.rennes.grid5000.fr", "parapluie-33.rennes.grid5000.fr", "parapluie-34.rennes.grid5000.fr", "parapluie-35.rennes.grid5000.fr", "parapluie-36.rennes.grid5000.fr", "parapluie-37.rennes.grid5000.fr", "parapluie-38.rennes.grid5000.fr", "parapluie-39.rennes.grid5000.fr", "parapluie-4.rennes.grid5000.fr", "parapluie-40.rennes.grid5000.fr", "parapluie-5.rennes.grid5000.fr", "parapluie-51.rennes.grid5000.fr", "parapluie-52.rennes.grid5000.fr", "parapluie-53.rennes.grid5000.fr", "parapluie-54.rennes.grid5000.fr", "parapluie-55.rennes.grid5000.fr", "parapluie-56.rennes.grid5000.fr", "parapluie-6.rennes.grid5000.fr", "parapluie-7.rennes.grid5000.fr", "parapluie-8.rennes.grid5000.fr", "parapluie-9.rennes.grid5000.fr"]
-    end # "should return all nodes in the specified cluster for which the status is requested"
+    end
 
     it "should return the status with the correct links" do
       get :status, params: { :site_id => "rennes", :id => "parapluie", :format => :json }
@@ -96,10 +96,9 @@ describe ClustersController do
       expect(json["links"][1]).to eq({"rel"=>"parent",
                                   "href"=>"/sites/rennes/clusters/parapluie",
                                   "type"=>"application/vnd.grid5000.item+json"})
-    end # "should return the status with the correct links"
+    end
   end # "GET /sites/{{site_id}}/clusters/{{id}}/status"
 
-  # abasu : unit test for bug ref 6363 to handle filter queues - 08.01.2016
   describe "GET /sites/{{site_id}}/clusters/{{id}}" do
     # The following unit tests check the responses at level of specific clusters:
     # 1. Where queues filter is NOT mentioned in request, for 3 types of clusters
@@ -119,7 +118,7 @@ describe ClustersController do
 
       expect(response.status).to eq 200
       expect(json["queues"]).to eq ["admin", "production"]
-    end # it "should return ONLY cluster mbi in nancy without any queues filter"
+    end
 
     it "should return ONLY cluster talc in nancy without any queues filter" do
       expected_url = "http://api-out.local:80/sites/nancy/clusters/talc?branch=master&pretty=yes"
@@ -133,7 +132,7 @@ describe ClustersController do
 
       expect(response.status).to eq 200
       expect(json["queues"]).to eq ["admin", "default"]
-    end # it "should return ONLY cluster talc in nancy without any queues filter"
+    end
 
     it "should return ONLY cluster graphique in nancy without any queues filter" do
       expected_url = "http://api-out.local:80/sites/nancy/clusters/graphique?branch=master&pretty=yes"
@@ -147,7 +146,7 @@ describe ClustersController do
 
       expect(response.status).to eq 200
       expect(json["queues"] | []).to eq ["admin", "default"]
-    end # it "should return ONLY cluster graphique in nancy without any queues filter"
+    end
 
     it "should return ONLY cluster mbi in nancy" do
       expected_url = "http://api-out.local:80/sites/nancy/clusters/mbi?branch=master&queues=production&pretty=yes"
@@ -161,9 +160,8 @@ describe ClustersController do
 
       expect(response.status).to eq 200
       expect(json["queues"]).to eq ["admin", "production"]
-    end # it "should return ONLY cluster mbi in nancy"
+    end
 
-    # abasu : unit test for bug ref 6363 to handle filter queues - 08.01.2016
     it "should return ONLY cluster talc in nancy" do
       expected_url = "http://api-out.local:80/sites/nancy/clusters/talc?branch=master&queues=default&pretty=yes"
       stub_request(:get, expected_url)
@@ -176,7 +174,7 @@ describe ClustersController do
 
       expect(response.status).to eq 200
       expect(json["queues"]).to eq ["admin", "default"]
-    end # it "should return ONLY cluster talc in nancy"
+    end
 
     it "should return NO cluster because talc is NOT production cluster" do
       expected_url = "http://api-out.local:80/sites/nancy/clusters/talc?branch=master&queues=production&pretty=yes"
@@ -189,7 +187,7 @@ describe ClustersController do
 
       expect(response.status).to eq 404
       expect(response.body).to eq "Cannot find resource /sites/nancy/clusters/talc"
-    end # it "should return NO cluster because talc is NOT production cluster"
+    end
 
     it "should return 404 if a resource does not exist" do
       get :show, params: { :branch => 'master', :site_id => "nancy", :id => "doesnotexist", :queues => "production", :format => :json }
@@ -197,7 +195,6 @@ describe ClustersController do
     end
   end # "GET /sites/{{site_id}}/clusters/{{id}}/"
 
-  # abasu : unit tests for bug ref 6363 to handle filter queues - 08.01.2016
   describe "GET /sites/{{site_id}}/clusters" do
     # The following unit tests check the responses at level of all clusters in a site:
     # 1. Where queues filter is NOT mentioned in request (mbi, talc, graphique)
@@ -205,7 +202,6 @@ describe ClustersController do
     # 3. Where queues filter is specified as 'default' (talc graphique)
     # 4. Where queues filter is 'all' (mbi, talc, graphique)
 
-    # abasu : unit test for bug ref 6363 to handle filter queues - 08.01.2016
     it "should return ALL clusters in site nancy without any queues param" do
       get :index, params: { :branch => 'master', :site_id => "nancy", :format => :json }
       assert_media_type(:json)
@@ -218,7 +214,7 @@ describe ClustersController do
         clusterList = [cluster["uid"]] | clusterList
       end
       expect(clusterList - ["graphique","mbi","talc"]).to be_empty
-    end # it "should return ALL clusters in site nancy without any queues param"
+    end
 
     it "should return ONLY cluster mbi in site nancy" do
       expected_url = "http://api-out.local:80/sites/nancy/clusters?branch=master&queues=production&pretty=yes"
@@ -234,9 +230,8 @@ describe ClustersController do
       expect(json["total"]).to eq 1
       expect(json["items"][0]["uid"]).to eq "mbi"
       expect(json["items"][0]["queues"]).to include("production")
-    end # it "should return ONLY cluster mbi in nancy"
+    end
 
-    # abasu : unit test for bug ref 6363 to handle filter queues - 08.01.2016
     it "should return ONLY clusters talc & graphique in site nancy" do
       expected_url = "http://api-out.local:80/sites/nancy/clusters?branch=master&queues=default&pretty=yes"
       stub_request(:get, expected_url)
@@ -255,9 +250,8 @@ describe ClustersController do
         expect(cluster["queues"]).to include("default")
       end
       expect(clusterList - ["graphique","talc"]).to be_empty
-    end # it "should return ONLY clusters talc & graphique in site nancy"
+    end
 
-    # abasu : unit test for bug ref 6363 to handle filter queues - 08.01.2016
     it "should return ALL clusters in site nancy" do
       get :index, params: { :branch => 'master', :site_id => "nancy", :queues => "all", :format => :json }
       assert_media_type(:json)
@@ -274,6 +268,6 @@ describe ClustersController do
       expect(combined_queues).to eq ["admin","default","production"]
 
       expect(clusterList - ["graphique","mbi","talc"]).to be_empty
-    end # it "should return ALL clusters in site nancy"
+    end
   end # "GET /sites/{{site_id}}/clusters?branch=master&queues=all&pretty=yes"
-end # describe ClustersController
+end

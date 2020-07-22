@@ -90,7 +90,7 @@ describe DeploymentsController do
     before do
       @valid_attributes = {
         "nodes" => ["paradent-1.rennes.grid5000.fr"],
-        "environment" => "lenny-x64-base" 
+        "environment" => "lenny-x64-base"
       }
       @deployment = Grid5000::Deployment.new(@valid_attributes)
     end
