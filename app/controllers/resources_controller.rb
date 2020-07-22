@@ -100,8 +100,9 @@ class ResourcesController < ApplicationController
     )
 
     raise ServerUnavailable if object.is_a?(Exception)
+    return nil unless object
 
-    # abasu : case logic for treating different scenarios - 11.12.2015
+    # case logic for treating different scenarios
     case [params[:controller], params[:action]]
 
     # 1. case of a single cluster
@@ -124,7 +125,8 @@ class ResourcesController < ApplicationController
       # Finally, set new 'total' to clusters shortlisted
       object['total'] = object['items'].length
 
-    end # case [params[:controller], params[:action]]
+    end
+
     object
   end
 

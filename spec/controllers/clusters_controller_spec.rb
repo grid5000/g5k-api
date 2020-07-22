@@ -190,6 +190,11 @@ describe ClustersController do
       expect(response.status).to eq 404
       expect(response.body).to eq "Cannot find resource /sites/nancy/clusters/talc"
     end # it "should return NO cluster because talc is NOT production cluster"
+
+    it "should return 404 if a resource does not exist" do
+      get :show, params: { :branch => 'master', :site_id => "nancy", :id => "doesnotexist", :queues => "production", :format => :json }
+      expect(response.status).to eq(404)
+    end
   end # "GET /sites/{{site_id}}/clusters/{{id}}/"
 
   # abasu : unit tests for bug ref 6363 to handle filter queues - 08.01.2016
