@@ -1,3 +1,13 @@
+g5k-api (4.5.10) unstable; urgency=low
+
+  * bb4cc70 Use hostname -f option to always get the machine's FQDN
+  * c28509b Add rubocop
+  * 5f2962c Cleanup by removing some comments, useless files and fixing code comestics
+  * 191bd35 Update rails and other Gems to last version
+  * a1a674f Set max_retries to 0 instead of 1 (default) when doing http requests
+
+ -- Samir Noir <samir.noir@inria.fr>  Wed, 22 Jul 2020 15:03:44 +0200
+
 g5k-api (4.5.9) unstable; urgency=low
 
   * 15aa1a8 Fix the read_timeout definition in http_request method
