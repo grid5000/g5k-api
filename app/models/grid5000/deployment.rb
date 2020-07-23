@@ -152,12 +152,12 @@ module Grid5000
       end
       Rails.logger.info "Submitting: #{params.inspect} to #{base_uri}"
 
-      headers = { 'Content-Type' => Mime::Type.lookup_by_extension(:json).to_s,
-                  'Accept' => Mime::Type.lookup_by_extension(:json).to_s,
-                  'X-Remote-Ident' => user,}
-      http = http_request(:post, base_uri, tls_options, 20, headers, params.to_json)
-
-      unless %w{200 201 202 204}.include?(http.code.to_s)
+      begin
+        headers = { 'Content-Type' => Mime::Type.lookup_by_extension(:json).to_s,
+                    'Accept' => Mime::Type.lookup_by_extension(:json).to_s,
+                    'X-Remote-Ident' => user }
+        http = http_request(:post, base_uri, tls_options, 20, headers, params.to_json)
+      rescue
         error("Unable to contact #{base_uri}")
         raise self.output+"\n"
       end
