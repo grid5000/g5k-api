@@ -103,7 +103,7 @@ module Grid5000
         if tls_options.present?
           http.cert = OpenSSL::X509::Certificate.new(File.read(tls_options[:cert_chain_file]))
           http.key = OpenSSL::PKey::RSA.new(File.read(tls_options[:private_key_file]))
-          http.verify_mode = tls_options[:verify_peer]
+          http.verify_mode = tls_options[:verify_peer].constantize if tls_options[:verify_peer]
         end
 
         request = case method

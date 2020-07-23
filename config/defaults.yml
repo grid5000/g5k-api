@@ -55,7 +55,7 @@ development:
   base_uri_out: https://127.0.0.1:8443
   uri_out_private_key_file: /etc/ssl/certs/clientkey_nopass.pem
   uri_out_cert_chain_file: /etc/ssl/certs/clientcert.pem
-  uri_out_verify_peer: false
+  uri_out_verify_peer: OpenSSL::SSL::VERIFY_NONE
   reference_repository_path: ~/reference-repository
   smtp_host: localhost
   smtp_port: 2525
