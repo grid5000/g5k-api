@@ -1,3 +1,12 @@
+g5k-api (4.5.11) unstable; urgency=low
+
+  * 4c4a9e0 Fix Kadeploy's errors reporting when the deployment cannot be launched
+  * 537b181 Fix tls verify_peer in development environment
+  * 7ac0ebf Cleanup some comments
+  * 50287e7 lookup_path() should return nil if a git object wasn't found for a path
+
+ -- Samir Noir <samir.noir@inria.fr>  Thu, 23 Jul 2020 17:02:57 +0200
+
 g5k-api (4.5.10) unstable; urgency=low
 
   * bb4cc70 Use hostname -f option to always get the machine's FQDN
