@@ -16,22 +16,22 @@ module OAR
   class Resource < Base
     # `available_upto` value for which an 'absent' resource is considered to
     # be in the standby state.
-    STANDBY_AVAILABLE_UPTO = 2147483646
+    STANDBY_AVAILABLE_UPTO = 2_147_483_646
 
-    self.table_name = "resources"
+    self.table_name = 'resources'
     self.primary_key = :resource_id
     # disable inheritance guessed by Rails because of the "type" column.
     self.inheritance_column = :_type_disabled
 
-    QUERY_ASSIGNED_RESOURCES = "SELECT moldable_job_id, resource_id FROM assigned_resources WHERE moldable_job_id IN (%MOLDABLE_IDS%)"
-    QUERY_GANTT_JOBS_RESOURCES = "SELECT moldable_job_id, resource_id FROM gantt_jobs_resources WHERE moldable_job_id IN (%MOLDABLE_IDS%)"
+    QUERY_ASSIGNED_RESOURCES = 'SELECT moldable_job_id, resource_id FROM assigned_resources WHERE moldable_job_id IN (%MOLDABLE_IDS%)'.freeze
+    QUERY_GANTT_JOBS_RESOURCES = 'SELECT moldable_job_id, resource_id FROM gantt_jobs_resources WHERE moldable_job_id IN (%MOLDABLE_IDS%)'.freeze
     def dead?
-      state && state == "dead"
+      state && state == 'dead'
     end
 
     def state
       value = read_attribute(:state)
-      value.downcase! unless value.nil?
+      value&.downcase!
       value
     end
 
@@ -51,10 +51,9 @@ module OAR
     end
 
     class << self
-
       def api_type(oar_type)
-        if oar_type=="default"
-          "nodes"
+        if oar_type == 'default'
+          'nodes'
         else
           oar_type.pluralize
         end
@@ -62,28 +61,32 @@ module OAR
 
       def list_some(options)
         #   Do OAR resources have a comment column
-        include_comment = columns.find{|c| c.name == "comment"}
+        include_comment = columns.find { |c| c.name == 'comment' }
 
         #   Do OAR resources have a disk column
-        include_disk = columns.find{|c| c.name == "disk"}
+        include_disk = columns.find { |c| c.name == 'disk' }
 
         #   abasu for bug 5106 : we need cluster & core
         #   dmargery for bug 9230 : we need type, disk and diskpath
         resources = Resource.select(
-          "resource_id, type, cluster, host, network_address, #{include_disk ? "disk, diskpath,":""} core, state, available_upto#{include_comment ? ", comment" : ""}"
+          "resource_id, type, cluster, host, network_address, #{include_disk ? 'disk, diskpath,' : ''} core, state, available_upto#{include_comment ? ', comment' : ''}"
         )
 
-        resources = resources.where(
-          '"network_address" = ? OR "host" = ?',options[:network_address],options[:network_address]
-        ) unless options[:network_address].blank?
+        if options[:network_address].present?
+          resources = resources.where(
+            '"network_address" = ? OR "host" = ?', options[:network_address], options[:network_address]
+          )
+        end
 
-        resources = resources.where(
-          :cluster => options[:clusters]
-        ) unless options[:clusters].blank?
+        if options[:clusters].present?
+          resources = resources.where(
+            cluster: options[:clusters]
+          )
+        end
 
-        resources = resources.where(:type => options[:oar_types])
+        resources = resources.where(type: options[:oar_types])
 
-        return resources
+        resources
       end
 
       # Returns the status of all resources from the types requested,
@@ -119,11 +122,11 @@ module OAR
 
         #   No types requested implies default
         #   and default is returned as nodes
-        options[:types]=["node"] if options[:types].nil?
+        options[:types] = ['node'] if options[:types].nil?
 
-        options[:oar_types]=options[:types]
-        had_node=options[:oar_types].delete("node")=="node"
-        options[:oar_types].push("default") if had_node
+        options[:oar_types] = options[:types]
+        had_node = options[:oar_types].delete('node') == 'node'
+        options[:oar_types].push('default') if had_node
 
         #   Control verbosity of result
         #   job_details controls whether future reservations
@@ -131,22 +134,22 @@ module OAR
         include_details = options[:job_details] != 'no'
 
         # Build the list of resources for which status is requested
-        resource_list=list_some(options)
+        resource_list = list_some(options)
 
         # Build the list of active jobs with the resources they use
-        active_jobs=get_active_jobs_with_resources(options).values
-        
+        active_jobs = get_active_jobs_with_resources(options).values
+
         api_status = {}
         api_status_data = {} # used later to aggregate oar resource status date at api resource level
 
         # answer with some data for all requested types
         # even when no resources of that type can be found
         options[:oar_types].each do |oar_type|
-          api_status[api_type(oar_type)]={}
-          api_status_data[api_type(oar_type)]={}
+          api_status[api_type(oar_type)] = {}
+          api_status_data[api_type(oar_type)] = {}
         end
 
-        resources={}
+        resources = {}
 
         # Go though the list of resource (oar's definition) to
         # - index by resource_id (.index_by(&:resource_id))
@@ -155,17 +158,18 @@ module OAR
         #   status of multiple OAR resources (eg. nodes)
         resource_list.each do |resource|
           next if resource.nil?
-          resources[resource.resource_id]=resource
+
+          resources[resource.resource_id] = resource
 
           api_status[resource.api_type][resource.api_name] ||= initial_status_for(resource, include_details)
 
           api_status_data[resource.api_type][resource.api_name] ||= initial_status_data_for(resource, include_details)
 
-          api_status_data[resource.api_type][resource.api_name]=
+          api_status_data[resource.api_type][resource.api_name] =
             update_with_resource(api_status_data[resource.api_type][resource.api_name],
                                  resource,
                                  include_details)
-	      end  #  .each do |resource_id, resource|
+        end #  .each do |resource_id, resource|
 
         # Go through active jobs and update status data for all the
         # resources of the job
@@ -175,28 +179,28 @@ module OAR
           # For api_status hash table, do not include events
           # (otherwise the Set does not work with nested hash)
           job_for_api = nil
-          job_for_api = h[:job].to_reservation(:without => :events) if include_details
+          job_for_api = h[:job].to_reservation(without: :events) if include_details
 
           h[:resources].each do |resource_id|
             resource = resources[resource_id]
             # The resource does not belong to the list of resources the caller is interested in.
             next if resource.nil?
 
-            api_status_data[resource.api_type][resource.api_name]=
+            api_status_data[resource.api_type][resource.api_name] =
               update_with_job(resource.api_type,
                               api_status_data[resource.api_type][resource.api_name],
                               h[:job],
                               job_for_api)
-          end  # .each do |resource_id|
-        end  # .each do |h|
+          end # .each do |resource_id|
+        end # .each do |h|
 
         # We now compute the final status from the api_status_data
         api_status_data.each do |api_type, type_status_data|
           type_status_data.each do |api_resource_name, aggregatated_status_data|
             api_status[api_type] ||= {}
-            api_status[api_type][api_resource_name]=derive_api_status(api_type,
-                                                                      api_status[api_type][api_resource_name],
-                                                                      aggregatated_status_data)
+            api_status[api_type][api_resource_name] = derive_api_status(api_type,
+                                                                        api_status[api_type][api_resource_name],
+                                                                        aggregatated_status_data)
           end
         end
 
@@ -206,13 +210,13 @@ module OAR
       def get_active_jobs_with_resources(options = {})
         active_jobs_by_moldable_id = {}
         jobs = options[:waiting] == 'no' ? Job.expanded.active_not_waiting : Job.expanded.active
-        usefull_jobs=nil
-        usefull_jobs=jobs.includes(:job_types)
-        ActiveSupport::Notifications.instrument("OAR::Resource.get_active_jobs_with_resources do the SQL and create active_jobs_by_moldable_id",
+        usefull_jobs = nil
+        usefull_jobs = jobs.includes(:job_types)
+        ActiveSupport::Notifications.instrument('OAR::Resource.get_active_jobs_with_resources do the SQL and create active_jobs_by_moldable_id',
                                                 options) do
-          usefull_jobs.
-            each{|job|
-            if job.moldable_id.nil? || job.moldable_id==0
+          usefull_jobs
+            .each do |job|
+            if job.moldable_id.nil? || job.moldable_id == 0
               Rails.logger.warn "job ##{job.job_id} has a bad moldable_id. State is #{job.state}, submitted at #{Time.at(job.submission_time)}; last message is: #{job.message}"
             else
               active_jobs_by_moldable_id[job.moldable_id] = {
@@ -220,130 +224,125 @@ module OAR
                 # and eager loading (the :include => [:job_types, :resources]  will not work
                 # for association defined by :finder_sql such a resources
                 # initialize resources to an empty set
-                :resources => Set.new,
-                :job => job
+                resources: Set.new,
+                job: job
               }
             end
-          }
+          end
         end
         # if there are jobs
         if active_jobs_by_moldable_id.length > 0
-          moldable_ids = active_jobs_by_moldable_id.keys.join(",")
+          moldable_ids = active_jobs_by_moldable_id.keys.join(',')
 
           # get all resources assigned to these jobs in one query
-          query= "(#{QUERY_ASSIGNED_RESOURCES}) UNION (#{QUERY_GANTT_JOBS_RESOURCES})"
-          self.connection.execute(
+          query = "(#{QUERY_ASSIGNED_RESOURCES}) UNION (#{QUERY_GANTT_JOBS_RESOURCES})"
+          connection.execute(
             query.gsub(
               /%MOLDABLE_IDS%/, moldable_ids
             )
           ).each do |row|
             if row.is_a?(Hash)
-              moldable_job_id=row["moldable_job_id"].to_i
-              resource_id=row["resource_id"].to_i
+              moldable_job_id = row['moldable_job_id'].to_i
+              resource_id = row['resource_id'].to_i
             else
-              (moldable_job_id,resource_id)=row
-              resource_id=resource_id.to_i
-              moldable_job_id=moldable_job_id.to_i
+              (moldable_job_id, resource_id) = row
+              resource_id = resource_id.to_i
+              moldable_job_id = moldable_job_id.to_i
             end
-            active_jobs_by_moldable_id[moldable_job_id][:resources].
-              add(resource_id)
+            active_jobs_by_moldable_id[moldable_job_id][:resources]
+              .add(resource_id)
           end # .each do |(moldable_job_id, resource_id)|
         end # if active_jobs_by_moldable_id
         active_jobs_by_moldable_id
       end
 
       # Returns the status hash for a resource with no jobs
-      def initial_status_for(resource, include_details)
-        h = {:hard => resource.state}
+      def initial_status_for(resource, _include_details)
+        h = { hard: resource.state }
         # Check if resource is in standby state
         if resource.state == 'absent' && resource.available_upto && resource.available_upto == STANDBY_AVAILABLE_UPTO
           h[:hard] = 'standby'
         end
         case resource.type
         when 'default'
-          h[:soft]= resource.dead? ? "unknown" : "free"
+          h[:soft] = resource.dead? ? 'unknown' : 'free'
           h[:comment] = resource.comment if resource.respond_to?(:comment)
         when 'disk'
-          h[:soft]= "free"
+          h[:soft] = 'free'
           h[:diskpath] = resource.diskpath
         end
         h
-      end  # def initial_status_for
+      end # def initial_status_for
 
       # Creates accumulator for resources described at API level
       # that are an aggregation of OAR resources
       # so as to be able to compute their aggregated status
       def initial_status_data_for(resource, include_details)
-        initial_data=
-          if resource.api_type=="nodes"
-	          {
-              :totalcores => 0,
-              :busycounter => 0,
-              :besteffortcounter => 0
+        initial_data =
+          if resource.api_type == 'nodes'
+            {
+              totalcores: 0,
+              busycounter: 0,
+              besteffortcounter: 0
             }
           else
             {}
           end
-        initial_data[:reservations]=Set.new if include_details
+        initial_data[:reservations] = Set.new if include_details
         initial_data
       end
 
-      def update_with_resource(current_data, resource, include_details)
-        current_data[:totalcores] += 1 if resource.api_type=="nodes"
-        return current_data
+      def update_with_resource(current_data, resource, _include_details)
+        current_data[:totalcores] += 1 if resource.api_type == 'nodes'
+        current_data
       end
 
       def update_with_job(api_type, current_data, oar_job, job_for_api)
         if oar_job.running?
-          if api_type=="nodes"
+          if api_type == 'nodes'
             current_data[:busycounter] += 1
-            if oar_job.besteffort?
-              current_data[:besteffortcounter] += 1
-            end
+            current_data[:besteffortcounter] += 1 if oar_job.besteffort?
           else
             current_data[:soft] = 'busy'
           end
         end
         current_data[:reservations].add(job_for_api) unless job_for_api.nil?
-        return current_data
+        current_data
       end
 
       def derive_api_status(api_type, initial_status, current_data)
-        derived_status=initial_status
+        derived_status = initial_status
 
-        [:reservations, :soft].each do |key|
-          if current_data.has_key?(key)
-            derived_status[key]=current_data[key]
-          end
+        %i[reservations soft].each do |key|
+          derived_status[key] = current_data[key] if current_data.has_key?(key)
         end
 
-        #do specific calculation for some api_types
-        if api_type=="nodes"
+        # do specific calculation for some api_types
+        if api_type == 'nodes'
           # abasu : At this stage we have the the complete status over all cores in each node (network_address)
           # abasu : Now add logic to sum up the status over all cores and push final status to api_status hash table
           if current_data[:busycounter] > 0
             if current_data[:busycounter] <= current_data[:totalcores] / 2
-	            derived_status[:soft] = "free_busy" # more free cores in node than busy cores
+              derived_status[:soft] = 'free_busy' # more free cores in node than busy cores
             elsif current_data[:busycounter] > current_data[:totalcores] / 2 && current_data[:busycounter] < current_data[:totalcores]
-	            derived_status[:soft] = "busy_free" # more busy cores in node than free cores
+              derived_status[:soft] = 'busy_free' # more busy cores in node than free cores
             else
-              derived_status[:soft] = "busy"      # all cores in node are busy
-	          end
+              derived_status[:soft] = 'busy' # all cores in node are busy
+            end
             if current_data[:besteffortcounter] > 0
-	            derived_status[:soft] += "_besteffort" # add "_besteffort" after status if it is so
+              derived_status[:soft] += '_besteffort' # add "_besteffort" after status if it is so
             end
           end
-          unless derived_status[:soft]=="unknown"
-            derived_status[:free_slots]=current_data[:totalcores]-current_data[:busycounter]
-            derived_status[:freeable_slots]=current_data[:besteffortcounter]
-            derived_status[:busy_slots]=current_data[:busycounter]-current_data[:besteffortcounter]
+          if derived_status[:soft] == 'unknown'
+            %i[free_slots freeable_slots busy_slots].each { |slot| derived_status[slot] = 0 }
           else
-            [:free_slots,:freeable_slots,:busy_slots].each {|slot| derived_status[slot]=0}
+            derived_status[:free_slots] = current_data[:totalcores] - current_data[:busycounter]
+            derived_status[:freeable_slots] = current_data[:besteffortcounter]
+            derived_status[:busy_slots] = current_data[:busycounter] - current_data[:besteffortcounter]
           end
         end
         derived_status
       end
     end # class << self
-
-  end  # class Resource
-end  # module OAR
+  end # class Resource
+end # module OAR

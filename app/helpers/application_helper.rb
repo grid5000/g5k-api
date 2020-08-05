@@ -16,7 +16,6 @@ require 'grid5000/repository'
 require 'grid5000/router'
 
 module ApplicationHelper
-
   def link_attributes_for(attributes = {})
     attributes[:type] ||= default_media_type
     attributes
@@ -47,8 +46,6 @@ module ApplicationHelper
 
   def api_media_type(type)
     t = Mime::Type.lookup_by_extension(type)
-    if t
-      t.to_s
-    end
+    t&.to_s
   end
 end

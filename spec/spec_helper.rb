@@ -12,23 +12,23 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-ENV["RAILS_ENV"] ||= 'test'
-ENV["RACK_ENV"] ||= ENV["RAILS_ENV"]
+ENV['RAILS_ENV'] ||= 'test'
+ENV['RACK_ENV'] ||= ENV['RAILS_ENV']
 
 require 'simplecov'
 SimpleCov.start 'rails'
 
-require File.expand_path("../../config/environment", __FILE__)
+require File.expand_path('../config/environment', __dir__)
 
 require 'rspec/rails'
 require 'webmock/rspec'
 
 # Requires supporting ruby files with custom matchers and macros, etc,
 # in spec/support/ and its subdirectories.
-Dir[Rails.root.join("spec/support/**/*.rb")].each {|f| require f}
+Dir[Rails.root.join('spec/support/**/*.rb')].sort.each { |f| require f }
 
 def fixture(filename)
-  File.read(File.join(File.dirname(__FILE__), "fixtures", filename))
+  File.read(File.join(File.dirname(__FILE__), 'fixtures', filename))
 end
 
 def json
@@ -40,14 +40,14 @@ module MediaTypeHelper
 
   def assert_media_type(type)
     expect(response.headers['Content-Type']).to match case type
-    when :json
-      %r{application/json}
-    when :txt
-      %r{text/plain}
-    when :json_collection
-      %r{application/json}
-    else
-      raise MediaTypeError, "Media type #{type.inspect} was not expected."
+                                                      when :json
+                                                        %r{application/json}
+                                                      when :txt
+                                                        %r{text/plain}
+                                                      when :json_collection
+                                                        %r{application/json}
+                                                      else
+                                                        raise MediaTypeError, "Media type #{type.inspect} was not expected."
     end
   end
 end
@@ -56,25 +56,26 @@ module HeaderHelper
   class HeaderError < StandardError; end
 
   def assert_vary_on(*args)
-    expect((response.headers['Vary'] || "").downcase.split(/\s*,\s*/).sort).to eq(args.map{|v| v.to_s.dasherize}.sort)
+    expect((response.headers['Vary'] || '').downcase.split(/\s*,\s*/).sort).to eq(args.map { |v| v.to_s.dasherize }.sort)
   end
+
   def assert_allow(*args)
-    expect((response.headers['Allow'] || "").downcase.split(/\s*,\s*/).sort).to eq(args.map{|v| v.to_s.dasherize}.sort)
+    expect((response.headers['Allow'] || '').downcase.split(/\s*,\s*/).sort).to eq(args.map { |v| v.to_s.dasherize }.sort)
   end
+
   def assert_expires_in(seconds, options = {})
-    values = (response.headers['Cache-Control'] || "").downcase.split(/\s*,\s*/)
-    expect(values).to include("public") if options[:public]
+    values = (response.headers['Cache-Control'] || '').downcase.split(/\s*,\s*/)
+    expect(values).to include('public') if options[:public]
     expect(values).to include("max-age=#{seconds}")
   end
 
   def authenticate_as(username)
-    header = "HTTP_"+Rails.my_config(:header_user_cn).gsub("-","_").upcase
+    header = 'HTTP_' + Rails.my_config(:header_user_cn).gsub('-', '_').upcase
     @request.env[header] = username
   end
 end
 
 RSpec.configure do |config|
-
   config.infer_spec_type_from_file_location!
   config.include FactoryBot::Syntax::Methods
   config.before(:each) do
@@ -86,20 +87,20 @@ RSpec.configure do |config|
   end
 
   config.before(:all) do
-    @repository_path_prefix = "data"
+    @repository_path_prefix = 'data'
     # INIT TESTING GIT REPOSITORY
     @repository_path = File.expand_path(
-      '../fixtures/reference-repository',
-      __FILE__
+      'fixtures/reference-repository',
+      __dir__
     )
-    if File.exist?( File.join(@repository_path, 'git.rename') )
+    if File.exist?(File.join(@repository_path, 'git.rename'))
       cmd = "mv #{File.join(@repository_path, 'git.rename')} #{File.join(@repository_path, '.git')}"
       system cmd
     end
   end
 
   config.after(:all) do
-    if File.exist?( File.join(@repository_path, '.git') )
+    if File.exist?(File.join(@repository_path, '.git'))
       system "mv #{File.join(@repository_path, '.git')} #{File.join(@repository_path, 'git.rename')}"
     end
   end
@@ -121,5 +122,4 @@ RSpec.configure do |config|
   include HeaderHelper
   # FIXME: this is bad, this should be removed.
   include ApplicationHelper
-
 end

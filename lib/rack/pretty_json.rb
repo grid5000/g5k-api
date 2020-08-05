@@ -28,18 +28,18 @@ module Rack
     end
 
     def call(env)
-      client = env['HTTP_'+@only_if_header.gsub(/-/,'_').upcase]
-      
+      client = env['HTTP_' + @only_if_header.gsub(/-/, '_').upcase]
+
       code, head, body = @app.call(env)
 
-      server = head.delete(@only_if_header) || env['QUERY_STRING'].
-        split("&").find{|x| x.split("=")[0] == @only_if_query}
-      
-      if head['Content-Type'] && head['Content-Type'].
-          split(";")[0] =~ /[\+|\/]json$/i
-        if (client || server) 
-          payload = ""
-          body.each{|chunk| payload << chunk}
+      server = head.delete(@only_if_header) || env['QUERY_STRING']
+               .split('&').find { |x| x.split('=')[0] == @only_if_query }
+
+      if head['Content-Type'] && head['Content-Type']
+         .split(';')[0] =~ %r{[\+|/]json$}i
+        if client || server
+          payload = ''
+          body.each { |chunk| payload << chunk }
           body = JSON.pretty_generate(
             JSON.load(payload)
           )

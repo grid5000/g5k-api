@@ -13,5 +13,5 @@
 # limitations under the License.
 
 if defined?(WebMock)
-  WebMock.allow_net_connect! unless Rails.env == "test"
+  WebMock.allow_net_connect! unless Rails.env.test?
 end

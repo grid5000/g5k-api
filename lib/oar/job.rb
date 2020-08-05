@@ -14,34 +14,34 @@
 
 module OAR
   class Job < Base
-    self.table_name = "jobs"
+    self.table_name = 'jobs'
     self.primary_key = :job_id
 
     has_many :job_types
-    has_many :job_events, -> { order "date ASC" }
-    belongs_to :gantt, :foreign_key => 'assigned_moldable_job', :class_name => 'Gantt'
+    has_many :job_events, -> { order 'date ASC' }
+    belongs_to :gantt, foreign_key: 'assigned_moldable_job', class_name: 'Gantt'
 
     attr_accessor :links
 
     def self.list(params = {})
-      jobs = self.expanded.order("job_id DESC")
-      jobs = jobs.where(:job_user => params[:user]) unless params[:user].blank?
-      jobs = jobs.where(:job_name => params[:name]) unless params[:name].blank?
-      jobs = jobs.where(:project => params[:project]) unless params[:project].blank?
+      jobs = expanded.order('job_id DESC')
+      jobs = jobs.where(job_user: params[:user]) if params[:user].present?
+      jobs = jobs.where(job_name: params[:name]) if params[:name].present?
+      jobs = jobs.where(project: params[:project]) if params[:project].present?
       # abasu 1 line introduced below for correction to bug ref 5347 -- 2015.01.23
-      jobs = jobs.where(:job_id => params[:job_id]) unless params[:job_id].blank?
+      jobs = jobs.where(job_id: params[:job_id]) if params[:job_id].present?
       if params[:state]
-        states = (params[:state] || "").split(/\s*,\s*/).
-          map(&:capitalize).
-          uniq
-        jobs = jobs.where(:state => states)
+        states = (params[:state] || '').split(/\s*,\s*/)
+                                       .map(&:capitalize)
+                                       .uniq
+        jobs = jobs.where(state: states)
       end
-      jobs = jobs.where(:queue_name => params[:queue]) if params[:queue]
+      jobs = jobs.where(queue_name: params[:queue]) if params[:queue]
       jobs
     end
 
     def resources
-    query = "
+      query = "
       (
         SELECT resources.*
         FROM resources
@@ -72,7 +72,7 @@ module OAR
 
     def state
       value = read_attribute(:state)
-      value.downcase! unless value.nil?
+      value&.downcase!
       value
     end
 
@@ -82,19 +82,50 @@ module OAR
       value
     end
 
-    def user; job_user; end
-    def user_uid; user; end
-    def name; job_name; end
-    def queue; queue_name; end
-    def uid; job_id; end
-    def mode; job_type; end
-    def submitted_at; submission_time; end
-    def started_at; start_time; end
+    def user
+      job_user
+    end
+
+    def user_uid
+      user
+    end
+
+    def name
+      job_name
+    end
+
+    def queue
+      queue_name
+    end
+
+    def uid
+      job_id
+    end
+
+    def mode
+      job_type
+    end
+
+    def submitted_at
+      submission_time
+    end
+
+    def started_at
+      start_time
+    end
+
     def stopped_at
       stop_time && stop_time == 0 ? nil : stop_time
     end
-    def directory; launching_directory; end
-    def events; job_events; end
+
+    def directory
+      launching_directory
+    end
+
+    def events
+      job_events
+    end
+
     def scheduled_at
       time = predicted_start_time ? predicted_start_time.to_i : nil
       time = nil if time == 0
@@ -106,13 +137,12 @@ module OAR
     end
 
     def besteffort?
-      queue && queue == "besteffort"
+      queue && queue == 'besteffort'
     end
 
     def running?
-      state && state == "running"
+      state && state == 'running'
     end
-
 
     def assigned_nodes
       (resources_by_type['cores'] || []).uniq
@@ -133,18 +163,17 @@ module OAR
           h['subnets'].push([
             resource.subnet_address,
             resource.subnet_prefix
-          ].join("/"))
+          ].join('/'))
         when 'disk'
           h['disks'] ||= []
           h['disks'].push([
             resource.disk.split('.').first,
             resource.host
-          ].join("."))
+          ].join('.'))
         end
       end
       h
     end
-
 
     def to_reservation(options = {})
       without = [options[:without] || []].flatten
@@ -173,7 +202,12 @@ module OAR
         :links
       ].each do |k|
         next if without.include?(k)
-        value = send(k) rescue nil
+
+        value = begin
+                  send(k)
+                rescue StandardError
+                  nil
+                end
         h[k] = value unless value.nil?
       end
 
@@ -189,8 +223,6 @@ module OAR
       h
     end
 
-
-
     class << self
       def active
         where("state IN ('Waiting','Hold','toLaunch','toError','toAckReservation','Launching','Running','Suspended','Resuming','Finishing')")
@@ -199,11 +231,11 @@ module OAR
       def active_not_waiting
         where("state IN ('Hold','toLaunch','toError','toAckReservation','Launching','Running','Suspended','Resuming','Finishing')")
       end # def active_not_waiting
-      
+
       def expanded
-        Job.select("jobs.*, moldable_job_descriptions.moldable_walltime AS walltime, gantt_jobs_predictions.start_time AS predicted_start_time,  moldable_job_descriptions.moldable_id").
-          joins("LEFT OUTER JOIN moldable_job_descriptions ON jobs.job_id = moldable_job_descriptions.moldable_job_id").
-          joins("LEFT OUTER JOIN gantt_jobs_predictions ON gantt_jobs_predictions.moldable_job_id = moldable_job_descriptions.moldable_id")          
+        Job.select('jobs.*, moldable_job_descriptions.moldable_walltime AS walltime, gantt_jobs_predictions.start_time AS predicted_start_time,  moldable_job_descriptions.moldable_id')
+           .joins('LEFT OUTER JOIN moldable_job_descriptions ON jobs.job_id = moldable_job_descriptions.moldable_job_id')
+           .joins('LEFT OUTER JOIN gantt_jobs_predictions ON gantt_jobs_predictions.moldable_job_id = moldable_job_descriptions.moldable_id')
       end # def expanded
     end
   end

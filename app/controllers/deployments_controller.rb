@@ -22,31 +22,31 @@ class DeploymentsController < ApplicationController
 
     offset = [(params[:offset] || 0).to_i, 0].max
     limit = [(params[:limit] || LIMIT).to_i, LIMIT_MAX].min
-    order = "DESC"
-    order = "ASC" if params[:reverse] && params[:reverse].to_s == "true"
+    order = 'DESC'
+    order = 'ASC' if params[:reverse] && params[:reverse].to_s == 'true'
 
     items = Grid5000::Deployment.order("created_at #{order}")
-    items = items.where(:user_uid => params[:user]) if params[:user]
-    items = items.where(:status => params[:status]) if params[:status]
+    items = items.where(user_uid: params[:user]) if params[:user]
+    items = items.where(status: params[:status]) if params[:status]
 
     total = items.count
 
     items = items.offset(offset).limit(limit)
 
-    items.each{|item|
+    items.each do |item|
       item.links = links_for_item(item)
-    }
+    end
 
     result = {
-      "total" => total,
-      "offset" => offset,
-      "items" => items,
-      "links" => links_for_collection
+      'total' => total,
+      'offset' => offset,
+      'items' => items,
+      'links' => links_for_collection
     }
 
     respond_to do |format|
-      format.g5kcollectionjson { render :json => result }
-      format.json { render :json => result }
+      format.g5kcollectionjson { render json: result }
+      format.json { render json: result }
     end
   end
 
@@ -59,8 +59,8 @@ class DeploymentsController < ApplicationController
     item.links = links_for_item(item)
 
     respond_to do |format|
-      format.g5kitemjson { render :json => item }
-      format.json { render :json => item }
+      format.g5kitemjson { render json: item }
+      format.json { render json: item }
     end
   end
 
@@ -71,8 +71,8 @@ class DeploymentsController < ApplicationController
     ensure_authenticated!
     dpl = find_item(params[:id])
     authorize!(dpl.user_uid)
-    dpl.base_uri = api_path()
-    dpl.tls_options=tls_options_for(dpl.base_uri, :out)
+    dpl.base_uri = api_path
+    dpl.tls_options = tls_options_for(dpl.base_uri, :out)
     dpl.user = @credentials[:cn]
 
     begin
@@ -86,10 +86,10 @@ class DeploymentsController < ApplicationController
       :in, :absolute
     )
 
-    render  :plain => "",
-            :head => :ok,
-            :location => location_uri,
-            :status => 202
+    render  plain: '',
+            head: :ok,
+            location: location_uri,
+            status: :accepted
   end
 
   # Create a new Deployment. Client must be authenticated.
@@ -98,30 +98,32 @@ class DeploymentsController < ApplicationController
   def create
     ensure_authenticated!
     begin
-      payload=deployment_params.to_h
+      payload = deployment_params.to_h
       Rails.logger.debug "Creating deployment with #{payload} from #{params} (after permit)"
 
       dpl = Grid5000::Deployment.new(payload)
       dpl.user_uid = @credentials[:cn]
       dpl.site_uid = Rails.whoami
       dpl.user = @credentials[:cn]
-      dpl.base_uri = api_path()
-      dpl.tls_options=tls_options_for(dpl.base_uri, :out)
+      dpl.base_uri = api_path
+      dpl.tls_options = tls_options_for(dpl.base_uri, :out)
 
       Rails.logger.info "Received deployment = #{dpl.inspect}"
     rescue Exception => e
       raise BadRequest, "The deployment you are trying to submit is not valid: #{e.message}"
     end
-    raise BadRequest, "The deployment you are trying to submit is not valid: #{dpl.errors.to_a.join("; ")}" unless dpl.valid?
+    unless dpl.valid?
+      raise BadRequest, "The deployment you are trying to submit is not valid: #{dpl.errors.to_a.join('; ')}"
+    end
 
     # WARN: this is a blocking call as it creates a file on disk.
     # we may want to defer it or implement it natively with EventMachine
-    files_base_uri = uri_to(parent_path+"/files",:in, :absolute)
+    files_base_uri = uri_to(parent_path + '/files', :in, :absolute)
     dpl.transform_blobs_into_files!(Rails.tmp, files_base_uri)
 
     begin
       dpl.launch || raise(ServerError,
-        "#{dpl.errors.full_messages.join("; ")}")
+                          dpl.errors.full_messages.join('; ').to_s)
     rescue Exception => e
       raise ServerError, "Cannot launch deployment: #{e.message}"
     end
@@ -135,12 +137,12 @@ class DeploymentsController < ApplicationController
 
     render_opts = {
       #:methods => [:resources_by_type, :assigned_nodes],
-      :location => location_uri,
-      :status => 201
+      location: location_uri,
+      status: 201
     }
     respond_to do |format|
-      format.g5kitemjson { render render_opts.merge(:json => dpl) }
-      format.json { render render_opts.merge(:json => dpl) }
+      format.g5kitemjson { render render_opts.merge(json: dpl) }
+      format.json { render render_opts.merge(json: dpl) }
     end
   end
 
@@ -150,8 +152,8 @@ class DeploymentsController < ApplicationController
   # deployment has finished.
   def update
     dpl = find_item(params[:id])
-    dpl.base_uri = api_path()
-    dpl.tls_options=tls_options_for(dpl.base_uri, :out)
+    dpl.base_uri = api_path
+    dpl.tls_options = tls_options_for(dpl.base_uri, :out)
     dpl.user = 'root' # Ugly hack since no auth is needed for this method on theg5k API
 
     begin
@@ -165,10 +167,10 @@ class DeploymentsController < ApplicationController
       :in, :absolute
     )
 
-    render  :plain => "",
-            :head => :ok,
-            :location => location_uri,
-            :status => 204
+    render  plain: '',
+            head: :ok,
+            location: location_uri,
+            status: :no_content
   end
 
   protected
@@ -196,14 +198,14 @@ class DeploymentsController < ApplicationController
   def links_for_item(item)
     [
       {
-        "rel" => "self",
-        "href" => uri_to(resource_path(item['uid'])),
-        "type" => api_media_type(:g5kitemjson)
+        'rel' => 'self',
+        'href' => uri_to(resource_path(item['uid'])),
+        'type' => api_media_type(:g5kitemjson)
       },
       {
-        "rel" => "parent",
-        "href" => uri_to(parent_path),
-        "type" => api_media_type(:g5kitemjson)
+        'rel' => 'parent',
+        'href' => uri_to(parent_path),
+        'type' => api_media_type(:g5kitemjson)
       }
     ]
   end
@@ -211,29 +213,30 @@ class DeploymentsController < ApplicationController
   def links_for_collection
     [
       {
-        "rel" => "self",
-        "href" => uri_to(collection_path),
-        "type" => api_media_type(:g5kcollectionjson)
+        'rel' => 'self',
+        'href' => uri_to(collection_path),
+        'type' => api_media_type(:g5kcollectionjson)
       },
       {
-        "rel" => "parent",
-        "href" => uri_to(parent_path),
-        "type" => api_media_type(:g5kitemjson)
+        'rel' => 'parent',
+        'href' => uri_to(parent_path),
+        'type' => api_media_type(:g5kitemjson)
       }
     ]
   end
 
   def find_item(id)
-    item = Grid5000::Deployment.find_by_uid(id)
+    item = Grid5000::Deployment.find_by(uid: id)
     raise NotFound, "Couldn't find #{Grid5000::Deployment} with ID=#{id}" if item.nil?
+
     item
   end
 
-  def api_path(path='')
+  def api_path(path = '')
     uri_to(
       File.join(
         site_path(params[:site_id]),
-        "/internal/kadeployapi/deployment",
+        '/internal/kadeployapi/deployment',
         path
       ),
       :out
@@ -241,48 +244,46 @@ class DeploymentsController < ApplicationController
   end
 
   # Not useful atm
-=begin
-  def wrap_item(item,params,orig=false)
-    ret = item
-    item = item.dup
-    ret.clear
-    ret['orig'] = item if orig
-
-    ret['uid'] = item['wid'] || item['id']
-    ret['site_uid'] = params[:site_id]
-    ret['user_uid'] = item['user']
-    #item['created_at'] = item['start_time']
-    if item['nodes'].is_a?(Hash)
-      nodes = item['nodes']
-      ret['nodes'] = []
-      ret['result'] = {}
-      nodes['ok'].each do |node|
-        ret['nodes'] << node
-        ret['result'][node] = { 'state' => 'OK' }
-      end
-      nodes['processing'].each do |node|
-        ret['nodes'] << node
-        ret['result'][node] = { 'state' => 'OK' }
-      end
-      nodes['ko'].each do |node|
-        ret['nodes'] << node
-        ret['result'][node] = { 'state' => 'KO' }
-      end
-    else
-      ret['nodes'] = item['nodes']
-    end
-
-    if item['error']
-      ret['status'] = :error
-    elsif item['done']
-      ret['status'] = :terminated
-    else
-      ret['status'] = :processing
-    end
-
-    ret['links'] = links_for_item(ret)
-
-    ret
-  end
-=end
+  #   def wrap_item(item,params,orig=false)
+  #     ret = item
+  #     item = item.dup
+  #     ret.clear
+  #     ret['orig'] = item if orig
+  #
+  #     ret['uid'] = item['wid'] || item['id']
+  #     ret['site_uid'] = params[:site_id]
+  #     ret['user_uid'] = item['user']
+  #     #item['created_at'] = item['start_time']
+  #     if item['nodes'].is_a?(Hash)
+  #       nodes = item['nodes']
+  #       ret['nodes'] = []
+  #       ret['result'] = {}
+  #       nodes['ok'].each do |node|
+  #         ret['nodes'] << node
+  #         ret['result'][node] = { 'state' => 'OK' }
+  #       end
+  #       nodes['processing'].each do |node|
+  #         ret['nodes'] << node
+  #         ret['result'][node] = { 'state' => 'OK' }
+  #       end
+  #       nodes['ko'].each do |node|
+  #         ret['nodes'] << node
+  #         ret['result'][node] = { 'state' => 'KO' }
+  #       end
+  #     else
+  #       ret['nodes'] = item['nodes']
+  #     end
+  #
+  #     if item['error']
+  #       ret['status'] = :error
+  #     elsif item['done']
+  #       ret['status'] = :terminated
+  #     else
+  #       ret['status'] = :processing
+  #     end
+  #
+  #     ret['links'] = links_for_item(ret)
+  #
+  #     ret
+  #   end
 end

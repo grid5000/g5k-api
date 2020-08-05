@@ -15,7 +15,6 @@
 require 'resources_controller'
 
 class NetworkEquipmentsController < ResourcesController
-
   protected
 
   def collection_path
@@ -25,5 +24,4 @@ class NetworkEquipmentsController < ResourcesController
       network_equipments_path
     end
   end
-
 end

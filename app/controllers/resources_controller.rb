@@ -13,7 +13,6 @@
 # limitations under the License.
 
 class ResourcesController < ApplicationController
-
   MAX_AGE = 60.seconds
 
   # Return a collection of resources
@@ -26,34 +25,35 @@ class ResourcesController < ApplicationController
   end
 
   protected
+
   def fetch(path)
     allow :get; vary_on :accept
     Rails.logger.info "Fetching #{path}"
 
     enrich_params(params)
 
-    object=lookup_path(path,params)
+    object = lookup_path(path, params)
 
     raise NotFound, "Cannot find resource #{path}" if object.nil?
 
     if object.has_key?('items')
       object['links'] = links_for_collection(object)
-      object['items'].each{|item|
+      object['items'].each do |item|
         item['links'] = links_for_item(item)
-      }
+      end
     else
       object['links'] = links_for_item(object)
     end
 
-    object["version"] = repository.commit.oid
+    object['version'] = repository.commit.oid
 
     last_modified [repository.commit.time, File.mtime(__FILE__)].max
 
     # If client asked for a specific version, it won't change anytime soon
-    if params[:version] && params[:version] == object["version"]
+    if params[:version] && params[:version] == object['version']
       expires_in(
-        24*3600*30,
-        :public => true
+        24 * 3600 * 30,
+        public: true
       )
     else
       expires_in(
@@ -68,41 +68,40 @@ class ResourcesController < ApplicationController
 
     respond_to do |format|
       if object.has_key?('items')
-        format.g5kcollectionjson { render :json => object }
+        format.g5kcollectionjson { render json: object }
       else
-        format.g5kitemjson { render :json => object }
+        format.g5kitemjson { render json: object }
       end
-      format.json { render :json => object }
+      format.json { render json: object }
     end
   end
 
   def enrich_params(params)
     branch = params[:branch] || 'master'
-    branch = ['origin', branch].join("/") unless Rails.env == "test"
-    params[:branch]=branch
+    branch = ['origin', branch].join('/') unless Rails.env.test?
+    params[:branch] = branch
 
-        # abasu : Added code for getting 'queues' element in hash params - 11.12.2015
+    # abasu : Added code for getting 'queues' element in hash params - 11.12.2015
     # abasu : In request to feature bug ref. #6363
     # abasu : params_queues is the array with 'queues' values passed in 'params'
-    if params[:queues].nil? # no filter, so assign everything except "production"
-       params[:queues] = ["admin","default"]
-    # As of 11.12.2015 the queues accepted are:
-    # "all" or any combination of "admin", "default", "production"
-    else
-       if params[:queues] == "all" # for use by sys-admin
-          params[:queues] = ["admin","default","production"]
-       else
-          params[:queues] = params[:queues].split(",")
-       end # if params[:queues] == "all"
-    end # if params[:queues].nil?
-
+    params[:queues] = if params[:queues].nil? # no filter, so assign everything except "production"
+                        %w[admin default]
+                      # As of 11.12.2015 the queues accepted are:
+                      # "all" or any combination of "admin", "default", "production"
+                      else
+                        if params[:queues] == 'all' # for use by sys-admin
+                          %w[admin default production]
+                        else
+                          params[:queues].split(',')
+                                          end # if params[:queues] == "all"
+                      end # if params[:queues].nil?
   end
 
   def lookup_path(path, params)
     object = repository.find(
-      path.gsub(/\/?platforms/,''),
-      :branch => params[:branch],
-      :version => params[:version]
+      path.gsub(%r{/?platforms}, ''),
+      branch: params[:branch],
+      version: params[:version]
     )
 
     raise ServerUnavailable if object.is_a?(Exception)
@@ -111,22 +110,20 @@ class ResourcesController < ApplicationController
     case [params[:controller], params[:action]]
 
     # 1. case of a single cluster
-    when ["clusters", "show"]
+    when %w[clusters show]
       # Add ["admin","default"] to 'queues' if nothing defined for that cluster
-      object['queues'] = ["admin","default"] if object['queues'].nil?
+      object['queues'] = %w[admin default] if object['queues'].nil?
       object = nil if (object['queues'] & params[:queues]).empty?
 
     # 2. case of an array of clusters
-    when ["clusters", "index"]
+    when %w[clusters index]
       # First, add ["admin","default"] to 'queues' if nothing defined for that cluster
-      object['items'].each { |cluster| cluster['queues'] = ["admin","default"] if cluster['queues'].nil? }
+      object['items'].each { |cluster| cluster['queues'] = %w[admin default] if cluster['queues'].nil? }
       # Then, filter out 'queues' that are not requested in params
       object['items'].delete_if { |cluster| (cluster['queues'] & params[:queues]).empty? }
-=begin
-         # This last step: to maintain current behaviour showing no 'queues' if not defined
-         # Should be removed when 'queues' in all clusters are explicitly defined.
-         object['items'].each { |cluster| cluster.delete_if { |key, value| key == 'queues' && value == ["default"] } }
-=end
+      #          # This last step: to maintain current behaviour showing no 'queues' if not defined
+      #          # Should be removed when 'queues' in all clusters are explicitly defined.
+      #          object['items'].each { |cluster| cluster.delete_if { |key, value| key == 'queues' && value == ["default"] } }
       # Finally, set new 'total' to clusters shortlisted
       object['total'] = object['items'].length
 
@@ -144,7 +141,7 @@ class ResourcesController < ApplicationController
   end
 
   def parent_path
-    collection_path.gsub(/\/[^\/]+$/, "")
+    collection_path.gsub(%r{/[^/]+$}, '')
   end
 
   # Should be overwritten
@@ -152,51 +149,52 @@ class ResourcesController < ApplicationController
     links = []
 
     (item.delete('subresources') || []).each do |subresource|
-      href = uri_to(resource_path(item["uid"]) + "/" + subresource[:name])
+      href = uri_to(resource_path(item['uid']) + '/' + subresource[:name])
       links.push({
-        "rel" => subresource[:name],
-        "href" => href,
-        "type" => api_media_type(:g5kcollectionjson)
-      })
+                   'rel' => subresource[:name],
+                   'href' => href,
+                   'type' => api_media_type(:g5kcollectionjson)
+                 })
     end
 
     links.push({
-      "rel" => "self",
-      "type" => api_media_type(:g5kitemjson),
-      "href" => uri_to(resource_path(item["uid"]))
-    })
+                 'rel' => 'self',
+                 'type' => api_media_type(:g5kitemjson),
+                 'href' => uri_to(resource_path(item['uid']))
+               })
     links.push({
-      "rel" => "parent",
-      "type" => api_media_type(:g5kitemjson),
-      "href" => uri_to(parent_path)
-    })
+                 'rel' => 'parent',
+                 'type' => api_media_type(:g5kitemjson),
+                 'href' => uri_to(parent_path)
+               })
     links.push({
-      "rel" => "version",
-      "type" => api_media_type(:g5kitemjson),
-      "href" => uri_to(File.join(resource_path(item["uid"]), "versions", item["version"]))
-    })
+                 'rel' => 'version',
+                 'type' => api_media_type(:g5kitemjson),
+                 'href' => uri_to(File.join(resource_path(item['uid']), 'versions', item['version']))
+               })
     links.push({
-      "rel" => "versions",
-      "type" => api_media_type(:g5kcollectionjson),
-      "href" => uri_to(File.join(resource_path(item["uid"]), "versions"))
-    })
+                 'rel' => 'versions',
+                 'type' => api_media_type(:g5kcollectionjson),
+                 'href' => uri_to(File.join(resource_path(item['uid']), 'versions'))
+               })
     links
   end
 
   # Should be overwritten
-  def links_for_collection(collection)
+  def links_for_collection(_collection)
     links = []
     links.push({
-      "rel" => "self",
-      "type" => api_media_type(:g5kcollectionjson),
-      "href" => uri_to(collection_path)
-    })
-    links.push({
-      "rel" => "parent",
-      "type" => api_media_type(:g5kitemjson),
-      "href" => uri_to(parent_path)
-    }) unless parent_path.blank?
+                 'rel' => 'self',
+                 'type' => api_media_type(:g5kcollectionjson),
+                 'href' => uri_to(collection_path)
+               })
+    if parent_path.present?
+      links.push({
+                   'rel' => 'parent',
+                   'type' => api_media_type(:g5kitemjson),
+                   'href' => uri_to(parent_path)
+                 })
+    end
     links
   end
-
 end

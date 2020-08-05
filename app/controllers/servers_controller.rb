@@ -17,10 +17,9 @@ require 'resources_controller'
 # This initial ServersController prepared in response to bug ref. 7301 -- 2016.10.24
 # To be decorated later as features develop for /servers
 class ServersController < ResourcesController
-
   protected
-  
-  def collection_path 
+
+  def collection_path
     if params[:site_id]
       site_servers_path(params[:site_id])
     else
@@ -31,5 +30,4 @@ class ServersController < ResourcesController
   def links_for_item(item)
     super(item)
   end
-
 end
