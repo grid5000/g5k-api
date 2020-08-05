@@ -4,7 +4,7 @@ var now = new Date().getTime()
 
 var optionalize = function(search) {
   var queryString = search.replace(/^.*\?/, '')
-  if ($("#link-to-self")) {
+  if ($("#link-to-self").length > 0) {
     $("#link-to-self").val(window.location.href.replace(/\?.*$/, "?"+queryString))
   }
   var queryParameters = queryString.split(/&/)
