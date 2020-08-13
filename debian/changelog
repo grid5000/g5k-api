@@ -1,3 +1,17 @@
+g5k-api (3.9.6) unstable; urgency=low
+
+  * 598a5b9 Fix Kadeploy's errors reporting when the deployment cannot be launched
+  * 1e720d7 Fix tls verify_peer in development environment
+  * 07176d9 Cleanup some comments
+  * 2a916e1 lookup_path() should return nil if a git object wasn't found for a path
+  * ba8cca5 Use hostname -f option to always get the machine's FQDN
+  * de48e46 Add rubocop
+  * 35ca025 Cleanup by removing some comments, useless files and fixing code comestics
+  * 15cf355 Update rails and other Gems to last version
+  * 73da085 Set max_retries to 0 instead of 1 (default) when doing http requests
+
+ -- Samir Noir <samir.noir@inria.fr>  Thu, 13 Aug 2020 09:13:01 +0200
+
 g5k-api (3.9.5) unstable; urgency=low
 
   * f97fdc6 Fix the read_timeout definition in http_request method
