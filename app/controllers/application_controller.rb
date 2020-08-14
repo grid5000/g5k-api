@@ -64,12 +64,7 @@ class ApplicationController < ActionController::Base
   protected
 
   def set_default_format
-    params[:format] ||= begin
-      first_mime_type = (
-        (request.accept || "").split(",")[0] || ""
-      ).split(";")[0]
-      Mime::Type.lookup(first_mime_type).to_sym || :g5kjson
-    end
+    request.format = :json
   end
 
   def lookup_credentials

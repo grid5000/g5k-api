@@ -13,9 +13,15 @@
 # limitations under the License.
 
 class UiController < ApplicationController
+  before_action :set_default_format
+
   rescue_from ActionView::MissingTemplate do
     @title = 'Page not found'
     render :template => "ui/404.html.haml", :status => 404
+  end
+
+  def set_default_format
+    request.format = :html
   end
 
   def show
