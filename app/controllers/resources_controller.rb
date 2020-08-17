@@ -36,13 +36,18 @@ class ResourcesController < ApplicationController
 
     raise NotFound, "Cannot find resource #{path}" if object.nil?
 
-    if object.has_key?('items')
+    # To avoid code duplication with global_controller
+    if params[:controller] == 'global'
       object['links'] = links_for_collection
-      object['items'].each do |item|
-        item['links'] = links_for_item(item)
-      end
     else
-      object['links'] = links_for_item(object)
+      if object.has_key?('items')
+        object['links'] = links_for_collection
+        object['items'].each do |item|
+          item['links'] = links_for_item(item)
+        end
+      else
+        object['links'] = links_for_item(object)
+      end
     end
 
     object['version'] = repository.commit.oid
@@ -90,13 +95,22 @@ class ResourcesController < ApplicationController
                           params[:queues].split(',')
                                           end
                       end
+
+    if params[:controller] == 'global'
+      params[:global] = true
+
+      if params[:action] == 'show_job'
+        params[:version] = OAR::Job.expanded.find(params[:job_id]).start_time
+      end
+    end
   end
 
   def lookup_path(path, params)
     object = repository.find(
       path.gsub(%r{/?platforms}, ''),
       branch: params[:branch],
-      version: params[:version]
+      version: params[:version],
+      global: params[:global]
     )
 
     raise ServerUnavailable if object.is_a?(Exception)
@@ -123,6 +137,26 @@ class ResourcesController < ApplicationController
       # Finally, set new 'total' to clusters shortlisted
       object['total'] = object['items'].length
 
+    when %w[global show_job]
+      assigned_nodes = OAR::Job.expanded.find(
+        params[:job_id]
+      ).assigned_nodes
+
+      clusters = {}
+      assigned_nodes.each do |n|
+        clusters[n.gsub(/([a-z]+)-[0-9]+.*/, '\1')] ||= []
+        clusters[n.gsub(/([a-z]+)-[0-9]+.*/, '\1')] << n.gsub(/([a-z]+-[0-9]+).*/, '\1')
+      end
+
+      object['items'].delete_if { |key| !%w[clusters type uid].include?(key) }
+      object['items']['clusters'].delete_if { |key, _| !clusters.keys.include?(key) }
+      clusters.each do |cluster, nodes|
+        if object['items']['clusters'][cluster]
+          object['items']['clusters'][cluster]['nodes'].delete_if { |key, _| !nodes.include?(key) }
+        end
+      end
+
+      object['total'] = object['items'].length
     end
 
     object

@@ -15,6 +15,7 @@
 require 'json'
 require 'logger'
 require 'rugged'
+require 'hash'
 
 module Grid5000
   class Repository
@@ -52,7 +53,12 @@ module Grid5000
         return e
       end
 
-      result = expand_object(object, path, @commit)
+      result = if options[:global]
+                 global_expand(object, path, @commit)
+               else
+                 expand_object(object, path, @commit)
+               end
+
       result
     end
 
@@ -108,6 +114,53 @@ module Grid5000
           result
         end
       end
+    end
+
+    def global_expand(hash_object, path, commit)
+      return nil if hash_object.nil?
+
+      tree_object = instance.lookup(hash_object[:oid])
+
+      # If it's a symlink
+      if hash_object[:filemode] == 40960
+        hash_object = find_object_at(instance.lookup(entry[:oid]).content, commit, File.join(path, root, entry[:name]))
+        tree_object = instance.lookup(hash_object[:oid])
+      end
+
+      global_hash = {}
+      tree_object.walk_blobs(:postorder) do |root, entry|
+        next unless File.extname(entry[:name]) == '.json'
+
+        # If it's a symlink
+        if entry[:filemode] == 40960
+          hash_object = find_object_at(instance.lookup(entry[:oid]).content, commit, File.join(path, root, entry[:name]))
+          object = instance.lookup(hash_object[:oid])
+        else
+          object = instance.lookup(entry[:oid])
+        end
+
+        path_hierarchy = File.dirname("#{root}#{entry[:name]}").split('/')
+        file_hash = JSON.parse(object.content)
+
+        path_hierarchy = [] if path_hierarchy == ['.']
+
+        if ['nodes', 'network_equipments', 'servers', 'pdus'].include?(path_hierarchy.last)
+          # it's a node or a network_equipment, add the uid
+          path_hierarchy << file_hash['uid']
+        end
+
+        file_hash = Hash.from_array(path_hierarchy, file_hash)
+        global_hash = global_hash.deep_merge(file_hash)
+        global_hash
+      end
+
+      result = {
+        "total" => global_hash.length,
+        "offset" => 0,
+        "items" => rec_sort(global_hash),
+        "version" => commit.oid
+      }
+      result
     end
 
     def find_commit_for(options = {})
