@@ -18,7 +18,8 @@ Api::Application.routes.draw do
   # The priority is based upon order of creation:
   # first created -> highest priority.
 
-  get '/exhibitv2/*rest', to: redirect { |params, _request| "/ui/javascripts/vendor/exhibitv2/#{params[:rest]}" }
+  get '/exhibitv2/*rest', to: redirect { |params, _request| "/ui/javascripts/vendor/exhibitv2/#{params[:rest]}.#{params[:format]}" }
+  get '/ui/visualizations/javascripts/*rest', to: redirect { |params, _request| "/ui/javascripts/#{params[:rest]}.#{params[:format]}" }
   get '/versions' => 'versions#index', :via => [:get]
   get '/versions/:id' => 'versions#show', :via => [:get]
   get '*resource/versions' => 'versions#index', :via => [:get]

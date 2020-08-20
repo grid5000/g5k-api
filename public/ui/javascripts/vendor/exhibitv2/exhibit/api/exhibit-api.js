@@ -268,7 +268,7 @@
         window.SimileAjax_onLoad = loadMe;
 
         var url = useLocalResources ?
-            "./javascripts/vendor/exhibitv2/ajax/api/simile-ajax-api.js?bundle=false" :
+            "../javascripts/vendor/exhibitv2/ajax/api/simile-ajax-api.js?bundle=false" :
             "http://api.simile-widgets.org/ajax/2.2.3/simile-ajax-api.js";
 
         var createScriptElement = function() {

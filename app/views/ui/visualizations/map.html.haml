@@ -1,7 +1,7 @@
 - content_for :before_js do
-  %script{:src => "/exhibitv2/exhibit/api/exhibit-api.js?autoCreate=false"}
   %script{:src => relative_path_to("/javascripts/lib/exhibit.js")}
-  %script{:src => "/exhibitv2/exhibit/api/extensions/map/map-extension.js?gmapkey=ABQIAAAAswD5nCsXqPrfB-uqmRIkshSdgCV34beAmIbkhlY5Su_PpSdtqhRs8AwfLLKJ6ARAwSOjf724JqlTOg"}
+  %script{:src => relative_path_to("/javascripts/vendor/exhibitv2/exhibit/api/exhibit-api.js?autoCreate=false")}
+  %script{:src => relative_path_to("/javascripts/vendor/exhibitv2/exhibit/api/extensions/map/map-extension.js?gmapkey=ABQIAAAAswD5nCsXqPrfB-uqmRIkshSdgCV34beAmIbkhlY5Su_PpSdtqhRs8AwfLLKJ6ARAwSOjf724JqlTOg")}
 
 %h1{:title => "map"} Map
 
