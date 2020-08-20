@@ -21,11 +21,11 @@ FactoryBot.define do
 end
 
 FactoryBot.define do
-  factory :deployment, :class => Grid5000::Deployment do
+  factory :deployment, class: Grid5000::Deployment do
     uid { generate(:uid) }
-    site_uid { "rennes" }
-    user_uid { "crohr" }
-    environment { "lenny-x64-base" }
-    nodes { ["paradent-1.rennes.grid5000.fr", "parapluie-1.rennes.grid5000.fr"] }
+    site_uid { 'rennes' }
+    user_uid { 'crohr' }
+    environment { 'lenny-x64-base' }
+    nodes { ['paradent-1.rennes.grid5000.fr', 'parapluie-1.rennes.grid5000.fr'] }
   end
 end

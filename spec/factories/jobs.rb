@@ -21,9 +21,9 @@ FactoryBot.define do
 end
 
 FactoryBot.define do
-  factory :job, :class => OAR::Job do
+  factory :job, class: OAR::Job do
     job_id { generate(:job_id) }
-    launching_directory { "/home/vagrant" }
-    checkpoint_signal { "USR3" }
+    launching_directory { '/home/vagrant' }
+    checkpoint_signal { 'USR3' }
   end
 end

@@ -17,9 +17,9 @@ require 'spec_helper'
 describe UiController do
   render_views
 
-  describe "GET /ui/doesnotexist" do
-    it "should return 404 if the page does not exist" do
-      get :visualization, format: :html, params: { :page => 'doesnotexist' }
+  describe 'GET /ui/doesnotexist' do
+    it 'should return 404 if the page does not exist' do
+      get :visualization, format: :html, params: { page: 'doesnotexist' }
       expect(response.status).to eq(404)
     end
   end

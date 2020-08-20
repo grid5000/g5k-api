@@ -27,7 +27,7 @@ module Grid5000
     serialize :result, JSON
 
     validates_presence_of :user_uid, :site_uid, :environment, :nodes
-    validates_uniqueness_of :uid, :case_sensitive => true
+    validates_uniqueness_of :uid, case_sensitive: true
 
     before_create do
       self.created_at ||= Time.now.to_i
@@ -36,7 +36,7 @@ module Grid5000
     before_save do
       self.updated_at = Time.now.to_i
       if uid.nil?
-        errors.add(:uid, "must be set")
+        errors.add(:uid, 'must be set')
         throw(:abort)
       end
       errors.empty?
@@ -47,24 +47,24 @@ module Grid5000
     end
 
     # Experiment states
-    state_machine :status, :initial => :waiting do
-      before_transition :processing => :canceled, :do => :cancel_workflow!
-      before_transition :waiting => :processing, :do => :launch_workflow!
+    state_machine :status, initial: :waiting do
+      before_transition processing: :canceled, do: :cancel_workflow!
+      before_transition waiting: :processing, do: :launch_workflow!
 
       event :launch do
-        transition :waiting => :processing
+        transition waiting: :processing
       end
       event :process do
-        transition :processing => :processing
+        transition processing: :processing
       end
       event :cancel do
-        transition :processing => :canceled
+        transition processing: :canceled
       end
       event :terminate do
-        transition :processing => :terminated
+        transition processing: :terminated
       end
       event :failed do
-        transition :processing => :error
+        transition processing: :error
       end
     end
 
@@ -73,11 +73,11 @@ module Grid5000
     end
 
     validate do
-      errors.add :nodes, "must be a non-empty list of node FQDN" unless (nodes.kind_of?(Array) && nodes.length > 0)
+      errors.add :nodes, 'must be a non-empty list of node FQDN' unless nodes.is_a?(Array) && nodes.length > 0
     end
 
     def processing?
-      status.nil? || status == "processing"
+      status.nil? || status == 'processing'
     end
 
     # When some attributes such as :key are passed as text strings,
@@ -92,56 +92,60 @@ module Grid5000
         value = send(attribute)
         next if value.nil?
 
-        scheme = URI.parse(value).scheme rescue nil
-        if scheme.nil?
-          filename = [
-            user_uid, attribute, Digest::SHA1.hexdigest(value)
-          ].join("-")
-          # ensure the directory exists...
-          FileUtils.mkdir_p(tmpfiles_dir)
-          # and write the file to that location
-          File.open("#{tmpfiles_dir}/#{filename}", "w") { |f| f.write(value) }
-          uri = "#{base_uri}/#{filename}"
-          send("#{attribute}=".to_sym, uri)
-        end
+        scheme = begin
+                   URI.parse(value).scheme
+                 rescue StandardError
+                   nil
+                 end
+        next unless scheme.nil?
+
+        filename = [
+          user_uid, attribute, Digest::SHA1.hexdigest(value)
+        ].join('-')
+        # ensure the directory exists...
+        FileUtils.mkdir_p(tmpfiles_dir)
+        # and write the file to that location
+        File.open("#{tmpfiles_dir}/#{filename}", 'w') { |f| f.write(value) }
+        uri = "#{base_uri}/#{filename}"
+        send("#{attribute}=".to_sym, uri)
       end
     end
 
     def cancel_workflow!
-      raise "cancel_workflow!" if !user or !base_uri # Ugly hack
+      raise 'cancel_workflow!' if !user || !base_uri # Ugly hack
 
       begin
         headers = { 'X-Remote-Ident' => user }
         uri = File.join(base_uri, uid)
         http_request(:delete, uri, tls_options, 15, headers)
-      rescue
-        error("Unable to contact #{File.join(base_uri,uid)}")
-        raise self.output+"\n"
+      rescue StandardError
+        error("Unable to contact #{File.join(base_uri, uid)}")
+        raise output + "\n"
       end
 
       # Not checked since it avoid touch! to cancel the deployment
-      #unless %w{200 201 202 204}.include?(http.response_header.code.to_s)
+      # unless %w{200 201 202 204}.include?(http.response_header.code.to_s)
       #  fail
       #  raise "The deployment no longer exists on the Kadeploy server"
-      #end
+      # end
 
       true
     end
 
     def launch_workflow!
-      raise "launch_workflow!" if !user or !base_uri # Ugly hack
+      raise 'launch_workflow!' if !user || !base_uri # Ugly hack
 
       params = to_hash
       # The environment was specified as an URL to a description file
       if params['environment'].empty?
         scheme = URI.parse(environment).scheme
         case scheme
-        when 'http','https'
+        when 'http', 'https'
           begin
             http = http_request(:get, environment, tls_options, 10)
             params['environment'] = YAML.load(http.body)
             params['environment']['kind'] = 'anonymous'
-          rescue => e
+          rescue StandardError => e
             raise "Error fetching the image description file: #{e.class.name}, #{e.message}"
           end
         else
@@ -157,17 +161,17 @@ module Grid5000
                     'Accept' => Mime::Type.lookup_by_extension(:json).to_s,
                     'X-Remote-Ident' => user }
         http = http_request(:post, base_uri, tls_options, 20, headers, params.to_json)
-      rescue
+      rescue StandardError
         error("Unable to contact #{base_uri}")
-        raise self.output+"\n"
+        raise output + "\n"
       end
 
-      if %w{200 201 202 204}.include?(http.code.to_s)
+      if %w[200 201 202 204].include?(http.code.to_s)
         update_attribute(:uid, JSON.parse(http.body)['wid'])
       else
-        error(get_kaerror(http,http.header))
+        error(get_kaerror(http, http.header))
         # Cannot continue since :uid is not set
-        raise self.output+"\n"
+        raise output + "\n"
       end
 
       true
@@ -176,24 +180,36 @@ module Grid5000
     def touch!
       begin
         headers = { 'Accept' => Mime::Type.lookup_by_extension(:json).to_s,
-                    'X-Remote-Ident' => user}
+                    'X-Remote-Ident' => user }
         uri = File.join(base_uri, uid)
         http = http_request(:get, uri, tls_options, 10, headers)
-      rescue
-        error("Unable to contact #{File.join(base_uri,uid)}")
-        raise self.output+"\n"
+      rescue StandardError
+        error("Unable to contact #{File.join(base_uri, uid)}")
+        raise output + "\n"
       end
 
-      if %w{200 201 202 204}.include?(http.code.to_s)
+      if %w[200 201 202 204].include?(http.code.to_s)
         item = JSON.parse(http.body)
 
-        unless item['error']
+        if item['error']
+          begin
+            headers = { 'X-Remote-Ident' => user }
+            uri = File.join(base_uri, uid, 'error')
+            http = http_request(:get, uri, tls_options, 15, headers)
+          rescue StandardError
+            error(get_kaerror(http, http.header))
+            error("Unable to contact #{File.join(base_uri, uid, 'error')}")
+            raise output + "\n"
+          end
+
+          return
+        else
           begin
             uri = File.join(base_uri, uid, 'state')
             http = http_request(:get, uri, tls_options, 15, headers)
-          rescue
-            error("Unable to contact #{File.join(base_uri,uid, 'state')}")
-            raise self.output+"\n"
+          rescue StandardError
+            error("Unable to contact #{File.join(base_uri, uid, 'state')}")
+            raise output + "\n"
           end
 
           res = JSON.parse(http.body)
@@ -202,18 +218,6 @@ module Grid5000
             res[node]['state'] = res[node]['state'].upcase
           end
           self.result = res
-        else
-          begin
-            headers = { 'X-Remote-Ident' => user }
-            uri = File.join(base_uri, uid, 'error')
-            http = http_request(:get, uri, tls_options, 15, headers)
-          rescue
-            error(get_kaerror(http,http.header))
-            error("Unable to contact #{File.join(base_uri,uid,'error')}")
-            raise self.output + "\n"
-          end
-
-          return
         end
 
         if item['done']
@@ -222,11 +226,11 @@ module Grid5000
           process
         end
       else
-        error("The deployment no longer exists on the Kadeploy server")
+        error('The deployment no longer exists on the Kadeploy server')
       end
     end
 
-    def get_kaerror(resp,hdr)
+    def get_kaerror(resp, hdr)
       if hdr['X_APPLICATION_ERROR_CODE'] && hdr['X_APPLICATION_ERROR_INFO']
         "Kadeploy error ##{hdr['X_APPLICATION_ERROR_CODE']}: #{Base64.strict_decode64(hdr['X_APPLICATION_ERROR_INFO'])}"
       else
@@ -244,7 +248,7 @@ module Grid5000
     end
 
     def as_json(*)
-      attributes.merge(:links => links).reject{|k,v| v.nil? || k=="id"}
+      attributes.merge(links: links).reject { |k, v| v.nil? || k == 'id' }
     end
 
     def to_hash
@@ -252,7 +256,7 @@ module Grid5000
         'environment' => {}
       }
       if URI.parse(environment).scheme.nil?
-        env_name, env_user = environment.split("@")
+        env_name, env_user = environment.split('@')
         params['environment'] = { 'name' => env_name }
         params['environment']['user'] = env_user if env_user
         params['environment']['version'] = version.to_s if version

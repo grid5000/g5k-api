@@ -20,7 +20,7 @@ class ApplicationController < ActionController::Base
   protect_from_forgery unless: -> { request.format.json? }
 
   before_action :lookup_credentials
-  before_action :parse_json_payload, :only => [:create, :update, :destroy]
+  before_action :parse_json_payload, only: %i[create update destroy]
   before_action :set_default_format
 
   # additional classes introduced to handle all possible exceptions
@@ -42,24 +42,24 @@ class ApplicationController < ActionController::Base
   class ServerUnavailable < ServerError; end      # Error code 503
 
   # This thing must alway come first, or it will override other rescue_from.
-  rescue_from Exception, :with => :server_error
+  rescue_from Exception, with: :server_error
 
   # exception-handlers for client-side exceptions
-  rescue_from BadRequest, :with => :bad_request                        # for 400
-  rescue_from AuthorizationRequired, :with => :authorization_required  # for 401
-  rescue_from Forbidden, :with => :forbidden                           # for 403
-  rescue_from NotFound, :with => :not_found                            # for 404
-  rescue_from ActiveRecord::RecordNotFound, :with => :not_found        # for 404
-  rescue_from MethodNotAllowed, :with => :method_not_allowed           # for 405
-  rescue_from NotAcceptable, :with => :not_acceptable                  # for 406
-  rescue_from PreconditionFailed, :with => :precondition_failed        # for 412
+  rescue_from BadRequest, with: :bad_request                        # for 400
+  rescue_from AuthorizationRequired, with: :authorization_required  # for 401
+  rescue_from Forbidden, with: :forbidden                           # for 403
+  rescue_from NotFound, with: :not_found                            # for 404
+  rescue_from ActiveRecord::RecordNotFound, with: :not_found        # for 404
+  rescue_from MethodNotAllowed, with: :method_not_allowed           # for 405
+  rescue_from NotAcceptable, with: :not_acceptable                  # for 406
+  rescue_from PreconditionFailed, with: :precondition_failed        # for 412
 
   # exception-handlers for client-side exceptions
-  rescue_from UnsupportedMediaType, :with => :server_error # for 415
+  rescue_from UnsupportedMediaType, with: :server_error # for 415
   # agreed to send exception to server_error (instead of unsupported_media_type)
-  rescue_from ServerError, :with => :server_error                      # for 500
-  rescue_from BadGateway, :with => :bad_gateway                        # for 502
-  rescue_from ServerUnavailable, :with => :server_unavailable          # for 503
+  rescue_from ServerError, with: :server_error                      # for 500
+  rescue_from BadGateway, with: :bad_gateway                        # for 502
+  rescue_from ServerUnavailable, with: :server_unavailable          # for 503
 
   protected
 
@@ -68,28 +68,28 @@ class ApplicationController < ActionController::Base
   end
 
   def lookup_credentials
-    invalid_values = ["", "unknown", "(unknown)"]
-    cn = request.env["HTTP_#{Rails.my_config(:header_user_cn).gsub("-","_").upcase}"] ||
-         ENV["HTTP_#{Rails.my_config(:header_user_cn).gsub("-","_").upcase}"]
-    if cn.nil? || invalid_values.include?(cn)
-      @credentials = {
-        :cn => nil,
-        :privileges => []
-      }
-    else
-      @credentials = {
-        :cn => cn.downcase,
-        :privileges => []
-      }
-    end
+    invalid_values = ['', 'unknown', '(unknown)']
+    cn = request.env["HTTP_#{Rails.my_config(:header_user_cn).gsub('-', '_').upcase}"] ||
+         ENV["HTTP_#{Rails.my_config(:header_user_cn).gsub('-', '_').upcase}"]
+    @credentials = if cn.nil? || invalid_values.include?(cn)
+                     {
+                       cn: nil,
+                       privileges: []
+                     }
+                   else
+                     {
+                       cn: cn.downcase,
+                       privileges: []
+                     }
+                   end
   end
 
   def is_anonymous?
-    @credentials[:cn]=="anonymous"
+    @credentials[:cn] == 'anonymous'
   end
 
   def ensure_authenticated!
-    (@credentials[:cn] && @credentials[:cn] != "anonymous") || raise(Forbidden)
+    (@credentials[:cn] && @credentials[:cn] != 'anonymous') || raise(Forbidden)
   end
 
   def authorize!(user_id)
@@ -106,7 +106,7 @@ class ApplicationController < ActionController::Base
 
     status = http.code.to_i # get the status from the http response
 
-    # hack to make rspec tests working, indeed for a unknown reason, http.uri is
+    # HACK: to make rspec tests working, indeed for a unknown reason, http.uri is
     # nil when running the specs suite
     http.uri = http.header['Location'] if http.uri.nil?
 
@@ -174,7 +174,7 @@ class ApplicationController < ActionController::Base
 
   # Automatically parse JSON payload when request content type is JSON
   def parse_json_payload
-    if request.content_type =~ /application\/.*json/i
+    if request.content_type =~ %r{application/.*json}i
       json = JSON.parse(request.body.read)
       params.merge!(json)
     end
@@ -185,13 +185,13 @@ class ApplicationController < ActionController::Base
   def render_error(exception, options = {})
     log_exception(exception)
     message = options[:message] || exception.message
-    render  :plain => message,
-            :status => options[:status]
+    render  plain: message,
+            status: options[:status]
   end
 
   def log_exception(exception)
     Rails.logger.warn exception.message
-    Rails.logger.debug exception.backtrace.join(";")
+    Rails.logger.debug exception.backtrace.join(';')
   end
 
   # ===============
@@ -202,68 +202,68 @@ class ApplicationController < ActionController::Base
   # If such error conditions become prominent in the the future,
   # they should be overloaded in subclasses.
   def bad_request(exception)
-    opts = {:status => 400}
-    opts[:message] = "Bad Request" if exception.message == exception.class.name
+    opts = { status: 400 }
+    opts[:message] = 'Bad Request' if exception.message == exception.class.name
     render_error(exception, opts)
   end
 
   def authorization_required(exception)
-    opts = {:status => 401}
-    opts[:message] = "Authorization Required" if exception.message == exception.class.name
+    opts = { status: 401 }
+    opts[:message] = 'Authorization Required' if exception.message == exception.class.name
     render_error(exception, opts)
   end
 
   def forbidden(exception)
-    opts = {:status => 403}
-    opts[:message] = "You are not authorized to access this resource" if exception.message == exception.class.name
+    opts = { status: 403 }
+    opts[:message] = 'You are not authorized to access this resource' if exception.message == exception.class.name
     render_error(exception, opts)
   end
 
   def not_found(exception)
-    opts = {:status => 404}
-    opts[:message] = "Not Found" if exception.message == exception.class.name
+    opts = { status: 404 }
+    opts[:message] = 'Not Found' if exception.message == exception.class.name
     render_error(exception, opts)
   end
 
   def method_not_allowed(exception)
-    opts = {:status => 405}
-    opts[:message] = "Method Not Allowed" if exception.message == exception.class.name
+    opts = { status: 405 }
+    opts[:message] = 'Method Not Allowed' if exception.message == exception.class.name
     render_error(exception, opts)
   end
 
   def not_acceptable(exception)
-    opts = {:status => 406}
-    opts[:message] = "Not Acceptable" if exception.message == exception.class.name
+    opts = { status: 406 }
+    opts[:message] = 'Not Acceptable' if exception.message == exception.class.name
     render_error(exception, opts)
   end
 
   def precondition_failed(exception)
-    opts = {:status => 412}
-    opts[:message] = "Precondition Failed" if exception.message == exception.class.name
+    opts = { status: 412 }
+    opts[:message] = 'Precondition Failed' if exception.message == exception.class.name
     render_error(exception, opts)
   end
 
   def unsupported_media_type(exception)
-    opts = {:status => 415}
-    opts[:message] = "Unsupported Media Type" if exception.message == exception.class.name
+    opts = { status: 415 }
+    opts[:message] = 'Unsupported Media Type' if exception.message == exception.class.name
     render_error(exception, opts)
   end
 
   def server_error(exception)
-    opts = {:status => 500}
-    opts[:message] = "Internal Server Error" if exception.message == exception.class.name
+    opts = { status: 500 }
+    opts[:message] = 'Internal Server Error' if exception.message == exception.class.name
     render_error(exception, opts)
   end
 
   def bad_gateway(exception)
-    opts = {:status => 502}
-    opts[:message] = "Bad Gateway" if exception.message == exception.class.name
+    opts = { status: 502 }
+    opts[:message] = 'Bad Gateway' if exception.message == exception.class.name
     render_error(exception, opts)
   end
 
   def server_unavailable(exception)
-    opts = {:status => 503}
-    opts[:message] = "Server Unavailable" if exception.message == exception.class.name
+    opts = { status: 503 }
+    opts[:message] = 'Server Unavailable' if exception.message == exception.class.name
     render_error(exception, opts)
   end
 
@@ -271,19 +271,19 @@ class ApplicationController < ActionController::Base
   # = HTTP Headers =
   # ================
   def allow(*args)
-    response.headers['Allow'] = args.flatten.map{|m| m.to_s.upcase}.join(",")
+    response.headers['Allow'] = args.flatten.map { |m| m.to_s.upcase }.join(',')
   end
 
   def vary_on(*args)
     response.headers['Vary'] ||= ''
     response.headers['Vary'] = [
-      response.headers['Vary'].split(","),
+      response.headers['Vary'].split(','),
       args
-    ].flatten.join(",")
+    ].flatten.join(',')
   end
 
   def etag(*args)
-    response.etag = args.join(".")
+    response.etag = args.join('.')
   end
 
   def last_modified(time)

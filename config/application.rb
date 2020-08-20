@@ -12,11 +12,11 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-require File.expand_path('../boot', __FILE__)
+require File.expand_path('boot', __dir__)
 
 # Avoid loading all of rails with require 'rails/all':
-require "active_record/railtie"
-require "action_controller/railtie"
+require 'active_record/railtie'
+require 'action_controller/railtie'
 
 if defined?(Bundler)
   # Require the gems listed in Gemfile, including any gems
@@ -31,10 +31,9 @@ require 'rack/jsonp'
 require 'rack/lint'
 
 # Use net/http to contact other g5k's services
-require "net/http"
+require 'net/http'
 
 module Api
-
   class Application < Rails::Application
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration should go into files in config/initializers
@@ -42,16 +41,16 @@ module Api
 
     # config.middleware.insert_before Rack::Runtime, Rack::FiberPool
 
-    config.load_defaults "6.0"
+    config.load_defaults '6.0'
 
     # Custom directories with classes and modules you want to be autoloadable.
-    #config.autoload_paths += Dir["#{config.root}/lib/**/"]
-    config.autoload_paths += %W(#{config.root}/lib)
+    # config.autoload_paths += Dir["#{config.root}/lib/**/"]
+    config.autoload_paths += %W[#{config.root}/lib]
 
     require 'rack/pretty_json'
-    config.middleware.insert_before Rack::Runtime, Rack::FiberPool, :size => 15
-    config.middleware.use Rack::PrettyJSON, :warning => true
-    config.middleware.use Rack::JSONP, :carriage_return => true
+    config.middleware.insert_before Rack::Runtime, Rack::FiberPool, size: 15
+    config.middleware.use Rack::PrettyJSON, warning: true
+    config.middleware.use Rack::JSONP, carriage_return: true
     config.middleware.use ActionDispatch::Flash
     # config.middleware.delete ActionDispatch::ShowExceptions
 
@@ -62,7 +61,7 @@ module Api
     config.time_zone = 'UTC'
 
     # Configure the default encoding used in templates for Ruby 1.9.
-    config.encoding = "utf-8"
+    config.encoding = 'utf-8'
 
     # Configure sensitive parameters which will be filtered from the log file.
     config.filter_parameters += [:password]
@@ -71,6 +70,6 @@ module Api
     config.assets.enabled = true
     config.assets.version = '1.0'
 
-    CONFIG = YAML.load_file(File.join(Rails.root, "config", "defaults.yml"))[Rails.env]
+    CONFIG = YAML.load_file(File.join(Rails.root, 'config', 'defaults.yml'))[Rails.env]
   end
 end

@@ -13,5 +13,5 @@
 # limitations under the License.
 
 module Grid5000
-  VERSION = "3.9.6"
+  VERSION = "3.9.6".freeze
 end

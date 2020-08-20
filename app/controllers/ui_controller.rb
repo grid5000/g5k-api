@@ -17,7 +17,7 @@ class UiController < ApplicationController
 
   rescue_from ActionView::MissingTemplate do
     @title = 'Page not found'
-    render :template => "ui/404.html.haml", :status => 404
+    render template: 'ui/404.html.haml', status: 404
   end
 
   def set_default_format
@@ -25,25 +25,25 @@ class UiController < ApplicationController
   end
 
   def show
-    params[:page] ||= "dashboard"
-    @id = params[:page].downcase.gsub(/[^a-z]/,'_').squeeze('_')
+    params[:page] ||= 'dashboard'
+    @id = params[:page].downcase.gsub(/[^a-z]/, '_').squeeze('_')
     @title = params[:page]
 
     respond_to do |format|
-      format.html {
+      format.html do
         render params[:page].to_sym
-      }
+      end
     end
   end
 
   def visualization
-    @id = params[:page].downcase.gsub(/[^a-z]/,'_').squeeze('_')
+    @id = params[:page].downcase.gsub(/[^a-z]/, '_').squeeze('_')
     @title = params[:page]
 
     respond_to do |format|
-      format.html {
+      format.html do
         render "ui/visualizations/#{params[:page]}.html.haml"
-      }
+      end
     end
   end
 end

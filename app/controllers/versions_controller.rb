@@ -19,35 +19,35 @@ class VersionsController < ApplicationController
     vary_on :accept; allow :get
     versions = repository.versions_for(
       resource_path,
-      :branch => params[:branch],
-      :offset => params[:offset],
-      :limit => params[:limit]
+      branch: params[:branch],
+      offset: params[:offset],
+      limit: params[:limit]
     )
 
-    raise NotFound, "#{resource_path} does not exist." if versions["total"] == 0
+    raise NotFound, "#{resource_path} does not exist." if versions['total'] == 0
 
-    versions["items"].map!{|commit|
+    versions['items'].map! do |commit|
       metadata_for_commit(commit, resource_path)
-    }
-    versions["links"] = [
+    end
+    versions['links'] = [
       {
-        "rel" => "self",
-        "href" => uri_to("#{resource_path}/versions"),
-        "type" => api_media_type(:g5kcollectionjson)
+        'rel' => 'self',
+        'href' => uri_to("#{resource_path}/versions"),
+        'type' => api_media_type(:g5kcollectionjson)
       },
       {
-        "rel" => "parent",
-        "href" => uri_to("#{resource_path.split("/")[0..-2].join("/")}"),
-        "type" => api_media_type(:g5kitemjson)
+        'rel' => 'parent',
+        'href' => uri_to(resource_path.split('/')[0..-2].join('/').to_s),
+        'type' => api_media_type(:g5kitemjson)
       }
     ]
 
     etag versions.hash
-    expires_in MAX_AGE, :public => true
+    expires_in MAX_AGE, public: true
 
     respond_to do |format|
-      format.g5kcollectionjson { render :json => versions }
-      format.json { render :json => versions }
+      format.g5kcollectionjson { render json: versions }
+      format.json { render json: versions }
     end
   end
 
@@ -57,29 +57,31 @@ class VersionsController < ApplicationController
 
     versions = repository.versions_for(
       resource_path,
-      :branch => version,
-      :offset => 0,
-      :limit => 1
+      branch: version,
+      offset: 0,
+      limit: 1
     )
-    raise NotFound, "The requested version '#{version}' does not exist or the resource '#{resource_path}' does not exist." if versions["total"] == 0
+    if versions['total'] == 0
+      raise NotFound, "The requested version '#{version}' does not exist or the resource '#{resource_path}' does not exist."
+    end
 
     # etag compute_etag(commit.id, resource_uri, response['Content-Type'], options.release_hash)
 
-    output = metadata_for_commit(versions["items"][0], resource_path)
+    output = metadata_for_commit(versions['items'][0], resource_path)
 
     etag versions.hash
-    expires_in MAX_AGE, :public => true
+    expires_in MAX_AGE, public: true
 
     respond_to do |format|
-      format.g5kitemjson { render :json => output }
-      format.json { render :json => output }
+      format.g5kitemjson { render json: output }
+      format.json { render json: output }
     end
   end
 
   protected
 
   def resource_path
-    @resource_path ||= params[:resource].gsub(/\/?platforms/, '')
+    @resource_path ||= params[:resource].gsub(%r{/?platforms}, '')
   end
 
   def metadata_for_commit(commit, resource_path)
@@ -91,14 +93,14 @@ class VersionsController < ApplicationController
       'type' => 'version',
       'links' => [
         {
-          "rel" => "self",
-          "href" => uri_to("#{resource_path}/versions/#{commit.oid}"),
-          "type" => api_media_type(:g5kitemjson)
+          'rel' => 'self',
+          'href' => uri_to("#{resource_path}/versions/#{commit.oid}"),
+          'type' => api_media_type(:g5kitemjson)
         },
         {
-          "rel" => "parent",
-          "href" => uri_to(resource_path),
-          "type" => api_media_type(:g5kitemjson)
+          'rel' => 'parent',
+          'href' => uri_to(resource_path),
+          'type' => api_media_type(:g5kitemjson)
         }
       ]
     }
