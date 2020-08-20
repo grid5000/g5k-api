@@ -19,42 +19,42 @@ class SitesController < ResourcesController
     # fetch valid clusters
     enrich_params(params)
 
-    params[:job_details]='no' if is_anonymous?
-    params[:waiting]='no' if is_anonymous?
+    params[:job_details] = 'no' if is_anonymous?
+    params[:waiting] = 'no' if is_anonymous?
 
     if params[:network_address]
       # optimization: when a network_address is specified, we can restrict the cluster to the one of the node
       # this avoids fetching the list of clusters, which is costly
       valid_clusters = [params[:network_address].split('-').first]
     else
-      site_clusters=lookup_path("/sites/#{params[:id]}/clusters", params)
-      valid_clusters = site_clusters['items'].map{|i| i['uid']}
+      site_clusters = lookup_path("/sites/#{params[:id]}/clusters", params)
+      valid_clusters = site_clusters['items'].map { |i| i['uid'] }
       Rails.logger.info "Valid clusters=#{valid_clusters.inspect}"
     end
 
     result = {
-      "uid" => Time.now.to_i,
-      "links" => [
+      'uid' => Time.now.to_i,
+      'links' => [
         {
-          "rel" => "self",
-          "href" => uri_to(status_site_path(params[:id])),
-          "type" => api_media_type(:g5kitemjson)
+          'rel' => 'self',
+          'href' => uri_to(status_site_path(params[:id])),
+          'type' => api_media_type(:g5kitemjson)
         },
         {
-          "rel" => "parent",
-          "href" => uri_to(site_path(params[:id])),
-          "type" => api_media_type(:g5kitemjson)
+          'rel' => 'parent',
+          'href' => uri_to(site_path(params[:id])),
+          'type' => api_media_type(:g5kitemjson)
         }
       ]
     }
 
-    expected_rtypes=['node']
-    expected_rtypes.push('disk') if params[:disks] != "no"
-    result.merge!(OAR::Resource.status(:clusters => valid_clusters, :network_address => params[:network_address], :job_details => params[:job_details], :waiting => params[:waiting], :types => expected_rtypes))
+    expected_rtypes = ['node']
+    expected_rtypes.push('disk') if params[:disks] != 'no'
+    result.merge!(OAR::Resource.status(clusters: valid_clusters, network_address: params[:network_address], job_details: params[:job_details], waiting: params[:waiting], types: expected_rtypes))
 
     respond_to do |format|
-      format.g5kitemjson { render :json => result }
-      format.json { render :json => result }
+      format.g5kitemjson { render json: result }
+      format.json { render json: result }
     end
   end
 
@@ -66,17 +66,17 @@ class SitesController < ResourcesController
 
   def links_for_item(item)
     links = super(item)
-    %w{jobs deployments vlans metrics}.each do |rel|
+    %w[jobs deployments vlans metrics].each do |rel|
       links.push({
-                   "rel" => rel,
-        "type" => api_media_type(:g5kcollectionjson),
-        "href" => uri_to(File.join(resource_path(item["uid"]), rel))
+                   'rel' => rel,
+                   'type' => api_media_type(:g5kcollectionjson),
+                   'href' => uri_to(File.join(resource_path(item['uid']), rel))
                  })
     end
     links.push({
-                 "rel" => "status",
-      "type" => api_media_type(:g5kitemjson),
-      "href" => uri_to(File.join(resource_path(item["uid"]), "status"))
+                 'rel' => 'status',
+                 'type' => api_media_type(:g5kitemjson),
+                 'href' => uri_to(File.join(resource_path(item['uid']), 'status'))
                })
     links
   end

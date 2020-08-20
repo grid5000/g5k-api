@@ -18,30 +18,30 @@ Api::Application.routes.draw do
   # The priority is based upon order of creation:
   # first created -> highest priority.
 
-  get "/exhibitv2/*rest", :to => redirect {|params,request| "/ui/javascripts/vendor/exhibitv2/#{params[:rest]}"}
+  get '/exhibitv2/*rest', to: redirect { |params, _request| "/ui/javascripts/vendor/exhibitv2/#{params[:rest]}" }
   get '/versions' => 'versions#index', :via => [:get]
   get '/versions/:id' => 'versions#show', :via => [:get]
   get '*resource/versions' => 'versions#index', :via => [:get]
   get '*resource/versions/:id' => 'versions#show', :via => [:get]
 
-  resources :environments, :only => [:index, :show], :constraints => { :id => /[0-9A-Za-z\-\.]+/ 	}
-  resources :network_equipments, :only => [:index, :show]
-  resources :sites, :only => [:index, :show] do
+  resources :environments, only: %i[index show], constraints: { id: /[0-9A-Za-z\-\.]+/	}
+  resources :network_equipments, only: %i[index show]
+  resources :sites, only: %i[index show] do
     member do
       get :status
     end
 
-    resources :environments, :only => [:index, :show], :constraints => { :id => /[0-9A-Za-z\-\.]+/ }
-    resources :network_equipments, :only => [:index, :show]
-    resources :pdus, :only => [:index, :show]
-    resources :clusters, :only => [:index, :show] do
+    resources :environments, only: %i[index show], constraints: { id: /[0-9A-Za-z\-\.]+/ }
+    resources :network_equipments, only: %i[index show]
+    resources :pdus, only: %i[index show]
+    resources :clusters, only: %i[index show] do
       member do
         get :status
       end
-      resources :nodes, :only => [:index, :show]
+      resources :nodes, only: %i[index show]
     end
 
-    resources :servers, :only => [:index, :show]
+    resources :servers, only: %i[index show]
     resources :jobs
     resources :deployments
   end
@@ -49,18 +49,18 @@ Api::Application.routes.draw do
   get '/ui/events' => redirect('https://www.grid5000.fr/status/')
 
   # Could be simplified once we use Rails >= 3.1 (remove the proc)
-  get '/ui' => redirect(proc {|params, request|
-    Grid5000::Router.new("/ui/dashboard").call(params, request)
+  get '/ui' => redirect(proc { |params, request|
+    Grid5000::Router.new('/ui/dashboard').call(params, request)
   })
-  get '/ui/index' => redirect(proc {|params, request|
-    Grid5000::Router.new("/ui/dashboard").call(params, request)
+  get '/ui/index' => redirect(proc { |params, request|
+    Grid5000::Router.new('/ui/dashboard').call(params, request)
   })
   get '/ui/:page' => 'ui#show'
   get '/ui/visualizations/:page' => 'ui#visualization'
 
   # You can have the root of your site routed with "root"
   # just remember to delete public/index.html.
-  root :to => "root#show", :id => "grid5000"
+  root to: 'root#show', id: 'grid5000'
 
   # See how all your routes lay out with "rake routes"
 end

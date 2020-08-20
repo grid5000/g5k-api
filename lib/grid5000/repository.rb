@@ -23,7 +23,7 @@ module Grid5000
     def initialize(repository_path, repository_path_prefix = nil, logger = nil)
       @commit = nil
       @reloading = false
-      @repository_path_prefix = repository_path_prefix ? repository_path_prefix.gsub(/^\//,'') : repository_path_prefix
+      @repository_path_prefix = repository_path_prefix ? repository_path_prefix.gsub(%r{^/}, '') : repository_path_prefix
       @repository_path = File.expand_path repository_path
       if logger
         @logger = logger
@@ -43,10 +43,11 @@ module Grid5000
         @commit = find_commit_for(options)
         logger.info "    commit = #{@commit} {id: #{@commit.oid}, message: #{@commit.message.chomp}}"
         return nil if @commit.nil?
+
         object = find_object_at(path, @commit)
         logger.debug "    object = #{object}"
         return nil if object.nil?
-      rescue => e
+      rescue StandardError => e
         logger.debug "#{Time.now}: Got a Rugged exception #{e}"
         return e
       end
@@ -65,7 +66,7 @@ module Grid5000
       object = instance.lookup(hash_object[:oid])
 
       # If it's a symlink
-      if hash_object[:filemode] == 40960
+      if hash_object[:filemode] == 40_960
         hash_object = find_object_at(object.content, commit, path)
         object = instance.lookup(hash_object[:oid])
       end
@@ -73,18 +74,19 @@ module Grid5000
       case object.type
       when :blob
         @subresources = []
-        JSON.parse(object.content).merge("version" => commit.oid)
+        JSON.parse(object.content).merge('version' => commit.oid)
       when :tree
-        groups = object.each.group_by{|content| content[:type]}
-        blobs, trees = [groups[:blob] || [], groups[:tree] || []]
+        groups = object.each.group_by { |content| content[:type] }
+        blobs = groups[:blob] || []
+        trees = groups[:tree] || []
 
         # select only json files
-        blobs = blobs.select{|blob| File.extname(blob[:name]) == '.json'}
-        if (blobs.size > 0 && trees.size > 0) # item
-          blobs.inject({'subresources' => trees}) do |accu, blob|
+        blobs = blobs.select { |blob| File.extname(blob[:name]) == '.json' }
+        if blobs.size > 0 && trees.size > 0 # item
+          blobs.inject({ 'subresources' => trees }) do |accu, blob|
             content = expand_object(
               blob,
-              File.join(path, blob[:name].gsub(".json", "")),
+              File.join(path, blob[:name].gsub('.json', '')),
               commit
             )
             accu.merge(content)
@@ -93,20 +95,18 @@ module Grid5000
           items = object.map do |object_map|
             expand_object(
               object_map,
-              File.join(path, object_map[:name].gsub(".json", "")),
+              File.join(path, object_map[:name].gsub('.json', '')),
               commit
             )
           end
           result = {
-            "total" => items.length,
-            "offset" => 0,
-            "items" => items,
-            "version" => commit.oid
+            'total' => items.length,
+            'offset' => 0,
+            'items' => items,
+            'version' => commit.oid
           }
           result
         end
-      else
-        nil
       end
     end
 
@@ -133,7 +133,7 @@ module Grid5000
         commits.map! { |commit| commit.oid }
 
         sha = commits.first
-        find_commit_for(options.merge(:version => sha))
+        find_commit_for(options.merge(version: sha))
       end
     rescue Rugged::OdbError
       nil
@@ -164,7 +164,7 @@ module Grid5000
           path,
           # e.g. : File.join("/",  File.dirname("grid5000/sites/rennes/environments/etch-x64-base-1.0"))
           File.join('/', File.dirname(relative_to))
-        ).gsub(/^\//, "")
+        ).gsub(%r{^/}, '')
       end
       path
     end
@@ -181,12 +181,8 @@ module Grid5000
         oid = instance.branches[branch].target.oid
       else
         begin
-          if instance.exists?(branch)
-            oid = instance.lookup(branch).oid
-          else
-            oid = nil
-          end
-        rescue
+          oid = (instance.lookup(branch).oid if instance.exists?(branch))
+        rescue StandardError
           oid = nil
         end
       end
@@ -208,11 +204,10 @@ module Grid5000
       end
 
       {
-        "total" => commits.length,
-        "offset" => offset,
-        "items" => commits.slice(offset, limit)
+        'total' => commits.length,
+        'offset' => offset,
+        'items' => commits.slice(offset, limit)
       }
     end
   end
-
 end # module Grid5000

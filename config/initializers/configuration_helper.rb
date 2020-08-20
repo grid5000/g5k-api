@@ -24,15 +24,14 @@ module ConfigurationHelper
   # Returns a string specific to the machine/cluster
   # where this server is hosted
   def whoami
-    if Rails.env == "test"
-      "rennes"
+    if Rails.env == 'test'
+      'rennes'
     else
-      ENV['WHOAMI'] || `hostname -f`.split(".")[1]
+      ENV['WHOAMI'] || `hostname -f`.split('.')[1]
     end
   end
-
 end
 
 Rails.extend ConfigurationHelper
 
-Rails.logger.level = Logger.const_get(Rails.my_config(:logger_level) || "INFO")
+Rails.logger.level = Logger.const_get(Rails.my_config(:logger_level) || 'INFO')

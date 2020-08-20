@@ -2,10 +2,10 @@
 # vi: set ft=ruby :
 #
 
-Vagrant.require_version ">= 1.8.0"
+Vagrant.require_version '>= 1.8.0'
 
 # Vagrantfile API/syntax version. Don't touch unless you know what you're doing!
-VAGRANTFILE_API_VERSION = "2"
+VAGRANTFILE_API_VERSION = '2'.freeze
 
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # All Vagrant configuration is done here. The most common configuration
@@ -13,21 +13,21 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # please see the online documentation at vagrantup.com.
 
   # Every Vagrant virtual environment requires a box to build off of.
-  config.vm.box = "debian/contrib-buster64"
-  config.vm.hostname = "g5k-local"
+  config.vm.box = 'debian/contrib-buster64'
+  config.vm.hostname = 'g5k-local'
 
   # Create a forwarded port mapping which allows access to a specific port
   # within the machine from a port on the host machine. In the example below,
   # accessing "localhost:8080" will access port 80 on the guest machine.
   # config.vm.network :forwarded_port, guest: 80, host: 8080
-  config.vm.network :forwarded_port, guest:   3306, host: 13306
-  config.vm.network :forwarded_port, guest:   5432, host: 15432
+  config.vm.network :forwarded_port, guest:   3306, host: 13_306
+  config.vm.network :forwarded_port, guest:   5432, host: 15_432
   config.vm.network :forwarded_port, guest:   8000, host:  8000
   config.vm.network :forwarded_port, guest:   8080, host:  8080
 
   # Create a private network, which allows host-only access to the machine
   # using a specific IP.
-  config.vm.network :private_network, ip: "192.168.2.10"
+  config.vm.network :private_network, ip: '192.168.2.10'
 
   # Create a public network, which generally matched to bridged network.
   # Bridged networks make the machine appear as another physical device on
@@ -42,11 +42,11 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # the path on the host to the actual folder. The second argument is
   # the path on the guest to mount the folder. And the optional third
   # argument is a set of non-required options.
-  if File.exist? "../reference-repository"
+  if File.exist? '../reference-repository'
     # not required for tests
-    config.vm.synced_folder "../reference-repository", "/home/vagrant/reference-repository"
+    config.vm.synced_folder '../reference-repository', '/home/vagrant/reference-repository'
   end
-  
+
   # Provider-specific configuration so you can fine-tune various
   # backing providers for Vagrant. These expose provider-specific options.
   # Example for VirtualBox:
@@ -63,10 +63,10 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # information on available options.
   #
   config.vm.provider :virtualbox do |vb|
-    #make sure DNS will resolve 
-    vb.customize ["modifyvm", :id, "--natdnshostresolver1", "on"]
+    # make sure DNS will resolve
+    vb.customize ['modifyvm', :id, '--natdnshostresolver1', 'on']
     # disable host IO cache (speeds things up in tests with virtual box 5.2 and debian 8)
-    vb.customize ["storagectl", :id, "--name", "SATA Controller","--hostiocache", "off"]
+    vb.customize ['storagectl', :id, '--name', 'SATA Controller', '--hostiocache', 'off']
     vb.memory = 2048
     vb.cpus = 2
   end
@@ -74,13 +74,11 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # Ease access to stats.g5kadmin
   config.ssh.forward_agent = true
 
-  #Configure git for within the file
-  if File.exists?("#{Dir.home}/.gitconfig")
-    config.vm.provision "file", source: "~/.gitconfig", destination: ".gitconfig"
-  end
-  
+  # Configure git for within the file
+  config.vm.provision 'file', source: '~/.gitconfig', destination: '.gitconfig' if File.exist?("#{Dir.home}/.gitconfig")
+
   # Provisioning with shell commands on the VM
-  config.vm.provision "shell", inline: <<-SHELL
+  config.vm.provision 'shell', inline: <<-SHELL
     #!/bin/bash -x
     if ! which pupppet > /dev/null ; then
       sed -i s/httpredir/deb/ /etc/apt/sources.list # faster mirror
@@ -111,12 +109,12 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   #
   config.vm.provision :puppet do |puppet|
     puppet.environment = 'development'
-    puppet.environment_path = "puppet"
+    puppet.environment_path = 'puppet'
     puppet.facter = {
-      "owner" => ENV['OWNER']||'vagrant',
-      "workspace" => ENV['WORKSPACE']||'/vagrant',
-      "developer" => ENV['DEVELOPER']||'ajenkins',
-      "oardbsite" => ENV['OAR_DB_SITE']||'rennes'
+      'owner' => ENV['OWNER'] || 'vagrant',
+      'workspace' => ENV['WORKSPACE'] || '/vagrant',
+      'developer' => ENV['DEVELOPER'] || 'ajenkins',
+      'oardbsite' => ENV['OAR_DB_SITE'] || 'rennes'
     }
   end
 
@@ -164,4 +162,3 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   #
   #   chef.validation_client_name = "ORGNAME-validator"
 end
-

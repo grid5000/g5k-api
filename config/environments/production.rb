@@ -31,17 +31,17 @@ Api::Application.configure do
   # Ensures that a master key has been made available in either ENV["RAILS_MASTER_KEY"]
   # or in config/master.key. This key is used to decrypt credentials (and other encrypted files).
   # config.require_master_key = true
-  
+
   # Specifies the header that your server uses for sending files
-  config.action_dispatch.x_sendfile_header = "X-Sendfile"
+  config.action_dispatch.x_sendfile_header = 'X-Sendfile'
 
   # If you have no front-end server that supports something like X-Sendfile,
   # just comment this out and Rails will serve the files
 
   # Use a different logger for distributed setups
   # config.logger = Syslogger.new(
-  #   "g5k-api-#{Grid5000::VERSION}", 
-  #   Syslog::LOG_PID, 
+  #   "g5k-api-#{Grid5000::VERSION}",
+  #   Syslog::LOG_PID,
   #   Syslog::LOG_LOCAL0
   # )
 
@@ -55,7 +55,7 @@ Api::Application.configure do
   config.assets.compile = false
 
   # `config.assets.precompile` and `config.assets.version` have moved to config/initializers/assets.rb
-  
+
   # Generate digests for assets URLs
   config.assets.digest = true
 
@@ -100,7 +100,7 @@ Api::Application.configure do
   # require 'syslog/logger'
   # config.logger = ActiveSupport::TaggedLogging.new(Syslog::Logger.new 'app-name')
 
-  if ENV["RAILS_LOG_TO_STDOUT"].present?
+  if ENV['RAILS_LOG_TO_STDOUT'].present?
     logger           = ActiveSupport::Logger.new(STDOUT)
     logger.formatter = config.log_formatter
     config.logger    = ActiveSupport::TaggedLogging.new(logger)

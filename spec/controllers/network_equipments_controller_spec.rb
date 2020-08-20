@@ -17,21 +17,21 @@ require 'spec_helper'
 describe NetworkEquipmentsController do
   render_views
 
-  describe "GET /network_equipments" do
-    it "should get 404 in default branch" do
-      get :index, params: { :format => :json }
+  describe 'GET /network_equipments' do
+    it 'should get 404 in default branch' do
+      get :index, params: { format: :json }
       expect(response.status).to eq(404)
     end
 
-    it "should get collection in testing branch" do
-      get :index, params: { :format => :json, :branch => "testing" }
+    it 'should get collection in testing branch' do
+      get :index, params: { format: :json, branch: 'testing' }
       expect(response.status).to eq(200)
       expect(json['total']).to eq(4)
       expect(json['items'].length).to eq(4)
     end
 
-    it "should get collection in testing branch" do
-      get :index, params: { :site_id => "lille", :format => :json, :branch => "testing" }
+    it 'should get collection in testing branch' do
+      get :index, params: { site_id: 'lille', format: :json, branch: 'testing' }
       expect(response.status).to eq(200)
       expect(json['total']).to eq(6)
       expect(json['items'].length).to eq(6)

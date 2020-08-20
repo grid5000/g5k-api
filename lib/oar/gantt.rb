@@ -14,7 +14,7 @@
 
 module OAR
   class Gantt < Base
-    self.table_name="gantt_jobs_predictions"
-    self.primary_key=:moldable_job_id
+    self.table_name = 'gantt_jobs_predictions'
+    self.primary_key = :moldable_job_id
   end
 end

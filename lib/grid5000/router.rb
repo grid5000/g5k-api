@@ -38,42 +38,42 @@ module Grid5000
         root_path = if request.env['HTTP_X_API_ROOT_PATH'].blank? || in_or_out == :out
                       nil
                     else
-                      File.join("/", (request.env['HTTP_X_API_ROOT_PATH'] || ""))
+                      File.join('/', (request.env['HTTP_X_API_ROOT_PATH'] || ''))
                     end
 
         api_version = if request.env['HTTP_X_API_VERSION'].blank?
                         nil
                       else
-                        File.join("/", (request.env['HTTP_X_API_VERSION'] || ""))
+                        File.join('/', (request.env['HTTP_X_API_VERSION'] || ''))
                       end
 
         path_prefix = if request.env['HTTP_X_API_PATH_PREFIX'].blank?
                         nil
                       else
-                        File.join("/", (request.env['HTTP_X_API_PATH_PREFIX'] || ""))
+                        File.join('/', (request.env['HTTP_X_API_PATH_PREFIX'] || ''))
                       end
 
         mount_path = if request.env['HTTP_X_API_MOUNT_PATH'].blank?
                        nil
                      else
-                       File.join("/", (request.env['HTTP_X_API_MOUNT_PATH'] || ""))
+                       File.join('/', (request.env['HTTP_X_API_MOUNT_PATH'] || ''))
                      end
 
-        mounted_path=path
-        mounted_path.gsub!(/^#{mount_path}/,'') unless mount_path.nil?
-        mounted_path='/' if mounted_path.blank?
-        uri = File.join("/", *[root_path, api_version, path_prefix, mounted_path].compact)
-        uri = "/" if uri.blank?
+        mounted_path = path
+        mounted_path.gsub!(/^#{mount_path}/, '') unless mount_path.nil?
+        mounted_path = '/' if mounted_path.blank?
+        uri = File.join('/', *[root_path, api_version, path_prefix, mounted_path].compact)
+        uri = '/' if uri.blank?
         # bug ref 7360 - for correct URI construction
         if in_or_out == :out || relative_or_absolute == :absolute
-          root_uri=URI(base_uri(in_or_out))
-          if root_uri.path.blank?
-            root_path=''
-          else
-            root_path=root_uri.path
-          end
+          root_uri = URI(base_uri(in_or_out))
+          root_path = if root_uri.path.blank?
+                        ''
+                      else
+                        root_uri.path
+                      end
 
-          uri = URI.join(root_uri, root_path+uri).to_s
+          uri = URI.join(root_uri, root_path + uri).to_s
         end
         uri
       end
@@ -85,8 +85,8 @@ module Grid5000
 
       def tls_options_for(in_or_out = :in)
         tls_options = {}
-        [:cert_chain_file, :private_key_file, :verify_peer, :fail_if_no_peer_cert,
-         :cipher_list, :ecdh_curve, :dhparam, :ssl_version].each do |tls_param|
+        %i[cert_chain_file private_key_file verify_peer fail_if_no_peer_cert
+           cipher_list ecdh_curve dhparam ssl_version].each do |tls_param|
           config_key = ("uri_#{in_or_out}_" + tls_param.to_s).to_sym
           tls_options[tls_param] = Rails.my_config(config_key) if Rails.my_config(config_key)
         end
