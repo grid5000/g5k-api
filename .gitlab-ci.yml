@@ -84,9 +84,9 @@ deb-for-buster: &deb-for-buster
 
 .push-packages-script: &push-packages-script |
   echo "Request to push for debian version ${TARGET_DEBIAN_VERSION} for branch ${TARGET_G5K_API_VARIANT}"
-  g5k-deploy-files --only-if-tag '^v\d+\.\d+\.\d+' --debian --directory deb/g5k-api/${TARGET_DEBIAN_VERSION}/${TARGET_G5K_API_VARIANT}
+  g5k-deploy-files --only-if-tag '^v\d+\.\d+\.\d+' --debian --directory deb/g5k-api/${TARGET_DEBIAN_VERSION}
 
-push-buster-package-v3: &push-buster-package-v3
+push-buster-package: &push-buster-package
   stage: deploy
   when: manual
   allow_failure: false
@@ -99,14 +99,5 @@ push-buster-package-v3: &push-buster-package-v3
     - deb-for-buster
   variables:
     TARGET_DEBIAN_VERSION: buster
-    TARGET_G5K_API_VARIANT: v3
   script:
     - *push-packages-script
-
-push-buster-package-devel: &push-buster-package-devel
-  <<: *push-buster-package-v3
-  variables:
-    TARGET_DEBIAN_VERSION: buster
-    TARGET_G5K_API_VARIANT: devel
-  only:
-    - devel
