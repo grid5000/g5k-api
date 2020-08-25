@@ -96,7 +96,9 @@ class ResourcesController < ApplicationController
     object = repository.find(
       path.gsub(%r{/?platforms}, ''),
       branch: params[:branch],
-      version: params[:version]
+      version: params[:version],
+      timestamp: params[:timestamp],
+      date: params[:date]
     )
 
     raise ServerUnavailable if object.is_a?(Exception)

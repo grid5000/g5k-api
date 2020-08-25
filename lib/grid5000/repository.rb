@@ -112,14 +112,17 @@ module Grid5000
 
     def find_commit_for(options = {})
       options[:branch] ||= 'master'
-      version, branch = options.values_at(:version, :branch)
-      if version.nil?
-        instance.branches[branch].target
-      elsif version.to_s.length == 40 # SHA
+      version, branch, timestamp, date = options.values_at(:version, :branch, :timestamp, :date)
+      if version && version.to_s.length == 40 # SHA
         instance.lookup(version)
-      else
-        # version should be a date, get the closest commit
-        date = version.to_i
+      elsif timestamp || date || version
+        if timestamp
+          ts = timestamp.to_i
+        elsif date
+          ts = Time.parse(date).to_i
+        else
+          ts = version.to_i
+        end
 
         return nil if instance.branches[branch].nil?
 
@@ -128,12 +131,14 @@ module Grid5000
         walker.push(instance.branches[branch].target.oid)
 
         commits = walker.select do |commit|
-          commit.epoch_time <= date
+          commit.epoch_time <= ts
         end
         commits.map! { |commit| commit.oid }
 
         sha = commits.first
         find_commit_for(options.merge(version: sha))
+      else
+        instance.branches[branch].target
       end
     rescue Rugged::OdbError
       nil

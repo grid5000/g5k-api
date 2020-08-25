@@ -72,7 +72,7 @@ deb-for-buster: &deb-for-buster
     - mk-build-deps -ir -t 'apt-get -y --no-install-recommends'
     - gem install bundler -v 2.1.4
     - apt-get install -y curl pkg-config
-    - rm ../*deb
+    - rm -f ../*deb
     - dpkg-buildpackage
     - cp ../*deb .
   artifacts:
