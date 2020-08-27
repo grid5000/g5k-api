@@ -33,9 +33,8 @@ You can check the installation by running a few commands to gather information a
 
 ### Development process
 
-* The `master` branch has the code for the stable version of g5k-api. This is the version pushed to api-server-v3 servers on Grid'5000
-* The `devel` branch has the code for the development version of g5k-api. This is the version pushed to api-server-devel servers on Grid'5000. It is expected that this branch is regularly rebased on the `master` branch
-* New features and fixes are expected to be developped in specific branches, and submitted for inclusion using Merge Requests. Fixes to be pushed to production to the `master` branch, triggering a rebased of the `devel` branch after acceptation. New functionnality to be merge on the `devel` branch
+* The `master` branch is the main development branch, from which stable release are generated and pushed to api-server-devel first, and then api-server-v3, on Grid'5000
+* New features and fixes are expected to be developped in specific branches, and submitted for inclusion using Merge Requests.
 
 ### Development environment
 
@@ -56,12 +55,6 @@ You can check the installation by running a few commands to gather information a
   The vagrant provisionning script will attempt to configure the VM's root and vagrant
   accounts to be accessible by ssh. By default, it will copy your authorized_keys, but you
   can control the keypair used with SSH_KEY=filename_of_private_key
-
-  Of course, reality is a bit more complex. You might have troubles with the insecure
-  certificate of the vagrant box provider. In that case, you'll need to start with
-
-        $ vagrant box add --insecure --name debian-jessie-x64-puppet_4 \
-	  https://vagrant.irisa.fr/boxes/irisa_debian-8.2.0_puppet4.box
 
   And as the application relies on external data sources, you'll need to connect
   it with a reference-repository, an OAR database, a kadeploy3 server, and a jabber server
@@ -96,7 +89,7 @@ You can check the installation by running a few commands to gather information a
 
   Do not attempt to use the directory directly, as unit test play with the git.rename dir.
 
-* Get access to a OAR database, unsing one of the two methods described hereafter:
+* Get access to a OAR database, using one of the two methods described hereafter:
 
   * Get your hands on a copy of an active database, and install it. Don't worry about the
     error messages when seeding the development database: most of them come from the fact
@@ -130,15 +123,15 @@ You can check the installation by running a few commands to gather information a
 
 * To run the server, just enter:
 
-        $ ./bin/g5k-api server start -e development
+        $ bundle exec ./bin/g5k-api server start -e development
 
 * If you require traces on the shell, use
 
-        $ ./bin/g5k-api server -V start -e development
+        $ bundle exec ./bin/g5k-api server -V start -e development
 
 * If you need to be authenticated for some development, use:
 
-        $ HTTP_X_API_USER_CN=dmargery WHOAMI=rennes ./bin/g5k-api server start -e development
+        $ HTTP_X_API_USER_CN=dmargery WHOAMI=rennes bundle exec ./bin/g5k-api server start -e development
 
 * If you want to develop on the UI, using the apache proxy, run your browser on
 
@@ -148,15 +141,12 @@ You can check the installation by running a few commands to gather information a
 
         $ firefox http://127.0.0.1:8000/ui
 
-That's it. If you're not too familiar with `rails` 4, have a look at
+That's it. If you're not too familiar with `rails`, have a look at
 <http://guides.rubyonrails.org/>.
 
-You can also list the available rake tasks and capistrano tasks to see what's
-already automated for you:
+You can also list the available rake tasks to see what's already automated for you:
 
     $ bundle exec rake -T
-    $ cap -T
-
 
 ## Testing
 
@@ -209,52 +199,6 @@ Updating the OAR2 test db therefore requires either
 
 ### Use the build infrastructure
 The debian package build is done automatically as a stage in gitlab-ci. See `.gitlab-ci.yaml` and https://gitlab.inria.fr/grid5000/g5k-api/pipelines , but only tagged commits get pushed to the packages.grid5000.fr repository.
-
-Tasks described in `lib/tasks/packaging.rake` are available to automatically manage version bumping, changelog generation and package building. If you use these tasks, a tag will be created each time version is bumped. Therefore, the `lib/grid5000/version.rb` file should only be changed using these tasks, at the end of a development cycle (if production has version X.Y.Z running, the file will keep that version during the next development cycle and it will only change at the end of the development cycle).
-
-For this to work properly, you need a working .gitconfig.
-
-- You can copy your main .gitconfig into the vagrant box
-
-        $ cat ~/.gitconfig | vagrant ssh -- 'cat - > ~/.gitconfig'
-
-- Or you can configure the vagrant box to your needs
-
-        vagrant@g5k-local: git config --global user.name "Your Name"
-        vagrant@g5k-local: git config --global user.email you@example.com
-
-- You can now name the version you are about to package
-
-        vagrant@g5k-local: bundle exec rake package:bump:patch #replace patch by minor or major when appropriate)
-
-- And then build the debian package
-
-        vagrant@g5k-local: bundle exec rake package:build:debian
-
-
-The `package:build:debian` rake task has several arguments:
-
-* NO_COMMIT: when bumping version number, do not commit the version file
-* NO_TAG: do not tag the current git commit with the built version. Default is to tag. Has no effect with NO_COMMIT
-
-If everything went ok you should have a package like: `pkg/g5k-api_X.Y.Z-<date of last commit>_amd64.deb`
-
-See the `.gitlab-ci.yml` file for the use of the rake package commands in the gitlab pipelines.
-
-### Debug the build infrastructure
-
-From time to time, someone will have to look into `lib/taks/packaging.rake` to understand why `rake package:build:debian` does not do what is expected or to update the way the package is built. This is what happens when you call the rake task
-
-1.  The rake task creates a temporary directory named /tmp/g5k-api_version, and extracts the lasted commited version of your code using `git archive HEAD` to it.
-2.  The rake task makes sure the build dependencies are installed using `mk-build-deps`, which in turn uses info in the `debian/control` file.
-3.  The changelog in the extracted version of the sources is updated with information from the latest commits.
-4.  The rake task finally calls `dpkg-buildpackage -us -uc -d` to generate the package. dpkg-buildpackage then uses the `debian/rules` makefile to go through all the steps needed for packaging. This in turn falls back to `dh` for most steps, using datafiles in the `debian` directory.
-    * Most tasks use the default implementation relying on the datafile found in the `debian` directory. Of particular interest are `logrotate`, `g5k-api.service`, `dirs`, `g5k-api.install` and `g5k-api.links`.
-	* The magic happens in the `debian/setup_bundle` script. That script handles all the instructions required so that the gems needed by the application are installed and usable on the target system.
-	    * It will prime the temporary directory from wich the application is packaged with the developper's bundle
-		* It will run bundle install to setup the gems to package
-		* It will generate a g5k-api binary so that the application is started in the context of the installed bundle without the user noticing bundler usage. This happens by generating a script to be installed in `/usr/bin` for all ruby executable found in `bin/`
-    * `debian/setup_bundle`'s work is completed by lines in `debian/dirs` and `debian/g5k-api.install` to setup the final execution context of the application
 
 ## Releasing and Installing and new version
 
