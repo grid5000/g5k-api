@@ -29,7 +29,7 @@ module Grid5000
       @where = where
     end
 
-    def call(request)
+    def call(_params, request)
       self.class.uri_to(request, @where, :in, :absolute)
     end
 

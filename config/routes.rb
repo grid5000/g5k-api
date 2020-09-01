@@ -48,13 +48,12 @@ Api::Application.routes.draw do
 
   get '/ui/events' => redirect('https://www.grid5000.fr/status/')
 
-  # Could be simplified once we use Rails >= 3.1 (remove the proc)
-  get '/ui' => redirect(proc { |params, request|
+  get '/ui' => redirect { |params, request|
     Grid5000::Router.new('/ui/dashboard').call(params, request)
-  })
-  get '/ui/index' => redirect(proc { |params, request|
+  }
+  get '/ui/index' => redirect { |params, request|
     Grid5000::Router.new('/ui/dashboard').call(params, request)
-  })
+  }
   get '/ui/:page' => 'ui#show'
   get '/ui/visualizations/:page' => 'ui#visualization'
 
