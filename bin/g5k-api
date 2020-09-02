@@ -25,7 +25,6 @@ when 'console'
   require 'rails/commands'
 when 'server'
   require 'thin'
-  require_relative '../lib/grid5000/version'
   ENV['PORT'] ||= '8000'
   rackup_file = ::File.expand_path('../config.ru', __dir__)
   argv = ARGV
@@ -34,7 +33,6 @@ when 'server'
   argv << ['--max-persistent-conns', '200'] unless ARGV.include?('--max-persistent-conns')
   argv << ['-a', '::'] unless ARGV.include?('-a')
   argv << ['-e', 'production'] unless ARGV.include?('-e')
-  argv << ['--tag', "g5k-api-#{Grid5000::VERSION}"] unless ARGV.include?('--tag')
   Thin::Runner.new(argv.flatten).run!
   warn 'Finished running thin'
 else

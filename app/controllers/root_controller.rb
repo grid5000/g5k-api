@@ -25,14 +25,13 @@ class RootController < ResourcesController
 
   def links_for_item(item)
     links = super(item)
-    item['release'] = Grid5000::VERSION
     item['timestamp'] = Time.now.to_i
     %w[users].each do |rel|
       links.push({
-                   'rel' => rel,
-                   'type' => api_media_type(:g5kcollectionjson),
-                   'href' => uri_to(File.join(resource_path(item['uid']), rel))
-                 })
+        'rel' => rel,
+        'type' => api_media_type(:g5kcollectionjson),
+        'href' => uri_to(File.join(resource_path(item['uid']), rel))
+      })
     end
     links
   end

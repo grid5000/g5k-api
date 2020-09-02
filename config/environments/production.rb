@@ -40,7 +40,7 @@ Api::Application.configure do
 
   # Use a different logger for distributed setups
   # config.logger = Syslogger.new(
-  #   "g5k-api-#{Grid5000::VERSION}",
+  #   "g5k-api-production",
   #   Syslog::LOG_PID,
   #   Syslog::LOG_LOCAL0
   # )

@@ -14,7 +14,6 @@
 
 # Load the rails application
 require File.expand_path('application', __dir__)
-require 'grid5000/version'
 
 # Initialize the rails application
 Api::Application.initialize!

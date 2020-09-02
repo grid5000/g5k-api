@@ -24,7 +24,6 @@ describe RootController do
                          'type' => 'grid',
                          'uid' => 'grid5000',
                          'version' => '8a562420c9a659256eeaafcfd89dfa917b5fb4d0',
-                         'release' => Grid5000::VERSION,
                          'timestamp' => @now.to_i,
                          'links' => [
                            { 'rel' => 'environments', 'href' => '/environments', 'type' => 'application/vnd.grid5000.collection+json' },
@@ -46,7 +45,6 @@ describe RootController do
                          'type' => 'grid',
                          'uid' => 'grid5000',
                          'version' => '8a562420c9a659256eeaafcfd89dfa917b5fb4d0',
-                         'release' => Grid5000::VERSION,
                          'timestamp' => @now.to_i,
                          'links' => [
                            { 'rel' => 'environments', 'href' => '/sid/environments', 'type' => 'application/vnd.grid5000.collection+json' },
