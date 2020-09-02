@@ -1,3 +1,16 @@
+g5k-api (3.9.7) unstable; urgency=low
+
+  * c8a9459 Fix missing param in Grid5000::Router.call method and simplify redirect
+  * ac08e72 Update README and remove useless files
+  * e6bbafc [gitlab-ci] stop generating devel packages from devel branch
+  * fd659fd More rubocop
+  * 6914efd [gitlab-ci] add rubocop
+  * c783d4f Fix sonarqube errors
+  * 226fe4f [gitlab-ci] add sonarqube
+  * f9ae421 Always render json when calling the api
+
+ -- Samir Noir <samir.noir@inria.fr>  Wed, 02 Sep 2020 16:57:47 +0200
+
 g5k-api (3.9.6) unstable; urgency=low
 
   * 598a5b9 Fix Kadeploy's errors reporting when the deployment cannot be launched
