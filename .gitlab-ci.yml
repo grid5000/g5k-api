@@ -7,9 +7,6 @@ stages:
  - deb
  - deploy
 
-variables:
-  SONARQUBE_EXCLUSIONS: public/ui/javascripts/vendor/**
-
 include:
   - project: 'grid5000/grid5000-gitlab-templates'
     ref: master
