@@ -18,7 +18,6 @@ Api::Application.routes.draw do
   # The priority is based upon order of creation:
   # first created -> highest priority.
 
-  get '/exhibitv2/*rest', to: redirect { |params, _request| "/ui/javascripts/vendor/exhibitv2/#{params[:rest]}" }
   get '/versions' => 'versions#index', :via => [:get]
   get '/versions/:id' => 'versions#show', :via => [:get]
   get '*resource/versions' => 'versions#index', :via => [:get]
@@ -45,17 +44,6 @@ Api::Application.routes.draw do
     resources :jobs
     resources :deployments
   end
-
-  get '/ui/events' => redirect('https://www.grid5000.fr/status/')
-
-  get '/ui' => redirect { |params, request|
-    Grid5000::Router.new('/ui/dashboard').call(params, request)
-  }
-  get '/ui/index' => redirect { |params, request|
-    Grid5000::Router.new('/ui/dashboard').call(params, request)
-  }
-  get '/ui/:page' => 'ui#show'
-  get '/ui/visualizations/:page' => 'ui#visualization'
 
   # You can have the root of your site routed with "root"
   # just remember to delete public/index.html.

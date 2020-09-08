@@ -42,8 +42,7 @@ You can check the installation by running a few commands to gather information a
 
   By default, the vagrant box will provision a proxy, to get access to the live status
 	of sites and to the home directory of users, except on one site where status will be
-	served locally through a tunnel to that site's oardb. This is specially useful to
-	debug the web ui, but the tunnel to the db is also used for site status information.
+	served locally through a tunnel to that site's oardb.
 
   For users with a working installation of vagrant and virtualbox, setting up a
   working environement starts with a simple
@@ -132,14 +131,6 @@ You can check the installation by running a few commands to gather information a
 * If you need to be authenticated for some development, use:
 
         $ HTTP_X_API_USER_CN=dmargery WHOAMI=rennes bundle exec ./bin/g5k-api server start -e development
-
-* If you want to develop on the UI, using the apache proxy, run your browser on
-
-        $ firefox http://127.0.0.1:8080/ui
-
-* If you want to develop on the UI, interacting directly with the server, run your browser on
-
-        $ firefox http://127.0.0.1:8000/ui
 
 That's it. If you're not too familiar with `rails`, have a look at
 <http://guides.rubyonrails.org/>.
