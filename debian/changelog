@@ -1,3 +1,11 @@
+g5k-api (3.9.8) unstable; urgency=low
+
+  * a879eb7 Remove g5k-api's UI
+  * b1da4c6 Add two new GET parameters to request reference api by date.
+  * ccb664f Remove Grid5000::VERSION
+
+ -- Samir Noir <samir.noir@inria.fr>  Tue, 08 Sep 2020 17:16:12 +0200
+
 g5k-api (3.9.7) unstable; urgency=low
 
   * c8a9459 Fix missing param in Grid5000::Router.call method and simplify redirect
