@@ -61,6 +61,11 @@ class ApplicationController < ActionController::Base
   rescue_from BadGateway, with: :bad_gateway                        # for 502
   rescue_from ServerUnavailable, with: :server_unavailable          # for 503
 
+  # exception-handlers for custom repository errors
+  rescue_from Grid5000::Errors::BranchNotFound, with: :not_found
+  rescue_from Grid5000::Errors::CommitNotFound, with: :not_found
+  rescue_from Grid5000::Errors::RefNotFound, with: :not_found
+
   protected
 
   def set_default_format

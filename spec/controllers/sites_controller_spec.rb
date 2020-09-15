@@ -132,6 +132,16 @@ describe SitesController do
         l['rel'] == 'version'
       end['href']).to eq '/sites/rennes/versions/b00bd30bf69c322ffe9aca7a9f6e3be0f29e20f4'
     end
+
+    it 'should return 404 if the specified branch does not exist' do
+      get :show, params: { id: 'rennes', format: :json, branch: 'doesnotexist' }
+      expect(response.status).to eq 404
+    end
+
+    it 'should return 404 if the specified version does not exist' do
+      get :show, params: { id: 'rennes', format: :json, version: 'doesnotexist' }
+      expect(response.status).to eq 404
+    end
   end
 
   describe 'GET /sites/{{site_id}}/status (authenticated)' do

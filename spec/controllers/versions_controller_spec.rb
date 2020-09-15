@@ -40,7 +40,7 @@ describe VersionsController do
       get :show, params: { resource: '/', id: 'doesnotexist', format: :json }
       expect(response.status).to eq(404)
       assert_vary_on :accept
-      expect(response.body).to match %r{The requested version 'doesnotexist' does not exist or the resource '/' does not exist.}
+      expect(response.body).to match "Reference (branch or commit) 'doesnotexist' cannot be found."
     end
 
     it 'should return the version' do

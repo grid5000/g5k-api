@@ -42,13 +42,13 @@ module Grid5000
       @commit = nil
       begin
         @commit = find_commit_for(options)
-        logger.info "    commit = #{@commit} {id: #{@commit.oid}, message: #{@commit.message.chomp}}"
         return nil if @commit.nil?
+        logger.info "    commit = #{@commit} {id: #{@commit.oid}, message: #{@commit.message.chomp}}"
 
         object = find_object_at(path, @commit)
         logger.debug "    object = #{object}"
         return nil if object.nil?
-      rescue StandardError => e
+      rescue Rugged::Error => e
         logger.debug "#{Time.now}: Got a Rugged exception #{e}"
         return e
       end
@@ -187,18 +187,20 @@ module Grid5000
     def find_commit_for(options = {})
       options[:branch] ||= 'master'
       version, branch, timestamp, date = options.values_at(:version, :branch, :timestamp, :date)
-      if version && version.to_s.length == 40 # SHA
-        instance.lookup(version)
-      elsif timestamp || date || version
+      if version
+        begin
+          instance.lookup(version)
+        rescue
+          raise Errors::CommitNotFound.new(version)
+        end
+      elsif timestamp || date
         if timestamp
           ts = timestamp.to_i
-        elsif date
-          ts = Time.parse(date).to_i
         else
-          ts = version.to_i
+          ts = Time.parse(date).to_i
         end
 
-        return nil if instance.branches[branch].nil?
+        raise Errors::BranchNotFound.new(branch) if instance.branches[branch].nil?
 
         walker = Rugged::Walker.new(instance)
         walker.sorting(Rugged::SORT_DATE)
@@ -212,10 +214,9 @@ module Grid5000
         sha = commits.first
         find_commit_for(options.merge(version: sha))
       else
+        raise Errors::BranchNotFound.new(branch) unless instance.branches.exist?(branch)
         instance.branches[branch].target
       end
-    rescue Rugged::OdbError
-      nil
     end
 
     def find_object_at(path, commit, relative_to = nil)
@@ -256,15 +257,17 @@ module Grid5000
       path = full_path(path)
       commits = []
 
-      if instance.branches.exist?(branch)
-        oid = instance.branches[branch].target.oid
-      else
-        begin
-          oid = (instance.lookup(branch).oid if instance.exists?(branch))
-        rescue StandardError
-          oid = nil
-        end
-      end
+      oid = if instance.branches.exist?(branch)
+              instance.branches[branch].target.oid
+            else
+              begin
+                instance.exists?(branch)
+              rescue
+                raise Errors::RefNotFound.new(branch)
+              end
+
+              instance.lookup(branch).oid
+            end
 
       if oid
         walker = Rugged::Walker.new(instance)
@@ -287,6 +290,44 @@ module Grid5000
         'offset' => offset,
         'items' => commits.slice(offset, limit)
       }
+    end
+  end
+
+  module Errors
+    class RepositoryError < StandardError
+      def initialize(message)
+        super(message)
+      end
+    end
+
+    class BranchNotFound < RepositoryError
+      def initialize(branch = nil)
+        if branch
+          super("Branch '#{branch}' cannot be found.")
+        else
+          super('Branch cannot be found.')
+        end
+      end
+    end
+
+    class CommitNotFound < RepositoryError
+      def initialize(commit = nil)
+        if commit
+          super("Commit '#{commit}' cannot be found.")
+        else
+          super('Commit cannot be found.')
+        end
+      end
+    end
+
+    class RefNotFound < RepositoryError
+      def initialize(ref = nil)
+        if ref
+          super("Reference (branch or commit) '#{ref}' cannot be found.")
+        else
+          super('Reference (branch or commit) cannot be found.')
+        end
+      end
     end
   end
 end # module Grid5000
