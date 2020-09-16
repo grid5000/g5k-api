@@ -26,11 +26,11 @@
       "via": {
         "pdu": [
           {
-            "port": 20,
+            "port": 21,
             "uid": "grisou-pdu1"
           },
           {
-            "port": 20,
+            "port": 21,
             "uid": "grisou-pdu2"
           }
         ]
@@ -40,5 +40,5 @@
   "serial": "92ZLL82",
   "type": "server",
   "uid": "talc-data",
-  "warranty": 11.202
+  "warranty": "2022-11"
 }

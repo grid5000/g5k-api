@@ -1,0 +1,16 @@
+{
+  "alias": null,
+  "kind": "physical",
+  "network_adapters": {
+    "bmc": {
+      "ip": "172.17.62.4"
+    },
+    "default": {
+      "ip": "172.16.63.4"
+    }
+  },
+  "serial": null,
+  "type": "server",
+  "uid": "nebula",
+  "warranty": "2010-01"
+}

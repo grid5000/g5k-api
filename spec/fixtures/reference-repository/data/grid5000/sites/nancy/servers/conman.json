@@ -1,0 +1,13 @@
+{
+  "kind": "virtual",
+  "network_adapters": {
+    "adm": {
+      "ip": "172.17.79.124"
+    },
+    "default": {
+      "ip": "172.16.79.124"
+    }
+  },
+  "type": "server",
+  "uid": "conman"
+}

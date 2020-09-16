@@ -1,0 +1,21 @@
+{
+  "alias": [
+    "adminfront",
+    "ntp"
+  ],
+  "kind": "physical",
+  "network_adapters": {
+    "bmc": {
+      "ip": "172.17.62.7",
+      "mac": "00:23:7D:29:A3:81"
+    },
+    "default": {
+      "ip": "172.16.63.7",
+      "mac": "00:23:7D:29:A4:28"
+    }
+  },
+  "serial": null,
+  "type": "server",
+  "uid": "andromede",
+  "warranty": "2010-01"
+}

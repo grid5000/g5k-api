@@ -1,0 +1,39 @@
+{
+  "kind": "physical",
+  "monitoring": {
+    "metric": "power",
+    "wattmeter": "multiple"
+  },
+  "network_adapters": {
+    "bmc": {
+      "ip": "172.17.46.9",
+      "mac": "54:48:10:f4:f9:0c"
+    }
+  },
+  "sensors": {
+    "network": {
+      "available": true,
+      "resolution": 1
+    },
+    "power": {
+      "available": true,
+      "resolution": 1,
+      "via": {
+        "pdu": [
+          {
+            "port": 13,
+            "uid": "pdu-b2p1"
+          },
+          {
+            "port": 13,
+            "uid": "pdu-b2p2"
+          }
+        ]
+      }
+    }
+  },
+  "serial": "2SYTKQ2",
+  "type": "server",
+  "uid": "gardin",
+  "warranty": "2023-06-25"
+}

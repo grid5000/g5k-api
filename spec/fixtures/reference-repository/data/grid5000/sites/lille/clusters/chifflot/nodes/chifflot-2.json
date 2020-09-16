@@ -1,0 +1,378 @@
+{
+  "architecture": {
+    "cpu_core_numbering": "round-robin",
+    "nb_cores": 24,
+    "nb_procs": 2,
+    "nb_threads": 48,
+    "platform_type": "x86_64"
+  },
+  "bios": {
+    "release_date": "11/26/2019",
+    "vendor": "Dell Inc.",
+    "version": "2.4.8"
+  },
+  "bmc_version": "4.00.00.00",
+  "chassis": {
+    "manufacturer": "Dell Inc.",
+    "name": "PowerEdge R740",
+    "serial": "43YQYQ2"
+  },
+  "exotic": false,
+  "gpu_devices": {
+    "nvidia0": {
+      "cpu_affinity": 0,
+      "device": "/dev/nvidia0",
+      "memory": 16280000000,
+      "model": "Tesla P100-PCIE-16GB",
+      "power_default_limit": "250.00 W",
+      "vbios_version": "86.00.4D.00.01",
+      "vendor": "Nvidia"
+    },
+    "nvidia1": {
+      "cpu_affinity": 1,
+      "device": "/dev/nvidia1",
+      "memory": 16280000000,
+      "model": "Tesla P100-PCIE-16GB",
+      "power_default_limit": "250.00 W",
+      "vbios_version": "86.00.4D.00.01",
+      "vendor": "Nvidia"
+    }
+  },
+  "kavlan": {
+    "eth0": {
+      "kavlan-1": "192.168.196.2",
+      "kavlan-11": "10.7.196.2",
+      "kavlan-12": "10.11.196.2",
+      "kavlan-13": "10.15.196.2",
+      "kavlan-14": "10.19.196.2",
+      "kavlan-16": "10.27.196.2",
+      "kavlan-18": "10.35.196.2",
+      "kavlan-2": "192.168.212.2",
+      "kavlan-20": "10.43.196.2",
+      "kavlan-21": "10.47.196.2",
+      "kavlan-3": "192.168.228.2",
+      "kavlan-4": "10.8.4.2",
+      "kavlan-5": "10.8.68.2",
+      "kavlan-6": "10.8.132.2",
+      "kavlan-7": "10.8.196.2",
+      "kavlan-8": "10.9.4.2",
+      "kavlan-9": "10.9.68.2"
+    },
+    "eth1": {
+      "kavlan-1": "192.168.197.2",
+      "kavlan-11": "10.7.196.102",
+      "kavlan-12": "10.11.196.102",
+      "kavlan-13": "10.15.196.102",
+      "kavlan-14": "10.19.196.102",
+      "kavlan-16": "10.27.196.102",
+      "kavlan-18": "10.35.196.102",
+      "kavlan-2": "192.168.213.2",
+      "kavlan-20": "10.43.196.102",
+      "kavlan-21": "10.47.196.102",
+      "kavlan-3": "192.168.229.2",
+      "kavlan-4": "10.8.5.2",
+      "kavlan-5": "10.8.69.2",
+      "kavlan-6": "10.8.133.2",
+      "kavlan-7": "10.8.197.2",
+      "kavlan-8": "10.9.5.2",
+      "kavlan-9": "10.9.69.2"
+    }
+  },
+  "kavlan6": {
+    "eth0": {
+      "kavlan-1": "2001:660:4406:281:5::2",
+      "kavlan-11": "2001:660:4406:28b:5::2",
+      "kavlan-12": "2001:660:4406:28c:5::2",
+      "kavlan-13": "2001:660:4406:28d:5::2",
+      "kavlan-14": "2001:660:4406:28e:5::2",
+      "kavlan-16": "2001:660:4406:290:5::2",
+      "kavlan-18": "2001:660:4406:292:5::2",
+      "kavlan-2": "2001:660:4406:282:5::2",
+      "kavlan-20": "2001:660:4406:294:5::2",
+      "kavlan-21": "2001:660:4406:295:5::2",
+      "kavlan-3": "2001:660:4406:283:5::2",
+      "kavlan-4": "2001:660:4406:284:5::2",
+      "kavlan-5": "2001:660:4406:285:5::2",
+      "kavlan-6": "2001:660:4406:286:5::2",
+      "kavlan-7": "2001:660:4406:287:5::2",
+      "kavlan-8": "2001:660:4406:288:5::2",
+      "kavlan-9": "2001:660:4406:289:5::2"
+    },
+    "eth1": {
+      "kavlan-1": "2001:660:4406:281:5:1::2",
+      "kavlan-11": "2001:660:4406:28b:5:1::2",
+      "kavlan-12": "2001:660:4406:28c:5:1::2",
+      "kavlan-13": "2001:660:4406:28d:5:1::2",
+      "kavlan-14": "2001:660:4406:28e:5:1::2",
+      "kavlan-16": "2001:660:4406:290:5:1::2",
+      "kavlan-18": "2001:660:4406:292:5:1::2",
+      "kavlan-2": "2001:660:4406:282:5:1::2",
+      "kavlan-20": "2001:660:4406:294:5:1::2",
+      "kavlan-21": "2001:660:4406:295:5:1::2",
+      "kavlan-3": "2001:660:4406:283:5:1::2",
+      "kavlan-4": "2001:660:4406:284:5:1::2",
+      "kavlan-5": "2001:660:4406:285:5:1::2",
+      "kavlan-6": "2001:660:4406:286:5:1::2",
+      "kavlan-7": "2001:660:4406:287:5:1::2",
+      "kavlan-8": "2001:660:4406:288:5:1::2",
+      "kavlan-9": "2001:660:4406:289:5:1::2"
+    }
+  },
+  "main_memory": {
+    "ram_size": 206158430208
+  },
+  "monitoring": {
+    "wattmeter": "multiple"
+  },
+  "network_adapters": [
+    {
+      "bridged": true,
+      "device": "eth0",
+      "driver": "i40e",
+      "enabled": true,
+      "firmware_version": "7.10 0x800051ac 19.0.12",
+      "interface": "Ethernet",
+      "ip": "172.16.36.2",
+      "ip6": "2001:660:4406:200:5::2",
+      "kavlan": true,
+      "mac": "3c:fd:fe:c1:69:d0",
+      "management": false,
+      "model": "Ethernet Controller XXV710 for 25GbE SFP28",
+      "mountable": true,
+      "mounted": true,
+      "name": "ens5f0",
+      "network_address": "chifflot-2.lille.grid5000.fr",
+      "rate": 25000000000,
+      "switch": "sw-chiclet-1",
+      "switch_port": "Ethernet1/2",
+      "vendor": "Intel"
+    },
+    {
+      "device": "eth1",
+      "driver": "i40e",
+      "enabled": true,
+      "firmware_version": "7.10 0x800051ac 19.0.12",
+      "interface": "Ethernet",
+      "ip": "172.16.36.102",
+      "ip6": "2001:660:4406:200:5:1::2",
+      "kavlan": true,
+      "mac": "3c:fd:fe:c1:69:d1",
+      "management": false,
+      "model": "Ethernet Controller XXV710 for 25GbE SFP28",
+      "mountable": true,
+      "mounted": false,
+      "name": "ens5f1",
+      "network_address": "chifflot-2-eth1.lille.grid5000.fr",
+      "rate": 25000000000,
+      "switch": "sw-chiclet-1",
+      "switch_port": "Ethernet1/18",
+      "vendor": "Intel"
+    },
+    {
+      "device": "eth2",
+      "driver": "igb",
+      "enabled": false,
+      "firmware_version": "1.67, 0x80000faa, 19.0.12",
+      "interface": "Ethernet",
+      "kavlan": false,
+      "mac": "e4:43:4b:00:14:ac",
+      "management": false,
+      "model": "I350 Gigabit Network Connection",
+      "mountable": false,
+      "mounted": false,
+      "name": "eno1",
+      "vendor": "Intel"
+    },
+    {
+      "device": "eth3",
+      "driver": "igb",
+      "enabled": false,
+      "firmware_version": "1.67, 0x80000faa, 19.0.12",
+      "interface": "Ethernet",
+      "kavlan": false,
+      "mac": "e4:43:4b:00:14:ad",
+      "management": false,
+      "model": "I350 Gigabit Network Connection",
+      "mountable": false,
+      "mounted": false,
+      "name": "eno2",
+      "vendor": "Intel"
+    },
+    {
+      "device": "eth4",
+      "driver": "igb",
+      "enabled": false,
+      "firmware_version": "1.67, 0x80000faa, 19.0.12",
+      "interface": "Ethernet",
+      "kavlan": false,
+      "mac": "e4:43:4b:00:14:ae",
+      "management": false,
+      "model": "I350 Gigabit Network Connection",
+      "mountable": false,
+      "mounted": false,
+      "name": "eno3",
+      "vendor": "Intel"
+    },
+    {
+      "device": "eth5",
+      "driver": "igb",
+      "enabled": false,
+      "firmware_version": "1.67, 0x80000faa, 19.0.12",
+      "interface": "Ethernet",
+      "kavlan": false,
+      "mac": "e4:43:4b:00:14:af",
+      "management": false,
+      "model": "I350 Gigabit Network Connection",
+      "mountable": false,
+      "mounted": false,
+      "name": "eno4",
+      "vendor": "Intel"
+    },
+    {
+      "device": "bmc",
+      "enabled": true,
+      "interface": "Ethernet",
+      "ip": "172.17.36.2",
+      "kavlan": false,
+      "mac": "54:48:10:f9:7f:72",
+      "management": true,
+      "mountable": false,
+      "mounted": false,
+      "network_address": "chifflot-2-bmc.lille.grid5000.fr"
+    }
+  ],
+  "operating_system": {
+    "cstate_driver": "intel_idle",
+    "cstate_governor": "menu",
+    "ht_enabled": true,
+    "pstate_driver": "intel_pstate",
+    "pstate_governor": "performance",
+    "turboboost_enabled": true
+  },
+  "performance": {
+    "core_flops": 83200000000,
+    "node_flops": 1996800000000
+  },
+  "processor": {
+    "cache_l1": null,
+    "cache_l1d": 32768,
+    "cache_l1i": 32768,
+    "cache_l2": 1048576,
+    "cache_l3": 20185088,
+    "clock_speed": 2600000000,
+    "ht_capable": true,
+    "instruction_set": "x86-64",
+    "microarchitecture": "Skylake",
+    "microcode": "0x2006906",
+    "model": "Intel Xeon",
+    "other_description": "Intel(R) Xeon(R) Gold 6126 CPU @ 2.60GHz",
+    "vendor": "Intel",
+    "version": "Gold 6126"
+  },
+  "sensors": {
+    "power": {
+      "via": {
+        "pdu": [
+          {
+            "port": 2,
+            "uid": "pdu-b1p2"
+          },
+          {
+            "port": 1,
+            "uid": "pdu-b1p3"
+          }
+        ]
+      }
+    }
+  },
+  "software": {
+    "forced-deployment-timestamp": 202007300948,
+    "postinstall-version": "1.2020091600",
+    "standard-environment": "debian10-x64-std"
+  },
+  "storage_devices": [
+    {
+      "by_id": "/dev/disk/by-id/wwn-0x55cd2e414f2be265",
+      "by_path": "/dev/disk/by-path/pci-0000:18:00.0-scsi-0:0:0:0",
+      "device": "sda",
+      "firmware_version": "SCV1DL5C",
+      "interface": "SATA",
+      "model": "SSDSC2KG480G7R",
+      "size": 480103981056,
+      "storage": "SSD",
+      "vendor": "Intel"
+    },
+    {
+      "by_id": "/dev/disk/by-id/wwn-0x55cd2e414f2b5361",
+      "by_path": "/dev/disk/by-path/pci-0000:18:00.0-scsi-0:0:1:0",
+      "device": "sdb",
+      "firmware_version": "SCV1DL58",
+      "interface": "SATA",
+      "model": "SSDSC2KG480G7R",
+      "reservation": true,
+      "size": 480103981056,
+      "storage": "SSD",
+      "vendor": "Intel"
+    },
+    {
+      "by_id": "/dev/disk/by-id/wwn-0x5000c500a64ec36b",
+      "by_path": "/dev/disk/by-path/pci-0000:18:00.0-scsi-0:0:2:0",
+      "device": "sdc",
+      "firmware_version": "DT32",
+      "interface": "SAS",
+      "model": "ST4000NM0295",
+      "reservation": true,
+      "size": 4000787030016,
+      "storage": "HDD",
+      "vendor": "Seagate"
+    },
+    {
+      "by_id": "/dev/disk/by-id/wwn-0x5000c500a64db51f",
+      "by_path": "/dev/disk/by-path/pci-0000:18:00.0-scsi-0:0:3:0",
+      "device": "sdd",
+      "firmware_version": "DT32",
+      "interface": "SAS",
+      "model": "ST4000NM0295",
+      "reservation": true,
+      "size": 4000787030016,
+      "storage": "HDD",
+      "vendor": "Seagate"
+    },
+    {
+      "by_id": "/dev/disk/by-id/wwn-0x5000c500a64eb823",
+      "by_path": "/dev/disk/by-path/pci-0000:18:00.0-scsi-0:0:4:0",
+      "device": "sde",
+      "firmware_version": "DT32",
+      "interface": "SAS",
+      "model": "ST4000NM0295",
+      "reservation": true,
+      "size": 4000787030016,
+      "storage": "HDD",
+      "vendor": "Seagate"
+    },
+    {
+      "by_id": "/dev/disk/by-id/wwn-0x5000c500a64ebc97",
+      "by_path": "/dev/disk/by-path/pci-0000:18:00.0-scsi-0:0:5:0",
+      "device": "sdf",
+      "firmware_version": "DT32",
+      "interface": "SAS",
+      "model": "ST4000NM0295",
+      "reservation": true,
+      "size": 4000787030016,
+      "storage": "HDD",
+      "vendor": "Seagate"
+    }
+  ],
+  "supported_job_types": {
+    "besteffort": true,
+    "deploy": true,
+    "max_walltime": 0,
+    "queues": [
+      "admin",
+      "default"
+    ],
+    "virtual": "ivt"
+  },
+  "type": "node",
+  "uid": "chifflot-2"
+}

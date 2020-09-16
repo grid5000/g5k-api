@@ -1,0 +1,15 @@
+{
+  "alias": [
+
+  ],
+  "kind": "storage",
+  "network_adapters": {
+    "default": {
+      "ip": "172.17.111.220"
+    }
+  },
+  "serial": "8LY4M4J",
+  "type": "server",
+  "uid": "metroflux-disc",
+  "warranty": "2015-01"
+}

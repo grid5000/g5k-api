@@ -1,0 +1,10 @@
+{
+  "kind": "virtual",
+  "network_adapters": {
+    "default": {
+      "ip": "172.16.79.145"
+    }
+  },
+  "type": "server",
+  "uid": "supervision2"
+}

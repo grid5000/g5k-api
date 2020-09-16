@@ -1,0 +1,21 @@
+{
+  "alias": [
+    "adminfront",
+    "af"
+  ],
+  "kind": "physical",
+  "network_adapters": {
+    "bmc": {
+      "ip": "172.17.207.1",
+      "mac": "78:45:c4:f9:2c:b9"
+    },
+    "default": {
+      "ip": "172.16.207.1",
+      "mac": "a0:36:9f:0e:24:58"
+    }
+  },
+  "serial": "HP2YG5J",
+  "type": "server",
+  "uid": "srv",
+  "warranty": "2019-11"
+}

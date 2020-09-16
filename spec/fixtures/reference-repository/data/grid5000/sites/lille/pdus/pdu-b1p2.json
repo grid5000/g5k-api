@@ -1,0 +1,48 @@
+{
+  "ip": "172.17.47.242",
+  "mac": "00:c0:b7:f2:b0:d8",
+  "metrics": [
+    {
+      "description": "Power consumption per outlet reported by PDU, in watt",
+      "name": "pdu_outlet_power_watt",
+      "period": 1000,
+      "source": {
+        "id": "1.3.6.1.4.1.318.1.1.26.9.4.3.1.7.%PORT%",
+        "protocol": "snmp"
+      }
+    }
+  ],
+  "model": "AP8659",
+  "ports": {
+    "1": "chifflot-1",
+    "10": "chiclet-5",
+    "11": "chiclet-6",
+    "12": "chiclet-7",
+    "2": "chifflot-2",
+    "3": "chifflot-4",
+    "4": "chifflot-5",
+    "5": "chifflot-7",
+    "6": "chiclet-1",
+    "7": "chiclet-2",
+    "9": "chiclet-4"
+  },
+  "sensors": [
+    {
+      "power": {
+        "per_outlets": true,
+        "resolution": 1,
+        "snmp": {
+          "available": true,
+          "outlet_prefix_oid": "iso.3.6.1.4.1.318.1.1.26.9.4.3.1.7",
+          "total_oids": [
+            "iso.3.6.1.4.1.318.1.1.12.1.16.0"
+          ],
+          "unit": "W"
+        }
+      }
+    }
+  ],
+  "type": "pdu",
+  "uid": "pdu-b1p2",
+  "vendor": "APC"
+}

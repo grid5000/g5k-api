@@ -1,0 +1,20 @@
+{
+  "alias": [
+
+  ],
+  "kind": "physical",
+  "network_adapters": {
+    "bmc": {
+      "ip": "172.17.79.30",
+      "mac": "4c:d9:8f:63:31:d3"
+    },
+    "default": {
+      "ip": "172.16.79.30",
+      "mac": "f8:f2:1e:5a:15:d0"
+    }
+  },
+  "serial": "DK7R9X2",
+  "type": "server",
+  "uid": "talc-data2",
+  "warranty": "2026-05"
+}

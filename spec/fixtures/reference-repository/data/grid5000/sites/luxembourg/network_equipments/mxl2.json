@@ -1,0 +1,199 @@
+{
+  "alias": [
+    "m1000-mxl2"
+  ],
+  "backplane_bps": 1407374880000,
+  "channels": {
+    "Port-channel 6": {
+      "kind": "switch",
+      "port": "port-channel6",
+      "rate": 4000000000,
+      "uid": "ul-grid5000-sw02"
+    }
+  },
+  "ip": "172.17.191.252",
+  "kind": "switch",
+  "linecards": [
+    {
+      "kavlan_pattern": "%PORT%",
+      "kind": "node",
+      "ports": [
+        {
+        },
+        {
+          "kind": "node",
+          "port": "eth1",
+          "snmp_name": "TenGigabitEthernet 0/1",
+          "uid": "petitprince-1"
+        },
+        {
+          "kind": "node",
+          "port": "eth1",
+          "snmp_name": "TenGigabitEthernet 0/2",
+          "uid": "petitprince-2"
+        },
+        {
+          "kind": "node",
+          "port": "eth1",
+          "snmp_name": "TenGigabitEthernet 0/3",
+          "uid": "petitprince-3"
+        },
+        {
+          "kind": "node",
+          "port": "eth1",
+          "snmp_name": "TenGigabitEthernet 0/4",
+          "uid": "petitprince-4"
+        },
+        {
+          "kind": "node",
+          "port": "eth1",
+          "snmp_name": "TenGigabitEthernet 0/5",
+          "uid": "petitprince-5"
+        },
+        {
+          "kind": "node",
+          "port": "eth1",
+          "snmp_name": "TenGigabitEthernet 0/6",
+          "uid": "petitprince-6"
+        },
+        {
+          "kind": "node",
+          "port": "eth1",
+          "snmp_name": "TenGigabitEthernet 0/7",
+          "uid": "petitprince-7"
+        },
+        {
+          "kind": "node",
+          "port": "eth1",
+          "snmp_name": "TenGigabitEthernet 0/8",
+          "uid": "petitprince-8"
+        },
+        {
+          "kind": "node",
+          "port": "eth1",
+          "snmp_name": "TenGigabitEthernet 0/9",
+          "uid": "petitprince-9"
+        },
+        {
+          "kind": "node",
+          "port": "eth1",
+          "snmp_name": "TenGigabitEthernet 0/10",
+          "uid": "petitprince-10"
+        },
+        {
+          "kind": "node",
+          "port": "eth1",
+          "snmp_name": "TenGigabitEthernet 0/11",
+          "uid": "petitprince-11"
+        },
+        {
+        },
+        {
+          "kind": "node",
+          "port": "eth1",
+          "snmp_name": "TenGigabitEthernet 0/13",
+          "uid": "petitprince-13"
+        },
+        {
+          "kind": "node",
+          "port": "eth1",
+          "snmp_name": "TenGigabitEthernet 0/14",
+          "uid": "petitprince-14"
+        },
+        {
+          "kind": "node",
+          "port": "eth1",
+          "snmp_name": "TenGigabitEthernet 0/15",
+          "uid": "petitprince-15"
+        },
+        {
+          "kind": "node",
+          "port": "eth1",
+          "snmp_name": "TenGigabitEthernet 0/16",
+          "uid": "petitprince-16"
+        },
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+          "kind": "channel",
+          "snmp_name": "TenGigabitEthernet 0/33",
+          "uid": "Port-channel 6"
+        },
+        {
+          "kind": "channel",
+          "snmp_name": "TenGigabitEthernet 0/34",
+          "uid": "Port-channel 6"
+        },
+        {
+          "kind": "channel",
+          "snmp_name": "TenGigabitEthernet 0/35",
+          "uid": "Port-channel 6"
+        },
+        {
+          "kind": "channel",
+          "snmp_name": "TenGigabitEthernet 0/36",
+          "uid": "Port-channel 6"
+        }
+      ],
+      "rate": 10000000000,
+      "snmp_pattern": "TenGigabitEthernet %LINECARD%/%PORT%"
+    }
+  ],
+  "metrics": [
+    {
+      "description": "Input byte counter for the network device port",
+      "name": "network_ifacein_bytes_total",
+      "period": 1000,
+      "source": {
+        "id": "1.3.6.1.2.1.2.2.1.10.{{ 1.3.6.1.2.1.2.2.1.2 == %SNMP_IFACE% }}",
+        "protocol": "snmp"
+      }
+    },
+    {
+      "description": "Output byte counter for the network device port",
+      "name": "network_ifaceout_bytes_total",
+      "period": 1000,
+      "source": {
+        "id": "1.3.6.1.2.1.2.2.1.16.{{ 1.3.6.1.2.1.2.2.1.2 == %SNMP_IFACE% }}",
+        "protocol": "snmp"
+      }
+    }
+  ],
+  "model": "Force10 MXL",
+  "role": "production",
+  "site": "luxembourg",
+  "snmp_community": "public",
+  "type": "network_equipment",
+  "uid": "mxl2",
+  "warranty": "expired"
+}

@@ -1,0 +1,20 @@
+{
+  "alias": null,
+  "kind": "physical",
+  "network_adapters": {
+    "bmc": {
+      "ip": "172.17.143.14",
+      "mac": "00:14:4f:1f:8c:70",
+      "mounted": true
+    },
+    "default": {
+      "ip": "172.16.143.4",
+      "mac": "00:14:4f:1f:e7:15",
+      "mounted": true
+    }
+  },
+  "serial": "0609AN1486",
+  "type": "server",
+  "uid": "stock",
+  "warranty": null
+}

@@ -1,0 +1,264 @@
+{
+  "architecture": {
+    "cpu_core_numbering": "round-robin",
+    "nb_cores": 16,
+    "nb_procs": 2,
+    "nb_threads": 32,
+    "platform_type": "x86_64"
+  },
+  "bios": {
+    "release_date": "12/23/2019",
+    "vendor": "Dell Inc.",
+    "version": "2.11.0"
+  },
+  "bmc_version": "2.70.70.70",
+  "chassis": {
+    "manufacturer": "Dell Inc.",
+    "name": "PowerEdge R430",
+    "serial": "97LBRG2"
+  },
+  "exotic": false,
+  "kavlan": {
+    "eth0": {
+      "kavlan-1": "192.168.196.23",
+      "kavlan-11": "10.7.204.23",
+      "kavlan-12": "10.11.204.23",
+      "kavlan-13": "10.15.204.23",
+      "kavlan-14": "10.19.204.23",
+      "kavlan-16": "10.27.204.23",
+      "kavlan-18": "10.35.204.23",
+      "kavlan-2": "192.168.212.23",
+      "kavlan-20": "10.43.204.23",
+      "kavlan-21": "10.47.204.23",
+      "kavlan-3": "192.168.228.23",
+      "kavlan-4": "10.12.4.23",
+      "kavlan-5": "10.12.68.23",
+      "kavlan-6": "10.12.132.23",
+      "kavlan-7": "10.12.196.23",
+      "kavlan-8": "10.13.4.23",
+      "kavlan-9": "10.13.68.23"
+    }
+  },
+  "kavlan6": {
+    "eth0": {
+      "kavlan-1": "2001:660:4406:481:5::17",
+      "kavlan-11": "2001:660:4406:48b:5::17",
+      "kavlan-12": "2001:660:4406:48c:5::17",
+      "kavlan-13": "2001:660:4406:48d:5::17",
+      "kavlan-14": "2001:660:4406:48e:5::17",
+      "kavlan-16": "2001:660:4406:490:5::17",
+      "kavlan-18": "2001:660:4406:492:5::17",
+      "kavlan-2": "2001:660:4406:482:5::17",
+      "kavlan-20": "2001:660:4406:494:5::17",
+      "kavlan-21": "2001:660:4406:495:5::17",
+      "kavlan-3": "2001:660:4406:483:5::17",
+      "kavlan-4": "2001:660:4406:484:5::17",
+      "kavlan-5": "2001:660:4406:485:5::17",
+      "kavlan-6": "2001:660:4406:486:5::17",
+      "kavlan-7": "2001:660:4406:487:5::17",
+      "kavlan-8": "2001:660:4406:488:5::17",
+      "kavlan-9": "2001:660:4406:489:5::17"
+    }
+  },
+  "main_memory": {
+    "ram_size": 68719476736
+  },
+  "monitoring": {
+    "wattmeter": "true"
+  },
+  "network_adapters": [
+    {
+      "bridged": true,
+      "device": "eth0",
+      "driver": "ixgbe",
+      "enabled": true,
+      "firmware_version": "0x8000095d, 19.0.12",
+      "interface": "Ethernet",
+      "ip": "172.16.52.23",
+      "ip6": "2001:660:4406:400:5::17",
+      "kavlan": true,
+      "mac": "a0:36:9f:d2:c2:44",
+      "management": false,
+      "model": "Ethernet 10G 2P X520 Adapter",
+      "mountable": true,
+      "mounted": true,
+      "name": "enp5s0f0",
+      "network_address": "nova-23.lyon.grid5000.fr",
+      "rate": 10000000000,
+      "switch": "force10",
+      "switch_port": "TenGigabitEthernet 0/47",
+      "vendor": "Intel"
+    },
+    {
+      "bridged": false,
+      "device": "eth1",
+      "driver": "ixgbe",
+      "enabled": false,
+      "firmware_version": "0x8000095d, 19.0.12",
+      "interface": "Ethernet",
+      "kavlan": false,
+      "mac": "a0:36:9f:d2:c2:46",
+      "management": false,
+      "model": "Ethernet 10G 2P X520 Adapter",
+      "mountable": false,
+      "mounted": false,
+      "name": "enp5s0f1",
+      "vendor": "Intel"
+    },
+    {
+      "bridged": false,
+      "device": "eth2",
+      "driver": "tg3",
+      "enabled": false,
+      "firmware_version": "FFV21.40.21 bc 5720-v1.39",
+      "interface": "Ethernet",
+      "kavlan": false,
+      "mac": "18:66:da:7e:11:01",
+      "management": false,
+      "model": "NetXtreme BCM5720 Gigabit Ethernet PCIe",
+      "mountable": false,
+      "mounted": false,
+      "name": "eno1",
+      "vendor": "Broadcom"
+    },
+    {
+      "bridged": false,
+      "device": "eth3",
+      "driver": "tg3",
+      "enabled": false,
+      "firmware_version": "FFV21.40.21 bc 5720-v1.39",
+      "interface": "Ethernet",
+      "kavlan": false,
+      "mac": "18:66:da:7e:11:02",
+      "management": false,
+      "model": "NetXtreme BCM5720 Gigabit Ethernet PCIe",
+      "mountable": false,
+      "mounted": false,
+      "name": "eno2",
+      "vendor": "Broadcom"
+    },
+    {
+      "bridged": false,
+      "device": "eth4",
+      "driver": "tg3",
+      "enabled": false,
+      "firmware_version": "FFV21.40.21 bc 5720-v1.39",
+      "interface": "Ethernet",
+      "kavlan": false,
+      "mac": "18:66:da:7e:11:03",
+      "management": false,
+      "model": "NetXtreme BCM5720 Gigabit Ethernet PCIe",
+      "mountable": false,
+      "mounted": false,
+      "name": "eno3",
+      "vendor": "Broadcom"
+    },
+    {
+      "bridged": false,
+      "device": "eth5",
+      "driver": "tg3",
+      "enabled": false,
+      "firmware_version": "FFV21.40.21 bc 5720-v1.39",
+      "interface": "Ethernet",
+      "kavlan": false,
+      "mac": "18:66:da:7e:11:04",
+      "management": false,
+      "model": "NetXtreme BCM5720 Gigabit Ethernet PCIe",
+      "mountable": false,
+      "mounted": false,
+      "name": "eno4",
+      "vendor": "Broadcom"
+    },
+    {
+      "device": "bmc",
+      "enabled": true,
+      "interface": "Ethernet",
+      "ip": "172.17.52.23",
+      "kavlan": false,
+      "mac": "18:66:da:7e:11:05",
+      "management": true,
+      "mountable": false,
+      "mounted": false,
+      "network_address": "nova-23-bmc.lyon.grid5000.fr",
+      "rate": 1000000000
+    }
+  ],
+  "operating_system": {
+    "cstate_driver": "intel_idle",
+    "cstate_governor": "menu",
+    "ht_enabled": true,
+    "pstate_driver": "intel_pstate",
+    "pstate_governor": "performance",
+    "turboboost_enabled": true
+  },
+  "performance": {
+    "core_flops": 33600000000,
+    "node_flops": 537600000000
+  },
+  "processor": {
+    "cache_l1": null,
+    "cache_l1d": 32768,
+    "cache_l1i": 32768,
+    "cache_l2": 262144,
+    "cache_l3": 20971520,
+    "clock_speed": 2100000000,
+    "ht_capable": true,
+    "instruction_set": "x86-64",
+    "microarchitecture": "Broadwell",
+    "microcode": "0xb000038",
+    "model": "Intel Xeon",
+    "other_description": "Intel(R) Xeon(R) CPU E5-2620 v4 @ 2.10GHz",
+    "vendor": "Intel",
+    "version": "E5-2620 v4"
+  },
+  "sensors": {
+    "power": {
+      "available": true,
+      "per_outlets": true,
+      "via": {
+        "api": {
+          "metric": "power"
+        },
+        "pdu": [
+          {
+            "port": 22,
+            "uid": "wattmetre3"
+          }
+        ],
+        "www": {
+          "url": "http://wattmetre.lyon.grid5000.fr/GetWatts-json.php"
+        }
+      }
+    }
+  },
+  "software": {
+    "forced-deployment-timestamp": 202007300948,
+    "postinstall-version": "1.2020091600",
+    "standard-environment": "debian10-x64-std"
+  },
+  "storage_devices": [
+    {
+      "by_id": "/dev/disk/by-id/wwn-0x6847beb0d74ba5001faf302615c2126a",
+      "by_path": "/dev/disk/by-path/pci-0000:01:00.0-scsi-0:2:0:0",
+      "device": "sda",
+      "firmware_version": 4.3,
+      "interface": "SCSI",
+      "model": "PERC H330 Mini",
+      "size": 598879502336,
+      "storage": "HDD",
+      "vendor": "Dell (Raid)"
+    }
+  ],
+  "supported_job_types": {
+    "besteffort": true,
+    "deploy": true,
+    "max_walltime": 0,
+    "queues": [
+      "default",
+      "admin"
+    ],
+    "virtual": "ivt"
+  },
+  "type": "node",
+  "uid": "nova-23"
+}

@@ -1,0 +1,279 @@
+{
+  "architecture": {
+    "cpu_core_numbering": "round-robin",
+    "nb_cores": 20,
+    "nb_procs": 2,
+    "nb_threads": 40,
+    "platform_type": "x86_64"
+  },
+  "bios": {
+    "release_date": "11/02/2019",
+    "vendor": "Dell Inc.",
+    "version": "2.11.0"
+  },
+  "bmc_version": "2.70.70.70",
+  "chassis": {
+    "manufacturer": "Dell Inc.",
+    "name": "PowerEdge R630",
+    "serial": "5L3HLG2"
+  },
+  "exotic": false,
+  "kavlan": {
+    "eth0": {
+      "kavlan-1": "192.168.192.10",
+      "kavlan-11": "10.7.194.10",
+      "kavlan-12": "10.11.194.10",
+      "kavlan-13": "10.15.194.10",
+      "kavlan-14": "10.19.194.10",
+      "kavlan-16": "10.27.194.10",
+      "kavlan-18": "10.35.194.10",
+      "kavlan-2": "192.168.208.10",
+      "kavlan-20": "10.43.194.10",
+      "kavlan-21": "10.47.194.10",
+      "kavlan-3": "192.168.224.10",
+      "kavlan-4": "10.8.0.10",
+      "kavlan-5": "10.8.64.10",
+      "kavlan-6": "10.8.128.10",
+      "kavlan-7": "10.8.192.10",
+      "kavlan-8": "10.9.0.10",
+      "kavlan-9": "10.9.64.10"
+    },
+    "eth1": {
+      "kavlan-1": "192.168.193.10",
+      "kavlan-11": "10.7.194.110",
+      "kavlan-12": "10.11.194.110",
+      "kavlan-13": "10.15.194.110",
+      "kavlan-14": "10.19.194.110",
+      "kavlan-16": "10.27.194.110",
+      "kavlan-18": "10.35.194.110",
+      "kavlan-2": "192.168.209.10",
+      "kavlan-20": "10.43.194.110",
+      "kavlan-21": "10.47.194.110",
+      "kavlan-3": "192.168.225.10",
+      "kavlan-4": "10.8.1.10",
+      "kavlan-5": "10.8.65.10",
+      "kavlan-6": "10.8.129.10",
+      "kavlan-7": "10.8.193.10",
+      "kavlan-8": "10.9.1.10",
+      "kavlan-9": "10.9.65.10"
+    }
+  },
+  "kavlan6": {
+    "eth0": {
+      "kavlan-1": "2001:660:4406:281:6::a",
+      "kavlan-11": "2001:660:4406:28b:6::a",
+      "kavlan-12": "2001:660:4406:28c:6::a",
+      "kavlan-13": "2001:660:4406:28d:6::a",
+      "kavlan-14": "2001:660:4406:28e:6::a",
+      "kavlan-16": "2001:660:4406:290:6::a",
+      "kavlan-18": "2001:660:4406:292:6::a",
+      "kavlan-2": "2001:660:4406:282:6::a",
+      "kavlan-20": "2001:660:4406:294:6::a",
+      "kavlan-21": "2001:660:4406:295:6::a",
+      "kavlan-3": "2001:660:4406:283:6::a",
+      "kavlan-4": "2001:660:4406:284:6::a",
+      "kavlan-5": "2001:660:4406:285:6::a",
+      "kavlan-6": "2001:660:4406:286:6::a",
+      "kavlan-7": "2001:660:4406:287:6::a",
+      "kavlan-8": "2001:660:4406:288:6::a",
+      "kavlan-9": "2001:660:4406:289:6::a"
+    },
+    "eth1": {
+      "kavlan-1": "2001:660:4406:281:6:1::a",
+      "kavlan-11": "2001:660:4406:28b:6:1::a",
+      "kavlan-12": "2001:660:4406:28c:6:1::a",
+      "kavlan-13": "2001:660:4406:28d:6:1::a",
+      "kavlan-14": "2001:660:4406:28e:6:1::a",
+      "kavlan-16": "2001:660:4406:290:6:1::a",
+      "kavlan-18": "2001:660:4406:292:6:1::a",
+      "kavlan-2": "2001:660:4406:282:6:1::a",
+      "kavlan-20": "2001:660:4406:294:6:1::a",
+      "kavlan-21": "2001:660:4406:295:6:1::a",
+      "kavlan-3": "2001:660:4406:283:6:1::a",
+      "kavlan-4": "2001:660:4406:284:6:1::a",
+      "kavlan-5": "2001:660:4406:285:6:1::a",
+      "kavlan-6": "2001:660:4406:286:6:1::a",
+      "kavlan-7": "2001:660:4406:287:6:1::a",
+      "kavlan-8": "2001:660:4406:288:6:1::a",
+      "kavlan-9": "2001:660:4406:289:6:1::a"
+    }
+  },
+  "main_memory": {
+    "ram_size": 274877906944
+  },
+  "monitoring": {
+    "wattmeter": "multiple"
+  },
+  "network_adapters": [
+    {
+      "bridged": true,
+      "device": "eth0",
+      "driver": "ixgbe",
+      "enabled": true,
+      "firmware_version": "0x8000095c, 19.0.12",
+      "interface": "Ethernet",
+      "ip": "172.16.37.10",
+      "ip6": "2001:660:4406:200:6::a",
+      "kavlan": true,
+      "mac": "24:6e:96:2c:9a:48",
+      "management": false,
+      "model": "82599ES 10-Gigabit SFI/SFP+ Network Connection",
+      "mountable": true,
+      "mounted": true,
+      "name": "eno1",
+      "network_address": "chetemi-10.lille.grid5000.fr",
+      "rate": 10000000000,
+      "switch": "sw-chiclet-3",
+      "switch_port": "Ethernet1/10",
+      "vendor": "Intel"
+    },
+    {
+      "device": "eth1",
+      "driver": "ixgbe",
+      "enabled": true,
+      "firmware_version": "0x8000095c, 19.0.12",
+      "interface": "Ethernet",
+      "ip": "172.16.37.110",
+      "ip6": "2001:660:4406:200:6:1::a",
+      "kavlan": true,
+      "mac": "24:6e:96:2c:9a:4a",
+      "management": false,
+      "model": "82599ES 10-Gigabit SFI/SFP+ Network Connection",
+      "mountable": true,
+      "mounted": false,
+      "name": "eno2",
+      "network_address": "chetemi-10-eth1.lille.grid5000.fr",
+      "rate": 10000000000,
+      "switch": "sw-chiclet-3",
+      "switch_port": "Ethernet1/34",
+      "vendor": "Intel"
+    },
+    {
+      "device": "eth2",
+      "driver": "igb",
+      "enabled": false,
+      "firmware_version": "1.67, 0x80000fab, 19.0.12",
+      "interface": "Ethernet",
+      "kavlan": false,
+      "mac": "24:6e:96:2c:9a:4c",
+      "management": false,
+      "model": "I350 Gigabit Network Connection",
+      "mountable": false,
+      "mounted": false,
+      "name": "eno3",
+      "vendor": "Intel"
+    },
+    {
+      "device": "eth3",
+      "driver": "igb",
+      "enabled": false,
+      "firmware_version": "1.67, 0x80000fab, 19.0.12",
+      "interface": "Ethernet",
+      "kavlan": false,
+      "mac": "24:6e:96:2c:9a:4d",
+      "management": false,
+      "model": "I350 Gigabit Network Connection",
+      "mountable": false,
+      "mounted": false,
+      "name": "eno4",
+      "vendor": "Intel"
+    },
+    {
+      "device": "bmc",
+      "enabled": true,
+      "interface": "Ethernet",
+      "ip": "172.17.37.10",
+      "kavlan": false,
+      "mac": "84:7b:eb:d5:ae:62",
+      "management": true,
+      "mountable": false,
+      "mounted": false,
+      "network_address": "chetemi-10-bmc.lille.grid5000.fr"
+    }
+  ],
+  "operating_system": {
+    "cstate_driver": "intel_idle",
+    "cstate_governor": "menu",
+    "ht_enabled": true,
+    "pstate_driver": "intel_pstate",
+    "pstate_governor": "performance",
+    "turboboost_enabled": true
+  },
+  "performance": {
+    "core_flops": 35200000000,
+    "node_flops": 704000000000
+  },
+  "processor": {
+    "cache_l1": null,
+    "cache_l1d": 32768,
+    "cache_l1i": 32768,
+    "cache_l2": 262144,
+    "cache_l3": 26214400,
+    "clock_speed": 2200000000,
+    "ht_capable": true,
+    "instruction_set": "x86-64",
+    "microarchitecture": "Broadwell",
+    "microcode": "0xb000038",
+    "model": "Intel Xeon",
+    "other_description": "Intel(R) Xeon(R) CPU E5-2630 v4 @ 2.20GHz",
+    "vendor": "Intel",
+    "version": "E5-2630 v4"
+  },
+  "sensors": {
+    "power": {
+      "via": {
+        "pdu": [
+          {
+            "port": 3,
+            "uid": "pdu-b3p3"
+          },
+          {
+            "port": 3,
+            "uid": "pdu-b3p2-2"
+          }
+        ]
+      }
+    }
+  },
+  "software": {
+    "forced-deployment-timestamp": 202007300948,
+    "postinstall-version": "1.2020091600",
+    "standard-environment": "debian10-x64-std"
+  },
+  "storage_devices": [
+    {
+      "by_id": "/dev/disk/by-id/wwn-0x5000c500b82062b7",
+      "by_path": "/dev/disk/by-path/pci-0000:02:00.0-scsi-0:0:0:0",
+      "device": "sda",
+      "firmware_version": "KT37",
+      "interface": "SAS",
+      "model": "ST600MP0036",
+      "size": 600127266816,
+      "storage": "HDD",
+      "vendor": "Seagate"
+    },
+    {
+      "by_id": "/dev/disk/by-id/wwn-0x5000c500982be5d7",
+      "by_path": "/dev/disk/by-path/pci-0000:02:00.0-scsi-0:0:1:0",
+      "device": "sdb",
+      "firmware_version": "VT33",
+      "interface": "SAS",
+      "model": "ST300MP0005",
+      "size": 300000000000,
+      "storage": "HDD",
+      "vendor": "Seagate"
+    }
+  ],
+  "supported_job_types": {
+    "besteffort": true,
+    "deploy": true,
+    "max_walltime": 0,
+    "queues": [
+      "admin",
+      "default"
+    ],
+    "virtual": "ivt"
+  },
+  "type": "node",
+  "uid": "chetemi-10"
+}

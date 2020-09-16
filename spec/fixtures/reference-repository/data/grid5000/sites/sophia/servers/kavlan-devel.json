@@ -1,0 +1,10 @@
+{
+  "kind": "virtual",
+  "network_adapters": {
+    "default": {
+      "ip": "172.16.143.140"
+    }
+  },
+  "type": "server",
+  "uid": "kavlan-devel"
+}

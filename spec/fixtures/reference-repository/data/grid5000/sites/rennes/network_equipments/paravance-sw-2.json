@@ -1,0 +1,512 @@
+{
+  "backplane_bps": 1440000000000,
+  "channels": {
+    "port-channel4": {
+      "kind": "router",
+      "port": "port-channel3",
+      "rate": 80000000000,
+      "uid": "gw"
+    }
+  },
+  "ip": "172.17.111.205",
+  "kind": "switch",
+  "linecards": [
+    {
+    },
+    {
+      "kavlan_pattern": "Ethernet%LINECARD%/%PORT%",
+      "kind": "node",
+      "ports": [
+        {
+        },
+        {
+          "kind": "node",
+          "port": "eth1",
+          "snmp_name": "Ethernet1/1",
+          "uid": "paravance-37"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "Ethernet1/2",
+          "uid": "paravance-37"
+        },
+        {
+          "kind": "node",
+          "port": "eth1",
+          "snmp_name": "Ethernet1/3",
+          "uid": "paravance-38"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "Ethernet1/4",
+          "uid": "paravance-38"
+        },
+        {
+          "kind": "node",
+          "port": "eth1",
+          "snmp_name": "Ethernet1/5",
+          "uid": "paravance-39"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "Ethernet1/6",
+          "uid": "paravance-39"
+        },
+        {
+          "kind": "node",
+          "port": "eth1",
+          "snmp_name": "Ethernet1/7",
+          "uid": "paravance-40"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "Ethernet1/8",
+          "uid": "paravance-40"
+        },
+        {
+          "kind": "node",
+          "port": "eth1",
+          "snmp_name": "Ethernet1/9",
+          "uid": "paravance-41"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "Ethernet1/10",
+          "uid": "paravance-41"
+        },
+        {
+          "kind": "node",
+          "port": "eth1",
+          "snmp_name": "Ethernet1/11",
+          "uid": "paravance-42"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "Ethernet1/12",
+          "uid": "paravance-42"
+        },
+        {
+          "kind": "node",
+          "port": "eth1",
+          "snmp_name": "Ethernet1/13",
+          "uid": "paravance-43"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "Ethernet1/14",
+          "uid": "paravance-43"
+        },
+        {
+          "kind": "node",
+          "port": "eth1",
+          "snmp_name": "Ethernet1/15",
+          "uid": "paravance-44"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "Ethernet1/16",
+          "uid": "paravance-44"
+        },
+        {
+          "kind": "node",
+          "port": "eth1",
+          "snmp_name": "Ethernet1/17",
+          "uid": "paravance-45"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "Ethernet1/18",
+          "uid": "paravance-45"
+        },
+        {
+          "kind": "node",
+          "port": "eth1",
+          "snmp_name": "Ethernet1/19",
+          "uid": "paravance-46"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "Ethernet1/20",
+          "uid": "paravance-46"
+        },
+        {
+          "kind": "node",
+          "port": "eth1",
+          "snmp_name": "Ethernet1/21",
+          "uid": "paravance-47"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "Ethernet1/22",
+          "uid": "paravance-47"
+        },
+        {
+          "kind": "node",
+          "port": "eth1",
+          "snmp_name": "Ethernet1/23",
+          "uid": "paravance-48"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "Ethernet1/24",
+          "uid": "paravance-48"
+        },
+        {
+          "kind": "node",
+          "port": "eth1",
+          "snmp_name": "Ethernet1/25",
+          "uid": "paravance-49"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "Ethernet1/26",
+          "uid": "paravance-49"
+        },
+        {
+          "kind": "node",
+          "port": "eth1",
+          "snmp_name": "Ethernet1/27",
+          "uid": "paravance-50"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "Ethernet1/28",
+          "uid": "paravance-50"
+        },
+        {
+          "kind": "node",
+          "port": "eth1",
+          "snmp_name": "Ethernet1/29",
+          "uid": "paravance-51"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "Ethernet1/30",
+          "uid": "paravance-51"
+        },
+        {
+          "kind": "node",
+          "port": "eth1",
+          "snmp_name": "Ethernet1/31",
+          "uid": "paravance-52"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "Ethernet1/32",
+          "uid": "paravance-52"
+        },
+        {
+          "kind": "node",
+          "port": "eth1",
+          "snmp_name": "Ethernet1/33",
+          "uid": "paravance-53"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "Ethernet1/34",
+          "uid": "paravance-53"
+        },
+        {
+          "kind": "node",
+          "port": "eth1",
+          "snmp_name": "Ethernet1/35",
+          "uid": "paravance-54"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "Ethernet1/36",
+          "uid": "paravance-54"
+        },
+        {
+          "kind": "node",
+          "port": "eth1",
+          "snmp_name": "Ethernet1/37",
+          "uid": "paravance-55"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "Ethernet1/38",
+          "uid": "paravance-55"
+        },
+        {
+          "kind": "node",
+          "port": "eth1",
+          "snmp_name": "Ethernet1/39",
+          "uid": "paravance-56"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "Ethernet1/40",
+          "uid": "paravance-56"
+        },
+        {
+          "kind": "node",
+          "port": "eth1",
+          "snmp_name": "Ethernet1/41",
+          "uid": "paravance-57"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "Ethernet1/42",
+          "uid": "paravance-57"
+        },
+        {
+          "kind": "node",
+          "port": "eth1",
+          "snmp_name": "Ethernet1/43",
+          "uid": "paravance-58"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "Ethernet1/44",
+          "uid": "paravance-58"
+        },
+        {
+          "kind": "node",
+          "port": "eth1",
+          "snmp_name": "Ethernet1/45",
+          "uid": "paravance-59"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "Ethernet1/46",
+          "uid": "paravance-59"
+        },
+        {
+          "kind": "node",
+          "port": "eth1",
+          "snmp_name": "Ethernet1/47",
+          "uid": "paravance-60"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "Ethernet1/48",
+          "uid": "paravance-60"
+        },
+        {
+        },
+        {
+        },
+        {
+          "kind": "channel",
+          "rate": 40000000000,
+          "snmp_name": "Ethernet1/51",
+          "uid": "port-channel4"
+        },
+        {
+          "kind": "channel",
+          "rate": 40000000000,
+          "snmp_name": "Ethernet1/52",
+          "uid": "port-channel4"
+        }
+      ],
+      "rate": 10000000000,
+      "snmp_pattern": "Ethernet%LINECARD%/%PORT%"
+    },
+    {
+      "kavlan_pattern": "Ethernet%LINECARD%/%PORT%",
+      "kind": "node",
+      "ports": [
+        {
+        },
+        {
+          "kind": "node",
+          "port": "eth1",
+          "snmp_name": "Ethernet2/1",
+          "uid": "paravance-61"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "Ethernet2/2",
+          "uid": "paravance-61"
+        },
+        {
+          "kind": "node",
+          "port": "eth1",
+          "snmp_name": "Ethernet2/3",
+          "uid": "paravance-62"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "Ethernet2/4",
+          "uid": "paravance-62"
+        },
+        {
+          "kind": "node",
+          "port": "eth1",
+          "snmp_name": "Ethernet2/5",
+          "uid": "paravance-63"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "Ethernet2/6",
+          "uid": "paravance-63"
+        },
+        {
+          "kind": "node",
+          "port": "eth1",
+          "snmp_name": "Ethernet2/7",
+          "uid": "paravance-64"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "Ethernet2/8",
+          "uid": "paravance-64"
+        },
+        {
+          "kind": "node",
+          "port": "eth1",
+          "snmp_name": "Ethernet2/9",
+          "uid": "paravance-65"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "Ethernet2/10",
+          "uid": "paravance-65"
+        },
+        {
+          "kind": "node",
+          "port": "eth1",
+          "snmp_name": "Ethernet2/11",
+          "uid": "paravance-66"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "Ethernet2/12",
+          "uid": "paravance-66"
+        },
+        {
+          "kind": "node",
+          "port": "eth1",
+          "snmp_name": "Ethernet2/13",
+          "uid": "paravance-67"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "Ethernet2/14",
+          "uid": "paravance-67"
+        },
+        {
+          "kind": "node",
+          "port": "eth1",
+          "snmp_name": "Ethernet2/15",
+          "uid": "paravance-68"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "Ethernet2/16",
+          "uid": "paravance-68"
+        },
+        {
+          "kind": "node",
+          "port": "eth1",
+          "snmp_name": "Ethernet2/17",
+          "uid": "paravance-69"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "Ethernet2/18",
+          "uid": "paravance-69"
+        },
+        {
+          "kind": "node",
+          "port": "eth1",
+          "snmp_name": "Ethernet2/19",
+          "uid": "paravance-70"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "Ethernet2/20",
+          "uid": "paravance-70"
+        },
+        {
+          "kind": "node",
+          "port": "eth1",
+          "snmp_name": "Ethernet2/21",
+          "uid": "paravance-71"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "Ethernet2/22",
+          "uid": "paravance-71"
+        },
+        {
+          "kind": "node",
+          "port": "eth1",
+          "snmp_name": "Ethernet2/23",
+          "uid": "paravance-72"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "Ethernet2/24",
+          "uid": "paravance-72"
+        }
+      ],
+      "rate": 10000000000,
+      "snmp_pattern": "Ethernet%LINECARD%/%PORT%"
+    }
+  ],
+  "metrics": [
+    {
+      "description": "Input byte counter for the network device port",
+      "name": "network_ifacein_bytes_total",
+      "period": 1000,
+      "source": {
+        "id": "1.3.6.1.2.1.2.2.1.10.{{ 1.3.6.1.2.1.2.2.1.2 == %SNMP_IFACE% }}",
+        "protocol": "snmp"
+      }
+    },
+    {
+      "description": "Output byte counter for the network device port",
+      "name": "network_ifaceout_bytes_total",
+      "period": 1000,
+      "source": {
+        "id": "1.3.6.1.2.1.2.2.1.16.{{ 1.3.6.1.2.1.2.2.1.2 == %SNMP_IFACE% }}",
+        "protocol": "snmp"
+      }
+    }
+  ],
+  "model": "Nexus 56128P",
+  "role": "production",
+  "site": "rennes",
+  "snmp_community": "public",
+  "type": "network_equipment",
+  "uid": "paravance-sw-2",
+  "warranty": "2018-04-01"
+}

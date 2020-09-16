@@ -1,0 +1,26 @@
+{
+  "alias": [
+
+  ],
+  "kind": "physical",
+  "network_adapters": {
+    "bmc": {
+      "ip": "172.17.79.25",
+      "mac": "90:B1:1C:3C:66:B3"
+    },
+    "default": {
+      "ip": "172.16.79.25",
+      "mac": "90:b1:1c:3f:83:93"
+    },
+    "ib0": {
+      "ip": "172.18.75.225"
+    },
+    "ib1": {
+      "ip": "172.18.76.225"
+    }
+  },
+  "serial": "BX9GWX1",
+  "type": "server",
+  "uid": "grcinq-srv-1",
+  "warranty": "2020-04"
+}

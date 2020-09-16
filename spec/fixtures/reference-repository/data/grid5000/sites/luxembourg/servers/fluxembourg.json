@@ -1,0 +1,15 @@
+{
+  "alias": [
+    "frontale",
+    "frontend",
+    "oar-api"
+  ],
+  "kind": "virtual",
+  "network_adapters": {
+    "default": {
+      "ip": "172.16.191.109"
+    }
+  },
+  "type": "server",
+  "uid": "fluxembourg"
+}

@@ -19,12 +19,12 @@ describe NodesController do
 
   describe "GET /sites/{{site_id}}/clusters/{{cluster_id}}/nodes?deep=true" do
     it "should get the correct deep view for one site" do
-      get :index, params: { site_id: 'rennes', cluster_id: 'paravent', format: :json, deep: true }
+      get :index, params: { site_id: 'rennes', cluster_id: 'parapide', format: :json, deep: true }
       expect(response.status).to eq 200
-      expect(json['total']).to eq 99
-      expect(json['items'].length).to eq 99
+      expect(json['total']).to eq 17
+      expect(json['items'].length).to eq 17
       expect(json['items']).to be_a(Array)
-      expect(json['items'].first['uid']).to eq 'paravent-1'
+      expect(json['items'].first['uid']).to eq 'parapide-1'
     end
   end
 end

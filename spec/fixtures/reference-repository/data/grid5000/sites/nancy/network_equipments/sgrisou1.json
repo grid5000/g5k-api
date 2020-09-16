@@ -1,0 +1,469 @@
+{
+  "backplane_bps": 260000000000,
+  "ip": "172.17.79.206",
+  "kind": "switch",
+  "linecards": [
+    {
+    },
+    {
+      "kavlan_pattern": "GigabitEthernet%LINECARD%/%PORT%",
+      "kind": "node",
+      "ports": [
+        {
+        },
+        {
+          "kind": "node",
+          "port": "eth4",
+          "snmp_name": "GigabitEthernet 1/1",
+          "uid": "grisou-1"
+        },
+        {
+          "kind": "node",
+          "port": "eth4",
+          "snmp_name": "GigabitEthernet 1/2",
+          "uid": "grisou-2"
+        },
+        {
+          "kind": "node",
+          "port": "eth4",
+          "snmp_name": "GigabitEthernet 1/3",
+          "uid": "grisou-3"
+        },
+        {
+          "kind": "node",
+          "port": "eth4",
+          "snmp_name": "GigabitEthernet 1/4",
+          "uid": "grisou-4"
+        },
+        {
+          "kind": "node",
+          "port": "eth4",
+          "snmp_name": "GigabitEthernet 1/5",
+          "uid": "grisou-5"
+        },
+        {
+          "kind": "node",
+          "port": "eth4",
+          "snmp_name": "GigabitEthernet 1/6",
+          "uid": "grisou-6"
+        },
+        {
+          "kind": "node",
+          "port": "eth4",
+          "snmp_name": "GigabitEthernet 1/7",
+          "uid": "grisou-7"
+        },
+        {
+          "kind": "node",
+          "port": "eth4",
+          "snmp_name": "GigabitEthernet 1/8",
+          "uid": "grisou-8"
+        },
+        {
+          "kind": "node",
+          "port": "eth4",
+          "snmp_name": "GigabitEthernet 1/9",
+          "uid": "grisou-9"
+        },
+        {
+          "kind": "node",
+          "port": "eth4",
+          "snmp_name": "GigabitEthernet 1/10",
+          "uid": "grisou-10"
+        },
+        {
+          "kind": "node",
+          "port": "eth4",
+          "snmp_name": "GigabitEthernet 1/11",
+          "uid": "grisou-11"
+        },
+        {
+          "kind": "node",
+          "port": "eth4",
+          "snmp_name": "GigabitEthernet 1/12",
+          "uid": "grisou-12"
+        },
+        {
+          "kind": "node",
+          "port": "eth4",
+          "snmp_name": "GigabitEthernet 1/13",
+          "uid": "grisou-13"
+        },
+        {
+          "kind": "node",
+          "port": "eth4",
+          "snmp_name": "GigabitEthernet 1/14",
+          "uid": "grisou-14"
+        },
+        {
+          "kind": "node",
+          "port": "eth4",
+          "snmp_name": "GigabitEthernet 1/15",
+          "uid": "grisou-15"
+        },
+        {
+          "kind": "node",
+          "port": "eth4",
+          "snmp_name": "GigabitEthernet 1/16",
+          "uid": "grisou-16"
+        },
+        {
+          "kind": "node",
+          "port": "eth4",
+          "snmp_name": "GigabitEthernet 1/17",
+          "uid": "grisou-17"
+        },
+        {
+          "kind": "node",
+          "port": "eth4",
+          "snmp_name": "GigabitEthernet 1/18",
+          "uid": "grisou-18"
+        },
+        {
+          "kind": "node",
+          "port": "eth4",
+          "snmp_name": "GigabitEthernet 1/19",
+          "uid": "grisou-19"
+        },
+        {
+          "kind": "node",
+          "port": "eth4",
+          "snmp_name": "GigabitEthernet 1/20",
+          "uid": "grisou-20"
+        },
+        {
+          "kind": "node",
+          "port": "eth4",
+          "snmp_name": "GigabitEthernet 1/21",
+          "uid": "grisou-21"
+        },
+        {
+          "kind": "node",
+          "port": "eth4",
+          "snmp_name": "GigabitEthernet 1/22",
+          "uid": "grisou-22"
+        },
+        {
+          "kind": "node",
+          "port": "eth4",
+          "snmp_name": "GigabitEthernet 1/23",
+          "uid": "grisou-23"
+        },
+        {
+          "kind": "node",
+          "port": "eth4",
+          "snmp_name": "GigabitEthernet 1/24",
+          "uid": "grisou-24"
+        },
+        {
+          "kind": "node",
+          "port": "eth4",
+          "snmp_name": "GigabitEthernet 1/25",
+          "uid": "grisou-25"
+        },
+        {
+          "kind": "node",
+          "port": "eth4",
+          "snmp_name": "GigabitEthernet 1/26",
+          "uid": "grisou-26"
+        },
+        {
+          "kind": "node",
+          "port": "eth4",
+          "snmp_name": "GigabitEthernet 1/27",
+          "uid": "grisou-27"
+        },
+        {
+          "kind": "node",
+          "port": "eth4",
+          "snmp_name": "GigabitEthernet 1/28",
+          "uid": "grisou-28"
+        },
+        {
+          "kind": "node",
+          "port": "eth4",
+          "snmp_name": "GigabitEthernet 1/29",
+          "uid": "grisou-29"
+        },
+        {
+          "kind": "node",
+          "port": "eth4",
+          "snmp_name": "GigabitEthernet 1/30",
+          "uid": "grisou-30"
+        },
+        {
+          "kind": "node",
+          "port": "eth4",
+          "snmp_name": "GigabitEthernet 1/31",
+          "uid": "grisou-31"
+        },
+        {
+          "kind": "node",
+          "port": "eth4",
+          "snmp_name": "GigabitEthernet 1/32",
+          "uid": "grisou-32"
+        },
+        {
+          "kind": "node",
+          "port": "eth4",
+          "snmp_name": "GigabitEthernet 1/33",
+          "uid": "grisou-33"
+        },
+        {
+          "kind": "node",
+          "port": "eth4",
+          "snmp_name": "GigabitEthernet 1/34",
+          "uid": "grisou-34"
+        },
+        {
+          "kind": "node",
+          "port": "eth4",
+          "snmp_name": "GigabitEthernet 1/35",
+          "uid": "grisou-35"
+        },
+        {
+          "kind": "node",
+          "port": "eth4",
+          "snmp_name": "GigabitEthernet 1/36",
+          "uid": "grisou-36"
+        },
+        {
+          "kind": "node",
+          "port": "eth4",
+          "snmp_name": "GigabitEthernet 1/37",
+          "uid": "grisou-37"
+        },
+        {
+          "kind": "node",
+          "port": "eth4",
+          "snmp_name": "GigabitEthernet 1/38",
+          "uid": "grisou-38"
+        },
+        {
+          "kind": "node",
+          "port": "eth4",
+          "snmp_name": "GigabitEthernet 1/39",
+          "uid": "grisou-39"
+        },
+        {
+          "kind": "node",
+          "port": "eth4",
+          "snmp_name": "GigabitEthernet 1/40",
+          "uid": "grisou-40"
+        },
+        {
+          "kind": "node",
+          "port": "eth4",
+          "snmp_name": "GigabitEthernet 1/41",
+          "uid": "grisou-41"
+        },
+        {
+          "kind": "node",
+          "port": "eth4",
+          "snmp_name": "GigabitEthernet 1/42",
+          "uid": "grisou-42"
+        },
+        {
+          "kind": "node",
+          "port": "eth4",
+          "snmp_name": "GigabitEthernet 1/43",
+          "uid": "grisou-43"
+        },
+        {
+          "kind": "node",
+          "port": "eth4",
+          "snmp_name": "GigabitEthernet 1/44",
+          "uid": "grisou-44"
+        },
+        {
+          "kind": "node",
+          "port": "eth4",
+          "snmp_name": "GigabitEthernet 1/45",
+          "uid": "grisou-45"
+        },
+        {
+          "kind": "node",
+          "port": "eth4",
+          "snmp_name": "GigabitEthernet 1/46",
+          "uid": "grisou-46"
+        },
+        {
+          "kind": "node",
+          "port": "eth4",
+          "snmp_name": "GigabitEthernet 1/47",
+          "uid": "grisou-47"
+        },
+        {
+          "kind": "node",
+          "port": "eth4",
+          "snmp_name": "GigabitEthernet 1/48",
+          "uid": "grisou-48"
+        }
+      ],
+      "rate": 1000000000,
+      "snmp_pattern": "GigabitEthernet %LINECARD%/%PORT%"
+    },
+    {
+      "kavlan_pattern": "TenGigabitEthernet1/%PORT%",
+      "kind": "other",
+      "ports": [
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+          "kind": "router",
+          "snmp_name": "TenGigabitEthernet 1/52",
+          "uid": "gw"
+        }
+      ],
+      "rate": 10000000000,
+      "snmp_pattern": "TenGigabitEthernet 1/%PORT%"
+    }
+  ],
+  "metrics": [
+    {
+      "description": "Input byte counter for the network device port",
+      "name": "network_ifacein_bytes_total",
+      "period": 1000,
+      "source": {
+        "id": "1.3.6.1.2.1.2.2.1.10.{{ 1.3.6.1.2.1.2.2.1.2 == %SNMP_IFACE% }}",
+        "protocol": "snmp"
+      }
+    },
+    {
+      "description": "Output byte counter for the network device port",
+      "name": "network_ifaceout_bytes_total",
+      "period": 1000,
+      "source": {
+        "id": "1.3.6.1.2.1.2.2.1.16.{{ 1.3.6.1.2.1.2.2.1.2 == %SNMP_IFACE% }}",
+        "protocol": "snmp"
+      }
+    }
+  ],
+  "model": "Dell S3048",
+  "monitoring": {
+    "metric": "power",
+    "wattmeter": true
+  },
+  "role": "production",
+  "sensors": {
+    "power": {
+      "available": true,
+      "resolution": 1,
+      "via": {
+        "pdu": [
+          {
+            "port": 14,
+            "uid": "grimoire-pdu2"
+          }
+        ]
+      }
+    }
+  },
+  "site": "nancy",
+  "snmp_community": "public",
+  "type": "network_equipment",
+  "uid": "sgrisou1",
+  "warranty": "2022-06-01"
+}

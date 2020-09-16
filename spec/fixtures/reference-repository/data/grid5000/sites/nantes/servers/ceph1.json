@@ -1,0 +1,20 @@
+{
+  "alias": [
+
+  ],
+  "kind": "physical",
+  "network_adapters": {
+    "bmc": {
+      "ip": "172.17.207.11",
+      "mac": "34:17:eb:e6:4a:6d"
+    },
+    "default": {
+      "ip": "172.16.207.11",
+      "mac": "a0:36:9f:53:0b:ec"
+    }
+  },
+  "serial": "GBL5842",
+  "type": "server",
+  "uid": "ceph1",
+  "warranty": "2019-12"
+}

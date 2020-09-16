@@ -1,0 +1,39 @@
+{
+  "kind": "physical",
+  "monitoring": {
+    "metric": "power",
+    "wattmeter": "multiple"
+  },
+  "network_adapters": {
+    "bmc": {
+      "ip": "172.17.46.4",
+      "mac": "54:48:10:f4:f5:ca"
+    }
+  },
+  "sensors": {
+    "network": {
+      "available": true,
+      "resolution": 1
+    },
+    "power": {
+      "available": true,
+      "resolution": 1,
+      "via": {
+        "pdu": [
+          {
+            "port": 14,
+            "uid": "pdu-b2p1"
+          },
+          {
+            "port": 14,
+            "uid": "pdu-b2p2"
+          }
+        ]
+      }
+    }
+  },
+  "serial": "2SSSKQ2",
+  "type": "server",
+  "uid": "gwol-north",
+  "warranty": "2023-06-25"
+}

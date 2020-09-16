@@ -1,0 +1,17 @@
+{
+  "kind": "physical",
+  "network_adapters": {
+    "bmc": {
+      "ip": "172.17.62.8",
+      "mac": "50:9A:4C:99:BA:F1"
+    },
+    "default": {
+      "ip": "172.16.63.8",
+      "mac": "F8:F2:1E:23:ED:E0"
+    }
+  },
+  "serial": "7PXWNR2",
+  "type": "server",
+  "uid": "wattmetre",
+  "warranty": "2023-09"
+}

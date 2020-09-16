@@ -1,0 +1,251 @@
+{
+  "created_at": "Fri, 07 Jun 2019 00:00:00 GMT",
+  "exotic": false,
+  "kavlan": true,
+  "metrics": [
+    {
+      "description": "Front node ambiant temperature reported by BMC, in celsius",
+      "name": "bmc_temp_ambiant_celsius",
+      "period": 5000,
+      "scale_factor": 0.1,
+      "source": {
+        "id": "1.3.6.1.4.1.674.10892.5.4.700.20.1.6.1.3",
+        "protocol": "snmp"
+      }
+    },
+    {
+      "description": "Power consumption of node reported by BMC, in watt",
+      "name": "bmc_node_power_watt",
+      "period": 5000,
+      "source": {
+        "id": "1.3.6.1.4.1.674.10892.5.4.600.30.1.6.1.{{ 1.3.6.1.4.1.674.10892.5.4.600.30.1.8.1 == System Board Pwr Consumption }}",
+        "protocol": "snmp"
+      }
+    },
+    {
+      "description": "Voltage of PSU 1 reported by BMC, in volt",
+      "labels": {
+        "psu": "1"
+      },
+      "name": "bmc_psu_voltage_volt",
+      "optional_period": 5000,
+      "period": 0,
+      "source": {
+        "id": "1.3.6.1.4.1.674.10892.5.4.600.12.1.16.1.1",
+        "protocol": "snmp"
+      }
+    },
+    {
+      "description": "Voltage of PSU 2 reported by BMC, in volt",
+      "labels": {
+        "psu": "2"
+      },
+      "name": "bmc_psu_voltage_volt",
+      "optional_period": 5000,
+      "period": 0,
+      "source": {
+        "id": "1.3.6.1.4.1.674.10892.5.4.600.12.1.16.1.2",
+        "protocol": "snmp"
+      }
+    },
+    {
+      "description": "Current of PSU 1 reported by BMC, in amp",
+      "labels": {
+        "psu": "1"
+      },
+      "name": "bmc_psu_current_amp",
+      "optional_period": 5000,
+      "period": 0,
+      "scale_factor": 0.1,
+      "source": {
+        "id": "1.3.6.1.4.1.674.10892.5.4.600.30.1.6.1.{{ 1.3.6.1.4.1.674.10892.5.4.600.30.1.8.1 == PS1 Current 1 }}",
+        "protocol": "snmp"
+      }
+    },
+    {
+      "description": "Current of PSU 2 reported by BMC, in amp",
+      "labels": {
+        "psu": "2"
+      },
+      "name": "bmc_psu_current_amp",
+      "optional_period": 5000,
+      "period": 0,
+      "scale_factor": 0.1,
+      "source": {
+        "id": "1.3.6.1.4.1.674.10892.5.4.600.30.1.6.1.{{ 1.3.6.1.4.1.674.10892.5.4.600.30.1.8.1 == PS2 Current 2 }}",
+        "protocol": "snmp"
+      }
+    },
+    {
+      "description": "Cumulated power consumption of node reported by BMC, in watt",
+      "name": "bmc_node_power_watthour_total",
+      "optional_period": 5000,
+      "period": 0,
+      "source": {
+        "id": "1.3.6.1.4.1.674.10892.5.4.600.60.1.7.1.1",
+        "protocol": "snmp"
+      }
+    },
+    {
+      "description": "Speed of Fan 1 reported by BMC, in rpm",
+      "labels": {
+        "fan": "1"
+      },
+      "name": "bmc_fan_speed_rpm",
+      "optional_period": 5000,
+      "period": 0,
+      "source": {
+        "id": "1.3.6.1.4.1.674.10892.5.4.700.12.1.6.1.1",
+        "protocol": "snmp"
+      }
+    },
+    {
+      "description": "Speed of Fan 2 reported by BMC, in rpm",
+      "labels": {
+        "fan": "2"
+      },
+      "name": "bmc_fan_speed_rpm",
+      "optional_period": 5000,
+      "period": 0,
+      "source": {
+        "id": "1.3.6.1.4.1.674.10892.5.4.700.12.1.6.1.2",
+        "protocol": "snmp"
+      }
+    },
+    {
+      "description": "Speed of Fan 3 reported by BMC, in rpm",
+      "labels": {
+        "fan": "3"
+      },
+      "name": "bmc_fan_speed_rpm",
+      "optional_period": 5000,
+      "period": 0,
+      "source": {
+        "id": "1.3.6.1.4.1.674.10892.5.4.700.12.1.6.1.3",
+        "protocol": "snmp"
+      }
+    },
+    {
+      "description": "Speed of Fan 4 reported by BMC, in rpm",
+      "labels": {
+        "fan": "4"
+      },
+      "name": "bmc_fan_speed_rpm",
+      "optional_period": 5000,
+      "period": 0,
+      "source": {
+        "id": "1.3.6.1.4.1.674.10892.5.4.700.12.1.6.1.4",
+        "protocol": "snmp"
+      }
+    },
+    {
+      "description": "Speed of Fan 5 reported by BMC, in rpm",
+      "labels": {
+        "fan": "5"
+      },
+      "name": "bmc_fan_speed_rpm",
+      "optional_period": 5000,
+      "period": 0,
+      "source": {
+        "id": "1.3.6.1.4.1.674.10892.5.4.700.12.1.6.1.5",
+        "protocol": "snmp"
+      }
+    },
+    {
+      "description": "Speed of Fan 6 reported by BMC, in rpm",
+      "labels": {
+        "fan": "6"
+      },
+      "name": "bmc_fan_speed_rpm",
+      "optional_period": 5000,
+      "period": 0,
+      "source": {
+        "id": "1.3.6.1.4.1.674.10892.5.4.700.12.1.6.1.6",
+        "protocol": "snmp"
+      }
+    },
+    {
+      "description": "Speed of Fan Ext R reported by BMC, in rpm",
+      "labels": {
+        "fan": "extr"
+      },
+      "name": "bmc_fan_speed_rpm",
+      "optional_period": 5000,
+      "period": 0,
+      "source": {
+        "id": "1.3.6.1.4.1.674.10892.5.4.700.12.1.6.1.7",
+        "protocol": "snmp"
+      }
+    },
+    {
+      "description": "Speed of Fan Ext L reported by BMC, in rpm",
+      "labels": {
+        "fan": "extl"
+      },
+      "name": "bmc_fan_speed_rpm",
+      "optional_period": 5000,
+      "period": 0,
+      "source": {
+        "id": "1.3.6.1.4.1.674.10892.5.4.700.12.1.6.1.8",
+        "protocol": "snmp"
+      }
+    },
+    {
+      "description": "Temperature of CPU 1 reported by BMC, in celsius",
+      "labels": {
+        "cpu": "1"
+      },
+      "name": "bmc_cpu_temp_celsius",
+      "optional_period": 5000,
+      "period": 0,
+      "scale_factor": 0.1,
+      "source": {
+        "id": "1.3.6.1.4.1.674.10892.5.4.700.20.1.6.1.1",
+        "protocol": "snmp"
+      }
+    },
+    {
+      "description": "Temperature of CPU 2 reported by BMC, in celsius",
+      "labels": {
+        "cpu": "2"
+      },
+      "name": "bmc_cpu_temp_celsius",
+      "optional_period": 5000,
+      "period": 0,
+      "scale_factor": 0.1,
+      "source": {
+        "id": "1.3.6.1.4.1.674.10892.5.4.700.20.1.6.1.2",
+        "protocol": "snmp"
+      }
+    },
+    {
+      "description": "Input byte counter for the network device port",
+      "labels": {
+        "interface": "eth2"
+      },
+      "name": "network_ifacein_bytes_total",
+      "period": 3000,
+      "source": {
+        "protocol": "network_equipment"
+      }
+    },
+    {
+      "description": "Output byte counter for the network device port",
+      "labels": {
+        "interface": "eth2"
+      },
+      "name": "network_ifaceout_bytes_total",
+      "period": 3000,
+      "source": {
+        "protocol": "network_equipment"
+      }
+    }
+  ],
+  "model": "Dell PowerEdge T640",
+  "queues": [
+    "admin",
+    "production"
+  ],
+  "type": "cluster",
+  "uid": "graffiti"
+}

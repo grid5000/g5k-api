@@ -1,0 +1,83 @@
+{
+  "ip": "172.17.79.253",
+  "kind": "switch",
+  "linecards": [
+    {
+    },
+    {
+      "kavlan_pattern": "%LINECARD%/%PORT%",
+      "kind": "switch",
+      "ports": [
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+          "kind": "node",
+          "port": "when-undead",
+          "snmp_name": "1/13",
+          "uid": "grele-13"
+        },
+        {
+          "kind": "node",
+          "port": "when-undead",
+          "snmp_name": "1/14",
+          "uid": "grele-14"
+        }
+      ],
+      "rate": 100000000000,
+      "snmp_pattern": "%LINECARD%/%PORT%"
+    }
+  ],
+  "model": "Omni-Path",
+  "monitoring": {
+    "metric": "power",
+    "wattmeter": true
+  },
+  "role": "hpc",
+  "sensors": {
+    "power": {
+      "available": true,
+      "resolution": 1,
+      "via": {
+        "pdu": [
+          {
+            "port": 10,
+            "uid": "grimani-pdu1"
+          },
+          {
+            "port": 10,
+            "uid": "grimani-pdu2"
+          }
+        ]
+      }
+    }
+  },
+  "site": "nancy",
+  "snmp_community": "public",
+  "type": "network_equipment",
+  "uid": "sgrele-opf",
+  "warranty": "2022-06-01"
+}

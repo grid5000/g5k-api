@@ -1,0 +1,358 @@
+{
+  "alias": [
+    "force10-adm",
+    "staurus",
+    "sorion",
+    "shercule"
+  ],
+  "backplane_bps": 1280000000000,
+  "ip": "172.17.63.253",
+  "kind": "switch",
+  "linecards": [
+    {
+      "kavlan_pattern": "%PORT%",
+      "kind": "node",
+      "ports": [
+        {
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "TenGigabitEthernet 0/1",
+          "uid": "taurus-1"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "TenGigabitEthernet 0/2",
+          "uid": "taurus-2"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "TenGigabitEthernet 0/3",
+          "uid": "taurus-3"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "TenGigabitEthernet 0/4",
+          "uid": "taurus-4"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "TenGigabitEthernet 0/5",
+          "uid": "taurus-5"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "TenGigabitEthernet 0/6",
+          "uid": "taurus-6"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "TenGigabitEthernet 0/7",
+          "uid": "taurus-7"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "TenGigabitEthernet 0/8",
+          "uid": "taurus-8"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "TenGigabitEthernet 0/9",
+          "uid": "taurus-9"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "TenGigabitEthernet 0/10",
+          "uid": "taurus-10"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "TenGigabitEthernet 0/11",
+          "uid": "taurus-11"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "TenGigabitEthernet 0/12",
+          "uid": "taurus-12"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "TenGigabitEthernet 0/13",
+          "uid": "taurus-13"
+        },
+        {
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "TenGigabitEthernet 0/15",
+          "uid": "taurus-15"
+        },
+        {
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "TenGigabitEthernet 0/17",
+          "uid": "orion-1"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "TenGigabitEthernet 0/18",
+          "uid": "orion-2"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "TenGigabitEthernet 0/19",
+          "uid": "orion-3"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "TenGigabitEthernet 0/20",
+          "uid": "orion-4"
+        },
+        {
+          "kind": "node",
+          "port": "eth1",
+          "snmp_name": "TenGigabitEthernet 0/21",
+          "uid": "hercule-1"
+        },
+        {
+          "kind": "node",
+          "port": "eth1",
+          "snmp_name": "TenGigabitEthernet 0/22",
+          "uid": "hercule-2"
+        },
+        {
+          "kind": "node",
+          "port": "eth1",
+          "snmp_name": "TenGigabitEthernet 0/23",
+          "uid": "hercule-3"
+        },
+        {
+          "kind": "node",
+          "port": "eth1",
+          "snmp_name": "TenGigabitEthernet 0/24",
+          "uid": "hercule-4"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "TenGigabitEthernet 0/25",
+          "uid": "nova-1"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "TenGigabitEthernet 0/26",
+          "uid": "nova-2"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "TenGigabitEthernet 0/27",
+          "uid": "nova-3"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "TenGigabitEthernet 0/28",
+          "uid": "nova-4"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "TenGigabitEthernet 0/29",
+          "uid": "nova-5"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "TenGigabitEthernet 0/30",
+          "uid": "nova-6"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "TenGigabitEthernet 0/31",
+          "uid": "nova-7"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "TenGigabitEthernet 0/32",
+          "uid": "nova-8"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "TenGigabitEthernet 0/33",
+          "uid": "nova-9"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "TenGigabitEthernet 0/34",
+          "uid": "nova-10"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "TenGigabitEthernet 0/35",
+          "uid": "nova-11"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "TenGigabitEthernet 0/36",
+          "uid": "nova-12"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "TenGigabitEthernet 0/37",
+          "uid": "nova-13"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "TenGigabitEthernet 0/38",
+          "uid": "nova-14"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "TenGigabitEthernet 0/39",
+          "uid": "nova-15"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "TenGigabitEthernet 0/40",
+          "uid": "nova-16"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "TenGigabitEthernet 0/41",
+          "uid": "nova-17"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "TenGigabitEthernet 0/42",
+          "uid": "nova-18"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "TenGigabitEthernet 0/43",
+          "uid": "nova-19"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "TenGigabitEthernet 0/44",
+          "uid": "nova-20"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "TenGigabitEthernet 0/45",
+          "uid": "nova-21"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "TenGigabitEthernet 0/46",
+          "uid": "nova-22"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "TenGigabitEthernet 0/47",
+          "uid": "nova-23"
+        },
+        {
+        },
+        {
+        },
+        {
+          "kind": "server",
+          "snmp_name": "TenGigabitEthernet 0/50",
+          "uid": "procyon"
+        },
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+          "kind": "router",
+          "port": "0:25",
+          "snmp_name": "fortyGigE 0/60",
+          "uid": "gw"
+        }
+      ],
+      "rate": 10000000000,
+      "snmp_pattern": "TenGigabitEthernet %LINECARD%/%PORT%"
+    }
+  ],
+  "metrics": [
+    {
+      "description": "Input byte counter for the network device port",
+      "name": "network_ifacein_bytes_total",
+      "period": 1000,
+      "source": {
+        "id": "1.3.6.1.2.1.2.2.1.10.{{ 1.3.6.1.2.1.2.2.1.2 == %SNMP_IFACE% }}",
+        "protocol": "snmp"
+      }
+    },
+    {
+      "description": "Output byte counter for the network device port",
+      "name": "network_ifaceout_bytes_total",
+      "period": 1000,
+      "source": {
+        "id": "1.3.6.1.2.1.2.2.1.16.{{ 1.3.6.1.2.1.2.2.1.2 == %SNMP_IFACE% }}",
+        "protocol": "snmp"
+      }
+    }
+  ],
+  "model": "Force10 S4810",
+  "role": "production",
+  "serial": "FGSN9T1",
+  "site": "lyon",
+  "snmp_community": "public",
+  "type": "network_equipment",
+  "uid": "force10",
+  "warranty": "2017-07-01"
+}

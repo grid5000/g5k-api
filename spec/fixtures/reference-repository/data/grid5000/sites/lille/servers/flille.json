@@ -1,0 +1,18 @@
+{
+  "alias": [
+    "frontale",
+    "frontend",
+    "oar-api"
+  ],
+  "kind": "virtual",
+  "network_adapters": {
+    "adm": {
+      "ip": "172.17.47.106"
+    },
+    "default": {
+      "ip": "172.16.47.106"
+    }
+  },
+  "type": "server",
+  "uid": "flille"
+}

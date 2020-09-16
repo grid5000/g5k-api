@@ -1,0 +1,11 @@
+{
+  "expire": "2021-10",
+  "kind": "virtual",
+  "network_adapters": {
+    "default": {
+      "ip": "172.16.45.14"
+    }
+  },
+  "type": "server",
+  "uid": "lbertot-vm"
+}

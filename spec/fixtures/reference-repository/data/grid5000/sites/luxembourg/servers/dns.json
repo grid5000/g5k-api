@@ -1,0 +1,16 @@
+{
+  "alias": [
+    "ns"
+  ],
+  "kind": "virtual",
+  "network_adapters": {
+    "adm": {
+      "ip": "172.17.191.101"
+    },
+    "default": {
+      "ip": "172.16.191.101"
+    }
+  },
+  "type": "server",
+  "uid": "dns"
+}

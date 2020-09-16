@@ -1,0 +1,80 @@
+{
+  "created_at": "Fri, 21 Feb 2014 00:00:00 GMT",
+  "exotic": false,
+  "kavlan": true,
+  "metrics": [
+    {
+      "description": "Input byte counter for the network device port",
+      "labels": {
+        "interface": "eth0"
+      },
+      "name": "network_ifacein_bytes_total",
+      "period": 1000,
+      "source": {
+        "protocol": "network_equipment"
+      }
+    },
+    {
+      "description": "Output byte counter for the network device port",
+      "labels": {
+        "interface": "eth0"
+      },
+      "name": "network_ifaceout_bytes_total",
+      "period": 1000,
+      "source": {
+        "protocol": "network_equipment"
+      }
+    },
+    {
+      "description": "Input byte counter for the network device port",
+      "labels": {
+        "interface": "eth1"
+      },
+      "name": "network_ifacein_bytes_total",
+      "period": 1000,
+      "source": {
+        "protocol": "network_equipment"
+      }
+    },
+    {
+      "description": "Output byte counter for the network device port",
+      "labels": {
+        "interface": "eth1"
+      },
+      "name": "network_ifaceout_bytes_total",
+      "period": 1000,
+      "source": {
+        "protocol": "network_equipment"
+      }
+    },
+    {
+      "description": "Input byte counter for the network device port",
+      "labels": {
+        "interface": "eth2"
+      },
+      "name": "network_ifacein_bytes_total",
+      "period": 1000,
+      "source": {
+        "protocol": "network_equipment"
+      }
+    },
+    {
+      "description": "Output byte counter for the network device port",
+      "labels": {
+        "interface": "eth2"
+      },
+      "name": "network_ifaceout_bytes_total",
+      "period": 1000,
+      "source": {
+        "protocol": "network_equipment"
+      }
+    }
+  ],
+  "model": "Dell PowerEdge C6220 II",
+  "queues": [
+    "default",
+    "admin"
+  ],
+  "type": "cluster",
+  "uid": "paranoia"
+}

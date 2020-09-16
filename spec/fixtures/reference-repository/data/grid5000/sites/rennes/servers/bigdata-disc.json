@@ -1,0 +1,12 @@
+{
+  "alias": [
+
+  ],
+  "kind": "storage",
+  "network_adapters": {
+  },
+  "serial": "D12LGZ1",
+  "type": "server",
+  "uid": "bigdata-disc",
+  "warranty": "2018-10"
+}

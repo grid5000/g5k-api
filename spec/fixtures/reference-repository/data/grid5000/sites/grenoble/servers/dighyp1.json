@@ -1,0 +1,24 @@
+{
+  "alias": [
+    "adminfront",
+    "af"
+  ],
+  "kind": "physical",
+  "network_adapters": {
+    "adm": {
+      "ip": "172.17.31.7"
+    },
+    "bmc": {
+      "ip": "172.17.30.7",
+      "mac": "D0:94:66:1E:38:4C"
+    },
+    "default": {
+      "ip": "172.16.31.7",
+      "mac": "D0:94:66:1E:38:48"
+    }
+  },
+  "serial": "5SS15M2",
+  "type": "server",
+  "uid": "dighyp1",
+  "warranty": "2024-10-19"
+}

@@ -1,0 +1,13 @@
+{
+  "kind": "virtual",
+  "network_adapters": {
+    "adm": {
+      "ip": "172.17.47.122"
+    },
+    "default": {
+      "ip": "172.16.47.122"
+    }
+  },
+  "type": "server",
+  "uid": "ganglia"
+}

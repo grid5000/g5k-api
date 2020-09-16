@@ -1,0 +1,20 @@
+{
+  "alias": [
+    "storage",
+    "storage1",
+    "modules"
+  ],
+  "kind": "physical",
+  "network_adapters": {
+    "bmc": {
+      "ip": "172.17.111.7"
+    },
+    "default": {
+      "ip": "172.16.111.7"
+    }
+  },
+  "serial": "6V9FGZ1",
+  "type": "server",
+  "uid": "srv-bigdata",
+  "warranty": "2018-10"
+}

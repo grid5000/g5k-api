@@ -1,0 +1,228 @@
+{
+  "architecture": {
+    "cpu_core_numbering": "round-robin",
+    "nb_cores": 12,
+    "nb_procs": 2,
+    "nb_threads": 24,
+    "platform_type": "x86_64"
+  },
+  "bios": {
+    "release_date": "07/16/2019",
+    "vendor": "Dell Inc.",
+    "version": "2.8.0"
+  },
+  "bmc_version": "2.63.60.62",
+  "chassis": {
+    "manufacturer": "Dell Inc.",
+    "name": "PowerEdge M620",
+    "serial": "7MVTG5J"
+  },
+  "exotic": false,
+  "kavlan": {
+    "eth0": {
+      "kavlan-1": "192.168.194.7",
+      "kavlan-11": "10.7.238.7",
+      "kavlan-12": "10.11.238.7",
+      "kavlan-13": "10.15.238.7",
+      "kavlan-14": "10.19.238.7",
+      "kavlan-16": "10.27.238.7",
+      "kavlan-18": "10.35.238.7",
+      "kavlan-2": "192.168.210.7",
+      "kavlan-20": "10.43.238.7",
+      "kavlan-21": "10.47.238.7",
+      "kavlan-3": "192.168.226.7",
+      "kavlan-4": "10.40.2.7",
+      "kavlan-5": "10.40.66.7",
+      "kavlan-6": "10.40.130.7",
+      "kavlan-7": "10.40.194.7",
+      "kavlan-8": "10.41.2.7",
+      "kavlan-9": "10.41.66.7"
+    },
+    "eth1": {
+      "kavlan-1": "192.168.195.7",
+      "kavlan-11": "10.7.238.107",
+      "kavlan-12": "10.11.238.107",
+      "kavlan-13": "10.15.238.107",
+      "kavlan-14": "10.19.238.107",
+      "kavlan-16": "10.27.238.107",
+      "kavlan-18": "10.35.238.107",
+      "kavlan-2": "192.168.211.7",
+      "kavlan-20": "10.43.238.107",
+      "kavlan-21": "10.47.238.107",
+      "kavlan-3": "192.168.227.7",
+      "kavlan-4": "10.40.3.7",
+      "kavlan-5": "10.40.67.7",
+      "kavlan-6": "10.40.131.7",
+      "kavlan-7": "10.40.195.7",
+      "kavlan-8": "10.41.3.7",
+      "kavlan-9": "10.41.67.7"
+    }
+  },
+  "kavlan6": {
+    "eth0": {
+      "kavlan-1": "2001:660:4406:381:2::7",
+      "kavlan-11": "2001:660:4406:38b:2::7",
+      "kavlan-12": "2001:660:4406:38c:2::7",
+      "kavlan-13": "2001:660:4406:38d:2::7",
+      "kavlan-14": "2001:660:4406:38e:2::7",
+      "kavlan-16": "2001:660:4406:390:2::7",
+      "kavlan-18": "2001:660:4406:392:2::7",
+      "kavlan-2": "2001:660:4406:382:2::7",
+      "kavlan-20": "2001:660:4406:394:2::7",
+      "kavlan-21": "2001:660:4406:395:2::7",
+      "kavlan-3": "2001:660:4406:383:2::7",
+      "kavlan-4": "2001:660:4406:384:2::7",
+      "kavlan-5": "2001:660:4406:385:2::7",
+      "kavlan-6": "2001:660:4406:386:2::7",
+      "kavlan-7": "2001:660:4406:387:2::7",
+      "kavlan-8": "2001:660:4406:388:2::7",
+      "kavlan-9": "2001:660:4406:389:2::7"
+    },
+    "eth1": {
+      "kavlan-1": "2001:660:4406:381:2:1::7",
+      "kavlan-11": "2001:660:4406:38b:2:1::7",
+      "kavlan-12": "2001:660:4406:38c:2:1::7",
+      "kavlan-13": "2001:660:4406:38d:2:1::7",
+      "kavlan-14": "2001:660:4406:38e:2:1::7",
+      "kavlan-16": "2001:660:4406:390:2:1::7",
+      "kavlan-18": "2001:660:4406:392:2:1::7",
+      "kavlan-2": "2001:660:4406:382:2:1::7",
+      "kavlan-20": "2001:660:4406:394:2:1::7",
+      "kavlan-21": "2001:660:4406:395:2:1::7",
+      "kavlan-3": "2001:660:4406:383:2:1::7",
+      "kavlan-4": "2001:660:4406:384:2:1::7",
+      "kavlan-5": "2001:660:4406:385:2:1::7",
+      "kavlan-6": "2001:660:4406:386:2:1::7",
+      "kavlan-7": "2001:660:4406:387:2:1::7",
+      "kavlan-8": "2001:660:4406:388:2:1::7",
+      "kavlan-9": "2001:660:4406:389:2:1::7"
+    }
+  },
+  "main_memory": {
+    "ram_size": 34359738368
+  },
+  "monitoring": {
+    "wattmeter": "false"
+  },
+  "network_adapters": [
+    {
+      "bridged": true,
+      "device": "eth0",
+      "driver": "bnx2x",
+      "enabled": true,
+      "firmware_version": "FFV14.07.06 bc 7.14.11",
+      "interface": "Ethernet",
+      "ip": "172.16.177.7",
+      "ip6": "2001:660:4406:300:2::7",
+      "kavlan": true,
+      "mac": "e0:db:55:09:ac:80",
+      "management": false,
+      "model": "NetXtreme II BCM57810 10 Gigabit Ethernet",
+      "mountable": true,
+      "mounted": true,
+      "name": "eno1",
+      "network_address": "petitprince-7.luxembourg.grid5000.fr",
+      "rate": 10000000000,
+      "switch": "mxl1",
+      "switch_port": "TenGigabitEthernet 0/7",
+      "vendor": "Broadcom"
+    },
+    {
+      "bridged": false,
+      "device": "eth1",
+      "driver": "bnx2x",
+      "enabled": true,
+      "firmware_version": "FFV14.07.06 bc 7.14.11",
+      "interface": "Ethernet",
+      "ip": "172.16.177.107",
+      "ip6": "2001:660:4406:300:2:1::7",
+      "kavlan": true,
+      "mac": "e0:db:55:09:ac:82",
+      "management": false,
+      "model": "NetXtreme II BCM57810 10 Gigabit Ethernet",
+      "mountable": true,
+      "mounted": false,
+      "name": "eno2",
+      "network_address": "petitprince-7-eth1.luxembourg.grid5000.fr",
+      "rate": 10000000000,
+      "switch": "mxl2",
+      "switch_port": "TenGigabitEthernet 0/7",
+      "vendor": "Broadcom"
+    },
+    {
+      "device": "bmc",
+      "enabled": true,
+      "interface": "Ethernet",
+      "ip": "172.17.177.7",
+      "kavlan": false,
+      "mac": "5c:f9:dd:d7:27:1b",
+      "management": true,
+      "mountable": false,
+      "mounted": false,
+      "network_address": "petitprince-7-bmc.luxembourg.grid5000.fr",
+      "rate": 1000000000,
+      "switch": "gw-luxembourg",
+      "switch_port": "Gi2/36"
+    }
+  ],
+  "operating_system": {
+    "cstate_driver": "intel_idle",
+    "cstate_governor": "menu",
+    "ht_enabled": true,
+    "pstate_driver": "intel_pstate",
+    "pstate_governor": "performance",
+    "turboboost_enabled": true
+  },
+  "performance": {
+    "core_flops": 16000000000,
+    "node_flops": 192000000000
+  },
+  "processor": {
+    "cache_l1": null,
+    "cache_l1d": 32768,
+    "cache_l1i": 32768,
+    "cache_l2": 262144,
+    "cache_l3": 15728640,
+    "clock_speed": 2000000000,
+    "ht_capable": true,
+    "instruction_set": "x86-64",
+    "microarchitecture": "Sandy Bridge",
+    "microcode": "0x71a",
+    "model": "Intel Xeon",
+    "other_description": "Intel(R) Xeon(R) CPU E5-2630L 0 @ 2.00GHz",
+    "vendor": "Intel",
+    "version": "E5-2630L"
+  },
+  "sensors": {
+  },
+  "software": {
+    "forced-deployment-timestamp": 202007300948,
+    "postinstall-version": "1.2020091600",
+    "standard-environment": "debian10-x64-std"
+  },
+  "storage_devices": [
+    {
+      "by_id": "/dev/disk/by-id/wwn-0x5000c5004008af8c",
+      "by_path": "/dev/disk/by-path/pci-0000:00:1f.2-ata-1",
+      "device": "sda",
+      "firmware_version": "AA08",
+      "interface": "SATA",
+      "model": "ST9250610NS",
+      "size": 250059350016,
+      "storage": "HDD",
+      "vendor": "Seagate"
+    }
+  ],
+  "supported_job_types": {
+    "besteffort": true,
+    "deploy": true,
+    "max_walltime": 0,
+    "queues": [
+      "default",
+      "admin"
+    ],
+    "virtual": "ivt"
+  },
+  "type": "node",
+  "uid": "petitprince-7"
+}

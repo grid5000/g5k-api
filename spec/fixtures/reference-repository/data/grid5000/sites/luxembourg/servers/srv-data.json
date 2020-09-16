@@ -1,0 +1,24 @@
+{
+  "alias": [
+    "nfs",
+    "home-g5k",
+    "public",
+    "ntp",
+    "storage1",
+    "modules"
+  ],
+  "kind": "physical",
+  "network_adapters": {
+    "bmc": {
+      "ip": "172.17.190.70",
+      "mac": "D0:94:66:92:94:C1"
+    },
+    "default": {
+      "ip": "172.16.191.70"
+    }
+  },
+  "serial": "4HDKFV2",
+  "type": "server",
+  "uid": "srv-data",
+  "warranty": "2024-02"
+}

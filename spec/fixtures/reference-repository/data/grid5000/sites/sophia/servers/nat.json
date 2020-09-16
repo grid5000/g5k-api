@@ -1,0 +1,16 @@
+{
+  "alias": [
+    "access"
+  ],
+  "kind": "virtual",
+  "network_adapters": {
+    "admin": {
+      "ip": "172.17.143.110"
+    },
+    "default": {
+      "ip": "172.16.143.110"
+    }
+  },
+  "type": "server",
+  "uid": "nat"
+}

@@ -1,0 +1,45 @@
+{
+  "kind": "physical",
+  "monitoring": {
+    "metric": "power",
+    "wattmeter": "multiple"
+  },
+  "network_adapters": {
+    "bmc": {
+      "ip": "172.17.79.18",
+      "mac": "F0:1F:AF:E0:FA:DC",
+      "mounted": true
+    },
+    "default": {
+      "ip": "172.16.79.18",
+      "mac": "A0:36:9F:28:10:AC",
+      "mounted": true
+    }
+  },
+  "sensors": {
+    "network": {
+      "available": true,
+      "resolution": 1
+    },
+    "power": {
+      "available": true,
+      "resolution": 1,
+      "via": {
+        "pdu": [
+          {
+            "port": 15,
+            "uid": "graoully-pdu1"
+          },
+          {
+            "port": 15,
+            "uid": "graoully-pdu2"
+          }
+        ]
+      }
+    }
+  },
+  "serial": "G8VYKZ1",
+  "type": "server",
+  "uid": "srv",
+  "warranty": "2020-11"
+}

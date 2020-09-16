@@ -1,0 +1,14 @@
+{
+  "alias": [
+    "apt",
+    "apt-global"
+  ],
+  "kind": "virtual",
+  "network_adapters": {
+    "default": {
+      "ip": "172.16.47.152"
+    }
+  },
+  "type": "server",
+  "uid": "packages"
+}

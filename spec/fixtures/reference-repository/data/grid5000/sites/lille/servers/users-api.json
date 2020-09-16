@@ -1,0 +1,13 @@
+{
+  "alias": [
+    "ums"
+  ],
+  "kind": "virtual",
+  "network_adapters": {
+    "default": {
+      "ip": "172.16.47.149"
+    }
+  },
+  "type": "server",
+  "uid": "users-api"
+}

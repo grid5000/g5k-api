@@ -1,0 +1,273 @@
+{
+  "architecture": {
+    "cpu_core_numbering": "round-robin",
+    "nb_cores": 40,
+    "nb_procs": 2,
+    "nb_threads": 80,
+    "platform_type": "x86_64"
+  },
+  "bios": {
+    "release_date": "06/26/2020",
+    "vendor": "Dell Inc.",
+    "version": "2.8.1"
+  },
+  "bmc_version": "4.22.00.00",
+  "chassis": {
+    "manufacturer": "Dell Inc.",
+    "name": "PowerEdge R640",
+    "serial": "21N3F53"
+  },
+  "exotic": false,
+  "kavlan": {
+    "eth0": {
+      "kavlan-1": "192.168.206.16",
+      "kavlan-11": "10.7.222.16",
+      "kavlan-12": "10.11.222.16",
+      "kavlan-13": "10.15.222.16",
+      "kavlan-14": "10.19.222.16",
+      "kavlan-16": "10.27.222.16",
+      "kavlan-18": "10.35.222.16",
+      "kavlan-2": "192.168.222.16",
+      "kavlan-20": "10.43.222.16",
+      "kavlan-21": "10.47.222.16",
+      "kavlan-3": "192.168.238.16",
+      "kavlan-4": "10.16.14.16",
+      "kavlan-5": "10.16.78.16",
+      "kavlan-6": "10.16.142.16",
+      "kavlan-7": "10.16.206.16",
+      "kavlan-8": "10.17.14.16",
+      "kavlan-9": "10.17.78.16"
+    }
+  },
+  "kavlan6": {
+    "eth0": {
+      "kavlan-1": "2001:660:4406:581:f::10",
+      "kavlan-11": "2001:660:4406:58b:f::10",
+      "kavlan-12": "2001:660:4406:58c:f::10",
+      "kavlan-13": "2001:660:4406:58d:f::10",
+      "kavlan-14": "2001:660:4406:58e:f::10",
+      "kavlan-16": "2001:660:4406:590:f::10",
+      "kavlan-18": "2001:660:4406:592:f::10",
+      "kavlan-2": "2001:660:4406:582:f::10",
+      "kavlan-20": "2001:660:4406:594:f::10",
+      "kavlan-21": "2001:660:4406:595:f::10",
+      "kavlan-3": "2001:660:4406:583:f::10",
+      "kavlan-4": "2001:660:4406:584:f::10",
+      "kavlan-5": "2001:660:4406:585:f::10",
+      "kavlan-6": "2001:660:4406:586:f::10",
+      "kavlan-7": "2001:660:4406:587:f::10",
+      "kavlan-8": "2001:660:4406:588:f::10",
+      "kavlan-9": "2001:660:4406:589:f::10"
+    }
+  },
+  "main_memory": {
+    "ram_size": 103079215104
+  },
+  "monitoring": {
+    "wattmeter": "multiple"
+  },
+  "network_adapters": [
+    {
+      "device": "eth0",
+      "driver": "i40e",
+      "enabled": true,
+      "firmware_version": "7.10 0x800075e6 19.5.12",
+      "interface": "Ethernet",
+      "ip": "172.16.78.16",
+      "ip6": "2001:660:4406:500:f::10",
+      "kavlan": true,
+      "mac": "40:a6:b7:1b:68:70",
+      "management": false,
+      "model": "Ethernet Controller XXV710 for 25GbE SFP28",
+      "mountable": true,
+      "mounted": true,
+      "name": "ens1f0",
+      "network_address": "grappe-16.nancy.grid5000.fr",
+      "rate": 25000000000,
+      "switch": "sgrappe",
+      "switch_port": "ethernet1/1/16",
+      "vendor": "Intel"
+    },
+    {
+      "device": "eth1",
+      "driver": "i40e",
+      "enabled": false,
+      "firmware_version": "7.10 0x800075e6 19.5.12",
+      "interface": "Ethernet",
+      "kavlan": false,
+      "mac": "40:a6:b7:1b:68:71",
+      "management": false,
+      "model": "Ethernet Controller XXV710 for 25GbE SFP28",
+      "mountable": false,
+      "mounted": false,
+      "name": "ens1f1",
+      "vendor": "Intel"
+    },
+    {
+      "device": "eth2",
+      "driver": "tg3",
+      "enabled": false,
+      "firmware_version": "FFV21.60.8 bc 5720-v1.39",
+      "interface": "Ethernet",
+      "kavlan": false,
+      "mac": "f0:d4:e2:ec:5d:bc",
+      "management": false,
+      "model": "NetXtreme BCM5720 Gigabit Ethernet PCIe",
+      "mountable": false,
+      "mounted": false,
+      "name": "eno1",
+      "vendor": "Broadcom"
+    },
+    {
+      "device": "eth3",
+      "driver": "tg3",
+      "enabled": false,
+      "firmware_version": "FFV21.60.8 bc 5720-v1.39",
+      "interface": "Ethernet",
+      "kavlan": false,
+      "mac": "f0:d4:e2:ec:5d:bd",
+      "management": false,
+      "model": "NetXtreme BCM5720 Gigabit Ethernet PCIe",
+      "mountable": false,
+      "mounted": false,
+      "name": "eno2",
+      "vendor": "Broadcom"
+    },
+    {
+      "device": "eth4",
+      "driver": "tg3",
+      "enabled": false,
+      "firmware_version": "FFV21.60.8 bc 5720-v1.39",
+      "interface": "Ethernet",
+      "kavlan": false,
+      "mac": "f0:d4:e2:ec:5d:be",
+      "management": false,
+      "model": "NetXtreme BCM5720 Gigabit Ethernet PCIe",
+      "mountable": false,
+      "mounted": false,
+      "name": "eno3",
+      "vendor": "Broadcom"
+    },
+    {
+      "device": "eth5",
+      "driver": "tg3",
+      "enabled": false,
+      "firmware_version": "FFV21.60.8 bc 5720-v1.39",
+      "interface": "Ethernet",
+      "kavlan": false,
+      "mac": "f0:d4:e2:ec:5d:bf",
+      "management": false,
+      "model": "NetXtreme BCM5720 Gigabit Ethernet PCIe",
+      "mountable": false,
+      "mounted": false,
+      "name": "eno4",
+      "vendor": "Broadcom"
+    },
+    {
+      "device": "bmc",
+      "enabled": true,
+      "interface": "Ethernet",
+      "ip": "172.17.78.16",
+      "kavlan": false,
+      "mac": "2c:ea:7f:ef:81:04",
+      "management": true,
+      "mountable": false,
+      "mounted": false,
+      "network_address": "grappe-16-bmc.nancy.grid5000.fr"
+    }
+  ],
+  "operating_system": {
+    "cstate_driver": "intel_idle",
+    "cstate_governor": "menu",
+    "ht_enabled": true,
+    "pstate_driver": "intel_pstate",
+    "pstate_governor": "performance",
+    "turboboost_enabled": true
+  },
+  "performance": {
+    "core_flops": 33600000000,
+    "node_flops": 1344000000000
+  },
+  "processor": {
+    "cache_l1": null,
+    "cache_l1d": 32768,
+    "cache_l1i": 32768,
+    "cache_l2": 1048576,
+    "cache_l3": 28835840,
+    "clock_speed": 2100000000,
+    "ht_capable": true,
+    "instruction_set": "x86-64",
+    "microarchitecture": "Cascade Lake-SP",
+    "microcode": "0x5002f01",
+    "model": "Intel Xeon",
+    "other_description": "Intel(R) Xeon(R) Gold 5218R CPU @ 2.10GHz",
+    "vendor": "Intel",
+    "version": "Gold 5218R"
+  },
+  "sensors": {
+    "power": {
+      "available": true,
+      "per_outlets": true,
+      "via": {
+        "api": {
+          "metric": "power"
+        },
+        "pdu": [
+          {
+            "port": 21,
+            "uid": "grappe-pdu1"
+          },
+          {
+            "port": 22,
+            "uid": "grappe-pdu2"
+          }
+        ],
+        "www": {
+          "url": "http://wattmetre.nancy.grid5000.fr/GetWatts-json.php"
+        }
+      }
+    }
+  },
+  "software": {
+    "forced-deployment-timestamp": 202007300948,
+    "postinstall-version": "1.2020091600",
+    "standard-environment": "debian10-x64-std"
+  },
+  "storage_devices": [
+    {
+      "by_id": "/dev/disk/by-id/wwn-0x55cd2e4151eeca96",
+      "by_path": "/dev/disk/by-path/pci-0000:1a:00.0-scsi-0:0:0:0",
+      "device": "sda",
+      "firmware_version": "XCV1DL67",
+      "interface": "SATA",
+      "model": "SSDSC2KG480G8R",
+      "size": 480103981056,
+      "storage": "SSD",
+      "vendor": "Intel"
+    },
+    {
+      "by_id": "/dev/disk/by-id/wwn-0x5000c500ca6657df",
+      "by_path": "/dev/disk/by-path/pci-0000:1a:00.0-scsi-0:0:1:0",
+      "device": "sdb",
+      "firmware_version": "PT54",
+      "interface": "SAS",
+      "model": "ST8000NM0185",
+      "reservation": true,
+      "size": 8001563222016,
+      "storage": "HDD",
+      "vendor": "Seagate"
+    }
+  ],
+  "supported_job_types": {
+    "besteffort": true,
+    "deploy": true,
+    "max_walltime": 0,
+    "queues": [
+      "admin",
+      "testing"
+    ],
+    "virtual": "ivt"
+  },
+  "type": "node",
+  "uid": "grappe-16"
+}

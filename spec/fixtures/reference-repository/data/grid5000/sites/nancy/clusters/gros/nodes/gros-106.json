@@ -1,0 +1,255 @@
+{
+  "architecture": {
+    "cpu_core_numbering": "contiguous",
+    "nb_cores": 18,
+    "nb_procs": 1,
+    "nb_threads": 36,
+    "platform_type": "x86_64"
+  },
+  "bios": {
+    "release_date": "04/09/2020",
+    "vendor": "Dell Inc.",
+    "version": "2.6.4"
+  },
+  "bmc_version": "4.10.10.10",
+  "chassis": {
+    "manufacturer": "Dell Inc.",
+    "name": "PowerEdge R640",
+    "serial": "3Q9TGY2"
+  },
+  "exotic": false,
+  "kavlan": {
+    "eth0": {
+      "kavlan-1": "192.168.192.106",
+      "kavlan-11": "10.7.207.106",
+      "kavlan-12": "10.11.207.106",
+      "kavlan-13": "10.15.207.106",
+      "kavlan-14": "10.19.207.106",
+      "kavlan-16": "10.27.207.106",
+      "kavlan-18": "10.35.207.106",
+      "kavlan-2": "192.168.208.106",
+      "kavlan-20": "10.43.207.106",
+      "kavlan-21": "10.47.207.106",
+      "kavlan-3": "192.168.224.106",
+      "kavlan-4": "10.16.0.106",
+      "kavlan-5": "10.16.64.106",
+      "kavlan-6": "10.16.128.106",
+      "kavlan-7": "10.16.192.106",
+      "kavlan-8": "10.17.0.106",
+      "kavlan-9": "10.17.64.106"
+    },
+    "eth1": {
+      "kavlan-1": "192.168.193.106",
+      "kavlan-11": "10.7.207.236",
+      "kavlan-12": "10.11.207.236",
+      "kavlan-13": "10.15.207.236",
+      "kavlan-14": "10.19.207.236",
+      "kavlan-16": "10.27.207.236",
+      "kavlan-18": "10.35.207.236",
+      "kavlan-2": "192.168.209.106",
+      "kavlan-20": "10.43.207.236",
+      "kavlan-21": "10.47.207.236",
+      "kavlan-3": "192.168.225.106",
+      "kavlan-4": "10.16.1.106",
+      "kavlan-5": "10.16.65.106",
+      "kavlan-6": "10.16.129.106",
+      "kavlan-7": "10.16.193.106",
+      "kavlan-8": "10.17.1.106",
+      "kavlan-9": "10.17.65.106"
+    }
+  },
+  "kavlan6": {
+    "eth0": {
+      "kavlan-1": "2001:660:4406:581:3::6a",
+      "kavlan-11": "2001:660:4406:58b:3::6a",
+      "kavlan-12": "2001:660:4406:58c:3::6a",
+      "kavlan-13": "2001:660:4406:58d:3::6a",
+      "kavlan-14": "2001:660:4406:58e:3::6a",
+      "kavlan-16": "2001:660:4406:590:3::6a",
+      "kavlan-18": "2001:660:4406:592:3::6a",
+      "kavlan-2": "2001:660:4406:582:3::6a",
+      "kavlan-20": "2001:660:4406:594:3::6a",
+      "kavlan-21": "2001:660:4406:595:3::6a",
+      "kavlan-3": "2001:660:4406:583:3::6a",
+      "kavlan-4": "2001:660:4406:584:3::6a",
+      "kavlan-5": "2001:660:4406:585:3::6a",
+      "kavlan-6": "2001:660:4406:586:3::6a",
+      "kavlan-7": "2001:660:4406:587:3::6a",
+      "kavlan-8": "2001:660:4406:588:3::6a",
+      "kavlan-9": "2001:660:4406:589:3::6a"
+    },
+    "eth1": {
+      "kavlan-1": "2001:660:4406:581:3:1::6a",
+      "kavlan-11": "2001:660:4406:58b:3:1::6a",
+      "kavlan-12": "2001:660:4406:58c:3:1::6a",
+      "kavlan-13": "2001:660:4406:58d:3:1::6a",
+      "kavlan-14": "2001:660:4406:58e:3:1::6a",
+      "kavlan-16": "2001:660:4406:590:3:1::6a",
+      "kavlan-18": "2001:660:4406:592:3:1::6a",
+      "kavlan-2": "2001:660:4406:582:3:1::6a",
+      "kavlan-20": "2001:660:4406:594:3:1::6a",
+      "kavlan-21": "2001:660:4406:595:3:1::6a",
+      "kavlan-3": "2001:660:4406:583:3:1::6a",
+      "kavlan-4": "2001:660:4406:584:3:1::6a",
+      "kavlan-5": "2001:660:4406:585:3:1::6a",
+      "kavlan-6": "2001:660:4406:586:3:1::6a",
+      "kavlan-7": "2001:660:4406:587:3:1::6a",
+      "kavlan-8": "2001:660:4406:588:3:1::6a",
+      "kavlan-9": "2001:660:4406:589:3:1::6a"
+    }
+  },
+  "main_memory": {
+    "ram_size": 103079215104
+  },
+  "monitoring": {
+    "wattmeter": "true"
+  },
+  "network_adapters": [
+    {
+      "bridged": true,
+      "device": "eth0",
+      "driver": "mlx5_core",
+      "enabled": true,
+      "firmware_version": "14.24.8000 (DEL2810000034)",
+      "interface": "Ethernet",
+      "ip": "172.16.66.106",
+      "ip6": "2001:660:4406:500:3::6a",
+      "kavlan": true,
+      "mac": "98:03:9b:b0:be:e6",
+      "management": false,
+      "model": "MT27710 Family [ConnectX-4 Lx]",
+      "mountable": true,
+      "mounted": true,
+      "name": "eno1",
+      "network_address": "gros-106.nancy.grid5000.fr",
+      "rate": 25000000000,
+      "switch": "sgros1",
+      "switch_port": "ethernet1/1/9:2",
+      "vendor": "Mellanox Technologies"
+    },
+    {
+      "bridged": false,
+      "device": "eth1",
+      "driver": "mlx5_core",
+      "enabled": true,
+      "firmware_version": "14.24.8000 (DEL2810000034)",
+      "interface": "Ethernet",
+      "ip": "172.16.66.234",
+      "ip6": "2001:660:4406:500:3:1::6a",
+      "kavlan": true,
+      "mac": "98:03:9b:b0:be:e7",
+      "management": false,
+      "model": "MT27710 Family [ConnectX-4 Lx]",
+      "mountable": true,
+      "mounted": false,
+      "name": "eno2",
+      "network_address": "gros-106-eth1.nancy.grid5000.fr",
+      "rate": 25000000000,
+      "switch": "sgros2",
+      "switch_port": "ethernet1/1/9:2",
+      "vendor": "Mellanox Technologies"
+    },
+    {
+      "device": "bmc",
+      "enabled": true,
+      "interface": "Ethernet",
+      "ip": "172.17.66.106",
+      "kavlan": false,
+      "mac": "54:bf:64:fb:e5:36",
+      "management": true,
+      "mountable": false,
+      "mounted": false,
+      "network_address": "gros-106-bmc.nancy.grid5000.fr"
+    }
+  ],
+  "operating_system": {
+    "cstate_driver": "intel_idle",
+    "cstate_governor": "menu",
+    "ht_enabled": true,
+    "pstate_driver": "intel_pstate",
+    "pstate_governor": "performance",
+    "turboboost_enabled": true
+  },
+  "performance": {
+    "core_flops": 35200000000,
+    "node_flops": 633600000000
+  },
+  "processor": {
+    "cache_l1": null,
+    "cache_l1d": 32768,
+    "cache_l1i": 32768,
+    "cache_l2": 1048576,
+    "cache_l3": 25952256,
+    "clock_speed": 2200000000,
+    "ht_capable": true,
+    "instruction_set": "x86-64",
+    "microarchitecture": "Cascade Lake-SP",
+    "microcode": "0x5002f01",
+    "model": "Intel Xeon",
+    "other_description": "Intel(R) Xeon(R) Gold 5220 CPU @ 2.20GHz",
+    "vendor": "Intel",
+    "version": "Gold 5220"
+  },
+  "sensors": {
+    "power": {
+      "available": true,
+      "per_outlets": true,
+      "via": {
+        "api": {
+          "metric": "power"
+        },
+        "pdu": [
+          {
+            "port": 23,
+            "uid": "gros-wattmetre3"
+          }
+        ],
+        "www": {
+          "url": "http://wattmetre.nancy.grid5000.fr/GetWatts-json.php"
+        }
+      }
+    }
+  },
+  "software": {
+    "forced-deployment-timestamp": 202007300948,
+    "postinstall-version": "1.2020091600",
+    "standard-environment": "debian10-x64-std"
+  },
+  "storage_devices": [
+    {
+      "by_id": "/dev/disk/by-id/wwn-0x500a075121db9da5",
+      "by_path": "/dev/disk/by-path/pci-0000:17:00.0-scsi-0:0:0:0",
+      "device": "sda",
+      "firmware_version": "D1DF003",
+      "interface": "SATA",
+      "model": "MTFDDAK480TDN",
+      "size": 480103981056,
+      "storage": "SSD",
+      "vendor": "Micron"
+    },
+    {
+      "by_id": "/dev/disk/by-id/wwn-0x500a075121a48491",
+      "by_path": "/dev/disk/by-path/pci-0000:17:00.0-scsi-0:0:1:0",
+      "device": "sdb",
+      "firmware_version": "D1DF003",
+      "interface": "SATA",
+      "model": "MTFDDAK960TDN",
+      "reservation": true,
+      "size": 960197124096,
+      "storage": "SSD",
+      "vendor": "Micron"
+    }
+  ],
+  "supported_job_types": {
+    "besteffort": true,
+    "deploy": true,
+    "max_walltime": 0,
+    "queues": [
+      "admin",
+      "default"
+    ],
+    "virtual": "ivt"
+  },
+  "type": "node",
+  "uid": "gros-106"
+}

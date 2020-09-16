@@ -1,0 +1,40 @@
+{
+  "alias": null,
+  "kind": "physical",
+  "monitoring": {
+    "metric": "power",
+    "wattmeter": "multiple"
+  },
+  "network_adapters": {
+    "bmc": {
+      "ip": "172.17.46.3",
+      "mac": "b8:ac:6f:96:8f:54"
+    }
+  },
+  "sensors": {
+    "network": {
+      "available": true,
+      "resolution": 1
+    },
+    "power": {
+      "available": true,
+      "resolution": 1,
+      "via": {
+        "pdu": [
+          {
+            "port": 15,
+            "uid": "pdu-b2p1"
+          },
+          {
+            "port": 15,
+            "uid": "pdu-b2p2"
+          }
+        ]
+      }
+    }
+  },
+  "serial": "HFY6Z4J",
+  "type": "server",
+  "uid": "chimint-srv2",
+  "warranty": "2016-01-13"
+}

@@ -1,0 +1,555 @@
+{
+  "alias": [
+    {
+      "ip": "172.17.111.204",
+      "name": "parasilo-sw-1"
+    },
+    "gw-rennes"
+  ],
+  "backplane_bps": 1440000000000,
+  "channels": {
+    "port-channel2": {
+      "kind": "switch",
+      "port": "port-channel1",
+      "rate": 80000000000,
+      "uid": "paravance-sw-1"
+    },
+    "port-channel3": {
+      "kind": "switch",
+      "port": "port-channel4",
+      "rate": 80000000000,
+      "uid": "paravance-sw-2"
+    }
+  },
+  "ip": "172.16.111.254",
+  "kind": "router",
+  "linecards": [
+    {
+    },
+    {
+      "kavlan_pattern": "Ethernet%LINECARD%/%PORT%",
+      "kind": "node",
+      "ports": [
+        {
+        },
+        {
+          "kind": "node",
+          "port": "eth1",
+          "snmp_name": "Ethernet1/1",
+          "uid": "parasilo-1"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "Ethernet1/2",
+          "uid": "parasilo-1"
+        },
+        {
+          "kind": "node",
+          "port": "eth1",
+          "snmp_name": "Ethernet1/3",
+          "uid": "parasilo-2"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "Ethernet1/4",
+          "uid": "parasilo-2"
+        },
+        {
+          "kind": "node",
+          "port": "eth1",
+          "snmp_name": "Ethernet1/5",
+          "uid": "parasilo-3"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "Ethernet1/6",
+          "uid": "parasilo-3"
+        },
+        {
+          "kind": "node",
+          "port": "eth1",
+          "snmp_name": "Ethernet1/7",
+          "uid": "parasilo-4"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "Ethernet1/8",
+          "uid": "parasilo-4"
+        },
+        {
+          "kind": "node",
+          "port": "eth1",
+          "snmp_name": "Ethernet1/9",
+          "uid": "parasilo-5"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "Ethernet1/10",
+          "uid": "parasilo-5"
+        },
+        {
+          "kind": "node",
+          "port": "eth1",
+          "snmp_name": "Ethernet1/11",
+          "uid": "parasilo-6"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "Ethernet1/12",
+          "uid": "parasilo-6"
+        },
+        {
+          "kind": "node",
+          "port": "eth1",
+          "snmp_name": "Ethernet1/13",
+          "uid": "parasilo-7"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "Ethernet1/14",
+          "uid": "parasilo-7"
+        },
+        {
+          "kind": "node",
+          "port": "eth1",
+          "snmp_name": "Ethernet1/15",
+          "uid": "parasilo-8"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "Ethernet1/16",
+          "uid": "parasilo-8"
+        },
+        {
+          "kind": "node",
+          "port": "eth1",
+          "snmp_name": "Ethernet1/17",
+          "uid": "parasilo-9"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "Ethernet1/18",
+          "uid": "parasilo-9"
+        },
+        {
+          "kind": "node",
+          "port": "eth1",
+          "snmp_name": "Ethernet1/19",
+          "uid": "parasilo-10"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "Ethernet1/20",
+          "uid": "parasilo-10"
+        },
+        {
+          "kind": "node",
+          "port": "eth1",
+          "snmp_name": "Ethernet1/21",
+          "uid": "parasilo-11"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "Ethernet1/22",
+          "uid": "parasilo-11"
+        },
+        {
+          "kind": "node",
+          "port": "eth1",
+          "snmp_name": "Ethernet1/23",
+          "uid": "parasilo-12"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "Ethernet1/24",
+          "uid": "parasilo-12"
+        },
+        {
+          "kind": "node",
+          "port": "eth1",
+          "snmp_name": "Ethernet1/25",
+          "uid": "parasilo-13"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "Ethernet1/26",
+          "uid": "parasilo-13"
+        },
+        {
+          "kind": "node",
+          "port": "eth1",
+          "snmp_name": "Ethernet1/27",
+          "uid": "parasilo-14"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "Ethernet1/28",
+          "uid": "parasilo-14"
+        },
+        {
+          "kind": "node",
+          "port": "eth1",
+          "snmp_name": "Ethernet1/29",
+          "uid": "parasilo-15"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "Ethernet1/30",
+          "uid": "parasilo-15"
+        },
+        {
+          "kind": "node",
+          "port": "eth1",
+          "snmp_name": "Ethernet1/31",
+          "uid": "parasilo-16"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "Ethernet1/32",
+          "uid": "parasilo-16"
+        },
+        {
+          "kind": "node",
+          "port": "eth1",
+          "snmp_name": "Ethernet1/33",
+          "uid": "parasilo-17"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "Ethernet1/34",
+          "uid": "parasilo-17"
+        },
+        {
+          "kind": "node",
+          "port": "eth1",
+          "snmp_name": "Ethernet1/35",
+          "uid": "parasilo-18"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "Ethernet1/36",
+          "uid": "parasilo-18"
+        },
+        {
+          "kind": "node",
+          "port": "eth1",
+          "snmp_name": "Ethernet1/37",
+          "uid": "parasilo-19"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "Ethernet1/38",
+          "uid": "parasilo-19"
+        },
+        {
+          "kind": "node",
+          "port": "eth1",
+          "snmp_name": "Ethernet1/39",
+          "uid": "parasilo-20"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "Ethernet1/40",
+          "uid": "parasilo-20"
+        },
+        {
+          "kind": "node",
+          "port": "eth1",
+          "snmp_name": "Ethernet1/41",
+          "uid": "parasilo-21"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "Ethernet1/42",
+          "uid": "parasilo-21"
+        },
+        {
+          "kind": "node",
+          "port": "eth1",
+          "snmp_name": "Ethernet1/43",
+          "uid": "parasilo-22"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "Ethernet1/44",
+          "uid": "parasilo-22"
+        },
+        {
+          "kind": "node",
+          "port": "eth1",
+          "snmp_name": "Ethernet1/45",
+          "uid": "parasilo-23"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "Ethernet1/46",
+          "uid": "parasilo-23"
+        },
+        {
+          "kind": "node",
+          "port": "eth1",
+          "snmp_name": "Ethernet1/47",
+          "uid": "parasilo-24"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "Ethernet1/48",
+          "uid": "parasilo-24"
+        },
+        {
+          "kind": "channel",
+          "rate": 40000000000,
+          "snmp_name": "Ethernet1/49",
+          "uid": "port-channel3"
+        },
+        {
+          "kind": "channel",
+          "rate": 40000000000,
+          "snmp_name": "Ethernet1/50",
+          "uid": "port-channel3"
+        },
+        {
+          "kind": "channel",
+          "rate": 40000000000,
+          "snmp_name": "Ethernet1/51",
+          "uid": "port-channel2"
+        },
+        {
+          "kind": "channel",
+          "rate": 40000000000,
+          "snmp_name": "Ethernet1/52",
+          "uid": "port-channel2"
+        }
+      ],
+      "rate": 10000000000,
+      "snmp_pattern": "Ethernet%LINECARD%/%PORT%"
+    },
+    {
+      "kavlan_pattern": "Ethernet%LINECARD%/%PORT%",
+      "kind": "node",
+      "ports": [
+        {
+        },
+        {
+          "kind": "node",
+          "port": "eth1",
+          "snmp_name": "Ethernet2/1",
+          "uid": "parasilo-25"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "Ethernet2/2",
+          "uid": "parasilo-25"
+        },
+        {
+          "kind": "node",
+          "port": "eth1",
+          "snmp_name": "Ethernet2/3",
+          "uid": "parasilo-26"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "Ethernet2/4",
+          "uid": "parasilo-26"
+        },
+        {
+          "kind": "node",
+          "port": "eth1",
+          "snmp_name": "Ethernet2/5",
+          "uid": "parasilo-27"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "Ethernet2/6",
+          "uid": "parasilo-27"
+        },
+        {
+          "kind": "node",
+          "port": "eth1",
+          "snmp_name": "Ethernet2/7",
+          "uid": "parasilo-28"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "Ethernet2/8",
+          "uid": "parasilo-28"
+        },
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+          "kind": "switch",
+          "port": "TenGigabitEthernet1/2",
+          "snmp_name": "Ethernet2/23",
+          "uid": "c6509"
+        },
+        {
+          "kind": "backbone",
+          "snmp_name": "Ethernet2/24",
+          "uid": "renater-rennes"
+        }
+      ],
+      "rate": 10000000000,
+      "snmp_pattern": "Ethernet%LINECARD%/%PORT%"
+    }
+  ],
+  "metrics": [
+    {
+      "description": "Input byte counter for the network device port",
+      "name": "network_ifacein_bytes_total",
+      "period": 1000,
+      "source": {
+        "id": "1.3.6.1.2.1.2.2.1.10.{{ 1.3.6.1.2.1.2.2.1.2 == %SNMP_IFACE% }}",
+        "protocol": "snmp"
+      }
+    },
+    {
+      "description": "Output byte counter for the network device port",
+      "name": "network_ifaceout_bytes_total",
+      "period": 1000,
+      "source": {
+        "id": "1.3.6.1.2.1.2.2.1.16.{{ 1.3.6.1.2.1.2.2.1.2 == %SNMP_IFACE% }}",
+        "protocol": "snmp"
+      }
+    }
+  ],
+  "model": "Nexus 56128P",
+  "role": "production",
+  "site": "rennes",
+  "snmp_community": "public",
+  "type": "network_equipment",
+  "uid": "gw",
+  "vlans": {
+    "vlan100": {
+      "addresses": [
+        "172.16.111.254"
+      ],
+      "administrative": true
+    },
+    "vlan101": {
+      "addresses": [
+        "172.17.111.254"
+      ],
+      "administrative": true
+    },
+    "vlan500": {
+      "addresses": [
+        "192.168.4.19"
+      ]
+    },
+    "vlan701": {
+      "addresses": [
+        "192.168.192.0/20"
+      ],
+      "name": "kavlan-1"
+    },
+    "vlan702": {
+      "addresses": [
+        "192.168.208.0/20"
+      ],
+      "name": "kavlan-2"
+    },
+    "vlan703": {
+      "addresses": [
+        "192.168.224.0/20"
+      ],
+      "name": "kavlan-3"
+    },
+    "vlan704": {
+      "addresses": [
+        "10.24.0.0/18"
+      ],
+      "name": "kavlan-4"
+    },
+    "vlan705": {
+      "addresses": [
+        "10.24.64.0/18"
+      ],
+      "name": "kavlan-5"
+    },
+    "vlan706": {
+      "addresses": [
+        "10.24.128.0/18"
+      ],
+      "name": "kavlan-6"
+    },
+    "vlan707": {
+      "addresses": [
+        "10.24.192.0/18"
+      ],
+      "name": "kavlan-7"
+    },
+    "vlan708": {
+      "addresses": [
+        "10.25.0.0/18"
+      ],
+      "name": "kavlan-8"
+    },
+    "vlan709": {
+      "addresses": [
+        "10.25.64.0/18"
+      ],
+      "name": "kavlan-9"
+    },
+    "vlan716": {
+      "addresses": [
+        "10.27.192.0/18"
+      ],
+      "name": "kavlan-16"
+    }
+  },
+  "warranty": "2018-04-01"
+}

@@ -1,0 +1,20 @@
+{
+  "kind": "virtual",
+  "linecards": [
+    {
+      "ports": [
+        {
+          "uid": "renater-nancy"
+        },
+        {
+          "kind": "router",
+          "site_uid": "luxembourg",
+          "uid": "gw-luxembourg"
+        }
+      ],
+      "rate": 10000000000
+    }
+  ],
+  "type": "network_equipment",
+  "uid": "renater-luxembourg"
+}

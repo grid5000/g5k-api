@@ -1,0 +1,409 @@
+{
+  "backplane_bps": 184000000000,
+  "ip": "172.16.143.249",
+  "kind": "switch",
+  "linecards": [
+    {
+      "kavlan_pattern": "%PORT%",
+      "kind": "node",
+      "ports": [
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "Port: 53 Gigabit",
+          "uid": "uvb-27"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "Port: 54 Gigabit",
+          "uid": "uvb-39"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "Port: 55 Gigabit",
+          "uid": "uvb-44"
+        },
+        {
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "Port: 57 Gigabit",
+          "uid": "uvb-43"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "Port: 58 Gigabit",
+          "uid": "uvb-40"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "Port: 59 Gigabit",
+          "uid": "uvb-32"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "Port: 60 Gigabit",
+          "uid": "uvb-26"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "Port: 61 Gigabit",
+          "uid": "uvb-25"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "Port: 62 Gigabit",
+          "uid": "uvb-28"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "Port: 63 Gigabit",
+          "uid": "uvb-36"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "Port: 64 Gigabit",
+          "uid": "uvb-31"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "Port: 65 Gigabit",
+          "uid": "uvb-30"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "Port: 66 Gigabit",
+          "uid": "uvb-35"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "Port: 67 Gigabit",
+          "uid": "uvb-22"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "Port: 68 Gigabit",
+          "uid": "uvb-21"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "Port: 69 Gigabit",
+          "uid": "uvb-24"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "Port: 70 Gigabit",
+          "uid": "uvb-23"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "Port: 71 Gigabit",
+          "uid": "uvb-15"
+        },
+        {
+          "kind": "server",
+          "snmp_name": "Port: 72 Gigabit",
+          "uid": "opensm"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "Port: 73 Gigabit",
+          "uid": "uvb-19"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "Port: 74 Gigabit",
+          "uid": "uvb-14"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "Port: 75 Gigabit",
+          "uid": "uvb-17"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "Port: 76 Gigabit",
+          "uid": "uvb-18"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "Port: 77 Gigabit",
+          "uid": "uvb-20"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "Port: 78 Gigabit",
+          "uid": "uvb-16"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "Port: 79 Gigabit",
+          "uid": "uvb-12"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "Port: 80 Gigabit",
+          "uid": "uvb-9"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "Port: 81 Gigabit",
+          "uid": "uvb-10"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "Port: 82 Gigabit",
+          "uid": "uvb-11"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "Port: 83 Gigabit",
+          "uid": "uvb-7"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "Port: 84 Gigabit",
+          "uid": "uvb-8"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "Port: 85 Gigabit",
+          "uid": "uvb-5"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "Port: 86 Gigabit",
+          "uid": "uvb-6"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "Port: 87 Gigabit",
+          "uid": "uvb-4"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "Port: 88 Gigabit",
+          "uid": "uvb-1"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "Port: 89 Gigabit",
+          "uid": "uvb-3"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "Port: 90 Gigabit",
+          "uid": "uvb-2"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "Port: 91 Gigabit",
+          "uid": "uvb-38"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "Port: 92 Gigabit",
+          "uid": "uvb-37"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "Port: 93 Gigabit",
+          "uid": "uvb-34"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "Port: 94 Gigabit",
+          "uid": "uvb-29"
+        },
+        {
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "Port: 96 Gigabit",
+          "uid": "uvb-33"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "Port: 97 Gigabit",
+          "uid": "uvb-41"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "Port: 98 Gigabit",
+          "uid": "uvb-42"
+        },
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+          "kind": "switch",
+          "port": "0/18",
+          "snmp_name": "Port: 103 Gigabit",
+          "uid": "swx1nef"
+        }
+      ],
+      "rate": 1000000000,
+      "snmp_pattern": "Port: %PORT% Gigabit"
+    }
+  ],
+  "model": "Dell PowerConnect 6248",
+  "role": "production",
+  "site": "sophia",
+  "snmp_community": "g5kadmin",
+  "type": "network_equipment",
+  "uid": "swy1nef",
+  "warranty": "expired"
+}

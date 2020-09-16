@@ -1,47 +1,112 @@
 {
   "architecture": {
-    "platform_type": "x86_64",
-    "smp_size": 2,
-    "smt_size": 12
+    "cpu_core_numbering": "round-robin",
+    "nb_cores": 12,
+    "nb_procs": 2,
+    "nb_threads": 24,
+    "platform_type": "x86_64"
   },
   "bios": {
-    "release_date": "08/28/2014",
+    "release_date": "11/02/2019",
     "vendor": "Dell Inc.",
-    "version": 1.0
+    "version": "2.11.0"
   },
+  "bmc_version": "2.70.70.70",
   "chassis": {
     "manufacturer": "Dell Inc.",
     "name": "PowerEdge R730",
     "serial": "9ZTRV42"
   },
-  "gpu": {
-    "gpu": true,
-    "gpu_count": 2,
-    "gpu_model": "GTX 980",
-    "gpu_vendor": "Nvidia"
+  "exotic": false,
+  "gpu_devices": {
+    "nvidia0": {
+      "cpu_affinity": 0,
+      "device": "/dev/nvidia0",
+      "memory": 4043000000,
+      "model": "GeForce GTX 980",
+      "power_default_limit": "180.00 W",
+      "vbios_version": "84.04.2F.00.18",
+      "vendor": "Nvidia"
+    },
+    "nvidia1": {
+      "cpu_affinity": 1,
+      "device": "/dev/nvidia1",
+      "memory": 4043000000,
+      "model": "GeForce GTX 980",
+      "power_default_limit": "180.00 W",
+      "vbios_version": "84.04.2F.00.18",
+      "vendor": "Nvidia"
+    }
+  },
+  "kavlan": {
+    "eth0": {
+      "kavlan-1": "192.168.197.3",
+      "kavlan-11": "10.7.217.3",
+      "kavlan-12": "10.11.217.3",
+      "kavlan-13": "10.15.217.3",
+      "kavlan-14": "10.19.217.3",
+      "kavlan-16": "10.27.217.3",
+      "kavlan-18": "10.35.217.3",
+      "kavlan-2": "192.168.213.3",
+      "kavlan-20": "10.43.217.3",
+      "kavlan-21": "10.47.217.3",
+      "kavlan-3": "192.168.229.3",
+      "kavlan-4": "10.16.5.3",
+      "kavlan-5": "10.16.69.3",
+      "kavlan-6": "10.16.133.3",
+      "kavlan-7": "10.16.197.3",
+      "kavlan-8": "10.17.5.3",
+      "kavlan-9": "10.17.69.3"
+    }
+  },
+  "kavlan6": {
+    "eth0": {
+      "kavlan-1": "2001:660:4406:581:4::3",
+      "kavlan-11": "2001:660:4406:58b:4::3",
+      "kavlan-12": "2001:660:4406:58c:4::3",
+      "kavlan-13": "2001:660:4406:58d:4::3",
+      "kavlan-14": "2001:660:4406:58e:4::3",
+      "kavlan-16": "2001:660:4406:590:4::3",
+      "kavlan-18": "2001:660:4406:592:4::3",
+      "kavlan-2": "2001:660:4406:582:4::3",
+      "kavlan-20": "2001:660:4406:594:4::3",
+      "kavlan-21": "2001:660:4406:595:4::3",
+      "kavlan-3": "2001:660:4406:583:4::3",
+      "kavlan-4": "2001:660:4406:584:4::3",
+      "kavlan-5": "2001:660:4406:585:4::3",
+      "kavlan-6": "2001:660:4406:586:4::3",
+      "kavlan-7": "2001:660:4406:587:4::3",
+      "kavlan-8": "2001:660:4406:588:4::3",
+      "kavlan-9": "2001:660:4406:589:4::3"
+    }
   },
   "main_memory": {
-    "ram_size": 68719476736,
-    "virtual_size": null
+    "ram_size": 68719476736
   },
   "monitoring": {
-    "wattmeter": false
+    "wattmeter": "multiple"
   },
   "network_adapters": [
     {
-      "bridged": false,
+      "bridged": true,
       "device": "eth0",
       "driver": "bnx2x",
-      "enabled": false,
+      "enabled": true,
+      "firmware_version": "FFV15.05.12 bc 7.14.16",
       "interface": "Ethernet",
+      "ip": "172.16.67.3",
+      "ip6": "2001:660:4406:500:4::3",
+      "kavlan": true,
       "mac": "44:a8:42:0a:33:3d",
       "management": false,
-      "model": "Broadcom 57800 10 GB DA/SFP+",
-      "mountable": false,
-      "mounted": false,
+      "model": "NetXtreme II BCM57800 1/10 Gigabit Ethernet",
+      "mountable": true,
+      "mounted": true,
+      "name": "eno1",
+      "network_address": "graphique-3.nancy.grid5000.fr",
       "rate": 10000000000,
-      "switch": null,
-      "switch_port": null,
+      "switch": "gw",
+      "switch_port": "Ethernet1/23",
       "vendor": "Broadcom"
     },
     {
@@ -49,29 +114,31 @@
       "device": "eth1",
       "driver": "bnx2x",
       "enabled": false,
+      "firmware_version": "FFV15.05.12 bc 7.14.16",
       "interface": "Ethernet",
+      "kavlan": false,
       "mac": "44:a8:42:0a:33:3f",
       "management": false,
-      "model": "Broadcom 57800 10 GB DA/SFP+",
+      "model": "NetXtreme II BCM57800 1/10 Gigabit Ethernet",
       "mountable": false,
       "mounted": false,
-      "rate": 10000000000,
+      "name": "eno2",
       "vendor": "Broadcom"
     },
     {
-      "bridged": true,
+      "bridged": false,
       "device": "eth2",
       "driver": "bnx2x",
-      "enabled": true,
+      "enabled": false,
+      "firmware_version": "FFV15.05.12 bc 7.14.16",
       "interface": "Ethernet",
-      "ip": "172.16.67.3",
+      "kavlan": false,
       "mac": "44:a8:42:0a:33:41",
       "management": false,
-      "model": "Broadcom 57800 1 GB Base-T",
-      "mountable": true,
-      "mounted": true,
-      "network_address": "graphique-3.nancy.grid5000.fr",
-      "rate": 1000000000,
+      "model": "NetXtreme II BCM57800 1/10 Gigabit Ethernet",
+      "mountable": false,
+      "mounted": false,
+      "name": "eno3",
       "vendor": "Broadcom"
     },
     {
@@ -79,33 +146,63 @@
       "device": "eth3",
       "driver": "bnx2x",
       "enabled": false,
+      "firmware_version": "FFV15.05.12 bc 7.14.16",
       "interface": "Ethernet",
+      "kavlan": false,
       "mac": "44:a8:42:0a:33:43",
       "management": false,
-      "model": "Broadcom 57800 1 GB Base-T",
+      "model": "NetXtreme II BCM57800 1/10 Gigabit Ethernet",
       "mountable": false,
       "mounted": false,
-      "rate": 1000000000,
+      "name": "eno4",
       "vendor": "Broadcom"
+    },
+    {
+      "device": "ib0",
+      "driver": "mlx4_core",
+      "enabled": true,
+      "firmware_version": "2.32.5100",
+      "guid": "0xe41d2d0300b348c1",
+      "interface": "InfiniBand",
+      "ip": "172.18.67.3",
+      "kavlan": false,
+      "mac": "80:00:02:08:fe:80:00:00:00:00:00:00:e4:1d:2d:03:00:b3:48:c1",
+      "management": false,
+      "model": "MT27500 Family [ConnectX-3]",
+      "mountable": true,
+      "mounted": true,
+      "name": "ib0",
+      "netmask": "255.255.255.0",
+      "network_address": "graphique-3-ib0.nancy.grid5000.fr",
+      "rate": 56000000000,
+      "switch": "sgraoullyib",
+      "vendor": "Mellanox Technologies"
     },
     {
       "device": "bmc",
       "enabled": true,
       "interface": "Ethernet",
       "ip": "172.17.67.3",
+      "kavlan": false,
       "mac": "18:fb:7b:9b:68:d3",
       "management": true,
       "mountable": false,
       "mounted": false,
       "network_address": "graphique-3-bmc.nancy.grid5000.fr",
-      "rate": 1000000000
+      "switch": "sbaie1-ipmi"
     }
   ],
   "operating_system": {
-    "kernel": "3.16.0-4-amd64",
-    "name": "debian",
-    "release": "Wheezy",
-    "version": "7"
+    "cstate_driver": "intel_idle",
+    "cstate_governor": "menu",
+    "ht_enabled": true,
+    "pstate_driver": "intel_pstate",
+    "pstate_governor": "performance",
+    "turboboost_enabled": true
+  },
+  "performance": {
+    "core_flops": 38400000000,
+    "node_flops": 460800000000
   },
   "processor": {
     "cache_l1": null,
@@ -114,30 +211,57 @@
     "cache_l2": 262144,
     "cache_l3": 15728640,
     "clock_speed": 2400000000,
+    "ht_capable": true,
     "instruction_set": "x86-64",
+    "microarchitecture": "Haswell",
+    "microcode": "0x43",
     "model": "Intel Xeon",
     "other_description": "Intel(R) Xeon(R) CPU E5-2620 v3 @ 2.40GHz",
     "vendor": "Intel",
     "version": "E5-2620 v3"
   },
   "sensors": {
-
+    "power": {
+      "available": true,
+      "via": {
+        "api": {
+          "metric": "power"
+        },
+        "pdu": [
+          {
+            "port": 6,
+            "uid": "graoully-pdu1"
+          },
+          {
+            "port": 17,
+            "uid": "graoully-pdu2"
+          }
+        ]
+      }
+    }
+  },
+  "software": {
+    "forced-deployment-timestamp": 202007300948,
+    "postinstall-version": "1.2020091600",
+    "standard-environment": "debian10-x64-std"
   },
   "storage_devices": [
     {
+      "by_id": "/dev/disk/by-id/wwn-0x644a842001804c001c7e47d012cad591",
+      "by_path": "/dev/disk/by-path/pci-0000:02:00.0-scsi-0:2:0:0",
       "device": "sda",
-      "driver": "megaraid_sas",
+      "firmware_version": 4.3,
       "interface": "SCSI",
-      "model": "PERC H330",
-      "rev": 4.24,
+      "model": "PERC H330 Mini",
       "size": 299439751168,
       "storage": "HDD",
-      "vendor": null
+      "vendor": "Dell (Raid)"
     }
   ],
   "supported_job_types": {
     "besteffort": true,
     "deploy": true,
+    "max_walltime": 604800,
     "queues": [
       "admin",
       "production"

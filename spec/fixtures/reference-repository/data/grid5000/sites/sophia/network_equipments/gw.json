@@ -1,0 +1,366 @@
+{
+  "alias": [
+    "gw-sophia"
+  ],
+  "backplane_bps": 900000000000,
+  "ip": "172.16.143.254",
+  "kind": "router",
+  "linecards": [
+    {
+    },
+    {
+      "backplane_bps": null,
+      "kind": "switch",
+      "ports": [
+        {
+        },
+        {
+          "kind": "backbone",
+          "snmp_name": "10GigabitEthernet1/1",
+          "uid": "renater5-FON"
+        },
+        {
+          "kind": "switch",
+          "port": "0/5",
+          "snmp_name": "10GigabitEthernet1/2",
+          "uid": "swx1nef"
+        }
+      ],
+      "rate": 10000000000,
+      "snmp_pattern": "10GigabitEthernet%LINECARD%/%PORT%"
+    },
+    {
+    },
+    {
+    },
+    {
+    },
+    {
+    },
+    {
+      "backplane_bps": 24000000000,
+      "kavlan_pattern": "%LINECARD%/%PORT%",
+      "kind": "node",
+      "port": "eth0",
+      "ports": [
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+          "kind": "server",
+          "port": "eth0",
+          "snmp_name": "GigabitEthernet6/19",
+          "uid": "srv-stock-eth2"
+        },
+        {
+          "kind": "server",
+          "port": "eth0",
+          "snmp_name": "GigabitEthernet6/20",
+          "uid": "srv-eth1"
+        },
+        {
+          "kind": "server",
+          "port": "eth0",
+          "snmp_name": "GigabitEthernet6/21",
+          "uid": "srv-eth3"
+        },
+        {
+          "kind": "server",
+          "port": "eth0",
+          "snmp_name": "GigabitEthernet6/22",
+          "uid": "srv-eth2"
+        },
+        {
+          "kind": "server",
+          "port": "eth0",
+          "snmp_name": "GigabitEthernet6/23",
+          "uid": "srv-stock-eth3"
+        },
+        {
+          "kind": "server",
+          "port": "eth0",
+          "snmp_name": "GigabitEthernet6/24",
+          "uid": "srv-stock-eth1"
+        }
+      ],
+      "rate": 1000000000,
+      "snmp_pattern": "GigabitEthernet%LINECARD%/%PORT%"
+    },
+    {
+      "backplane_bps": 24000000000,
+      "kavlan_pattern": "%LINECARD%/%PORT%",
+      "kind": "node",
+      "ports": [
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+          "kind": "server",
+          "snmp_name": "GigabitEthernet7/18",
+          "uid": "srv2-eth1"
+        },
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+          "kind": "server",
+          "snmp_name": "GigabitEthernet7/23",
+          "uid": "srv"
+        },
+        {
+          "kind": "server",
+          "snmp_name": "GigabitEthernet7/24",
+          "uid": "srv-stock"
+        }
+      ],
+      "rate": 1000000000,
+      "snmp_pattern": "GigabitEthernet%LINECARD%/%PORT%"
+    },
+    {
+    },
+    {
+      "backplane_bps": 12000000000,
+      "kavlan_pattern": "%LINECARD%/%PORT%",
+      "kind": "other",
+      "ports": [
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+          "kind": "server",
+          "snmp_name": "GigabitEthernet9/10",
+          "uid": "stock"
+        },
+        {
+        },
+        {
+          "kind": "server",
+          "snmp_name": "GigabitEthernet9/12",
+          "uid": "stock-eth1"
+        }
+      ],
+      "rate": 1000000000,
+      "snmp_pattern": "GigabitEthernet%LINECARD%/%PORT%"
+    }
+  ],
+  "metrics": [
+    {
+      "description": "Input byte counter for the network device port",
+      "name": "network_ifacein_bytes_total",
+      "period": 1000,
+      "source": {
+        "id": "1.3.6.1.2.1.2.2.1.10.{{ 1.3.6.1.2.1.2.2.1.2 == %SNMP_IFACE% }}",
+        "protocol": "snmp"
+      }
+    },
+    {
+      "description": "Output byte counter for the network device port",
+      "name": "network_ifaceout_bytes_total",
+      "period": 1000,
+      "source": {
+        "id": "1.3.6.1.2.1.2.2.1.16.{{ 1.3.6.1.2.1.2.2.1.2 == %SNMP_IFACE% }}",
+        "protocol": "snmp"
+      }
+    }
+  ],
+  "model": "Foundry",
+  "role": "production",
+  "site": "sophia",
+  "snmp_community": "public",
+  "type": "network_equipment",
+  "uid": "gw",
+  "vlans": {
+    "vlan100": {
+      "addresses": [
+        "172.16.143.254"
+      ],
+      "administrative": true
+    },
+    "vlan101": {
+      "addresses": [
+        "172.17.143.254"
+      ]
+    },
+    "vlan500": {
+      "addresses": [
+        "192.168.4.12"
+      ]
+    },
+    "vlan535": {
+      "addresses": [
+        "193.51.182.221"
+      ]
+    },
+    "vlan538": {
+      "addresses": [
+        "172.16.223.250"
+      ]
+    },
+    "vlan540": {
+      "addresses": [
+        "192.168.69.10"
+      ]
+    },
+    "vlan666": {
+      "addresses": [
+        "194.254.60.61"
+      ]
+    },
+    "vlan667": {
+      "addresses": [
+        "192.168.67.253"
+      ]
+    },
+    "vlan701": {
+      "addresses": [
+        "192.168.192.0/20"
+      ],
+      "name": "kavlan-1"
+    },
+    "vlan702": {
+      "addresses": [
+        "192.168.208.0/20"
+      ],
+      "name": "kavlan-2"
+    },
+    "vlan703": {
+      "addresses": [
+        "192.168.224.0/20"
+      ],
+      "name": "kavlan-3"
+    },
+    "vlan704": {
+      "addresses": [
+        "10.32.0.0/18"
+      ],
+      "name": "kavlan-4"
+    },
+    "vlan705": {
+      "addresses": [
+        "10.32.64.0/18"
+      ],
+      "name": "kavlan-5"
+    },
+    "vlan706": {
+      "addresses": [
+        "10.32.128.0/18"
+      ],
+      "name": "kavlan-6"
+    },
+    "vlan707": {
+      "addresses": [
+        "10.32.192.0/18"
+      ],
+      "name": "kavlan-7"
+    },
+    "vlan708": {
+      "addresses": [
+        "10.33.0.0/18"
+      ],
+      "name": "kavlan-8"
+    },
+    "vlan709": {
+      "addresses": [
+        "10.33.64.0/18"
+      ],
+      "name": "kavlan-9"
+    },
+    "vlan718": {
+      "addresses": [
+        "10.35.192.0/18"
+      ],
+      "name": "kavlan-18"
+    }
+  },
+  "warranty": "expired"
+}

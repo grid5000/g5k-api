@@ -1,0 +1,14 @@
+{
+  "alias": [
+    "kavlan-server",
+    "kavlan-dhcp"
+  ],
+  "kind": "virtual",
+  "network_adapters": {
+    "default": {
+      "ip": "172.16.111.100"
+    }
+  },
+  "type": "server",
+  "uid": "kavlan"
+}

@@ -1,0 +1,17 @@
+{
+  "alias": [
+    "frontend",
+    "oar-api"
+  ],
+  "kind": "virtual",
+  "network_adapters": {
+    "adm": {
+      "ip": "172.17.31.101"
+    },
+    "default": {
+      "ip": "172.16.31.101"
+    }
+  },
+  "type": "server",
+  "uid": "fgrenoble"
+}

@@ -1,0 +1,13 @@
+{
+  "alias": [
+    "cacti"
+  ],
+  "kind": "virtual",
+  "network_adapters": {
+    "default": {
+      "ip": "172.16.191.119"
+    }
+  },
+  "type": "server",
+  "uid": "weathermap"
+}

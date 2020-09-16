@@ -1,0 +1,46 @@
+{
+  "created_at": "Sat, 01 Jul 2006 00:00:00 GMT",
+  "exotic": false,
+  "kavlan": true,
+  "metrics": [
+    {
+      "description": "Power consumption reported by wattmetre, in watt",
+      "name": "wattmetre_power_watt",
+      "optional_period": 20,
+      "period": 1000,
+      "source": {
+        "protocol": "wattmetre"
+      }
+    },
+    {
+      "description": "Input byte counter for the network device port",
+      "labels": {
+        "interface": "eth1"
+      },
+      "name": "network_ifacein_bytes_total",
+      "period": 1000,
+      "source": {
+        "protocol": "network_equipment"
+      }
+    },
+    {
+      "description": "Output byte counter for the network device port",
+      "labels": {
+        "interface": "eth1"
+      },
+      "name": "network_ifaceout_bytes_total",
+      "period": 1000,
+      "source": {
+        "protocol": "network_equipment"
+      }
+    }
+  ],
+  "model": "Sun Fire V20z",
+  "priority": "201899",
+  "queues": [
+    "default",
+    "admin"
+  ],
+  "type": "cluster",
+  "uid": "sagittaire"
+}

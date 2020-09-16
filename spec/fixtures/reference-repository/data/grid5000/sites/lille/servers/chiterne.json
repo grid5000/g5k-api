@@ -1,0 +1,43 @@
+{
+  "kind": "physical",
+  "monitoring": {
+    "metric": "power",
+    "wattmeter": "multiple"
+  },
+  "network_adapters": {
+    "bmc": {
+      "ip": "172.17.46.10",
+      "mac": "50:9a:4c:61:df:4a"
+    },
+    "default": {
+      "ip": "172.16.47.10",
+      "mac": "24:6e:96:67:5d:a0"
+    }
+  },
+  "sensors": {
+    "network": {
+      "available": true,
+      "resolution": 1
+    },
+    "power": {
+      "available": true,
+      "resolution": 1,
+      "via": {
+        "pdu": [
+          {
+            "port": 9,
+            "uid": "pdu-b2p1"
+          },
+          {
+            "port": 9,
+            "uid": "pdu-b2p2"
+          }
+        ]
+      }
+    }
+  },
+  "serial": "JH5RS62",
+  "type": "server",
+  "uid": "chiterne",
+  "warranty": "2022-06-18"
+}

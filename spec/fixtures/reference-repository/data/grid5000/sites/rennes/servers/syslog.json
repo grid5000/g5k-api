@@ -1,0 +1,10 @@
+{
+  "kind": "virtual",
+  "network_adapters": {
+    "default": {
+      "ip": "172.16.111.109"
+    }
+  },
+  "type": "server",
+  "uid": "syslog"
+}

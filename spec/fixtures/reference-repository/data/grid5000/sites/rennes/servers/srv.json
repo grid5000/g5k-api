@@ -1,0 +1,19 @@
+{
+  "alias": [
+    "adminfront",
+    "af"
+  ],
+  "kind": "physical",
+  "network_adapters": {
+    "bmc": {
+      "ip": "172.17.111.6"
+    },
+    "default": {
+      "ip": "172.16.111.6"
+    }
+  },
+  "serial": "CLXJZY1",
+  "type": "server",
+  "uid": "srv",
+  "warranty": "2018-09"
+}

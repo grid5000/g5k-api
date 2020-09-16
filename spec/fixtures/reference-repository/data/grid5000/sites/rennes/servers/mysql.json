@@ -1,0 +1,13 @@
+{
+  "alias": [
+    "mysql2"
+  ],
+  "kind": "virtual",
+  "network_adapters": {
+    "default": {
+      "ip": "172.16.111.113"
+    }
+  },
+  "type": "server",
+  "uid": "mysql"
+}

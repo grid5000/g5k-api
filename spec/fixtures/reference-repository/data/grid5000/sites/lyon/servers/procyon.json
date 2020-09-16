@@ -1,0 +1,23 @@
+{
+  "alias": [
+    "nfs",
+    "home-g5k",
+    "public",
+    "modules"
+  ],
+  "kind": "physical",
+  "network_adapters": {
+    "bmc": {
+      "ip": "172.17.62.5",
+      "mac": "18:FB:7B:AB:05:AB"
+    },
+    "default": {
+      "ip": "172.16.63.5",
+      "mac": "24:6E:96:33:EB:10"
+    }
+  },
+  "serial": "203DZG2",
+  "type": "server",
+  "uid": "procyon",
+  "warranty": "2023-12"
+}

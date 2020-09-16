@@ -1,0 +1,221 @@
+{
+  "backplane_bps": 1280000000000,
+  "ip": "172.17.111.203",
+  "kind": "switch",
+  "linecards": [
+    {
+      "kavlan_pattern": "%PORT%",
+      "kind": "node",
+      "ports": [
+        {
+          "kind": "switch",
+          "port": "1:3",
+          "snmp_name": "TenGigabitEthernet 0/0",
+          "uid": "c6509"
+        },
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+          "kind": "server",
+          "snmp_name": "TenGigabitEthernet 0/11",
+          "uid": "srv-bigdata"
+        },
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+          "kind": "server",
+          "snmp_name": "TenGigabitEthernet 0/18",
+          "uid": "ceph3"
+        },
+        {
+          "kind": "server",
+          "snmp_name": "TenGigabitEthernet 0/19",
+          "uid": "ceph2"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "TenGigabitEthernet 0/20",
+          "uid": "paranoia-8"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "TenGigabitEthernet 0/21",
+          "uid": "paranoia-7"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "TenGigabitEthernet 0/22",
+          "uid": "paranoia-4"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "TenGigabitEthernet 0/23",
+          "uid": "paranoia-3"
+        },
+        {
+          "kind": "node",
+          "port": "eth1",
+          "snmp_name": "TenGigabitEthernet 0/24",
+          "uid": "paranoia-4"
+        },
+        {
+          "kind": "node",
+          "port": "eth1",
+          "snmp_name": "TenGigabitEthernet 0/25",
+          "uid": "paranoia-3"
+        },
+        {
+          "kind": "node",
+          "port": "eth1",
+          "snmp_name": "TenGigabitEthernet 0/26",
+          "uid": "paranoia-8"
+        },
+        {
+          "kind": "node",
+          "port": "eth1",
+          "snmp_name": "TenGigabitEthernet 0/27",
+          "uid": "paranoia-7"
+        },
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+          "kind": "node",
+          "port": "eth1",
+          "snmp_name": "TenGigabitEthernet 0/32",
+          "uid": "paranoia-6"
+        },
+        {
+          "kind": "node",
+          "port": "eth1",
+          "snmp_name": "TenGigabitEthernet 0/33",
+          "uid": "paranoia-5"
+        },
+        {
+          "kind": "node",
+          "port": "eth1",
+          "snmp_name": "TenGigabitEthernet 0/34",
+          "uid": "paranoia-2"
+        },
+        {
+          "kind": "node",
+          "port": "eth1",
+          "snmp_name": "TenGigabitEthernet 0/35",
+          "uid": "paranoia-1"
+        },
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+          "kind": "server",
+          "snmp_name": "TenGigabitEthernet 0/42",
+          "uid": "ceph1"
+        },
+        {
+          "kind": "server",
+          "snmp_name": "TenGigabitEthernet 0/43",
+          "uid": "ceph0"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "TenGigabitEthernet 0/44",
+          "uid": "paranoia-6"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "TenGigabitEthernet 0/45",
+          "uid": "paranoia-5"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "TenGigabitEthernet 0/46",
+          "uid": "paranoia-2"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "TenGigabitEthernet 0/47",
+          "uid": "paranoia-1"
+        }
+      ],
+      "rate": 10000000000,
+      "snmp_pattern": "TenGigabitEthernet %LINECARD%/%PORT%"
+    }
+  ],
+  "metrics": [
+    {
+      "description": "Input byte counter for the network device port",
+      "name": "network_ifacein_bytes_total",
+      "period": 1000,
+      "source": {
+        "id": "1.3.6.1.2.1.2.2.1.10.{{ 1.3.6.1.2.1.2.2.1.2 == %SNMP_IFACE% }}",
+        "protocol": "snmp"
+      }
+    },
+    {
+      "description": "Output byte counter for the network device port",
+      "name": "network_ifaceout_bytes_total",
+      "period": 1000,
+      "source": {
+        "id": "1.3.6.1.2.1.2.2.1.16.{{ 1.3.6.1.2.1.2.2.1.2 == %SNMP_IFACE% }}",
+        "protocol": "snmp"
+      }
+    }
+  ],
+  "model": "Force10 S4810",
+  "role": "production",
+  "site": "rennes",
+  "snmp_community": "public",
+  "type": "network_equipment",
+  "uid": "bigdata-sw",
+  "warranty": "2018-10-01"
+}

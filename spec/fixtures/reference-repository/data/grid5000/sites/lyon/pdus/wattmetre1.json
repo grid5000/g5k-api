@@ -1,0 +1,68 @@
+{
+  "ip": "172.16.63.8",
+  "metrics": [
+    {
+      "description": "Power consumption per outlet reported by wattmetre, in watt",
+      "name": "wattmetre_power_watt",
+      "optional_period": 20,
+      "period": 1000,
+      "source": {
+        "protocol": "wattmetre"
+      }
+    }
+  ],
+  "model": "",
+  "ports": {
+    "0": "sagittaire-1",
+    "1": "sagittaire-2",
+    "10": "sagittaire-14",
+    "11": "sagittaire-15",
+    "12": "sagittaire-16",
+    "13": "sagittaire-17",
+    "14": "sagittaire-18",
+    "15": "sagittaire-19",
+    "16": "sagittaire-20",
+    "17": "sagittaire-24",
+    "18": "sagittaire-27",
+    "19": "sagittaire-29",
+    "2": "sagittaire-3",
+    "20": "sagittaire-30",
+    "21": "sagittaire-31",
+    "24": "pyxis-2",
+    "25": "pyxis-3",
+    "26": "gemini-2",
+    "27": "gemini-2",
+    "28": "gemini-2",
+    "29": "gemini-2",
+    "3": "sagittaire-4",
+    "30": "gemini-1",
+    "31": "gemini-1",
+    "32": "gemini-1",
+    "33": "gemini-1",
+    "35": "pyxis-4",
+    "4": "sagittaire-5",
+    "45": "pyxis-1",
+    "5": "sagittaire-6",
+    "7": "sagittaire-11",
+    "8": "sagittaire-12",
+    "9": "sagittaire-13"
+  },
+  "sensors": [
+    {
+      "power": {
+        "per_outlets": true,
+        "resolution": 1,
+        "wattmetre": {
+          "available": true,
+          "unit": "W",
+          "www": {
+            "url": "http://wattmetre.lyon.grid5000.fr/GetWatts-json.php"
+          }
+        }
+      }
+    }
+  ],
+  "type": "pdu",
+  "uid": "wattmetre1",
+  "vendor": "OmegaWatt"
+}

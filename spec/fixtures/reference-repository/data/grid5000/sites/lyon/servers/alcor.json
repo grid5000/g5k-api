@@ -1,0 +1,19 @@
+{
+  "alias": [
+    "storage1"
+  ],
+  "kind": "physical",
+  "network_adapters": {
+    "bmc": {
+      "ip": "172.17.62.11",
+      "mac": "4C:D9:8F:6E:26:89"
+    },
+    "default": {
+      "ip": "172.16.63.11"
+    }
+  },
+  "serial": "8KB35Z2",
+  "type": "server",
+  "uid": "alcor",
+  "warranty": "2026-08"
+}

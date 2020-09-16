@@ -1,0 +1,10 @@
+{
+  "kind": "virtual",
+  "network_adapters": {
+    "default": {
+      "ip": "172.16.143.143"
+    }
+  },
+  "type": "server",
+  "uid": "fsophia-devel"
+}

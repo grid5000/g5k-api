@@ -1,0 +1,20 @@
+{
+  "alias": null,
+  "kind": "physical",
+  "network_adapters": {
+    "adm": {
+      "ip": "172.17.143.2",
+      "mac": "78:2b:cb:2f:f0:8e",
+      "mounted": true
+    },
+    "bmc": {
+      "ip": "172.17.143.13",
+      "mac": "78:2b:cb:2f:f0:90",
+      "mounted": true
+    }
+  },
+  "serial": "DDKV35J",
+  "type": "server",
+  "uid": "srv2",
+  "warranty": "2014-07-26"
+}

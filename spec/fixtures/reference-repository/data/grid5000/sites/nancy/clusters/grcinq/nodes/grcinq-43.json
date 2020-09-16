@@ -1,0 +1,208 @@
+{
+  "architecture": {
+    "cpu_core_numbering": "contiguous",
+    "nb_cores": 16,
+    "nb_procs": 2,
+    "nb_threads": 32,
+    "platform_type": "x86_64"
+  },
+  "bios": {
+    "release_date": "7/08/2019",
+    "vendor": "Dell Inc.",
+    "version": "2.5.7"
+  },
+  "bmc_version": "2.53",
+  "chassis": {
+    "manufacturer": "Dell Inc.",
+    "name": "PowerEdge C6220",
+    "serial": "G0MGWX1"
+  },
+  "exotic": false,
+  "kavlan": {
+    "eth0": {
+      "kavlan-1": "192.168.194.43",
+      "kavlan-11": "10.7.215.43",
+      "kavlan-12": "10.11.215.43",
+      "kavlan-13": "10.15.215.43",
+      "kavlan-14": "10.19.215.43",
+      "kavlan-16": "10.27.215.43",
+      "kavlan-18": "10.35.215.43",
+      "kavlan-2": "192.168.210.43",
+      "kavlan-20": "10.43.215.43",
+      "kavlan-21": "10.47.215.43",
+      "kavlan-3": "192.168.226.43",
+      "kavlan-4": "10.16.2.43",
+      "kavlan-5": "10.16.66.43",
+      "kavlan-6": "10.16.130.43",
+      "kavlan-7": "10.16.194.43",
+      "kavlan-8": "10.17.2.43",
+      "kavlan-9": "10.17.66.43"
+    }
+  },
+  "kavlan6": {
+    "eth0": {
+      "kavlan-1": "2001:660:4406:581:c::2b",
+      "kavlan-11": "2001:660:4406:58b:c::2b",
+      "kavlan-12": "2001:660:4406:58c:c::2b",
+      "kavlan-13": "2001:660:4406:58d:c::2b",
+      "kavlan-14": "2001:660:4406:58e:c::2b",
+      "kavlan-16": "2001:660:4406:590:c::2b",
+      "kavlan-18": "2001:660:4406:592:c::2b",
+      "kavlan-2": "2001:660:4406:582:c::2b",
+      "kavlan-20": "2001:660:4406:594:c::2b",
+      "kavlan-21": "2001:660:4406:595:c::2b",
+      "kavlan-3": "2001:660:4406:583:c::2b",
+      "kavlan-4": "2001:660:4406:584:c::2b",
+      "kavlan-5": "2001:660:4406:585:c::2b",
+      "kavlan-6": "2001:660:4406:586:c::2b",
+      "kavlan-7": "2001:660:4406:587:c::2b",
+      "kavlan-8": "2001:660:4406:588:c::2b",
+      "kavlan-9": "2001:660:4406:589:c::2b"
+    }
+  },
+  "main_memory": {
+    "ram_size": 68719476736
+  },
+  "monitoring": {
+    "wattmeter": "shared"
+  },
+  "network_adapters": [
+    {
+      "device": "eth0",
+      "driver": "igb",
+      "enabled": true,
+      "firmware_version": "1.57.0",
+      "interface": "Ethernet",
+      "ip": "172.16.75.43",
+      "ip6": "2001:660:4406:500:c::2b",
+      "kavlan": true,
+      "mac": "78:45:c4:fc:3a:c7",
+      "management": false,
+      "model": "I350 Gigabit Network Connection",
+      "mountable": true,
+      "mounted": true,
+      "name": "eno1",
+      "network_address": "grcinq-43.nancy.grid5000.fr",
+      "rate": 1000000000,
+      "switch": "sgrcinq",
+      "switch_port": "GigabitEthernet1/0/21",
+      "vendor": "Intel"
+    },
+    {
+      "device": "eth1",
+      "driver": "igb",
+      "enabled": false,
+      "firmware_version": "1.57.0",
+      "interface": "Ethernet",
+      "kavlan": false,
+      "mac": "78:45:c4:fc:3a:c8",
+      "management": false,
+      "model": "I350 Gigabit Network Connection",
+      "mountable": false,
+      "mounted": false,
+      "name": "eno2",
+      "vendor": "Intel"
+    },
+    {
+      "device": "ib0",
+      "driver": "mlx4_core",
+      "enabled": true,
+      "firmware_version": "2.42.5000",
+      "guid": "0x0002c903001dedd1",
+      "interface": "InfiniBand",
+      "ip": "172.18.75.43",
+      "kavlan": false,
+      "mac": "80:00:02:08:fe:80:00:00:00:00:00:00:00:02:c9:03:00:1d:ed:d1",
+      "management": false,
+      "model": "MT27500 Family [ConnectX-3]",
+      "mountable": true,
+      "mounted": true,
+      "name": "ib0",
+      "netmask": "255.255.255.0",
+      "network_address": "grcinq-43-ib0.nancy.grid5000.fr",
+      "rate": 56000000000,
+      "vendor": "Mellanox Technologies"
+    },
+    {
+      "device": "bmc",
+      "enabled": true,
+      "interface": "Ethernet",
+      "ip": "172.17.75.43",
+      "kavlan": false,
+      "mac": "78:45:c4:fc:3a:c9",
+      "management": true,
+      "mountable": false,
+      "mounted": false,
+      "network_address": "grcinq-43-bmc.nancy.grid5000.fr"
+    }
+  ],
+  "operating_system": {
+    "cstate_driver": "intel_idle",
+    "cstate_governor": "menu",
+    "ht_enabled": true,
+    "pstate_driver": "intel_pstate",
+    "pstate_governor": "performance",
+    "turboboost_enabled": true
+  },
+  "performance": {
+    "core_flops": 16000000000,
+    "node_flops": 256000000000
+  },
+  "processor": {
+    "cache_l1": null,
+    "cache_l1d": 32768,
+    "cache_l1i": 32768,
+    "cache_l2": 262144,
+    "cache_l3": 20971520,
+    "clock_speed": 2000000000,
+    "ht_capable": true,
+    "instruction_set": "x86-64",
+    "microarchitecture": "Sandy Bridge",
+    "microcode": "0x71a",
+    "model": "Intel Xeon",
+    "other_description": "Intel(R) Xeon(R) CPU E5-2650 0 @ 2.00GHz",
+    "vendor": "Intel",
+    "version": "E5-2650"
+  },
+  "sensors": {
+    "power": {
+      "available": true,
+      "per_outlets": false,
+      "via": {
+        "api": {
+          "metric": "power"
+        }
+      }
+    }
+  },
+  "software": {
+    "forced-deployment-timestamp": 202007300948,
+    "postinstall-version": "1.2020091600",
+    "standard-environment": "debian10-x64-std"
+  },
+  "storage_devices": [
+    {
+      "by_id": "/dev/disk/by-id/wwn-0x50014ee2b2dc1784",
+      "by_path": "/dev/disk/by-path/pci-0000:00:1f.2-ata-1",
+      "device": "sda",
+      "firmware_version": "01.01V03",
+      "interface": "SATA",
+      "model": "WDC WD1003FBYX-1",
+      "size": 1000204886016,
+      "storage": "HDD",
+      "vendor": "Western Digital"
+    }
+  ],
+  "supported_job_types": {
+    "besteffort": true,
+    "deploy": true,
+    "max_walltime": 604800,
+    "queues": [
+      "admin",
+      "production"
+    ],
+    "virtual": "ivt"
+  },
+  "type": "node",
+  "uid": "grcinq-43"
+}

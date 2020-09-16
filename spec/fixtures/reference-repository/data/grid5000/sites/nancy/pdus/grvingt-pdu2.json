@@ -1,0 +1,25 @@
+{
+  "ip": "172.17.79.221",
+  "mac": "00:C0:B7:E2:B6:68",
+  "model": "AP8886",
+  "ports": {
+  },
+  "sensors": [
+    {
+      "power": {
+        "per_outlets": false,
+        "resolution": 1,
+        "snmp": {
+          "available": true,
+          "total_oids": [
+            "iso.3.6.1.4.1.318.1.1.12.1.16.0"
+          ],
+          "unit": "W"
+        }
+      }
+    }
+  ],
+  "type": "pdu",
+  "uid": "grvingt-pdu2",
+  "vendor": "APC"
+}

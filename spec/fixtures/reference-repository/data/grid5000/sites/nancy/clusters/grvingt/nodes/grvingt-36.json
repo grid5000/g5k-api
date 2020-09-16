@@ -1,0 +1,208 @@
+{
+  "architecture": {
+    "cpu_core_numbering": "round-robin",
+    "nb_cores": 32,
+    "nb_procs": 2,
+    "nb_threads": 64,
+    "platform_type": "x86_64"
+  },
+  "bios": {
+    "release_date": "11/27/2019",
+    "vendor": "Dell Inc.",
+    "version": "2.4.8"
+  },
+  "bmc_version": "4.00.00.00",
+  "chassis": {
+    "manufacturer": "Dell Inc.",
+    "name": "PowerEdge C6420",
+    "serial": "CP49DP2"
+  },
+  "exotic": false,
+  "kavlan": {
+    "eth0": {
+      "kavlan-1": "192.168.195.36",
+      "kavlan-11": "10.7.216.36",
+      "kavlan-12": "10.11.216.36",
+      "kavlan-13": "10.15.216.36",
+      "kavlan-14": "10.19.216.36",
+      "kavlan-16": "10.27.216.36",
+      "kavlan-18": "10.35.216.36",
+      "kavlan-2": "192.168.211.36",
+      "kavlan-20": "10.43.216.36",
+      "kavlan-21": "10.47.216.36",
+      "kavlan-3": "192.168.227.36",
+      "kavlan-4": "10.16.3.36",
+      "kavlan-5": "10.16.67.36",
+      "kavlan-6": "10.16.131.36",
+      "kavlan-7": "10.16.195.36",
+      "kavlan-8": "10.17.3.36",
+      "kavlan-9": "10.17.67.36"
+    }
+  },
+  "kavlan6": {
+    "eth0": {
+      "kavlan-1": "2001:660:4406:581:d::24",
+      "kavlan-11": "2001:660:4406:58b:d::24",
+      "kavlan-12": "2001:660:4406:58c:d::24",
+      "kavlan-13": "2001:660:4406:58d:d::24",
+      "kavlan-14": "2001:660:4406:58e:d::24",
+      "kavlan-16": "2001:660:4406:590:d::24",
+      "kavlan-18": "2001:660:4406:592:d::24",
+      "kavlan-2": "2001:660:4406:582:d::24",
+      "kavlan-20": "2001:660:4406:594:d::24",
+      "kavlan-21": "2001:660:4406:595:d::24",
+      "kavlan-3": "2001:660:4406:583:d::24",
+      "kavlan-4": "2001:660:4406:584:d::24",
+      "kavlan-5": "2001:660:4406:585:d::24",
+      "kavlan-6": "2001:660:4406:586:d::24",
+      "kavlan-7": "2001:660:4406:587:d::24",
+      "kavlan-8": "2001:660:4406:588:d::24",
+      "kavlan-9": "2001:660:4406:589:d::24"
+    }
+  },
+  "main_memory": {
+    "ram_size": 206158430208
+  },
+  "monitoring": {
+    "wattmeter": "shared"
+  },
+  "network_adapters": [
+    {
+      "device": "eth0",
+      "driver": "i40e",
+      "enabled": true,
+      "firmware_version": "7.10 0x800051ad 19.0.12",
+      "interface": "Ethernet",
+      "ip": "172.16.76.36",
+      "ip6": "2001:660:4406:500:d::24",
+      "kavlan": true,
+      "mac": "3c:fd:fe:59:2e:70",
+      "management": false,
+      "model": "Ethernet Controller X710 for 10GbE SFP+",
+      "mountable": true,
+      "mounted": true,
+      "name": "enp24s0f0",
+      "network_address": "grvingt-36.nancy.grid5000.fr",
+      "rate": 10000000000,
+      "switch": "sgrvingt",
+      "switch_port": "TenGigabitEthernet 1/18",
+      "vendor": "Intel"
+    },
+    {
+      "device": "eth1",
+      "driver": "i40e",
+      "enabled": false,
+      "firmware_version": "7.10 0x800051ad 19.0.12",
+      "interface": "Ethernet",
+      "kavlan": false,
+      "mac": "3c:fd:fe:59:2e:72",
+      "management": false,
+      "model": "Ethernet Controller X710 for 10GbE SFP+",
+      "mountable": false,
+      "mounted": false,
+      "name": "enp24s0f1",
+      "vendor": "Intel"
+    },
+    {
+      "device": "ib0",
+      "driver": "hfi1",
+      "enabled": true,
+      "firmware_version": "1.27.0",
+      "guid": "0x0011750101091fd9",
+      "interface": "Omni-Path",
+      "ip": "172.18.76.36",
+      "kavlan": false,
+      "mac": "80:00:00:02:fe:80:00:00:00:00:00:00:00:11:75:01:01:09:1f:d9",
+      "management": false,
+      "model": "Omni-Path HFI Silicon 100 Series [discrete]",
+      "mountable": true,
+      "mounted": true,
+      "name": "ib0",
+      "netmask": "255.255.255.0",
+      "network_address": "grvingt-36-ib0.nancy.grid5000.fr",
+      "rate": 100000000000,
+      "vendor": "Intel"
+    },
+    {
+      "device": "bmc",
+      "enabled": true,
+      "interface": "Ethernet",
+      "ip": "172.17.76.36",
+      "kavlan": false,
+      "mac": "50:9a:4c:85:fe:1c",
+      "management": true,
+      "mountable": false,
+      "mounted": false,
+      "network_address": "grvingt-36-bmc.nancy.grid5000.fr"
+    }
+  ],
+  "operating_system": {
+    "cstate_driver": "intel_idle",
+    "cstate_governor": "menu",
+    "ht_enabled": true,
+    "pstate_driver": "intel_pstate",
+    "pstate_governor": "performance",
+    "turboboost_enabled": true
+  },
+  "performance": {
+    "core_flops": 67200000000,
+    "node_flops": 2150400000000
+  },
+  "processor": {
+    "cache_l1": null,
+    "cache_l1d": 32768,
+    "cache_l1i": 32768,
+    "cache_l2": 1048576,
+    "cache_l3": 23068672,
+    "clock_speed": 2100000000,
+    "ht_capable": true,
+    "instruction_set": "x86-64",
+    "microarchitecture": "Skylake",
+    "microcode": "0x2006906",
+    "model": "Intel Xeon",
+    "other_description": "Intel(R) Xeon(R) Gold 6130 CPU @ 2.10GHz",
+    "vendor": "Intel",
+    "version": "Gold 6130"
+  },
+  "sensors": {
+    "power": {
+      "available": true,
+      "per_outlets": false,
+      "via": {
+        "api": {
+          "metric": "power"
+        }
+      }
+    }
+  },
+  "software": {
+    "forced-deployment-timestamp": 202007300948,
+    "postinstall-version": "1.2020091600",
+    "standard-environment": "debian10-x64-std"
+  },
+  "storage_devices": [
+    {
+      "by_id": "/dev/disk/by-id/wwn-0x5000c500ad6241c4",
+      "by_path": "/dev/disk/by-path/pci-0000:00:11.5-ata-3",
+      "device": "sda",
+      "firmware_version": "NB33",
+      "interface": "SATA",
+      "model": "ST1000NX0443",
+      "size": 1000204886016,
+      "storage": "HDD",
+      "vendor": "Seagate"
+    }
+  ],
+  "supported_job_types": {
+    "besteffort": true,
+    "deploy": true,
+    "max_walltime": 604800,
+    "queues": [
+      "admin",
+      "production"
+    ],
+    "virtual": "ivt"
+  },
+  "type": "node",
+  "uid": "grvingt-36"
+}

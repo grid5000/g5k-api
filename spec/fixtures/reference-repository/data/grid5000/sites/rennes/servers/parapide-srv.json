@@ -1,0 +1,18 @@
+{
+  "alias": [
+
+  ],
+  "kind": "physical",
+  "network_adapters": {
+    "bmc": {
+      "ip": "172.17.111.12"
+    },
+    "default": {
+      "ip": "172.16.111.2"
+    }
+  },
+  "serial": "0933XF5007",
+  "type": "server",
+  "uid": "parapide-srv",
+  "warranty": "2004-11"
+}

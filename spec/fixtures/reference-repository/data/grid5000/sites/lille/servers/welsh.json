@@ -1,0 +1,52 @@
+{
+  "alias": [
+    "ntp",
+    "af",
+    "adminfront"
+  ],
+  "kind": "physical",
+  "monitoring": {
+    "metric": "power",
+    "wattmeter": "multiple"
+  },
+  "network_adapters": {
+    "adm": {
+      "ip": "172.17.47.1",
+      "mac": "24:6e:96:2c:9a:42"
+    },
+    "bmc": {
+      "ip": "172.17.46.1",
+      "mac": "84:7b:eb:d5:ae:46"
+    },
+    "default": {
+      "ip": "172.16.47.1",
+      "mac": "24:6e:96:2c:9a:40"
+    }
+  },
+  "sensors": {
+    "network": {
+      "available": true,
+      "resolution": 1
+    },
+    "power": {
+      "available": true,
+      "resolution": 1,
+      "via": {
+        "pdu": [
+          {
+            "port": 6,
+            "uid": "pdu-b2p1"
+          },
+          {
+            "port": 6,
+            "uid": "pdu-b2p2"
+          }
+        ]
+      }
+    }
+  },
+  "serial": "5L2DLG2",
+  "type": "server",
+  "uid": "welsh",
+  "warranty": "2021-10-13"
+}

@@ -1,0 +1,228 @@
+{
+  "architecture": {
+    "cpu_core_numbering": "contiguous-including-threads",
+    "nb_cores": 64,
+    "nb_procs": 2,
+    "nb_threads": 256,
+    "platform_type": "aarch64"
+  },
+  "bios": {
+    "release_date": "08/13/2020",
+    "vendor": "GIGABYTE",
+    "version": "F34"
+  },
+  "bmc_version": "1.98",
+  "chassis": {
+    "manufacturer": "GIGABYTE",
+    "name": "R181-T92-00",
+    "serial": "GJG5N9812A0002"
+  },
+  "exotic": true,
+  "kavlan": {
+    "eth0": {
+      "kavlan-1": "192.168.198.4",
+      "kavlan-11": "10.7.206.4",
+      "kavlan-12": "10.11.206.4",
+      "kavlan-13": "10.15.206.4",
+      "kavlan-14": "10.19.206.4",
+      "kavlan-16": "10.27.206.4",
+      "kavlan-18": "10.35.206.4",
+      "kavlan-2": "192.168.214.4",
+      "kavlan-20": "10.43.206.4",
+      "kavlan-21": "10.47.206.4",
+      "kavlan-3": "192.168.230.4",
+      "kavlan-4": "10.12.6.4",
+      "kavlan-5": "10.12.70.4",
+      "kavlan-6": "10.12.134.4",
+      "kavlan-7": "10.12.198.4",
+      "kavlan-8": "10.13.6.4",
+      "kavlan-9": "10.13.70.4"
+    }
+  },
+  "kavlan6": {
+    "eth0": {
+      "kavlan-1": "2001:660:4406:481:7::4",
+      "kavlan-11": "2001:660:4406:48b:7::4",
+      "kavlan-12": "2001:660:4406:48c:7::4",
+      "kavlan-13": "2001:660:4406:48d:7::4",
+      "kavlan-14": "2001:660:4406:48e:7::4",
+      "kavlan-16": "2001:660:4406:490:7::4",
+      "kavlan-18": "2001:660:4406:492:7::4",
+      "kavlan-2": "2001:660:4406:482:7::4",
+      "kavlan-20": "2001:660:4406:494:7::4",
+      "kavlan-21": "2001:660:4406:495:7::4",
+      "kavlan-3": "2001:660:4406:483:7::4",
+      "kavlan-4": "2001:660:4406:484:7::4",
+      "kavlan-5": "2001:660:4406:485:7::4",
+      "kavlan-6": "2001:660:4406:486:7::4",
+      "kavlan-7": "2001:660:4406:487:7::4",
+      "kavlan-8": "2001:660:4406:488:7::4",
+      "kavlan-9": "2001:660:4406:489:7::4"
+    }
+  },
+  "main_memory": {
+    "ram_size": 274877906944
+  },
+  "monitoring": {
+    "wattmeter": "true"
+  },
+  "network_adapters": [
+    {
+      "device": "eth0",
+      "driver": "qede",
+      "enabled": true,
+      "firmware_version": "mfw 8.35.24.0 storm 8.37.2.0",
+      "interface": "Ethernet",
+      "ip": "172.16.54.4",
+      "ip6": "2001:660:4406:400:7::4",
+      "kavlan": true,
+      "mac": "b4:2e:99:3d:1e:dc",
+      "management": false,
+      "model": "FastLinQ QL41000 Series 10/25/40/50GbE Controller",
+      "mountable": true,
+      "mounted": true,
+      "name": "eno1",
+      "network_address": "pyxis-4.lyon.grid5000.fr",
+      "rate": 10000000000,
+      "switch": "gw",
+      "switch_port": "ethernet1/1/6",
+      "vendor": "QLogic Corp."
+    },
+    {
+      "device": "eth1",
+      "driver": "qede",
+      "enabled": false,
+      "firmware_version": "mfw 8.35.24.0 storm 8.37.2.0",
+      "interface": "Ethernet",
+      "kavlan": false,
+      "mac": "b4:2e:99:3d:1e:dd",
+      "management": false,
+      "model": "FastLinQ QL41000 Series 10/25/40/50GbE Controller",
+      "mountable": false,
+      "mounted": false,
+      "name": "eno2",
+      "vendor": "QLogic Corp."
+    },
+    {
+      "device": "ib0",
+      "driver": "mlx5_core",
+      "enabled": true,
+      "firmware_version": "20.25.2006",
+      "guid": "0xb8599f0300d1fa66",
+      "interface": "InfiniBand",
+      "ip": "172.18.54.4",
+      "kavlan": false,
+      "mac": "00:00:10:86:fe:80:00:00:00:00:00:00:b8:59:9f:03:00:d1:fa:66",
+      "management": false,
+      "model": "MT28908 Family [ConnectX-6]",
+      "mountable": true,
+      "mounted": true,
+      "name": "ib0",
+      "netmask": "255.255.240.0",
+      "network_address": "pyxis-4-ib0.lyon.grid5000.fr",
+      "rate": 100000000000,
+      "vendor": "Mellanox Technologies"
+    },
+    {
+      "device": "bmc",
+      "enabled": true,
+      "interface": "Ethernet",
+      "ip": "172.17.54.4",
+      "kavlan": false,
+      "mac": "b4:2e:99:3d:1e:de",
+      "management": true,
+      "mountable": false,
+      "mounted": false,
+      "network_address": "pyxis-4-bmc.lyon.grid5000.fr"
+    }
+  ],
+  "operating_system": {
+    "cstate_driver": "none",
+    "cstate_governor": "menu",
+    "ht_enabled": true,
+    "pstate_driver": "cppc_cpufreq",
+    "pstate_governor": "performance",
+    "turboboost_enabled": false
+  },
+  "performance": {
+    "core_flops": 17600000000,
+    "node_flops": 1126400000000
+  },
+  "processor": {
+    "cache_l1": null,
+    "cache_l1d": 32768,
+    "cache_l1i": 32768,
+    "cache_l2": 262144,
+    "cache_l3": 33554432,
+    "clock_speed": 2200000000,
+    "ht_capable": false,
+    "instruction_set": "aarch64",
+    "microarchitecture": "Vulcan",
+    "microcode": "unknown",
+    "model": "ThunderX2",
+    "other_description": "ThunderX2 99xx",
+    "vendor": "Cavium",
+    "version": "99xx"
+  },
+  "sensors": {
+    "power": {
+      "available": true,
+      "per_outlets": true,
+      "via": {
+        "api": {
+          "metric": "power"
+        },
+        "pdu": [
+          {
+            "port": 35,
+            "uid": "wattmetre1"
+          }
+        ],
+        "www": {
+          "url": "http://wattmetre.lyon.grid5000.fr/GetWatts-json.php"
+        }
+      }
+    }
+  },
+  "software": {
+    "forced-deployment-timestamp": 202007300948,
+    "postinstall-version": "1.2020091600",
+    "standard-environment": "debian10-arm64-std"
+  },
+  "storage_devices": [
+    {
+      "by_id": "/dev/disk/by-id/wwn-0x5002538e40c53dea",
+      "by_path": "/dev/disk/by-path/pci-0000:0f:00.0-sas-phy2-lun-0",
+      "device": "sda",
+      "firmware_version": "RVT02B6Q",
+      "interface": "SAS",
+      "model": "Samsung SSD 860",
+      "size": 250059350016,
+      "storage": "HDD",
+      "vendor": "Samsung"
+    },
+    {
+      "by_id": "/dev/disk/by-id/wwn-0x5002538e40c53de8",
+      "by_path": "/dev/disk/by-path/pci-0000:0f:00.0-sas-phy3-lun-0",
+      "device": "sdb",
+      "firmware_version": "RVT02B6Q",
+      "interface": "SAS",
+      "model": "Samsung SSD 860",
+      "size": 250059350016,
+      "storage": "HDD",
+      "vendor": "Samsung"
+    }
+  ],
+  "supported_job_types": {
+    "besteffort": true,
+    "deploy": true,
+    "max_walltime": 0,
+    "queues": [
+      "admin",
+      "testing"
+    ],
+    "virtual": "arm64"
+  },
+  "type": "node",
+  "uid": "pyxis-4"
+}

@@ -1,0 +1,201 @@
+{
+  "architecture": {
+    "cpu_core_numbering": "round-robin",
+    "nb_cores": 2,
+    "nb_procs": 2,
+    "nb_threads": 2,
+    "platform_type": "x86_64"
+  },
+  "bios": {
+    "release_date": "04/25/2006",
+    "vendor": "Phoenix Technologies Ltd.",
+    "version": "V1.35.2.2"
+  },
+  "bmc_version": "2.04",
+  "chassis": {
+    "manufacturer": "Sun Microsystems",
+    "name": "Sun Fire V20z",
+    "serial": "XG052310124"
+  },
+  "exotic": false,
+  "kavlan": {
+    "eth1": {
+      "kavlan-1": "192.168.192.6",
+      "kavlan-11": "10.7.200.6",
+      "kavlan-12": "10.11.200.6",
+      "kavlan-13": "10.15.200.6",
+      "kavlan-14": "10.19.200.6",
+      "kavlan-16": "10.27.200.6",
+      "kavlan-18": "10.35.200.6",
+      "kavlan-2": "192.168.208.6",
+      "kavlan-20": "10.43.200.6",
+      "kavlan-21": "10.47.200.6",
+      "kavlan-3": "192.168.224.6",
+      "kavlan-4": "10.12.0.6",
+      "kavlan-5": "10.12.64.6",
+      "kavlan-6": "10.12.128.6",
+      "kavlan-7": "10.12.192.6",
+      "kavlan-8": "10.13.0.6",
+      "kavlan-9": "10.13.64.6"
+    }
+  },
+  "kavlan6": {
+    "eth1": {
+      "kavlan-1": "2001:660:4406:481:2::6",
+      "kavlan-11": "2001:660:4406:48b:2::6",
+      "kavlan-12": "2001:660:4406:48c:2::6",
+      "kavlan-13": "2001:660:4406:48d:2::6",
+      "kavlan-14": "2001:660:4406:48e:2::6",
+      "kavlan-16": "2001:660:4406:490:2::6",
+      "kavlan-18": "2001:660:4406:492:2::6",
+      "kavlan-2": "2001:660:4406:482:2::6",
+      "kavlan-20": "2001:660:4406:494:2::6",
+      "kavlan-21": "2001:660:4406:495:2::6",
+      "kavlan-3": "2001:660:4406:483:2::6",
+      "kavlan-4": "2001:660:4406:484:2::6",
+      "kavlan-5": "2001:660:4406:485:2::6",
+      "kavlan-6": "2001:660:4406:486:2::6",
+      "kavlan-7": "2001:660:4406:487:2::6",
+      "kavlan-8": "2001:660:4406:488:2::6",
+      "kavlan-9": "2001:660:4406:489:2::6"
+    }
+  },
+  "main_memory": {
+    "ram_size": 2147483648
+  },
+  "monitoring": {
+    "wattmeter": "true"
+  },
+  "network_adapters": [
+    {
+      "bridged": false,
+      "device": "eth0",
+      "driver": "tg3",
+      "enabled": false,
+      "firmware_version": "5704-v3.27",
+      "interface": "Ethernet",
+      "kavlan": false,
+      "mac": "00:09:3d:12:3e:ea",
+      "management": false,
+      "model": "NetXtreme BCM5704 Gigabit Ethernet",
+      "mountable": false,
+      "mounted": false,
+      "name": "enp2s2f0",
+      "vendor": "Broadcom"
+    },
+    {
+      "bridged": true,
+      "device": "eth1",
+      "driver": "tg3",
+      "enabled": true,
+      "firmware_version": "5704-v3.27",
+      "interface": "Ethernet",
+      "ip": "172.16.49.6",
+      "ip6": "2001:660:4406:400:2::6",
+      "kavlan": true,
+      "mac": "00:09:3d:12:3e:eb",
+      "management": false,
+      "model": "NetXtreme BCM5704 Gigabit Ethernet",
+      "mountable": true,
+      "mounted": true,
+      "name": "enp2s2f1",
+      "network_address": "sagittaire-6.lyon.grid5000.fr",
+      "rate": 1000000000,
+      "switch": "salome",
+      "switch_port": "GigabitEthernet26",
+      "vendor": "Broadcom"
+    },
+    {
+      "device": "bmc",
+      "driver": "bnx2",
+      "enabled": true,
+      "interface": "Ethernet",
+      "ip": "172.17.49.6",
+      "kavlan": false,
+      "mac": "00:09:3d:12:3e:ec",
+      "management": true,
+      "mountable": false,
+      "mounted": false,
+      "network_address": "sagittaire-6-bmc.lyon.grid5000.fr",
+      "rate": 1000000000
+    }
+  ],
+  "operating_system": {
+    "cstate_driver": "none",
+    "cstate_governor": "menu",
+    "ht_enabled": false,
+    "pstate_driver": "none",
+    "pstate_governor": "none",
+    "turboboost_enabled": false
+  },
+  "performance": {
+    "core_flops": 4800000000,
+    "node_flops": 9600000000
+  },
+  "processor": {
+    "cache_l1": null,
+    "cache_l1d": 65536,
+    "cache_l1i": 65536,
+    "cache_l2": 1048576,
+    "cache_l3": 0,
+    "clock_speed": 2400000000,
+    "ht_capable": false,
+    "instruction_set": "x86-64",
+    "microarchitecture": "K8",
+    "microcode": "0x3a",
+    "model": "AMD Opteron",
+    "other_description": "AMD Opteron(tm) Processor 250",
+    "vendor": "AMD",
+    "version": 250
+  },
+  "sensors": {
+    "power": {
+      "available": true,
+      "per_outlets": true,
+      "via": {
+        "api": {
+          "metric": "power"
+        },
+        "pdu": [
+          {
+            "port": 5,
+            "uid": "wattmetre1"
+          }
+        ],
+        "www": {
+          "url": "http://wattmetre.lyon.grid5000.fr/GetWatts-json.php"
+        }
+      }
+    }
+  },
+  "software": {
+    "forced-deployment-timestamp": 202007300948,
+    "postinstall-version": "1.2020091600",
+    "standard-environment": "debian10-x64-std"
+  },
+  "storage_devices": [
+    {
+      "by_id": "",
+      "by_path": "/dev/disk/by-path/pci-0000:02:04.0-scsi-0:0:1:0",
+      "device": "sda",
+      "firmware_version": 2,
+      "interface": "SCSI",
+      "model": "ST373207LC",
+      "size": 73407868928,
+      "storage": "HDD",
+      "vendor": "Seagate"
+    }
+  ],
+  "supported_job_types": {
+    "besteffort": true,
+    "deploy": true,
+    "max_walltime": 0,
+    "queues": [
+      "default",
+      "admin"
+    ],
+    "virtual": false
+  },
+  "type": "node",
+  "uid": "sagittaire-6"
+}

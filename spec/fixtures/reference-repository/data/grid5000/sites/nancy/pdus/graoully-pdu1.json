@@ -1,0 +1,56 @@
+{
+  "ip": "172.17.79.243",
+  "mac": "00:C0:B7:ED:63:AE",
+  "metrics": [
+    {
+      "description": "Power consumption per outlet reported by PDU, in watt",
+      "name": "pdu_outlet_power_watt",
+      "period": 1000,
+      "source": {
+        "id": "1.3.6.1.4.1.318.1.1.26.9.4.3.1.7.%PORT%",
+        "protocol": "snmp"
+      }
+    }
+  ],
+  "model": "AP8653",
+  "ports": {
+    "1": "graphite-1",
+    "10": "graoully-7",
+    "11": "graoully-1",
+    "12": "graoully-10",
+    "13": "graoully-6",
+    "14": "graoully-4",
+    "17": "graphique-5",
+    "18": "graphique-6",
+    "19": "graoully-12",
+    "2": "graphite-2",
+    "20": "graoully-11",
+    "21": "graoully-15",
+    "22": "grisou-51",
+    "3": "graphite-3",
+    "4": "graphite-4",
+    "5": "graphique-2",
+    "6": "graphique-3",
+    "7": "graphique-4",
+    "9": "graphique-1"
+  },
+  "sensors": [
+    {
+      "power": {
+        "per_outlets": true,
+        "resolution": 1,
+        "snmp": {
+          "available": true,
+          "outlet_prefix_oid": "iso.3.6.1.4.1.318.1.1.26.9.4.3.1.7",
+          "total_oids": [
+            "iso.3.6.1.4.1.318.1.1.12.1.16.0"
+          ],
+          "unit": "W"
+        }
+      }
+    }
+  ],
+  "type": "pdu",
+  "uid": "graoully-pdu1",
+  "vendor": "APC"
+}

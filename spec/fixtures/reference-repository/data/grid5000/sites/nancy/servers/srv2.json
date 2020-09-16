@@ -1,0 +1,47 @@
+{
+  "alias": [
+    "ntp"
+  ],
+  "kind": "physical",
+  "monitoring": {
+    "metric": "power",
+    "wattmeter": "multiple"
+  },
+  "network_adapters": {
+    "adm": {
+      "ip": "172.17.79.22"
+    },
+    "bmc": {
+      "ip": "172.17.79.23"
+    },
+    "default": {
+      "ip": "172.16.79.22"
+    }
+  },
+  "sensors": {
+    "network": {
+      "available": true,
+      "resolution": 1
+    },
+    "power": {
+      "available": true,
+      "resolution": 1,
+      "via": {
+        "pdu": [
+          {
+            "port": 23,
+            "uid": "grimoire-pdu1"
+          },
+          {
+            "port": 23,
+            "uid": "grimoire-pdu2"
+          }
+        ]
+      }
+    }
+  },
+  "serial": "37H1J82",
+  "type": "server",
+  "uid": "srv2",
+  "warranty": "2020-10"
+}

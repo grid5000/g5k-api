@@ -1,0 +1,75 @@
+{
+  "ip": "172.16.79.15",
+  "metrics": [
+    {
+      "description": "Power consumption per outlet reported by wattmetre, in watt",
+      "name": "wattmetre_power_watt",
+      "optional_period": 20,
+      "period": 1000,
+      "source": {
+        "protocol": "wattmetre"
+      }
+    }
+  ],
+  "model": "",
+  "ports": {
+    "0": "gros-1",
+    "1": "gros-2",
+    "10": "gros-11",
+    "11": "gros-12",
+    "12": "gros-13",
+    "13": "gros-14",
+    "14": "gros-15",
+    "15": "gros-16",
+    "16": "gros-17",
+    "17": "gros-18",
+    "18": "gros-19",
+    "19": "gros-20",
+    "2": "gros-3",
+    "20": "gros-21",
+    "21": "gros-22",
+    "22": "gros-23",
+    "23": "gros-24",
+    "24": "gros-25",
+    "25": "gros-26",
+    "26": "gros-27",
+    "27": "gros-28",
+    "28": "gros-29",
+    "29": "gros-30",
+    "3": "gros-4",
+    "30": "gros-31",
+    "31": "gros-32",
+    "32": "gros-33",
+    "33": "gros-34",
+    "34": "gros-35",
+    "35": "gros-36",
+    "36": "gros-37",
+    "37": "gros-38",
+    "38": "gros-39",
+    "39": "gros-40",
+    "4": "gros-5",
+    "5": "gros-6",
+    "6": "gros-7",
+    "7": "gros-8",
+    "8": "gros-9",
+    "9": "gros-10"
+  },
+  "sensors": [
+    {
+      "power": {
+        "per_outlets": true,
+        "resolution": 1,
+        "wattmetre": {
+          "available": true,
+          "unit": "W",
+          "www": {
+            "url": "http://wattmetre.nancy.grid5000.fr/GetWatts-json.php"
+          }
+        }
+      }
+    }
+  ],
+  "type": "pdu",
+  "uid": "gros-wattmetre1",
+  "vendor": "OmegaWatt"
+}

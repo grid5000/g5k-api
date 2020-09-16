@@ -21,9 +21,9 @@ describe VersionsController do
     it 'should get the list of versions' do
       get :index, params: { resource: '/sites', format: :json }
       expect(response.status).to eq(200)
-      expect(json['total']).to eq(10)
+      expect(json['total']).to eq(3057)
       expect(json['offset']).to eq(0)
-      expect(json['items'].length).to eq(10)
+      expect(json['items'].length).to eq(100)
       expect(json['links'].map { |l| l['rel'] }.sort).to eq(%w[parent self])
       expect(json['items'][0].keys.sort).to eq(%w[author date links message type uid])
       expect(json['items'][0]['links'].map { |l| l['rel'] }.sort).to eq(%w[parent self])
@@ -44,7 +44,7 @@ describe VersionsController do
     end
 
     it 'should return the version' do
-      version = 'b00bd30bf69c322ffe9aca7a9f6e3be0f29e20f4'
+      version = '2eefdbf0e48cad1bd2db4fa9c96397df168a9c68'
       get :show, params: { resource: '/', id: version, format: :json }
       expect(response.status).to eq(200)
       assert_media_type(:json)
@@ -53,7 +53,7 @@ describe VersionsController do
       assert_expires_in 60.seconds, public: true
       expect(json['uid']).to eq(version)
       expect(json.keys.sort).to eq(%w[author date links message type uid])
-      expect(json['author']).to eq('Cyril Rohr')
+      expect(json['author']).to eq('Samir Noir')
     end
   end # describe "GET {{resource}}/versions/{{version_id}}"
 end

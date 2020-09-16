@@ -1,0 +1,47 @@
+{
+  "ip": "172.16.31.9",
+  "metrics": [
+    {
+      "description": "Power consumption per outlet reported by wattmetre, in watt",
+      "name": "wattmetre_power_watt",
+      "optional_period": 20,
+      "period": 1000,
+      "source": {
+        "protocol": "wattmetre"
+      }
+    }
+  ],
+  "model": "",
+  "ports": {
+    "0": "yeti-1",
+    "1": "yeti-1",
+    "10": "troll-3",
+    "11": "troll-4",
+    "2": "yeti-2",
+    "3": "yeti-2",
+    "4": "yeti-3",
+    "5": "yeti-3",
+    "6": "yeti-4",
+    "7": "yeti-4",
+    "8": "troll-1",
+    "9": "troll-2"
+  },
+  "sensors": [
+    {
+      "power": {
+        "per_outlets": true,
+        "resolution": 1,
+        "wattmetre": {
+          "available": true,
+          "unit": "W",
+          "www": {
+            "url": "http://digwatt.grenoble.grid5000.fr/GetWatts-json.php"
+          }
+        }
+      }
+    }
+  ],
+  "type": "pdu",
+  "uid": "wattmetre1",
+  "vendor": "OmegaWatt"
+}

@@ -1,0 +1,355 @@
+{
+  "backplane_bps": 36000000000000,
+  "channels": {
+    "port-channel1": {
+      "kind": "router",
+      "port": "port-channel2",
+      "rate": 200000000000,
+      "uid": "sw-chiclet-2"
+    }
+  },
+  "ip": "172.17.47.223",
+  "kind": "switch",
+  "linecards": [
+    {
+    },
+    {
+      "backplane_bps": 36000000000000,
+      "kavlan_pattern": "Ethernet%LINECARD%/%PORT%",
+      "kind": "node",
+      "ports": [
+        {
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "Ethernet1/1",
+          "uid": "chetemi-1"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "Ethernet1/2",
+          "uid": "chetemi-2"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "Ethernet1/3",
+          "uid": "chetemi-3"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "Ethernet1/4",
+          "uid": "chetemi-4"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "Ethernet1/5",
+          "uid": "chetemi-5"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "Ethernet1/6",
+          "uid": "chetemi-6"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "Ethernet1/7",
+          "uid": "chetemi-7"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "Ethernet1/8",
+          "uid": "chetemi-8"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "Ethernet1/9",
+          "uid": "chetemi-9"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "Ethernet1/10",
+          "uid": "chetemi-10"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "Ethernet1/11",
+          "uid": "chetemi-11"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "Ethernet1/12",
+          "uid": "chetemi-12"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "Ethernet1/13",
+          "uid": "chetemi-13"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "Ethernet1/14",
+          "uid": "chetemi-14"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "Ethernet1/15",
+          "uid": "chetemi-15"
+        },
+        {
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "Ethernet1/17",
+          "uid": "chifflet-1"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "Ethernet1/18",
+          "uid": "chifflet-2"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "Ethernet1/19",
+          "uid": "chifflet-3"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "Ethernet1/20",
+          "uid": "chifflet-4"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "Ethernet1/21",
+          "uid": "chifflet-5"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "Ethernet1/22",
+          "uid": "chifflet-6"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "Ethernet1/23",
+          "uid": "chifflet-7"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "Ethernet1/24",
+          "uid": "chifflet-8"
+        },
+        {
+          "kind": "node",
+          "port": "eth1",
+          "snmp_name": "Ethernet1/25",
+          "uid": "chetemi-1"
+        },
+        {
+          "kind": "node",
+          "port": "eth1",
+          "snmp_name": "Ethernet1/26",
+          "uid": "chetemi-2"
+        },
+        {
+          "kind": "node",
+          "port": "eth1",
+          "snmp_name": "Ethernet1/27",
+          "uid": "chetemi-3"
+        },
+        {
+          "kind": "node",
+          "port": "eth1",
+          "snmp_name": "Ethernet1/28",
+          "uid": "chetemi-4"
+        },
+        {
+          "kind": "node",
+          "port": "eth1",
+          "snmp_name": "Ethernet1/29",
+          "uid": "chetemi-5"
+        },
+        {
+          "kind": "node",
+          "port": "eth1",
+          "snmp_name": "Ethernet1/30",
+          "uid": "chetemi-6"
+        },
+        {
+          "kind": "node",
+          "port": "eth1",
+          "snmp_name": "Ethernet1/31",
+          "uid": "chetemi-7"
+        },
+        {
+          "kind": "node",
+          "port": "eth1",
+          "snmp_name": "Ethernet1/32",
+          "uid": "chetemi-8"
+        },
+        {
+          "kind": "node",
+          "port": "eth1",
+          "snmp_name": "Ethernet1/33",
+          "uid": "chetemi-9"
+        },
+        {
+          "kind": "node",
+          "port": "eth1",
+          "snmp_name": "Ethernet1/34",
+          "uid": "chetemi-10"
+        },
+        {
+          "kind": "node",
+          "port": "eth1",
+          "snmp_name": "Ethernet1/35",
+          "uid": "chetemi-11"
+        },
+        {
+          "kind": "node",
+          "port": "eth1",
+          "snmp_name": "Ethernet1/36",
+          "uid": "chetemi-12"
+        },
+        {
+          "kind": "node",
+          "port": "eth1",
+          "snmp_name": "Ethernet1/37",
+          "uid": "chetemi-13"
+        },
+        {
+          "kind": "node",
+          "port": "eth1",
+          "snmp_name": "Ethernet1/38",
+          "uid": "chetemi-14"
+        },
+        {
+          "kind": "node",
+          "port": "eth1",
+          "snmp_name": "Ethernet1/39",
+          "uid": "chetemi-15"
+        },
+        {
+          "kind": "node",
+          "port": "eth1",
+          "snmp_name": "Ethernet1/40",
+          "uid": "chifflet-1"
+        },
+        {
+          "kind": "node",
+          "port": "eth1",
+          "snmp_name": "Ethernet1/41",
+          "uid": "chifflet-2"
+        },
+        {
+          "kind": "node",
+          "port": "eth1",
+          "snmp_name": "Ethernet1/42",
+          "uid": "chifflet-3"
+        },
+        {
+          "kind": "node",
+          "port": "eth1",
+          "snmp_name": "Ethernet1/43",
+          "uid": "chifflet-4"
+        },
+        {
+          "kind": "node",
+          "port": "eth1",
+          "snmp_name": "Ethernet1/44",
+          "uid": "chifflet-5"
+        },
+        {
+          "kind": "node",
+          "port": "eth1",
+          "snmp_name": "Ethernet1/45",
+          "uid": "chifflet-6"
+        },
+        {
+          "kind": "node",
+          "port": "eth1",
+          "snmp_name": "Ethernet1/46",
+          "uid": "chifflet-7"
+        },
+        {
+          "kind": "node",
+          "port": "eth1",
+          "snmp_name": "Ethernet1/47",
+          "uid": "chifflet-8"
+        },
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+          "kind": "channel",
+          "rate": 100000000000,
+          "snmp_name": "Ethernet1/53",
+          "uid": "port-channel1"
+        },
+        {
+          "kind": "channel",
+          "rate": 100000000000,
+          "snmp_name": "Ethernet1/54",
+          "uid": "port-channel1"
+        }
+      ],
+      "rate": 10000000000,
+      "snmp_pattern": "Ethernet%LINECARD%/%PORT%"
+    }
+  ],
+  "metrics": [
+    {
+      "description": "Input byte counter for the network device port",
+      "name": "network_ifacein_bytes_total",
+      "period": 1000,
+      "source": {
+        "id": "1.3.6.1.2.1.2.2.1.10.{{ 1.3.6.1.2.1.2.2.1.2 == %SNMP_IFACE% }}",
+        "protocol": "snmp"
+      }
+    },
+    {
+      "description": "Output byte counter for the network device port",
+      "name": "network_ifaceout_bytes_total",
+      "period": 1000,
+      "source": {
+        "id": "1.3.6.1.2.1.2.2.1.16.{{ 1.3.6.1.2.1.2.2.1.2 == %SNMP_IFACE% }}",
+        "protocol": "snmp"
+      }
+    }
+  ],
+  "model": "cisco 93180YC-EX",
+  "role": "production",
+  "site": "lille",
+  "snmp_community": "public",
+  "type": "network_equipment",
+  "uid": "sw-chiclet-3",
+  "warranty": "2021-11-30"
+}

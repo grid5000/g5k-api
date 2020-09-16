@@ -1,0 +1,410 @@
+{
+  "alias": [
+    "gw-luxembourg"
+  ],
+  "backplane_bps": 720000000000,
+  "channels": {
+    "Port-channel4": {
+      "kind": "switch",
+      "port": "port-channel4",
+      "rate": 20000000000,
+      "uid": "ul-grid5000-sw02"
+    }
+  },
+  "ip": "172.16.191.254",
+  "kind": "router",
+  "linecards": [
+    {
+    },
+    {
+      "backplane_bps": 40000000000,
+      "kavlan_pattern": "Gi%LINECARD%/%PORT%",
+      "kind": "node",
+      "ports": [
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+          "kind": "server",
+          "snmp_name": "GigabitEthernet1/35",
+          "uid": "cronos-eth1"
+        },
+        {
+          "kind": "server",
+          "snmp_name": "GigabitEthernet1/36",
+          "uid": "zeus"
+        },
+        {
+          "kind": "server",
+          "snmp_name": "GigabitEthernet1/37",
+          "uid": "cronos-eth2"
+        },
+        {
+        },
+        {
+        },
+        {
+          "kind": "server",
+          "snmp_name": "GigabitEthernet1/40",
+          "uid": "zeus-eth1"
+        },
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+        }
+      ],
+      "rate": 1000000000,
+      "snmp_pattern": "GigabitEthernet%LINECARD%/%PORT%"
+    },
+    {
+      "backplane_bps": 40000000000,
+      "kavlan_pattern": "Gi%LINECARD%/%PORT%",
+      "kind": "node",
+      "ports": [
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+          "kind": "server",
+          "snmp_name": "GigabitEthernet2/44",
+          "uid": "cronos"
+        },
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+        }
+      ],
+      "rate": 1000000000,
+      "snmp_pattern": "GigabitEthernet%LINECARD%/%PORT%"
+    },
+    {
+      "backplane_bps": 40000000000,
+      "kavlan_pattern": "Ti%LINECARD%/%PORT%",
+      "kind": "channel",
+      "ports": [
+        {
+        },
+        {
+          "kind": "channel",
+          "snmp_name": "TenGigabitEthernet3/1",
+          "uid": "Port-channel4"
+        },
+        {
+          "kind": "channel",
+          "snmp_name": "TenGigabitEthernet3/2",
+          "uid": "Port-channel4"
+        }
+      ],
+      "rate": 10000000000,
+      "snmp_pattern": "TenGigabitEthernet%LINECARD%/%PORT%"
+    },
+    {
+    },
+    {
+      "backplane_bps": 40000000000,
+      "kavlan_pattern": "Ti%LINECARD%/%PORT%",
+      "kind": "backbone",
+      "ports": [
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+          "kind": "backbone",
+          "rate": 10000000000,
+          "snmp_name": "TenGigabitEthernet5/4",
+          "uid": "renater-luxembourg"
+        }
+      ],
+      "rate": 1000000000,
+      "snmp_pattern": "TenGigabitEthernet%LINECARD%/%PORT%"
+    }
+  ],
+  "metrics": [
+    {
+      "description": "Input byte counter for the network device port",
+      "name": "network_ifacein_bytes_total",
+      "period": 1000,
+      "source": {
+        "id": "1.3.6.1.2.1.2.2.1.10.{{ 1.3.6.1.2.1.2.2.1.2 == %SNMP_IFACE% }}",
+        "protocol": "snmp"
+      }
+    },
+    {
+      "description": "Output byte counter for the network device port",
+      "name": "network_ifaceout_bytes_total",
+      "period": 1000,
+      "source": {
+        "id": "1.3.6.1.2.1.2.2.1.16.{{ 1.3.6.1.2.1.2.2.1.2 == %SNMP_IFACE% }}",
+        "protocol": "snmp"
+      }
+    }
+  ],
+  "model": "cisco WS-C6506-E",
+  "role": "production",
+  "site": "luxembourg",
+  "snmp_community": "public",
+  "type": "network_equipment",
+  "uid": "gw",
+  "vlans": {
+    "vlan100": {
+      "addresses": [
+        "172.16.191.254"
+      ]
+    },
+    "vlan101": {
+      "addresses": [
+        "172.17.191.254"
+      ],
+      "administrative": true
+    },
+    "vlan103": {
+      "addresses": [
+        "192.168.69.1"
+      ]
+    },
+    "vlan50": {
+      "addresses": [
+        "192.168.15.254"
+      ]
+    },
+    "vlan500": {
+      "addresses": [
+        "192.168.4.21"
+      ]
+    },
+    "vlan701": {
+      "addresses": [
+        "192.168.192.0/20"
+      ],
+      "name": "kavlan-1"
+    },
+    "vlan702": {
+      "addresses": [
+        "192.168.208.0/20"
+      ],
+      "name": "kavlan-2"
+    },
+    "vlan703": {
+      "addresses": [
+        "192.168.224.0/20"
+      ],
+      "name": "kavlan-3"
+    },
+    "vlan704": {
+      "addresses": [
+        "10.40.0.0/18"
+      ],
+      "name": "kavlan-4"
+    },
+    "vlan705": {
+      "addresses": [
+        "10.40.64.0/18"
+      ],
+      "name": "kavlan-5"
+    },
+    "vlan706": {
+      "addresses": [
+        "10.40.128.0/18"
+      ],
+      "name": "kavlan-6"
+    },
+    "vlan707": {
+      "addresses": [
+        "10.40.192.0/18"
+      ],
+      "name": "kavlan-7"
+    },
+    "vlan708": {
+      "addresses": [
+        "10.41.0.0/18"
+      ],
+      "name": "kavlan-8"
+    },
+    "vlan709": {
+      "addresses": [
+        "10.41.64.0/18"
+      ],
+      "name": "kavlan-9"
+    },
+    "vlan720": {
+      "addresses": [
+        "10.43.192.0/18"
+      ],
+      "name": "kavlan-20"
+    }
+  },
+  "warranty": "2018-12-01"
+}

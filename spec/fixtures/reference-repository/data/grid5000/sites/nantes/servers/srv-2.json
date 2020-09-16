@@ -1,0 +1,17 @@
+{
+  "kind": "physical",
+  "network_adapters": {
+    "bmc": {
+      "ip": "172.17.207.3",
+      "mac": "78:45:c4:f9:2f:53"
+    },
+    "default": {
+      "ip": "172.16.207.3",
+      "mac": "a0:36:9f:0e:a1:f0"
+    }
+  },
+  "serial": "JP2YG5J",
+  "type": "server",
+  "uid": "srv-2",
+  "warranty": "2019-11"
+}

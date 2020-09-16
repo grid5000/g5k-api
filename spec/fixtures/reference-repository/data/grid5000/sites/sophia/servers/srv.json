@@ -1,0 +1,27 @@
+{
+  "alias": [
+    "adminfront"
+  ],
+  "kind": "physical",
+  "network_adapters": {
+    "adm": {
+      "ip": "172.17.143.1",
+      "mac": "18:03:73:ee:10:fc",
+      "mounted": true
+    },
+    "bmc": {
+      "ip": "172.17.143.11",
+      "mac": "18:03:73:ee:11:04",
+      "mounted": true
+    },
+    "default": {
+      "ip": "172.16.143.1",
+      "mac": "18:03:73:ee:10:fe",
+      "mounted": true
+    }
+  },
+  "serial": "1XH735J",
+  "type": "server",
+  "uid": "srv",
+  "warranty": "2014-07-06"
+}

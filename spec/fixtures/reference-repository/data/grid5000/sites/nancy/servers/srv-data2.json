@@ -1,0 +1,51 @@
+{
+  "alias": [
+    "nfs",
+    "home-g5k",
+    "public",
+    "modules"
+  ],
+  "kind": "physical",
+  "monitoring": {
+    "metric": "power",
+    "wattmeter": "multiple"
+  },
+  "network_adapters": {
+    "bmc": {
+      "ip": "172.17.79.17",
+      "mac": "4C:D9:8F:6B:D5:60",
+      "mounted": true
+    },
+    "default": {
+      "ip": "172.16.79.17",
+      "mac": "F8:F2:1E:69:64:A0",
+      "mounted": false
+    }
+  },
+  "sensors": {
+    "network": {
+      "available": true,
+      "resolution": 1
+    },
+    "power": {
+      "available": true,
+      "resolution": 1,
+      "via": {
+        "pdu": [
+          {
+            "port": 1,
+            "uid": "gros-pdu7"
+          },
+          {
+            "port": 1,
+            "uid": "gros-pdu8"
+          }
+        ]
+      }
+    }
+  },
+  "serial": "DKHBSY2",
+  "type": "server",
+  "uid": "srv-data2",
+  "warranty": "2026-07"
+}

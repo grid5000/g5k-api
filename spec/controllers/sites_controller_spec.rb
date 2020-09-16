@@ -21,9 +21,9 @@ describe SitesController do
     it 'should get the correct collection of sites' do
       get :index, format: :json
       expect(response.status).to eq 200
-      expect(json['total']).to eq 4
-      expect(json['items'].length).to eq 4
-      expect(json['items'][0]['uid']).to eq 'bordeaux'
+      expect(json['total']).to eq 8
+      expect(json['items'].length).to eq 8
+      expect(json['items'][0]['uid']).to eq 'grenoble'
       expect(json['items'][0]['links']).to be_a(Array)
     end
 
@@ -64,11 +64,13 @@ describe SitesController do
       expect(json['links'].map { |l| l['rel'] }.sort).to eq %w[
         clusters
         deployments
-        environments
         jobs
         metrics
+        network_equipments
         parent
+        pdus
         self
+        servers
         status
         version
         versions
@@ -82,26 +84,7 @@ describe SitesController do
       end['href']).to eq '/sites/rennes/clusters'
       expect(json['links'].find do |l|
         l['rel'] == 'version'
-      end['href']).to eq '/sites/rennes/versions/8a562420c9a659256eeaafcfd89dfa917b5fb4d0'
-    end
-
-    it 'should return subresource links that are only in testing branch' do
-      get :show, params: { id: 'lille', format: :json, branch: 'testing' }
-      expect(response.status).to eq 200
-      expect(json['links'].map { |l| l['rel'] }.sort).to eq %w[
-        clusters
-        deployments
-        environments
-        jobs
-        metrics
-        network_equipments
-        parent
-        self
-        status
-        version
-        versions
-        vlans
-      ]
+      end['href']).to eq "/sites/rennes/versions/#{@latest_commit}"
     end
 
     it 'should return link for deployment' do
@@ -123,14 +106,14 @@ describe SitesController do
     end
 
     it 'should return the specified version, and the max-age value in the Cache-Control header should be big' do
-      get :show, params: { id: 'rennes', format: :json, version: 'b00bd30bf69c322ffe9aca7a9f6e3be0f29e20f4' }
+      get :show, params: { id: 'rennes', format: :json, version: '2eefdbf0e48cad1bd2db4fa9c96397df168a9c68' }
       expect(response.status).to eq 200
       assert_expires_in(24 * 3600 * 30, public: true)
       expect(json['uid']).to eq 'rennes'
-      expect(json['version']).to eq 'b00bd30bf69c322ffe9aca7a9f6e3be0f29e20f4'
+      expect(json['version']).to eq '2eefdbf0e48cad1bd2db4fa9c96397df168a9c68'
       expect(json['links'].find  do |l|
         l['rel'] == 'version'
-      end['href']).to eq '/sites/rennes/versions/b00bd30bf69c322ffe9aca7a9f6e3be0f29e20f4'
+      end['href']).to eq '/sites/rennes/versions/2eefdbf0e48cad1bd2db4fa9c96397df168a9c68'
     end
 
     it 'should return 404 if the specified branch does not exist' do
@@ -152,56 +135,56 @@ describe SitesController do
     it 'should return 200 and the site status' do
       get :status, params: { id: 'rennes', format: :json }
       expect(response.status).to eq 200
-      expect(json['nodes'].length).to eq 196
+      expect(json['nodes'].length).to eq 75
       expect(json['nodes'].keys.map { |k| k.split('-')[0] }.uniq.sort).to eq %w[
-        paraquad
-        paramount
-        paravent
+        parapide
+        parapluie
+        parasilo
       ].sort
-      expect(json['disks']).to be_empty # no reservable disks on requested clusters
-      expect(json['nodes']['paramount-4.rennes.grid5000.fr']['reservations']).not_to be_nil
-      expect(json['nodes']['paramount-4.rennes.grid5000.fr']['free_slots']).not_to be_nil
-      expect(json['nodes']['paramount-4.rennes.grid5000.fr']['busy_slots']).not_to be_nil
-      expect(json['nodes']['paramount-4.rennes.grid5000.fr']['freeable_slots']).not_to be_nil
+      expect(json['disks']).not_to be_nil
+      expect(json['nodes']['parapide-5.rennes.grid5000.fr']['reservations']).not_to be_nil
+      expect(json['nodes']['parapide-5.rennes.grid5000.fr']['free_slots']).not_to be_nil
+      expect(json['nodes']['parapide-5.rennes.grid5000.fr']['busy_slots']).not_to be_nil
+      expect(json['nodes']['parapide-5.rennes.grid5000.fr']['freeable_slots']).not_to be_nil
       expect(json.keys).to include('uid')
       expect(json['uid']).to eq @now.to_i
     end
 
     # GET /sites/{{site_id}}/status?network_address={{network_address}}
     it 'should return the status ONLY for the specified node' do
-      get :status, params: { id: 'rennes', network_address: 'paramount-4.rennes.grid5000.fr', format: :json }
+      get :status, params: { id: 'rennes', network_address: 'parapide-5.rennes.grid5000.fr', format: :json }
       expect(response.status).to eq 200
-      expect(json['nodes'].keys.map { |k| k.split('.')[0] }.uniq.sort).to eq ['paramount-4']
+      expect(json['nodes'].keys.map { |k| k.split('.')[0] }.uniq.sort).to eq ['parapide-5']
       expect(json['disks']).to be_empty
-      expect(json['nodes']['paramount-4.rennes.grid5000.fr']['reservations']).not_to be_nil
+      expect(json['nodes']['parapide-5.rennes.grid5000.fr']['reservations']).not_to be_nil
     end
 
     # GET /sites/{{site_id}}/status?disks=no
     it 'should return the status of nodes but not disks' do
       get :status, params: { id: 'rennes', disks: 'no', format: :json }
       expect(response.status).to eq 200
-      expect(json['nodes'].length).to eq 196
+      expect(json['nodes'].length).to eq 75
       expect(json['nodes'].keys.map { |k| k.split('-')[0] }.uniq.sort).to eq %w[
-        paraquad
-        paramount
-        paravent
+        parapide
+        parapluie
+        parasilo
       ].sort
       expect(json['disks']).to be_nil
-      expect(json['nodes']['paramount-4.rennes.grid5000.fr']['reservations']).not_to be_nil
+      expect(json['nodes']['parapide-5.rennes.grid5000.fr']['reservations']).not_to be_nil
     end
 
     # GET /sites/{{site_id}}/status?job_details=no
     it 'should return the status without the reservations' do
       get :status, params: { id: 'rennes', job_details: 'no', format: :json }
       expect(response.status).to eq 200
-      expect(json['nodes'].length).to eq 196
+      expect(json['nodes'].length).to eq 75
       expect(json['nodes'].keys.map { |k| k.split('-')[0] }.uniq.sort).to eq %w[
-        paraquad
-        paramount
-        paravent
+        parapide
+        parapluie
+        parasilo
       ].sort
-      expect(json['disks']).to be_empty
-      expect(json['nodes']['paramount-4.rennes.grid5000.fr']['reservations']).to be_nil
+      expect(json['disks']).not_to be_nil
+      expect(json['nodes']['parapide-5.rennes.grid5000.fr']['reservations']).to be_nil
     end
 
     it 'should fail gracefully in the event of a grit timeout' do
@@ -219,7 +202,7 @@ describe SitesController do
     end
 
     it 'should not include reservations' do
-      expect(json['nodes']['paramount-4.rennes.grid5000.fr']['reservations']).to be_nil
+      expect(json['nodes']['parapide-5.rennes.grid5000.fr']['reservations']).to be_nil
     end
   end
   describe 'GET /sites/{{site_id}}/status (unknown)' do
@@ -231,7 +214,7 @@ describe SitesController do
     end
 
     it 'should include reservations' do
-      expect(json['nodes']['paramount-4.rennes.grid5000.fr']['reservations']).to_not be_nil
+      expect(json['nodes']['parapide-5.rennes.grid5000.fr']['reservations']).to_not be_nil
     end
   end
 
@@ -239,16 +222,16 @@ describe SitesController do
     it "should get the correct deep view of sites" do
       get :index, params: { format: :json, deep: true }
       expect(response.status).to eq 200
-      expect(json['items'].length).to eq 4
-      expect(json['items']['bordeaux'].length).to eq 14
-      expect(json['items']['bordeaux']).to be_a(Hash)
-      expect(json['items']['bordeaux']['uid']).to eq 'bordeaux'
+      expect(json['items'].length).to eq 8
+      expect(json['items']['grenoble'].length).to eq 24
+      expect(json['items']['grenoble']).to be_a(Hash)
+      expect(json['items']['grenoble']['uid']).to eq 'grenoble'
     end
 
     it "should be the correct version" do
       get :index, params: { format: :json, deep: true }
       expect(response.status).to eq 200
-      expect(json['version']).to eq '8a562420c9a659256eeaafcfd89dfa917b5fb4d0'
+      expect(json['version']).to eq @latest_commit
     end
   end
 
@@ -256,25 +239,25 @@ describe SitesController do
     it "should get the correct deep view for one site" do
       get :show, params: { id: 'rennes', format: :json, deep: true }
       expect(response.status).to eq 200
-      expect(json['total']).to eq 14
-      expect(json['items'].length).to eq 14
+      expect(json['total']).to eq 24
+      expect(json['items'].length).to eq 24
       expect(json['items']['clusters']).to be_a(Hash)
-      expect(json['items']['clusters']['paravent']['uid']).to eq 'paravent'
+      expect(json['items']['clusters']['parasilo']['uid']).to eq 'parasilo'
     end
   end
 
   describe "GET /sites/{{id}}?deep=true&job_id={{job_id}}" do
     it "should get the correct nodes collection for a job" do
-      get :show, params: { id: 'rennes', job_id: '374191', format: :json, deep: true }
+      get :show, params: { id: 'rennes', job_id: '374187', format: :json, deep: true }
       expect(response.status).to eq 200
       expect(json['total']).to eq 3
       expect(json['items'].length).to eq 3
       expect(json['items']['clusters']).to be_a(Hash)
-      expect(json['items']['clusters']['paramount']['uid']).to eq 'paramount'
-      expect(json['items']['clusters']['paramount']['nodes']).to be_a(Array)
-      expect(json['items']['clusters']['paramount']['nodes'].first['uid']).to eq 'paramount-30'
-      expect(json['items']['clusters']['paramount']['nodes'].length).to eq 4
-      expect(json['version']).to eq '5b02702daa827f7e39ebf7396af26735c9d2aacd'
+      expect(json['items']['clusters']['parapide']['uid']).to eq 'parapide'
+      expect(json['items']['clusters']['parapide']['nodes']).to be_a(Array)
+      expect(json['items']['clusters']['parapide']['nodes'].first['uid']).to eq 'parapide-1'
+      expect(json['items']['clusters']['parapide']['nodes'].length).to eq 16
+      expect(json['version']).to eq 'f449f0cb61b0cf5adf1ddbae47c9a409af9652f1'
     end
   end
 end

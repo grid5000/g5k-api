@@ -1,0 +1,10 @@
+{
+  "kind": "virtual",
+  "network_adapters": {
+    "default": {
+      "ip": "172.16.191.108"
+    }
+  },
+  "type": "server",
+  "uid": "www"
+}

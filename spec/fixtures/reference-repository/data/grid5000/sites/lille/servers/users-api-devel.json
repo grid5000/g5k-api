@@ -1,0 +1,10 @@
+{
+  "kind": "virtual",
+  "network_adapters": {
+    "default": {
+      "ip": "172.16.47.107"
+    }
+  },
+  "type": "server",
+  "uid": "users-api-devel"
+}
