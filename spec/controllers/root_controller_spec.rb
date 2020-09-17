@@ -57,4 +57,13 @@ describe RootController do
                          ]
                        })
   end
+
+  it "should get the correct deep view" do
+    get :show, params: { id: 'grid5000', format: :json, deep: true }
+    expect(response.status).to eq 200
+    expect(json['total']).to eq 4
+    expect(json['items'].length).to eq 4
+    expect(json['items']['sites']).to be_a(Hash)
+    expect(json['items']['environments']).to be_a(Hash)
+  end
 end

@@ -15,6 +15,7 @@
 require 'json'
 require 'logger'
 require 'rugged'
+require 'hash'
 
 module Grid5000
   class Repository
@@ -52,7 +53,12 @@ module Grid5000
         return e
       end
 
-      result = expand_object(object, path, @commit)
+      result = if options[:deep]
+                 deep_expand(object, path, @commit)
+               else
+                 expand_object(object, path, @commit)
+               end
+
       result
     end
 
@@ -108,6 +114,74 @@ module Grid5000
           result
         end
       end
+    end
+
+    def deep_expand(hash_object, path, commit)
+      return nil if hash_object.nil?
+
+      tree_object = instance.lookup(hash_object[:oid])
+
+      # If it's a symlink
+      if hash_object[:filemode] == 40_960
+        hash_object = find_object_at(instance.lookup(entry[:oid]).content, commit, File.join(path, root, entry[:name]))
+        tree_object = instance.lookup(hash_object[:oid])
+      end
+
+      deep_hash = {}
+      flat_array = []
+      sub_hash = {}
+      last_root = nil
+      tree_object.walk_blobs(:postorder) do |root, entry|
+        next unless File.extname(entry[:name]) == '.json'
+
+        # If it's a symlink
+        if entry[:filemode] == 40960
+          hash_object = find_object_at(instance.lookup(entry[:oid]).content, commit, File.join(path, root, entry[:name]))
+          object = instance.lookup(hash_object[:oid])
+        else
+          object = instance.lookup(entry[:oid])
+        end
+
+        path_hierarchy = File.dirname("#{root}#{entry[:name]}").split('/')
+        file_hash = JSON.parse(object.content)
+
+        last_root = root unless last_root
+        sub_hash = {} if last_root != root
+        last_root = root
+
+        path_hierarchy = [] if path_hierarchy == ['.']
+
+        # If it's a node or a network_equipment, we want to return an Array of
+        # Hashes
+        #
+        # This is also required when we want to return a list (for example a
+        # list of servers) with no parent. This case happens for a deep view.
+        if ['nodes', 'network_equipments', 'servers', 'pdus'].include?(path_hierarchy.last) ||
+            (root.empty? && File.basename(entry[:name], '.json') != path.split('/').last)
+
+          if path_hierarchy.empty?
+            flat_array << file_hash
+          else
+            sub_hash[path_hierarchy.last] ||= []
+            sub_hash[path_hierarchy.last] << file_hash
+            merge_path_hierarchy = path_hierarchy - [path_hierarchy.last]
+            deep_hash = deep_hash.deep_merge(Hash.from_array(merge_path_hierarchy, sub_hash))
+          end
+        else
+          file_hash = Hash.from_array(path_hierarchy, file_hash)
+          deep_hash = deep_hash.deep_merge(file_hash)
+        end
+      end
+
+      data = deep_hash.empty? ? flat_array : deep_hash
+
+      result = {
+        "total" => data.length,
+        "offset" => 0,
+        "items" => rec_sort(data),
+        "version" => commit.oid
+      }
+      result
     end
 
     def find_commit_for(options = {})

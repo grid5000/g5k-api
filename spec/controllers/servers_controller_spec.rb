@@ -37,11 +37,38 @@ describe ServersController do
       expect(response.status).to eq(200)
       expect(json['total']).to eq(2)
 
-      serverList = []
+      server_list = []
       json['items'].each do |server|
-        serverList = [server['uid']] | serverList
+        server_list = [server['uid']] | server_list
       end
-      expect(serverList - %w[storage5k talc-data]).to be_empty
+      expect(server_list - %w[storage5k talc-data]).to be_empty
+    end
+  end
+
+  describe 'GET /sites/{{site_id}}/servers?deep=true' do
+    it 'should return 2 servers in site nancy and their exact names' do
+      get :index, params: { deep: true, site_id: 'nancy', format: :json }
+      expect(response.status).to eq(200)
+      expect(json['total']).to eq(2)
+      expect(json['items']).to be_a(Array)
+
+      server_list = []
+      json['items'].each do |server|
+        server_list = [server['uid']] | server_list
+      end
+      expect(server_list - %w[storage5k talc-data]).to be_empty
+    end
+
+    it 'should return 2 links, parent and self' do
+      get :index, params: { deep: true, site_id: 'nancy', format: :json }
+      expect(response.status).to eq(200)
+      expect(json['links'].length).to eq(2)
+
+      links_rel = []
+      json['links'].each do |link|
+        links_rel = [link['rel']] | links_rel
+      end
+      expect(links_rel - %w[self parent]).to be_empty
     end
   end
 end

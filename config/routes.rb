@@ -22,6 +22,7 @@ Api::Application.routes.draw do
   get '/versions/:id' => 'versions#show', :via => [:get]
   get '*resource/versions' => 'versions#index', :via => [:get]
   get '*resource/versions/:id' => 'versions#show', :via => [:get]
+  get '/sites/:site_id/clusters/:id/nodes' => 'nodes#index', :via => [:get]
 
   resources :environments, only: %i[index show], constraints: { id: /[0-9A-Za-z\-\.]+/	}
   resources :network_equipments, only: %i[index show]
