@@ -141,6 +141,9 @@ describe SitesController do
         parapluie
         parasilo
       ].sort
+      expect(json['vlans']).to be_a(Hash)
+      expect(json['vlans'].length).to eq 7
+      expect(json['vlans']['1']['type']).to eq 'kavlan-local'
       expect(json['disks']).not_to be_nil
       expect(json['nodes']['parapide-5.rennes.grid5000.fr']['reservations']).not_to be_nil
       expect(json['nodes']['parapide-5.rennes.grid5000.fr']['free_slots']).not_to be_nil

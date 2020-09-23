@@ -2,24 +2,29 @@
 -- PostgreSQL database dump
 --
 
-SET statement_timeout = 0;
-SET client_encoding = 'UTF8';
-SET standard_conforming_strings = off;
-SET check_function_bodies = false;
-SET client_min_messages = warning;
-SET escape_string_warning = off;
+-- Dumped from database version 11.7 (Debian 11.7-0+deb10u1)
+-- Dumped by pg_dump version 11.7 (Debian 11.7-0+deb10u1)
 
-SET search_path = public, pg_catalog;
+SET statement_timeout = 0;
+SET lock_timeout = 0;
+SET idle_in_transaction_session_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+SELECT pg_catalog.set_config('search_path', '', false);
+SET check_function_bodies = false;
+SET xmloption = content;
+SET client_min_messages = warning;
+SET row_security = off;
 
 SET default_tablespace = '';
 
 SET default_with_oids = false;
 
 --
--- Name: accounting; Type: TABLE; Schema: public; Owner: root; Tablespace: 
+-- Name: accounting; Type: TABLE; Schema: public; Owner: oar
 --
 
-CREATE TABLE accounting (
+CREATE TABLE public.accounting (
     window_start bigint NOT NULL,
     window_stop bigint DEFAULT (0)::bigint NOT NULL,
     accounting_user character varying(255) DEFAULT ''::character varying NOT NULL,
@@ -30,13 +35,13 @@ CREATE TABLE accounting (
 );
 
 
-ALTER TABLE public.accounting OWNER TO root;
+ALTER TABLE public.accounting OWNER TO oar;
 
 --
--- Name: admission_rules; Type: TABLE; Schema: public; Owner: root; Tablespace: 
+-- Name: admission_rules; Type: TABLE; Schema: public; Owner: oar
 --
 
-CREATE TABLE admission_rules (
+CREATE TABLE public.admission_rules (
     id integer NOT NULL,
     rule text NOT NULL,
     priority integer DEFAULT 0 NOT NULL,
@@ -44,54 +49,47 @@ CREATE TABLE admission_rules (
 );
 
 
-ALTER TABLE public.admission_rules OWNER TO root;
+ALTER TABLE public.admission_rules OWNER TO oar;
 
 --
--- Name: admission_rules_id_seq; Type: SEQUENCE; Schema: public; Owner: root
+-- Name: admission_rules_id_seq; Type: SEQUENCE; Schema: public; Owner: oar
 --
 
-CREATE SEQUENCE admission_rules_id_seq
+CREATE SEQUENCE public.admission_rules_id_seq
     START WITH 1
     INCREMENT BY 1
-    NO MAXVALUE
     NO MINVALUE
+    NO MAXVALUE
     CACHE 1;
 
 
-ALTER TABLE public.admission_rules_id_seq OWNER TO root;
+ALTER TABLE public.admission_rules_id_seq OWNER TO oar;
 
 --
--- Name: admission_rules_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: root
+-- Name: admission_rules_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: oar
 --
 
-ALTER SEQUENCE admission_rules_id_seq OWNED BY admission_rules.id;
-
-
---
--- Name: admission_rules_id_seq; Type: SEQUENCE SET; Schema: public; Owner: root
---
-
-SELECT pg_catalog.setval('admission_rules_id_seq', 1, false);
+ALTER SEQUENCE public.admission_rules_id_seq OWNED BY public.admission_rules.id;
 
 
 --
--- Name: assigned_resources; Type: TABLE; Schema: public; Owner: root; Tablespace: 
+-- Name: assigned_resources; Type: TABLE; Schema: public; Owner: oar
 --
 
-CREATE TABLE assigned_resources (
+CREATE TABLE public.assigned_resources (
     moldable_job_id integer DEFAULT 0 NOT NULL,
     resource_id integer DEFAULT 0 NOT NULL,
     assigned_resource_index character varying(7) DEFAULT 'CURRENT'::character varying NOT NULL
 );
 
 
-ALTER TABLE public.assigned_resources OWNER TO root;
+ALTER TABLE public.assigned_resources OWNER TO oar;
 
 --
--- Name: challenges; Type: TABLE; Schema: public; Owner: root; Tablespace: 
+-- Name: challenges; Type: TABLE; Schema: public; Owner: oar
 --
 
-CREATE TABLE challenges (
+CREATE TABLE public.challenges (
     job_id integer DEFAULT 0 NOT NULL,
     challenge character varying(255) DEFAULT ''::character varying NOT NULL,
     ssh_private_key text DEFAULT ''::text NOT NULL,
@@ -99,25 +97,25 @@ CREATE TABLE challenges (
 );
 
 
-ALTER TABLE public.challenges OWNER TO root;
+ALTER TABLE public.challenges OWNER TO oar;
 
 --
--- Name: event_log_hostnames; Type: TABLE; Schema: public; Owner: root; Tablespace: 
+-- Name: event_log_hostnames; Type: TABLE; Schema: public; Owner: oar
 --
 
-CREATE TABLE event_log_hostnames (
+CREATE TABLE public.event_log_hostnames (
     event_id integer DEFAULT 0 NOT NULL,
     hostname character varying(255) DEFAULT ''::character varying NOT NULL
 );
 
 
-ALTER TABLE public.event_log_hostnames OWNER TO root;
+ALTER TABLE public.event_log_hostnames OWNER TO oar;
 
 --
--- Name: event_logs; Type: TABLE; Schema: public; Owner: root; Tablespace: 
+-- Name: event_logs; Type: TABLE; Schema: public; Owner: oar
 --
 
-CREATE TABLE event_logs (
+CREATE TABLE public.event_logs (
     event_id integer NOT NULL,
     type character varying(50) DEFAULT ''::character varying NOT NULL,
     job_id integer DEFAULT 0 NOT NULL,
@@ -127,41 +125,34 @@ CREATE TABLE event_logs (
 );
 
 
-ALTER TABLE public.event_logs OWNER TO root;
+ALTER TABLE public.event_logs OWNER TO oar;
 
 --
--- Name: event_logs_event_id_seq; Type: SEQUENCE; Schema: public; Owner: root
+-- Name: event_logs_event_id_seq; Type: SEQUENCE; Schema: public; Owner: oar
 --
 
-CREATE SEQUENCE event_logs_event_id_seq
+CREATE SEQUENCE public.event_logs_event_id_seq
     START WITH 1
     INCREMENT BY 1
-    NO MAXVALUE
     NO MINVALUE
+    NO MAXVALUE
     CACHE 1;
 
 
-ALTER TABLE public.event_logs_event_id_seq OWNER TO root;
+ALTER TABLE public.event_logs_event_id_seq OWNER TO oar;
 
 --
--- Name: event_logs_event_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: root
+-- Name: event_logs_event_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: oar
 --
 
-ALTER SEQUENCE event_logs_event_id_seq OWNED BY event_logs.event_id;
-
-
---
--- Name: event_logs_event_id_seq; Type: SEQUENCE SET; Schema: public; Owner: root
---
-
-SELECT pg_catalog.setval('event_logs_event_id_seq', 1, false);
+ALTER SEQUENCE public.event_logs_event_id_seq OWNED BY public.event_logs.event_id;
 
 
 --
--- Name: files; Type: TABLE; Schema: public; Owner: root; Tablespace: 
+-- Name: files; Type: TABLE; Schema: public; Owner: oar
 --
 
-CREATE TABLE files (
+CREATE TABLE public.files (
     file_id integer NOT NULL,
     md5sum character varying(255) DEFAULT NULL::character varying,
     location character varying(255) DEFAULT NULL::character varying,
@@ -171,141 +162,134 @@ CREATE TABLE files (
 );
 
 
-ALTER TABLE public.files OWNER TO root;
+ALTER TABLE public.files OWNER TO oar;
 
 --
--- Name: files_file_id_seq; Type: SEQUENCE; Schema: public; Owner: root
+-- Name: files_file_id_seq; Type: SEQUENCE; Schema: public; Owner: oar
 --
 
-CREATE SEQUENCE files_file_id_seq
+CREATE SEQUENCE public.files_file_id_seq
     START WITH 1
     INCREMENT BY 1
-    NO MAXVALUE
     NO MINVALUE
+    NO MAXVALUE
     CACHE 1;
 
 
-ALTER TABLE public.files_file_id_seq OWNER TO root;
+ALTER TABLE public.files_file_id_seq OWNER TO oar;
 
 --
--- Name: files_file_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: root
+-- Name: files_file_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: oar
 --
 
-ALTER SEQUENCE files_file_id_seq OWNED BY files.file_id;
-
-
---
--- Name: files_file_id_seq; Type: SEQUENCE SET; Schema: public; Owner: root
---
-
-SELECT pg_catalog.setval('files_file_id_seq', 1, false);
+ALTER SEQUENCE public.files_file_id_seq OWNED BY public.files.file_id;
 
 
 --
--- Name: frag_jobs; Type: TABLE; Schema: public; Owner: root; Tablespace: 
+-- Name: frag_jobs; Type: TABLE; Schema: public; Owner: oar
 --
 
-CREATE TABLE frag_jobs (
+CREATE TABLE public.frag_jobs (
     frag_id_job integer DEFAULT 0 NOT NULL,
     frag_date integer DEFAULT 0 NOT NULL,
     frag_state character varying(16) DEFAULT 'LEON'::character varying NOT NULL
 );
 
 
-ALTER TABLE public.frag_jobs OWNER TO root;
+ALTER TABLE public.frag_jobs OWNER TO oar;
 
 --
--- Name: gantt_jobs_predictions; Type: TABLE; Schema: public; Owner: root; Tablespace: 
+-- Name: gantt_jobs_predictions; Type: TABLE; Schema: public; Owner: oar
 --
 
-CREATE TABLE gantt_jobs_predictions (
+CREATE TABLE public.gantt_jobs_predictions (
     moldable_job_id integer DEFAULT 0 NOT NULL,
     start_time integer DEFAULT 0 NOT NULL
 );
 
 
-ALTER TABLE public.gantt_jobs_predictions OWNER TO root;
+ALTER TABLE public.gantt_jobs_predictions OWNER TO oar;
 
 --
--- Name: gantt_jobs_predictions_log; Type: TABLE; Schema: public; Owner: root; Tablespace: 
+-- Name: gantt_jobs_predictions_log; Type: TABLE; Schema: public; Owner: oar
 --
 
-CREATE TABLE gantt_jobs_predictions_log (
+CREATE TABLE public.gantt_jobs_predictions_log (
     sched_date integer DEFAULT 0 NOT NULL,
     moldable_job_id integer DEFAULT 0 NOT NULL,
     start_time integer DEFAULT 0 NOT NULL
 );
 
 
-ALTER TABLE public.gantt_jobs_predictions_log OWNER TO root;
+ALTER TABLE public.gantt_jobs_predictions_log OWNER TO oar;
 
 --
--- Name: gantt_jobs_predictions_visu; Type: TABLE; Schema: public; Owner: root; Tablespace: 
+-- Name: gantt_jobs_predictions_visu; Type: TABLE; Schema: public; Owner: oar
 --
 
-CREATE TABLE gantt_jobs_predictions_visu (
+CREATE TABLE public.gantt_jobs_predictions_visu (
     moldable_job_id integer DEFAULT 0 NOT NULL,
     start_time integer DEFAULT 0 NOT NULL
 );
 
 
-ALTER TABLE public.gantt_jobs_predictions_visu OWNER TO root;
+ALTER TABLE public.gantt_jobs_predictions_visu OWNER TO oar;
 
 --
--- Name: gantt_jobs_resources; Type: TABLE; Schema: public; Owner: root; Tablespace: 
+-- Name: gantt_jobs_resources; Type: TABLE; Schema: public; Owner: oar
 --
 
-CREATE TABLE gantt_jobs_resources (
+CREATE TABLE public.gantt_jobs_resources (
     moldable_job_id integer DEFAULT 0 NOT NULL,
     resource_id integer DEFAULT 0 NOT NULL
 );
 
 
-ALTER TABLE public.gantt_jobs_resources OWNER TO root;
+ALTER TABLE public.gantt_jobs_resources OWNER TO oar;
 
 --
--- Name: gantt_jobs_resources_log; Type: TABLE; Schema: public; Owner: root; Tablespace: 
+-- Name: gantt_jobs_resources_log; Type: TABLE; Schema: public; Owner: oar
 --
 
-CREATE TABLE gantt_jobs_resources_log (
+CREATE TABLE public.gantt_jobs_resources_log (
     sched_date integer DEFAULT 0 NOT NULL,
     moldable_job_id integer DEFAULT 0 NOT NULL,
     resource_id integer DEFAULT 0 NOT NULL
 );
 
 
-ALTER TABLE public.gantt_jobs_resources_log OWNER TO root;
+ALTER TABLE public.gantt_jobs_resources_log OWNER TO oar;
 
 --
--- Name: gantt_jobs_resources_visu; Type: TABLE; Schema: public; Owner: root; Tablespace: 
+-- Name: gantt_jobs_resources_visu; Type: TABLE; Schema: public; Owner: oar
 --
 
-CREATE TABLE gantt_jobs_resources_visu (
+CREATE TABLE public.gantt_jobs_resources_visu (
     moldable_job_id integer DEFAULT 0 NOT NULL,
     resource_id integer DEFAULT 0 NOT NULL
 );
 
 
-ALTER TABLE public.gantt_jobs_resources_visu OWNER TO root;
+ALTER TABLE public.gantt_jobs_resources_visu OWNER TO oar;
 
 --
--- Name: job_dependencies; Type: TABLE; Schema: public; Owner: root; Tablespace: 
+-- Name: job_dependencies; Type: TABLE; Schema: public; Owner: oar
 --
 
-CREATE TABLE job_dependencies (
+CREATE TABLE public.job_dependencies (
     job_id integer DEFAULT 0 NOT NULL,
     job_id_required integer DEFAULT 0 NOT NULL,
     job_dependency_index character varying(7) DEFAULT 'CURRENT'::character varying NOT NULL
 );
 
 
-ALTER TABLE public.job_dependencies OWNER TO root;
+ALTER TABLE public.job_dependencies OWNER TO oar;
 
 --
--- Name: job_resource_descriptions; Type: TABLE; Schema: public; Owner: root; Tablespace: 
+-- Name: job_resource_descriptions; Type: TABLE; Schema: public; Owner: oar
 --
 
-CREATE TABLE job_resource_descriptions (
+CREATE TABLE public.job_resource_descriptions (
     res_job_group_id integer DEFAULT 0 NOT NULL,
     res_job_resource_type character varying(255) DEFAULT ''::character varying NOT NULL,
     res_job_value integer DEFAULT 0 NOT NULL,
@@ -314,13 +298,13 @@ CREATE TABLE job_resource_descriptions (
 );
 
 
-ALTER TABLE public.job_resource_descriptions OWNER TO root;
+ALTER TABLE public.job_resource_descriptions OWNER TO oar;
 
 --
--- Name: job_resource_groups; Type: TABLE; Schema: public; Owner: root; Tablespace: 
+-- Name: job_resource_groups; Type: TABLE; Schema: public; Owner: oar
 --
 
-CREATE TABLE job_resource_groups (
+CREATE TABLE public.job_resource_groups (
     res_group_id integer NOT NULL,
     res_group_moldable_id integer DEFAULT 0 NOT NULL,
     res_group_property text,
@@ -328,41 +312,34 @@ CREATE TABLE job_resource_groups (
 );
 
 
-ALTER TABLE public.job_resource_groups OWNER TO root;
+ALTER TABLE public.job_resource_groups OWNER TO oar;
 
 --
--- Name: job_resource_groups_res_group_id_seq; Type: SEQUENCE; Schema: public; Owner: root
+-- Name: job_resource_groups_res_group_id_seq; Type: SEQUENCE; Schema: public; Owner: oar
 --
 
-CREATE SEQUENCE job_resource_groups_res_group_id_seq
+CREATE SEQUENCE public.job_resource_groups_res_group_id_seq
     START WITH 1
     INCREMENT BY 1
-    NO MAXVALUE
     NO MINVALUE
+    NO MAXVALUE
     CACHE 1;
 
 
-ALTER TABLE public.job_resource_groups_res_group_id_seq OWNER TO root;
+ALTER TABLE public.job_resource_groups_res_group_id_seq OWNER TO oar;
 
 --
--- Name: job_resource_groups_res_group_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: root
+-- Name: job_resource_groups_res_group_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: oar
 --
 
-ALTER SEQUENCE job_resource_groups_res_group_id_seq OWNED BY job_resource_groups.res_group_id;
-
-
---
--- Name: job_resource_groups_res_group_id_seq; Type: SEQUENCE SET; Schema: public; Owner: root
---
-
-SELECT pg_catalog.setval('job_resource_groups_res_group_id_seq', 1, false);
+ALTER SEQUENCE public.job_resource_groups_res_group_id_seq OWNED BY public.job_resource_groups.res_group_id;
 
 
 --
--- Name: job_state_logs; Type: TABLE; Schema: public; Owner: root; Tablespace: 
+-- Name: job_state_logs; Type: TABLE; Schema: public; Owner: oar
 --
 
-CREATE TABLE job_state_logs (
+CREATE TABLE public.job_state_logs (
     job_state_log_id integer NOT NULL,
     job_id integer DEFAULT 0 NOT NULL,
     job_state character varying(16) DEFAULT 'Waiting'::character varying NOT NULL,
@@ -371,41 +348,34 @@ CREATE TABLE job_state_logs (
 );
 
 
-ALTER TABLE public.job_state_logs OWNER TO root;
+ALTER TABLE public.job_state_logs OWNER TO oar;
 
 --
--- Name: job_state_logs_job_state_log_id_seq; Type: SEQUENCE; Schema: public; Owner: root
+-- Name: job_state_logs_job_state_log_id_seq; Type: SEQUENCE; Schema: public; Owner: oar
 --
 
-CREATE SEQUENCE job_state_logs_job_state_log_id_seq
+CREATE SEQUENCE public.job_state_logs_job_state_log_id_seq
     START WITH 1
     INCREMENT BY 1
-    NO MAXVALUE
     NO MINVALUE
+    NO MAXVALUE
     CACHE 1;
 
 
-ALTER TABLE public.job_state_logs_job_state_log_id_seq OWNER TO root;
+ALTER TABLE public.job_state_logs_job_state_log_id_seq OWNER TO oar;
 
 --
--- Name: job_state_logs_job_state_log_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: root
+-- Name: job_state_logs_job_state_log_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: oar
 --
 
-ALTER SEQUENCE job_state_logs_job_state_log_id_seq OWNED BY job_state_logs.job_state_log_id;
-
-
---
--- Name: job_state_logs_job_state_log_id_seq; Type: SEQUENCE SET; Schema: public; Owner: root
---
-
-SELECT pg_catalog.setval('job_state_logs_job_state_log_id_seq', 1, false);
+ALTER SEQUENCE public.job_state_logs_job_state_log_id_seq OWNED BY public.job_state_logs.job_state_log_id;
 
 
 --
--- Name: job_types; Type: TABLE; Schema: public; Owner: root; Tablespace: 
+-- Name: job_types; Type: TABLE; Schema: public; Owner: oar
 --
 
-CREATE TABLE job_types (
+CREATE TABLE public.job_types (
     job_type_id integer NOT NULL,
     job_id integer DEFAULT 0 NOT NULL,
     type character varying(255) DEFAULT ''::character varying NOT NULL,
@@ -413,41 +383,34 @@ CREATE TABLE job_types (
 );
 
 
-ALTER TABLE public.job_types OWNER TO root;
+ALTER TABLE public.job_types OWNER TO oar;
 
 --
--- Name: job_types_job_type_id_seq; Type: SEQUENCE; Schema: public; Owner: root
+-- Name: job_types_job_type_id_seq; Type: SEQUENCE; Schema: public; Owner: oar
 --
 
-CREATE SEQUENCE job_types_job_type_id_seq
+CREATE SEQUENCE public.job_types_job_type_id_seq
     START WITH 1
     INCREMENT BY 1
-    NO MAXVALUE
     NO MINVALUE
+    NO MAXVALUE
     CACHE 1;
 
 
-ALTER TABLE public.job_types_job_type_id_seq OWNER TO root;
+ALTER TABLE public.job_types_job_type_id_seq OWNER TO oar;
 
 --
--- Name: job_types_job_type_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: root
+-- Name: job_types_job_type_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: oar
 --
 
-ALTER SEQUENCE job_types_job_type_id_seq OWNED BY job_types.job_type_id;
-
-
---
--- Name: job_types_job_type_id_seq; Type: SEQUENCE SET; Schema: public; Owner: root
---
-
-SELECT pg_catalog.setval('job_types_job_type_id_seq', 1, false);
+ALTER SEQUENCE public.job_types_job_type_id_seq OWNED BY public.job_types.job_type_id;
 
 
 --
--- Name: jobs; Type: TABLE; Schema: public; Owner: root; Tablespace: 
+-- Name: jobs; Type: TABLE; Schema: public; Owner: oar
 --
 
-CREATE TABLE jobs (
+CREATE TABLE public.jobs (
     job_id integer NOT NULL,
     array_id integer DEFAULT 0 NOT NULL,
     array_index integer DEFAULT 1 NOT NULL,
@@ -485,41 +448,34 @@ CREATE TABLE jobs (
 );
 
 
-ALTER TABLE public.jobs OWNER TO root;
+ALTER TABLE public.jobs OWNER TO oar;
 
 --
--- Name: jobs_job_id_seq; Type: SEQUENCE; Schema: public; Owner: root
+-- Name: jobs_job_id_seq; Type: SEQUENCE; Schema: public; Owner: oar
 --
 
-CREATE SEQUENCE jobs_job_id_seq
+CREATE SEQUENCE public.jobs_job_id_seq
     START WITH 1
     INCREMENT BY 1
-    NO MAXVALUE
     NO MINVALUE
+    NO MAXVALUE
     CACHE 1;
 
 
-ALTER TABLE public.jobs_job_id_seq OWNER TO root;
+ALTER TABLE public.jobs_job_id_seq OWNER TO oar;
 
 --
--- Name: jobs_job_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: root
+-- Name: jobs_job_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: oar
 --
 
-ALTER SEQUENCE jobs_job_id_seq OWNED BY jobs.job_id;
-
-
---
--- Name: jobs_job_id_seq; Type: SEQUENCE SET; Schema: public; Owner: root
---
-
-SELECT pg_catalog.setval('jobs_job_id_seq', 1, false);
+ALTER SEQUENCE public.jobs_job_id_seq OWNED BY public.jobs.job_id;
 
 
 --
--- Name: moldable_job_descriptions; Type: TABLE; Schema: public; Owner: root; Tablespace: 
+-- Name: moldable_job_descriptions; Type: TABLE; Schema: public; Owner: oar
 --
 
-CREATE TABLE moldable_job_descriptions (
+CREATE TABLE public.moldable_job_descriptions (
     moldable_id integer NOT NULL,
     moldable_job_id integer DEFAULT 0 NOT NULL,
     moldable_walltime integer DEFAULT 0 NOT NULL,
@@ -527,41 +483,34 @@ CREATE TABLE moldable_job_descriptions (
 );
 
 
-ALTER TABLE public.moldable_job_descriptions OWNER TO root;
+ALTER TABLE public.moldable_job_descriptions OWNER TO oar;
 
 --
--- Name: moldable_job_descriptions_moldable_id_seq; Type: SEQUENCE; Schema: public; Owner: root
+-- Name: moldable_job_descriptions_moldable_id_seq; Type: SEQUENCE; Schema: public; Owner: oar
 --
 
-CREATE SEQUENCE moldable_job_descriptions_moldable_id_seq
+CREATE SEQUENCE public.moldable_job_descriptions_moldable_id_seq
     START WITH 1
     INCREMENT BY 1
-    NO MAXVALUE
     NO MINVALUE
+    NO MAXVALUE
     CACHE 1;
 
 
-ALTER TABLE public.moldable_job_descriptions_moldable_id_seq OWNER TO root;
+ALTER TABLE public.moldable_job_descriptions_moldable_id_seq OWNER TO oar;
 
 --
--- Name: moldable_job_descriptions_moldable_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: root
+-- Name: moldable_job_descriptions_moldable_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: oar
 --
 
-ALTER SEQUENCE moldable_job_descriptions_moldable_id_seq OWNED BY moldable_job_descriptions.moldable_id;
-
-
---
--- Name: moldable_job_descriptions_moldable_id_seq; Type: SEQUENCE SET; Schema: public; Owner: root
---
-
-SELECT pg_catalog.setval('moldable_job_descriptions_moldable_id_seq', 1, false);
+ALTER SEQUENCE public.moldable_job_descriptions_moldable_id_seq OWNED BY public.moldable_job_descriptions.moldable_id;
 
 
 --
--- Name: queues; Type: TABLE; Schema: public; Owner: root; Tablespace: 
+-- Name: queues; Type: TABLE; Schema: public; Owner: oar
 --
 
-CREATE TABLE queues (
+CREATE TABLE public.queues (
     queue_name character varying(100) DEFAULT ''::character varying NOT NULL,
     priority integer DEFAULT 0 NOT NULL,
     scheduler_policy character varying(100) DEFAULT ''::character varying NOT NULL,
@@ -569,13 +518,13 @@ CREATE TABLE queues (
 );
 
 
-ALTER TABLE public.queues OWNER TO root;
+ALTER TABLE public.queues OWNER TO oar;
 
 --
--- Name: resource_logs; Type: TABLE; Schema: public; Owner: root; Tablespace: 
+-- Name: resource_logs; Type: TABLE; Schema: public; Owner: oar
 --
 
-CREATE TABLE resource_logs (
+CREATE TABLE public.resource_logs (
     resource_log_id integer NOT NULL,
     resource_id integer DEFAULT 0 NOT NULL,
     attribute character varying(255) DEFAULT ''::character varying NOT NULL,
@@ -586,41 +535,34 @@ CREATE TABLE resource_logs (
 );
 
 
-ALTER TABLE public.resource_logs OWNER TO root;
+ALTER TABLE public.resource_logs OWNER TO oar;
 
 --
--- Name: resource_logs_resource_log_id_seq; Type: SEQUENCE; Schema: public; Owner: root
+-- Name: resource_logs_resource_log_id_seq; Type: SEQUENCE; Schema: public; Owner: oar
 --
 
-CREATE SEQUENCE resource_logs_resource_log_id_seq
+CREATE SEQUENCE public.resource_logs_resource_log_id_seq
     START WITH 1
     INCREMENT BY 1
-    NO MAXVALUE
     NO MINVALUE
+    NO MAXVALUE
     CACHE 1;
 
 
-ALTER TABLE public.resource_logs_resource_log_id_seq OWNER TO root;
+ALTER TABLE public.resource_logs_resource_log_id_seq OWNER TO oar;
 
 --
--- Name: resource_logs_resource_log_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: root
+-- Name: resource_logs_resource_log_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: oar
 --
 
-ALTER SEQUENCE resource_logs_resource_log_id_seq OWNED BY resource_logs.resource_log_id;
-
-
---
--- Name: resource_logs_resource_log_id_seq; Type: SEQUENCE SET; Schema: public; Owner: root
---
-
-SELECT pg_catalog.setval('resource_logs_resource_log_id_seq', 1, false);
+ALTER SEQUENCE public.resource_logs_resource_log_id_seq OWNED BY public.resource_logs.resource_log_id;
 
 
 --
--- Name: resources; Type: TABLE; Schema: public; Owner: root; Tablespace: 
+-- Name: resources; Type: TABLE; Schema: public; Owner: oar
 --
 
-CREATE TABLE resources (
+CREATE TABLE public.resources (
     resource_id integer NOT NULL,
     type character varying(100) DEFAULT 'default'::character varying NOT NULL,
     network_address character varying(100) DEFAULT ''::character varying NOT NULL,
@@ -697,152 +639,145 @@ CREATE TABLE resources (
 );
 
 
-ALTER TABLE public.resources OWNER TO root;
+ALTER TABLE public.resources OWNER TO oar;
 
 --
--- Name: resources_resource_id_seq; Type: SEQUENCE; Schema: public; Owner: root
+-- Name: resources_resource_id_seq; Type: SEQUENCE; Schema: public; Owner: oar
 --
 
-CREATE SEQUENCE resources_resource_id_seq
+CREATE SEQUENCE public.resources_resource_id_seq
     START WITH 1
     INCREMENT BY 1
-    NO MAXVALUE
     NO MINVALUE
+    NO MAXVALUE
     CACHE 1;
 
 
-ALTER TABLE public.resources_resource_id_seq OWNER TO root;
+ALTER TABLE public.resources_resource_id_seq OWNER TO oar;
 
 --
--- Name: resources_resource_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: root
+-- Name: resources_resource_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: oar
 --
 
-ALTER SEQUENCE resources_resource_id_seq OWNED BY resources.resource_id;
-
-
---
--- Name: resources_resource_id_seq; Type: SEQUENCE SET; Schema: public; Owner: root
---
-
-SELECT pg_catalog.setval('resources_resource_id_seq', 1, false);
+ALTER SEQUENCE public.resources_resource_id_seq OWNED BY public.resources.resource_id;
 
 
 --
--- Name: scheduler; Type: TABLE; Schema: public; Owner: root; Tablespace: 
+-- Name: scheduler; Type: TABLE; Schema: public; Owner: oar
 --
 
-CREATE TABLE scheduler (
+CREATE TABLE public.scheduler (
     name character varying(100) NOT NULL,
     script character varying(100) NOT NULL,
     description character varying(255) NOT NULL
 );
 
 
-ALTER TABLE public.scheduler OWNER TO root;
+ALTER TABLE public.scheduler OWNER TO oar;
 
 --
--- Name: schema; Type: TABLE; Schema: public; Owner: root; Tablespace: 
+-- Name: schema; Type: TABLE; Schema: public; Owner: oar
 --
 
-CREATE TABLE schema (
+CREATE TABLE public.schema (
     version character varying(255) NOT NULL,
     name character varying(255) NOT NULL
 );
 
 
-ALTER TABLE public.schema OWNER TO root;
+ALTER TABLE public.schema OWNER TO oar;
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: root
+-- Name: admission_rules id; Type: DEFAULT; Schema: public; Owner: oar
 --
 
-ALTER TABLE ONLY admission_rules ALTER COLUMN id SET DEFAULT nextval('admission_rules_id_seq'::regclass);
-
-
---
--- Name: event_id; Type: DEFAULT; Schema: public; Owner: root
---
-
-ALTER TABLE ONLY event_logs ALTER COLUMN event_id SET DEFAULT nextval('event_logs_event_id_seq'::regclass);
+ALTER TABLE ONLY public.admission_rules ALTER COLUMN id SET DEFAULT nextval('public.admission_rules_id_seq'::regclass);
 
 
 --
--- Name: file_id; Type: DEFAULT; Schema: public; Owner: root
+-- Name: event_logs event_id; Type: DEFAULT; Schema: public; Owner: oar
 --
 
-ALTER TABLE ONLY files ALTER COLUMN file_id SET DEFAULT nextval('files_file_id_seq'::regclass);
-
-
---
--- Name: res_group_id; Type: DEFAULT; Schema: public; Owner: root
---
-
-ALTER TABLE ONLY job_resource_groups ALTER COLUMN res_group_id SET DEFAULT nextval('job_resource_groups_res_group_id_seq'::regclass);
+ALTER TABLE ONLY public.event_logs ALTER COLUMN event_id SET DEFAULT nextval('public.event_logs_event_id_seq'::regclass);
 
 
 --
--- Name: job_state_log_id; Type: DEFAULT; Schema: public; Owner: root
+-- Name: files file_id; Type: DEFAULT; Schema: public; Owner: oar
 --
 
-ALTER TABLE ONLY job_state_logs ALTER COLUMN job_state_log_id SET DEFAULT nextval('job_state_logs_job_state_log_id_seq'::regclass);
-
-
---
--- Name: job_type_id; Type: DEFAULT; Schema: public; Owner: root
---
-
-ALTER TABLE ONLY job_types ALTER COLUMN job_type_id SET DEFAULT nextval('job_types_job_type_id_seq'::regclass);
+ALTER TABLE ONLY public.files ALTER COLUMN file_id SET DEFAULT nextval('public.files_file_id_seq'::regclass);
 
 
 --
--- Name: job_id; Type: DEFAULT; Schema: public; Owner: root
+-- Name: job_resource_groups res_group_id; Type: DEFAULT; Schema: public; Owner: oar
 --
 
-ALTER TABLE ONLY jobs ALTER COLUMN job_id SET DEFAULT nextval('jobs_job_id_seq'::regclass);
-
-
---
--- Name: moldable_id; Type: DEFAULT; Schema: public; Owner: root
---
-
-ALTER TABLE ONLY moldable_job_descriptions ALTER COLUMN moldable_id SET DEFAULT nextval('moldable_job_descriptions_moldable_id_seq'::regclass);
+ALTER TABLE ONLY public.job_resource_groups ALTER COLUMN res_group_id SET DEFAULT nextval('public.job_resource_groups_res_group_id_seq'::regclass);
 
 
 --
--- Name: resource_log_id; Type: DEFAULT; Schema: public; Owner: root
+-- Name: job_state_logs job_state_log_id; Type: DEFAULT; Schema: public; Owner: oar
 --
 
-ALTER TABLE ONLY resource_logs ALTER COLUMN resource_log_id SET DEFAULT nextval('resource_logs_resource_log_id_seq'::regclass);
-
-
---
--- Name: resource_id; Type: DEFAULT; Schema: public; Owner: root
---
-
-ALTER TABLE ONLY resources ALTER COLUMN resource_id SET DEFAULT nextval('resources_resource_id_seq'::regclass);
+ALTER TABLE ONLY public.job_state_logs ALTER COLUMN job_state_log_id SET DEFAULT nextval('public.job_state_logs_job_state_log_id_seq'::regclass);
 
 
 --
--- Data for Name: accounting; Type: TABLE DATA; Schema: public; Owner: root
+-- Name: job_types job_type_id; Type: DEFAULT; Schema: public; Owner: oar
 --
 
-COPY accounting (window_start, window_stop, accounting_user, accounting_project, queue_name, consumption_type, consumption) FROM stdin;
+ALTER TABLE ONLY public.job_types ALTER COLUMN job_type_id SET DEFAULT nextval('public.job_types_job_type_id_seq'::regclass);
+
+
+--
+-- Name: jobs job_id; Type: DEFAULT; Schema: public; Owner: oar
+--
+
+ALTER TABLE ONLY public.jobs ALTER COLUMN job_id SET DEFAULT nextval('public.jobs_job_id_seq'::regclass);
+
+
+--
+-- Name: moldable_job_descriptions moldable_id; Type: DEFAULT; Schema: public; Owner: oar
+--
+
+ALTER TABLE ONLY public.moldable_job_descriptions ALTER COLUMN moldable_id SET DEFAULT nextval('public.moldable_job_descriptions_moldable_id_seq'::regclass);
+
+
+--
+-- Name: resource_logs resource_log_id; Type: DEFAULT; Schema: public; Owner: oar
+--
+
+ALTER TABLE ONLY public.resource_logs ALTER COLUMN resource_log_id SET DEFAULT nextval('public.resource_logs_resource_log_id_seq'::regclass);
+
+
+--
+-- Name: resources resource_id; Type: DEFAULT; Schema: public; Owner: oar
+--
+
+ALTER TABLE ONLY public.resources ALTER COLUMN resource_id SET DEFAULT nextval('public.resources_resource_id_seq'::regclass);
+
+
+--
+-- Data for Name: accounting; Type: TABLE DATA; Schema: public; Owner: oar
+--
+
+COPY public.accounting (window_start, window_stop, accounting_user, accounting_project, queue_name, consumption_type, consumption) FROM stdin;
 \.
 
 
 --
--- Data for Name: admission_rules; Type: TABLE DATA; Schema: public; Owner: root
+-- Data for Name: admission_rules; Type: TABLE DATA; Schema: public; Owner: oar
 --
 
-COPY admission_rules (id, rule, priority, enabled) FROM stdin;
+COPY public.admission_rules (id, rule, priority, enabled) FROM stdin;
 \.
 
 
 --
--- Data for Name: assigned_resources; Type: TABLE DATA; Schema: public; Owner: root
+-- Data for Name: assigned_resources; Type: TABLE DATA; Schema: public; Owner: oar
 --
 
-COPY assigned_resources (moldable_job_id, resource_id, assigned_resource_index) FROM stdin;
+COPY public.assigned_resources (moldable_job_id, resource_id, assigned_resource_index) FROM stdin;
 379601	952	CURRENT
 379601	953	CURRENT
 379601	954	CURRENT
@@ -2688,26 +2623,26 @@ COPY assigned_resources (moldable_job_id, resource_id, assigned_resource_index) 
 
 
 --
--- Data for Name: challenges; Type: TABLE DATA; Schema: public; Owner: root
+-- Data for Name: challenges; Type: TABLE DATA; Schema: public; Owner: oar
 --
 
-COPY challenges (job_id, challenge, ssh_private_key, ssh_public_key) FROM stdin;
+COPY public.challenges (job_id, challenge, ssh_private_key, ssh_public_key) FROM stdin;
 \.
 
 
 --
--- Data for Name: event_log_hostnames; Type: TABLE DATA; Schema: public; Owner: root
+-- Data for Name: event_log_hostnames; Type: TABLE DATA; Schema: public; Owner: oar
 --
 
-COPY event_log_hostnames (event_id, hostname) FROM stdin;
+COPY public.event_log_hostnames (event_id, hostname) FROM stdin;
 \.
 
 
 --
--- Data for Name: event_logs; Type: TABLE DATA; Schema: public; Owner: root
+-- Data for Name: event_logs; Type: TABLE DATA; Schema: public; Owner: oar
 --
 
-COPY event_logs (event_id, type, job_id, date, description, to_check) FROM stdin;
+COPY public.event_logs (event_id, type, job_id, date, description, to_check) FROM stdin;
 950567	FRAG_JOB_REQUEST	374172	1294383691	User aguermouche requested to frag the job 374172	NO
 950568	FRAG_JOB_REQUEST	374176	1294388550	User vgabillon requested to frag the job 374176	NO
 950569	REDUCE_RESERVATION_WALLTIME	374179	1294389080	Change walltime from 27000 to 26996	NO
@@ -2754,26 +2689,26 @@ COPY event_logs (event_id, type, job_id, date, description, to_check) FROM stdin
 
 
 --
--- Data for Name: files; Type: TABLE DATA; Schema: public; Owner: root
+-- Data for Name: files; Type: TABLE DATA; Schema: public; Owner: oar
 --
 
-COPY files (file_id, md5sum, location, method, compression, size) FROM stdin;
+COPY public.files (file_id, md5sum, location, method, compression, size) FROM stdin;
 \.
 
 
 --
--- Data for Name: frag_jobs; Type: TABLE DATA; Schema: public; Owner: root
+-- Data for Name: frag_jobs; Type: TABLE DATA; Schema: public; Owner: oar
 --
 
-COPY frag_jobs (frag_id_job, frag_date, frag_state) FROM stdin;
+COPY public.frag_jobs (frag_id_job, frag_date, frag_state) FROM stdin;
 \.
 
 
 --
--- Data for Name: gantt_jobs_predictions; Type: TABLE DATA; Schema: public; Owner: root
+-- Data for Name: gantt_jobs_predictions; Type: TABLE DATA; Schema: public; Owner: oar
 --
 
-COPY gantt_jobs_predictions (moldable_job_id, start_time) FROM stdin;
+COPY public.gantt_jobs_predictions (moldable_job_id, start_time) FROM stdin;
 379619	1294395995
 379618	1294392954
 379614	1294392261
@@ -2791,26 +2726,26 @@ COPY gantt_jobs_predictions (moldable_job_id, start_time) FROM stdin;
 
 
 --
--- Data for Name: gantt_jobs_predictions_log; Type: TABLE DATA; Schema: public; Owner: root
+-- Data for Name: gantt_jobs_predictions_log; Type: TABLE DATA; Schema: public; Owner: oar
 --
 
-COPY gantt_jobs_predictions_log (sched_date, moldable_job_id, start_time) FROM stdin;
+COPY public.gantt_jobs_predictions_log (sched_date, moldable_job_id, start_time) FROM stdin;
 \.
 
 
 --
--- Data for Name: gantt_jobs_predictions_visu; Type: TABLE DATA; Schema: public; Owner: root
+-- Data for Name: gantt_jobs_predictions_visu; Type: TABLE DATA; Schema: public; Owner: oar
 --
 
-COPY gantt_jobs_predictions_visu (moldable_job_id, start_time) FROM stdin;
+COPY public.gantt_jobs_predictions_visu (moldable_job_id, start_time) FROM stdin;
 \.
 
 
 --
--- Data for Name: gantt_jobs_resources; Type: TABLE DATA; Schema: public; Owner: root
+-- Data for Name: gantt_jobs_resources; Type: TABLE DATA; Schema: public; Owner: oar
 --
 
-COPY gantt_jobs_resources (moldable_job_id, resource_id) FROM stdin;
+COPY public.gantt_jobs_resources (moldable_job_id, resource_id) FROM stdin;
 379573	740
 379573	741
 379573	742
@@ -4852,26 +4787,26 @@ COPY gantt_jobs_resources (moldable_job_id, resource_id) FROM stdin;
 
 
 --
--- Data for Name: gantt_jobs_resources_log; Type: TABLE DATA; Schema: public; Owner: root
+-- Data for Name: gantt_jobs_resources_log; Type: TABLE DATA; Schema: public; Owner: oar
 --
 
-COPY gantt_jobs_resources_log (sched_date, moldable_job_id, resource_id) FROM stdin;
+COPY public.gantt_jobs_resources_log (sched_date, moldable_job_id, resource_id) FROM stdin;
 \.
 
 
 --
--- Data for Name: gantt_jobs_resources_visu; Type: TABLE DATA; Schema: public; Owner: root
+-- Data for Name: gantt_jobs_resources_visu; Type: TABLE DATA; Schema: public; Owner: oar
 --
 
-COPY gantt_jobs_resources_visu (moldable_job_id, resource_id) FROM stdin;
+COPY public.gantt_jobs_resources_visu (moldable_job_id, resource_id) FROM stdin;
 \.
 
 
 --
--- Data for Name: job_dependencies; Type: TABLE DATA; Schema: public; Owner: root
+-- Data for Name: job_dependencies; Type: TABLE DATA; Schema: public; Owner: oar
 --
 
-COPY job_dependencies (job_id, job_id_required, job_dependency_index) FROM stdin;
+COPY public.job_dependencies (job_id, job_id_required, job_dependency_index) FROM stdin;
 199328	199327	LOG
 280041	280040	LOG
 280040	280039	LOG
@@ -5455,10 +5390,10 @@ COPY job_dependencies (job_id, job_id_required, job_dependency_index) FROM stdin
 
 
 --
--- Data for Name: job_resource_descriptions; Type: TABLE DATA; Schema: public; Owner: root
+-- Data for Name: job_resource_descriptions; Type: TABLE DATA; Schema: public; Owner: oar
 --
 
-COPY job_resource_descriptions (res_job_group_id, res_job_resource_type, res_job_value, res_job_order, res_job_index) FROM stdin;
+COPY public.job_resource_descriptions (res_job_group_id, res_job_resource_type, res_job_value, res_job_order, res_job_index) FROM stdin;
 379862	host	32	0	LOG
 379863	host	32	0	CURRENT
 379864	host	1	0	LOG
@@ -5483,10 +5418,10 @@ COPY job_resource_descriptions (res_job_group_id, res_job_resource_type, res_job
 
 
 --
--- Data for Name: job_resource_groups; Type: TABLE DATA; Schema: public; Owner: root
+-- Data for Name: job_resource_groups; Type: TABLE DATA; Schema: public; Owner: oar
 --
 
-COPY job_resource_groups (res_group_id, res_group_moldable_id, res_group_property, res_group_index) FROM stdin;
+COPY public.job_resource_groups (res_group_id, res_group_moldable_id, res_group_property, res_group_index) FROM stdin;
 379862	379600	type = "default"	LOG
 379863	379601	type = "default"	CURRENT
 379864	379602	type = "default"	LOG
@@ -5515,18 +5450,18 @@ COPY job_resource_groups (res_group_id, res_group_moldable_id, res_group_propert
 
 
 --
--- Data for Name: job_state_logs; Type: TABLE DATA; Schema: public; Owner: root
+-- Data for Name: job_state_logs; Type: TABLE DATA; Schema: public; Owner: oar
 --
 
-COPY job_state_logs (job_state_log_id, job_id, job_state, date_start, date_stop) FROM stdin;
+COPY public.job_state_logs (job_state_log_id, job_id, job_state, date_start, date_stop) FROM stdin;
 \.
 
 
 --
--- Data for Name: job_types; Type: TABLE DATA; Schema: public; Owner: root
+-- Data for Name: job_types; Type: TABLE DATA; Schema: public; Owner: oar
 --
 
-COPY job_types (job_type_id, job_id, type, types_index) FROM stdin;
+COPY public.job_types (job_type_id, job_id, type, types_index) FROM stdin;
 265731	374172	deploy	LOG
 265732	374173	deploy	CURRENT
 265733	374175	deploy	LOG
@@ -5540,10 +5475,10 @@ COPY job_types (job_type_id, job_id, type, types_index) FROM stdin;
 
 
 --
--- Data for Name: jobs; Type: TABLE DATA; Schema: public; Owner: root
+-- Data for Name: jobs; Type: TABLE DATA; Schema: public; Owner: oar
 --
 
-COPY jobs (job_id, array_id, array_index, initial_request, job_name, job_env, job_type, info_type, state, reservation, message, scheduler_info, job_user, project, job_group, command, exit_code, queue_name, properties, launching_directory, submission_time, start_time, stop_time, file_id, accounted, notify, assigned_moldable_job, checkpoint, checkpoint_signal, stdout_file, stderr_file, resubmit_job_id, suspended, cpuset_name) FROM stdin;
+COPY public.jobs (job_id, array_id, array_index, initial_request, job_name, job_env, job_type, info_type, state, reservation, message, scheduler_info, job_user, project, job_group, command, exit_code, queue_name, properties, launching_directory, submission_time, start_time, stop_time, file_id, accounted, notify, assigned_moldable_job, checkpoint, checkpoint_signal, stdout_file, stderr_file, resubmit_job_id, suspended, cpuset_name) FROM stdin;
 374172	374172	1	oarsub -t deploy -p cluster="paradent" -I -l nodes=32,walltime=11	\N	\N	INTERACTIVE	frennes.rennes.grid5000.fr:35254	Error	None	job killed by Leon directly	FIFO scheduling OK	aguermouche	default			\N	default	((cluster="paradent") AND deploy = "YES") AND maintenance = "NO"	/home/aguermouche	1294383681	0	0	\N	NO	\N	0	0	12	OAR.%jobid%.stdout	OAR.%jobid%.stderr	0	NO	\N
 374173	374173	1	oarsub -t deploy -p cluster="paradent" -I -l nodes=32,walltime=8	\N	\N	INTERACTIVE	frennes.rennes.grid5000.fr:48157	Running	None	FIFO scheduling OK	FIFO scheduling OK	aguermouche	default			\N	default	((cluster="paradent") AND deploy = "YES") AND maintenance = "NO"	/home/aguermouche	1294383698	1294383699	0	\N	NO	\N	379601	0	12	OAR.%jobid%.stdout	OAR.%jobid%.stderr	0	NO	\N
 374174	374174	1	oarsub -I -l walltime=6	\N	\N	INTERACTIVE	frennes.rennes.grid5000.fr:54092	Error	None	FIFO scheduling OK	FIFO scheduling OK	slhernane	default			\N	default	maintenance = "NO"	/home/slhernane/dho_vd	1294386797	1294386798	1294390090	\N	YES	\N	379602	0	12	OAR.%jobid%.stdout	OAR.%jobid%.stderr	0	NO	\N
@@ -5578,10 +5513,10 @@ COPY jobs (job_id, array_id, array_index, initial_request, job_name, job_env, jo
 
 
 --
--- Data for Name: moldable_job_descriptions; Type: TABLE DATA; Schema: public; Owner: root
+-- Data for Name: moldable_job_descriptions; Type: TABLE DATA; Schema: public; Owner: oar
 --
 
-COPY moldable_job_descriptions (moldable_id, moldable_job_id, moldable_walltime, moldable_index) FROM stdin;
+COPY public.moldable_job_descriptions (moldable_id, moldable_job_id, moldable_walltime, moldable_index) FROM stdin;
 379600	374172	39600	LOG
 379601	374173	28800	CURRENT
 379602	374174	21600	LOG
@@ -5616,10 +5551,10 @@ COPY moldable_job_descriptions (moldable_id, moldable_job_id, moldable_walltime,
 
 
 --
--- Data for Name: queues; Type: TABLE DATA; Schema: public; Owner: root
+-- Data for Name: queues; Type: TABLE DATA; Schema: public; Owner: oar
 --
 
-COPY queues (queue_name, priority, scheduler_policy, state) FROM stdin;
+COPY public.queues (queue_name, priority, scheduler_policy, state) FROM stdin;
 admin	10	oar_sched_gantt_with_timesharing	Active
 default	2	oar_sched_gantt_with_timesharing	Active
 besteffort	0	oar_sched_gantt_with_timesharing	Active
@@ -5628,18 +5563,18 @@ testing	1	oar_sched_gantt_with_timesharing	Active
 
 
 --
--- Data for Name: resource_logs; Type: TABLE DATA; Schema: public; Owner: root
+-- Data for Name: resource_logs; Type: TABLE DATA; Schema: public; Owner: oar
 --
 
-COPY resource_logs (resource_log_id, resource_id, attribute, value, date_start, date_stop, finaud_decision) FROM stdin;
+COPY public.resource_logs (resource_log_id, resource_id, attribute, value, date_start, date_stop, finaud_decision) FROM stdin;
 \.
 
 
 --
--- Data for Name: resources; Type: TABLE DATA; Schema: public; Owner: root
+-- Data for Name: resources; Type: TABLE DATA; Schema: public; Owner: oar
 --
 
-COPY resources (resource_id, type, network_address, state, next_state, finaud_decision, next_finaud_decision, state_num, suspended_jobs, scheduler_priority, cpuset, besteffort, deploy, expiry_date, desktop_computing, last_job_date, available_upto, last_available_upto, drain, chunks, cluster, cluster_priority, comment, core, cpu, cpuarch, cpucore, cpufreq, cputype, disktype, ethnb, gpu, grub, host, ib10g, ib10gmodel, ib20g, ip, ip_virtual, maintenance, preserving_air_cooling, memcore, memcpu, memnode, myri10g, myri10gmodel, myri2g, myri2gmodel, nodemodel, pdu, rconsole, slash_16, slash_17, slash_18, slash_19, slash_20, slash_21, slash_22, subnet_address, subnet_prefix, switch, virtual, vlan, wattmeter, production, ib56g, ib56gmodel, ib20gmodel, ib40g, ib40gmodel, disk_reservation_count, disk, diskpath) FROM stdin;
+COPY public.resources (resource_id, type, network_address, state, next_state, finaud_decision, next_finaud_decision, state_num, suspended_jobs, scheduler_priority, cpuset, besteffort, deploy, expiry_date, desktop_computing, last_job_date, available_upto, last_available_upto, drain, chunks, cluster, cluster_priority, comment, core, cpu, cpuarch, cpucore, cpufreq, cputype, disktype, ethnb, gpu, grub, host, ib10g, ib10gmodel, ib20g, ip, ip_virtual, maintenance, preserving_air_cooling, memcore, memcpu, memnode, myri10g, myri10gmodel, myri2g, myri2gmodel, nodemodel, pdu, rconsole, slash_16, slash_17, slash_18, slash_19, slash_20, slash_21, slash_22, subnet_address, subnet_prefix, switch, virtual, vlan, wattmeter, production, ib56g, ib56gmodel, ib20gmodel, ib40g, ib40gmodel, disk_reservation_count, disk, diskpath) FROM stdin;
 1	default	parasol-2.rennes.grid5000.fr	Dead	UnChanged	NO	NO	4	NO	0	0	YES	YES	0	NO	1216114415	0	0	NO	\N	parasol	\N	\N	1	1	x86_64	1	2.2	opteron-sledgehammer	scsi	1	\N	NO	parasol-2.rennes.grid5000.fr	NO	none	\N	131.254.202.102	\N	YES	YES	1024	1024	2048	NO	none	NO	none	v20z	\N	YES	\N	\N	\N	\N	\N	\N	\N	\N	\N	c6509-grid	none	\N	\N	\N	\N	\N	\N	\N	\N	0	\N	\N
 2	default	parasol-2.rennes.grid5000.fr	Dead	UnChanged	NO	NO	4	NO	0	1	YES	YES	0	NO	1216114415	0	0	NO	\N	parasol	\N	\N	2	2	x86_64	1	2.2	opteron-sledgehammer	scsi	1	\N	NO	parasol-2.rennes.grid5000.fr	NO	none	\N	131.254.202.102	\N	YES	YES	1024	1024	2048	NO	none	NO	none	v20z	\N	YES	\N	\N	\N	\N	\N	\N	\N	\N	\N	c6509-grid	none	\N	\N	\N	\N	\N	\N	\N	\N	0	\N	\N
 3	default	parasol-1.rennes.grid5000.fr	Dead	UnChanged	NO	NO	4	NO	0	0	YES	YES	0	NO	1216114415	0	0	NO	\N	parasol	\N	\N	3	3	x86_64	1	2.2	opteron-sledgehammer	scsi	1	\N	NO	parasol-1.rennes.grid5000.fr	NO	none	\N	131.254.202.101	\N	YES	YES	1024	1024	2048	NO	none	NO	none	v20z	\N	YES	\N	\N	\N	\N	\N	\N	\N	\N	\N	c6509-grid	none	\N	\N	\N	\N	\N	\N	\N	\N	0	\N	\N
@@ -8105,541 +8040,608 @@ COPY resources (resource_id, type, network_address, state, next_state, finaud_de
 5059	disk		Alive	UnChanged	NO	NO	1	NO	0	-1	YES	NO	0	NO	1294390090	0	0	NO	\N	parasilo	\N	\N	0	0	\N	\N	\N	\N	\N	\N	\N	\N	parasilo-5.rennes.grid5000.fr	NO	\N	\N	\N	NO	NO	\N	0	0	0	NO	none	NO	none	none	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	0	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	sdc.parasilo-5	/dev/disk/by-path/pci-0000:02:00.0-scsi-0:0:2:0
 5061	disk		Alive	UnChanged	NO	NO	1	NO	0	-1	YES	NO	0	NO	1294390090	0	0	NO	\N	paradent	\N	\N	0	0	\N	\N	\N	\N	\N	\N	\N	\N	paradent-9.rennes.grid5000.fr	NO	\N	\N	\N	NO	NO	\N	0	0	0	NO	none	NO	none	none	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	0	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	sdb.paradent-9	/dev/disk/by-path/pci-0000:02:00.0-scsi-0:0:1:0
 5062	disk		Alive	UnChanged	NO	NO	1	NO	0	-1	YES	NO	0	NO	1294390090	0	0	NO	\N	paradent	\N	\N	0	0	\N	\N	\N	\N	\N	\N	\N	\N	paradent-9.rennes.grid5000.fr	NO	\N	\N	\N	NO	NO	\N	0	0	0	NO	none	NO	none	none	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	0	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	sdc.paradent-9	/dev/disk/by-path/pci-0000:02:00.0-scsi-0:0:2:0
+5063	kavlan-local		Alive	Unchanged	NO	NO	0	NO	0	0	YES	NO	0	NO	0	2147483647	0	NO	\N	\N	\N	\N	0	0	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	0	\N	1	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N
+5064	kavlan-local		Alive	Unchanged	NO	NO	0	NO	0	0	YES	NO	0	NO	0	2147483647	0	NO	\N	\N	\N	\N	0	0	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	0	\N	2	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N
+5065	kavlan-local		Alive	Unchanged	NO	NO	0	NO	0	0	YES	NO	0	NO	0	2147483647	0	NO	\N	\N	\N	\N	0	0	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	0	\N	3	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N
+5066	kavlan		Alive	Unchanged	NO	NO	0	NO	0	0	YES	NO	0	NO	0	2147483647	0	NO	\N	\N	\N	\N	0	0	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	0	\N	4	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N
+5067	kavlan		Alive	Unchanged	NO	NO	0	NO	0	0	YES	NO	0	NO	0	2147483647	0	NO	\N	\N	\N	\N	0	0	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	0	\N	5	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N
+5068	kavlan-global		Alive	Unchanged	NO	NO	0	NO	0	0	YES	NO	0	NO	0	2147483647	0	NO	\N	\N	\N	\N	0	0	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	0	\N	15	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N
+5069	kavlan-global		Alive	Unchanged	NO	NO	0	NO	0	0	YES	NO	0	NO	0	2147483647	0	NO	\N	\N	\N	\N	0	0	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	0	\N	16	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N
 \.
 
 
 --
--- Data for Name: scheduler; Type: TABLE DATA; Schema: public; Owner: root
+-- Data for Name: scheduler; Type: TABLE DATA; Schema: public; Owner: oar
 --
 
-COPY scheduler (name, script, description) FROM stdin;
+COPY public.scheduler (name, script, description) FROM stdin;
 \.
 
 
 --
--- Data for Name: schema; Type: TABLE DATA; Schema: public; Owner: root
+-- Data for Name: schema; Type: TABLE DATA; Schema: public; Owner: oar
 --
 
-COPY schema (version, name) FROM stdin;
+COPY public.schema (version, name) FROM stdin;
 \.
 
 
 --
--- Name: accounting_pkey; Type: CONSTRAINT; Schema: public; Owner: root; Tablespace: 
+-- Name: admission_rules_id_seq; Type: SEQUENCE SET; Schema: public; Owner: oar
 --
 
-ALTER TABLE ONLY accounting
+SELECT pg_catalog.setval('public.admission_rules_id_seq', 1, false);
+
+
+--
+-- Name: event_logs_event_id_seq; Type: SEQUENCE SET; Schema: public; Owner: oar
+--
+
+SELECT pg_catalog.setval('public.event_logs_event_id_seq', 1, false);
+
+
+--
+-- Name: files_file_id_seq; Type: SEQUENCE SET; Schema: public; Owner: oar
+--
+
+SELECT pg_catalog.setval('public.files_file_id_seq', 1, false);
+
+
+--
+-- Name: job_resource_groups_res_group_id_seq; Type: SEQUENCE SET; Schema: public; Owner: oar
+--
+
+SELECT pg_catalog.setval('public.job_resource_groups_res_group_id_seq', 1, false);
+
+
+--
+-- Name: job_state_logs_job_state_log_id_seq; Type: SEQUENCE SET; Schema: public; Owner: oar
+--
+
+SELECT pg_catalog.setval('public.job_state_logs_job_state_log_id_seq', 1, false);
+
+
+--
+-- Name: job_types_job_type_id_seq; Type: SEQUENCE SET; Schema: public; Owner: oar
+--
+
+SELECT pg_catalog.setval('public.job_types_job_type_id_seq', 1, false);
+
+
+--
+-- Name: jobs_job_id_seq; Type: SEQUENCE SET; Schema: public; Owner: oar
+--
+
+SELECT pg_catalog.setval('public.jobs_job_id_seq', 1, false);
+
+
+--
+-- Name: moldable_job_descriptions_moldable_id_seq; Type: SEQUENCE SET; Schema: public; Owner: oar
+--
+
+SELECT pg_catalog.setval('public.moldable_job_descriptions_moldable_id_seq', 1, false);
+
+
+--
+-- Name: resource_logs_resource_log_id_seq; Type: SEQUENCE SET; Schema: public; Owner: oar
+--
+
+SELECT pg_catalog.setval('public.resource_logs_resource_log_id_seq', 1, false);
+
+
+--
+-- Name: resources_resource_id_seq; Type: SEQUENCE SET; Schema: public; Owner: oar
+--
+
+SELECT pg_catalog.setval('public.resources_resource_id_seq', 5, true);
+
+
+--
+-- Name: accounting accounting_pkey; Type: CONSTRAINT; Schema: public; Owner: oar
+--
+
+ALTER TABLE ONLY public.accounting
     ADD CONSTRAINT accounting_pkey PRIMARY KEY (window_start, window_stop, accounting_user, accounting_project, queue_name, consumption_type);
 
 
 --
--- Name: admission_rules_pkey; Type: CONSTRAINT; Schema: public; Owner: root; Tablespace: 
+-- Name: admission_rules admission_rules_pkey; Type: CONSTRAINT; Schema: public; Owner: oar
 --
 
-ALTER TABLE ONLY admission_rules
+ALTER TABLE ONLY public.admission_rules
     ADD CONSTRAINT admission_rules_pkey PRIMARY KEY (id);
 
 
 --
--- Name: assigned_resources_pkey; Type: CONSTRAINT; Schema: public; Owner: root; Tablespace: 
+-- Name: assigned_resources assigned_resources_pkey; Type: CONSTRAINT; Schema: public; Owner: oar
 --
 
-ALTER TABLE ONLY assigned_resources
+ALTER TABLE ONLY public.assigned_resources
     ADD CONSTRAINT assigned_resources_pkey PRIMARY KEY (moldable_job_id, resource_id);
 
 
 --
--- Name: challenges_pkey; Type: CONSTRAINT; Schema: public; Owner: root; Tablespace: 
+-- Name: challenges challenges_pkey; Type: CONSTRAINT; Schema: public; Owner: oar
 --
 
-ALTER TABLE ONLY challenges
+ALTER TABLE ONLY public.challenges
     ADD CONSTRAINT challenges_pkey PRIMARY KEY (job_id);
 
 
 --
--- Name: event_log_hostnames_pkey; Type: CONSTRAINT; Schema: public; Owner: root; Tablespace: 
+-- Name: event_log_hostnames event_log_hostnames_pkey; Type: CONSTRAINT; Schema: public; Owner: oar
 --
 
-ALTER TABLE ONLY event_log_hostnames
+ALTER TABLE ONLY public.event_log_hostnames
     ADD CONSTRAINT event_log_hostnames_pkey PRIMARY KEY (event_id, hostname);
 
 
 --
--- Name: event_logs_pkey; Type: CONSTRAINT; Schema: public; Owner: root; Tablespace: 
+-- Name: event_logs event_logs_pkey; Type: CONSTRAINT; Schema: public; Owner: oar
 --
 
-ALTER TABLE ONLY event_logs
+ALTER TABLE ONLY public.event_logs
     ADD CONSTRAINT event_logs_pkey PRIMARY KEY (event_id);
 
 
 --
--- Name: files_pkey; Type: CONSTRAINT; Schema: public; Owner: root; Tablespace: 
+-- Name: files files_pkey; Type: CONSTRAINT; Schema: public; Owner: oar
 --
 
-ALTER TABLE ONLY files
+ALTER TABLE ONLY public.files
     ADD CONSTRAINT files_pkey PRIMARY KEY (file_id);
 
 
 --
--- Name: frag_jobs_pkey; Type: CONSTRAINT; Schema: public; Owner: root; Tablespace: 
+-- Name: frag_jobs frag_jobs_pkey; Type: CONSTRAINT; Schema: public; Owner: oar
 --
 
-ALTER TABLE ONLY frag_jobs
+ALTER TABLE ONLY public.frag_jobs
     ADD CONSTRAINT frag_jobs_pkey PRIMARY KEY (frag_id_job);
 
 
 --
--- Name: gantt_jobs_predictions_log_pkey; Type: CONSTRAINT; Schema: public; Owner: root; Tablespace: 
+-- Name: gantt_jobs_predictions_log gantt_jobs_predictions_log_pkey; Type: CONSTRAINT; Schema: public; Owner: oar
 --
 
-ALTER TABLE ONLY gantt_jobs_predictions_log
+ALTER TABLE ONLY public.gantt_jobs_predictions_log
     ADD CONSTRAINT gantt_jobs_predictions_log_pkey PRIMARY KEY (sched_date, moldable_job_id);
 
 
 --
--- Name: gantt_jobs_predictions_pkey; Type: CONSTRAINT; Schema: public; Owner: root; Tablespace: 
+-- Name: gantt_jobs_predictions gantt_jobs_predictions_pkey; Type: CONSTRAINT; Schema: public; Owner: oar
 --
 
-ALTER TABLE ONLY gantt_jobs_predictions
+ALTER TABLE ONLY public.gantt_jobs_predictions
     ADD CONSTRAINT gantt_jobs_predictions_pkey PRIMARY KEY (moldable_job_id);
 
 
 --
--- Name: gantt_jobs_predictions_visu_pkey; Type: CONSTRAINT; Schema: public; Owner: root; Tablespace: 
+-- Name: gantt_jobs_predictions_visu gantt_jobs_predictions_visu_pkey; Type: CONSTRAINT; Schema: public; Owner: oar
 --
 
-ALTER TABLE ONLY gantt_jobs_predictions_visu
+ALTER TABLE ONLY public.gantt_jobs_predictions_visu
     ADD CONSTRAINT gantt_jobs_predictions_visu_pkey PRIMARY KEY (moldable_job_id);
 
 
 --
--- Name: gantt_jobs_resources_log_pkey; Type: CONSTRAINT; Schema: public; Owner: root; Tablespace: 
+-- Name: gantt_jobs_resources_log gantt_jobs_resources_log_pkey; Type: CONSTRAINT; Schema: public; Owner: oar
 --
 
-ALTER TABLE ONLY gantt_jobs_resources_log
+ALTER TABLE ONLY public.gantt_jobs_resources_log
     ADD CONSTRAINT gantt_jobs_resources_log_pkey PRIMARY KEY (sched_date, moldable_job_id, resource_id);
 
 
 --
--- Name: gantt_jobs_resources_pkey; Type: CONSTRAINT; Schema: public; Owner: root; Tablespace: 
+-- Name: gantt_jobs_resources gantt_jobs_resources_pkey; Type: CONSTRAINT; Schema: public; Owner: oar
 --
 
-ALTER TABLE ONLY gantt_jobs_resources
+ALTER TABLE ONLY public.gantt_jobs_resources
     ADD CONSTRAINT gantt_jobs_resources_pkey PRIMARY KEY (moldable_job_id, resource_id);
 
 
 --
--- Name: gantt_jobs_resources_visu_pkey; Type: CONSTRAINT; Schema: public; Owner: root; Tablespace: 
+-- Name: gantt_jobs_resources_visu gantt_jobs_resources_visu_pkey; Type: CONSTRAINT; Schema: public; Owner: oar
 --
 
-ALTER TABLE ONLY gantt_jobs_resources_visu
+ALTER TABLE ONLY public.gantt_jobs_resources_visu
     ADD CONSTRAINT gantt_jobs_resources_visu_pkey PRIMARY KEY (moldable_job_id, resource_id);
 
 
 --
--- Name: job_dependencies_pkey; Type: CONSTRAINT; Schema: public; Owner: root; Tablespace: 
+-- Name: job_dependencies job_dependencies_pkey; Type: CONSTRAINT; Schema: public; Owner: oar
 --
 
-ALTER TABLE ONLY job_dependencies
+ALTER TABLE ONLY public.job_dependencies
     ADD CONSTRAINT job_dependencies_pkey PRIMARY KEY (job_id, job_id_required);
 
 
 --
--- Name: job_resource_descriptions_pkey; Type: CONSTRAINT; Schema: public; Owner: root; Tablespace: 
+-- Name: job_resource_descriptions job_resource_descriptions_pkey; Type: CONSTRAINT; Schema: public; Owner: oar
 --
 
-ALTER TABLE ONLY job_resource_descriptions
+ALTER TABLE ONLY public.job_resource_descriptions
     ADD CONSTRAINT job_resource_descriptions_pkey PRIMARY KEY (res_job_group_id, res_job_resource_type, res_job_order);
 
 
 --
--- Name: job_resource_groups_pkey; Type: CONSTRAINT; Schema: public; Owner: root; Tablespace: 
+-- Name: job_resource_groups job_resource_groups_pkey; Type: CONSTRAINT; Schema: public; Owner: oar
 --
 
-ALTER TABLE ONLY job_resource_groups
+ALTER TABLE ONLY public.job_resource_groups
     ADD CONSTRAINT job_resource_groups_pkey PRIMARY KEY (res_group_id);
 
 
 --
--- Name: job_state_logs_pkey; Type: CONSTRAINT; Schema: public; Owner: root; Tablespace: 
+-- Name: job_state_logs job_state_logs_pkey; Type: CONSTRAINT; Schema: public; Owner: oar
 --
 
-ALTER TABLE ONLY job_state_logs
+ALTER TABLE ONLY public.job_state_logs
     ADD CONSTRAINT job_state_logs_pkey PRIMARY KEY (job_state_log_id);
 
 
 --
--- Name: job_types_pkey; Type: CONSTRAINT; Schema: public; Owner: root; Tablespace: 
+-- Name: job_types job_types_pkey; Type: CONSTRAINT; Schema: public; Owner: oar
 --
 
-ALTER TABLE ONLY job_types
+ALTER TABLE ONLY public.job_types
     ADD CONSTRAINT job_types_pkey PRIMARY KEY (job_type_id);
 
 
 --
--- Name: jobs_pkey; Type: CONSTRAINT; Schema: public; Owner: root; Tablespace: 
+-- Name: jobs jobs_pkey; Type: CONSTRAINT; Schema: public; Owner: oar
 --
 
-ALTER TABLE ONLY jobs
+ALTER TABLE ONLY public.jobs
     ADD CONSTRAINT jobs_pkey PRIMARY KEY (job_id);
 
 
 --
--- Name: moldable_job_descriptions_pkey; Type: CONSTRAINT; Schema: public; Owner: root; Tablespace: 
+-- Name: moldable_job_descriptions moldable_job_descriptions_pkey; Type: CONSTRAINT; Schema: public; Owner: oar
 --
 
-ALTER TABLE ONLY moldable_job_descriptions
+ALTER TABLE ONLY public.moldable_job_descriptions
     ADD CONSTRAINT moldable_job_descriptions_pkey PRIMARY KEY (moldable_id);
 
 
 --
--- Name: queues_pkey; Type: CONSTRAINT; Schema: public; Owner: root; Tablespace: 
+-- Name: queues queues_pkey; Type: CONSTRAINT; Schema: public; Owner: oar
 --
 
-ALTER TABLE ONLY queues
+ALTER TABLE ONLY public.queues
     ADD CONSTRAINT queues_pkey PRIMARY KEY (queue_name);
 
 
 --
--- Name: resource_logs_pkey; Type: CONSTRAINT; Schema: public; Owner: root; Tablespace: 
+-- Name: resource_logs resource_logs_pkey; Type: CONSTRAINT; Schema: public; Owner: oar
 --
 
-ALTER TABLE ONLY resource_logs
+ALTER TABLE ONLY public.resource_logs
     ADD CONSTRAINT resource_logs_pkey PRIMARY KEY (resource_log_id);
 
 
 --
--- Name: resources_pkey; Type: CONSTRAINT; Schema: public; Owner: root; Tablespace: 
+-- Name: resources resources_pkey; Type: CONSTRAINT; Schema: public; Owner: oar
 --
 
-ALTER TABLE ONLY resources
+ALTER TABLE ONLY public.resources
     ADD CONSTRAINT resources_pkey PRIMARY KEY (resource_id);
 
 
 --
--- Name: scheduler_pkey; Type: CONSTRAINT; Schema: public; Owner: root; Tablespace: 
+-- Name: scheduler scheduler_pkey; Type: CONSTRAINT; Schema: public; Owner: oar
 --
 
-ALTER TABLE ONLY scheduler
+ALTER TABLE ONLY public.scheduler
     ADD CONSTRAINT scheduler_pkey PRIMARY KEY (name);
 
 
 --
--- Name: ix_accounting_accounting_project; Type: INDEX; Schema: public; Owner: root; Tablespace: 
+-- Name: ix_accounting_accounting_project; Type: INDEX; Schema: public; Owner: oar
 --
 
-CREATE INDEX ix_accounting_accounting_project ON accounting USING btree (accounting_project);
+CREATE INDEX ix_accounting_accounting_project ON public.accounting USING btree (accounting_project);
 
 
 --
--- Name: ix_accounting_accounting_user; Type: INDEX; Schema: public; Owner: root; Tablespace: 
+-- Name: ix_accounting_accounting_user; Type: INDEX; Schema: public; Owner: oar
 --
 
-CREATE INDEX ix_accounting_accounting_user ON accounting USING btree (accounting_user);
+CREATE INDEX ix_accounting_accounting_user ON public.accounting USING btree (accounting_user);
 
 
 --
--- Name: ix_accounting_consumption_type; Type: INDEX; Schema: public; Owner: root; Tablespace: 
+-- Name: ix_accounting_consumption_type; Type: INDEX; Schema: public; Owner: oar
 --
 
-CREATE INDEX ix_accounting_consumption_type ON accounting USING btree (consumption_type);
+CREATE INDEX ix_accounting_consumption_type ON public.accounting USING btree (consumption_type);
 
 
 --
--- Name: ix_accounting_queue_name; Type: INDEX; Schema: public; Owner: root; Tablespace: 
+-- Name: ix_accounting_queue_name; Type: INDEX; Schema: public; Owner: oar
 --
 
-CREATE INDEX ix_accounting_queue_name ON accounting USING btree (queue_name);
+CREATE INDEX ix_accounting_queue_name ON public.accounting USING btree (queue_name);
 
 
 --
--- Name: ix_assigned_resources_assigned_resource_index; Type: INDEX; Schema: public; Owner: root; Tablespace: 
+-- Name: ix_assigned_resources_assigned_resource_index; Type: INDEX; Schema: public; Owner: oar
 --
 
-CREATE INDEX ix_assigned_resources_assigned_resource_index ON assigned_resources USING btree (assigned_resource_index);
+CREATE INDEX ix_assigned_resources_assigned_resource_index ON public.assigned_resources USING btree (assigned_resource_index);
 
 
 --
--- Name: ix_assigned_resources_moldable_job_id; Type: INDEX; Schema: public; Owner: root; Tablespace: 
+-- Name: ix_assigned_resources_moldable_job_id; Type: INDEX; Schema: public; Owner: oar
 --
 
-CREATE INDEX ix_assigned_resources_moldable_job_id ON assigned_resources USING btree (moldable_job_id);
+CREATE INDEX ix_assigned_resources_moldable_job_id ON public.assigned_resources USING btree (moldable_job_id);
 
 
 --
--- Name: ix_challenges_job_id; Type: INDEX; Schema: public; Owner: root; Tablespace: 
+-- Name: ix_challenges_job_id; Type: INDEX; Schema: public; Owner: oar
 --
 
-CREATE INDEX ix_challenges_job_id ON challenges USING btree (job_id);
+CREATE INDEX ix_challenges_job_id ON public.challenges USING btree (job_id);
 
 
 --
--- Name: ix_event_log_hostnames_hostname; Type: INDEX; Schema: public; Owner: root; Tablespace: 
+-- Name: ix_event_log_hostnames_hostname; Type: INDEX; Schema: public; Owner: oar
 --
 
-CREATE INDEX ix_event_log_hostnames_hostname ON event_log_hostnames USING btree (hostname);
+CREATE INDEX ix_event_log_hostnames_hostname ON public.event_log_hostnames USING btree (hostname);
 
 
 --
--- Name: ix_event_logs_job_id; Type: INDEX; Schema: public; Owner: root; Tablespace: 
+-- Name: ix_event_logs_job_id; Type: INDEX; Schema: public; Owner: oar
 --
 
-CREATE INDEX ix_event_logs_job_id ON event_logs USING btree (job_id);
+CREATE INDEX ix_event_logs_job_id ON public.event_logs USING btree (job_id);
 
 
 --
--- Name: ix_event_logs_to_check; Type: INDEX; Schema: public; Owner: root; Tablespace: 
+-- Name: ix_event_logs_to_check; Type: INDEX; Schema: public; Owner: oar
 --
 
-CREATE INDEX ix_event_logs_to_check ON event_logs USING btree (to_check);
+CREATE INDEX ix_event_logs_to_check ON public.event_logs USING btree (to_check);
 
 
 --
--- Name: ix_event_logs_type; Type: INDEX; Schema: public; Owner: root; Tablespace: 
+-- Name: ix_event_logs_type; Type: INDEX; Schema: public; Owner: oar
 --
 
-CREATE INDEX ix_event_logs_type ON event_logs USING btree (type);
+CREATE INDEX ix_event_logs_type ON public.event_logs USING btree (type);
 
 
 --
--- Name: ix_files_md5sum; Type: INDEX; Schema: public; Owner: root; Tablespace: 
+-- Name: ix_files_md5sum; Type: INDEX; Schema: public; Owner: oar
 --
 
-CREATE INDEX ix_files_md5sum ON files USING btree (md5sum);
+CREATE INDEX ix_files_md5sum ON public.files USING btree (md5sum);
 
 
 --
--- Name: ix_frag_jobs_frag_state; Type: INDEX; Schema: public; Owner: root; Tablespace: 
+-- Name: ix_frag_jobs_frag_state; Type: INDEX; Schema: public; Owner: oar
 --
 
-CREATE INDEX ix_frag_jobs_frag_state ON frag_jobs USING btree (frag_state);
+CREATE INDEX ix_frag_jobs_frag_state ON public.frag_jobs USING btree (frag_state);
 
 
 --
--- Name: ix_job_dependencies_job_dependency_index; Type: INDEX; Schema: public; Owner: root; Tablespace: 
+-- Name: ix_job_dependencies_job_dependency_index; Type: INDEX; Schema: public; Owner: oar
 --
 
-CREATE INDEX ix_job_dependencies_job_dependency_index ON job_dependencies USING btree (job_dependency_index);
+CREATE INDEX ix_job_dependencies_job_dependency_index ON public.job_dependencies USING btree (job_dependency_index);
 
 
 --
--- Name: ix_job_dependencies_job_id; Type: INDEX; Schema: public; Owner: root; Tablespace: 
+-- Name: ix_job_dependencies_job_id; Type: INDEX; Schema: public; Owner: oar
 --
 
-CREATE INDEX ix_job_dependencies_job_id ON job_dependencies USING btree (job_id);
+CREATE INDEX ix_job_dependencies_job_id ON public.job_dependencies USING btree (job_id);
 
 
 --
--- Name: ix_job_resource_descriptions_res_job_group_id; Type: INDEX; Schema: public; Owner: root; Tablespace: 
+-- Name: ix_job_resource_descriptions_res_job_group_id; Type: INDEX; Schema: public; Owner: oar
 --
 
-CREATE INDEX ix_job_resource_descriptions_res_job_group_id ON job_resource_descriptions USING btree (res_job_group_id);
+CREATE INDEX ix_job_resource_descriptions_res_job_group_id ON public.job_resource_descriptions USING btree (res_job_group_id);
 
 
 --
--- Name: ix_job_resource_descriptions_res_job_index; Type: INDEX; Schema: public; Owner: root; Tablespace: 
+-- Name: ix_job_resource_descriptions_res_job_index; Type: INDEX; Schema: public; Owner: oar
 --
 
-CREATE INDEX ix_job_resource_descriptions_res_job_index ON job_resource_descriptions USING btree (res_job_index);
+CREATE INDEX ix_job_resource_descriptions_res_job_index ON public.job_resource_descriptions USING btree (res_job_index);
 
 
 --
--- Name: ix_job_resource_groups_res_group_index; Type: INDEX; Schema: public; Owner: root; Tablespace: 
+-- Name: ix_job_resource_groups_res_group_index; Type: INDEX; Schema: public; Owner: oar
 --
 
-CREATE INDEX ix_job_resource_groups_res_group_index ON job_resource_groups USING btree (res_group_index);
+CREATE INDEX ix_job_resource_groups_res_group_index ON public.job_resource_groups USING btree (res_group_index);
 
 
 --
--- Name: ix_job_resource_groups_res_group_moldable_id; Type: INDEX; Schema: public; Owner: root; Tablespace: 
+-- Name: ix_job_resource_groups_res_group_moldable_id; Type: INDEX; Schema: public; Owner: oar
 --
 
-CREATE INDEX ix_job_resource_groups_res_group_moldable_id ON job_resource_groups USING btree (res_group_moldable_id);
+CREATE INDEX ix_job_resource_groups_res_group_moldable_id ON public.job_resource_groups USING btree (res_group_moldable_id);
 
 
 --
--- Name: ix_job_state_logs_job_id; Type: INDEX; Schema: public; Owner: root; Tablespace: 
+-- Name: ix_job_state_logs_job_id; Type: INDEX; Schema: public; Owner: oar
 --
 
-CREATE INDEX ix_job_state_logs_job_id ON job_state_logs USING btree (job_id);
+CREATE INDEX ix_job_state_logs_job_id ON public.job_state_logs USING btree (job_id);
 
 
 --
--- Name: ix_job_state_logs_job_state; Type: INDEX; Schema: public; Owner: root; Tablespace: 
+-- Name: ix_job_state_logs_job_state; Type: INDEX; Schema: public; Owner: oar
 --
 
-CREATE INDEX ix_job_state_logs_job_state ON job_state_logs USING btree (job_state);
+CREATE INDEX ix_job_state_logs_job_state ON public.job_state_logs USING btree (job_state);
 
 
 --
--- Name: ix_job_types_job_id; Type: INDEX; Schema: public; Owner: root; Tablespace: 
+-- Name: ix_job_types_job_id; Type: INDEX; Schema: public; Owner: oar
 --
 
-CREATE INDEX ix_job_types_job_id ON job_types USING btree (job_id);
+CREATE INDEX ix_job_types_job_id ON public.job_types USING btree (job_id);
 
 
 --
--- Name: ix_job_types_type; Type: INDEX; Schema: public; Owner: root; Tablespace: 
+-- Name: ix_job_types_type; Type: INDEX; Schema: public; Owner: oar
 --
 
-CREATE INDEX ix_job_types_type ON job_types USING btree (type);
+CREATE INDEX ix_job_types_type ON public.job_types USING btree (type);
 
 
 --
--- Name: ix_job_types_types_index; Type: INDEX; Schema: public; Owner: root; Tablespace: 
+-- Name: ix_job_types_types_index; Type: INDEX; Schema: public; Owner: oar
 --
 
-CREATE INDEX ix_job_types_types_index ON job_types USING btree (types_index);
+CREATE INDEX ix_job_types_types_index ON public.job_types USING btree (types_index);
 
 
 --
--- Name: ix_jobs_accounted; Type: INDEX; Schema: public; Owner: root; Tablespace: 
+-- Name: ix_jobs_accounted; Type: INDEX; Schema: public; Owner: oar
 --
 
-CREATE INDEX ix_jobs_accounted ON jobs USING btree (accounted);
+CREATE INDEX ix_jobs_accounted ON public.jobs USING btree (accounted);
 
 
 --
--- Name: ix_jobs_array_id; Type: INDEX; Schema: public; Owner: root; Tablespace: 
+-- Name: ix_jobs_array_id; Type: INDEX; Schema: public; Owner: oar
 --
 
-CREATE INDEX ix_jobs_array_id ON jobs USING btree (array_id);
+CREATE INDEX ix_jobs_array_id ON public.jobs USING btree (array_id);
 
 
 --
--- Name: ix_jobs_queue_name; Type: INDEX; Schema: public; Owner: root; Tablespace: 
+-- Name: ix_jobs_queue_name; Type: INDEX; Schema: public; Owner: oar
 --
 
-CREATE INDEX ix_jobs_queue_name ON jobs USING btree (queue_name);
+CREATE INDEX ix_jobs_queue_name ON public.jobs USING btree (queue_name);
 
 
 --
--- Name: ix_jobs_reservation; Type: INDEX; Schema: public; Owner: root; Tablespace: 
+-- Name: ix_jobs_reservation; Type: INDEX; Schema: public; Owner: oar
 --
 
-CREATE INDEX ix_jobs_reservation ON jobs USING btree (reservation);
+CREATE INDEX ix_jobs_reservation ON public.jobs USING btree (reservation);
 
 
 --
--- Name: ix_jobs_state; Type: INDEX; Schema: public; Owner: root; Tablespace: 
+-- Name: ix_jobs_state; Type: INDEX; Schema: public; Owner: oar
 --
 
-CREATE INDEX ix_jobs_state ON jobs USING btree (state);
+CREATE INDEX ix_jobs_state ON public.jobs USING btree (state);
 
 
 --
--- Name: ix_jobs_suspended; Type: INDEX; Schema: public; Owner: root; Tablespace: 
+-- Name: ix_jobs_suspended; Type: INDEX; Schema: public; Owner: oar
 --
 
-CREATE INDEX ix_jobs_suspended ON jobs USING btree (suspended);
+CREATE INDEX ix_jobs_suspended ON public.jobs USING btree (suspended);
 
 
 --
--- Name: ix_moldable_job_descriptions_moldable_index; Type: INDEX; Schema: public; Owner: root; Tablespace: 
+-- Name: ix_moldable_job_descriptions_moldable_index; Type: INDEX; Schema: public; Owner: oar
 --
 
-CREATE INDEX ix_moldable_job_descriptions_moldable_index ON moldable_job_descriptions USING btree (moldable_index);
+CREATE INDEX ix_moldable_job_descriptions_moldable_index ON public.moldable_job_descriptions USING btree (moldable_index);
 
 
 --
--- Name: ix_moldable_job_descriptions_moldable_job_id; Type: INDEX; Schema: public; Owner: root; Tablespace: 
+-- Name: ix_moldable_job_descriptions_moldable_job_id; Type: INDEX; Schema: public; Owner: oar
 --
 
-CREATE INDEX ix_moldable_job_descriptions_moldable_job_id ON moldable_job_descriptions USING btree (moldable_job_id);
+CREATE INDEX ix_moldable_job_descriptions_moldable_job_id ON public.moldable_job_descriptions USING btree (moldable_job_id);
 
 
 --
--- Name: ix_resource_logs_attribute; Type: INDEX; Schema: public; Owner: root; Tablespace: 
+-- Name: ix_resource_logs_attribute; Type: INDEX; Schema: public; Owner: oar
 --
 
-CREATE INDEX ix_resource_logs_attribute ON resource_logs USING btree (attribute);
+CREATE INDEX ix_resource_logs_attribute ON public.resource_logs USING btree (attribute);
 
 
 --
--- Name: ix_resource_logs_date_start; Type: INDEX; Schema: public; Owner: root; Tablespace: 
+-- Name: ix_resource_logs_date_start; Type: INDEX; Schema: public; Owner: oar
 --
 
-CREATE INDEX ix_resource_logs_date_start ON resource_logs USING btree (date_start);
+CREATE INDEX ix_resource_logs_date_start ON public.resource_logs USING btree (date_start);
 
 
 --
--- Name: ix_resource_logs_date_stop; Type: INDEX; Schema: public; Owner: root; Tablespace: 
+-- Name: ix_resource_logs_date_stop; Type: INDEX; Schema: public; Owner: oar
 --
 
-CREATE INDEX ix_resource_logs_date_stop ON resource_logs USING btree (date_stop);
+CREATE INDEX ix_resource_logs_date_stop ON public.resource_logs USING btree (date_stop);
 
 
 --
--- Name: ix_resource_logs_finaud_decision; Type: INDEX; Schema: public; Owner: root; Tablespace: 
+-- Name: ix_resource_logs_finaud_decision; Type: INDEX; Schema: public; Owner: oar
 --
 
-CREATE INDEX ix_resource_logs_finaud_decision ON resource_logs USING btree (finaud_decision);
+CREATE INDEX ix_resource_logs_finaud_decision ON public.resource_logs USING btree (finaud_decision);
 
 
 --
--- Name: ix_resource_logs_resource_id; Type: INDEX; Schema: public; Owner: root; Tablespace: 
+-- Name: ix_resource_logs_resource_id; Type: INDEX; Schema: public; Owner: oar
 --
 
-CREATE INDEX ix_resource_logs_resource_id ON resource_logs USING btree (resource_id);
+CREATE INDEX ix_resource_logs_resource_id ON public.resource_logs USING btree (resource_id);
 
 
 --
--- Name: ix_resource_logs_value; Type: INDEX; Schema: public; Owner: root; Tablespace: 
+-- Name: ix_resource_logs_value; Type: INDEX; Schema: public; Owner: oar
 --
 
-CREATE INDEX ix_resource_logs_value ON resource_logs USING btree (value);
+CREATE INDEX ix_resource_logs_value ON public.resource_logs USING btree (value);
 
 
 --
--- Name: ix_resources_network_address; Type: INDEX; Schema: public; Owner: root; Tablespace: 
+-- Name: ix_resources_network_address; Type: INDEX; Schema: public; Owner: oar
 --
 
-CREATE INDEX ix_resources_network_address ON resources USING btree (network_address);
+CREATE INDEX ix_resources_network_address ON public.resources USING btree (network_address);
 
 
 --
--- Name: ix_resources_next_state; Type: INDEX; Schema: public; Owner: root; Tablespace: 
+-- Name: ix_resources_next_state; Type: INDEX; Schema: public; Owner: oar
 --
 
-CREATE INDEX ix_resources_next_state ON resources USING btree (next_state);
+CREATE INDEX ix_resources_next_state ON public.resources USING btree (next_state);
 
 
 --
--- Name: ix_resources_state; Type: INDEX; Schema: public; Owner: root; Tablespace: 
+-- Name: ix_resources_state; Type: INDEX; Schema: public; Owner: oar
 --
 
-CREATE INDEX ix_resources_state ON resources USING btree (state);
+CREATE INDEX ix_resources_state ON public.resources USING btree (state);
 
 
 --
--- Name: ix_resources_suspended_jobs; Type: INDEX; Schema: public; Owner: root; Tablespace: 
+-- Name: ix_resources_suspended_jobs; Type: INDEX; Schema: public; Owner: oar
 --
 
-CREATE INDEX ix_resources_suspended_jobs ON resources USING btree (suspended_jobs);
+CREATE INDEX ix_resources_suspended_jobs ON public.resources USING btree (suspended_jobs);
 
 
 --
--- Name: ix_resources_type; Type: INDEX; Schema: public; Owner: root; Tablespace: 
+-- Name: ix_resources_type; Type: INDEX; Schema: public; Owner: oar
 --
 
-CREATE INDEX ix_resources_type ON resources USING btree (type);
+CREATE INDEX ix_resources_type ON public.resources USING btree (type);
 
 
 --
--- Name: state_id; Type: INDEX; Schema: public; Owner: root; Tablespace: 
+-- Name: state_id; Type: INDEX; Schema: public; Owner: oar
 --
 
-CREATE INDEX state_id ON jobs USING btree (state, job_id);
-
-
---
--- Name: public; Type: ACL; Schema: -; Owner: postgres
---
-
-REVOKE ALL ON SCHEMA public FROM PUBLIC;
-REVOKE ALL ON SCHEMA public FROM postgres;
-GRANT ALL ON SCHEMA public TO postgres;
-GRANT ALL ON SCHEMA public TO PUBLIC;
+CREATE INDEX state_id ON public.jobs USING btree (state, job_id);
 
 
 --
