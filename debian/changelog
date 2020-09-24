@@ -1,3 +1,11 @@
+g5k-api (3.9.9) unstable; urgency=low
+
+  * 728a7e7 Return 404 when a commit or a branch cannot be found
+  * 25dc7bc Add the ability to return a deep view of reference-repository
+  * 099b8bc Remove environments_controller
+
+ -- Samir Noir <samir.noir@inria.fr>  Thu, 24 Sep 2020 10:43:13 +0200
+
 g5k-api (3.9.8) unstable; urgency=low
 
   * a879eb7 Remove g5k-api's UI
