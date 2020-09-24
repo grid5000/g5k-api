@@ -92,11 +92,11 @@ class ResourcesController < ApplicationController
                           %w[admin default production]
                         else
                           params[:queues].split(',')
-                                          end
+                        end
                       end
 
     if params[:controller] == 'sites' && params[:action] == 'show' && params[:deep] && params[:job_id]
-      params[:version] = OAR::Job.expanded.find(params[:job_id]).start_time
+      params[:timestamp] = OAR::Job.expanded.find(params[:job_id]).start_time
     end
   end
 

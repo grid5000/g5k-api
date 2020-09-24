@@ -65,12 +65,6 @@ describe Grid5000::Repository do
         expect(commit.oid).to eq(@latest_commit)
       end
 
-      it 'should find the commit associated with the given timestamp [version=TS]' do
-        date = Time.parse('2009-03-13 17:24:20 +0100')
-        commit = @repository.find_commit_for(version: date.to_i)
-        expect(commit.oid).to eq('b00bd30bf69c322ffe9aca7a9f6e3be0f29e20f4')
-      end
-
       it 'should find the commit associated with the given timestamp [timestamp=TS] 1/2' do
         date = Time.parse('2009-03-13 17:24:20 +0100')
         commit = @repository.find_commit_for(timestamp: date.to_i)
@@ -90,21 +84,19 @@ describe Grid5000::Repository do
         expect(commit.oid).to eq('e07895a4b480aaa8e11c35549a97796dcc4a307d')
       end
 
-      it 'should return nil when asking for a version from a branch that does not exist' do
+      it 'should return Errors::BranchNotFound when asking for a version from a branch that does not exist' do
         date = Time.parse('Fri Mar 13 17:24:47 2009 +0100')
-        commit = @repository.find_commit_for(
+        expect { @repository.find_commit_for(
           timestamp: date.to_i,
           branch: 'doesnotexist'
-        )
-        expect(commit).to be_nil
+        ) }.to raise_error(Grid5000::Errors::BranchNotFound)
       end
 
-      it 'should return nil if the request version cannot be found' do
-        commit = @repository.find_commit_for(
+      it 'should return Errors::CommitNotfound if the request version cannot be found' do
+        expect { @repository.find_commit_for(
           version: 'aaa895a4b480aaa8e11c35549a97796dcc4a307d',
           branch: 'master'
-        )
-        expect(commit).to be_nil
+        ) }.to raise_error(Grid5000::Errors::CommitNotFound)
       end
     end # describe "finding a specific version"
 

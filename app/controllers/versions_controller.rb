@@ -62,7 +62,7 @@ class VersionsController < ApplicationController
       limit: 1
     )
     if versions['total'] == 0
-      raise NotFound, "The requested version '#{version}' does not exist or the resource '#{resource_path}' does not exist."
+      raise NotFound, "The resource '#{resource_path}' does not exist."
     end
 
     # etag compute_etag(commit.id, resource_uri, response['Content-Type'], options.release_hash)
