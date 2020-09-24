@@ -1,0 +1,283 @@
+{
+  "architecture": {
+    "cpu_core_numbering": "round-robin",
+    "nb_cores": 16,
+    "nb_procs": 2,
+    "nb_threads": 32,
+    "platform_type": "x86_64"
+  },
+  "bios": {
+    "release_date": "11/02/2019",
+    "vendor": "Dell Inc.",
+    "version": "2.11.0"
+  },
+  "bmc_version": "2.70.70.70",
+  "chassis": {
+    "manufacturer": "Dell Inc.",
+    "name": "PowerEdge R630",
+    "serial": "B3VGG42"
+  },
+  "exotic": false,
+  "kavlan": {
+    "eth0": {
+      "kavlan-1": "192.168.197.39",
+      "kavlan-11": "10.7.224.39",
+      "kavlan-12": "10.11.224.39",
+      "kavlan-13": "10.15.224.39",
+      "kavlan-14": "10.19.224.39",
+      "kavlan-16": "10.27.224.39",
+      "kavlan-18": "10.35.224.39",
+      "kavlan-2": "192.168.213.39",
+      "kavlan-20": "10.43.224.39",
+      "kavlan-21": "10.47.224.39",
+      "kavlan-3": "192.168.229.39",
+      "kavlan-4": "10.24.5.39",
+      "kavlan-5": "10.24.69.39",
+      "kavlan-6": "10.24.133.39",
+      "kavlan-7": "10.24.197.39",
+      "kavlan-8": "10.25.5.39",
+      "kavlan-9": "10.25.69.39"
+    },
+    "eth1": {
+      "kavlan-1": "192.168.198.39",
+      "kavlan-11": "10.7.224.139",
+      "kavlan-12": "10.11.224.139",
+      "kavlan-13": "10.15.224.139",
+      "kavlan-14": "10.19.224.139",
+      "kavlan-16": "10.27.224.139",
+      "kavlan-18": "10.35.224.139",
+      "kavlan-2": "192.168.214.39",
+      "kavlan-20": "10.43.224.139",
+      "kavlan-21": "10.47.224.139",
+      "kavlan-3": "192.168.230.39",
+      "kavlan-4": "10.24.6.39",
+      "kavlan-5": "10.24.70.39",
+      "kavlan-6": "10.24.134.39",
+      "kavlan-7": "10.24.198.39",
+      "kavlan-8": "10.25.6.39",
+      "kavlan-9": "10.25.70.39"
+    }
+  },
+  "kavlan6": {
+    "eth0": {
+      "kavlan-1": "2001:660:4406:781:1::27",
+      "kavlan-11": "2001:660:4406:78b:1::27",
+      "kavlan-12": "2001:660:4406:78c:1::27",
+      "kavlan-13": "2001:660:4406:78d:1::27",
+      "kavlan-14": "2001:660:4406:78e:1::27",
+      "kavlan-16": "2001:660:4406:790:1::27",
+      "kavlan-18": "2001:660:4406:792:1::27",
+      "kavlan-2": "2001:660:4406:782:1::27",
+      "kavlan-20": "2001:660:4406:794:1::27",
+      "kavlan-21": "2001:660:4406:795:1::27",
+      "kavlan-3": "2001:660:4406:783:1::27",
+      "kavlan-4": "2001:660:4406:784:1::27",
+      "kavlan-5": "2001:660:4406:785:1::27",
+      "kavlan-6": "2001:660:4406:786:1::27",
+      "kavlan-7": "2001:660:4406:787:1::27",
+      "kavlan-8": "2001:660:4406:788:1::27",
+      "kavlan-9": "2001:660:4406:789:1::27"
+    },
+    "eth1": {
+      "kavlan-1": "2001:660:4406:781:1:1::27",
+      "kavlan-11": "2001:660:4406:78b:1:1::27",
+      "kavlan-12": "2001:660:4406:78c:1:1::27",
+      "kavlan-13": "2001:660:4406:78d:1:1::27",
+      "kavlan-14": "2001:660:4406:78e:1:1::27",
+      "kavlan-16": "2001:660:4406:790:1:1::27",
+      "kavlan-18": "2001:660:4406:792:1:1::27",
+      "kavlan-2": "2001:660:4406:782:1:1::27",
+      "kavlan-20": "2001:660:4406:794:1:1::27",
+      "kavlan-21": "2001:660:4406:795:1:1::27",
+      "kavlan-3": "2001:660:4406:783:1:1::27",
+      "kavlan-4": "2001:660:4406:784:1:1::27",
+      "kavlan-5": "2001:660:4406:785:1:1::27",
+      "kavlan-6": "2001:660:4406:786:1:1::27",
+      "kavlan-7": "2001:660:4406:787:1:1::27",
+      "kavlan-8": "2001:660:4406:788:1:1::27",
+      "kavlan-9": "2001:660:4406:789:1:1::27"
+    }
+  },
+  "main_memory": {
+    "ram_size": 137438953472
+  },
+  "monitoring": {
+    "wattmeter": "true"
+  },
+  "network_adapters": [
+    {
+      "bridged": true,
+      "device": "eth0",
+      "driver": "ixgbe",
+      "enabled": true,
+      "firmware_version": "0x8000095c, 19.0.12",
+      "interface": "Ethernet",
+      "ip": "172.16.96.39",
+      "ip6": "2001:660:4406:700:1::27",
+      "kavlan": true,
+      "mac": "ec:f4:bb:d0:ff:d8",
+      "management": false,
+      "model": "82599ES 10-Gigabit SFI/SFP+ Network Connection",
+      "mountable": true,
+      "mounted": true,
+      "name": "eno1",
+      "network_address": "paravance-39.rennes.grid5000.fr",
+      "rate": 10000000000,
+      "switch": "paravance-sw-2",
+      "switch_port": "Ethernet1/6",
+      "vendor": "Intel"
+    },
+    {
+      "bridged": false,
+      "device": "eth1",
+      "driver": "ixgbe",
+      "enabled": true,
+      "firmware_version": "0x8000095c, 19.0.12",
+      "interface": "Ethernet",
+      "ip": "172.16.96.139",
+      "ip6": "2001:660:4406:700:1:1::27",
+      "kavlan": true,
+      "mac": "ec:f4:bb:d0:ff:da",
+      "management": false,
+      "model": "82599ES 10-Gigabit SFI/SFP+ Network Connection",
+      "mountable": true,
+      "mounted": false,
+      "name": "eno2",
+      "network_address": "paravance-39-eth1.rennes.grid5000.fr",
+      "rate": 10000000000,
+      "switch": "paravance-sw-2",
+      "switch_port": "Ethernet1/5",
+      "vendor": "Intel"
+    },
+    {
+      "bridged": false,
+      "device": "eth2",
+      "driver": "igb",
+      "enabled": false,
+      "firmware_version": "1.67, 0x80000fab, 19.0.12",
+      "interface": "Ethernet",
+      "kavlan": false,
+      "mac": "ec:f4:bb:d0:ff:dc",
+      "management": false,
+      "model": "I350 Gigabit Network Connection",
+      "mountable": false,
+      "mounted": false,
+      "name": "eno3",
+      "vendor": "Intel"
+    },
+    {
+      "bridged": false,
+      "device": "eth3",
+      "driver": "igb",
+      "enabled": false,
+      "firmware_version": "1.67, 0x80000fab, 19.0.12",
+      "interface": "Ethernet",
+      "kavlan": false,
+      "mac": "ec:f4:bb:d0:ff:dd",
+      "management": false,
+      "model": "I350 Gigabit Network Connection",
+      "mountable": false,
+      "mounted": false,
+      "name": "eno4",
+      "vendor": "Intel"
+    },
+    {
+      "device": "bmc",
+      "enabled": true,
+      "interface": "Ethernet",
+      "ip": "172.17.96.39",
+      "kavlan": false,
+      "mac": "b8:2a:72:fc:f5:08",
+      "management": true,
+      "mountable": false,
+      "mounted": false,
+      "network_address": "paravance-39-bmc.rennes.grid5000.fr",
+      "rate": 100000000
+    }
+  ],
+  "operating_system": {
+    "cstate_driver": "intel_idle",
+    "cstate_governor": "menu",
+    "ht_enabled": true,
+    "pstate_driver": "intel_pstate",
+    "pstate_governor": "performance",
+    "turboboost_enabled": true
+  },
+  "performance": {
+    "core_flops": 38400000000,
+    "node_flops": 614400000000
+  },
+  "processor": {
+    "cache_l1": null,
+    "cache_l1d": 32768,
+    "cache_l1i": 32768,
+    "cache_l2": 262144,
+    "cache_l3": 20971520,
+    "clock_speed": 2400000000,
+    "ht_capable": true,
+    "instruction_set": "x86-64",
+    "microarchitecture": "Haswell",
+    "microcode": "0x43",
+    "model": "Intel Xeon",
+    "other_description": "Intel(R) Xeon(R) CPU E5-2630 v3 @ 2.40GHz",
+    "vendor": "Intel",
+    "version": "E5-2630 v3"
+  },
+  "sensors": {
+    "power": {
+      "available": true,
+      "via": {
+        "api": {
+          "metric": "power"
+        },
+        "pdu": [
+          {
+            "port": 18,
+            "uid": "paravance-pdu-7"
+          }
+        ]
+      }
+    }
+  },
+  "software": {
+    "forced-deployment-timestamp": 202007300948,
+    "postinstall-version": "1.2020091600",
+    "standard-environment": "debian10-x64-std"
+  },
+  "storage_devices": [
+    {
+      "by_id": "/dev/disk/by-id/wwn-0x5000c50062ea8def",
+      "by_path": "/dev/disk/by-path/pci-0000:02:00.0-scsi-0:0:0:0",
+      "device": "sda",
+      "firmware_version": "LS0C",
+      "interface": "SATA",
+      "model": "ST600MM0006",
+      "size": 600127266816,
+      "storage": "HDD",
+      "vendor": "Seagate"
+    },
+    {
+      "by_id": "/dev/disk/by-id/wwn-0x5000c50062ead217",
+      "by_path": "/dev/disk/by-path/pci-0000:02:00.0-scsi-0:0:1:0",
+      "device": "sdb",
+      "firmware_version": "LS0C",
+      "interface": "SATA",
+      "model": "ST600MM0006",
+      "size": 600127266816,
+      "storage": "HDD",
+      "vendor": "Seagate"
+    }
+  ],
+  "supported_job_types": {
+    "besteffort": true,
+    "deploy": true,
+    "max_walltime": 0,
+    "queues": [
+      "default",
+      "admin"
+    ],
+    "virtual": "ivt"
+  },
+  "type": "node",
+  "uid": "paravance-39"
+}

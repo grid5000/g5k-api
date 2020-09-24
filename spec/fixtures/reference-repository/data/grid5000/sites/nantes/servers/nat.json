@@ -1,0 +1,13 @@
+{
+  "alias": [
+    "access"
+  ],
+  "kind": "virtual",
+  "network_adapters": {
+    "default": {
+      "ip": "172.16.207.200"
+    }
+  },
+  "type": "server",
+  "uid": "nat"
+}

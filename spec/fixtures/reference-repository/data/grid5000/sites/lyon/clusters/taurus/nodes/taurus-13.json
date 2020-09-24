@@ -1,0 +1,264 @@
+{
+  "architecture": {
+    "cpu_core_numbering": "round-robin",
+    "nb_cores": 12,
+    "nb_procs": 2,
+    "nb_threads": 24,
+    "platform_type": "x86_64"
+  },
+  "bios": {
+    "release_date": "12/06/2019",
+    "vendor": "Dell Inc.",
+    "version": "2.9.0"
+  },
+  "bmc_version": "2.63.60.62",
+  "chassis": {
+    "manufacturer": "Dell Inc.",
+    "name": "PowerEdge R720",
+    "serial": "CHTHD5J"
+  },
+  "exotic": false,
+  "kavlan": {
+    "eth0": {
+      "kavlan-1": "192.168.193.13",
+      "kavlan-11": "10.7.201.13",
+      "kavlan-12": "10.11.201.13",
+      "kavlan-13": "10.15.201.13",
+      "kavlan-14": "10.19.201.13",
+      "kavlan-16": "10.27.201.13",
+      "kavlan-18": "10.35.201.13",
+      "kavlan-2": "192.168.209.13",
+      "kavlan-20": "10.43.201.13",
+      "kavlan-21": "10.47.201.13",
+      "kavlan-3": "192.168.225.13",
+      "kavlan-4": "10.12.1.13",
+      "kavlan-5": "10.12.65.13",
+      "kavlan-6": "10.12.129.13",
+      "kavlan-7": "10.12.193.13",
+      "kavlan-8": "10.13.1.13",
+      "kavlan-9": "10.13.65.13"
+    }
+  },
+  "kavlan6": {
+    "eth0": {
+      "kavlan-1": "2001:660:4406:481:1::d",
+      "kavlan-11": "2001:660:4406:48b:1::d",
+      "kavlan-12": "2001:660:4406:48c:1::d",
+      "kavlan-13": "2001:660:4406:48d:1::d",
+      "kavlan-14": "2001:660:4406:48e:1::d",
+      "kavlan-16": "2001:660:4406:490:1::d",
+      "kavlan-18": "2001:660:4406:492:1::d",
+      "kavlan-2": "2001:660:4406:482:1::d",
+      "kavlan-20": "2001:660:4406:494:1::d",
+      "kavlan-21": "2001:660:4406:495:1::d",
+      "kavlan-3": "2001:660:4406:483:1::d",
+      "kavlan-4": "2001:660:4406:484:1::d",
+      "kavlan-5": "2001:660:4406:485:1::d",
+      "kavlan-6": "2001:660:4406:486:1::d",
+      "kavlan-7": "2001:660:4406:487:1::d",
+      "kavlan-8": "2001:660:4406:488:1::d",
+      "kavlan-9": "2001:660:4406:489:1::d"
+    }
+  },
+  "main_memory": {
+    "ram_size": 34359738368
+  },
+  "monitoring": {
+    "wattmeter": "true"
+  },
+  "network_adapters": [
+    {
+      "bridged": true,
+      "device": "eth0",
+      "driver": "ixgbe",
+      "enabled": true,
+      "firmware_version": "0x8000095d, 19.0.12",
+      "interface": "Ethernet",
+      "ip": "172.16.48.13",
+      "ip6": "2001:660:4406:400:1::d",
+      "kavlan": true,
+      "mac": "a0:36:9f:08:f9:24",
+      "management": false,
+      "model": "Ethernet 10G 2P X520 Adapter",
+      "mountable": true,
+      "mounted": true,
+      "name": "enp68s0f0",
+      "network_address": "taurus-13.lyon.grid5000.fr",
+      "rate": 10000000000,
+      "switch": "force10",
+      "switch_port": "TenGigabitEthernet 0/13",
+      "vendor": "Intel"
+    },
+    {
+      "bridged": false,
+      "device": "eth1",
+      "driver": "ixgbe",
+      "enabled": false,
+      "firmware_version": "0x8000095d, 19.0.12",
+      "interface": "Ethernet",
+      "kavlan": false,
+      "mac": "a0:36:9f:08:f9:26",
+      "management": false,
+      "model": "Ethernet 10G 2P X520 Adapter",
+      "mountable": false,
+      "mounted": false,
+      "name": "enp68s0f1",
+      "vendor": "Intel"
+    },
+    {
+      "bridged": false,
+      "device": "eth2",
+      "driver": "igb",
+      "enabled": false,
+      "firmware_version": "1.67, 0x80000faa, 19.0.12",
+      "interface": "Ethernet",
+      "kavlan": false,
+      "mac": "bc:30:5b:ef:33:fc",
+      "management": false,
+      "model": "I350 Gigabit Network Connection",
+      "mountable": false,
+      "mounted": false,
+      "name": "eno1",
+      "vendor": "Intel"
+    },
+    {
+      "bridged": false,
+      "device": "eth3",
+      "driver": "igb",
+      "enabled": false,
+      "firmware_version": "1.67, 0x80000faa, 19.0.12",
+      "interface": "Ethernet",
+      "kavlan": false,
+      "mac": "bc:30:5b:ef:33:fd",
+      "management": false,
+      "model": "I350 Gigabit Network Connection",
+      "mountable": false,
+      "mounted": false,
+      "name": "eno2",
+      "vendor": "Intel"
+    },
+    {
+      "bridged": false,
+      "device": "eth4",
+      "driver": "igb",
+      "enabled": false,
+      "firmware_version": "1.67, 0x80000faa, 19.0.12",
+      "interface": "Ethernet",
+      "kavlan": false,
+      "mac": "bc:30:5b:ef:33:fe",
+      "management": false,
+      "model": "I350 Gigabit Network Connection",
+      "mountable": false,
+      "mounted": false,
+      "name": "eno3",
+      "vendor": "Intel"
+    },
+    {
+      "bridged": false,
+      "device": "eth5",
+      "driver": "igb",
+      "enabled": false,
+      "firmware_version": "1.67, 0x80000faa, 19.0.12",
+      "interface": "Ethernet",
+      "kavlan": false,
+      "mac": "bc:30:5b:ef:33:ff",
+      "management": false,
+      "model": "I350 Gigabit Network Connection",
+      "mountable": false,
+      "mounted": false,
+      "name": "eno4",
+      "vendor": "Intel"
+    },
+    {
+      "device": "bmc",
+      "enabled": true,
+      "interface": "Ethernet",
+      "ip": "172.17.48.13",
+      "kavlan": false,
+      "mac": "d4:be:d9:fb:ec:40",
+      "management": true,
+      "mountable": false,
+      "mounted": false,
+      "network_address": "taurus-13-bmc.lyon.grid5000.fr",
+      "rate": 1000000000
+    }
+  ],
+  "operating_system": {
+    "cstate_driver": "intel_idle",
+    "cstate_governor": "menu",
+    "ht_enabled": true,
+    "pstate_driver": "intel_pstate",
+    "pstate_governor": "performance",
+    "turboboost_enabled": true
+  },
+  "performance": {
+    "core_flops": 18400000000,
+    "node_flops": 220800000000
+  },
+  "processor": {
+    "cache_l1": null,
+    "cache_l1d": 32768,
+    "cache_l1i": 32768,
+    "cache_l2": 262144,
+    "cache_l3": 15728640,
+    "clock_speed": 2300000000,
+    "ht_capable": true,
+    "instruction_set": "x86-64",
+    "microarchitecture": "Sandy Bridge",
+    "microcode": "0x71a",
+    "model": "Intel Xeon",
+    "other_description": "Intel(R) Xeon(R) CPU E5-2630 0 @ 2.30GHz",
+    "vendor": "Intel",
+    "version": "E5-2630"
+  },
+  "sensors": {
+    "power": {
+      "available": true,
+      "per_outlets": true,
+      "via": {
+        "api": {
+          "metric": "power"
+        },
+        "pdu": [
+          {
+            "port": 12,
+            "uid": "wattmetre4"
+          }
+        ],
+        "www": {
+          "url": "http://wattmetre.lyon.grid5000.fr/GetWatts-json.php"
+        }
+      }
+    }
+  },
+  "software": {
+    "forced-deployment-timestamp": 202007300948,
+    "postinstall-version": "1.2020091600",
+    "standard-environment": "debian10-x64-std"
+  },
+  "storage_devices": [
+    {
+      "by_id": "/dev/disk/by-id/wwn-0x6d4ae520ab2d7b00179414301a158573",
+      "by_path": "/dev/disk/by-path/pci-0000:02:00.0-scsi-0:2:0:0",
+      "device": "sda",
+      "firmware_version": 3.13,
+      "interface": "SCSI",
+      "model": "PERC H710",
+      "size": 598879502336,
+      "storage": "HDD",
+      "vendor": "Dell (Raid)"
+    }
+  ],
+  "supported_job_types": {
+    "besteffort": true,
+    "deploy": true,
+    "max_walltime": 0,
+    "queues": [
+      "default",
+      "admin"
+    ],
+    "virtual": "ivt"
+  },
+  "type": "node",
+  "uid": "taurus-13"
+}

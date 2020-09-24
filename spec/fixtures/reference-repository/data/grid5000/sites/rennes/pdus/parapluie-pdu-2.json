@@ -1,0 +1,35 @@
+{
+  "ip": "172.17.99.202",
+  "model": "",
+  "ports": {
+    "1": "parapide-1",
+    "20": "parapluie-31",
+    "21": "parapluie-28",
+    "22": "parapluie-25",
+    "23": "parapluie-22",
+    "24": "parapluie-21",
+    "3": "parapluie-38",
+    "4": "parapluie-35",
+    "5": "parapluie-32"
+  },
+  "sensors": [
+    {
+      "power": {
+        "per_outlets": true,
+        "resolution": 60,
+        "snmp": {
+          "available": true,
+          "outlet_prefix_oid": "iso.3.6.1.4.1.534.6.6.7.6.5.1.3.0",
+          "total_oids": [
+            "iso.3.6.1.4.1.534.6.6.7.5.5.1.3.0.1",
+            "iso.3.6.1.4.1.534.6.6.7.5.5.1.3.0.2"
+          ],
+          "unit": "W"
+        }
+      }
+    }
+  ],
+  "type": "pdu",
+  "uid": "parapluie-pdu-2",
+  "vendor": "Eaton Corporation"
+}

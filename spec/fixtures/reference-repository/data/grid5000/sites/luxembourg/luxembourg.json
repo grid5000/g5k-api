@@ -1,0 +1,70 @@
+{
+  "compilation_server": false,
+  "description": "Grid5000 Luxembourg site",
+  "email_contact": "support-staff@lists.grid5000.fr",
+  "frontend_ip": "172.16.191.109",
+  "g5ksubnet": {
+    "gateway": "10.175.255.254",
+    "network": "10.172.0.0/14"
+  },
+  "kavlan_ip_range": "10.40.0.0/14",
+  "kavlans": {
+    "1": {
+      "gateway": "192.168.207.254",
+      "network": "192.168.192.0/20"
+    },
+    "2": {
+      "gateway": "192.168.223.254",
+      "network": "192.168.208.0/20"
+    },
+    "20": {
+      "gateway": "10.43.255.254",
+      "network": "10.43.192.0/18"
+    },
+    "3": {
+      "gateway": "192.168.239.254",
+      "network": "192.168.224.0/20"
+    },
+    "4": {
+      "gateway": "10.40.63.254",
+      "network": "10.40.0.0/18"
+    },
+    "5": {
+      "gateway": "10.40.127.254",
+      "network": "10.40.64.0/18"
+    },
+    "6": {
+      "gateway": "10.40.191.254",
+      "network": "10.40.128.0/18"
+    },
+    "7": {
+      "gateway": "10.40.255.254",
+      "network": "10.40.192.0/18"
+    },
+    "8": {
+      "gateway": "10.41.63.254",
+      "network": "10.41.0.0/18"
+    },
+    "9": {
+      "gateway": "10.41.127.254",
+      "network": "10.41.64.0/18"
+    },
+    "default": {
+      "gateway": "172.16.191.254",
+      "network": "172.16.176.0/20"
+    }
+  },
+  "latitude": 49.626595,
+  "location": "Luxembourg, Luxembourg",
+  "longitude": 6.158676,
+  "name": "Luxembourg",
+  "production": true,
+  "renater_ip": "192.168.4.21",
+  "security_contact": "support-staff@lists.grid5000.fr",
+  "sys_admin_contact": "support-staff@lists.grid5000.fr",
+  "type": "site",
+  "uid": "luxembourg",
+  "user_support_contact": "support-staff@lists.grid5000.fr",
+  "virt_ip_range": "10.172.0.0/14",
+  "web": "https://www.grid5000.fr/mediawiki/index.php/Luxembourg:Home"
+}

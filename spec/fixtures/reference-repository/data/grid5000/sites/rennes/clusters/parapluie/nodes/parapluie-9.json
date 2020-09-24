@@ -1,0 +1,281 @@
+{
+  "architecture": {
+    "cpu_core_numbering": "contiguous-including-threads",
+    "nb_cores": 24,
+    "nb_procs": 2,
+    "nb_threads": 24,
+    "platform_type": "x86_64"
+  },
+  "bios": {
+    "release_date": "09/06/2010",
+    "vendor": "HP",
+    "version": "O37"
+  },
+  "bmc_version": "4.21",
+  "chassis": {
+    "manufacturer": "HP",
+    "name": "ProLiant DL165 G7",
+    "serial": "GB803651P0"
+  },
+  "exotic": false,
+  "kavlan": {
+    "eth1": {
+      "kavlan-1": "192.168.193.9",
+      "kavlan-11": "10.7.228.9",
+      "kavlan-12": "10.11.228.9",
+      "kavlan-13": "10.15.228.9",
+      "kavlan-14": "10.19.228.9",
+      "kavlan-16": "10.27.228.9",
+      "kavlan-18": "10.35.228.9",
+      "kavlan-2": "192.168.209.9",
+      "kavlan-20": "10.43.228.9",
+      "kavlan-21": "10.47.228.9",
+      "kavlan-3": "192.168.225.9",
+      "kavlan-4": "10.24.1.9",
+      "kavlan-5": "10.24.65.9",
+      "kavlan-6": "10.24.129.9",
+      "kavlan-7": "10.24.193.9",
+      "kavlan-8": "10.25.1.9",
+      "kavlan-9": "10.25.65.9"
+    }
+  },
+  "kavlan6": {
+    "eth1": {
+      "kavlan-1": "2001:660:4406:781:4::9",
+      "kavlan-11": "2001:660:4406:78b:4::9",
+      "kavlan-12": "2001:660:4406:78c:4::9",
+      "kavlan-13": "2001:660:4406:78d:4::9",
+      "kavlan-14": "2001:660:4406:78e:4::9",
+      "kavlan-16": "2001:660:4406:790:4::9",
+      "kavlan-18": "2001:660:4406:792:4::9",
+      "kavlan-2": "2001:660:4406:782:4::9",
+      "kavlan-20": "2001:660:4406:794:4::9",
+      "kavlan-21": "2001:660:4406:795:4::9",
+      "kavlan-3": "2001:660:4406:783:4::9",
+      "kavlan-4": "2001:660:4406:784:4::9",
+      "kavlan-5": "2001:660:4406:785:4::9",
+      "kavlan-6": "2001:660:4406:786:4::9",
+      "kavlan-7": "2001:660:4406:787:4::9",
+      "kavlan-8": "2001:660:4406:788:4::9",
+      "kavlan-9": "2001:660:4406:789:4::9"
+    }
+  },
+  "main_memory": {
+    "ram_size": 51539607552
+  },
+  "monitoring": {
+    "temperature": true,
+    "wattmeter": "true"
+  },
+  "network_adapters": [
+    {
+      "bridged": false,
+      "device": "eth0",
+      "driver": "igb",
+      "enabled": false,
+      "firmware_version": "1.8.2",
+      "interface": "Ethernet",
+      "kavlan": false,
+      "mac": "78:e7:d1:f9:8e:f6",
+      "management": false,
+      "model": "82576 Gigabit Network Connection",
+      "mountable": false,
+      "mounted": false,
+      "name": "enp4s0f0",
+      "rate": 100000000,
+      "vendor": "Intel"
+    },
+    {
+      "bridged": true,
+      "device": "eth1",
+      "driver": "igb",
+      "enabled": true,
+      "firmware_version": "1.8.2",
+      "interface": "Ethernet",
+      "ip": "172.16.99.9",
+      "ip6": "2001:660:4406:700:4::9",
+      "kavlan": true,
+      "mac": "78:e7:d1:f9:8e:f7",
+      "management": false,
+      "model": "82576 Gigabit Network Connection",
+      "mountable": true,
+      "mounted": true,
+      "name": "enp4s0f1",
+      "network_address": "parapluie-9.rennes.grid5000.fr",
+      "rate": 1000000000,
+      "switch": "c6509",
+      "switch_port": "GigabitEthernet4/4",
+      "vendor": "Intel"
+    },
+    {
+      "bridged": false,
+      "device": "eth2",
+      "driver": "igb",
+      "enabled": false,
+      "firmware_version": "1.8.2",
+      "interface": "Ethernet",
+      "kavlan": false,
+      "mac": "78:e7:d1:f9:8e:e4",
+      "management": false,
+      "model": "82576 Gigabit Network Connection",
+      "mountable": false,
+      "mounted": false,
+      "name": "enp3s0f0",
+      "vendor": "Intel"
+    },
+    {
+      "bridged": false,
+      "device": "eth3",
+      "driver": "igb",
+      "enabled": false,
+      "firmware_version": "1.8.2",
+      "interface": "Ethernet",
+      "kavlan": false,
+      "mac": "78:e7:d1:f9:8e:e5",
+      "management": false,
+      "model": "82576 Gigabit Network Connection",
+      "mountable": false,
+      "mounted": false,
+      "name": "enp3s0f1",
+      "vendor": "Intel"
+    },
+    {
+      "device": "ib0",
+      "driver": "mlx4_core",
+      "enabled": true,
+      "firmware_version": "2.6.0",
+      "guid": "0x00237dffff94d321",
+      "interface": "InfiniBand",
+      "ip": "172.18.99.9",
+      "kavlan": false,
+      "mac": "80:00:02:08:fe:80:00:00:00:00:00:00:00:23:7d:ff:ff:94:d3:21",
+      "management": false,
+      "model": "MT25418 [ConnectX VPI PCIe 2.0 2.5GT/s - IB DDR / 10GigE]",
+      "mountable": true,
+      "mounted": true,
+      "name": "ib0",
+      "netmask": "255.255.240.0",
+      "network_address": "parapluie-9-ib0.rennes.grid5000.fr",
+      "rate": 20000000000,
+      "vendor": "Mellanox Technologies"
+    },
+    {
+      "device": "ib1",
+      "driver": "mlx4_core",
+      "enabled": false,
+      "firmware_version": "2.6.0",
+      "guid": "0x00237dffff94d322",
+      "interface": "InfiniBand",
+      "kavlan": false,
+      "mac": "80:00:02:09:fe:80:00:00:00:00:00:00:00:23:7d:ff:ff:94:d3:22",
+      "management": false,
+      "model": "MT25418 [ConnectX VPI PCIe 2.0 2.5GT/s - IB DDR / 10GigE]",
+      "mountable": false,
+      "mounted": false,
+      "name": "ib1",
+      "rate": 10000000000,
+      "vendor": "Mellanox Technologies"
+    },
+    {
+      "device": "bmc",
+      "enabled": true,
+      "interface": "Ethernet",
+      "ip": "172.17.99.9",
+      "kavlan": false,
+      "mac": "78:e7:d1:65:b9:e1",
+      "management": true,
+      "mountable": false,
+      "mounted": false,
+      "network_address": "parapluie-9-bmc.rennes.grid5000.fr",
+      "rate": 1000000000
+    }
+  ],
+  "operating_system": {
+    "cstate_driver": "none",
+    "cstate_governor": "menu",
+    "ht_enabled": false,
+    "pstate_driver": "acpi-cpufreq",
+    "pstate_governor": "performance",
+    "turboboost_enabled": false
+  },
+  "performance": {
+    "core_flops": 6800000000,
+    "node_flops": 163200000000
+  },
+  "processor": {
+    "cache_l1": null,
+    "cache_l1d": 65536,
+    "cache_l1i": 65536,
+    "cache_l2": 524288,
+    "cache_l3": 5240832,
+    "clock_speed": 1700000000,
+    "ht_capable": true,
+    "instruction_set": "x86-64",
+    "microarchitecture": "K10",
+    "microcode": "0x10000d9",
+    "model": "AMD Opteron",
+    "other_description": "AMD Opteron(tm) Processor 6164 HE",
+    "vendor": "AMD",
+    "version": "6164 HE"
+  },
+  "sensors": {
+    "power": {
+      "available": true,
+      "per_outlets": true,
+      "via": {
+        "api": {
+          "metric": "power"
+        },
+        "pdu": [
+          {
+            "port": 21,
+            "uid": "parapluie-pdu-1"
+          }
+        ]
+      }
+    },
+    "temperature": {
+      "available": true,
+      "via": {
+        "api": {
+          "metric": "ambient_temp"
+        },
+        "ipmi": {
+          "sensors": {
+            "ambient": "Inlet Ambient"
+          }
+        }
+      }
+    }
+  },
+  "software": {
+    "forced-deployment-timestamp": 202007300948,
+    "postinstall-version": "1.2020091600",
+    "standard-environment": "debian10-x64-std"
+  },
+  "storage_devices": [
+    {
+      "by_id": "/dev/disk/by-id/wwn-0x5000c5002673a23e",
+      "by_path": "/dev/disk/by-path/pci-0000:00:11.0-ata-1",
+      "device": "sda",
+      "firmware_version": "HPG0",
+      "interface": "SATA",
+      "model": "VB0250EAVER",
+      "size": 250059350016,
+      "storage": "HDD",
+      "vendor": "HP"
+    }
+  ],
+  "supported_job_types": {
+    "besteffort": true,
+    "deploy": true,
+    "max_walltime": 0,
+    "queues": [
+      "default",
+      "admin"
+    ],
+    "virtual": "amd-v"
+  },
+  "type": "node",
+  "uid": "parapluie-9"
+}

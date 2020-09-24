@@ -1,0 +1,18 @@
+{
+  "alias": [
+    "ceph0"
+  ],
+  "kind": "physical",
+  "network_adapters": {
+    "bmc": {
+      "ip": "172.17.111.33"
+    },
+    "default": {
+      "ip": "172.16.111.33"
+    }
+  },
+  "serial": "FQJ4LZ1",
+  "type": "server",
+  "uid": "rook-storage3",
+  "warranty": "2018-11"
+}

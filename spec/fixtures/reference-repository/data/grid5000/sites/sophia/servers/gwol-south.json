@@ -1,0 +1,14 @@
+{
+  "kind": "physical",
+  "network_adapters": {
+    "bmc": {
+      "ip": "172.17.143.15",
+      "mac": "4c:d9:8f:19:84:50",
+      "mounted": true
+    }
+  },
+  "serial": "8FQQ2T2",
+  "type": "server",
+  "uid": "gwol-south",
+  "warranty": "2025-12-27"
+}

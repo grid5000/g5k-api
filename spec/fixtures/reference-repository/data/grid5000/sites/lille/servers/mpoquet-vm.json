@@ -1,0 +1,11 @@
+{
+  "expire": "2021-12",
+  "kind": "virtual",
+  "network_adapters": {
+    "default": {
+      "ip": "172.16.45.13"
+    }
+  },
+  "type": "server",
+  "uid": "mpoquet-vm"
+}

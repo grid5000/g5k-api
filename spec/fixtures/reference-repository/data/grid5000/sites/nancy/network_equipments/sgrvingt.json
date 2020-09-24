@@ -1,0 +1,621 @@
+{
+  "backplane_bps": 1440000000000,
+  "ip": "172.17.79.207",
+  "kind": "switch",
+  "linecards": [
+    {
+    },
+    {
+      "kavlan_pattern": "TenGigabitEthernet%LINECARD%/%PORT%",
+      "kind": "node",
+      "ports": [
+        {
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "TenGigabitEthernet 1/1",
+          "uid": "grvingt-3"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "TenGigabitEthernet 1/2",
+          "uid": "grvingt-4"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "TenGigabitEthernet 1/3",
+          "uid": "grvingt-7"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "TenGigabitEthernet 1/4",
+          "uid": "grvingt-8"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "TenGigabitEthernet 1/5",
+          "uid": "grvingt-11"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "TenGigabitEthernet 1/6",
+          "uid": "grvingt-12"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "TenGigabitEthernet 1/7",
+          "uid": "grvingt-15"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "TenGigabitEthernet 1/8",
+          "uid": "grvingt-16"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "TenGigabitEthernet 1/9",
+          "uid": "grvingt-19"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "TenGigabitEthernet 1/10",
+          "uid": "grvingt-20"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "TenGigabitEthernet 1/11",
+          "uid": "grvingt-23"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "TenGigabitEthernet 1/12",
+          "uid": "grvingt-24"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "TenGigabitEthernet 1/13",
+          "uid": "grvingt-27"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "TenGigabitEthernet 1/14",
+          "uid": "grvingt-28"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "TenGigabitEthernet 1/15",
+          "uid": "grvingt-31"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "TenGigabitEthernet 1/16",
+          "uid": "grvingt-32"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "TenGigabitEthernet 1/17",
+          "uid": "grvingt-35"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "TenGigabitEthernet 1/18",
+          "uid": "grvingt-36"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "TenGigabitEthernet 1/19",
+          "uid": "grvingt-39"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "TenGigabitEthernet 1/20",
+          "uid": "grvingt-40"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "TenGigabitEthernet 1/21",
+          "uid": "grvingt-38"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "TenGigabitEthernet 1/22",
+          "uid": "grvingt-37"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "TenGigabitEthernet 1/23",
+          "uid": "grvingt-33"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "TenGigabitEthernet 1/24",
+          "uid": "grvingt-34"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "TenGigabitEthernet 1/25",
+          "uid": "grvingt-29"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "TenGigabitEthernet 1/26",
+          "uid": "grvingt-30"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "TenGigabitEthernet 1/27",
+          "uid": "grvingt-25"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "TenGigabitEthernet 1/28",
+          "uid": "grvingt-26"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "TenGigabitEthernet 1/29",
+          "uid": "grvingt-21"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "TenGigabitEthernet 1/30",
+          "uid": "grvingt-22"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "TenGigabitEthernet 1/31",
+          "uid": "grvingt-17"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "TenGigabitEthernet 1/32",
+          "uid": "grvingt-18"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "TenGigabitEthernet 1/33",
+          "uid": "grvingt-13"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "TenGigabitEthernet 1/34",
+          "uid": "grvingt-14"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "TenGigabitEthernet 1/35",
+          "uid": "grvingt-9"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "TenGigabitEthernet 1/36",
+          "uid": "grvingt-10"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "TenGigabitEthernet 1/37",
+          "uid": "grvingt-5"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "TenGigabitEthernet 1/38",
+          "uid": "grvingt-6"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "TenGigabitEthernet 1/39",
+          "uid": "grvingt-1"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "TenGigabitEthernet 1/40",
+          "uid": "grvingt-2"
+        },
+        {
+          "kind": "server",
+          "snmp_name": "TenGigabitEthernet 1/41",
+          "uid": "grcinq-srv-3"
+        },
+        {
+          "kind": "server",
+          "snmp_name": "TenGigabitEthernet 1/42",
+          "uid": "grcinq-srv-2"
+        },
+        {
+          "kind": "server",
+          "snmp_name": "TenGigabitEthernet 1/43",
+          "uid": "grvingt-srv"
+        },
+        {
+          "kind": "server",
+          "snmp_name": "TenGigabitEthernet 1/44",
+          "uid": "wurst"
+        },
+        {
+          "kind": "switch",
+          "snmp_name": "TenGigabitEthernet 1/45",
+          "uid": "sgrcinq"
+        },
+        {
+          "kind": "server",
+          "snmp_name": "TenGigabitEthernet 1/46",
+          "uid": "grcinq-srv-1"
+        },
+        {
+        },
+        {
+          "kind": "router",
+          "snmp_name": "TenGigabitEthernet 1/48",
+          "uid": "gw"
+        }
+      ],
+      "rate": 10000000000,
+      "snmp_pattern": "TenGigabitEthernet %LINECARD%/%PORT%"
+    },
+    {
+    },
+    {
+    },
+    {
+    },
+    {
+    },
+    {
+    },
+    {
+    },
+    {
+    },
+    {
+    },
+    {
+    },
+    {
+    },
+    {
+    },
+    {
+    },
+    {
+    },
+    {
+    },
+    {
+    },
+    {
+    },
+    {
+    },
+    {
+    },
+    {
+    },
+    {
+    },
+    {
+    },
+    {
+    },
+    {
+    },
+    {
+    },
+    {
+    },
+    {
+    },
+    {
+    },
+    {
+    },
+    {
+    },
+    {
+    },
+    {
+    },
+    {
+    },
+    {
+    },
+    {
+    },
+    {
+    },
+    {
+    },
+    {
+    },
+    {
+    },
+    {
+    },
+    {
+    },
+    {
+    },
+    {
+    },
+    {
+    },
+    {
+    },
+    {
+    },
+    {
+    },
+    {
+    },
+    {
+      "kavlan_pattern": "TenGigabitEthernet1/%LINECARD%/%PORT%",
+      "kind": "node",
+      "ports": [
+        {
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "TenGigabitEthernet 1/49/1",
+          "uid": "grvingt-44"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "TenGigabitEthernet 1/49/2",
+          "uid": "grvingt-43"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "TenGigabitEthernet 1/49/3",
+          "uid": "grvingt-48"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "TenGigabitEthernet 1/49/4",
+          "uid": "grvingt-47"
+        }
+      ],
+      "rate": 10000000000,
+      "snmp_pattern": "TenGigabitEthernet 1/%LINECARD%/%PORT%"
+    },
+    {
+      "kavlan_pattern": "TenGigabitEthernet1/%LINECARD%/%PORT%",
+      "kind": "node",
+      "ports": [
+        {
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "TenGigabitEthernet 1/50/1",
+          "uid": "grvingt-58"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "TenGigabitEthernet 1/50/2",
+          "uid": "grvingt-57"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "TenGigabitEthernet 1/50/3",
+          "uid": "grvingt-62"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "TenGigabitEthernet 1/50/4",
+          "uid": "grvingt-61"
+        }
+      ],
+      "rate": 10000000000,
+      "snmp_pattern": "TenGigabitEthernet 1/%LINECARD%/%PORT%"
+    },
+    {
+      "kavlan_pattern": "TenGigabitEthernet1/%LINECARD%/%PORT%",
+      "kind": "node",
+      "ports": [
+        {
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "TenGigabitEthernet 1/51/1",
+          "uid": "grvingt-52"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "TenGigabitEthernet 1/51/2",
+          "uid": "grvingt-51"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "TenGigabitEthernet 1/51/3",
+          "uid": "grvingt-56"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "TenGigabitEthernet 1/51/4",
+          "uid": "grvingt-55"
+        }
+      ],
+      "rate": 10000000000,
+      "snmp_pattern": "TenGigabitEthernet 1/%LINECARD%/%PORT%"
+    },
+    {
+      "kavlan_pattern": "TenGigabitEthernet1/%LINECARD%/%PORT%",
+      "kind": "node",
+      "ports": [
+        {
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "TenGigabitEthernet 1/52/1",
+          "uid": "grvingt-50"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "TenGigabitEthernet 1/52/2",
+          "uid": "grvingt-49"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "TenGigabitEthernet 1/52/3",
+          "uid": "grvingt-54"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "TenGigabitEthernet 1/52/4",
+          "uid": "grvingt-53"
+        }
+      ],
+      "rate": 10000000000,
+      "snmp_pattern": "TenGigabitEthernet 1/%LINECARD%/%PORT%"
+    },
+    {
+      "kavlan_pattern": "TenGigabitEthernet1/%LINECARD%/%PORT%",
+      "kind": "node",
+      "ports": [
+        {
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "TenGigabitEthernet 1/53/1",
+          "uid": "grvingt-60"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "TenGigabitEthernet 1/53/2",
+          "uid": "grvingt-59"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "TenGigabitEthernet 1/53/3",
+          "uid": "grvingt-64"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "TenGigabitEthernet 1/53/4",
+          "uid": "grvingt-63"
+        }
+      ],
+      "rate": 10000000000,
+      "snmp_pattern": "TenGigabitEthernet 1/%LINECARD%/%PORT%"
+    },
+    {
+      "kavlan_pattern": "TenGigabitEthernet1/%LINECARD%/%PORT%",
+      "kind": "node",
+      "ports": [
+        {
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "TenGigabitEthernet 1/54/1",
+          "uid": "grvingt-42"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "TenGigabitEthernet 1/54/2",
+          "uid": "grvingt-41"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "TenGigabitEthernet 1/54/3",
+          "uid": "grvingt-46"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "TenGigabitEthernet 1/54/4",
+          "uid": "grvingt-45"
+        }
+      ],
+      "rate": 10000000000,
+      "snmp_pattern": "TenGigabitEthernet 1/%LINECARD%/%PORT%"
+    }
+  ],
+  "metrics": [
+    {
+      "description": "Input byte counter for the network device port",
+      "name": "network_ifacein_bytes_total",
+      "period": 1000,
+      "source": {
+        "id": "1.3.6.1.2.1.2.2.1.10.{{ 1.3.6.1.2.1.2.2.1.2 == %SNMP_IFACE% }}",
+        "protocol": "snmp"
+      }
+    },
+    {
+      "description": "Output byte counter for the network device port",
+      "name": "network_ifaceout_bytes_total",
+      "period": 1000,
+      "source": {
+        "id": "1.3.6.1.2.1.2.2.1.16.{{ 1.3.6.1.2.1.2.2.1.2 == %SNMP_IFACE% }}",
+        "protocol": "snmp"
+      }
+    }
+  ],
+  "model": "Dell S4048",
+  "role": "production",
+  "site": "nancy",
+  "snmp_community": "public",
+  "type": "network_equipment",
+  "uid": "sgrvingt",
+  "warranty": "2023-03-27"
+}

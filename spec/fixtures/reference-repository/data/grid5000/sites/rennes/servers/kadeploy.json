@@ -1,0 +1,13 @@
+{
+  "alias": [
+    "kadeploy-server"
+  ],
+  "kind": "virtual",
+  "network_adapters": {
+    "default": {
+      "ip": "172.16.111.111"
+    }
+  },
+  "type": "server",
+  "uid": "kadeploy"
+}

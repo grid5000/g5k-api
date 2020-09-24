@@ -1,0 +1,17 @@
+{
+  "alias": [
+    "oar-server",
+    "oardb"
+  ],
+  "kind": "virtual",
+  "network_adapters": {
+    "adm": {
+      "ip": "172.17.47.104"
+    },
+    "default": {
+      "ip": "172.16.47.104"
+    }
+  },
+  "type": "server",
+  "uid": "oar"
+}

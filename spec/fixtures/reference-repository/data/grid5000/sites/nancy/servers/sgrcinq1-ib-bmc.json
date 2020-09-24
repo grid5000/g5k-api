@@ -1,0 +1,11 @@
+{
+  "kind": "virtual",
+  "network_adapters": {
+    "default": {
+      "ip": "172.17.79.225",
+      "mac": "00:02:C9:63:4E:0E"
+    }
+  },
+  "type": "server",
+  "uid": "sgrcinq1-ib-bmc"
+}

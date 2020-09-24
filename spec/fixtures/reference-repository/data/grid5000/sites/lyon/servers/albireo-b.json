@@ -1,0 +1,22 @@
+{
+  "alias": [
+    "srv2"
+  ],
+  "kind": "physical",
+  "network_adapters": {
+    "adm": {
+      "ip": "172.17.63.10"
+    },
+    "bmc": {
+      "ip": "172.17.62.10",
+      "mac": "54:BF:64:FC:AC:9C"
+    },
+    "default": {
+      "ip": "172.16.63.10"
+    }
+  },
+  "serial": "HKB35Z2",
+  "type": "server",
+  "uid": "albireo-b",
+  "warranty": "2026-06"
+}

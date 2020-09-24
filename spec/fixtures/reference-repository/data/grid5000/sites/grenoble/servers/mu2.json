@@ -1,0 +1,16 @@
+{
+  "alias": [
+    "digitalis"
+  ],
+  "kind": "virtual",
+  "network_adapters": {
+    "adm": {
+      "ip": "172.17.31.152"
+    },
+    "default": {
+      "ip": "172.16.31.152"
+    }
+  },
+  "type": "server",
+  "uid": "mu2"
+}

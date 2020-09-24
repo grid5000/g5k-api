@@ -1,0 +1,269 @@
+{
+  "architecture": {
+    "cpu_core_numbering": "round-robin",
+    "nb_cores": 16,
+    "nb_procs": 2,
+    "nb_threads": 32,
+    "platform_type": "x86_64"
+  },
+  "bios": {
+    "release_date": "04/10/2020",
+    "vendor": "Dell Inc.",
+    "version": "2.6.4"
+  },
+  "bmc_version": "4.10.10.10",
+  "chassis": {
+    "manufacturer": "Dell Inc.",
+    "name": "PowerEdge T640",
+    "serial": "7K1CBX2"
+  },
+  "exotic": false,
+  "gpu_devices": {
+    "nvidia0": {
+      "cpu_affinity": 0,
+      "device": "/dev/nvidia0",
+      "memory": 11019000000,
+      "model": "GeForce RTX 2080 Ti",
+      "power_default_limit": "250.00 W",
+      "vbios_version": "90.02.17.00.B2",
+      "vendor": "Nvidia"
+    },
+    "nvidia1": {
+      "cpu_affinity": 0,
+      "device": "/dev/nvidia1",
+      "memory": 11019000000,
+      "model": "GeForce RTX 2080 Ti",
+      "power_default_limit": "250.00 W",
+      "vbios_version": "90.02.17.00.B2",
+      "vendor": "Nvidia"
+    },
+    "nvidia2": {
+      "cpu_affinity": 1,
+      "device": "/dev/nvidia2",
+      "memory": 11019000000,
+      "model": "GeForce RTX 2080 Ti",
+      "power_default_limit": "250.00 W",
+      "vbios_version": "90.02.17.00.B2",
+      "vendor": "Nvidia"
+    },
+    "nvidia3": {
+      "cpu_affinity": 1,
+      "device": "/dev/nvidia3",
+      "memory": 11019000000,
+      "model": "GeForce RTX 2080 Ti",
+      "power_default_limit": "250.00 W",
+      "vbios_version": "90.02.17.00.B2",
+      "vendor": "Nvidia"
+    }
+  },
+  "kavlan": {
+    "eth2": {
+      "kavlan-1": "192.168.204.13",
+      "kavlan-11": "10.7.220.13",
+      "kavlan-12": "10.11.220.13",
+      "kavlan-13": "10.15.220.13",
+      "kavlan-14": "10.19.220.13",
+      "kavlan-16": "10.27.220.13",
+      "kavlan-18": "10.35.220.13",
+      "kavlan-2": "192.168.220.13",
+      "kavlan-20": "10.43.220.13",
+      "kavlan-21": "10.47.220.13",
+      "kavlan-3": "192.168.236.13",
+      "kavlan-4": "10.16.12.13",
+      "kavlan-5": "10.16.76.13",
+      "kavlan-6": "10.16.140.13",
+      "kavlan-7": "10.16.204.13",
+      "kavlan-8": "10.17.12.13",
+      "kavlan-9": "10.17.76.13"
+    }
+  },
+  "kavlan6": {
+    "eth2": {
+      "kavlan-1": "2001:660:4406:581:1::d",
+      "kavlan-11": "2001:660:4406:58b:1::d",
+      "kavlan-12": "2001:660:4406:58c:1::d",
+      "kavlan-13": "2001:660:4406:58d:1::d",
+      "kavlan-14": "2001:660:4406:58e:1::d",
+      "kavlan-16": "2001:660:4406:590:1::d",
+      "kavlan-18": "2001:660:4406:592:1::d",
+      "kavlan-2": "2001:660:4406:582:1::d",
+      "kavlan-20": "2001:660:4406:594:1::d",
+      "kavlan-21": "2001:660:4406:595:1::d",
+      "kavlan-3": "2001:660:4406:583:1::d",
+      "kavlan-4": "2001:660:4406:584:1::d",
+      "kavlan-5": "2001:660:4406:585:1::d",
+      "kavlan-6": "2001:660:4406:586:1::d",
+      "kavlan-7": "2001:660:4406:587:1::d",
+      "kavlan-8": "2001:660:4406:588:1::d",
+      "kavlan-9": "2001:660:4406:589:1::d"
+    }
+  },
+  "main_memory": {
+    "ram_size": 137438953472
+  },
+  "monitoring": {
+    "wattmeter": "multiple"
+  },
+  "network_adapters": [
+    {
+      "bridged": false,
+      "device": "eth0",
+      "driver": "bnxt_en",
+      "enabled": false,
+      "firmware_version": "214.4.32.0/pkg 21.60.22.11",
+      "interface": "Ethernet",
+      "kavlan": false,
+      "mac": "f4:02:70:9a:4b:f0",
+      "management": false,
+      "model": "BCM57416 NetXtreme-E 10GBase-T RDMA Ethernet Controller",
+      "mountable": false,
+      "mounted": false,
+      "name": "eno1np0",
+      "vendor": "Broadcom"
+    },
+    {
+      "bridged": false,
+      "device": "eth1",
+      "driver": "bnxt_en",
+      "enabled": false,
+      "firmware_version": "214.4.32.0/pkg 21.60.22.11",
+      "interface": "Ethernet",
+      "kavlan": false,
+      "mac": "f4:02:70:9a:4b:f1",
+      "management": false,
+      "model": "BCM57416 NetXtreme-E 10GBase-T RDMA Ethernet Controller",
+      "mountable": false,
+      "mounted": false,
+      "name": "eno2np1",
+      "vendor": "Broadcom"
+    },
+    {
+      "bridged": true,
+      "device": "eth2",
+      "driver": "i40e",
+      "enabled": true,
+      "firmware_version": "7.10 0x800075df 19.5.12",
+      "interface": "Ethernet",
+      "ip": "172.16.64.13",
+      "ip6": "2001:660:4406:500:1::d",
+      "kavlan": true,
+      "mac": "f8:f2:1e:60:57:60",
+      "management": false,
+      "model": "Ethernet Controller X710 for 10GbE SFP+",
+      "mountable": true,
+      "mounted": true,
+      "name": "ens4f0",
+      "network_address": "graffiti-13.nancy.grid5000.fr",
+      "rate": 10000000000,
+      "switch": "gw",
+      "switch_port": "Ethernet7/41",
+      "vendor": "Intel"
+    },
+    {
+      "bridged": false,
+      "device": "eth3",
+      "driver": "i40e",
+      "enabled": false,
+      "firmware_version": "7.10 0x800075df 19.5.12",
+      "interface": "Ethernet",
+      "kavlan": false,
+      "mac": "f8:f2:1e:60:57:61",
+      "management": false,
+      "model": "Ethernet Controller X710 for 10GbE SFP+",
+      "mountable": false,
+      "mounted": false,
+      "name": "ens4f1",
+      "vendor": "Intel"
+    },
+    {
+      "device": "bmc",
+      "enabled": true,
+      "interface": "Ethernet",
+      "ip": "172.17.64.13",
+      "kavlan": false,
+      "mac": "f4:02:70:9a:4c:00",
+      "management": true,
+      "mountable": false,
+      "mounted": false,
+      "network_address": "graffiti-13-bmc.nancy.grid5000.fr"
+    }
+  ],
+  "operating_system": {
+    "cstate_driver": "intel_idle",
+    "cstate_governor": "menu",
+    "ht_enabled": true,
+    "pstate_driver": "intel_pstate",
+    "pstate_governor": "performance",
+    "turboboost_enabled": true
+  },
+  "performance": {
+    "core_flops": 33600000000,
+    "node_flops": 537600000000
+  },
+  "processor": {
+    "cache_l1": null,
+    "cache_l1d": 32768,
+    "cache_l1i": 32768,
+    "cache_l2": 1048576,
+    "cache_l3": 11534336,
+    "clock_speed": 2100000000,
+    "ht_capable": true,
+    "instruction_set": "x86-64",
+    "microarchitecture": "Skylake",
+    "microcode": "0x2006906",
+    "model": "Intel Xeon",
+    "other_description": "Intel(R) Xeon(R) Silver 4110 CPU @ 2.10GHz",
+    "vendor": "Intel",
+    "version": "Silver 4110"
+  },
+  "sensors": {
+    "power": {
+      "available": true,
+      "via": {
+        "api": {
+          "metric": "power"
+        },
+        "pdu": [
+          {
+            "port": 21,
+            "uid": "graffiti-pdu3"
+          },
+          {
+            "port": 21,
+            "uid": "graffiti-pdu4"
+          }
+        ]
+      }
+    }
+  },
+  "software": {
+    "forced-deployment-timestamp": 202007300948,
+    "postinstall-version": "1.2020091600",
+    "standard-environment": "debian10-x64-std"
+  },
+  "storage_devices": [
+    {
+      "by_id": "/dev/disk/by-id/wwn-0x6f402700aefd8f0024a7bfe304e28a0a",
+      "by_path": "/dev/disk/by-path/pci-0000:19:00.0-scsi-0:2:0:0",
+      "device": "sda",
+      "firmware_version": 4.3,
+      "interface": "SATA",
+      "model": "PERC H330 Adp",
+      "size": 479559942144,
+      "storage": "SSD",
+      "vendor": "Dell (Raid)"
+    }
+  ],
+  "supported_job_types": {
+    "besteffort": true,
+    "deploy": true,
+    "max_walltime": 604800,
+    "queues": [
+      "admin",
+      "production"
+    ],
+    "virtual": "ivt"
+  },
+  "type": "node",
+  "uid": "graffiti-13"
+}

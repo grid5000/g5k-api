@@ -1,0 +1,23 @@
+{
+  "alias": [
+    "nfs",
+    "home-g5k",
+    "public",
+    "modules"
+  ],
+  "kind": "physical",
+  "network_adapters": {
+    "bmc": {
+      "ip": "172.17.207.2",
+      "mac": "90:b1:1c:13:86:04"
+    },
+    "default": {
+      "ip": "172.16.207.2",
+      "mac": "a0:36:9f:0e:35:06"
+    }
+  },
+  "serial": "346ZG5J",
+  "type": "server",
+  "uid": "srv-data",
+  "warranty": "2019-11"
+}

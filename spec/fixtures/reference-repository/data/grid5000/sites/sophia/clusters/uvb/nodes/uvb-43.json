@@ -1,0 +1,217 @@
+{
+  "architecture": {
+    "cpu_core_numbering": "contiguous",
+    "nb_cores": 12,
+    "nb_procs": 2,
+    "nb_threads": 24,
+    "platform_type": "x86_64"
+  },
+  "bios": {
+    "release_date": "09/17/2013",
+    "vendor": "Dell Inc.",
+    "version": 1.71
+  },
+  "bmc_version": "1.33",
+  "chassis": {
+    "manufacturer": "Dell",
+    "name": "C6100",
+    "serial": "G57XY4J"
+  },
+  "exotic": false,
+  "kavlan": {
+    "eth0": {
+      "kavlan-1": "192.168.193.43",
+      "kavlan-11": "10.7.232.43",
+      "kavlan-12": "10.11.232.43",
+      "kavlan-13": "10.15.232.43",
+      "kavlan-14": "10.19.232.43",
+      "kavlan-16": "10.27.232.43",
+      "kavlan-18": "10.35.232.43",
+      "kavlan-2": "192.168.209.43",
+      "kavlan-20": "10.43.232.43",
+      "kavlan-21": "10.47.232.43",
+      "kavlan-3": "192.168.225.43",
+      "kavlan-4": "10.32.1.43",
+      "kavlan-5": "10.32.65.43",
+      "kavlan-6": "10.32.129.43",
+      "kavlan-7": "10.32.193.43",
+      "kavlan-8": "10.33.1.43",
+      "kavlan-9": "10.33.65.43"
+    }
+  },
+  "kavlan6": {
+    "eth0": {
+      "kavlan-1": "2001:660:4406:881:5::2b",
+      "kavlan-11": "2001:660:4406:88b:5::2b",
+      "kavlan-12": "2001:660:4406:88c:5::2b",
+      "kavlan-13": "2001:660:4406:88d:5::2b",
+      "kavlan-14": "2001:660:4406:88e:5::2b",
+      "kavlan-16": "2001:660:4406:890:5::2b",
+      "kavlan-18": "2001:660:4406:892:5::2b",
+      "kavlan-2": "2001:660:4406:882:5::2b",
+      "kavlan-20": "2001:660:4406:894:5::2b",
+      "kavlan-21": "2001:660:4406:895:5::2b",
+      "kavlan-3": "2001:660:4406:883:5::2b",
+      "kavlan-4": "2001:660:4406:884:5::2b",
+      "kavlan-5": "2001:660:4406:885:5::2b",
+      "kavlan-6": "2001:660:4406:886:5::2b",
+      "kavlan-7": "2001:660:4406:887:5::2b",
+      "kavlan-8": "2001:660:4406:888:5::2b",
+      "kavlan-9": "2001:660:4406:889:5::2b"
+    }
+  },
+  "main_memory": {
+    "ram_size": 103079215104
+  },
+  "monitoring": {
+    "wattmeter": "false"
+  },
+  "network_adapters": [
+    {
+      "bridged": true,
+      "device": "eth0",
+      "driver": "igb",
+      "enabled": true,
+      "firmware_version": "1.4.3",
+      "interface": "Ethernet",
+      "ip": "172.16.132.43",
+      "ip6": "2001:660:4406:800:5::2b",
+      "kavlan": true,
+      "mac": "00:26:6c:f8:58:28",
+      "management": false,
+      "model": "82576 Gigabit Network Connection",
+      "mountable": true,
+      "mounted": true,
+      "name": "eno1",
+      "network_address": "uvb-43.sophia.grid5000.fr",
+      "rate": 1000000000,
+      "switch": "swy1nef",
+      "switch_port": "Port: 57 Gigabit",
+      "vendor": "Intel"
+    },
+    {
+      "device": "eth1",
+      "driver": "igb",
+      "enabled": false,
+      "firmware_version": "1.4.3",
+      "interface": "Ethernet",
+      "kavlan": false,
+      "mac": "00:26:6c:f8:58:29",
+      "management": false,
+      "model": "82576 Gigabit Network Connection",
+      "mountable": false,
+      "mounted": false,
+      "name": "eno2",
+      "vendor": "Intel"
+    },
+    {
+      "device": "ib0",
+      "driver": "mlx4_core",
+      "enabled": true,
+      "firmware_version": "2.9.1000",
+      "guid": "0x0024e89097ffade8",
+      "interface": "InfiniBand",
+      "ip": "172.18.132.43",
+      "kavlan": false,
+      "mac": "80:00:02:08:fe:80:00:00:00:00:00:00:00:24:e8:90:97:ff:ad:e8",
+      "management": false,
+      "model": "MT26428 [ConnectX VPI PCIe 2.0 5GT/s - IB QDR / 10GigE]",
+      "mountable": true,
+      "mounted": true,
+      "name": "ib0",
+      "netmask": "255.255.240.0",
+      "network_address": "uvb-43-ib0.sophia.grid5000.fr",
+      "rate": 40000000000,
+      "vendor": "Mellanox Technologies"
+    },
+    {
+      "device": "ib1",
+      "driver": "mlx4_core",
+      "enabled": false,
+      "firmware_version": "2.9.1000",
+      "guid": "0x0024e89097ffade9",
+      "interface": "InfiniBand",
+      "kavlan": false,
+      "mac": "80:00:02:09:fe:80:00:00:00:00:00:00:00:24:e8:90:97:ff:ad:e9",
+      "management": false,
+      "model": "MT26428 [ConnectX VPI PCIe 2.0 5GT/s - IB QDR / 10GigE]",
+      "mountable": false,
+      "mounted": false,
+      "name": "ib1",
+      "rate": 10000000000,
+      "vendor": "Mellanox Technologies"
+    },
+    {
+      "device": "bmc",
+      "enabled": true,
+      "interface": "Ethernet",
+      "ip": "172.17.132.43",
+      "kavlan": false,
+      "mac": "00:26:6c:f8:58:2a",
+      "management": true,
+      "mountable": false,
+      "mounted": false,
+      "network_address": "uvb-43-bmc.sophia.grid5000.fr"
+    }
+  ],
+  "operating_system": {
+    "cstate_driver": "intel_idle",
+    "cstate_governor": "menu",
+    "ht_enabled": true,
+    "pstate_driver": "none",
+    "pstate_governor": "none",
+    "turboboost_enabled": false
+  },
+  "performance": {
+    "core_flops": 11800000000,
+    "node_flops": 141600000000
+  },
+  "processor": {
+    "cache_l1": null,
+    "cache_l1d": 32768,
+    "cache_l1i": 32768,
+    "cache_l2": 262144,
+    "cache_l3": 12582912,
+    "clock_speed": 2950000000,
+    "ht_capable": true,
+    "instruction_set": "x86-64",
+    "microarchitecture": "Westmere",
+    "microcode": "0x1f",
+    "model": "Intel Xeon",
+    "other_description": "Intel(R) Xeon(R) CPU           X5670  @ 2.93GHz",
+    "vendor": "Intel",
+    "version": "X5670"
+  },
+  "sensors": {
+  },
+  "software": {
+    "forced-deployment-timestamp": 202007300948,
+    "postinstall-version": "1.2020091600",
+    "standard-environment": "debian10-x64-std"
+  },
+  "storage_devices": [
+    {
+      "by_id": "/dev/disk/by-id/wwn-0x50014ee158cc32ab",
+      "by_path": "/dev/disk/by-path/pci-0000:00:1f.2-ata-1",
+      "device": "sda",
+      "firmware_version": "02.03B05",
+      "interface": "SATA",
+      "model": "WDC WD2502ABYS-1",
+      "size": 250000000000,
+      "storage": "HDD",
+      "vendor": "Western Digital"
+    }
+  ],
+  "supported_job_types": {
+    "besteffort": true,
+    "deploy": true,
+    "max_walltime": 0,
+    "queues": [
+      "default",
+      "admin"
+    ],
+    "virtual": "ivt"
+  },
+  "type": "node",
+  "uid": "uvb-43"
+}

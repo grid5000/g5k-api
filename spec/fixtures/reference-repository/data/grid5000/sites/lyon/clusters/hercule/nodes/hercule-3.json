@@ -1,0 +1,248 @@
+{
+  "architecture": {
+    "cpu_core_numbering": "contiguous",
+    "nb_cores": 12,
+    "nb_procs": 2,
+    "nb_threads": 24,
+    "platform_type": "x86_64"
+  },
+  "bios": {
+    "release_date": "7/08/2019",
+    "vendor": "Dell Inc.",
+    "version": "2.5.7"
+  },
+  "bmc_version": "2.53",
+  "chassis": {
+    "manufacturer": "Dell Inc.",
+    "name": "PowerEdge C6220",
+    "serial": "FQ3HD5J"
+  },
+  "exotic": false,
+  "kavlan": {
+    "eth1": {
+      "kavlan-1": "192.168.195.3",
+      "kavlan-11": "10.7.203.3",
+      "kavlan-12": "10.11.203.3",
+      "kavlan-13": "10.15.203.3",
+      "kavlan-14": "10.19.203.3",
+      "kavlan-16": "10.27.203.3",
+      "kavlan-18": "10.35.203.3",
+      "kavlan-2": "192.168.211.3",
+      "kavlan-20": "10.43.203.3",
+      "kavlan-21": "10.47.203.3",
+      "kavlan-3": "192.168.227.3",
+      "kavlan-4": "10.12.3.3",
+      "kavlan-5": "10.12.67.3",
+      "kavlan-6": "10.12.131.3",
+      "kavlan-7": "10.12.195.3",
+      "kavlan-8": "10.13.3.3",
+      "kavlan-9": "10.13.67.3"
+    }
+  },
+  "kavlan6": {
+    "eth1": {
+      "kavlan-1": "2001:660:4406:481:4::3",
+      "kavlan-11": "2001:660:4406:48b:4::3",
+      "kavlan-12": "2001:660:4406:48c:4::3",
+      "kavlan-13": "2001:660:4406:48d:4::3",
+      "kavlan-14": "2001:660:4406:48e:4::3",
+      "kavlan-16": "2001:660:4406:490:4::3",
+      "kavlan-18": "2001:660:4406:492:4::3",
+      "kavlan-2": "2001:660:4406:482:4::3",
+      "kavlan-20": "2001:660:4406:494:4::3",
+      "kavlan-21": "2001:660:4406:495:4::3",
+      "kavlan-3": "2001:660:4406:483:4::3",
+      "kavlan-4": "2001:660:4406:484:4::3",
+      "kavlan-5": "2001:660:4406:485:4::3",
+      "kavlan-6": "2001:660:4406:486:4::3",
+      "kavlan-7": "2001:660:4406:487:4::3",
+      "kavlan-8": "2001:660:4406:488:4::3",
+      "kavlan-9": "2001:660:4406:489:4::3"
+    }
+  },
+  "main_memory": {
+    "ram_size": 34359738368
+  },
+  "monitoring": {
+    "wattmeter": "false"
+  },
+  "network_adapters": [
+    {
+      "bridged": false,
+      "device": "eth0",
+      "driver": "ixgbe",
+      "enabled": false,
+      "firmware_version": "0x00000000",
+      "interface": "Ethernet",
+      "kavlan": false,
+      "mac": "00:8c:fa:0b:e1:78",
+      "management": false,
+      "model": "82599ES 10-Gigabit SFI/SFP+ Network Connection",
+      "mountable": false,
+      "mounted": false,
+      "name": "enp130s0f0",
+      "vendor": "Intel"
+    },
+    {
+      "bridged": true,
+      "device": "eth1",
+      "driver": "ixgbe",
+      "enabled": true,
+      "firmware_version": "0x00000000",
+      "interface": "Ethernet",
+      "ip": "172.16.51.3",
+      "ip6": "2001:660:4406:400:4::3",
+      "kavlan": true,
+      "mac": "00:8c:fa:0b:e1:79",
+      "management": false,
+      "model": "82599ES 10-Gigabit SFI/SFP+ Network Connection",
+      "mountable": true,
+      "mounted": true,
+      "name": "enp130s0f1",
+      "network_address": "hercule-3.lyon.grid5000.fr",
+      "rate": 10000000000,
+      "switch": "force10",
+      "switch_port": "TenGigabitEthernet 0/23",
+      "vendor": "Intel"
+    },
+    {
+      "bridged": false,
+      "device": "eth2",
+      "driver": "igb",
+      "enabled": false,
+      "firmware_version": "1.57.0",
+      "interface": "Ethernet",
+      "kavlan": false,
+      "mac": "84:8f:69:fd:4c:1f",
+      "management": false,
+      "model": "I350 Gigabit Network Connection",
+      "mountable": false,
+      "mounted": false,
+      "name": "eno1",
+      "vendor": "Intel"
+    },
+    {
+      "bridged": false,
+      "device": "eth3",
+      "driver": "igb",
+      "enabled": false,
+      "firmware_version": "1.57.0",
+      "interface": "Ethernet",
+      "kavlan": false,
+      "mac": "84:8f:69:fd:4c:20",
+      "management": false,
+      "model": "I350 Gigabit Network Connection",
+      "mountable": false,
+      "mounted": false,
+      "name": "eno2",
+      "vendor": "Intel"
+    },
+    {
+      "device": "bmc",
+      "enabled": true,
+      "interface": "Ethernet",
+      "ip": "172.17.51.3",
+      "kavlan": false,
+      "mac": "84:8f:69:fd:4c:21",
+      "management": true,
+      "mountable": false,
+      "mounted": false,
+      "network_address": "hercule-3-bmc.lyon.grid5000.fr",
+      "rate": 1000000000
+    }
+  ],
+  "operating_system": {
+    "cstate_driver": "intel_idle",
+    "cstate_governor": "menu",
+    "ht_enabled": true,
+    "pstate_driver": "intel_pstate",
+    "pstate_governor": "performance",
+    "turboboost_enabled": true
+  },
+  "performance": {
+    "core_flops": 16000000000,
+    "node_flops": 192000000000
+  },
+  "processor": {
+    "cache_l1": null,
+    "cache_l1d": 32768,
+    "cache_l1i": 32768,
+    "cache_l2": 262144,
+    "cache_l3": 15728640,
+    "clock_speed": 2000000000,
+    "ht_capable": true,
+    "instruction_set": "x86-64",
+    "microarchitecture": "Sandy Bridge",
+    "microcode": "0x71a",
+    "model": "Intel Xeon",
+    "other_description": "Intel(R) Xeon(R) CPU E5-2620 0 @ 2.00GHz",
+    "vendor": "Intel",
+    "version": "E5-2620"
+  },
+  "sensors": {
+    "power": {
+      "available": true,
+      "per_outlets": false,
+      "via": {
+        "api": {
+          "metric": "pdu_shared"
+        },
+        "www": {
+          "url": "http://wattmetre.lyon.grid5000.fr/GetWatts-json.php"
+        }
+      }
+    }
+  },
+  "software": {
+    "forced-deployment-timestamp": 202007300948,
+    "postinstall-version": "1.2020091600",
+    "standard-environment": "debian10-x64-std"
+  },
+  "storage_devices": [
+    {
+      "by_id": "/dev/disk/by-id/wwn-0x50014ee206e7e551",
+      "by_path": "/dev/disk/by-path/pci-0000:00:1f.2-ata-1",
+      "device": "sda",
+      "firmware_version": "01.01D02",
+      "interface": "SATA",
+      "model": "WDC WD2003FYYS-1",
+      "size": 2000398934016,
+      "storage": "HDD",
+      "vendor": "Western Digital"
+    },
+    {
+      "by_id": "/dev/disk/by-id/wwn-0x50014ee206e7ff85",
+      "by_path": "/dev/disk/by-path/pci-0000:00:1f.2-ata-2",
+      "device": "sdb",
+      "firmware_version": "01.01D02",
+      "interface": "SATA",
+      "model": "WDC WD2003FYYS-1",
+      "size": 2000398934016,
+      "storage": "HDD",
+      "vendor": "Western Digital"
+    },
+    {
+      "by_id": "/dev/disk/by-id/wwn-0x50014ee206e80cae",
+      "by_path": "/dev/disk/by-path/pci-0000:00:1f.2-ata-3",
+      "device": "sdc",
+      "firmware_version": "01.01D02",
+      "interface": "SATA",
+      "model": "WDC WD2003FYYS-1",
+      "size": 2000398934016,
+      "storage": "HDD",
+      "vendor": "Western Digital"
+    }
+  ],
+  "supported_job_types": {
+    "besteffort": true,
+    "deploy": true,
+    "max_walltime": 0,
+    "queues": [
+      "default",
+      "admin"
+    ],
+    "virtual": "ivt"
+  },
+  "type": "node",
+  "uid": "hercule-3"
+}

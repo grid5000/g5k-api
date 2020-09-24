@@ -1,0 +1,13 @@
+{
+  "kind": "physical",
+  "network_adapters": {
+    "bmc": {
+      "ip": "172.17.111.42"
+    },
+    "default": {
+      "ip": "172.16.111.42"
+    }
+  },
+  "type": "server",
+  "uid": "cargo2"
+}

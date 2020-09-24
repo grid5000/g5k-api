@@ -1,0 +1,324 @@
+{
+  "architecture": {
+    "cpu_core_numbering": "round-robin",
+    "nb_cores": 28,
+    "nb_procs": 2,
+    "nb_threads": 56,
+    "platform_type": "x86_64"
+  },
+  "bios": {
+    "release_date": "11/02/2019",
+    "vendor": "Dell Inc.",
+    "version": "2.11.0"
+  },
+  "bmc_version": "2.70.70.70",
+  "chassis": {
+    "manufacturer": "Dell Inc.",
+    "name": "PowerEdge R730",
+    "serial": "5RWGLG2"
+  },
+  "exotic": false,
+  "gpu_devices": {
+    "nvidia0": {
+      "cpu_affinity": 0,
+      "device": "/dev/nvidia0",
+      "memory": 11178000000,
+      "model": "GeForce GTX 1080 Ti",
+      "power_default_limit": "250.00 W",
+      "vbios_version": "86.02.39.00.01",
+      "vendor": "Nvidia"
+    },
+    "nvidia1": {
+      "cpu_affinity": 1,
+      "device": "/dev/nvidia1",
+      "memory": 11178000000,
+      "model": "GeForce GTX 1080 Ti",
+      "power_default_limit": "250.00 W",
+      "vbios_version": "86.02.39.00.01",
+      "vendor": "Nvidia"
+    }
+  },
+  "kavlan": {
+    "eth0": {
+      "kavlan-1": "192.168.194.5",
+      "kavlan-11": "10.7.195.5",
+      "kavlan-12": "10.11.195.5",
+      "kavlan-13": "10.15.195.5",
+      "kavlan-14": "10.19.195.5",
+      "kavlan-16": "10.27.195.5",
+      "kavlan-18": "10.35.195.5",
+      "kavlan-2": "192.168.210.5",
+      "kavlan-20": "10.43.195.5",
+      "kavlan-21": "10.47.195.5",
+      "kavlan-3": "192.168.226.5",
+      "kavlan-4": "10.8.2.5",
+      "kavlan-5": "10.8.66.5",
+      "kavlan-6": "10.8.130.5",
+      "kavlan-7": "10.8.194.5",
+      "kavlan-8": "10.9.2.5",
+      "kavlan-9": "10.9.66.5"
+    },
+    "eth1": {
+      "kavlan-1": "192.168.195.5",
+      "kavlan-11": "10.7.195.105",
+      "kavlan-12": "10.11.195.105",
+      "kavlan-13": "10.15.195.105",
+      "kavlan-14": "10.19.195.105",
+      "kavlan-16": "10.27.195.105",
+      "kavlan-18": "10.35.195.105",
+      "kavlan-2": "192.168.211.5",
+      "kavlan-20": "10.43.195.105",
+      "kavlan-21": "10.47.195.105",
+      "kavlan-3": "192.168.227.5",
+      "kavlan-4": "10.8.3.5",
+      "kavlan-5": "10.8.67.5",
+      "kavlan-6": "10.8.131.5",
+      "kavlan-7": "10.8.195.5",
+      "kavlan-8": "10.9.3.5",
+      "kavlan-9": "10.9.67.5"
+    }
+  },
+  "kavlan6": {
+    "eth0": {
+      "kavlan-1": "2001:660:4406:281:7::5",
+      "kavlan-11": "2001:660:4406:28b:7::5",
+      "kavlan-12": "2001:660:4406:28c:7::5",
+      "kavlan-13": "2001:660:4406:28d:7::5",
+      "kavlan-14": "2001:660:4406:28e:7::5",
+      "kavlan-16": "2001:660:4406:290:7::5",
+      "kavlan-18": "2001:660:4406:292:7::5",
+      "kavlan-2": "2001:660:4406:282:7::5",
+      "kavlan-20": "2001:660:4406:294:7::5",
+      "kavlan-21": "2001:660:4406:295:7::5",
+      "kavlan-3": "2001:660:4406:283:7::5",
+      "kavlan-4": "2001:660:4406:284:7::5",
+      "kavlan-5": "2001:660:4406:285:7::5",
+      "kavlan-6": "2001:660:4406:286:7::5",
+      "kavlan-7": "2001:660:4406:287:7::5",
+      "kavlan-8": "2001:660:4406:288:7::5",
+      "kavlan-9": "2001:660:4406:289:7::5"
+    },
+    "eth1": {
+      "kavlan-1": "2001:660:4406:281:7:1::5",
+      "kavlan-11": "2001:660:4406:28b:7:1::5",
+      "kavlan-12": "2001:660:4406:28c:7:1::5",
+      "kavlan-13": "2001:660:4406:28d:7:1::5",
+      "kavlan-14": "2001:660:4406:28e:7:1::5",
+      "kavlan-16": "2001:660:4406:290:7:1::5",
+      "kavlan-18": "2001:660:4406:292:7:1::5",
+      "kavlan-2": "2001:660:4406:282:7:1::5",
+      "kavlan-20": "2001:660:4406:294:7:1::5",
+      "kavlan-21": "2001:660:4406:295:7:1::5",
+      "kavlan-3": "2001:660:4406:283:7:1::5",
+      "kavlan-4": "2001:660:4406:284:7:1::5",
+      "kavlan-5": "2001:660:4406:285:7:1::5",
+      "kavlan-6": "2001:660:4406:286:7:1::5",
+      "kavlan-7": "2001:660:4406:287:7:1::5",
+      "kavlan-8": "2001:660:4406:288:7:1::5",
+      "kavlan-9": "2001:660:4406:289:7:1::5"
+    }
+  },
+  "main_memory": {
+    "ram_size": 824633720832
+  },
+  "monitoring": {
+    "wattmeter": "multiple"
+  },
+  "network_adapters": [
+    {
+      "bridged": true,
+      "device": "eth0",
+      "driver": "ixgbe",
+      "enabled": true,
+      "firmware_version": "0x8000095c, 19.0.12",
+      "interface": "Ethernet",
+      "ip": "172.16.38.5",
+      "ip6": "2001:660:4406:200:7::5",
+      "kavlan": true,
+      "mac": "24:6e:96:2c:c1:58",
+      "management": false,
+      "model": "82599ES 10-Gigabit SFI/SFP+ Network Connection",
+      "mountable": true,
+      "mounted": true,
+      "name": "eno1",
+      "network_address": "chifflet-5.lille.grid5000.fr",
+      "rate": 10000000000,
+      "switch": "sw-chiclet-3",
+      "switch_port": "Ethernet1/21",
+      "vendor": "Intel"
+    },
+    {
+      "device": "eth1",
+      "driver": "ixgbe",
+      "enabled": true,
+      "firmware_version": "0x8000095c, 19.0.12",
+      "interface": "Ethernet",
+      "ip": "172.16.38.105",
+      "ip6": "2001:660:4406:200:7:1::5",
+      "kavlan": true,
+      "mac": "24:6e:96:2c:c1:5a",
+      "management": false,
+      "model": "82599ES 10-Gigabit SFI/SFP+ Network Connection",
+      "mountable": true,
+      "mounted": false,
+      "name": "eno2",
+      "network_address": "chifflet-5-eth1.lille.grid5000.fr",
+      "rate": 10000000000,
+      "switch": "sw-chiclet-3",
+      "switch_port": "Ethernet1/44",
+      "vendor": "Intel"
+    },
+    {
+      "device": "eth2",
+      "driver": "igb",
+      "enabled": false,
+      "firmware_version": "1.67, 0x80000fab, 19.0.12",
+      "interface": "Ethernet",
+      "kavlan": false,
+      "mac": "24:6e:96:2c:c1:5c",
+      "management": false,
+      "model": "I350 Gigabit Network Connection",
+      "mountable": false,
+      "mounted": false,
+      "name": "eno3",
+      "vendor": "Intel"
+    },
+    {
+      "device": "eth3",
+      "driver": "igb",
+      "enabled": false,
+      "firmware_version": "1.67, 0x80000fab, 19.0.12",
+      "interface": "Ethernet",
+      "kavlan": false,
+      "mac": "24:6e:96:2c:c1:5d",
+      "management": false,
+      "model": "I350 Gigabit Network Connection",
+      "mountable": false,
+      "mounted": false,
+      "name": "eno4",
+      "vendor": "Intel"
+    },
+    {
+      "device": "bmc",
+      "enabled": true,
+      "interface": "Ethernet",
+      "ip": "172.17.38.5",
+      "kavlan": false,
+      "mac": "18:66:da:5c:16:af",
+      "management": true,
+      "mountable": false,
+      "mounted": false,
+      "network_address": "chifflet-5-bmc.lille.grid5000.fr"
+    }
+  ],
+  "operating_system": {
+    "cstate_driver": "intel_idle",
+    "cstate_governor": "menu",
+    "ht_enabled": true,
+    "pstate_driver": "intel_pstate",
+    "pstate_governor": "performance",
+    "turboboost_enabled": true
+  },
+  "performance": {
+    "core_flops": 38400000000,
+    "node_flops": 1075200000000
+  },
+  "processor": {
+    "cache_l1": null,
+    "cache_l1d": 32768,
+    "cache_l1i": 32768,
+    "cache_l2": 262144,
+    "cache_l3": 36700160,
+    "clock_speed": 2400000000,
+    "ht_capable": true,
+    "instruction_set": "x86-64",
+    "microarchitecture": "Broadwell",
+    "microcode": "0xb000038",
+    "model": "Intel Xeon",
+    "other_description": "Intel(R) Xeon(R) CPU E5-2680 v4 @ 2.40GHz",
+    "vendor": "Intel",
+    "version": "E5-2680 v4"
+  },
+  "sensors": {
+    "power": {
+      "via": {
+        "pdu": [
+          {
+            "port": 9,
+            "uid": "pdu-b3p3"
+          },
+          {
+            "port": 9,
+            "uid": "pdu-b3p2-2"
+          }
+        ]
+      }
+    }
+  },
+  "software": {
+    "forced-deployment-timestamp": 202007300948,
+    "postinstall-version": "1.2020091600",
+    "standard-environment": "debian10-x64-std"
+  },
+  "storage_devices": [
+    {
+      "by_id": "/dev/disk/by-id/wwn-0x500003973c8a1ac1",
+      "by_path": "/dev/disk/by-path/pci-0000:02:00.0-scsi-0:0:0:0",
+      "device": "sda",
+      "firmware_version": "AM07",
+      "interface": "SAS",
+      "model": "PX04SMB040",
+      "size": 400088457216,
+      "storage": "SSD",
+      "vendor": "Toshiba"
+    },
+    {
+      "by_id": "/dev/disk/by-id/wwn-0x500003973c8a1a81",
+      "by_path": "/dev/disk/by-path/pci-0000:02:00.0-scsi-0:0:1:0",
+      "device": "sdb",
+      "firmware_version": "AM07",
+      "interface": "SAS",
+      "model": "PX04SMB040",
+      "reservation": true,
+      "size": 400088457216,
+      "storage": "SSD",
+      "vendor": "Toshiba"
+    },
+    {
+      "by_id": "/dev/disk/by-id/wwn-0x500003973be828ea",
+      "by_path": "/dev/disk/by-path/pci-0000:02:00.0-scsi-0:0:2:0",
+      "device": "sdc",
+      "firmware_version": "FJ3D",
+      "interface": "SATA",
+      "model": "TOSHIBA MG04ACA4",
+      "reservation": true,
+      "size": 4000787030016,
+      "storage": "HDD",
+      "vendor": "Toshiba"
+    },
+    {
+      "by_id": "/dev/disk/by-id/wwn-0x500003973be828ee",
+      "by_path": "/dev/disk/by-path/pci-0000:02:00.0-scsi-0:0:3:0",
+      "device": "sdd",
+      "firmware_version": "FJ3D",
+      "interface": "SATA",
+      "model": "TOSHIBA MG04ACA4",
+      "reservation": true,
+      "size": 4000787030016,
+      "storage": "HDD",
+      "vendor": "Toshiba"
+    }
+  ],
+  "supported_job_types": {
+    "besteffort": true,
+    "deploy": true,
+    "max_walltime": 0,
+    "queues": [
+      "admin",
+      "default"
+    ],
+    "virtual": "ivt"
+  },
+  "type": "node",
+  "uid": "chifflet-5"
+}

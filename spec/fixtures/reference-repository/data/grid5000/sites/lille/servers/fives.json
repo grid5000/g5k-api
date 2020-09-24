@@ -1,0 +1,39 @@
+{
+  "kind": "physical",
+  "monitoring": {
+    "metric": "power",
+    "wattmeter": "multiple"
+  },
+  "network_adapters": {
+    "bmc": {
+      "ip": "172.17.46.8",
+      "mac": "44:a8:42:20:c1:9a"
+    }
+  },
+  "sensors": {
+    "network": {
+      "available": true,
+      "resolution": 1
+    },
+    "power": {
+      "available": true,
+      "resolution": 1,
+      "via": {
+        "pdu": [
+          {
+            "port": 4,
+            "uid": "pdu-b2p1"
+          },
+          {
+            "port": 4,
+            "uid": "pdu-b2p2"
+          }
+        ]
+      }
+    }
+  },
+  "serial": "CQ9WD5J",
+  "type": "server",
+  "uid": "fives",
+  "warranty": "2017-07-28"
+}

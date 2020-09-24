@@ -1,0 +1,51 @@
+{
+  "ip": "172.17.79.248",
+  "mac": "00:C0:B7:F2:A9:11",
+  "metrics": [
+    {
+      "description": "Power consumption per outlet reported by PDU, in watt",
+      "name": "pdu_outlet_power_watt",
+      "period": 1000,
+      "source": {
+        "id": "1.3.6.1.4.1.318.1.1.26.9.4.3.1.7.%PORT%",
+        "protocol": "snmp"
+      }
+    }
+  ],
+  "model": "AP8653",
+  "ports": {
+    "1": "grisou-2",
+    "10": "grisou-17",
+    "11": "grisou-18",
+    "12": "grisou-22",
+    "13": "grisou-24",
+    "14": "grisou-26",
+    "15": "grisou-28",
+    "17": "grisou-30",
+    "2": "grisou-4",
+    "3": "grisou-5",
+    "4": "grisou-8",
+    "5": "grisou-10",
+    "6": "grisou-12",
+    "7": "grisou-14"
+  },
+  "sensors": [
+    {
+      "power": {
+        "per_outlets": true,
+        "resolution": 1,
+        "snmp": {
+          "available": true,
+          "outlet_prefix_oid": "iso.3.6.1.4.1.318.1.1.26.9.4.3.1.7",
+          "total_oids": [
+            "iso.3.6.1.4.1.318.1.1.12.1.16.0"
+          ],
+          "unit": "W"
+        }
+      }
+    }
+  ],
+  "type": "pdu",
+  "uid": "grisou-pdu2",
+  "vendor": "APC"
+}

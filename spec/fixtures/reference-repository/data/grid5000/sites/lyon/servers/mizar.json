@@ -1,0 +1,16 @@
+{
+  "alias": null,
+  "kind": "physical",
+  "network_adapters": {
+    "bmc": {
+      "ip": "172.17.62.6"
+    },
+    "default": {
+      "ip": "172.16.63.6"
+    }
+  },
+  "serial": null,
+  "type": "server",
+  "uid": "mizar",
+  "warranty": "2010-01"
+}

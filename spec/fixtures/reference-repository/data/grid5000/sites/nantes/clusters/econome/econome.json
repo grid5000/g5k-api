@@ -1,0 +1,247 @@
+{
+  "created_at": "Wed, 16 Apr 2014 00:00:00 GMT",
+  "exotic": false,
+  "kavlan": true,
+  "metrics": [
+    {
+      "description": "Front node ambiant temperature reported by BMC, in celsius",
+      "name": "bmc_temp_ambiant_celsius",
+      "period": 5000,
+      "source": {
+        "id": 11,
+        "protocol": "ipmisensor"
+      }
+    },
+    {
+      "description": "Voltage of 12V Standby reported by BMC, in volt",
+      "labels": {
+        "voltage": "12vstandby"
+      },
+      "name": "bmc_voltage_volt",
+      "optional_period": 5000,
+      "period": 0,
+      "source": {
+        "id": 5,
+        "protocol": "ipmisensor"
+      }
+    },
+    {
+      "description": "Voltage of 5V Standby reported by BMC, in volt",
+      "labels": {
+        "voltage": "5vstandby"
+      },
+      "name": "bmc_voltage_volt",
+      "optional_period": 5000,
+      "period": 0,
+      "source": {
+        "id": 6,
+        "protocol": "ipmisensor"
+      }
+    },
+    {
+      "description": "Voltage of 5V reported by BMC, in volt",
+      "labels": {
+        "voltage": "5v"
+      },
+      "name": "bmc_voltage_volt",
+      "optional_period": 5000,
+      "period": 0,
+      "source": {
+        "id": 7,
+        "protocol": "ipmisensor"
+      }
+    },
+    {
+      "description": "Voltage of 3.3V Standby reported by BMC, in volt",
+      "labels": {
+        "voltage": "3.3vstandby"
+      },
+      "name": "bmc_voltage_volt",
+      "optional_period": 5000,
+      "period": 0,
+      "source": {
+        "id": 8,
+        "protocol": "ipmisensor"
+      }
+    },
+    {
+      "description": "Voltage of 3.3V reported by BMC, in volt",
+      "labels": {
+        "voltage": "3.3v"
+      },
+      "name": "bmc_voltage_volt",
+      "optional_period": 5000,
+      "period": 0,
+      "source": {
+        "id": 9,
+        "protocol": "ipmisensor"
+      }
+    },
+    {
+      "description": "Temperature of CPU 1 reported by BMC, in celsius",
+      "labels": {
+        "cpu": "1"
+      },
+      "name": "bmc_cpu_temp_celsius",
+      "optional_period": 5000,
+      "period": 0,
+      "source": {
+        "id": 12,
+        "protocol": "ipmisensor"
+      }
+    },
+    {
+      "description": "Temperature of CPU 2 reported by BMC, in celsius",
+      "labels": {
+        "cpu": "2"
+      },
+      "name": "bmc_cpu_temp_celsius",
+      "optional_period": 5000,
+      "period": 0,
+      "source": {
+        "id": 13,
+        "protocol": "ipmisensor"
+      }
+    },
+    {
+      "description": "Temperature of DIMM ZONE 1 reported by BMC, in celsius",
+      "labels": {
+        "zone": "1"
+      },
+      "name": "bmc_temp_dimmzone_celsius",
+      "optional_period": 5000,
+      "period": 0,
+      "source": {
+        "id": 14,
+        "protocol": "ipmisensor"
+      }
+    },
+    {
+      "description": "Temperature of DIMM ZONE 2 reported by BMC, in celsius",
+      "labels": {
+        "zone": "2"
+      },
+      "name": "bmc_temp_dimmzone_celsius",
+      "optional_period": 5000,
+      "period": 0,
+      "source": {
+        "id": 15,
+        "protocol": "ipmisensor"
+      }
+    },
+    {
+      "description": "Temperature of PCH reported by BMC, in celsius",
+      "name": "bmc_temp_pch_celsius",
+      "optional_period": 5000,
+      "period": 0,
+      "source": {
+        "id": 18,
+        "protocol": "ipmisensor"
+      }
+    },
+    {
+      "description": "Input voltage reported by BMC, in volt",
+      "labels": {
+        "voltage": "input"
+      },
+      "name": "bmc_voltage_volt",
+      "optional_period": 5000,
+      "period": 0,
+      "source": {
+        "id": 16,
+        "protocol": "ipmisensor"
+      }
+    },
+    {
+      "description": "Input current reported by BMC, in amp",
+      "name": "bmc_current_input_amp",
+      "optional_period": 5000,
+      "period": 0,
+      "source": {
+        "id": 17,
+        "protocol": "ipmisensor"
+      }
+    },
+    {
+      "description": "Speed of fan 1 reported by BMC, in rpm",
+      "labels": {
+        "fan": "1"
+      },
+      "name": "bmc_fan_speed_rpm",
+      "optional_period": 5000,
+      "period": 0,
+      "source": {
+        "id": 21,
+        "protocol": "ipmisensor"
+      }
+    },
+    {
+      "description": "Speed of fan 2 reported by BMC, in rpm",
+      "labels": {
+        "fan": "2"
+      },
+      "name": "bmc_fan_speed_rpm",
+      "optional_period": 5000,
+      "period": 0,
+      "source": {
+        "id": 24,
+        "protocol": "ipmisensor"
+      }
+    },
+    {
+      "description": "Speed of fan 3 reported by BMC, in rpm",
+      "labels": {
+        "fan": "3"
+      },
+      "name": "bmc_fan_speed_rpm",
+      "optional_period": 5000,
+      "period": 0,
+      "source": {
+        "id": 28,
+        "protocol": "ipmisensor"
+      }
+    },
+    {
+      "description": "Speed of fan 4 reported by BMC, in rpm",
+      "labels": {
+        "fan": "4"
+      },
+      "name": "bmc_fan_speed_rpm",
+      "optional_period": 5000,
+      "period": 0,
+      "source": {
+        "id": 29,
+        "protocol": "ipmisensor"
+      }
+    },
+    {
+      "description": "Input byte counter for the network device port",
+      "labels": {
+        "interface": "eth0"
+      },
+      "name": "network_ifacein_bytes_total",
+      "period": 1000,
+      "source": {
+        "protocol": "network_equipment"
+      }
+    },
+    {
+      "description": "Output byte counter for the network device port",
+      "labels": {
+        "interface": "eth0"
+      },
+      "name": "network_ifaceout_bytes_total",
+      "period": 1000,
+      "source": {
+        "protocol": "network_equipment"
+      }
+    }
+  ],
+  "model": "Dell PowerEdge C6220",
+  "queues": [
+    "default",
+    "admin"
+  ],
+  "type": "cluster",
+  "uid": "econome"
+}

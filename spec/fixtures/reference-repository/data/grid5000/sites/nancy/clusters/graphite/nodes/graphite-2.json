@@ -1,0 +1,281 @@
+{
+  "architecture": {
+    "cpu_core_numbering": "round-robin",
+    "nb_cores": 16,
+    "nb_procs": 2,
+    "nb_threads": 32,
+    "platform_type": "x86_64"
+  },
+  "bios": {
+    "release_date": "12/06/2019",
+    "vendor": "Dell Inc.",
+    "version": "2.9.0"
+  },
+  "bmc_version": "2.63.60.62",
+  "chassis": {
+    "manufacturer": "Dell Inc.",
+    "name": "PowerEdge R720",
+    "serial": "B6Q7NZ1"
+  },
+  "exotic": false,
+  "kavlan": {
+    "eth0": {
+      "kavlan-1": "192.168.196.2",
+      "kavlan-11": "10.7.214.2",
+      "kavlan-12": "10.11.214.2",
+      "kavlan-13": "10.15.214.2",
+      "kavlan-14": "10.19.214.2",
+      "kavlan-16": "10.27.214.2",
+      "kavlan-18": "10.35.214.2",
+      "kavlan-2": "192.168.212.2",
+      "kavlan-20": "10.43.214.2",
+      "kavlan-21": "10.47.214.2",
+      "kavlan-3": "192.168.228.2",
+      "kavlan-4": "10.16.4.2",
+      "kavlan-5": "10.16.68.2",
+      "kavlan-6": "10.16.132.2",
+      "kavlan-7": "10.16.196.2",
+      "kavlan-8": "10.17.4.2",
+      "kavlan-9": "10.17.68.2"
+    }
+  },
+  "kavlan6": {
+    "eth0": {
+      "kavlan-1": "2001:660:4406:581:5::2",
+      "kavlan-11": "2001:660:4406:58b:5::2",
+      "kavlan-12": "2001:660:4406:58c:5::2",
+      "kavlan-13": "2001:660:4406:58d:5::2",
+      "kavlan-14": "2001:660:4406:58e:5::2",
+      "kavlan-16": "2001:660:4406:590:5::2",
+      "kavlan-18": "2001:660:4406:592:5::2",
+      "kavlan-2": "2001:660:4406:582:5::2",
+      "kavlan-20": "2001:660:4406:594:5::2",
+      "kavlan-21": "2001:660:4406:595:5::2",
+      "kavlan-3": "2001:660:4406:583:5::2",
+      "kavlan-4": "2001:660:4406:584:5::2",
+      "kavlan-5": "2001:660:4406:585:5::2",
+      "kavlan-6": "2001:660:4406:586:5::2",
+      "kavlan-7": "2001:660:4406:587:5::2",
+      "kavlan-8": "2001:660:4406:588:5::2",
+      "kavlan-9": "2001:660:4406:589:5::2"
+    }
+  },
+  "main_memory": {
+    "ram_size": 274877906944
+  },
+  "mic": {
+    "ip": "172.16.68.6",
+    "mac": "4C:79:BA:5C:01:18",
+    "mic": true,
+    "mic_cores": 61,
+    "mic_count": 1,
+    "mic_model": "7120P",
+    "mic_vendor": "Intel Xeon Phi"
+  },
+  "monitoring": {
+    "wattmeter": "multiple"
+  },
+  "network_adapters": [
+    {
+      "bridged": true,
+      "device": "eth0",
+      "driver": "ixgbe",
+      "enabled": true,
+      "firmware_version": "0x8000095c, 19.0.12",
+      "interface": "Ethernet",
+      "ip": "172.16.68.2",
+      "ip6": "2001:660:4406:500:5::2",
+      "kavlan": true,
+      "mac": "b8:ca:3a:69:1e:88",
+      "management": false,
+      "model": "82599ES 10-Gigabit SFI/SFP+ Network Connection",
+      "mountable": true,
+      "mounted": true,
+      "name": "eno1",
+      "network_address": "graphite-2.nancy.grid5000.fr",
+      "rate": 10000000000,
+      "switch": "gw",
+      "switch_port": "Ethernet1/18",
+      "vendor": "Intel"
+    },
+    {
+      "bridged": false,
+      "device": "eth1",
+      "driver": "ixgbe",
+      "enabled": false,
+      "firmware_version": "0x8000095c, 19.0.12",
+      "interface": "Ethernet",
+      "kavlan": false,
+      "mac": "b8:ca:3a:69:1e:8a",
+      "management": false,
+      "model": "82599ES 10-Gigabit SFI/SFP+ Network Connection",
+      "mountable": false,
+      "mounted": false,
+      "name": "eno2",
+      "vendor": "Intel"
+    },
+    {
+      "bridged": false,
+      "device": "eth2",
+      "driver": "igb",
+      "enabled": false,
+      "firmware_version": "1.67, 0x80000fab, 19.0.12",
+      "interface": "Ethernet",
+      "kavlan": false,
+      "mac": "b8:ca:3a:69:1e:8c",
+      "management": false,
+      "model": "I350 Gigabit Network Connection",
+      "mountable": false,
+      "mounted": false,
+      "name": "eno3",
+      "switch": null,
+      "switch_port": null,
+      "vendor": "Intel"
+    },
+    {
+      "bridged": false,
+      "device": "eth3",
+      "driver": "igb",
+      "enabled": false,
+      "firmware_version": "1.67, 0x80000fab, 19.0.12",
+      "interface": "Ethernet",
+      "kavlan": false,
+      "mac": "b8:ca:3a:69:1e:8d",
+      "management": false,
+      "model": "I350 Gigabit Network Connection",
+      "mountable": false,
+      "mounted": false,
+      "name": "eno4",
+      "switch": null,
+      "switch_port": null,
+      "vendor": "Intel"
+    },
+    {
+      "bridged": false,
+      "device": "ib0",
+      "driver": "mlx4_core",
+      "enabled": true,
+      "firmware_version": "2.36.5000",
+      "guid": "0xf45214030076f211",
+      "hwid": null,
+      "ib_switch_card": null,
+      "ib_switch_card_pos": null,
+      "interface": "InfiniBand",
+      "ip": "172.18.68.2",
+      "kavlan": false,
+      "mac": "80:00:02:08:fe:80:00:00:00:00:00:00:f4:52:14:03:00:76:f2:11",
+      "management": false,
+      "model": "MT27500 Family [ConnectX-3]",
+      "mountable": true,
+      "mounted": true,
+      "name": "ib0",
+      "netmask": "255.255.255.0",
+      "network_address": "graphite-2-ib0.nancy.grid5000.fr",
+      "rate": 56000000000,
+      "switch": "sgraoullyib",
+      "vendor": "Mellanox Technologies"
+    },
+    {
+      "device": "bmc",
+      "enabled": true,
+      "interface": "Ethernet",
+      "ip": "172.17.68.2",
+      "kavlan": false,
+      "mac": "5c:f9:dd:f6:e1:ac",
+      "management": true,
+      "mountable": false,
+      "mounted": false,
+      "network_address": "graphite-2-bmc.nancy.grid5000.fr",
+      "vendor": "DELL"
+    }
+  ],
+  "operating_system": {
+    "cstate_driver": "intel_idle",
+    "cstate_governor": "menu",
+    "ht_enabled": true,
+    "pstate_driver": "intel_pstate",
+    "pstate_governor": "performance",
+    "turboboost_enabled": true
+  },
+  "performance": {
+    "core_flops": 16000000000,
+    "node_flops": 256000000000
+  },
+  "processor": {
+    "cache_l1": null,
+    "cache_l1d": 32768,
+    "cache_l1i": 32768,
+    "cache_l2": 262144,
+    "cache_l3": 20971520,
+    "clock_speed": 2000000000,
+    "ht_capable": true,
+    "instruction_set": "x86-64",
+    "microarchitecture": "Sandy Bridge",
+    "microcode": "0x71a",
+    "model": "Intel Xeon",
+    "other_description": "Intel(R) Xeon(R) CPU E5-2650 0 @ 2.00GHz",
+    "vendor": "Intel",
+    "version": "E5-2650"
+  },
+  "sensors": {
+    "power": {
+      "available": true,
+      "via": {
+        "api": {
+          "metric": "power"
+        },
+        "pdu": [
+          {
+            "port": 2,
+            "uid": "graoully-pdu1"
+          },
+          {
+            "port": 2,
+            "uid": "graoully-pdu2"
+          }
+        ]
+      }
+    }
+  },
+  "software": {
+    "forced-deployment-timestamp": 202007300948,
+    "postinstall-version": "1.2020091600",
+    "standard-environment": "debian10-x64-std"
+  },
+  "storage_devices": [
+    {
+      "by_id": "/dev/disk/by-id/wwn-0x50015178f36802db",
+      "by_path": "/dev/disk/by-path/pci-0000:02:00.0-scsi-0:0:0:0",
+      "device": "sda",
+      "firmware_version": "D201DL13",
+      "interface": "SATA II",
+      "model": "INTEL SSDSC2BB30",
+      "size": 300069052416,
+      "storage": "SSD",
+      "vendor": "Intel"
+    },
+    {
+      "by_id": "/dev/disk/by-id/wwn-0x50015178f36800e7",
+      "by_path": "/dev/disk/by-path/pci-0000:02:00.0-scsi-0:0:1:0",
+      "device": "sdb",
+      "firmware_version": "D201DL13",
+      "interface": "SATA II",
+      "model": "INTEL SSDSC2BB30",
+      "size": 300069052416,
+      "storage": "SSD",
+      "vendor": "Intel"
+    }
+  ],
+  "supported_job_types": {
+    "besteffort": true,
+    "deploy": true,
+    "max_walltime": 0,
+    "queues": [
+      "default",
+      "admin"
+    ],
+    "virtual": "ivt"
+  },
+  "type": "node",
+  "uid": "graphite-2"
+}

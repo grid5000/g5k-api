@@ -1,0 +1,343 @@
+{
+  "backplane_bps": 100000000000,
+  "ip": "172.17.79.230",
+  "kind": "switch",
+  "linecards": [
+    {
+      "kavlan_pattern": "Gi1/%LINECARD%/%PORT%",
+      "kind": "node",
+      "ports": [
+        {
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "GigabitEthernet1/0/1",
+          "uid": "grcinq-3"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "GigabitEthernet1/0/2",
+          "uid": "grcinq-4"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "GigabitEthernet1/0/3",
+          "uid": "grcinq-7"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "GigabitEthernet1/0/4",
+          "uid": "grcinq-8"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "GigabitEthernet1/0/5",
+          "uid": "grcinq-11"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "GigabitEthernet1/0/6",
+          "uid": "grcinq-12"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "GigabitEthernet1/0/7",
+          "uid": "grcinq-15"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "GigabitEthernet1/0/8",
+          "uid": "grcinq-16"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "GigabitEthernet1/0/9",
+          "uid": "grcinq-19"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "GigabitEthernet1/0/10",
+          "uid": "grcinq-20"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "GigabitEthernet1/0/11",
+          "uid": "grcinq-23"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "GigabitEthernet1/0/12",
+          "uid": "grcinq-24"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "GigabitEthernet1/0/13",
+          "uid": "grcinq-27"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "GigabitEthernet1/0/14",
+          "uid": "grcinq-28"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "GigabitEthernet1/0/15",
+          "uid": "grcinq-31"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "GigabitEthernet1/0/16",
+          "uid": "grcinq-32"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "GigabitEthernet1/0/17",
+          "uid": "grcinq-35"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "GigabitEthernet1/0/18",
+          "uid": "grcinq-36"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "GigabitEthernet1/0/19",
+          "uid": "grcinq-39"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "GigabitEthernet1/0/20",
+          "uid": "grcinq-40"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "GigabitEthernet1/0/21",
+          "uid": "grcinq-43"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "GigabitEthernet1/0/22",
+          "uid": "grcinq-44"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "GigabitEthernet1/0/23",
+          "uid": "grcinq-47"
+        },
+        {
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "GigabitEthernet1/0/25",
+          "uid": "grcinq-45"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "GigabitEthernet1/0/26",
+          "uid": "grcinq-46"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "GigabitEthernet1/0/27",
+          "uid": "grcinq-41"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "GigabitEthernet1/0/28",
+          "uid": "grcinq-42"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "GigabitEthernet1/0/29",
+          "uid": "grcinq-37"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "GigabitEthernet1/0/30",
+          "uid": "grcinq-38"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "GigabitEthernet1/0/31",
+          "uid": "grcinq-33"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "GigabitEthernet1/0/32",
+          "uid": "grcinq-34"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "GigabitEthernet1/0/33",
+          "uid": "grcinq-29"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "GigabitEthernet1/0/34",
+          "uid": "grcinq-30"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "GigabitEthernet1/0/35",
+          "uid": "grcinq-25"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "GigabitEthernet1/0/36",
+          "uid": "grcinq-26"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "GigabitEthernet1/0/37",
+          "uid": "grcinq-21"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "GigabitEthernet1/0/38",
+          "uid": "grcinq-22"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "GigabitEthernet1/0/39",
+          "uid": "grcinq-17"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "GigabitEthernet1/0/40",
+          "uid": "grcinq-18"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "GigabitEthernet1/0/41",
+          "uid": "grcinq-13"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "GigabitEthernet1/0/42",
+          "uid": "grcinq-14"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "GigabitEthernet1/0/43",
+          "uid": "grcinq-9"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "GigabitEthernet1/0/44",
+          "uid": "grcinq-10"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "GigabitEthernet1/0/45",
+          "uid": "grcinq-5"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "GigabitEthernet1/0/46",
+          "uid": "grcinq-6"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "GigabitEthernet1/0/47",
+          "uid": "grcinq-1"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "GigabitEthernet1/0/48",
+          "uid": "grcinq-2"
+        }
+      ],
+      "rate": 1000000000,
+      "snmp_pattern": "GigabitEthernet1/%LINECARD%/%PORT%"
+    },
+    {
+      "kavlan_pattern": "TenGigabitEthernet1/0/%PORT%",
+      "kind": "other",
+      "ports": [
+        {
+        },
+        {
+          "kind": "switch",
+          "snmp_name": "TenGigabitEthernet1/0/1",
+          "uid": "sgrvingt"
+        }
+      ],
+      "rate": 10000000000,
+      "snmp_pattern": "TenGigabitEthernet1/0/%PORT%"
+    }
+  ],
+  "metrics": [
+    {
+      "description": "Input byte counter for the network device port",
+      "name": "network_ifacein_bytes_total",
+      "period": 1000,
+      "source": {
+        "id": "1.3.6.1.2.1.2.2.1.10.{{ 1.3.6.1.2.1.2.2.1.2 == %SNMP_IFACE% }}",
+        "protocol": "snmp"
+      }
+    },
+    {
+      "description": "Output byte counter for the network device port",
+      "name": "network_ifaceout_bytes_total",
+      "period": 1000,
+      "source": {
+        "id": "1.3.6.1.2.1.2.2.1.16.{{ 1.3.6.1.2.1.2.2.1.2 == %SNMP_IFACE% }}",
+        "protocol": "snmp"
+      }
+    }
+  ],
+  "model": "Cisco WS-C2960X-48TD-L",
+  "role": "production",
+  "site": "nancy",
+  "snmp_community": "public",
+  "type": "network_equipment",
+  "uid": "sgrcinq",
+  "warranty": "2028-11-28"
+}

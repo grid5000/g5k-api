@@ -1,0 +1,22 @@
+{
+  "alias": [
+    "ceph1",
+    "csod",
+    "infra-k8s-prometheus",
+    "infra-k8s-alertmanager",
+    "infra-k8s-grafana"
+  ],
+  "kind": "physical",
+  "network_adapters": {
+    "bmc": {
+      "ip": "172.17.111.30"
+    },
+    "default": {
+      "ip": "172.16.111.30"
+    }
+  },
+  "serial": "GQHZKZ1",
+  "type": "server",
+  "uid": "rook-storage0",
+  "warranty": "2018-11"
+}

@@ -1,0 +1,13 @@
+{
+  "kind": "virtual",
+  "network_adapters": {
+    "admin": {
+      "ip": "172.17.143.105"
+    },
+    "default": {
+      "ip": "172.16.143.127"
+    }
+  },
+  "type": "server",
+  "uid": "kadeploy-devel"
+}

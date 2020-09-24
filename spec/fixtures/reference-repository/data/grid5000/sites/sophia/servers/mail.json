@@ -1,0 +1,13 @@
+{
+  "kind": "virtual",
+  "network_adapters": {
+    "admin": {
+      "ip": "172.17.143.109"
+    },
+    "default": {
+      "ip": "172.16.143.109"
+    }
+  },
+  "type": "server",
+  "uid": "mail"
+}

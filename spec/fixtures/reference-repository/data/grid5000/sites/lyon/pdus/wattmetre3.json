@@ -1,0 +1,58 @@
+{
+  "ip": "172.16.63.8",
+  "metrics": [
+    {
+      "description": "Power consumption per outlet reported by wattmetre, in watt",
+      "name": "wattmetre_power_watt",
+      "optional_period": 20,
+      "period": 1000,
+      "source": {
+        "protocol": "wattmetre"
+      }
+    }
+  ],
+  "model": "",
+  "ports": {
+    "0": "nova-1",
+    "1": "nova-2",
+    "10": "nova-11",
+    "11": "nova-12",
+    "12": "nova-13",
+    "13": "nova-14",
+    "14": "nova-15",
+    "15": "nova-16",
+    "16": "nova-17",
+    "17": "nova-18",
+    "18": "nova-19",
+    "19": "nova-20",
+    "2": "nova-3",
+    "20": "nova-21",
+    "21": "nova-22",
+    "22": "nova-23",
+    "3": "nova-4",
+    "4": "nova-5",
+    "5": "nova-6",
+    "6": "nova-7",
+    "7": "nova-8",
+    "8": "nova-9",
+    "9": "nova-10"
+  },
+  "sensors": [
+    {
+      "power": {
+        "per_outlets": true,
+        "resolution": 1,
+        "wattmetre": {
+          "available": true,
+          "unit": "W",
+          "www": {
+            "url": "http://wattmetre.lyon.grid5000.fr/GetWatts-json.php"
+          }
+        }
+      }
+    }
+  ],
+  "type": "pdu",
+  "uid": "wattmetre3",
+  "vendor": "OmegaWatt"
+}

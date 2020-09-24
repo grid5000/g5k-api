@@ -1,0 +1,10 @@
+{
+  "kind": "virtual",
+  "network_adapters": {
+    "default": {
+      "ip": "172.16.47.146"
+    }
+  },
+  "type": "server",
+  "uid": "elk-dev"
+}

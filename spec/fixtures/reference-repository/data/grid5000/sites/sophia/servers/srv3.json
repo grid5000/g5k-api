@@ -1,0 +1,27 @@
+{
+  "alias": [
+    "ntp"
+  ],
+  "kind": "physical",
+  "network_adapters": {
+    "adm": {
+      "ip": "172.17.143.6",
+      "mac": "d0:94:66:09:4b:e2",
+      "mounted": true
+    },
+    "bmc": {
+      "ip": "172.17.143.16",
+      "mac": "50:9a:4c:ac:2e:48",
+      "mounted": true
+    },
+    "default": {
+      "ip": "172.16.143.6",
+      "mac": "d0:94:66:09:4b:de",
+      "mounted": true
+    }
+  },
+  "serial": "HPKWGL2",
+  "type": "server",
+  "uid": "srv3",
+  "warranty": "2024-09-12"
+}

@@ -18,23 +18,23 @@ describe NetworkEquipmentsController do
   render_views
 
   describe 'GET /network_equipments' do
-    it 'should get 404 in default branch' do
+    it 'should get 200 in default' do
       get :index, params: { format: :json }
-      expect(response.status).to eq(404)
+      expect(response.status).to eq(200)
     end
 
-    it 'should get collection in testing branch' do
-      get :index, params: { format: :json, branch: 'testing' }
+    it 'should get collection' do
+      get :index, params: { format: :json }
       expect(response.status).to eq(200)
-      expect(json['total']).to eq(4)
-      expect(json['items'].length).to eq(4)
+      expect(json['total']).to eq(9)
+      expect(json['items'].length).to eq(9)
     end
 
-    it 'should get collection in testing branch' do
-      get :index, params: { site_id: 'lille', format: :json, branch: 'testing' }
+    it 'should get collection for a site' do
+      get :index, params: { site_id: 'lille', format: :json }
       expect(response.status).to eq(200)
-      expect(json['total']).to eq(6)
-      expect(json['items'].length).to eq(6)
+      expect(json['total']).to eq(3)
+      expect(json['items'].length).to eq(3)
     end
   end # describe "GET /network_equipments"
 end

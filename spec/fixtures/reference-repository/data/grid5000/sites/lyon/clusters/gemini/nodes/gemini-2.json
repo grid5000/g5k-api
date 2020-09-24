@@ -1,0 +1,404 @@
+{
+  "architecture": {
+    "cpu_core_numbering": "contiguous",
+    "nb_cores": 40,
+    "nb_procs": 2,
+    "nb_threads": 80,
+    "platform_type": "x86_64"
+  },
+  "bios": {
+    "release_date": "02/14/2019",
+    "vendor": "American Megatrends Inc.",
+    "version": "S2W_3A08"
+  },
+  "bmc_version": "3.30",
+  "chassis": {
+    "manufacturer": "NVIDIA",
+    "name": "DGX-1 with V100-32",
+    "serial": "QTFCOU9050010"
+  },
+  "exotic": false,
+  "gpu_devices": {
+    "nvidia0": {
+      "cpu_affinity": 0,
+      "device": "/dev/nvidia0",
+      "memory": 32510000000,
+      "model": "Tesla V100-SXM2-32GB",
+      "power_default_limit": "300.00 W",
+      "vbios_version": "88.00.80.00.04",
+      "vendor": "Nvidia"
+    },
+    "nvidia1": {
+      "cpu_affinity": 0,
+      "device": "/dev/nvidia1",
+      "memory": 32510000000,
+      "model": "Tesla V100-SXM2-32GB",
+      "power_default_limit": "300.00 W",
+      "vbios_version": "88.00.80.00.04",
+      "vendor": "Nvidia"
+    },
+    "nvidia2": {
+      "cpu_affinity": 0,
+      "device": "/dev/nvidia2",
+      "memory": 32510000000,
+      "model": "Tesla V100-SXM2-32GB",
+      "power_default_limit": "300.00 W",
+      "vbios_version": "88.00.80.00.04",
+      "vendor": "Nvidia"
+    },
+    "nvidia3": {
+      "cpu_affinity": 0,
+      "device": "/dev/nvidia3",
+      "memory": 32510000000,
+      "model": "Tesla V100-SXM2-32GB",
+      "power_default_limit": "300.00 W",
+      "vbios_version": "88.00.80.00.04",
+      "vendor": "Nvidia"
+    },
+    "nvidia4": {
+      "cpu_affinity": 1,
+      "device": "/dev/nvidia4",
+      "memory": 32510000000,
+      "model": "Tesla V100-SXM2-32GB",
+      "power_default_limit": "300.00 W",
+      "vbios_version": "88.00.80.00.04",
+      "vendor": "Nvidia"
+    },
+    "nvidia5": {
+      "cpu_affinity": 1,
+      "device": "/dev/nvidia5",
+      "memory": 32510000000,
+      "model": "Tesla V100-SXM2-32GB",
+      "power_default_limit": "300.00 W",
+      "vbios_version": "88.00.80.00.04",
+      "vendor": "Nvidia"
+    },
+    "nvidia6": {
+      "cpu_affinity": 1,
+      "device": "/dev/nvidia6",
+      "memory": 32510000000,
+      "model": "Tesla V100-SXM2-32GB",
+      "power_default_limit": "300.00 W",
+      "vbios_version": "88.00.80.00.04",
+      "vendor": "Nvidia"
+    },
+    "nvidia7": {
+      "cpu_affinity": 1,
+      "device": "/dev/nvidia7",
+      "memory": 32510000000,
+      "model": "Tesla V100-SXM2-32GB",
+      "power_default_limit": "300.00 W",
+      "vbios_version": "88.00.80.00.04",
+      "vendor": "Nvidia"
+    }
+  },
+  "kavlan": {
+    "eth0": {
+      "kavlan-1": "192.168.197.2",
+      "kavlan-11": "10.7.205.2",
+      "kavlan-12": "10.11.205.2",
+      "kavlan-13": "10.15.205.2",
+      "kavlan-14": "10.19.205.2",
+      "kavlan-16": "10.27.205.2",
+      "kavlan-18": "10.35.205.2",
+      "kavlan-2": "192.168.213.2",
+      "kavlan-20": "10.43.205.2",
+      "kavlan-21": "10.47.205.2",
+      "kavlan-3": "192.168.229.2",
+      "kavlan-4": "10.12.5.2",
+      "kavlan-5": "10.12.69.2",
+      "kavlan-6": "10.12.133.2",
+      "kavlan-7": "10.12.197.2",
+      "kavlan-8": "10.13.5.2",
+      "kavlan-9": "10.13.69.2"
+    }
+  },
+  "kavlan6": {
+    "eth0": {
+      "kavlan-1": "2001:660:4406:481:6::2",
+      "kavlan-11": "2001:660:4406:48b:6::2",
+      "kavlan-12": "2001:660:4406:48c:6::2",
+      "kavlan-13": "2001:660:4406:48d:6::2",
+      "kavlan-14": "2001:660:4406:48e:6::2",
+      "kavlan-16": "2001:660:4406:490:6::2",
+      "kavlan-18": "2001:660:4406:492:6::2",
+      "kavlan-2": "2001:660:4406:482:6::2",
+      "kavlan-20": "2001:660:4406:494:6::2",
+      "kavlan-21": "2001:660:4406:495:6::2",
+      "kavlan-3": "2001:660:4406:483:6::2",
+      "kavlan-4": "2001:660:4406:484:6::2",
+      "kavlan-5": "2001:660:4406:485:6::2",
+      "kavlan-6": "2001:660:4406:486:6::2",
+      "kavlan-7": "2001:660:4406:487:6::2",
+      "kavlan-8": "2001:660:4406:488:6::2",
+      "kavlan-9": "2001:660:4406:489:6::2"
+    }
+  },
+  "main_memory": {
+    "ram_size": 549755813888
+  },
+  "monitoring": {
+    "wattmeter": "true"
+  },
+  "network_adapters": [
+    {
+      "device": "eth0",
+      "driver": "ixgbe",
+      "enabled": true,
+      "firmware_version": "0x800003e2, 1.1147.0",
+      "interface": "Ethernet",
+      "ip": "172.16.53.2",
+      "ip6": "2001:660:4406:400:6::2",
+      "kavlan": true,
+      "mac": "d8:c4:97:b8:32:fd",
+      "management": false,
+      "model": "Ethernet Controller 10-Gigabit X540-AT2",
+      "mountable": true,
+      "mounted": true,
+      "name": "enp1s0f0",
+      "network_address": "gemini-2.lyon.grid5000.fr",
+      "rate": 10000000000,
+      "switch": "gw",
+      "switch_port": "ethernet1/1/2",
+      "vendor": "Intel"
+    },
+    {
+      "device": "eth1",
+      "driver": "ixgbe",
+      "enabled": false,
+      "firmware_version": "0x800003e2, 1.1147.0",
+      "interface": "Ethernet",
+      "kavlan": false,
+      "mac": "d8:c4:97:b8:32:fe",
+      "management": false,
+      "model": "Ethernet Controller 10-Gigabit X540-AT2",
+      "mountable": false,
+      "mounted": false,
+      "name": "enp1s0f1",
+      "vendor": "Intel"
+    },
+    {
+      "device": "ib0",
+      "driver": "mlx5_core",
+      "enabled": true,
+      "firmware_version": "16.26.4012",
+      "guid": "0x98039b03009a4a4e",
+      "interface": "InfiniBand",
+      "ip": "172.18.53.2",
+      "kavlan": false,
+      "mac": "00:00:11:06:fe:80:00:00:00:00:00:00:98:03:9b:03:00:9a:4a:4e",
+      "management": false,
+      "model": "MT27800 Family [ConnectX-5]",
+      "mountable": true,
+      "mounted": true,
+      "name": "ib0",
+      "netmask": "255.255.240.0",
+      "network_address": "gemini-2-ib0.lyon.grid5000.fr",
+      "rate": 100000000000,
+      "vendor": "Mellanox Technologies"
+    },
+    {
+      "device": "ib1",
+      "driver": "mlx5_core",
+      "enabled": true,
+      "firmware_version": "16.26.4012",
+      "guid": "0x98039b03009a4a46",
+      "interface": "InfiniBand",
+      "kavlan": false,
+      "mac": "00:00:11:06:fe:80:00:00:00:00:00:00:98:03:9b:03:00:9a:4a:46",
+      "management": false,
+      "model": "MT27800 Family [ConnectX-5]",
+      "mountable": true,
+      "mounted": false,
+      "name": "ib1",
+      "network_address": "gemini-2-ib1.lyon.grid5000.fr",
+      "rate": 100000000000,
+      "vendor": "Mellanox Technologies"
+    },
+    {
+      "device": "ib2",
+      "driver": "mlx5_core",
+      "enabled": true,
+      "firmware_version": "16.26.4012",
+      "guid": "0x98039b03009a2746",
+      "interface": "InfiniBand",
+      "kavlan": false,
+      "mac": "00:00:11:06:fe:80:00:00:00:00:00:00:98:03:9b:03:00:9a:27:46",
+      "management": false,
+      "model": "MT27800 Family [ConnectX-5]",
+      "mountable": true,
+      "mounted": false,
+      "name": "ib2",
+      "network_address": "gemini-2-ib2.lyon.grid5000.fr",
+      "rate": 100000000000,
+      "vendor": "Mellanox Technologies"
+    },
+    {
+      "device": "ib3",
+      "driver": "mlx5_core",
+      "enabled": false,
+      "firmware_version": "16.26.4012",
+      "guid": "0x98039b03009a4b6a",
+      "interface": "InfiniBand",
+      "kavlan": false,
+      "mac": "00:00:11:06:fe:80:00:00:00:00:00:00:98:03:9b:03:00:9a:4b:6a",
+      "management": false,
+      "model": "MT27800 Family [ConnectX-5]",
+      "mountable": false,
+      "mounted": false,
+      "name": "ib3",
+      "rate": 10000000000,
+      "vendor": "Mellanox Technologies"
+    },
+    {
+      "device": "bmc",
+      "enabled": true,
+      "interface": "Ethernet",
+      "ip": "172.17.53.2",
+      "kavlan": false,
+      "mac": "d8:c4:97:b7:ae:44",
+      "management": true,
+      "mountable": false,
+      "mounted": false,
+      "network_address": "gemini-2-bmc.lyon.grid5000.fr"
+    }
+  ],
+  "operating_system": {
+    "cstate_driver": "intel_idle",
+    "cstate_governor": "menu",
+    "ht_enabled": true,
+    "pstate_driver": "intel_pstate",
+    "pstate_governor": "performance",
+    "turboboost_enabled": true
+  },
+  "performance": {
+    "core_flops": 35200000000,
+    "node_flops": 1408000000000
+  },
+  "processor": {
+    "cache_l1": null,
+    "cache_l1d": 32768,
+    "cache_l1i": 32768,
+    "cache_l2": 262144,
+    "cache_l3": 52428800,
+    "clock_speed": 2200000000,
+    "ht_capable": true,
+    "instruction_set": "x86-64",
+    "microarchitecture": "Broadwell",
+    "microcode": "0xb000038",
+    "model": "Intel Xeon",
+    "other_description": "Intel(R) Xeon(R) CPU E5-2698 v4 @ 2.20GHz",
+    "vendor": "Intel",
+    "version": "E5-2698 v4"
+  },
+  "sensors": {
+    "power": {
+      "available": true,
+      "per_outlets": true,
+      "via": {
+        "api": {
+          "metric": "power"
+        },
+        "pdu": [
+          {
+            "port": 28,
+            "uid": "wattmetre1"
+          },
+          {
+            "port": 27,
+            "uid": "wattmetre1"
+          },
+          {
+            "port": 29,
+            "uid": "wattmetre1"
+          },
+          {
+            "port": 26,
+            "uid": "wattmetre1"
+          }
+        ],
+        "www": {
+          "url": "http://wattmetre.lyon.grid5000.fr/GetWatts-json.php"
+        }
+      }
+    }
+  },
+  "software": {
+    "forced-deployment-timestamp": 202007300948,
+    "postinstall-version": "1.2020091600",
+    "standard-environment": "debian10-x64-std"
+  },
+  "storage_devices": [
+    {
+      "by_id": "/dev/disk/by-id/wwn-0x5002538c40be7442",
+      "by_path": "/dev/disk/by-path/pci-0000:81:00.0-scsi-0:0:14:0",
+      "device": "sda",
+      "firmware_version": "GXM5104Q",
+      "interface": "SAS",
+      "model": "SAMSUNG MZ7KM480",
+      "size": 480103981056,
+      "storage": "SSD",
+      "vendor": "Samsung"
+    },
+    {
+      "by_id": "/dev/disk/by-id/wwn-0x5002538c40bf3462",
+      "by_path": "/dev/disk/by-path/pci-0000:81:00.0-scsi-0:0:15:0",
+      "device": "sdb",
+      "firmware_version": "GXT5204Q",
+      "interface": "SAS",
+      "model": "SAMSUNG MZ7LM1T9",
+      "reservation": true,
+      "size": 1920383410176,
+      "storage": "SSD",
+      "vendor": "Samsung"
+    },
+    {
+      "by_id": "/dev/disk/by-id/wwn-0x5002538c40bf3469",
+      "by_path": "/dev/disk/by-path/pci-0000:81:00.0-scsi-0:0:16:0",
+      "device": "sdc",
+      "firmware_version": "GXT5204Q",
+      "interface": "SAS",
+      "model": "SAMSUNG MZ7LM1T9",
+      "reservation": true,
+      "size": 1920383410176,
+      "storage": "SSD",
+      "vendor": "Samsung"
+    },
+    {
+      "by_id": "/dev/disk/by-id/wwn-0x5002538c40bf3459",
+      "by_path": "/dev/disk/by-path/pci-0000:81:00.0-scsi-0:0:17:0",
+      "device": "sdd",
+      "firmware_version": "GXT5204Q",
+      "interface": "SAS",
+      "model": "SAMSUNG MZ7LM1T9",
+      "reservation": true,
+      "size": 1920383410176,
+      "storage": "SSD",
+      "vendor": "Samsung"
+    },
+    {
+      "by_id": "/dev/disk/by-id/wwn-0x5002538c40bf345b",
+      "by_path": "/dev/disk/by-path/pci-0000:81:00.0-scsi-0:0:18:0",
+      "device": "sde",
+      "firmware_version": "GXT5204Q",
+      "interface": "SAS",
+      "model": "SAMSUNG MZ7LM1T9",
+      "reservation": true,
+      "size": 1920383410176,
+      "storage": "SSD",
+      "vendor": "Samsung"
+    }
+  ],
+  "supported_job_types": {
+    "besteffort": true,
+    "deploy": true,
+    "max_walltime": 0,
+    "queues": [
+      "default",
+      "admin"
+    ],
+    "virtual": "ivt"
+  },
+  "type": "node",
+  "uid": "gemini-2"
+}

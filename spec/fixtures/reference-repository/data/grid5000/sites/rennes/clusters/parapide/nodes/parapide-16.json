@@ -1,0 +1,248 @@
+{
+  "architecture": {
+    "cpu_core_numbering": "round-robin",
+    "nb_cores": 8,
+    "nb_procs": 2,
+    "nb_threads": 8,
+    "platform_type": "x86_64"
+  },
+  "bios": {
+    "release_date": "08/04/2009",
+    "vendor": "American Megatrends Inc.",
+    "version": 1.14
+  },
+  "bmc_version": "3.00",
+  "chassis": {
+    "manufacturer": "Sun Microsystems",
+    "name": "SUN FIRE X2270",
+    "serial": "0935XEF04F"
+  },
+  "exotic": false,
+  "kavlan": {
+    "eth0": {
+      "kavlan-1": "192.168.192.16",
+      "kavlan-11": "10.7.227.16",
+      "kavlan-12": "10.11.227.16",
+      "kavlan-13": "10.15.227.16",
+      "kavlan-14": "10.19.227.16",
+      "kavlan-16": "10.27.227.16",
+      "kavlan-18": "10.35.227.16",
+      "kavlan-2": "192.168.208.16",
+      "kavlan-20": "10.43.227.16",
+      "kavlan-21": "10.47.227.16",
+      "kavlan-3": "192.168.224.16",
+      "kavlan-4": "10.24.0.16",
+      "kavlan-5": "10.24.64.16",
+      "kavlan-6": "10.24.128.16",
+      "kavlan-7": "10.24.192.16",
+      "kavlan-8": "10.25.0.16",
+      "kavlan-9": "10.25.64.16"
+    }
+  },
+  "kavlan6": {
+    "eth0": {
+      "kavlan-1": "2001:660:4406:781:3::10",
+      "kavlan-11": "2001:660:4406:78b:3::10",
+      "kavlan-12": "2001:660:4406:78c:3::10",
+      "kavlan-13": "2001:660:4406:78d:3::10",
+      "kavlan-14": "2001:660:4406:78e:3::10",
+      "kavlan-16": "2001:660:4406:790:3::10",
+      "kavlan-18": "2001:660:4406:792:3::10",
+      "kavlan-2": "2001:660:4406:782:3::10",
+      "kavlan-20": "2001:660:4406:794:3::10",
+      "kavlan-21": "2001:660:4406:795:3::10",
+      "kavlan-3": "2001:660:4406:783:3::10",
+      "kavlan-4": "2001:660:4406:784:3::10",
+      "kavlan-5": "2001:660:4406:785:3::10",
+      "kavlan-6": "2001:660:4406:786:3::10",
+      "kavlan-7": "2001:660:4406:787:3::10",
+      "kavlan-8": "2001:660:4406:788:3::10",
+      "kavlan-9": "2001:660:4406:789:3::10"
+    }
+  },
+  "main_memory": {
+    "ram_size": 25769803776
+  },
+  "monitoring": {
+    "temperature": true,
+    "wattmeter": "true"
+  },
+  "network_adapters": [
+    {
+      "bridged": true,
+      "device": "eth0",
+      "driver": "igb",
+      "enabled": true,
+      "firmware_version": "2.1.5",
+      "interface": "Ethernet",
+      "ip": "172.16.98.16",
+      "ip6": "2001:660:4406:700:3::10",
+      "kavlan": true,
+      "mac": "00:14:4f:ca:94:b4",
+      "management": false,
+      "model": "82575EB Gigabit Network Connection",
+      "mountable": true,
+      "mounted": true,
+      "name": "enp4s0f0",
+      "network_address": "parapide-16.rennes.grid5000.fr",
+      "rate": 1000000000,
+      "switch": "c6509",
+      "switch_port": "GigabitEthernet3/15",
+      "vendor": "Intel"
+    },
+    {
+      "bridged": false,
+      "device": "eth1",
+      "driver": "igb",
+      "enabled": false,
+      "firmware_version": "2.1.5",
+      "interface": "Ethernet",
+      "kavlan": false,
+      "mac": "00:14:4f:ca:94:b5",
+      "management": false,
+      "model": "82575EB Gigabit Network Connection",
+      "mountable": false,
+      "mounted": false,
+      "name": "enp4s0f1",
+      "vendor": "Intel"
+    },
+    {
+      "device": "ib0",
+      "driver": "mlx4_core",
+      "enabled": true,
+      "firmware_version": "2.6.0",
+      "guid": "0x0003ba000100aad9",
+      "interface": "InfiniBand",
+      "ip": "172.18.98.16",
+      "kavlan": false,
+      "mac": "80:00:02:08:fe:80:00:00:00:00:00:00:00:03:ba:00:01:00:aa:d9",
+      "management": false,
+      "model": "MT25418 [ConnectX VPI PCIe 2.0 2.5GT/s - IB DDR / 10GigE]",
+      "mountable": true,
+      "mounted": true,
+      "name": "ib0",
+      "netmask": "255.255.240.0",
+      "network_address": "parapide-16-ib0.rennes.grid5000.fr",
+      "rate": 20000000000,
+      "vendor": "Mellanox Technologies"
+    },
+    {
+      "device": "ib1",
+      "driver": "mlx4_core",
+      "enabled": false,
+      "firmware_version": "2.6.0",
+      "guid": "0x0003ba000100aada",
+      "interface": "InfiniBand",
+      "kavlan": false,
+      "mac": "80:00:02:09:fe:80:00:00:00:00:00:00:00:03:ba:00:01:00:aa:da",
+      "management": false,
+      "model": "MT25418 [ConnectX VPI PCIe 2.0 2.5GT/s - IB DDR / 10GigE]",
+      "mountable": false,
+      "mounted": false,
+      "name": "ib1",
+      "rate": 10000000000,
+      "vendor": "Mellanox Technologies"
+    },
+    {
+      "device": "bmc",
+      "enabled": true,
+      "interface": "Ethernet",
+      "ip": "172.17.98.16",
+      "kavlan": false,
+      "mac": "00:14:4f:ca:94:b6",
+      "management": true,
+      "mountable": false,
+      "mounted": false,
+      "network_address": "parapide-16-bmc.rennes.grid5000.fr",
+      "rate": 1000000000
+    }
+  ],
+  "operating_system": {
+    "cstate_driver": "intel_idle",
+    "cstate_governor": "menu",
+    "ht_enabled": false,
+    "pstate_driver": "acpi-cpufreq",
+    "pstate_governor": "performance",
+    "turboboost_enabled": true
+  },
+  "performance": {
+    "core_flops": 11800000000,
+    "node_flops": 94400000000
+  },
+  "processor": {
+    "cache_l1": null,
+    "cache_l1d": 32768,
+    "cache_l1i": 32768,
+    "cache_l2": 262144,
+    "cache_l3": 8388608,
+    "clock_speed": 2950000000,
+    "ht_capable": true,
+    "instruction_set": "x86-64",
+    "microarchitecture": "Nehalem",
+    "microcode": "0x1d",
+    "model": "Intel Xeon",
+    "other_description": "Intel(R) Xeon(R) CPU           X5570  @ 2.93GHz",
+    "vendor": "Intel",
+    "version": "X5570"
+  },
+  "sensors": {
+    "power": {
+      "available": true,
+      "per_outlets": true,
+      "via": {
+        "api": {
+          "metric": "power"
+        },
+        "pdu": [
+          {
+            "port": 20,
+            "uid": "parapluie-pdu-4"
+          }
+        ]
+      }
+    },
+    "temperature": {
+      "available": true,
+      "via": {
+        "api": {
+          "metric": "ambient_temp"
+        },
+        "ipmi": {
+          "sensors": {
+            "ambient": "/MB/T_AMB"
+          }
+        }
+      }
+    }
+  },
+  "software": {
+    "forced-deployment-timestamp": 202007300948,
+    "postinstall-version": "1.2020091600",
+    "standard-environment": "debian10-x64-std"
+  },
+  "storage_devices": [
+    {
+      "by_id": "/dev/disk/by-id/wwn-0x5000cca214ca6979",
+      "by_path": "/dev/disk/by-path/pci-0000:00:1f.2-ata-1",
+      "device": "sda",
+      "firmware_version": "GK6OAC4A",
+      "interface": "SATA",
+      "model": "HITACHI HUA7250S",
+      "size": 500107862016,
+      "storage": "HDD",
+      "vendor": "Hitachi"
+    }
+  ],
+  "supported_job_types": {
+    "besteffort": true,
+    "deploy": true,
+    "max_walltime": 0,
+    "queues": [
+      "default",
+      "admin"
+    ],
+    "virtual": "ivt"
+  },
+  "type": "node",
+  "uid": "parapide-16"
+}

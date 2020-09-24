@@ -1,0 +1,13 @@
+{
+  "alias": [
+    "puppet"
+  ],
+  "kind": "virtual",
+  "network_adapters": {
+    "default": {
+      "ip": "172.16.111.105"
+    }
+  },
+  "type": "server",
+  "uid": "puppet6"
+}

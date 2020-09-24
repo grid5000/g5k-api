@@ -15,10 +15,6 @@
 require 'spec_helper'
 
 describe Grid5000::Repository do
-  before do
-    @latest_commit = '8a562420c9a659256eeaafcfd89dfa917b5fb4d0'
-  end
-
   it 'should instantiate a new repository object with the correct settings' do
     repo = Grid5000::Repository.new(
       @repository_path,
@@ -68,20 +64,20 @@ describe Grid5000::Repository do
       it 'should find the commit associated with the given timestamp [timestamp=TS] 1/2' do
         date = Time.parse('2009-03-13 17:24:20 +0100')
         commit = @repository.find_commit_for(timestamp: date.to_i)
-        expect(commit.oid).to eq('b00bd30bf69c322ffe9aca7a9f6e3be0f29e20f4')
+        expect(commit.oid).to eq('464e6bfc0195deeb4e93f61229857e1e8032bd6b')
       end
 
       it 'should find the commit associated with the given date [date=DATE] 2/2' do
         date = '2009-03-13 17:24:47 +0100'
         commit = @repository.find_commit_for(date: date)
-        expect(commit.oid).to eq('e07895a4b480aaa8e11c35549a97796dcc4a307d')
+        expect(commit.oid).to eq('464e6bfc0195deeb4e93f61229857e1e8032bd6b')
       end
 
       it 'should find the commit associated with the given version [version=SHA]' do
         commit = @repository.find_commit_for(
-          version: 'e07895a4b480aaa8e11c35549a97796dcc4a307d'
+          version: '464e6bfc0195deeb4e93f61229857e1e8032bd6b'
         )
-        expect(commit.oid).to eq('e07895a4b480aaa8e11c35549a97796dcc4a307d')
+        expect(commit.oid).to eq('464e6bfc0195deeb4e93f61229857e1e8032bd6b')
       end
 
       it 'should return Errors::BranchNotFound when asking for a version from a branch that does not exist' do
@@ -116,30 +112,30 @@ describe Grid5000::Repository do
 
       it 'should find a relative object (symlink)' do
         relative_to = @repository.full_path(
-          'grid5000/sites/rennes/environments/sid-x64-base-1.0.json'
+          'symlink/sites/nancy/nancy.json'
         )
         hash_object = @repository.find_object_at(
-          '../../../../grid5000/environments/sid-x64-base-1.0.json',
+          '../../../grid5000/sites/nancy/nancy.json',
           @commit,
           relative_to
         )
 
         object = @repository.instance.lookup(hash_object[:oid])
         expect(object).to be_a(Rugged::Blob)
-        expect(object.content).to match(/kernel/)
+        expect(object.content).to match(/location/)
       end
 
       it 'should find a blob' do
         hash_object = @repository.find_object_at(
           @repository.full_path(
-            'grid5000/environments/sid-x64-base-1.0.json'
+            'grid5000/sites/nancy/nancy.json'
           ),
           @commit
         )
 
         object = @repository.instance.lookup(hash_object[:oid])
         expect(object).to be_a(Rugged::Blob)
-        expect(object.content).to match(/kernel/)
+        expect(object.content).to match(/location/)
       end
 
       it 'should return nil if the object cannot be found' do
@@ -154,12 +150,12 @@ describe Grid5000::Repository do
     describe 'expanding an object' do
       it 'should expand a tree of blobs into a collection' do
         result = @repository.find(
-          'grid5000/sites/bordeaux/clusters/bordemer/nodes'
+          'grid5000/sites/grenoble/clusters/dahu/nodes'
         )
         expect(result).not_to be_nil
-        # bordemer_nodes = object.expand
-        expect(result['total']).to eq(48)
-        expect(result['items'].map { |i| i['uid'] }.first).to eq('bordemer-1')
+        # dahu_nodes = object.expand
+        expect(result['total']).to eq(32)
+        expect(result['items'].map { |i| i['uid'] }.first).to eq('dahu-1')
       end
       it 'should expand a tree of trees into a collection [sites]' do
         result = @repository.find(
@@ -167,17 +163,9 @@ describe Grid5000::Repository do
         )
         expect(result['items'].map do |i|
           i['uid']
-        end).to eq(%w[bordeaux grenoble nancy rennes])
-        expect(result['total']).to eq(4)
+        end).to eq(%w[grenoble lille luxembourg lyon nancy nantes rennes sophia])
+        expect(result['total']).to eq(8)
         expect(result['offset']).to eq(0)
-      end
-      it 'should expand a tree of trees into a collection [environments]' do
-        result = @repository.find(
-          'grid5000/sites/rennes/environments'
-        )
-        expect(result['items'].map do |i|
-          i['uid']
-        end).to eq(['sid-x64-base-1.0'])
       end
       it "should expand a tree of blobs and trees into a resource hash resulting from the agregation of the blob's contents only" do
         result = @repository.find(
@@ -188,22 +176,23 @@ describe Grid5000::Repository do
       end
       it "should return the blob's content if the object is a blob" do
         result = @repository.find(
-          'grid5000/sites/bordeaux/clusters/bordemer/nodes/bordemer-1'
+          'grid5000/sites/grenoble/clusters/dahu/nodes/dahu-1'
         )
-        expect(result['uid']).to eq('bordemer-1')
+        expect(result['uid']).to eq('dahu-1')
       end
+      # Hack to test symlink. Here srv-3 is a link to srv-2
       it 'should correctly expand a symlink' do
         result = @repository.find(
-          'grid5000/sites/bordeaux/environments/sid-x64-base-1.0'
+          'grid5000/sites/nancy/servers/grcinq-srv-3.json'
         )
         expect(result).not_to be_nil
-        expect(result['uid']).to eq('sid-x64-base-1.0')
+        expect(result['uid']).to eq('grcinq-srv-2')
       end
     end # describe "expanding an object"
 
     describe 'versions_for' do
       it 'find the versions for a resource' do
-        expect(@repository.versions_for('grid5000/sites')['total']).to eq(10)
+        expect(@repository.versions_for('grid5000/sites')['total']).to eq(3057)
       end
       it 'should return an empty list if the resource does not exist' do
         expect(@repository.versions_for('grid5000/doesnotexist')).to eq({ 'total' => 0, 'offset' => 0, 'items' => [] })

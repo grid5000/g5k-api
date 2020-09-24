@@ -1,0 +1,217 @@
+{
+  "architecture": {
+    "cpu_core_numbering": "contiguous",
+    "nb_cores": 16,
+    "nb_procs": 2,
+    "nb_threads": 32,
+    "platform_type": "x86_64"
+  },
+  "bios": {
+    "release_date": "7/08/2019",
+    "vendor": "Dell Inc.",
+    "version": "2.5.7"
+  },
+  "bmc_version": "2.53",
+  "chassis": {
+    "manufacturer": "Dell Inc.",
+    "name": "PowerEdge C6220",
+    "serial": "F9GYG5J"
+  },
+  "exotic": false,
+  "kavlan": {
+    "eth0": {
+      "kavlan-1": "192.168.192.9",
+      "kavlan-11": "10.7.240.9",
+      "kavlan-12": "10.11.240.9",
+      "kavlan-13": "10.15.240.9",
+      "kavlan-14": "10.19.240.9",
+      "kavlan-16": "10.27.240.9",
+      "kavlan-18": "10.35.240.9",
+      "kavlan-2": "192.168.208.9",
+      "kavlan-20": "10.43.240.9",
+      "kavlan-21": "10.47.240.9",
+      "kavlan-3": "192.168.224.9",
+      "kavlan-4": "10.44.0.9",
+      "kavlan-5": "10.44.64.9",
+      "kavlan-6": "10.44.128.9",
+      "kavlan-7": "10.44.192.9",
+      "kavlan-8": "10.45.0.9",
+      "kavlan-9": "10.45.64.9"
+    }
+  },
+  "kavlan6": {
+    "eth0": {
+      "kavlan-1": "2001:660:4406:681:1::9",
+      "kavlan-11": "2001:660:4406:68b:1::9",
+      "kavlan-12": "2001:660:4406:68c:1::9",
+      "kavlan-13": "2001:660:4406:68d:1::9",
+      "kavlan-14": "2001:660:4406:68e:1::9",
+      "kavlan-16": "2001:660:4406:690:1::9",
+      "kavlan-18": "2001:660:4406:692:1::9",
+      "kavlan-2": "2001:660:4406:682:1::9",
+      "kavlan-20": "2001:660:4406:694:1::9",
+      "kavlan-21": "2001:660:4406:695:1::9",
+      "kavlan-3": "2001:660:4406:683:1::9",
+      "kavlan-4": "2001:660:4406:684:1::9",
+      "kavlan-5": "2001:660:4406:685:1::9",
+      "kavlan-6": "2001:660:4406:686:1::9",
+      "kavlan-7": "2001:660:4406:687:1::9",
+      "kavlan-8": "2001:660:4406:688:1::9",
+      "kavlan-9": "2001:660:4406:689:1::9"
+    }
+  },
+  "main_memory": {
+    "ram_size": 68719476736
+  },
+  "monitoring": {
+    "wattmeter": "false"
+  },
+  "network_adapters": [
+    {
+      "bridged": true,
+      "device": "eth0",
+      "driver": "ixgbe",
+      "enabled": true,
+      "firmware_version": "0x800004e1",
+      "interface": "Ethernet",
+      "ip": "172.16.192.9",
+      "ip6": "2001:660:4406:600:1::9",
+      "kavlan": true,
+      "mac": "a0:36:9f:0e:36:34",
+      "management": false,
+      "model": "82599ES 10-Gigabit SFI/SFP+ Network Connection",
+      "mountable": true,
+      "mounted": true,
+      "name": "enp3s0f0",
+      "network_address": "econome-9.nantes.grid5000.fr",
+      "rate": 10000000000,
+      "switch": "gw",
+      "switch_port": "TenGigabitEthernet 0/41",
+      "vendor": "Intel"
+    },
+    {
+      "bridged": false,
+      "device": "eth1",
+      "driver": "ixgbe",
+      "enabled": false,
+      "firmware_version": "0x800004e1",
+      "interface": "Ethernet",
+      "kavlan": false,
+      "mac": "a0:36:9f:0e:36:36",
+      "management": false,
+      "model": "82599ES 10-Gigabit SFI/SFP+ Network Connection",
+      "mountable": false,
+      "mounted": false,
+      "name": "enp3s0f1",
+      "vendor": "Intel"
+    },
+    {
+      "bridged": false,
+      "device": "eth2",
+      "driver": "igb",
+      "enabled": false,
+      "firmware_version": "1.57.0",
+      "interface": "Ethernet",
+      "kavlan": false,
+      "mac": "78:45:c4:f9:15:ca",
+      "management": false,
+      "model": "I350 Gigabit Network Connection",
+      "mountable": false,
+      "mounted": false,
+      "name": "eno1",
+      "vendor": "Intel"
+    },
+    {
+      "bridged": false,
+      "device": "eth3",
+      "driver": "igb",
+      "enabled": false,
+      "firmware_version": "1.57.0",
+      "interface": "Ethernet",
+      "kavlan": false,
+      "mac": "78:45:c4:f9:15:cb",
+      "management": false,
+      "model": "I350 Gigabit Network Connection",
+      "mountable": false,
+      "mounted": false,
+      "name": "eno2",
+      "vendor": "Intel"
+    },
+    {
+      "device": "bmc",
+      "enabled": true,
+      "interface": "Ethernet",
+      "ip": "172.17.192.9",
+      "kavlan": false,
+      "mac": "78:45:c4:f9:15:cc",
+      "management": true,
+      "mountable": false,
+      "mounted": false,
+      "network_address": "econome-9-bmc.nantes.grid5000.fr",
+      "rate": 1000000000
+    }
+  ],
+  "operating_system": {
+    "cstate_driver": "intel_idle",
+    "cstate_governor": "menu",
+    "ht_enabled": true,
+    "pstate_driver": "intel_pstate",
+    "pstate_governor": "performance",
+    "turboboost_enabled": true
+  },
+  "performance": {
+    "core_flops": 17600000000,
+    "node_flops": 281600000000
+  },
+  "processor": {
+    "cache_l1": null,
+    "cache_l1d": 32768,
+    "cache_l1i": 32768,
+    "cache_l2": 262144,
+    "cache_l3": 20971520,
+    "clock_speed": 2200000000,
+    "ht_capable": true,
+    "instruction_set": "x86-64",
+    "microarchitecture": "Sandy Bridge",
+    "microcode": "0x71a",
+    "model": "Intel Xeon",
+    "other_description": "Intel(R) Xeon(R) CPU E5-2660 0 @ 2.20GHz",
+    "vendor": "Intel",
+    "version": "E5-2660"
+  },
+  "sensors": {
+    "power": {
+      "available": false
+    }
+  },
+  "software": {
+    "forced-deployment-timestamp": 202007300948,
+    "postinstall-version": "1.2020091600",
+    "standard-environment": "debian10-x64-std"
+  },
+  "storage_devices": [
+    {
+      "by_id": "/dev/disk/by-id/wwn-0x50014ee207109227",
+      "by_path": "/dev/disk/by-path/pci-0000:00:1f.2-ata-1",
+      "device": "sda",
+      "firmware_version": "01.01D05",
+      "interface": "SATA",
+      "model": "WDC WD2003FYYS-1",
+      "size": 2000398934016,
+      "storage": "HDD",
+      "vendor": "Western Digital"
+    }
+  ],
+  "supported_job_types": {
+    "besteffort": true,
+    "deploy": true,
+    "max_walltime": 0,
+    "queues": [
+      "default",
+      "admin"
+    ],
+    "virtual": "ivt"
+  },
+  "type": "node",
+  "uid": "econome-9"
+}

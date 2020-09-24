@@ -1,0 +1,272 @@
+{
+  "architecture": {
+    "cpu_core_numbering": "round-robin",
+    "nb_cores": 12,
+    "nb_procs": 2,
+    "nb_threads": 12,
+    "platform_type": "x86_64"
+  },
+  "bios": {
+    "release_date": "11/02/2019",
+    "vendor": "Dell Inc.",
+    "version": "2.11.0"
+  },
+  "bmc_version": "2.70.70.70",
+  "chassis": {
+    "manufacturer": "Dell Inc.",
+    "name": "PowerEdge R730",
+    "serial": "4B8WGD2"
+  },
+  "exotic": false,
+  "gpu_devices": {
+    "nvidia0": {
+      "cpu_affinity": 0,
+      "device": "/dev/nvidia0",
+      "memory": 11441000000,
+      "model": "Tesla K40m",
+      "power_default_limit": "235.00 W",
+      "vbios_version": "80.80.3E.00.01",
+      "vendor": "Nvidia"
+    },
+    "nvidia1": {
+      "cpu_affinity": 1,
+      "device": "/dev/nvidia1",
+      "memory": 11441000000,
+      "model": "Tesla K40m",
+      "power_default_limit": "235.00 W",
+      "vbios_version": "80.80.3E.00.01",
+      "vendor": "Nvidia"
+    }
+  },
+  "kavlan": {
+    "eth0": {
+      "kavlan-1": "192.168.202.6",
+      "kavlan-11": "10.7.219.6",
+      "kavlan-12": "10.11.219.6",
+      "kavlan-13": "10.15.219.6",
+      "kavlan-14": "10.19.219.6",
+      "kavlan-16": "10.27.219.6",
+      "kavlan-18": "10.35.219.6",
+      "kavlan-2": "192.168.218.6",
+      "kavlan-20": "10.43.219.6",
+      "kavlan-21": "10.47.219.6",
+      "kavlan-3": "192.168.234.6",
+      "kavlan-4": "10.16.10.6",
+      "kavlan-5": "10.16.74.6",
+      "kavlan-6": "10.16.138.6",
+      "kavlan-7": "10.16.202.6",
+      "kavlan-8": "10.17.10.6",
+      "kavlan-9": "10.17.74.6"
+    }
+  },
+  "kavlan6": {
+    "eth0": {
+      "kavlan-1": "2001:660:4406:581:a::6",
+      "kavlan-11": "2001:660:4406:58b:a::6",
+      "kavlan-12": "2001:660:4406:58c:a::6",
+      "kavlan-13": "2001:660:4406:58d:a::6",
+      "kavlan-14": "2001:660:4406:58e:a::6",
+      "kavlan-16": "2001:660:4406:590:a::6",
+      "kavlan-18": "2001:660:4406:592:a::6",
+      "kavlan-2": "2001:660:4406:582:a::6",
+      "kavlan-20": "2001:660:4406:594:a::6",
+      "kavlan-21": "2001:660:4406:595:a::6",
+      "kavlan-3": "2001:660:4406:583:a::6",
+      "kavlan-4": "2001:660:4406:584:a::6",
+      "kavlan-5": "2001:660:4406:585:a::6",
+      "kavlan-6": "2001:660:4406:586:a::6",
+      "kavlan-7": "2001:660:4406:587:a::6",
+      "kavlan-8": "2001:660:4406:588:a::6",
+      "kavlan-9": "2001:660:4406:589:a::6"
+    }
+  },
+  "main_memory": {
+    "ram_size": 68719476736
+  },
+  "monitoring": {
+    "wattmeter": "multiple"
+  },
+  "network_adapters": [
+    {
+      "bridged": true,
+      "device": "eth0",
+      "driver": "ixgbe",
+      "enabled": true,
+      "firmware_version": "0x8000095c, 19.0.12",
+      "interface": "Ethernet",
+      "ip": "172.16.73.6",
+      "ip6": "2001:660:4406:500:a::6",
+      "kavlan": true,
+      "mac": "24:6e:96:16:5c:30",
+      "management": false,
+      "model": "82599ES 10-Gigabit SFI/SFP+ Network Connection",
+      "mountable": true,
+      "mounted": true,
+      "name": "eno1",
+      "network_address": "grimani-6.nancy.grid5000.fr",
+      "rate": 10000000000,
+      "switch": "gw",
+      "switch_port": "Ethernet6/44",
+      "vendor": "Intel"
+    },
+    {
+      "bridged": false,
+      "device": "eth1",
+      "driver": "ixgbe",
+      "enabled": false,
+      "firmware_version": "0x8000095c, 19.0.12",
+      "interface": "Ethernet",
+      "kavlan": false,
+      "mac": "24:6e:96:16:5c:32",
+      "management": false,
+      "model": "82599ES 10-Gigabit SFI/SFP+ Network Connection",
+      "mountable": false,
+      "mounted": false,
+      "name": "eno2",
+      "vendor": "Intel"
+    },
+    {
+      "bridged": false,
+      "device": "eth2",
+      "driver": "igb",
+      "enabled": false,
+      "firmware_version": "1.67, 0x80000fab, 19.0.12",
+      "interface": "Ethernet",
+      "kavlan": false,
+      "mac": "24:6e:96:16:5c:34",
+      "management": false,
+      "model": "I350 Gigabit Network Connection",
+      "mountable": false,
+      "mounted": false,
+      "name": "eno3",
+      "vendor": "Intel"
+    },
+    {
+      "bridged": false,
+      "device": "eth3",
+      "driver": "igb",
+      "enabled": false,
+      "firmware_version": "1.67, 0x80000fab, 19.0.12",
+      "interface": "Ethernet",
+      "kavlan": false,
+      "mac": "24:6e:96:16:5c:35",
+      "management": false,
+      "model": "I350 Gigabit Network Connection",
+      "mountable": false,
+      "mounted": false,
+      "name": "eno4",
+      "vendor": "Intel"
+    },
+    {
+      "device": "ib0",
+      "driver": "hfi1",
+      "enabled": true,
+      "firmware_version": "1.27.0",
+      "guid": "0x001175010176fc87",
+      "interface": "Omni-Path",
+      "ip": "172.18.73.6",
+      "kavlan": false,
+      "mac": "80:00:00:02:fe:80:00:00:00:00:00:00:00:11:75:01:01:76:fc:87",
+      "management": false,
+      "model": "Omni-Path HFI Silicon 100 Series [discrete]",
+      "mountable": true,
+      "mounted": true,
+      "name": "ib0",
+      "netmask": "255.255.255.0",
+      "network_address": "grimani-6-ib0.nancy.grid5000.fr",
+      "rate": 100000000000,
+      "vendor": "Intel"
+    },
+    {
+      "bridged": false,
+      "device": "bmc",
+      "enabled": true,
+      "interface": "Ethernet",
+      "ip": "172.17.73.6",
+      "kavlan": false,
+      "mac": "18:66:da:52:9f:94",
+      "management": true,
+      "mountable": false,
+      "mounted": false,
+      "network_address": "grimani-6-bmc.nancy.grid5000.fr"
+    }
+  ],
+  "operating_system": {
+    "cstate_driver": "intel_idle",
+    "cstate_governor": "menu",
+    "ht_enabled": false,
+    "pstate_driver": "intel_pstate",
+    "pstate_governor": "performance",
+    "turboboost_enabled": false
+  },
+  "performance": {
+    "core_flops": 25600000000,
+    "node_flops": 307200000000
+  },
+  "processor": {
+    "cache_l1": null,
+    "cache_l1d": 32768,
+    "cache_l1i": 32768,
+    "cache_l2": 262144,
+    "cache_l3": 15728640,
+    "clock_speed": 1600000000,
+    "ht_capable": false,
+    "instruction_set": "x86-64",
+    "microarchitecture": "Haswell",
+    "microcode": "0x43",
+    "model": "Intel Xeon",
+    "other_description": "Intel(R) Xeon(R) CPU E5-2603 v3 @ 1.60GHz",
+    "vendor": "Intel",
+    "version": "E5-2603 v3"
+  },
+  "sensors": {
+    "power": {
+      "available": true,
+      "via": {
+        "api": {
+          "metric": "power"
+        },
+        "pdu": [
+          {
+            "port": 6,
+            "uid": "grimani-pdu1"
+          },
+          {
+            "port": 6,
+            "uid": "grimani-pdu2"
+          }
+        ]
+      }
+    }
+  },
+  "software": {
+    "forced-deployment-timestamp": 202007300948,
+    "postinstall-version": "1.2020091600",
+    "standard-environment": "debian10-x64-std"
+  },
+  "storage_devices": [
+    {
+      "by_id": "/dev/disk/by-id/wwn-0x5000c5008cd0b091",
+      "by_path": "/dev/disk/by-path/pci-0000:02:00.0-scsi-0:0:0:0",
+      "device": "sda",
+      "firmware_version": "NA07",
+      "interface": "SATA",
+      "model": "ST1000NX0423",
+      "size": 1000204886016,
+      "storage": "HDD",
+      "vendor": "Seagate"
+    }
+  ],
+  "supported_job_types": {
+    "besteffort": true,
+    "deploy": true,
+    "max_walltime": 604800,
+    "queues": [
+      "admin",
+      "production"
+    ],
+    "virtual": "ivt"
+  },
+  "type": "node",
+  "uid": "grimani-6"
+}

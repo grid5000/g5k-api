@@ -157,25 +157,60 @@ to create a test database, and a fake OAR database.
 
         $ RAILS_ENV=test bundle exec rspec spec/ # or `bundle exec autotest` if rake fails (issue with Rails<3.1 and em_mysql2 adapter with evented code).
 
-* Adding data to the reference repository used for tests
+* Update reference-repository used for tests
 
 Data used for tests live in the spec/fixtures/reference-repository/
 directory. Before any tests, the testing script renames the git.rename
 directory to .git, so that spec/fixtures/reference-repository becomes
 a valid git repository. It undoes that change at the end of tests.
-As the g5k-api code relies on a library that
-navigates git objects directly, the only data visible to the tests is
-data commited to that repository. Therefore, to change data used for
-tests, you must
 
-        $ cd spec/fixtures/reference-repository/
-        $ mv git.rename .git
-		$ #make changes to files or the directory structure
-		$ git commit -a -m "Updates to the test date to ....."
-		$ mv .git git.rename
-        $ git commit -a -m "Updates to the test date to ....." #IMPORTANT : you must add the changed test data to the global git repository so it can be picked up by other developpers.
+To update the test reference-repository with fresh real datas, remove old
+repository and copy the new one:
 
-After these changes, a lot of tests will fail as they rely on the hash of the latest git commit. Test code needs improved here, but until now, this has been solved with a search and replace.
+    $ rm -rf spec/fixtures/reference-repository
+    $ cp -r ~/git/reference-repository/data/
+
+The repository can be quite heavy, so to limit the import size into g5k-api we
+can only keep the `data` directory and rewrite the git history.
+
+The tool [git-filter-repo](https://github.com/newren/git-filter-repo) can be
+used to do that:
+
+    $ cd spec/fixtures/reference-repository
+    $ /usr/libexec/git-core/git-filter-repo --path data
+    $ git gc --aggressive
+
+Some rspec tests require to add a symlink inside the repository, because this
+aspect is not used inside our reference-repository (we don't use links at all).
+
+For example:
+
+    $ rm data/grid5000/sites/nancy/servers/grcinq-srv-3.json
+    $ ln -s data/grid5000/sites/nancy/servers/grcinq-srv-2.json data/grid5000/sites/nancy/servers/grcinq-srv-3.json
+
+Commit the change, and then move the `.git`:
+
+    $ mv .git git.rename
+    $ cd ../../..
+
+Update the `@latest_commit` variable:
+
+    $ sed -ri "s/(\@latest_commit = ).*/\1 \'$(cat spec/fixtures/reference-repository/git.rename/refs/heads/master)\'/g" spec/spec_help.rb
+
+Then, changes are to be applied manually, because some resources might not exist
+anymore, and some might have been added, e.g.:
+* the number and name of sites
+* the clusters
+* nodes inside a clusters
+* servers on sites
+* network_equipments
+* …
+
+However, sed can be usefull to help and save time. Here to replace inside tests
+a site (`bordeaux`) and a cluster (`bordemer`) which don't exist anymore:
+
+    $ find spec/ -type f -exec sed -ri 's/bordeaux/grenoble/g' {} \;
+    $ find spec/ -type f -exec sed -ri 's/bordemer/dahu/g' {} \;
 
 * Adding data to the test OAR2 database
 

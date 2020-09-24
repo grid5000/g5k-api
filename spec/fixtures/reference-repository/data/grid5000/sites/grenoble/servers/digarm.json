@@ -1,0 +1,13 @@
+{
+  "alias": null,
+  "kind": "physical",
+  "network_adapters": {
+    "default": {
+      "ip": "172.16.31.11"
+    }
+  },
+  "serial": "n/a",
+  "type": "server",
+  "uid": "digarm",
+  "warranty": "n/a"
+}

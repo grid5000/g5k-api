@@ -1,0 +1,16 @@
+{
+  "alias": [
+    "kavlan-dhcp"
+  ],
+  "kind": "virtual",
+  "network_adapters": {
+    "adm": {
+      "ip": "172.17.47.130"
+    },
+    "default": {
+      "ip": "172.16.47.130"
+    }
+  },
+  "type": "server",
+  "uid": "kavlan"
+}

@@ -1,0 +1,354 @@
+{
+  "backplane_bps": 1280000000000,
+  "channels": {
+    "Port-channel 1": {
+      "kind": "router",
+      "port": "Port-channel 1",
+      "rate": 80000000000,
+      "uid": "gw"
+    }
+  },
+  "ip": "172.16.207.252",
+  "kind": "switch",
+  "linecards": [
+    {
+    },
+    {
+      "kavlan_pattern": "%LINECARD%/%PORT%",
+      "kind": "node",
+      "ports": [
+        {
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "TenGigabitEthernet 1/1",
+          "uid": "ecotype-1"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "TenGigabitEthernet 1/2",
+          "uid": "ecotype-2"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "TenGigabitEthernet 1/3",
+          "uid": "ecotype-3"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "TenGigabitEthernet 1/4",
+          "uid": "ecotype-4"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "TenGigabitEthernet 1/5",
+          "uid": "ecotype-5"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "TenGigabitEthernet 1/6",
+          "uid": "ecotype-6"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "TenGigabitEthernet 1/7",
+          "uid": "ecotype-7"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "TenGigabitEthernet 1/8",
+          "uid": "ecotype-8"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "TenGigabitEthernet 1/9",
+          "uid": "ecotype-9"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "TenGigabitEthernet 1/10",
+          "uid": "ecotype-10"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "TenGigabitEthernet 1/11",
+          "uid": "ecotype-11"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "TenGigabitEthernet 1/12",
+          "uid": "ecotype-12"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "TenGigabitEthernet 1/13",
+          "uid": "ecotype-13"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "TenGigabitEthernet 1/14",
+          "uid": "ecotype-14"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "TenGigabitEthernet 1/15",
+          "uid": "ecotype-15"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "TenGigabitEthernet 1/16",
+          "uid": "ecotype-16"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "TenGigabitEthernet 1/17",
+          "uid": "ecotype-17"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "TenGigabitEthernet 1/18",
+          "uid": "ecotype-18"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "TenGigabitEthernet 1/19",
+          "uid": "ecotype-19"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "TenGigabitEthernet 1/20",
+          "uid": "ecotype-20"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "TenGigabitEthernet 1/21",
+          "uid": "ecotype-21"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "TenGigabitEthernet 1/22",
+          "uid": "ecotype-22"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "TenGigabitEthernet 1/23",
+          "uid": "ecotype-23"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "TenGigabitEthernet 1/24",
+          "uid": "ecotype-24"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "TenGigabitEthernet 1/25",
+          "uid": "ecotype-25"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "TenGigabitEthernet 1/26",
+          "uid": "ecotype-26"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "TenGigabitEthernet 1/27",
+          "uid": "ecotype-27"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "TenGigabitEthernet 1/28",
+          "uid": "ecotype-28"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "TenGigabitEthernet 1/29",
+          "uid": "ecotype-29"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "TenGigabitEthernet 1/30",
+          "uid": "ecotype-30"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "TenGigabitEthernet 1/31",
+          "uid": "ecotype-31"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "TenGigabitEthernet 1/32",
+          "uid": "ecotype-32"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "TenGigabitEthernet 1/33",
+          "uid": "ecotype-33"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "TenGigabitEthernet 1/34",
+          "uid": "ecotype-34"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "TenGigabitEthernet 1/35",
+          "uid": "ecotype-35"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "TenGigabitEthernet 1/36",
+          "uid": "ecotype-36"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "TenGigabitEthernet 1/37",
+          "uid": "ecotype-37"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "TenGigabitEthernet 1/38",
+          "uid": "ecotype-38"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "TenGigabitEthernet 1/39",
+          "uid": "ecotype-39"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "TenGigabitEthernet 1/40",
+          "uid": "ecotype-40"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "TenGigabitEthernet 1/41",
+          "uid": "ecotype-41"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "TenGigabitEthernet 1/42",
+          "uid": "ecotype-42"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "TenGigabitEthernet 1/43",
+          "uid": "ecotype-43"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "TenGigabitEthernet 1/44",
+          "uid": "ecotype-44"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "TenGigabitEthernet 1/45",
+          "uid": "ecotype-45"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "TenGigabitEthernet 1/46",
+          "uid": "ecotype-46"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "TenGigabitEthernet 1/47",
+          "uid": "ecotype-47"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "TenGigabitEthernet 1/48",
+          "uid": "ecotype-48"
+        },
+        {
+          "kind": "channel",
+          "rate": 40000000000,
+          "snmp_name": "fortyGigE 1/49",
+          "uid": "Port-channel 1"
+        },
+        {
+          "kind": "channel",
+          "rate": 40000000000,
+          "snmp_name": "fortyGigE 1/50",
+          "uid": "Port-channel 1"
+        }
+      ],
+      "rate": 10000000000,
+      "snmp_pattern": "TenGigabitEthernet %LINECARD%/%PORT%"
+    }
+  ],
+  "metrics": [
+    {
+      "description": "Input byte counter for the network device port",
+      "name": "network_ifacein_bytes_total",
+      "period": 1000,
+      "source": {
+        "id": "1.3.6.1.2.1.2.2.1.10.{{ 1.3.6.1.2.1.2.2.1.2 == %SNMP_IFACE% }}",
+        "protocol": "snmp"
+      }
+    },
+    {
+      "description": "Output byte counter for the network device port",
+      "name": "network_ifaceout_bytes_total",
+      "period": 1000,
+      "source": {
+        "id": "1.3.6.1.2.1.2.2.1.16.{{ 1.3.6.1.2.1.2.2.1.2 == %SNMP_IFACE% }}",
+        "protocol": "snmp"
+      }
+    }
+  ],
+  "model": "S4048-ON",
+  "role": "production",
+  "site": "nantes",
+  "snmp_community": "public",
+  "type": "network_equipment",
+  "uid": "ecotype-prod1",
+  "warranty": "2022-06-01"
+}

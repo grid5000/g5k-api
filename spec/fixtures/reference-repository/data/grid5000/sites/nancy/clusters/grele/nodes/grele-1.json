@@ -1,0 +1,278 @@
+{
+  "architecture": {
+    "cpu_core_numbering": "round-robin",
+    "nb_cores": 24,
+    "nb_procs": 2,
+    "nb_threads": 48,
+    "platform_type": "x86_64"
+  },
+  "bios": {
+    "release_date": "11/02/2019",
+    "vendor": "Dell Inc.",
+    "version": "2.11.0"
+  },
+  "bmc_version": "2.70.70.70",
+  "chassis": {
+    "manufacturer": "Dell Inc.",
+    "name": "PowerEdge R730",
+    "serial": "79R5DK2"
+  },
+  "exotic": false,
+  "gpu_devices": {
+    "nvidia0": {
+      "cpu_affinity": 0,
+      "device": "/dev/nvidia0",
+      "memory": 11178000000,
+      "model": "GeForce GTX 1080 Ti",
+      "power_default_limit": "250.00 W",
+      "vbios_version": "86.02.39.00.01",
+      "vendor": "Nvidia"
+    },
+    "nvidia1": {
+      "cpu_affinity": 1,
+      "device": "/dev/nvidia1",
+      "memory": 11178000000,
+      "model": "GeForce GTX 1080 Ti",
+      "power_default_limit": "250.00 W",
+      "vbios_version": "86.02.39.00.01",
+      "vendor": "Nvidia"
+    }
+  },
+  "kavlan": {
+    "eth0": {
+      "kavlan-1": "192.168.203.1",
+      "kavlan-11": "10.7.211.1",
+      "kavlan-12": "10.11.211.1",
+      "kavlan-13": "10.15.211.1",
+      "kavlan-14": "10.19.211.1",
+      "kavlan-16": "10.27.211.1",
+      "kavlan-18": "10.35.211.1",
+      "kavlan-2": "192.168.219.1",
+      "kavlan-20": "10.43.211.1",
+      "kavlan-21": "10.47.211.1",
+      "kavlan-3": "192.168.235.1",
+      "kavlan-4": "10.16.11.1",
+      "kavlan-5": "10.16.75.1",
+      "kavlan-6": "10.16.139.1",
+      "kavlan-7": "10.16.203.1",
+      "kavlan-8": "10.17.11.1",
+      "kavlan-9": "10.17.75.1"
+    }
+  },
+  "kavlan6": {
+    "eth0": {
+      "kavlan-1": "2001:660:4406:581:b::1",
+      "kavlan-11": "2001:660:4406:58b:b::1",
+      "kavlan-12": "2001:660:4406:58c:b::1",
+      "kavlan-13": "2001:660:4406:58d:b::1",
+      "kavlan-14": "2001:660:4406:58e:b::1",
+      "kavlan-16": "2001:660:4406:590:b::1",
+      "kavlan-18": "2001:660:4406:592:b::1",
+      "kavlan-2": "2001:660:4406:582:b::1",
+      "kavlan-20": "2001:660:4406:594:b::1",
+      "kavlan-21": "2001:660:4406:595:b::1",
+      "kavlan-3": "2001:660:4406:583:b::1",
+      "kavlan-4": "2001:660:4406:584:b::1",
+      "kavlan-5": "2001:660:4406:585:b::1",
+      "kavlan-6": "2001:660:4406:586:b::1",
+      "kavlan-7": "2001:660:4406:587:b::1",
+      "kavlan-8": "2001:660:4406:588:b::1",
+      "kavlan-9": "2001:660:4406:589:b::1"
+    }
+  },
+  "main_memory": {
+    "ram_size": 137438953472
+  },
+  "monitoring": {
+    "wattmeter": "multiple"
+  },
+  "network_adapters": [
+    {
+      "device": "eth0",
+      "driver": "ixgbe",
+      "enabled": true,
+      "firmware_version": "0x8000095c, 19.0.12",
+      "interface": "Ethernet",
+      "ip": "172.16.74.1",
+      "ip6": "2001:660:4406:500:b::1",
+      "kavlan": true,
+      "mac": "24:6e:96:63:d7:40",
+      "management": false,
+      "model": "82599ES 10-Gigabit SFI/SFP+ Network Connection",
+      "mountable": true,
+      "mounted": true,
+      "name": "eno1",
+      "network_address": "grele-1.nancy.grid5000.fr",
+      "rate": 10000000000,
+      "switch": "gw",
+      "switch_port": "Ethernet7/1",
+      "vendor": "Intel"
+    },
+    {
+      "device": "eth1",
+      "driver": "ixgbe",
+      "enabled": false,
+      "firmware_version": "0x8000095c, 19.0.12",
+      "interface": "Ethernet",
+      "kavlan": false,
+      "mac": "24:6e:96:63:d7:42",
+      "management": false,
+      "model": "82599ES 10-Gigabit SFI/SFP+ Network Connection",
+      "mountable": false,
+      "mounted": false,
+      "name": "eno2",
+      "vendor": "Intel"
+    },
+    {
+      "device": "eth2",
+      "driver": "igb",
+      "enabled": false,
+      "firmware_version": "1.67, 0x80000fab, 19.0.12",
+      "interface": "Ethernet",
+      "kavlan": false,
+      "mac": "24:6e:96:63:d7:44",
+      "management": false,
+      "model": "I350 Gigabit Network Connection",
+      "mountable": false,
+      "mounted": false,
+      "name": "eno3",
+      "vendor": "Intel"
+    },
+    {
+      "device": "eth3",
+      "driver": "igb",
+      "enabled": false,
+      "firmware_version": "1.67, 0x80000fab, 19.0.12",
+      "interface": "Ethernet",
+      "kavlan": false,
+      "mac": "24:6e:96:63:d7:45",
+      "management": false,
+      "model": "I350 Gigabit Network Connection",
+      "mountable": false,
+      "mounted": false,
+      "name": "eno4",
+      "vendor": "Intel"
+    },
+    {
+      "device": "ib0",
+      "driver": "hfi1",
+      "enabled": true,
+      "firmware_version": "1.27.0",
+      "guid": "0x00117501010dd500",
+      "interface": "Omni-Path",
+      "ip": "172.18.74.1",
+      "kavlan": false,
+      "mac": "80:00:00:02:fe:80:00:00:00:00:00:00:00:11:75:01:01:0d:d5:00",
+      "management": false,
+      "model": "Omni-Path HFI Silicon 100 Series [discrete]",
+      "mountable": true,
+      "mounted": true,
+      "name": "ib0",
+      "netmask": "255.255.255.0",
+      "network_address": "grele-1-ib0.nancy.grid5000.fr",
+      "rate": 100000000000,
+      "vendor": "Intel"
+    },
+    {
+      "device": "bmc",
+      "enabled": true,
+      "interface": "Ethernet",
+      "ip": "172.17.74.1",
+      "kavlan": false,
+      "mac": "50:9a:4c:5d:4a:49",
+      "management": true,
+      "mountable": false,
+      "mounted": false,
+      "network_address": "grele-1-bmc.nancy.grid5000.fr"
+    }
+  ],
+  "operating_system": {
+    "cstate_driver": "intel_idle",
+    "cstate_governor": "menu",
+    "ht_enabled": true,
+    "pstate_driver": "intel_pstate",
+    "pstate_governor": "performance",
+    "turboboost_enabled": true
+  },
+  "performance": {
+    "core_flops": 35200000000,
+    "node_flops": 844800000000
+  },
+  "processor": {
+    "cache_l1": null,
+    "cache_l1d": 32768,
+    "cache_l1i": 32768,
+    "cache_l2": 262144,
+    "cache_l3": 31457280,
+    "clock_speed": 2200000000,
+    "ht_capable": true,
+    "instruction_set": "x86-64",
+    "microarchitecture": "Broadwell",
+    "microcode": "0xb000038",
+    "model": "Intel Xeon",
+    "other_description": "Intel(R) Xeon(R) CPU E5-2650 v4 @ 2.20GHz",
+    "vendor": "Intel",
+    "version": "E5-2650 v4"
+  },
+  "sensors": {
+    "power": {
+      "available": true,
+      "via": {
+        "api": {
+          "metric": "power"
+        },
+        "pdu": [
+          {
+            "port": 7,
+            "uid": "grimani-pdu1"
+          },
+          {
+            "port": 7,
+            "uid": "grimani-pdu2"
+          }
+        ]
+      }
+    }
+  },
+  "software": {
+    "forced-deployment-timestamp": 202007300948,
+    "postinstall-version": "1.2020091600",
+    "standard-environment": "debian10-x64-std"
+  },
+  "storage_devices": [
+    {
+      "by_id": "/dev/disk/by-id/wwn-0x61866da0b5ed290020f0ff3b04942750",
+      "by_path": "/dev/disk/by-path/pci-0000:02:00.0-scsi-0:2:0:0",
+      "device": "sda",
+      "firmware_version": 4.3,
+      "interface": "SAS",
+      "model": "PERC H730 Mini",
+      "size": 299439751168,
+      "storage": "HDD",
+      "vendor": "Dell (Raid)"
+    },
+    {
+      "by_id": "/dev/disk/by-id/wwn-0x61866da0b5ed290020f0ff3c049eabaa",
+      "by_path": "/dev/disk/by-path/pci-0000:02:00.0-scsi-0:2:1:0",
+      "device": "sdb",
+      "firmware_version": 4.3,
+      "interface": "SAS",
+      "model": "PERC H730 Mini",
+      "size": 299439751168,
+      "storage": "HDD",
+      "vendor": "Dell (Raid)"
+    }
+  ],
+  "supported_job_types": {
+    "besteffort": true,
+    "deploy": true,
+    "max_walltime": 86400,
+    "queues": [
+      "admin",
+      "production"
+    ],
+    "virtual": "ivt"
+  },
+  "type": "node",
+  "uid": "grele-1"
+}

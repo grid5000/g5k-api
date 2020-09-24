@@ -1,0 +1,10 @@
+{
+  "kind": "storage",
+  "network_adapters": {
+    "default": {
+      "ip": "172.17.111.221"
+    }
+  },
+  "type": "server",
+  "uid": "md3260-bg-1"
+}

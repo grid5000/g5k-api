@@ -1,0 +1,48 @@
+{
+  "alias": null,
+  "kind": "physical",
+  "monitoring": {
+    "metric": "power",
+    "wattmeter": "multiple"
+  },
+  "network_adapters": {
+    "adm": {
+      "ip": "172.17.47.5",
+      "mac": "d4:ae:52:b0:e2:c7"
+    },
+    "bmc": {
+      "ip": "172.17.46.5",
+      "mac": "d4:ae:52:af:1c:71"
+    },
+    "default": {
+      "ip": "172.16.47.5",
+      "mac": "d4:ae:52:b0:e2:c6"
+    }
+  },
+  "sensors": {
+    "network": {
+      "available": true,
+      "resolution": 1
+    },
+    "power": {
+      "available": true,
+      "resolution": 1,
+      "via": {
+        "pdu": [
+          {
+            "port": 3,
+            "uid": "pdu-b2p1"
+          },
+          {
+            "port": 3,
+            "uid": "pdu-b2p2"
+          }
+        ]
+      }
+    }
+  },
+  "serial": "9Q9WD5J",
+  "type": "server",
+  "uid": "flandres",
+  "warranty": "2019-07-28"
+}

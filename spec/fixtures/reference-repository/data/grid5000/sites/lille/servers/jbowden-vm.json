@@ -1,0 +1,11 @@
+{
+  "expire": "2022-06-30",
+  "kind": "virtual",
+  "network_adapters": {
+    "default": {
+      "ip": "172.16.45.2"
+    }
+  },
+  "type": "server",
+  "uid": "jbowden-vm"
+}

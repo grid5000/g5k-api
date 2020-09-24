@@ -1,0 +1,225 @@
+{
+  "alias": [
+    "ssagittaire"
+  ],
+  "backplane_bps": 136000000000,
+  "ip": "172.17.63.250",
+  "kind": "switch",
+  "linecards": [
+    {
+      "kavlan_pattern": "1/%PORT%",
+      "kind": "node",
+      "port": "eth1",
+      "ports": [
+        {
+        },
+        {
+          "kind": "router",
+          "port": "0:24",
+          "snmp_name": "GigabitEthernet1",
+          "uid": "gw"
+        },
+        {
+        },
+        {
+          "kind": "other",
+          "port": "eth1",
+          "snmp_name": "GigabitEthernet3",
+          "uid": "sw-admin"
+        },
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+          "kind": "node",
+          "port": "eth1",
+          "snmp_name": "GigabitEthernet21",
+          "uid": "sagittaire-1"
+        },
+        {
+          "kind": "node",
+          "port": "eth1",
+          "snmp_name": "GigabitEthernet22",
+          "uid": "sagittaire-2"
+        },
+        {
+          "kind": "node",
+          "port": "eth1",
+          "snmp_name": "GigabitEthernet23",
+          "uid": "sagittaire-3"
+        },
+        {
+          "kind": "node",
+          "port": "eth1",
+          "snmp_name": "GigabitEthernet24",
+          "uid": "sagittaire-4"
+        },
+        {
+          "kind": "node",
+          "port": "eth1",
+          "snmp_name": "GigabitEthernet25",
+          "uid": "sagittaire-5"
+        },
+        {
+          "kind": "node",
+          "port": "eth1",
+          "snmp_name": "GigabitEthernet26",
+          "uid": "sagittaire-6"
+        },
+        {
+        },
+        {
+          "kind": "node",
+          "port": "eth1",
+          "snmp_name": "GigabitEthernet28",
+          "uid": "sagittaire-11"
+        },
+        {
+          "kind": "node",
+          "port": "eth1",
+          "snmp_name": "GigabitEthernet29",
+          "uid": "sagittaire-12"
+        },
+        {
+          "kind": "node",
+          "port": "eth1",
+          "snmp_name": "GigabitEthernet30",
+          "uid": "sagittaire-13"
+        },
+        {
+          "kind": "node",
+          "port": "eth1",
+          "snmp_name": "GigabitEthernet31",
+          "uid": "sagittaire-14"
+        },
+        {
+          "kind": "node",
+          "port": "eth1",
+          "snmp_name": "GigabitEthernet32",
+          "uid": "sagittaire-15"
+        },
+        {
+          "kind": "node",
+          "port": "eth1",
+          "snmp_name": "GigabitEthernet33",
+          "uid": "sagittaire-16"
+        },
+        {
+          "kind": "node",
+          "port": "eth1",
+          "snmp_name": "GigabitEthernet34",
+          "uid": "sagittaire-17"
+        },
+        {
+          "kind": "node",
+          "port": "eth1",
+          "snmp_name": "GigabitEthernet35",
+          "uid": "sagittaire-18"
+        },
+        {
+          "kind": "node",
+          "port": "eth1",
+          "snmp_name": "GigabitEthernet36",
+          "uid": "sagittaire-19"
+        },
+        {
+          "kind": "node",
+          "port": "eth1",
+          "snmp_name": "GigabitEthernet37",
+          "uid": "sagittaire-20"
+        },
+        {
+          "kind": "node",
+          "port": "eth1",
+          "snmp_name": "GigabitEthernet38",
+          "uid": "sagittaire-24"
+        },
+        {
+          "kind": "node",
+          "port": "eth1",
+          "snmp_name": "GigabitEthernet39",
+          "uid": "sagittaire-27"
+        },
+        {
+          "kind": "node",
+          "port": "eth1",
+          "snmp_name": "GigabitEthernet40",
+          "uid": "sagittaire-29"
+        },
+        {
+          "kind": "node",
+          "port": "eth1",
+          "snmp_name": "GigabitEthernet41",
+          "uid": "sagittaire-30"
+        },
+        {
+          "kind": "node",
+          "port": "eth1",
+          "snmp_name": "GigabitEthernet42",
+          "uid": "sagittaire-31"
+        }
+      ],
+      "rate": 1000000000,
+      "snmp_pattern": "GigabitEthernet%PORT%"
+    }
+  ],
+  "metrics": [
+    {
+      "description": "Input byte counter for the network device port",
+      "name": "network_ifacein_bytes_total",
+      "period": 1000,
+      "source": {
+        "id": "1.3.6.1.2.1.2.2.1.10.{{ 1.3.6.1.2.1.2.2.1.2 == %SNMP_IFACE% }}",
+        "protocol": "snmp"
+      }
+    },
+    {
+      "description": "Output byte counter for the network device port",
+      "name": "network_ifaceout_bytes_total",
+      "period": 1000,
+      "source": {
+        "id": "1.3.6.1.2.1.2.2.1.16.{{ 1.3.6.1.2.1.2.2.1.2 == %SNMP_IFACE% }}",
+        "protocol": "snmp"
+      }
+    }
+  ],
+  "model": "FESX448+2XG-PREM",
+  "role": "production",
+  "serial": "FL37068284",
+  "site": "lyon",
+  "snmp_community": "public",
+  "type": "network_equipment",
+  "uid": "salome",
+  "warranty": "expired"
+}

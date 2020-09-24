@@ -1,0 +1,25 @@
+{
+  "alias": [
+    "nfs",
+    "public",
+    "home-g5k",
+    "ntp",
+    "modules"
+  ],
+  "kind": "physical",
+  "network_adapters": {
+    "adm": {
+      "ip": "172.17.31.4"
+    },
+    "bmc": {
+      "ip": "172.17.30.4"
+    },
+    "default": {
+      "ip": "172.16.31.4"
+    }
+  },
+  "serial": "8GPPJ32",
+  "type": "server",
+  "uid": "digsed",
+  "warranty": "2021-12-06"
+}

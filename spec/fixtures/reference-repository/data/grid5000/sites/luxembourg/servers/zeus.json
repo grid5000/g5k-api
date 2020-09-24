@@ -1,0 +1,19 @@
+{
+  "alias": [
+
+  ],
+  "kind": "physical",
+  "network_adapters": {
+    "bmc": {
+      "ip": "172.17.190.60",
+      "mac": "00:1C:23:BD:F5:B2"
+    },
+    "default": {
+      "ip": "172.16.191.60"
+    }
+  },
+  "serial": "8L6033J",
+  "type": "server",
+  "uid": "zeus",
+  "warranty": "2016-08"
+}

@@ -1,0 +1,45 @@
+{
+  "kind": "physical",
+  "monitoring": {
+    "metric": "power",
+    "wattmeter": "multiple"
+  },
+  "network_adapters": {
+    "bmc": {
+      "ip": "172.17.79.16",
+      "mac": "F0:1F:AF:E1:99:E4",
+      "mounted": true
+    },
+    "default": {
+      "ip": "172.16.79.16",
+      "mac": "A0:36:9F:2C:5D:B8",
+      "mounted": true
+    }
+  },
+  "sensors": {
+    "network": {
+      "available": true,
+      "resolution": 1
+    },
+    "power": {
+      "available": true,
+      "resolution": 1,
+      "via": {
+        "pdu": [
+          {
+            "port": 20,
+            "uid": "grisou-pdu1"
+          },
+          {
+            "port": 20,
+            "uid": "grisou-pdu2"
+          }
+        ]
+      }
+    }
+  },
+  "serial": "GCQ7NZ1",
+  "type": "server",
+  "uid": "srv-data",
+  "warranty": "2020-11"
+}

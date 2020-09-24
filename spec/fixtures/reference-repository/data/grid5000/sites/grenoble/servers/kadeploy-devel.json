@@ -1,0 +1,17 @@
+{
+  "alias": [
+    "kadeploy-server-devel",
+    "deploy-devel"
+  ],
+  "kind": "virtual",
+  "network_adapters": {
+    "adm": {
+      "ip": "172.17.31.124"
+    },
+    "default": {
+      "ip": "172.16.31.124"
+    }
+  },
+  "type": "server",
+  "uid": "kadeploy-devel"
+}

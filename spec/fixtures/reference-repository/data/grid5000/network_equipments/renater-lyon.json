@@ -1,0 +1,29 @@
+{
+  "kind": "virtual",
+  "linecards": [
+    {
+      "ports": [
+        {
+          "uid": "renater-paris"
+        },
+        {
+          "uid": "renater-sophia"
+        },
+        {
+          "uid": "renater-grenoble"
+        },
+        {
+          "uid": "renater-nantes"
+        },
+        {
+          "kind": "router",
+          "site_uid": "lyon",
+          "uid": "gw-lyon"
+        }
+      ],
+      "rate": 10000000000
+    }
+  ],
+  "type": "network_equipment",
+  "uid": "renater-lyon"
+}

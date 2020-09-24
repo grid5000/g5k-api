@@ -1,0 +1,26 @@
+{
+  "alias": [
+
+  ],
+  "kind": "physical",
+  "network_adapters": {
+    "bmc": {
+      "ip": "172.17.79.29",
+      "mac": "d0:94:66:4c:0c:03"
+    },
+    "default": {
+      "ip": "172.16.79.29",
+      "mac": "24:6e:96:a8:9a:4a"
+    },
+    "ib0": {
+      "ip": "172.18.75.229"
+    },
+    "ib1": {
+      "ip": "172.18.76.229"
+    }
+  },
+  "serial": "8WQDDP2",
+  "type": "server",
+  "uid": "grvingt-srv",
+  "warranty": "2025-03"
+}

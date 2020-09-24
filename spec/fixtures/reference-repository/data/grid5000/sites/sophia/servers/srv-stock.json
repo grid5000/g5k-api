@@ -1,0 +1,24 @@
+{
+  "kind": "physical",
+  "network_adapters": {
+    "adm": {
+      "ip": "172.17.143.3",
+      "mac": "00:22:19:63:cd:83",
+      "mounted": true
+    },
+    "bmc": {
+      "ip": "172.17.143.12",
+      "mac": "00:22:19:63:cd:8b",
+      "mounted": true
+    },
+    "default": {
+      "ip": "172.16.143.3",
+      "mac": "00:1b:21:48:d0:a1",
+      "mounted": true
+    }
+  },
+  "serial": "FVNSH4J",
+  "type": "server",
+  "uid": "srv-stock",
+  "warranty": "2016-02-10"
+}

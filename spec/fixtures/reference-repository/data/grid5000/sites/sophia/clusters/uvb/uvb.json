@@ -1,0 +1,154 @@
+{
+  "created_at": "Tue, 04 Jan 2011 00:00:00 GMT",
+  "exotic": false,
+  "kavlan": true,
+  "metrics": [
+    {
+      "description": "Voltage of PS 12V reported by BMC, in volt",
+      "labels": {
+        "voltage": "ps12v"
+      },
+      "name": "bmc_voltage_volt",
+      "optional_period": 5000,
+      "period": 0,
+      "source": {
+        "id": 14,
+        "protocol": "ipmisensor"
+      }
+    },
+    {
+      "description": "Voltage of PS 5V reported by BMC, in volt",
+      "labels": {
+        "voltage": "ps5v"
+      },
+      "name": "bmc_voltage_volt",
+      "optional_period": 5000,
+      "period": 0,
+      "source": {
+        "id": 15,
+        "protocol": "ipmisensor"
+      }
+    },
+    {
+      "description": "Temperature of MLB TEMP 2 reported by BMC, in celsius",
+      "labels": {
+        "id": "2"
+      },
+      "name": "bmc_temp_mlb_celsius",
+      "optional_period": 5000,
+      "period": 0,
+      "source": {
+        "id": 16,
+        "protocol": "ipmisensor"
+      }
+    },
+    {
+      "description": "Temperature of MLB TEMP 3 reported by BMC, in celsius",
+      "labels": {
+        "id": "3"
+      },
+      "name": "bmc_temp_mlb_celsius",
+      "optional_period": 5000,
+      "period": 0,
+      "source": {
+        "id": 17,
+        "protocol": "ipmisensor"
+      }
+    },
+    {
+      "description": "Temperature of Processor 1 reported by BMC, in celsius",
+      "labels": {
+        "cpu": "1"
+      },
+      "name": "bmc_cpu_temp_celsius",
+      "optional_period": 5000,
+      "period": 0,
+      "source": {
+        "id": 18,
+        "protocol": "ipmisensor"
+      }
+    },
+    {
+      "description": "Temperature of MLB TEMP 1 reported by BMC, in celsius",
+      "labels": {
+        "id": "1"
+      },
+      "name": "bmc_temp_mlb_celsius",
+      "optional_period": 5000,
+      "period": 0,
+      "source": {
+        "id": 19,
+        "protocol": "ipmisensor"
+      }
+    },
+    {
+      "description": "Temperature of Processor 2 reported by BMC, in celsius",
+      "labels": {
+        "cpu": "2"
+      },
+      "name": "bmc_cpu_temp_celsius",
+      "optional_period": 5000,
+      "period": 0,
+      "source": {
+        "id": 20,
+        "protocol": "ipmisensor"
+      }
+    },
+    {
+      "description": "Voltage of STBY 3.3V reported by BMC, in volt",
+      "labels": {
+        "voltage": "stby3.3v"
+      },
+      "name": "bmc_voltage_volt",
+      "optional_period": 5000,
+      "period": 0,
+      "source": {
+        "id": 21,
+        "protocol": "ipmisensor"
+      }
+    },
+    {
+      "description": "PS Current reported by BMC, in amp",
+      "name": "bmc_current_ps_amp",
+      "optional_period": 5000,
+      "period": 0,
+      "source": {
+        "id": 22,
+        "protocol": "ipmisensor"
+      }
+    },
+    {
+      "description": "Voltage of VCORE 1 reported by BMC, in volt",
+      "labels": {
+        "voltage": "vcore1"
+      },
+      "name": "bmc_voltage_volt",
+      "optional_period": 5000,
+      "period": 0,
+      "source": {
+        "id": 26,
+        "protocol": "ipmisensor"
+      }
+    },
+    {
+      "description": "Voltage of VCORE 2 reported by BMC, in volt",
+      "labels": {
+        "voltage": "vcore2"
+      },
+      "name": "bmc_voltage_volt",
+      "optional_period": 5000,
+      "period": 0,
+      "source": {
+        "id": 27,
+        "protocol": "ipmisensor"
+      }
+    }
+  ],
+  "model": "Dell PowerEdge C6100",
+  "queues": [
+    "default",
+    "admin"
+  ],
+  "type": "cluster",
+  "uid": "uvb"
+}

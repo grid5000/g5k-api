@@ -1,0 +1,15 @@
+{
+  "alias": [
+    "m1000-cmc"
+  ],
+  "kind": "physical",
+  "network_adapters": {
+    "bmc": {
+      "ip": "172.17.177.254"
+    }
+  },
+  "serial": "CDQTG5J",
+  "type": "server",
+  "uid": "petitprince-cmc",
+  "warranty": "2016-10"
+}

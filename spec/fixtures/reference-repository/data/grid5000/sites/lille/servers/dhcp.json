@@ -1,0 +1,13 @@
+{
+  "kind": "virtual",
+  "network_adapters": {
+    "adm": {
+      "ip": "172.17.47.111"
+    },
+    "default": {
+      "ip": "172.16.47.111"
+    }
+  },
+  "type": "server",
+  "uid": "dhcp"
+}

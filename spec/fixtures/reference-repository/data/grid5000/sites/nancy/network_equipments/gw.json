@@ -1,0 +1,2196 @@
+{
+  "alias": [
+    "gw-nancy",
+    "sgravillon2"
+  ],
+  "backplane_bps": 1280000000000,
+  "channels": {
+    "port-channel2": {
+      "kind": "switch",
+      "port": "port-channel1",
+      "rate": 800000000000,
+      "uid": "sgros1"
+    },
+    "port-channel3": {
+      "kind": "switch",
+      "port": "port-channel1",
+      "rate": 800000000000,
+      "uid": "sgros2"
+    },
+    "port-channel4": {
+      "kind": "switch",
+      "port": "port-channel1",
+      "rate": 800000000000,
+      "uid": "sgrappe"
+    }
+  },
+  "ip": "172.16.79.254",
+  "kind": "router",
+  "linecards": [
+    {
+    },
+    {
+      "backplane_bps": 1280000000000,
+      "kavlan_pattern": "Ethernet%LINECARD%/%PORT%",
+      "kind": "node",
+      "model": "N9K-X9464PX",
+      "ports": [
+        {
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "Ethernet1/1",
+          "uid": "graoully-1"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "Ethernet1/2",
+          "uid": "graoully-2"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "Ethernet1/3",
+          "uid": "graoully-3"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "Ethernet1/4",
+          "uid": "graoully-4"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "Ethernet1/5",
+          "uid": "graoully-5"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "Ethernet1/6",
+          "uid": "graoully-6"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "Ethernet1/7",
+          "uid": "graoully-7"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "Ethernet1/8",
+          "uid": "graoully-8"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "Ethernet1/9",
+          "uid": "graoully-9"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "Ethernet1/10",
+          "uid": "graoully-10"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "Ethernet1/11",
+          "uid": "graoully-11"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "Ethernet1/12",
+          "uid": "graoully-12"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "Ethernet1/13",
+          "uid": "graoully-13"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "Ethernet1/14",
+          "uid": "graoully-14"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "Ethernet1/15",
+          "uid": "graoully-15"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "Ethernet1/16",
+          "uid": "graoully-16"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "Ethernet1/17",
+          "uid": "graphite-1"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "Ethernet1/18",
+          "uid": "graphite-2"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "Ethernet1/19",
+          "uid": "graphite-3"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "Ethernet1/20",
+          "uid": "graphite-4"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "Ethernet1/21",
+          "uid": "graphique-4"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "Ethernet1/22",
+          "uid": "graphique-5"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "Ethernet1/23",
+          "uid": "graphique-3"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "Ethernet1/24",
+          "uid": "graphique-2"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "Ethernet1/25",
+          "uid": "graphique-1"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "Ethernet1/26",
+          "uid": "graphique-6"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "Ethernet1/27",
+          "uid": "grisou-41"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "Ethernet1/28",
+          "uid": "grisou-42"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "Ethernet1/29",
+          "uid": "grisou-43"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "Ethernet1/30",
+          "uid": "grisou-44"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "Ethernet1/31",
+          "uid": "grisou-45"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "Ethernet1/32",
+          "uid": "grisou-46"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "Ethernet1/33",
+          "uid": "grisou-47"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "Ethernet1/34",
+          "uid": "grisou-48"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "Ethernet1/35",
+          "uid": "grisou-49"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "Ethernet1/36",
+          "uid": "grisou-50"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "Ethernet1/37",
+          "uid": "grisou-51"
+        },
+        {
+        },
+        {
+          "kind": "server",
+          "snmp_name": "Ethernet1/39",
+          "uid": "srv"
+        },
+        {
+          "kind": "server",
+          "snmp_name": "Ethernet1/40",
+          "uid": "srv2"
+        },
+        {
+          "kind": "server",
+          "snmp_name": "Ethernet1/41",
+          "uid": "talc-data"
+        },
+        {
+          "kind": "server",
+          "snmp_name": "Ethernet1/42",
+          "uid": "srv-data"
+        },
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+          "kind": "other",
+          "snmp_name": "Ethernet1/47",
+          "uid": "LORIA"
+        },
+        {
+          "kind": "backbone",
+          "snmp_name": "Ethernet1/48",
+          "uid": "renater-nancy"
+        }
+      ],
+      "rate": 10000000000,
+      "snmp_pattern": "Ethernet%LINECARD%/%PORT%"
+    },
+    {
+      "backplane_bps": 1280000000000,
+      "kavlan_pattern": "Ethernet%LINECARD%/%PORT%",
+      "kind": "node",
+      "model": "N9K-X9464PX",
+      "ports": [
+        {
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "Ethernet2/1",
+          "uid": "grisou-1"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "Ethernet2/2",
+          "uid": "grisou-2"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "Ethernet2/3",
+          "uid": "grisou-3"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "Ethernet2/4",
+          "uid": "grisou-4"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "Ethernet2/5",
+          "uid": "grisou-5"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "Ethernet2/6",
+          "uid": "grisou-6"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "Ethernet2/7",
+          "uid": "grisou-7"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "Ethernet2/8",
+          "uid": "grisou-8"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "Ethernet2/9",
+          "uid": "grisou-9"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "Ethernet2/10",
+          "uid": "grisou-10"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "Ethernet2/11",
+          "uid": "grisou-11"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "Ethernet2/12",
+          "uid": "grisou-12"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "Ethernet2/13",
+          "uid": "grisou-13"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "Ethernet2/14",
+          "uid": "grisou-14"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "Ethernet2/15",
+          "uid": "grisou-15"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "Ethernet2/16",
+          "uid": "grisou-16"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "Ethernet2/17",
+          "uid": "grisou-17"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "Ethernet2/18",
+          "uid": "grisou-18"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "Ethernet2/19",
+          "uid": "grisou-19"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "Ethernet2/20",
+          "uid": "grisou-20"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "Ethernet2/21",
+          "uid": "grisou-21"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "Ethernet2/22",
+          "uid": "grisou-22"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "Ethernet2/23",
+          "uid": "grisou-23"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "Ethernet2/24",
+          "uid": "grisou-24"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "Ethernet2/25",
+          "uid": "grisou-25"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "Ethernet2/26",
+          "uid": "grisou-26"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "Ethernet2/27",
+          "uid": "grisou-27"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "Ethernet2/28",
+          "uid": "grisou-28"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "Ethernet2/29",
+          "uid": "grisou-29"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "Ethernet2/30",
+          "uid": "grisou-30"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "Ethernet2/31",
+          "uid": "grisou-31"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "Ethernet2/32",
+          "uid": "grisou-32"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "Ethernet2/33",
+          "uid": "grisou-33"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "Ethernet2/34",
+          "uid": "grisou-34"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "Ethernet2/35",
+          "uid": "grisou-35"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "Ethernet2/36",
+          "uid": "grisou-36"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "Ethernet2/37",
+          "uid": "grisou-37"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "Ethernet2/38",
+          "uid": "grisou-38"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "Ethernet2/39",
+          "uid": "grisou-39"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "Ethernet2/40",
+          "uid": "grisou-40"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "Ethernet2/41",
+          "uid": "grimoire-1"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "Ethernet2/42",
+          "uid": "grimoire-2"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "Ethernet2/43",
+          "uid": "grimoire-3"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "Ethernet2/44",
+          "uid": "grimoire-4"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "Ethernet2/45",
+          "uid": "grimoire-5"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "Ethernet2/46",
+          "uid": "grimoire-6"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "Ethernet2/47",
+          "uid": "grimoire-7"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "Ethernet2/48",
+          "uid": "grimoire-8"
+        }
+      ],
+      "rate": 10000000000,
+      "snmp_pattern": "Ethernet%LINECARD%/%PORT%"
+    },
+    {
+      "backplane_bps": 1280000000000,
+      "kavlan_pattern": "Ethernet%LINECARD%/%PORT%",
+      "kind": "node",
+      "model": "N9K-X9464PX",
+      "ports": [
+        {
+        },
+        {
+          "kind": "node",
+          "port": "eth1",
+          "snmp_name": "Ethernet3/1",
+          "uid": "grisou-1"
+        },
+        {
+          "kind": "node",
+          "port": "eth1",
+          "snmp_name": "Ethernet3/2",
+          "uid": "grisou-2"
+        },
+        {
+          "kind": "node",
+          "port": "eth1",
+          "snmp_name": "Ethernet3/3",
+          "uid": "grisou-3"
+        },
+        {
+          "kind": "node",
+          "port": "eth1",
+          "snmp_name": "Ethernet3/4",
+          "uid": "grisou-4"
+        },
+        {
+          "kind": "node",
+          "port": "eth1",
+          "snmp_name": "Ethernet3/5",
+          "uid": "grisou-5"
+        },
+        {
+          "kind": "node",
+          "port": "eth1",
+          "snmp_name": "Ethernet3/6",
+          "uid": "grisou-6"
+        },
+        {
+          "kind": "node",
+          "port": "eth1",
+          "snmp_name": "Ethernet3/7",
+          "uid": "grisou-7"
+        },
+        {
+          "kind": "node",
+          "port": "eth1",
+          "snmp_name": "Ethernet3/8",
+          "uid": "grisou-8"
+        },
+        {
+          "kind": "node",
+          "port": "eth1",
+          "snmp_name": "Ethernet3/9",
+          "uid": "grisou-9"
+        },
+        {
+          "kind": "node",
+          "port": "eth1",
+          "snmp_name": "Ethernet3/10",
+          "uid": "grisou-10"
+        },
+        {
+          "kind": "node",
+          "port": "eth1",
+          "snmp_name": "Ethernet3/11",
+          "uid": "grisou-11"
+        },
+        {
+          "kind": "node",
+          "port": "eth1",
+          "snmp_name": "Ethernet3/12",
+          "uid": "grisou-12"
+        },
+        {
+          "kind": "node",
+          "port": "eth1",
+          "snmp_name": "Ethernet3/13",
+          "uid": "grisou-13"
+        },
+        {
+          "kind": "node",
+          "port": "eth1",
+          "snmp_name": "Ethernet3/14",
+          "uid": "grisou-14"
+        },
+        {
+          "kind": "node",
+          "port": "eth1",
+          "snmp_name": "Ethernet3/15",
+          "uid": "grisou-15"
+        },
+        {
+          "kind": "node",
+          "port": "eth1",
+          "snmp_name": "Ethernet3/16",
+          "uid": "grisou-16"
+        },
+        {
+          "kind": "node",
+          "port": "eth1",
+          "snmp_name": "Ethernet3/17",
+          "uid": "grisou-17"
+        },
+        {
+          "kind": "node",
+          "port": "eth1",
+          "snmp_name": "Ethernet3/18",
+          "uid": "grisou-18"
+        },
+        {
+          "kind": "node",
+          "port": "eth1",
+          "snmp_name": "Ethernet3/19",
+          "uid": "grisou-19"
+        },
+        {
+          "kind": "node",
+          "port": "eth1",
+          "snmp_name": "Ethernet3/20",
+          "uid": "grisou-20"
+        },
+        {
+          "kind": "node",
+          "port": "eth1",
+          "snmp_name": "Ethernet3/21",
+          "uid": "grisou-21"
+        },
+        {
+          "kind": "node",
+          "port": "eth1",
+          "snmp_name": "Ethernet3/22",
+          "uid": "grisou-22"
+        },
+        {
+          "kind": "node",
+          "port": "eth1",
+          "snmp_name": "Ethernet3/23",
+          "uid": "grisou-23"
+        },
+        {
+          "kind": "node",
+          "port": "eth1",
+          "snmp_name": "Ethernet3/24",
+          "uid": "grisou-24"
+        },
+        {
+          "kind": "node",
+          "port": "eth1",
+          "snmp_name": "Ethernet3/25",
+          "uid": "grisou-25"
+        },
+        {
+          "kind": "node",
+          "port": "eth1",
+          "snmp_name": "Ethernet3/26",
+          "uid": "grisou-26"
+        },
+        {
+          "kind": "node",
+          "port": "eth1",
+          "snmp_name": "Ethernet3/27",
+          "uid": "grisou-27"
+        },
+        {
+          "kind": "node",
+          "port": "eth1",
+          "snmp_name": "Ethernet3/28",
+          "uid": "grisou-28"
+        },
+        {
+          "kind": "node",
+          "port": "eth1",
+          "snmp_name": "Ethernet3/29",
+          "uid": "grisou-29"
+        },
+        {
+          "kind": "node",
+          "port": "eth1",
+          "snmp_name": "Ethernet3/30",
+          "uid": "grisou-30"
+        },
+        {
+          "kind": "node",
+          "port": "eth1",
+          "snmp_name": "Ethernet3/31",
+          "uid": "grisou-31"
+        },
+        {
+          "kind": "node",
+          "port": "eth1",
+          "snmp_name": "Ethernet3/32",
+          "uid": "grisou-32"
+        },
+        {
+          "kind": "node",
+          "port": "eth1",
+          "snmp_name": "Ethernet3/33",
+          "uid": "grisou-33"
+        },
+        {
+          "kind": "node",
+          "port": "eth1",
+          "snmp_name": "Ethernet3/34",
+          "uid": "grisou-34"
+        },
+        {
+          "kind": "node",
+          "port": "eth1",
+          "snmp_name": "Ethernet3/35",
+          "uid": "grisou-35"
+        },
+        {
+          "kind": "node",
+          "port": "eth1",
+          "snmp_name": "Ethernet3/36",
+          "uid": "grisou-36"
+        },
+        {
+          "kind": "node",
+          "port": "eth1",
+          "snmp_name": "Ethernet3/37",
+          "uid": "grisou-37"
+        },
+        {
+          "kind": "node",
+          "port": "eth1",
+          "snmp_name": "Ethernet3/38",
+          "uid": "grisou-38"
+        },
+        {
+          "kind": "node",
+          "port": "eth1",
+          "snmp_name": "Ethernet3/39",
+          "uid": "grisou-39"
+        },
+        {
+          "kind": "node",
+          "port": "eth1",
+          "snmp_name": "Ethernet3/40",
+          "uid": "grisou-40"
+        },
+        {
+          "kind": "node",
+          "port": "eth1",
+          "snmp_name": "Ethernet3/41",
+          "uid": "grimoire-1"
+        },
+        {
+          "kind": "node",
+          "port": "eth1",
+          "snmp_name": "Ethernet3/42",
+          "uid": "grimoire-2"
+        },
+        {
+          "kind": "node",
+          "port": "eth1",
+          "snmp_name": "Ethernet3/43",
+          "uid": "grimoire-3"
+        },
+        {
+          "kind": "node",
+          "port": "eth1",
+          "snmp_name": "Ethernet3/44",
+          "uid": "grimoire-4"
+        },
+        {
+          "kind": "node",
+          "port": "eth1",
+          "snmp_name": "Ethernet3/45",
+          "uid": "grimoire-5"
+        },
+        {
+          "kind": "node",
+          "port": "eth1",
+          "snmp_name": "Ethernet3/46",
+          "uid": "grimoire-6"
+        },
+        {
+          "kind": "node",
+          "port": "eth1",
+          "snmp_name": "Ethernet3/47",
+          "uid": "grimoire-7"
+        },
+        {
+          "kind": "node",
+          "port": "eth1",
+          "snmp_name": "Ethernet3/48",
+          "uid": "grimoire-8"
+        }
+      ],
+      "rate": 10000000000,
+      "snmp_pattern": "Ethernet%LINECARD%/%PORT%"
+    },
+    {
+      "backplane_bps": 1280000000000,
+      "kavlan_pattern": "Ethernet%LINECARD%/%PORT%",
+      "kind": "node",
+      "model": "N9K-X9464PX",
+      "ports": [
+        {
+        },
+        {
+          "kind": "node",
+          "port": "eth2",
+          "snmp_name": "Ethernet4/1",
+          "uid": "grisou-1"
+        },
+        {
+          "kind": "node",
+          "port": "eth2",
+          "snmp_name": "Ethernet4/2",
+          "uid": "grisou-2"
+        },
+        {
+          "kind": "node",
+          "port": "eth2",
+          "snmp_name": "Ethernet4/3",
+          "uid": "grisou-3"
+        },
+        {
+          "kind": "node",
+          "port": "eth2",
+          "snmp_name": "Ethernet4/4",
+          "uid": "grisou-4"
+        },
+        {
+          "kind": "node",
+          "port": "eth2",
+          "snmp_name": "Ethernet4/5",
+          "uid": "grisou-5"
+        },
+        {
+          "kind": "node",
+          "port": "eth2",
+          "snmp_name": "Ethernet4/6",
+          "uid": "grisou-6"
+        },
+        {
+          "kind": "node",
+          "port": "eth2",
+          "snmp_name": "Ethernet4/7",
+          "uid": "grisou-7"
+        },
+        {
+          "kind": "node",
+          "port": "eth2",
+          "snmp_name": "Ethernet4/8",
+          "uid": "grisou-8"
+        },
+        {
+          "kind": "node",
+          "port": "eth2",
+          "snmp_name": "Ethernet4/9",
+          "uid": "grisou-9"
+        },
+        {
+          "kind": "node",
+          "port": "eth2",
+          "snmp_name": "Ethernet4/10",
+          "uid": "grisou-10"
+        },
+        {
+          "kind": "node",
+          "port": "eth2",
+          "snmp_name": "Ethernet4/11",
+          "uid": "grisou-11"
+        },
+        {
+          "kind": "node",
+          "port": "eth2",
+          "snmp_name": "Ethernet4/12",
+          "uid": "grisou-12"
+        },
+        {
+          "kind": "node",
+          "port": "eth2",
+          "snmp_name": "Ethernet4/13",
+          "uid": "grisou-13"
+        },
+        {
+          "kind": "node",
+          "port": "eth2",
+          "snmp_name": "Ethernet4/14",
+          "uid": "grisou-14"
+        },
+        {
+          "kind": "node",
+          "port": "eth2",
+          "snmp_name": "Ethernet4/15",
+          "uid": "grisou-15"
+        },
+        {
+          "kind": "node",
+          "port": "eth2",
+          "snmp_name": "Ethernet4/16",
+          "uid": "grisou-16"
+        },
+        {
+          "kind": "node",
+          "port": "eth2",
+          "snmp_name": "Ethernet4/17",
+          "uid": "grisou-17"
+        },
+        {
+          "kind": "node",
+          "port": "eth2",
+          "snmp_name": "Ethernet4/18",
+          "uid": "grisou-18"
+        },
+        {
+          "kind": "node",
+          "port": "eth2",
+          "snmp_name": "Ethernet4/19",
+          "uid": "grisou-19"
+        },
+        {
+          "kind": "node",
+          "port": "eth2",
+          "snmp_name": "Ethernet4/20",
+          "uid": "grisou-20"
+        },
+        {
+          "kind": "node",
+          "port": "eth2",
+          "snmp_name": "Ethernet4/21",
+          "uid": "grisou-21"
+        },
+        {
+          "kind": "node",
+          "port": "eth2",
+          "snmp_name": "Ethernet4/22",
+          "uid": "grisou-22"
+        },
+        {
+          "kind": "node",
+          "port": "eth2",
+          "snmp_name": "Ethernet4/23",
+          "uid": "grisou-23"
+        },
+        {
+          "kind": "node",
+          "port": "eth2",
+          "snmp_name": "Ethernet4/24",
+          "uid": "grisou-24"
+        },
+        {
+          "kind": "node",
+          "port": "eth2",
+          "snmp_name": "Ethernet4/25",
+          "uid": "grisou-25"
+        },
+        {
+          "kind": "node",
+          "port": "eth2",
+          "snmp_name": "Ethernet4/26",
+          "uid": "grisou-26"
+        },
+        {
+          "kind": "node",
+          "port": "eth2",
+          "snmp_name": "Ethernet4/27",
+          "uid": "grisou-27"
+        },
+        {
+          "kind": "node",
+          "port": "eth2",
+          "snmp_name": "Ethernet4/28",
+          "uid": "grisou-28"
+        },
+        {
+          "kind": "node",
+          "port": "eth2",
+          "snmp_name": "Ethernet4/29",
+          "uid": "grisou-29"
+        },
+        {
+          "kind": "node",
+          "port": "eth2",
+          "snmp_name": "Ethernet4/30",
+          "uid": "grisou-30"
+        },
+        {
+          "kind": "node",
+          "port": "eth2",
+          "snmp_name": "Ethernet4/31",
+          "uid": "grisou-31"
+        },
+        {
+          "kind": "node",
+          "port": "eth2",
+          "snmp_name": "Ethernet4/32",
+          "uid": "grisou-32"
+        },
+        {
+          "kind": "node",
+          "port": "eth2",
+          "snmp_name": "Ethernet4/33",
+          "uid": "grisou-33"
+        },
+        {
+          "kind": "node",
+          "port": "eth2",
+          "snmp_name": "Ethernet4/34",
+          "uid": "grisou-34"
+        },
+        {
+          "kind": "node",
+          "port": "eth2",
+          "snmp_name": "Ethernet4/35",
+          "uid": "grisou-35"
+        },
+        {
+          "kind": "node",
+          "port": "eth2",
+          "snmp_name": "Ethernet4/36",
+          "uid": "grisou-36"
+        },
+        {
+          "kind": "node",
+          "port": "eth2",
+          "snmp_name": "Ethernet4/37",
+          "uid": "grisou-37"
+        },
+        {
+          "kind": "node",
+          "port": "eth2",
+          "snmp_name": "Ethernet4/38",
+          "uid": "grisou-38"
+        },
+        {
+          "kind": "node",
+          "port": "eth2",
+          "snmp_name": "Ethernet4/39",
+          "uid": "grisou-39"
+        },
+        {
+          "kind": "node",
+          "port": "eth2",
+          "snmp_name": "Ethernet4/40",
+          "uid": "grisou-40"
+        },
+        {
+          "kind": "node",
+          "port": "eth2",
+          "snmp_name": "Ethernet4/41",
+          "uid": "grimoire-1"
+        },
+        {
+          "kind": "node",
+          "port": "eth2",
+          "snmp_name": "Ethernet4/42",
+          "uid": "grimoire-2"
+        },
+        {
+          "kind": "node",
+          "port": "eth2",
+          "snmp_name": "Ethernet4/43",
+          "uid": "grimoire-3"
+        },
+        {
+          "kind": "node",
+          "port": "eth2",
+          "snmp_name": "Ethernet4/44",
+          "uid": "grimoire-4"
+        },
+        {
+          "kind": "node",
+          "port": "eth2",
+          "snmp_name": "Ethernet4/45",
+          "uid": "grimoire-5"
+        },
+        {
+          "kind": "node",
+          "port": "eth2",
+          "snmp_name": "Ethernet4/46",
+          "uid": "grimoire-6"
+        },
+        {
+          "kind": "node",
+          "port": "eth2",
+          "snmp_name": "Ethernet4/47",
+          "uid": "grimoire-7"
+        },
+        {
+          "kind": "node",
+          "port": "eth2",
+          "snmp_name": "Ethernet4/48",
+          "uid": "grimoire-8"
+        }
+      ],
+      "rate": 10000000000,
+      "snmp_pattern": "Ethernet%LINECARD%/%PORT%"
+    },
+    {
+      "backplane_bps": 1280000000000,
+      "kavlan_pattern": "Ethernet%LINECARD%/%PORT%",
+      "kind": "node",
+      "model": "N9K-X9464PX",
+      "ports": [
+        {
+        },
+        {
+          "kind": "node",
+          "port": "eth3",
+          "snmp_name": "Ethernet5/1",
+          "uid": "grisou-1"
+        },
+        {
+          "kind": "node",
+          "port": "eth3",
+          "snmp_name": "Ethernet5/2",
+          "uid": "grisou-2"
+        },
+        {
+          "kind": "node",
+          "port": "eth3",
+          "snmp_name": "Ethernet5/3",
+          "uid": "grisou-3"
+        },
+        {
+          "kind": "node",
+          "port": "eth3",
+          "snmp_name": "Ethernet5/4",
+          "uid": "grisou-4"
+        },
+        {
+          "kind": "node",
+          "port": "eth3",
+          "snmp_name": "Ethernet5/5",
+          "uid": "grisou-5"
+        },
+        {
+          "kind": "node",
+          "port": "eth3",
+          "snmp_name": "Ethernet5/6",
+          "uid": "grisou-6"
+        },
+        {
+          "kind": "node",
+          "port": "eth3",
+          "snmp_name": "Ethernet5/7",
+          "uid": "grisou-7"
+        },
+        {
+          "kind": "node",
+          "port": "eth3",
+          "snmp_name": "Ethernet5/8",
+          "uid": "grisou-8"
+        },
+        {
+          "kind": "node",
+          "port": "eth3",
+          "snmp_name": "Ethernet5/9",
+          "uid": "grisou-9"
+        },
+        {
+          "kind": "node",
+          "port": "eth3",
+          "snmp_name": "Ethernet5/10",
+          "uid": "grisou-10"
+        },
+        {
+          "kind": "node",
+          "port": "eth3",
+          "snmp_name": "Ethernet5/11",
+          "uid": "grisou-11"
+        },
+        {
+          "kind": "node",
+          "port": "eth3",
+          "snmp_name": "Ethernet5/12",
+          "uid": "grisou-12"
+        },
+        {
+          "kind": "node",
+          "port": "eth3",
+          "snmp_name": "Ethernet5/13",
+          "uid": "grisou-13"
+        },
+        {
+          "kind": "node",
+          "port": "eth3",
+          "snmp_name": "Ethernet5/14",
+          "uid": "grisou-14"
+        },
+        {
+          "kind": "node",
+          "port": "eth3",
+          "snmp_name": "Ethernet5/15",
+          "uid": "grisou-15"
+        },
+        {
+          "kind": "node",
+          "port": "eth3",
+          "snmp_name": "Ethernet5/16",
+          "uid": "grisou-16"
+        },
+        {
+          "kind": "node",
+          "port": "eth3",
+          "snmp_name": "Ethernet5/17",
+          "uid": "grisou-17"
+        },
+        {
+          "kind": "node",
+          "port": "eth3",
+          "snmp_name": "Ethernet5/18",
+          "uid": "grisou-18"
+        },
+        {
+          "kind": "node",
+          "port": "eth3",
+          "snmp_name": "Ethernet5/19",
+          "uid": "grisou-19"
+        },
+        {
+          "kind": "node",
+          "port": "eth3",
+          "snmp_name": "Ethernet5/20",
+          "uid": "grisou-20"
+        },
+        {
+          "kind": "node",
+          "port": "eth3",
+          "snmp_name": "Ethernet5/21",
+          "uid": "grisou-21"
+        },
+        {
+          "kind": "node",
+          "port": "eth3",
+          "snmp_name": "Ethernet5/22",
+          "uid": "grisou-22"
+        },
+        {
+          "kind": "node",
+          "port": "eth3",
+          "snmp_name": "Ethernet5/23",
+          "uid": "grisou-23"
+        },
+        {
+          "kind": "node",
+          "port": "eth3",
+          "snmp_name": "Ethernet5/24",
+          "uid": "grisou-24"
+        },
+        {
+          "kind": "node",
+          "port": "eth3",
+          "snmp_name": "Ethernet5/25",
+          "uid": "grisou-25"
+        },
+        {
+          "kind": "node",
+          "port": "eth3",
+          "snmp_name": "Ethernet5/26",
+          "uid": "grisou-26"
+        },
+        {
+          "kind": "node",
+          "port": "eth3",
+          "snmp_name": "Ethernet5/27",
+          "uid": "grisou-27"
+        },
+        {
+          "kind": "node",
+          "port": "eth3",
+          "snmp_name": "Ethernet5/28",
+          "uid": "grisou-28"
+        },
+        {
+          "kind": "node",
+          "port": "eth3",
+          "snmp_name": "Ethernet5/29",
+          "uid": "grisou-29"
+        },
+        {
+          "kind": "node",
+          "port": "eth3",
+          "snmp_name": "Ethernet5/30",
+          "uid": "grisou-30"
+        },
+        {
+          "kind": "node",
+          "port": "eth3",
+          "snmp_name": "Ethernet5/31",
+          "uid": "grisou-31"
+        },
+        {
+          "kind": "node",
+          "port": "eth3",
+          "snmp_name": "Ethernet5/32",
+          "uid": "grisou-32"
+        },
+        {
+          "kind": "node",
+          "port": "eth3",
+          "snmp_name": "Ethernet5/33",
+          "uid": "grisou-33"
+        },
+        {
+          "kind": "node",
+          "port": "eth3",
+          "snmp_name": "Ethernet5/34",
+          "uid": "grisou-34"
+        },
+        {
+          "kind": "node",
+          "port": "eth3",
+          "snmp_name": "Ethernet5/35",
+          "uid": "grisou-35"
+        },
+        {
+          "kind": "node",
+          "port": "eth3",
+          "snmp_name": "Ethernet5/36",
+          "uid": "grisou-36"
+        },
+        {
+          "kind": "node",
+          "port": "eth3",
+          "snmp_name": "Ethernet5/37",
+          "uid": "grisou-37"
+        },
+        {
+          "kind": "node",
+          "port": "eth3",
+          "snmp_name": "Ethernet5/38",
+          "uid": "grisou-38"
+        },
+        {
+          "kind": "node",
+          "port": "eth3",
+          "snmp_name": "Ethernet5/39",
+          "uid": "grisou-39"
+        },
+        {
+          "kind": "node",
+          "port": "eth3",
+          "snmp_name": "Ethernet5/40",
+          "uid": "grisou-40"
+        },
+        {
+          "kind": "node",
+          "port": "eth3",
+          "snmp_name": "Ethernet5/41",
+          "uid": "grimoire-1"
+        },
+        {
+          "kind": "node",
+          "port": "eth3",
+          "snmp_name": "Ethernet5/42",
+          "uid": "grimoire-2"
+        },
+        {
+          "kind": "node",
+          "port": "eth3",
+          "snmp_name": "Ethernet5/43",
+          "uid": "grimoire-3"
+        },
+        {
+          "kind": "node",
+          "port": "eth3",
+          "snmp_name": "Ethernet5/44",
+          "uid": "grimoire-4"
+        },
+        {
+          "kind": "node",
+          "port": "eth3",
+          "snmp_name": "Ethernet5/45",
+          "uid": "grimoire-5"
+        },
+        {
+          "kind": "node",
+          "port": "eth3",
+          "snmp_name": "Ethernet5/46",
+          "uid": "grimoire-6"
+        },
+        {
+          "kind": "node",
+          "port": "eth3",
+          "snmp_name": "Ethernet5/47",
+          "uid": "grimoire-7"
+        },
+        {
+          "kind": "node",
+          "port": "eth3",
+          "snmp_name": "Ethernet5/48",
+          "uid": "grimoire-8"
+        },
+        {
+        },
+        {
+        },
+        {
+          "kind": "channel",
+          "rate": 40000000000,
+          "snmp_name": "Ethernet5/51",
+          "uid": "port-channel4"
+        },
+        {
+          "kind": "channel",
+          "rate": 40000000000,
+          "snmp_name": "Ethernet5/52",
+          "uid": "port-channel4"
+        }
+      ],
+      "rate": 10000000000,
+      "snmp_pattern": "Ethernet%LINECARD%/%PORT%"
+    },
+    {
+      "backplane_bps": 1280000000000,
+      "kavlan_pattern": "Ethernet%LINECARD%/%PORT%",
+      "kind": "node",
+      "model": "N9K-X9464PX",
+      "ports": [
+        {
+        },
+        {
+          "kind": "node",
+          "port": "eth1",
+          "snmp_name": "Ethernet6/1",
+          "uid": "grisou-41"
+        },
+        {
+          "kind": "node",
+          "port": "eth2",
+          "snmp_name": "Ethernet6/2",
+          "uid": "grisou-41"
+        },
+        {
+          "kind": "node",
+          "port": "eth3",
+          "snmp_name": "Ethernet6/3",
+          "uid": "grisou-41"
+        },
+        {
+          "kind": "node",
+          "port": "eth1",
+          "snmp_name": "Ethernet6/4",
+          "uid": "grisou-42"
+        },
+        {
+          "kind": "node",
+          "port": "eth2",
+          "snmp_name": "Ethernet6/5",
+          "uid": "grisou-42"
+        },
+        {
+          "kind": "node",
+          "port": "eth3",
+          "snmp_name": "Ethernet6/6",
+          "uid": "grisou-42"
+        },
+        {
+          "kind": "node",
+          "port": "eth1",
+          "snmp_name": "Ethernet6/7",
+          "uid": "grisou-43"
+        },
+        {
+          "kind": "node",
+          "port": "eth2",
+          "snmp_name": "Ethernet6/8",
+          "uid": "grisou-43"
+        },
+        {
+          "kind": "node",
+          "port": "eth3",
+          "snmp_name": "Ethernet6/9",
+          "uid": "grisou-43"
+        },
+        {
+          "kind": "node",
+          "port": "eth1",
+          "snmp_name": "Ethernet6/10",
+          "uid": "grisou-44"
+        },
+        {
+          "kind": "node",
+          "port": "eth2",
+          "snmp_name": "Ethernet6/11",
+          "uid": "grisou-44"
+        },
+        {
+          "kind": "node",
+          "port": "eth3",
+          "snmp_name": "Ethernet6/12",
+          "uid": "grisou-44"
+        },
+        {
+          "kind": "node",
+          "port": "eth1",
+          "snmp_name": "Ethernet6/13",
+          "uid": "grisou-45"
+        },
+        {
+          "kind": "node",
+          "port": "eth2",
+          "snmp_name": "Ethernet6/14",
+          "uid": "grisou-45"
+        },
+        {
+          "kind": "node",
+          "port": "eth3",
+          "snmp_name": "Ethernet6/15",
+          "uid": "grisou-45"
+        },
+        {
+          "kind": "node",
+          "port": "eth1",
+          "snmp_name": "Ethernet6/16",
+          "uid": "grisou-46"
+        },
+        {
+          "kind": "node",
+          "port": "eth2",
+          "snmp_name": "Ethernet6/17",
+          "uid": "grisou-46"
+        },
+        {
+          "kind": "node",
+          "port": "eth3",
+          "snmp_name": "Ethernet6/18",
+          "uid": "grisou-46"
+        },
+        {
+          "kind": "node",
+          "port": "eth1",
+          "snmp_name": "Ethernet6/19",
+          "uid": "grisou-47"
+        },
+        {
+          "kind": "node",
+          "port": "eth2",
+          "snmp_name": "Ethernet6/20",
+          "uid": "grisou-47"
+        },
+        {
+          "kind": "node",
+          "port": "eth3",
+          "snmp_name": "Ethernet6/21",
+          "uid": "grisou-47"
+        },
+        {
+          "kind": "node",
+          "port": "eth1",
+          "snmp_name": "Ethernet6/22",
+          "uid": "grisou-48"
+        },
+        {
+          "kind": "node",
+          "port": "eth2",
+          "snmp_name": "Ethernet6/23",
+          "uid": "grisou-48"
+        },
+        {
+          "kind": "node",
+          "port": "eth3",
+          "snmp_name": "Ethernet6/24",
+          "uid": "grisou-48"
+        },
+        {
+          "kind": "node",
+          "port": "eth1",
+          "snmp_name": "Ethernet6/25",
+          "uid": "grisou-49"
+        },
+        {
+          "kind": "node",
+          "port": "eth2",
+          "snmp_name": "Ethernet6/26",
+          "uid": "grisou-49"
+        },
+        {
+          "kind": "node",
+          "port": "eth3",
+          "snmp_name": "Ethernet6/27",
+          "uid": "grisou-49"
+        },
+        {
+          "kind": "node",
+          "port": "eth1",
+          "snmp_name": "Ethernet6/28",
+          "uid": "grisou-50"
+        },
+        {
+          "kind": "node",
+          "port": "eth2",
+          "snmp_name": "Ethernet6/29",
+          "uid": "grisou-50"
+        },
+        {
+          "kind": "node",
+          "port": "eth3",
+          "snmp_name": "Ethernet6/30",
+          "uid": "grisou-50"
+        },
+        {
+          "kind": "node",
+          "port": "eth1",
+          "snmp_name": "Ethernet6/31",
+          "uid": "grisou-51"
+        },
+        {
+          "kind": "node",
+          "port": "eth2",
+          "snmp_name": "Ethernet6/32",
+          "uid": "grisou-51"
+        },
+        {
+          "kind": "node",
+          "port": "eth3",
+          "snmp_name": "Ethernet6/33",
+          "uid": "grisou-51"
+        },
+        {
+          "kind": "node",
+          "port": "eth2",
+          "snmp_name": "Ethernet6/34",
+          "uid": "graffiti-8"
+        },
+        {
+          "kind": "node",
+          "port": "eth2",
+          "snmp_name": "Ethernet6/35",
+          "uid": "graffiti-7"
+        },
+        {
+          "kind": "node",
+          "port": "eth2",
+          "snmp_name": "Ethernet6/36",
+          "uid": "graffiti-2"
+        },
+        {
+          "kind": "node",
+          "port": "eth2",
+          "snmp_name": "Ethernet6/37",
+          "uid": "graffiti-5"
+        },
+        {
+          "kind": "node",
+          "port": "eth2",
+          "snmp_name": "Ethernet6/38",
+          "uid": "graffiti-6"
+        },
+        {
+          "kind": "node",
+          "port": "eth2",
+          "snmp_name": "Ethernet6/39",
+          "uid": "graffiti-1"
+        },
+        {
+          "kind": "node",
+          "port": "eth2",
+          "snmp_name": "Ethernet6/40",
+          "uid": "graffiti-3"
+        },
+        {
+          "kind": "switch",
+          "snmp_name": "Ethernet6/41",
+          "uid": "sgrvingt"
+        },
+        {
+          "kind": "switch",
+          "snmp_name": "Ethernet6/42",
+          "uid": "sgrisou1"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "Ethernet6/43",
+          "uid": "grimani-4"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "Ethernet6/44",
+          "uid": "grimani-6"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "Ethernet6/45",
+          "uid": "grimani-5"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "Ethernet6/46",
+          "uid": "grimani-1"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "Ethernet6/47",
+          "uid": "grimani-2"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "Ethernet6/48",
+          "uid": "grimani-3"
+        },
+        {
+        },
+        {
+        },
+        {
+          "kind": "channel",
+          "rate": 40000000000,
+          "snmp_name": "Ethernet6/51",
+          "uid": "port-channel3"
+        },
+        {
+          "kind": "channel",
+          "rate": 40000000000,
+          "snmp_name": "Ethernet6/52",
+          "uid": "port-channel3"
+        }
+      ],
+      "rate": 10000000000,
+      "snmp_pattern": "Ethernet%LINECARD%/%PORT%"
+    },
+    {
+      "backplane_bps": 1280000000000,
+      "kavlan_pattern": "Ethernet%LINECARD%/%PORT%",
+      "kind": "node",
+      "model": "N9K-X9464PX",
+      "ports": [
+        {
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "Ethernet7/1",
+          "uid": "grele-1"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "Ethernet7/2",
+          "uid": "grele-2"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "Ethernet7/3",
+          "uid": "grele-3"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "Ethernet7/4",
+          "uid": "grele-4"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "Ethernet7/5",
+          "uid": "grele-5"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "Ethernet7/6",
+          "uid": "grele-6"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "Ethernet7/7",
+          "uid": "grele-7"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "Ethernet7/8",
+          "uid": "grele-8"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "Ethernet7/9",
+          "uid": "grele-9"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "Ethernet7/10",
+          "uid": "grele-10"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "Ethernet7/11",
+          "uid": "grele-11"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "Ethernet7/12",
+          "uid": "grele-12"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "Ethernet7/13",
+          "uid": "grele-13"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "Ethernet7/14",
+          "uid": "grele-14"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "Ethernet7/15",
+          "uid": "grue-1"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "Ethernet7/16",
+          "uid": "grue-2"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "Ethernet7/17",
+          "uid": "grue-3"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "Ethernet7/18",
+          "uid": "grue-4"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "Ethernet7/19",
+          "uid": "grue-5"
+        },
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+          "kind": "node",
+          "port": "eth2",
+          "snmp_name": "Ethernet7/41",
+          "uid": "graffiti-13"
+        },
+        {
+        },
+        {
+          "kind": "node",
+          "port": "eth2",
+          "snmp_name": "Ethernet7/43",
+          "uid": "graffiti-11"
+        },
+        {
+          "kind": "node",
+          "port": "eth2",
+          "snmp_name": "Ethernet7/44",
+          "uid": "graffiti-10"
+        },
+        {
+          "kind": "node",
+          "port": "eth2",
+          "snmp_name": "Ethernet7/45",
+          "uid": "graffiti-12"
+        },
+        {
+          "kind": "node",
+          "port": "eth2",
+          "snmp_name": "Ethernet7/46",
+          "uid": "graffiti-9"
+        },
+        {
+        },
+        {
+          "kind": "node",
+          "port": "eth2",
+          "snmp_name": "Ethernet7/48",
+          "uid": "graffiti-4"
+        },
+        {
+        },
+        {
+        },
+        {
+          "kind": "channel",
+          "rate": 40000000000,
+          "snmp_name": "Ethernet7/51",
+          "uid": "port-channel2"
+        },
+        {
+          "kind": "channel",
+          "rate": 40000000000,
+          "snmp_name": "Ethernet7/52",
+          "uid": "port-channel2"
+        }
+      ],
+      "rate": 10000000000,
+      "snmp_pattern": "Ethernet%LINECARD%/%PORT%"
+    }
+  ],
+  "metrics": [
+    {
+      "description": "Input byte counter for the network device port",
+      "name": "network_ifacein_bytes_total",
+      "period": 3000,
+      "source": {
+        "id": "1.3.6.1.2.1.2.2.1.10.{{ 1.3.6.1.2.1.2.2.1.2 == %SNMP_IFACE% }}",
+        "protocol": "snmp"
+      }
+    },
+    {
+      "description": "Output byte counter for the network device port",
+      "name": "network_ifaceout_bytes_total",
+      "period": 3000,
+      "source": {
+        "id": "1.3.6.1.2.1.2.2.1.16.{{ 1.3.6.1.2.1.2.2.1.2 == %SNMP_IFACE% }}",
+        "protocol": "snmp"
+      }
+    }
+  ],
+  "model": "Cisco Nexus 9508",
+  "monitoring": {
+    "metric": "power",
+    "wattmeter": "multiple"
+  },
+  "role": "production",
+  "sensors": {
+    "power": {
+      "available": true,
+      "resolution": 1,
+      "via": {
+        "pdu": [
+          {
+            "port": 8,
+            "uid": "graoully-pdu1"
+          },
+          {
+            "port": 8,
+            "uid": "graoully-pdu2"
+          },
+          {
+            "port": 8,
+            "uid": "grimoire-pdu1"
+          },
+          {
+            "port": 8,
+            "uid": "grimoire-pdu2"
+          }
+        ]
+      }
+    }
+  },
+  "site": "nancy",
+  "snmp_community": "public",
+  "type": "network_equipment",
+  "uid": "gw",
+  "vlans": {
+    "vlan100": {
+      "addresses": [
+        "172.16.79.254"
+      ],
+      "administrative": true
+    },
+    "vlan101": {
+      "addresses": [
+        "172.17.79.254"
+      ]
+    },
+    "vlan500": {
+      "addresses": [
+        "192.168.4.14"
+      ]
+    },
+    "vlan701": {
+      "addresses": [
+        "192.168.192.0/20"
+      ],
+      "name": "kavlan-1"
+    },
+    "vlan702": {
+      "addresses": [
+        "192.168.208.0/20"
+      ],
+      "name": "kavlan-2"
+    },
+    "vlan703": {
+      "addresses": [
+        "192.168.224.0/20"
+      ],
+      "name": "kavlan-3"
+    },
+    "vlan704": {
+      "addresses": [
+        "10.16.0.0/18"
+      ],
+      "name": "kavlan-4"
+    },
+    "vlan705": {
+      "addresses": [
+        "10.16.64.0/18"
+      ],
+      "name": "kavlan-5"
+    },
+    "vlan706": {
+      "addresses": [
+        "10.16.128.0/18"
+      ],
+      "name": "kavlan-6"
+    },
+    "vlan707": {
+      "addresses": [
+        "10.16.192.0/18"
+      ],
+      "name": "kavlan-7"
+    },
+    "vlan708": {
+      "addresses": [
+        "10.17.0.0/18"
+      ],
+      "name": "kavlan-8"
+    },
+    "vlan709": {
+      "addresses": [
+        "10.17.64.0/18"
+      ],
+      "name": "kavlan-9"
+    },
+    "vlan714": {
+      "addresses": [
+        "10.19.192.0/18"
+      ],
+      "name": "kavlan-14"
+    }
+  },
+  "warranty": "2020-09-01"
+}

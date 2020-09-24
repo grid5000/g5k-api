@@ -1,0 +1,378 @@
+{
+  "architecture": {
+    "cpu_core_numbering": "round-robin",
+    "nb_cores": 24,
+    "nb_procs": 2,
+    "nb_threads": 48,
+    "platform_type": "x86_64"
+  },
+  "bios": {
+    "release_date": "11/26/2019",
+    "vendor": "Dell Inc.",
+    "version": "2.4.8"
+  },
+  "bmc_version": "4.00.00.00",
+  "chassis": {
+    "manufacturer": "Dell Inc.",
+    "name": "PowerEdge R740",
+    "serial": "43ZKYQ2"
+  },
+  "exotic": false,
+  "gpu_devices": {
+    "nvidia0": {
+      "cpu_affinity": 0,
+      "device": "/dev/nvidia0",
+      "memory": 32510000000,
+      "model": "Tesla V100-PCIE-32GB",
+      "power_default_limit": "250.00 W",
+      "vbios_version": "88.00.48.00.02",
+      "vendor": "Nvidia"
+    },
+    "nvidia1": {
+      "cpu_affinity": 1,
+      "device": "/dev/nvidia1",
+      "memory": 32510000000,
+      "model": "Tesla V100-PCIE-32GB",
+      "power_default_limit": "250.00 W",
+      "vbios_version": "88.00.48.00.02",
+      "vendor": "Nvidia"
+    }
+  },
+  "kavlan": {
+    "eth0": {
+      "kavlan-1": "192.168.196.7",
+      "kavlan-11": "10.7.196.7",
+      "kavlan-12": "10.11.196.7",
+      "kavlan-13": "10.15.196.7",
+      "kavlan-14": "10.19.196.7",
+      "kavlan-16": "10.27.196.7",
+      "kavlan-18": "10.35.196.7",
+      "kavlan-2": "192.168.212.7",
+      "kavlan-20": "10.43.196.7",
+      "kavlan-21": "10.47.196.7",
+      "kavlan-3": "192.168.228.7",
+      "kavlan-4": "10.8.4.7",
+      "kavlan-5": "10.8.68.7",
+      "kavlan-6": "10.8.132.7",
+      "kavlan-7": "10.8.196.7",
+      "kavlan-8": "10.9.4.7",
+      "kavlan-9": "10.9.68.7"
+    },
+    "eth1": {
+      "kavlan-1": "192.168.197.7",
+      "kavlan-11": "10.7.196.107",
+      "kavlan-12": "10.11.196.107",
+      "kavlan-13": "10.15.196.107",
+      "kavlan-14": "10.19.196.107",
+      "kavlan-16": "10.27.196.107",
+      "kavlan-18": "10.35.196.107",
+      "kavlan-2": "192.168.213.7",
+      "kavlan-20": "10.43.196.107",
+      "kavlan-21": "10.47.196.107",
+      "kavlan-3": "192.168.229.7",
+      "kavlan-4": "10.8.5.7",
+      "kavlan-5": "10.8.69.7",
+      "kavlan-6": "10.8.133.7",
+      "kavlan-7": "10.8.197.7",
+      "kavlan-8": "10.9.5.7",
+      "kavlan-9": "10.9.69.7"
+    }
+  },
+  "kavlan6": {
+    "eth0": {
+      "kavlan-1": "2001:660:4406:281:5::7",
+      "kavlan-11": "2001:660:4406:28b:5::7",
+      "kavlan-12": "2001:660:4406:28c:5::7",
+      "kavlan-13": "2001:660:4406:28d:5::7",
+      "kavlan-14": "2001:660:4406:28e:5::7",
+      "kavlan-16": "2001:660:4406:290:5::7",
+      "kavlan-18": "2001:660:4406:292:5::7",
+      "kavlan-2": "2001:660:4406:282:5::7",
+      "kavlan-20": "2001:660:4406:294:5::7",
+      "kavlan-21": "2001:660:4406:295:5::7",
+      "kavlan-3": "2001:660:4406:283:5::7",
+      "kavlan-4": "2001:660:4406:284:5::7",
+      "kavlan-5": "2001:660:4406:285:5::7",
+      "kavlan-6": "2001:660:4406:286:5::7",
+      "kavlan-7": "2001:660:4406:287:5::7",
+      "kavlan-8": "2001:660:4406:288:5::7",
+      "kavlan-9": "2001:660:4406:289:5::7"
+    },
+    "eth1": {
+      "kavlan-1": "2001:660:4406:281:5:1::7",
+      "kavlan-11": "2001:660:4406:28b:5:1::7",
+      "kavlan-12": "2001:660:4406:28c:5:1::7",
+      "kavlan-13": "2001:660:4406:28d:5:1::7",
+      "kavlan-14": "2001:660:4406:28e:5:1::7",
+      "kavlan-16": "2001:660:4406:290:5:1::7",
+      "kavlan-18": "2001:660:4406:292:5:1::7",
+      "kavlan-2": "2001:660:4406:282:5:1::7",
+      "kavlan-20": "2001:660:4406:294:5:1::7",
+      "kavlan-21": "2001:660:4406:295:5:1::7",
+      "kavlan-3": "2001:660:4406:283:5:1::7",
+      "kavlan-4": "2001:660:4406:284:5:1::7",
+      "kavlan-5": "2001:660:4406:285:5:1::7",
+      "kavlan-6": "2001:660:4406:286:5:1::7",
+      "kavlan-7": "2001:660:4406:287:5:1::7",
+      "kavlan-8": "2001:660:4406:288:5:1::7",
+      "kavlan-9": "2001:660:4406:289:5:1::7"
+    }
+  },
+  "main_memory": {
+    "ram_size": 206158430208
+  },
+  "monitoring": {
+    "wattmeter": "multiple"
+  },
+  "network_adapters": [
+    {
+      "bridged": true,
+      "device": "eth0",
+      "driver": "i40e",
+      "enabled": true,
+      "firmware_version": "7.10 0x800051ac 19.0.12",
+      "interface": "Ethernet",
+      "ip": "172.16.36.7",
+      "ip6": "2001:660:4406:200:5::7",
+      "kavlan": true,
+      "mac": "3c:fd:fe:c1:70:90",
+      "management": false,
+      "model": "Ethernet Controller XXV710 for 25GbE SFP28",
+      "mountable": true,
+      "mounted": true,
+      "name": "ens5f0",
+      "network_address": "chifflot-7.lille.grid5000.fr",
+      "rate": 25000000000,
+      "switch": "sw-chiclet-1",
+      "switch_port": "Ethernet1/7",
+      "vendor": "Intel"
+    },
+    {
+      "device": "eth1",
+      "driver": "i40e",
+      "enabled": true,
+      "firmware_version": "7.10 0x800051ac 19.0.12",
+      "interface": "Ethernet",
+      "ip": "172.16.36.107",
+      "ip6": "2001:660:4406:200:5:1::7",
+      "kavlan": true,
+      "mac": "3c:fd:fe:c1:70:91",
+      "management": false,
+      "model": "Ethernet Controller XXV710 for 25GbE SFP28",
+      "mountable": true,
+      "mounted": false,
+      "name": "ens5f1",
+      "network_address": "chifflot-7-eth1.lille.grid5000.fr",
+      "rate": 25000000000,
+      "switch": "sw-chiclet-1",
+      "switch_port": "Ethernet1/23",
+      "vendor": "Intel"
+    },
+    {
+      "device": "eth2",
+      "driver": "igb",
+      "enabled": false,
+      "firmware_version": "1.67, 0x80000faa, 19.0.12",
+      "interface": "Ethernet",
+      "kavlan": false,
+      "mac": "e4:43:4b:00:2f:fc",
+      "management": false,
+      "model": "I350 Gigabit Network Connection",
+      "mountable": false,
+      "mounted": false,
+      "name": "eno1",
+      "vendor": "Intel"
+    },
+    {
+      "device": "eth3",
+      "driver": "igb",
+      "enabled": false,
+      "firmware_version": "1.67, 0x80000faa, 19.0.12",
+      "interface": "Ethernet",
+      "kavlan": false,
+      "mac": "e4:43:4b:00:2f:fd",
+      "management": false,
+      "model": "I350 Gigabit Network Connection",
+      "mountable": false,
+      "mounted": false,
+      "name": "eno2",
+      "vendor": "Intel"
+    },
+    {
+      "device": "eth4",
+      "driver": "igb",
+      "enabled": false,
+      "firmware_version": "1.67, 0x80000faa, 19.0.12",
+      "interface": "Ethernet",
+      "kavlan": false,
+      "mac": "e4:43:4b:00:2f:fe",
+      "management": false,
+      "model": "I350 Gigabit Network Connection",
+      "mountable": false,
+      "mounted": false,
+      "name": "eno3",
+      "vendor": "Intel"
+    },
+    {
+      "device": "eth5",
+      "driver": "igb",
+      "enabled": false,
+      "firmware_version": "1.67, 0x80000faa, 19.0.12",
+      "interface": "Ethernet",
+      "kavlan": false,
+      "mac": "e4:43:4b:00:2f:ff",
+      "management": false,
+      "model": "I350 Gigabit Network Connection",
+      "mountable": false,
+      "mounted": false,
+      "name": "eno4",
+      "vendor": "Intel"
+    },
+    {
+      "device": "bmc",
+      "enabled": true,
+      "interface": "Ethernet",
+      "ip": "172.17.36.7",
+      "kavlan": false,
+      "mac": "54:48:10:fa:7a:da",
+      "management": true,
+      "mountable": false,
+      "mounted": false,
+      "network_address": "chifflot-7-bmc.lille.grid5000.fr"
+    }
+  ],
+  "operating_system": {
+    "cstate_driver": "intel_idle",
+    "cstate_governor": "menu",
+    "ht_enabled": true,
+    "pstate_driver": "intel_pstate",
+    "pstate_governor": "performance",
+    "turboboost_enabled": true
+  },
+  "performance": {
+    "core_flops": 83200000000,
+    "node_flops": 1996800000000
+  },
+  "processor": {
+    "cache_l1": null,
+    "cache_l1d": 32768,
+    "cache_l1i": 32768,
+    "cache_l2": 1048576,
+    "cache_l3": 20185088,
+    "clock_speed": 2600000000,
+    "ht_capable": true,
+    "instruction_set": "x86-64",
+    "microarchitecture": "Skylake",
+    "microcode": "0x2006906",
+    "model": "Intel Xeon",
+    "other_description": "Intel(R) Xeon(R) Gold 6126 CPU @ 2.60GHz",
+    "vendor": "Intel",
+    "version": "Gold 6126"
+  },
+  "sensors": {
+    "power": {
+      "via": {
+        "pdu": [
+          {
+            "port": 5,
+            "uid": "pdu-b1p1"
+          },
+          {
+            "port": 5,
+            "uid": "pdu-b1p2"
+          }
+        ]
+      }
+    }
+  },
+  "software": {
+    "forced-deployment-timestamp": 202007300948,
+    "postinstall-version": "1.2020091600",
+    "standard-environment": "debian10-x64-std"
+  },
+  "storage_devices": [
+    {
+      "by_id": "/dev/disk/by-id/wwn-0x55cd2e414f2b4d45",
+      "by_path": "/dev/disk/by-path/pci-0000:18:00.0-scsi-0:0:0:0",
+      "device": "sda",
+      "firmware_version": "SCV1DL5C",
+      "interface": "SATA",
+      "model": "SSDSC2KG480G7R",
+      "size": 480103981056,
+      "storage": "SSD",
+      "vendor": "Intel"
+    },
+    {
+      "by_id": "/dev/disk/by-id/wwn-0x55cd2e414f2b4d34",
+      "by_path": "/dev/disk/by-path/pci-0000:18:00.0-scsi-0:0:1:0",
+      "device": "sdb",
+      "firmware_version": "SCV1DL58",
+      "interface": "SATA",
+      "model": "SSDSC2KG480G7R",
+      "reservation": true,
+      "size": 480103981056,
+      "storage": "SSD",
+      "vendor": "Intel"
+    },
+    {
+      "by_id": "/dev/disk/by-id/wwn-0x5000cca269792f38",
+      "by_path": "/dev/disk/by-path/pci-0000:18:00.0-scsi-0:0:2:0",
+      "device": "sdc",
+      "firmware_version": "KU27",
+      "interface": "SAS",
+      "model": "HUS726040ALS210",
+      "reservation": true,
+      "size": 4000787030016,
+      "storage": "HDD",
+      "vendor": "Hitachi"
+    },
+    {
+      "by_id": "/dev/disk/by-id/wwn-0x5000cca2697930a8",
+      "by_path": "/dev/disk/by-path/pci-0000:18:00.0-scsi-0:0:3:0",
+      "device": "sdd",
+      "firmware_version": "KU27",
+      "interface": "SAS",
+      "model": "HUS726040ALS210",
+      "reservation": true,
+      "size": 4000787030016,
+      "storage": "HDD",
+      "vendor": "Hitachi"
+    },
+    {
+      "by_id": "/dev/disk/by-id/wwn-0x5000cca269792dd0",
+      "by_path": "/dev/disk/by-path/pci-0000:18:00.0-scsi-0:0:4:0",
+      "device": "sde",
+      "firmware_version": "KU27",
+      "interface": "SAS",
+      "model": "HUS726040ALS210",
+      "reservation": true,
+      "size": 4000787030016,
+      "storage": "HDD",
+      "vendor": "Hitachi"
+    },
+    {
+      "by_id": "/dev/disk/by-id/wwn-0x5000cca269792fb0",
+      "by_path": "/dev/disk/by-path/pci-0000:18:00.0-scsi-0:0:5:0",
+      "device": "sdf",
+      "firmware_version": "KU27",
+      "interface": "SAS",
+      "model": "HUS726040ALS210",
+      "reservation": true,
+      "size": 4000787030016,
+      "storage": "HDD",
+      "vendor": "Hitachi"
+    }
+  ],
+  "supported_job_types": {
+    "besteffort": true,
+    "deploy": true,
+    "max_walltime": 0,
+    "queues": [
+      "admin",
+      "default"
+    ],
+    "virtual": "ivt"
+  },
+  "type": "node",
+  "uid": "chifflot-7"
+}

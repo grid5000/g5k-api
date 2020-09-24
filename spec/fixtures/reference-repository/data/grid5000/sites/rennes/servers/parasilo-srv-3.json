@@ -1,0 +1,22 @@
+{
+  "alias": [
+    "nfs",
+    "nfs-grid5000",
+    "nfs-home",
+    "home-g5k",
+    "public"
+  ],
+  "kind": "physical",
+  "network_adapters": {
+    "bmc": {
+      "ip": "172.17.111.24"
+    },
+    "default": {
+      "ip": "172.16.111.24"
+    }
+  },
+  "serial": "BDZGG42",
+  "type": "server",
+  "uid": "parasilo-srv-3",
+  "warranty": "2022-01"
+}

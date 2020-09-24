@@ -1,0 +1,214 @@
+{
+  "created_at": "Thu, 01 Dec 2016 00:00:00 GMT",
+  "exotic": false,
+  "kavlan": true,
+  "metrics": [
+    {
+      "description": "Power consumption reported by wattmetre, in watt",
+      "name": "wattmetre_power_watt",
+      "optional_period": 20,
+      "period": 1000,
+      "source": {
+        "protocol": "wattmetre"
+      }
+    },
+    {
+      "description": "Front node ambiant temperature reported by BMC, in celsius",
+      "name": "bmc_temp_ambiant_celsius",
+      "period": 5000,
+      "scale_factor": 0.1,
+      "source": {
+        "id": "1.3.6.1.4.1.674.10892.5.4.700.20.1.6.1.1",
+        "protocol": "snmp"
+      }
+    },
+    {
+      "description": "Speed of Fan 2A reported by BMC, in rpm",
+      "labels": {
+        "fan": "2a"
+      },
+      "name": "bmc_fan_speed_rpm",
+      "optional_period": 5000,
+      "period": 0,
+      "source": {
+        "id": "1.3.6.1.4.1.674.10892.5.4.700.12.1.6.1.1",
+        "protocol": "snmp"
+      }
+    },
+    {
+      "description": "Speed of Fan 2B reported by BMC, in rpm",
+      "labels": {
+        "fan": "2b"
+      },
+      "name": "bmc_fan_speed_rpm",
+      "optional_period": 5000,
+      "period": 0,
+      "source": {
+        "id": "1.3.6.1.4.1.674.10892.5.4.700.12.1.6.1.2",
+        "protocol": "snmp"
+      }
+    },
+    {
+      "description": "Speed of Fan 3A reported by BMC, in rpm",
+      "labels": {
+        "fan": "3a"
+      },
+      "name": "bmc_fan_speed_rpm",
+      "optional_period": 5000,
+      "period": 0,
+      "source": {
+        "id": "1.3.6.1.4.1.674.10892.5.4.700.12.1.6.1.3",
+        "protocol": "snmp"
+      }
+    },
+    {
+      "description": "Speed of Fan 3B reported by BMC, in rpm",
+      "labels": {
+        "fan": "3b"
+      },
+      "name": "bmc_fan_speed_rpm",
+      "optional_period": 5000,
+      "period": 0,
+      "source": {
+        "id": "1.3.6.1.4.1.674.10892.5.4.700.12.1.6.1.4",
+        "protocol": "snmp"
+      }
+    },
+    {
+      "description": "Speed of Fan 4A reported by BMC, in rpm",
+      "labels": {
+        "fan": "4a"
+      },
+      "name": "bmc_fan_speed_rpm",
+      "optional_period": 5000,
+      "period": 0,
+      "source": {
+        "id": "1.3.6.1.4.1.674.10892.5.4.700.12.1.6.1.5",
+        "protocol": "snmp"
+      }
+    },
+    {
+      "description": "Speed of Fan 4B reported by BMC, in rpm",
+      "labels": {
+        "fan": "4b"
+      },
+      "name": "bmc_fan_speed_rpm",
+      "optional_period": 5000,
+      "period": 0,
+      "source": {
+        "id": "1.3.6.1.4.1.674.10892.5.4.700.12.1.6.1.6",
+        "protocol": "snmp"
+      }
+    },
+    {
+      "description": "Speed of Fan 5A reported by BMC, in rpm",
+      "labels": {
+        "fan": "5a"
+      },
+      "name": "bmc_fan_speed_rpm",
+      "optional_period": 5000,
+      "period": 0,
+      "source": {
+        "id": "1.3.6.1.4.1.674.10892.5.4.700.12.1.6.1.7",
+        "protocol": "snmp"
+      }
+    },
+    {
+      "description": "Speed of Fan 5B reported by BMC, in rpm",
+      "labels": {
+        "fan": "5b"
+      },
+      "name": "bmc_fan_speed_rpm",
+      "optional_period": 5000,
+      "period": 0,
+      "source": {
+        "id": "1.3.6.1.4.1.674.10892.5.4.700.12.1.6.1.8",
+        "protocol": "snmp"
+      }
+    },
+    {
+      "description": "Speed of Fan 6A reported by BMC, in rpm",
+      "labels": {
+        "fan": "6a"
+      },
+      "name": "bmc_fan_speed_rpm",
+      "optional_period": 5000,
+      "period": 0,
+      "source": {
+        "id": "1.3.6.1.4.1.674.10892.5.4.700.12.1.6.1.9",
+        "protocol": "snmp"
+      }
+    },
+    {
+      "description": "Speed of Fan 6B reported by BMC, in rpm",
+      "labels": {
+        "fan": "6b"
+      },
+      "name": "bmc_fan_speed_rpm",
+      "optional_period": 5000,
+      "period": 0,
+      "source": {
+        "id": "1.3.6.1.4.1.674.10892.5.4.700.12.1.6.1.10",
+        "protocol": "snmp"
+      }
+    },
+    {
+      "description": "Temperature of CPU 1 reported by BMC, in celsius",
+      "labels": {
+        "cpu": "1"
+      },
+      "name": "bmc_cpu_temp_celsius",
+      "optional_period": 5000,
+      "period": 0,
+      "scale_factor": 0.1,
+      "source": {
+        "id": "1.3.6.1.4.1.674.10892.5.4.700.20.1.6.1.2",
+        "protocol": "snmp"
+      }
+    },
+    {
+      "description": "Temperature of CPU 2 reported by BMC, in celsius",
+      "labels": {
+        "cpu": "2"
+      },
+      "name": "bmc_cpu_temp_celsius",
+      "optional_period": 5000,
+      "period": 0,
+      "scale_factor": 0.1,
+      "source": {
+        "id": "1.3.6.1.4.1.674.10892.5.4.700.20.1.6.1.3",
+        "protocol": "snmp"
+      }
+    },
+    {
+      "description": "Input byte counter for the network device port",
+      "labels": {
+        "interface": "eth0"
+      },
+      "name": "network_ifacein_bytes_total",
+      "period": 1000,
+      "source": {
+        "protocol": "network_equipment"
+      }
+    },
+    {
+      "description": "Output byte counter for the network device port",
+      "labels": {
+        "interface": "eth0"
+      },
+      "name": "network_ifaceout_bytes_total",
+      "period": 1000,
+      "source": {
+        "protocol": "network_equipment"
+      }
+    }
+  ],
+  "model": "Dell PowerEdge R430",
+  "priority": "201700",
+  "queues": [
+    "default",
+    "admin"
+  ],
+  "type": "cluster",
+  "uid": "nova"
+}

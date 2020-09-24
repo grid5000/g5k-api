@@ -1,0 +1,318 @@
+{
+  "architecture": {
+    "cpu_core_numbering": "round-robin",
+    "nb_cores": 16,
+    "nb_procs": 2,
+    "nb_threads": 32,
+    "platform_type": "x86_64"
+  },
+  "bios": {
+    "release_date": "11/02/2019",
+    "vendor": "Dell Inc.",
+    "version": "2.11.0"
+  },
+  "bmc_version": "2.70.70.70",
+  "chassis": {
+    "manufacturer": "Dell Inc.",
+    "name": "PowerEdge R630",
+    "serial": "GFZGG42"
+  },
+  "exotic": false,
+  "kavlan": {
+    "eth0": {
+      "kavlan-1": "192.168.199.8",
+      "kavlan-11": "10.7.225.8",
+      "kavlan-12": "10.11.225.8",
+      "kavlan-13": "10.15.225.8",
+      "kavlan-14": "10.19.225.8",
+      "kavlan-16": "10.27.225.8",
+      "kavlan-18": "10.35.225.8",
+      "kavlan-2": "192.168.215.8",
+      "kavlan-20": "10.43.225.8",
+      "kavlan-21": "10.47.225.8",
+      "kavlan-3": "192.168.231.8",
+      "kavlan-4": "10.24.7.8",
+      "kavlan-5": "10.24.71.8",
+      "kavlan-6": "10.24.135.8",
+      "kavlan-7": "10.24.199.8",
+      "kavlan-8": "10.25.7.8",
+      "kavlan-9": "10.25.71.8"
+    },
+    "eth1": {
+      "kavlan-1": "192.168.200.8",
+      "kavlan-11": "10.7.225.108",
+      "kavlan-12": "10.11.225.108",
+      "kavlan-13": "10.15.225.108",
+      "kavlan-14": "10.19.225.108",
+      "kavlan-16": "10.27.225.108",
+      "kavlan-18": "10.35.225.108",
+      "kavlan-2": "192.168.216.8",
+      "kavlan-20": "10.43.225.108",
+      "kavlan-21": "10.47.225.108",
+      "kavlan-3": "192.168.232.8",
+      "kavlan-4": "10.24.8.8",
+      "kavlan-5": "10.24.72.8",
+      "kavlan-6": "10.24.136.8",
+      "kavlan-7": "10.24.200.8",
+      "kavlan-8": "10.25.8.8",
+      "kavlan-9": "10.25.72.8"
+    }
+  },
+  "kavlan6": {
+    "eth0": {
+      "kavlan-1": "2001:660:4406:781:2::8",
+      "kavlan-11": "2001:660:4406:78b:2::8",
+      "kavlan-12": "2001:660:4406:78c:2::8",
+      "kavlan-13": "2001:660:4406:78d:2::8",
+      "kavlan-14": "2001:660:4406:78e:2::8",
+      "kavlan-16": "2001:660:4406:790:2::8",
+      "kavlan-18": "2001:660:4406:792:2::8",
+      "kavlan-2": "2001:660:4406:782:2::8",
+      "kavlan-20": "2001:660:4406:794:2::8",
+      "kavlan-21": "2001:660:4406:795:2::8",
+      "kavlan-3": "2001:660:4406:783:2::8",
+      "kavlan-4": "2001:660:4406:784:2::8",
+      "kavlan-5": "2001:660:4406:785:2::8",
+      "kavlan-6": "2001:660:4406:786:2::8",
+      "kavlan-7": "2001:660:4406:787:2::8",
+      "kavlan-8": "2001:660:4406:788:2::8",
+      "kavlan-9": "2001:660:4406:789:2::8"
+    },
+    "eth1": {
+      "kavlan-1": "2001:660:4406:781:2:1::8",
+      "kavlan-11": "2001:660:4406:78b:2:1::8",
+      "kavlan-12": "2001:660:4406:78c:2:1::8",
+      "kavlan-13": "2001:660:4406:78d:2:1::8",
+      "kavlan-14": "2001:660:4406:78e:2:1::8",
+      "kavlan-16": "2001:660:4406:790:2:1::8",
+      "kavlan-18": "2001:660:4406:792:2:1::8",
+      "kavlan-2": "2001:660:4406:782:2:1::8",
+      "kavlan-20": "2001:660:4406:794:2:1::8",
+      "kavlan-21": "2001:660:4406:795:2:1::8",
+      "kavlan-3": "2001:660:4406:783:2:1::8",
+      "kavlan-4": "2001:660:4406:784:2:1::8",
+      "kavlan-5": "2001:660:4406:785:2:1::8",
+      "kavlan-6": "2001:660:4406:786:2:1::8",
+      "kavlan-7": "2001:660:4406:787:2:1::8",
+      "kavlan-8": "2001:660:4406:788:2:1::8",
+      "kavlan-9": "2001:660:4406:789:2:1::8"
+    }
+  },
+  "main_memory": {
+    "ram_size": 137438953472
+  },
+  "monitoring": {
+    "wattmeter": "false"
+  },
+  "network_adapters": [
+    {
+      "bridged": true,
+      "device": "eth0",
+      "driver": "ixgbe",
+      "enabled": true,
+      "firmware_version": "0x8000095c, 19.0.12",
+      "interface": "Ethernet",
+      "ip": "172.16.97.8",
+      "ip6": "2001:660:4406:700:2::8",
+      "kavlan": true,
+      "mac": "ec:f4:bb:d0:f2:48",
+      "management": false,
+      "model": "82599ES 10-Gigabit SFI/SFP+ Network Connection",
+      "mountable": true,
+      "mounted": true,
+      "name": "eno1",
+      "network_address": "parasilo-8.rennes.grid5000.fr",
+      "rate": 10000000000,
+      "switch": "gw",
+      "switch_port": "Ethernet1/16",
+      "vendor": "Intel"
+    },
+    {
+      "bridged": false,
+      "device": "eth1",
+      "driver": "ixgbe",
+      "enabled": true,
+      "firmware_version": "0x8000095c, 19.0.12",
+      "interface": "Ethernet",
+      "ip": "172.16.97.108",
+      "ip6": "2001:660:4406:700:2:1::8",
+      "kavlan": true,
+      "mac": "ec:f4:bb:d0:f2:4a",
+      "management": false,
+      "model": "82599ES 10-Gigabit SFI/SFP+ Network Connection",
+      "mountable": true,
+      "mounted": false,
+      "name": "eno2",
+      "network_address": "parasilo-8-eth1.rennes.grid5000.fr",
+      "rate": 10000000000,
+      "switch": "gw",
+      "switch_port": "Ethernet1/15",
+      "vendor": "Intel"
+    },
+    {
+      "bridged": false,
+      "device": "eth2",
+      "driver": "igb",
+      "enabled": false,
+      "firmware_version": "1.67, 0x80000fab, 19.0.12",
+      "interface": "Ethernet",
+      "kavlan": false,
+      "mac": "ec:f4:bb:d0:f2:4c",
+      "management": false,
+      "model": "I350 Gigabit Network Connection",
+      "mountable": false,
+      "mounted": false,
+      "name": "eno3",
+      "vendor": "Intel"
+    },
+    {
+      "bridged": false,
+      "device": "eth3",
+      "driver": "igb",
+      "enabled": false,
+      "firmware_version": "1.67, 0x80000fab, 19.0.12",
+      "interface": "Ethernet",
+      "kavlan": false,
+      "mac": "ec:f4:bb:d0:f2:4d",
+      "management": false,
+      "model": "I350 Gigabit Network Connection",
+      "mountable": false,
+      "mounted": false,
+      "name": "eno4",
+      "vendor": "Intel"
+    },
+    {
+      "device": "bmc",
+      "enabled": true,
+      "interface": "Ethernet",
+      "ip": "172.17.97.8",
+      "kavlan": false,
+      "mac": "b8:2a:72:fc:f8:78",
+      "management": true,
+      "mountable": false,
+      "mounted": false,
+      "network_address": "parasilo-8-bmc.rennes.grid5000.fr",
+      "rate": 100000000
+    }
+  ],
+  "operating_system": {
+    "cstate_driver": "intel_idle",
+    "cstate_governor": "menu",
+    "ht_enabled": true,
+    "pstate_driver": "intel_pstate",
+    "pstate_governor": "performance",
+    "turboboost_enabled": true
+  },
+  "performance": {
+    "core_flops": 38400000000,
+    "node_flops": 614400000000
+  },
+  "processor": {
+    "cache_l1": null,
+    "cache_l1d": 32768,
+    "cache_l1i": 32768,
+    "cache_l2": 262144,
+    "cache_l3": 20971520,
+    "clock_speed": 2400000000,
+    "ht_capable": true,
+    "instruction_set": "x86-64",
+    "microarchitecture": "Haswell",
+    "microcode": "0x43",
+    "model": "Intel Xeon",
+    "other_description": "Intel(R) Xeon(R) CPU E5-2630 v3 @ 2.40GHz",
+    "vendor": "Intel",
+    "version": "E5-2630 v3"
+  },
+  "sensors": {
+  },
+  "software": {
+    "forced-deployment-timestamp": 202007300948,
+    "postinstall-version": "1.2020091600",
+    "standard-environment": "debian10-x64-std"
+  },
+  "storage_devices": [
+    {
+      "by_id": "/dev/disk/by-id/wwn-0x5000c50062ed553f",
+      "by_path": "/dev/disk/by-path/pci-0000:02:00.0-scsi-0:0:0:0",
+      "device": "sda",
+      "firmware_version": "LS0C",
+      "interface": "SATA",
+      "model": "ST600MM0006",
+      "size": 600127266816,
+      "storage": "HDD",
+      "vendor": "Seagate"
+    },
+    {
+      "by_id": "/dev/disk/by-id/wwn-0x5000c50062eafca7",
+      "by_path": "/dev/disk/by-path/pci-0000:02:00.0-scsi-0:0:1:0",
+      "device": "sdb",
+      "firmware_version": "LS0C",
+      "interface": "SATA",
+      "model": "ST600MM0006",
+      "reservation": true,
+      "size": 600127266816,
+      "storage": "HDD",
+      "vendor": "Seagate"
+    },
+    {
+      "by_id": "/dev/disk/by-id/wwn-0x5000c50062ed2a9b",
+      "by_path": "/dev/disk/by-path/pci-0000:02:00.0-scsi-0:0:2:0",
+      "device": "sdc",
+      "firmware_version": "LS0C",
+      "interface": "SATA",
+      "model": "ST600MM0006",
+      "reservation": true,
+      "size": 600127266816,
+      "storage": "HDD",
+      "vendor": "Seagate"
+    },
+    {
+      "by_id": "/dev/disk/by-id/wwn-0x5000c50062ed3ca3",
+      "by_path": "/dev/disk/by-path/pci-0000:02:00.0-scsi-0:0:3:0",
+      "device": "sdd",
+      "firmware_version": "LS0C",
+      "interface": "SATA",
+      "model": "ST600MM0006",
+      "reservation": true,
+      "size": 600127266816,
+      "storage": "HDD",
+      "vendor": "Seagate"
+    },
+    {
+      "by_id": "/dev/disk/by-id/wwn-0x5000c50062ed22b3",
+      "by_path": "/dev/disk/by-path/pci-0000:02:00.0-scsi-0:0:4:0",
+      "device": "sde",
+      "firmware_version": "LS0C",
+      "interface": "SATA",
+      "model": "ST600MM0006",
+      "reservation": true,
+      "size": 600127266816,
+      "storage": "HDD",
+      "vendor": "Seagate"
+    },
+    {
+      "by_id": "/dev/disk/by-id/wwn-0x50000395ec8a043c",
+      "by_path": "/dev/disk/by-path/pci-0000:02:00.0-scsi-0:0:5:0",
+      "device": "sdf",
+      "firmware_version": "A4B3",
+      "interface": "SATA",
+      "model": "PX02SSF020",
+      "reservation": true,
+      "size": 200049647616,
+      "storage": "SSD",
+      "vendor": "Toshiba"
+    }
+  ],
+  "supported_job_types": {
+    "besteffort": true,
+    "deploy": true,
+    "max_walltime": 0,
+    "queues": [
+      "default",
+      "admin"
+    ],
+    "virtual": "ivt"
+  },
+  "type": "node",
+  "uid": "parasilo-8"
+}

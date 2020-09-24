@@ -1,0 +1,18 @@
+{
+  "alias": [
+
+  ],
+  "kind": "physical",
+  "network_adapters": {
+    "bmc": {
+      "ip": "172.17.111.9"
+    },
+    "default": {
+      "ip": "172.16.111.9"
+    }
+  },
+  "serial": "40T8H5J",
+  "type": "server",
+  "uid": "titanic1",
+  "warranty": "2017-11"
+}

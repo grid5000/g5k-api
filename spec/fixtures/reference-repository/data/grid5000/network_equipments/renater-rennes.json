@@ -1,0 +1,20 @@
+{
+  "kind": "virtual",
+  "linecards": [
+    {
+      "ports": [
+        {
+          "uid": "renater-nantes"
+        },
+        {
+          "kind": "router",
+          "site_uid": "rennes",
+          "uid": "gw-rennes"
+        }
+      ],
+      "rate": 10000000000
+    }
+  ],
+  "type": "network_equipment",
+  "uid": "renater-rennes"
+}

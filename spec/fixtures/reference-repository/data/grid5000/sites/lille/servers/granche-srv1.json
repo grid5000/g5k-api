@@ -1,0 +1,46 @@
+{
+  "alias": [
+    "storage1"
+  ],
+  "kind": "physical",
+  "monitoring": {
+    "metric": "power",
+    "wattmeter": "multiple"
+  },
+  "network_adapters": {
+    "bmc": {
+      "ip": "172.17.46.14",
+      "mac": "54:48:10:f2:e9:78"
+    },
+    "default": {
+      "ip": "172.16.47.14",
+      "mac": "3C:FD:FE:B9:91:30"
+    }
+  },
+  "sensors": {
+    "network": {
+      "available": true,
+      "resolution": 1
+    },
+    "power": {
+      "available": true,
+      "resolution": 1,
+      "via": {
+        "pdu": [
+          {
+            "port": 11,
+            "uid": "pdu-b2p1"
+          },
+          {
+            "port": 11,
+            "uid": "pdu-b2p2"
+          }
+        ]
+      }
+    }
+  },
+  "serial": "2STSKQ2",
+  "type": "server",
+  "uid": "granche-srv1",
+  "warranty": "2023-06-25"
+}

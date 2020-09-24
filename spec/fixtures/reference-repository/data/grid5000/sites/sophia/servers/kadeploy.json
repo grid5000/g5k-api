@@ -1,0 +1,10 @@
+{
+  "kind": "virtual",
+  "network_adapters": {
+    "default": {
+      "ip": "172.16.143.105"
+    }
+  },
+  "type": "server",
+  "uid": "kadeploy"
+}

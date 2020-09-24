@@ -1,0 +1,21 @@
+{
+  "kind": "virtual",
+  "linecards": [
+    {
+      "ports": [
+        {
+          "uid": "renater-lille"
+        },
+        {
+          "uid": "renater-lyon"
+        },
+        {
+          "uid": "renater-nancy"
+        }
+      ],
+      "rate": 10000000000
+    }
+  ],
+  "type": "network_equipment",
+  "uid": "renater-paris"
+}

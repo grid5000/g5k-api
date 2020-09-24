@@ -1,0 +1,18 @@
+{
+  "alias": [
+
+  ],
+  "kind": "physical",
+  "network_adapters": {
+    "bmc": {
+      "ip": "172.17.111.23"
+    },
+    "default": {
+      "ip": "172.16.111.23"
+    }
+  },
+  "serial": "H3H6152",
+  "type": "server",
+  "uid": "parasilo-srv-2",
+  "warranty": "2022-03"
+}

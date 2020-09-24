@@ -1,0 +1,14 @@
+{
+  "alias": [
+    "mail2",
+    "smtp"
+  ],
+  "kind": "virtual",
+  "network_adapters": {
+    "default": {
+      "ip": "172.16.111.164"
+    }
+  },
+  "type": "server",
+  "uid": "mail"
+}

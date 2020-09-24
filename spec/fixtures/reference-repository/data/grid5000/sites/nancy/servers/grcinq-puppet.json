@@ -1,0 +1,11 @@
+{
+  "kind": "virtual",
+  "network_adapters": {
+    "default": {
+      "ip": "172.16.79.132",
+      "mac": "52:54:00:dc:57:63"
+    }
+  },
+  "type": "server",
+  "uid": "grcinq-puppet"
+}

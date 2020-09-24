@@ -1,0 +1,235 @@
+{
+  "alias": [
+    "gw-lyon",
+    "router",
+    "sgemini"
+  ],
+  "backplane_bps": 960000000000,
+  "ip": "172.16.63.254",
+  "kind": "router",
+  "linecards": [
+    {
+    },
+    {
+      "kavlan_pattern": "%PORT%",
+      "kind": "node",
+      "ports": [
+        {
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "ethernet1/1/1",
+          "uid": "gemini-1"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "ethernet1/1/2",
+          "uid": "gemini-2"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "ethernet1/1/3",
+          "uid": "pyxis-1"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "ethernet1/1/4",
+          "uid": "pyxis-2"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "ethernet1/1/5",
+          "uid": "pyxis-3"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "ethernet1/1/6",
+          "uid": "pyxis-4"
+        },
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+          "kind": "server",
+          "snmp_name": "ethernet1/1/20",
+          "uid": "albireo-a"
+        },
+        {
+          "kind": "server",
+          "snmp_name": "ethernet1/1/21",
+          "uid": "albireo-b"
+        },
+        {
+          "kind": "server",
+          "snmp_name": "ethernet1/1/22",
+          "uid": "alcor"
+        },
+        {
+        },
+        {
+          "kind": "switch",
+          "port": "1",
+          "snmp_name": "ethernet1/1/24",
+          "uid": "salome"
+        },
+        {
+          "kind": "switch",
+          "port": "0:60",
+          "snmp_name": "ethernet1/1/25:1",
+          "uid": "force10"
+        },
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+          "kind": "backbone",
+          "snmp_name": "ethernet1/1/30",
+          "uid": "renater-lyon"
+        }
+      ],
+      "rate": 10000000000,
+      "snmp_pattern": "ethernet1/%LINECARD%/%PORT%"
+    }
+  ],
+  "metrics": [
+    {
+      "description": "Input byte counter for the network device port",
+      "name": "network_ifacein_bytes_total",
+      "period": 1000,
+      "source": {
+        "id": "1.3.6.1.2.1.2.2.1.10.{{ 1.3.6.1.2.1.2.2.1.2 == %SNMP_IFACE% }}",
+        "protocol": "snmp"
+      }
+    },
+    {
+      "description": "Output byte counter for the network device port",
+      "name": "network_ifaceout_bytes_total",
+      "period": 1000,
+      "source": {
+        "id": "1.3.6.1.2.1.2.2.1.16.{{ 1.3.6.1.2.1.2.2.1.2 == %SNMP_IFACE% }}",
+        "protocol": "snmp"
+      }
+    }
+  ],
+  "model": "Dell EMC S4128F-ON",
+  "role": "production",
+  "serial": "J9J1PK2",
+  "site": "lyon",
+  "snmp_community": "public",
+  "type": "network_equipment",
+  "uid": "gw",
+  "vlans": {
+    "vlan100": {
+      "addresses": [
+        "172.16.63.254"
+      ],
+      "administrative": true
+    },
+    "vlan101": {
+      "addresses": [
+        "172.17.63.254"
+      ],
+      "administrative": true
+    },
+    "vlan500": {
+      "addresses": [
+        "192.168.4.13"
+      ]
+    },
+    "vlan701": {
+      "addresses": [
+        "192.168.192.0/20"
+      ],
+      "name": "kavlan-1"
+    },
+    "vlan702": {
+      "addresses": [
+        "192.168.208.0/20"
+      ],
+      "name": "kavlan-2"
+    },
+    "vlan703": {
+      "addresses": [
+        "192.168.224.0/20"
+      ],
+      "name": "kavlan-3"
+    },
+    "vlan704": {
+      "addresses": [
+        "10.12.0.0/18"
+      ],
+      "name": "kavlan-4"
+    },
+    "vlan705": {
+      "addresses": [
+        "10.12.64.0/18"
+      ],
+      "name": "kavlan-5"
+    },
+    "vlan706": {
+      "addresses": [
+        "10.12.128.0/18"
+      ],
+      "name": "kavlan-6"
+    },
+    "vlan707": {
+      "addresses": [
+        "10.12.192.0/18"
+      ],
+      "name": "kavlan-7"
+    },
+    "vlan708": {
+      "addresses": [
+        "10.13.0.0/18"
+      ],
+      "name": "kavlan-8"
+    },
+    "vlan709": {
+      "addresses": [
+        "10.13.64.0/18"
+      ],
+      "name": "kavlan-9"
+    },
+    "vlan713": {
+      "addresses": [
+        "10.15.192.0/18"
+      ],
+      "name": "kavlan-13"
+    }
+  },
+  "warranty": "2024-08-15"
+}

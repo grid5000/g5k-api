@@ -1,0 +1,295 @@
+{
+  "architecture": {
+    "cpu_core_numbering": "round-robin",
+    "nb_cores": 16,
+    "nb_procs": 2,
+    "nb_threads": 32,
+    "platform_type": "x86_64"
+  },
+  "bios": {
+    "release_date": "11/02/2019",
+    "vendor": "Dell Inc.",
+    "version": "2.11.0"
+  },
+  "bmc_version": "2.70.70.70",
+  "chassis": {
+    "manufacturer": "Dell Inc.",
+    "name": "PowerEdge R630",
+    "serial": "3ZG4J82"
+  },
+  "exotic": false,
+  "kavlan": {
+    "eth0": {
+      "kavlan-1": "192.168.198.9",
+      "kavlan-11": "10.7.218.9",
+      "kavlan-12": "10.11.218.9",
+      "kavlan-13": "10.15.218.9",
+      "kavlan-14": "10.19.218.9",
+      "kavlan-16": "10.27.218.9",
+      "kavlan-18": "10.35.218.9",
+      "kavlan-2": "192.168.214.9",
+      "kavlan-20": "10.43.218.9",
+      "kavlan-21": "10.47.218.9",
+      "kavlan-3": "192.168.230.9",
+      "kavlan-4": "10.16.6.9",
+      "kavlan-5": "10.16.70.9",
+      "kavlan-6": "10.16.134.9",
+      "kavlan-7": "10.16.198.9",
+      "kavlan-8": "10.17.6.9",
+      "kavlan-9": "10.17.70.9"
+    }
+  },
+  "kavlan6": {
+    "eth0": {
+      "kavlan-1": "2001:660:4406:581:7::9",
+      "kavlan-11": "2001:660:4406:58b:7::9",
+      "kavlan-12": "2001:660:4406:58c:7::9",
+      "kavlan-13": "2001:660:4406:58d:7::9",
+      "kavlan-14": "2001:660:4406:58e:7::9",
+      "kavlan-16": "2001:660:4406:590:7::9",
+      "kavlan-18": "2001:660:4406:592:7::9",
+      "kavlan-2": "2001:660:4406:582:7::9",
+      "kavlan-20": "2001:660:4406:594:7::9",
+      "kavlan-21": "2001:660:4406:595:7::9",
+      "kavlan-3": "2001:660:4406:583:7::9",
+      "kavlan-4": "2001:660:4406:584:7::9",
+      "kavlan-5": "2001:660:4406:585:7::9",
+      "kavlan-6": "2001:660:4406:586:7::9",
+      "kavlan-7": "2001:660:4406:587:7::9",
+      "kavlan-8": "2001:660:4406:588:7::9",
+      "kavlan-9": "2001:660:4406:589:7::9"
+    }
+  },
+  "main_memory": {
+    "ram_size": 137438953472
+  },
+  "monitoring": {
+    "wattmeter": "true"
+  },
+  "network_adapters": [
+    {
+      "bridged": true,
+      "device": "eth0",
+      "driver": "ixgbe",
+      "enabled": true,
+      "firmware_version": "0x8000095c, 19.0.12",
+      "interface": "Ethernet",
+      "ip": "172.16.70.9",
+      "ip6": "2001:660:4406:500:7::9",
+      "kavlan": true,
+      "mac": "24:6e:96:03:1e:d0",
+      "management": false,
+      "model": "82599ES 10-Gigabit SFI/SFP+ Network Connection",
+      "mountable": true,
+      "mounted": true,
+      "name": "eno1",
+      "network_address": "graoully-9.nancy.grid5000.fr",
+      "rate": 10000000000,
+      "switch": "gw",
+      "switch_port": "Ethernet1/9",
+      "vendor": "Intel"
+    },
+    {
+      "bridged": false,
+      "device": "eth1",
+      "driver": "ixgbe",
+      "enabled": false,
+      "firmware_version": "0x8000095c, 19.0.12",
+      "interface": "Ethernet",
+      "kavlan": false,
+      "mac": "24:6e:96:03:1e:d2",
+      "management": false,
+      "model": "82599ES 10-Gigabit SFI/SFP+ Network Connection",
+      "mountable": false,
+      "mounted": false,
+      "name": "eno2",
+      "vendor": "Intel"
+    },
+    {
+      "bridged": false,
+      "device": "eth2",
+      "driver": "ixgbe",
+      "enabled": false,
+      "firmware_version": "0x8000095d, 19.0.12",
+      "interface": "Ethernet",
+      "kavlan": false,
+      "mac": "a0:36:9f:7f:35:ac",
+      "management": false,
+      "model": "Ethernet 10G 2P X520 Adapter",
+      "mountable": false,
+      "mounted": false,
+      "name": "enp129s0f0",
+      "vendor": "Intel"
+    },
+    {
+      "bridged": false,
+      "device": "eth3",
+      "driver": "ixgbe",
+      "enabled": false,
+      "firmware_version": "0x8000095d, 19.0.12",
+      "interface": "Ethernet",
+      "kavlan": false,
+      "mac": "a0:36:9f:7f:35:ae",
+      "management": false,
+      "model": "Ethernet 10G 2P X520 Adapter",
+      "mountable": false,
+      "mounted": false,
+      "name": "enp129s0f1",
+      "vendor": "Intel"
+    },
+    {
+      "bridged": false,
+      "device": "eth4",
+      "driver": "igb",
+      "enabled": false,
+      "firmware_version": "1.67, 0x80000fab, 19.0.12",
+      "interface": "Ethernet",
+      "kavlan": false,
+      "mac": "24:6e:96:03:1e:d4",
+      "management": false,
+      "model": "I350 Gigabit Network Connection",
+      "mountable": false,
+      "mounted": false,
+      "name": "eno3",
+      "vendor": "Intel"
+    },
+    {
+      "bridged": false,
+      "device": "eth5",
+      "driver": "igb",
+      "enabled": false,
+      "firmware_version": "1.67, 0x80000fab, 19.0.12",
+      "interface": "Ethernet",
+      "kavlan": false,
+      "mac": "24:6e:96:03:1e:d5",
+      "management": false,
+      "model": "I350 Gigabit Network Connection",
+      "mountable": false,
+      "mounted": false,
+      "name": "eno4",
+      "vendor": "Intel"
+    },
+    {
+      "bridged": false,
+      "device": "ib0",
+      "driver": "mlx4_core",
+      "enabled": true,
+      "firmware_version": "2.34.5000",
+      "guid": "0xe41d2d0300b93111",
+      "hwid": null,
+      "ib_switch_card": null,
+      "ib_switch_card_pos": null,
+      "interface": "InfiniBand",
+      "ip": "172.18.70.9",
+      "kavlan": false,
+      "mac": "80:00:02:08:fe:80:00:00:00:00:00:00:e4:1d:2d:03:00:b9:31:11",
+      "management": false,
+      "model": "MT27500 Family [ConnectX-3]",
+      "mountable": true,
+      "mounted": true,
+      "name": "ib0",
+      "netmask": "255.255.255.0",
+      "network_address": "graoully-9-ib0.nancy.grid5000.fr",
+      "rate": 56000000000,
+      "switch": "sgraoullyib",
+      "vendor": "Mellanox Technologies"
+    },
+    {
+      "device": "bmc",
+      "enabled": true,
+      "interface": "Ethernet",
+      "ip": "172.17.70.9",
+      "kavlan": false,
+      "mac": "64:00:6a:c0:f2:a6",
+      "management": true,
+      "mountable": false,
+      "mounted": false,
+      "network_address": "graoully-9-bmc.nancy.grid5000.fr"
+    }
+  ],
+  "operating_system": {
+    "cstate_driver": "intel_idle",
+    "cstate_governor": "menu",
+    "ht_enabled": true,
+    "pstate_driver": "intel_pstate",
+    "pstate_governor": "performance",
+    "turboboost_enabled": true
+  },
+  "performance": {
+    "core_flops": 38400000000,
+    "node_flops": 614400000000
+  },
+  "processor": {
+    "cache_l1": null,
+    "cache_l1d": 32768,
+    "cache_l1i": 32768,
+    "cache_l2": 262144,
+    "cache_l3": 20971520,
+    "clock_speed": 2400000000,
+    "ht_capable": true,
+    "instruction_set": "x86-64",
+    "microarchitecture": "Haswell",
+    "microcode": "0x43",
+    "model": "Intel Xeon",
+    "other_description": "Intel(R) Xeon(R) CPU E5-2630 v3 @ 2.40GHz",
+    "vendor": "Intel",
+    "version": "E5-2630 v3"
+  },
+  "sensors": {
+    "power": {
+      "available": true,
+      "via": {
+        "api": {
+          "metric": "power"
+        },
+        "pdu": [
+          {
+            "port": 14,
+            "uid": "graoully-pdu2"
+          }
+        ]
+      }
+    }
+  },
+  "software": {
+    "forced-deployment-timestamp": 202007300948,
+    "postinstall-version": "1.2020091600",
+    "standard-environment": "debian10-x64-std"
+  },
+  "storage_devices": [
+    {
+      "by_id": "/dev/disk/by-id/wwn-0x5000c5008e50e497",
+      "by_path": "/dev/disk/by-path/pci-0000:02:00.0-scsi-0:0:0:0",
+      "device": "sda",
+      "firmware_version": "TT31",
+      "interface": "SCSI",
+      "model": "ST600MM0088",
+      "size": 600127266816,
+      "storage": "HDD",
+      "vendor": "Seagate"
+    },
+    {
+      "by_id": "/dev/disk/by-id/wwn-0x5000c5008e5012db",
+      "by_path": "/dev/disk/by-path/pci-0000:02:00.0-scsi-0:0:1:0",
+      "device": "sdb",
+      "firmware_version": "TT31",
+      "interface": "SCSI",
+      "model": "ST600MM0088",
+      "size": 600127266816,
+      "storage": "HDD",
+      "vendor": "Seagate"
+    }
+  ],
+  "supported_job_types": {
+    "besteffort": true,
+    "deploy": true,
+    "max_walltime": 604800,
+    "queues": [
+      "admin",
+      "production"
+    ],
+    "virtual": "ivt"
+  },
+  "type": "node",
+  "uid": "graoully-9"
+}

@@ -1,0 +1,10 @@
+{
+  "kind": "virtual",
+  "network_adapters": {
+    "default": {
+      "ip": "172.16.143.142"
+    }
+  },
+  "type": "server",
+  "uid": "oar-devel"
+}

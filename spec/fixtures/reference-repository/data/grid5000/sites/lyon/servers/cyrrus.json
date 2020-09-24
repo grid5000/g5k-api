@@ -1,0 +1,21 @@
+{
+  "alias": [
+
+  ],
+  "kind": "physical",
+  "network_adapters": {
+    "adm": {
+      "ip": "172.17.63.3"
+    },
+    "bmc": {
+      "ip": "172.17.62.3"
+    },
+    "default": {
+      "ip": "172.16.63.3"
+    }
+  },
+  "serial": null,
+  "type": "server",
+  "uid": "cyrrus",
+  "warranty": "2010-01"
+}

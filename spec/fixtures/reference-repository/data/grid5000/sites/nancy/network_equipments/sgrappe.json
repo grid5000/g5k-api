@@ -1,0 +1,178 @@
+{
+  "backplane_bps": 2160000000000,
+  "channels": {
+    "port-channel1": {
+      "kind": "router",
+      "port": "port-channel4",
+      "rate": 800000000000,
+      "uid": "gw"
+    }
+  },
+  "ip": "172.17.79.205",
+  "kind": "switch",
+  "linecards": [
+    {
+    },
+    {
+      "kavlan_pattern": "ethernet1/%LINECARD%/%PORT%",
+      "kind": "node",
+      "ports": [
+        {
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "ethernet1/1/1",
+          "uid": "grappe-1"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "ethernet1/1/2",
+          "uid": "grappe-2"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "ethernet1/1/3",
+          "uid": "grappe-3"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "ethernet1/1/4",
+          "uid": "grappe-4"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "ethernet1/1/5",
+          "uid": "grappe-5"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "ethernet1/1/6",
+          "uid": "grappe-6"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "ethernet1/1/7",
+          "uid": "grappe-7"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "ethernet1/1/8",
+          "uid": "grappe-8"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "ethernet1/1/9",
+          "uid": "grappe-9"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "ethernet1/1/10",
+          "uid": "grappe-10"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "ethernet1/1/11",
+          "uid": "grappe-11"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "ethernet1/1/12",
+          "uid": "grappe-12"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "ethernet1/1/13",
+          "uid": "grappe-13"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "ethernet1/1/14",
+          "uid": "grappe-14"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "ethernet1/1/15",
+          "uid": "grappe-15"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "ethernet1/1/16",
+          "uid": "grappe-16"
+        },
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+        },
+        {
+          "kind": "channel",
+          "rate": 25000000000,
+          "snmp_name": "ethernet1/1/25:1",
+          "uid": "port-channel1"
+        },
+        {
+          "kind": "channel",
+          "rate": 25000000000,
+          "snmp_name": "ethernet1/1/26:1",
+          "uid": "port-channel1"
+        }
+      ],
+      "rate": 25000000000,
+      "snmp_pattern": "ethernet1/%LINECARD%/%PORT%"
+    }
+  ],
+  "metrics": [
+    {
+      "description": "Input byte counter for the network device port",
+      "name": "network_ifacein_bytes_total",
+      "period": 1000,
+      "source": {
+        "id": "1.3.6.1.2.1.2.2.1.10.{{ 1.3.6.1.2.1.2.2.1.2 == %SNMP_IFACE% }}",
+        "protocol": "snmp"
+      }
+    },
+    {
+      "description": "Output byte counter for the network device port",
+      "name": "network_ifaceout_bytes_total",
+      "period": 1000,
+      "source": {
+        "id": "1.3.6.1.2.1.2.2.1.16.{{ 1.3.6.1.2.1.2.2.1.2 == %SNMP_IFACE% }}",
+        "protocol": "snmp"
+      }
+    }
+  ],
+  "model": "Dell S5224F-ON",
+  "role": "production",
+  "site": "nancy",
+  "snmp_community": "public",
+  "type": "network_equipment",
+  "uid": "sgrappe",
+  "warranty": "2025-08-07"
+}

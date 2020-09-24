@@ -106,32 +106,32 @@ describe ClustersController do
     # 3. Where queues filter is specified as 'default'
     # 4. Where queues filter is 'production' and a 'default' cluster is requested
 
-    it 'should return ONLY cluster mbi in nancy without any queues filter' do
-      expected_url = 'http://api-out.local:80/sites/nancy/clusters/mbi?branch=master&pretty=yes'
+    it 'should return ONLY cluster grcinq in nancy without any queues filter' do
+      expected_url = 'http://api-out.local:80/sites/nancy/clusters/grcinq?branch=master&pretty=yes'
       stub_request(:get, expected_url)
         .with(
           headers: { 'Accept' => api_media_type(:json) }
         )
-        .to_return(body: fixture('reference-repository/data/grid5000/sites/nancy/clusters/mbi/mbi.json'))
-      get :show, params: { branch: 'master', site_id: 'nancy', id: 'mbi', format: :json }
+        .to_return(body: fixture('reference-repository/data/grid5000/sites/nancy/clusters/grcinq/grcinq.json'))
+      get :show, params: { branch: 'master', site_id: 'nancy', id: 'grcinq', format: :json }
       assert_media_type(:json)
 
       expect(response.status).to eq 200
       expect(json['queues']).to eq %w[admin production]
     end
 
-    it 'should return ONLY cluster talc in nancy without any queues filter' do
-      expected_url = 'http://api-out.local:80/sites/nancy/clusters/talc?branch=master&pretty=yes'
+    it 'should return ONLY cluster graphite in nancy without any queues filter' do
+      expected_url = 'http://api-out.local:80/sites/nancy/clusters/graphite?branch=master&pretty=yes'
       stub_request(:get, expected_url)
         .with(
           headers: { 'Accept' => api_media_type(:json) }
         )
-        .to_return(body: fixture('reference-repository/data/grid5000/sites/nancy/clusters/talc/talc.json'))
-      get :show, params: { branch: 'master', site_id: 'nancy', id: 'talc', format: :json }
+        .to_return(body: fixture('reference-repository/data/grid5000/sites/nancy/clusters/graphite/graphite.json'))
+      get :show, params: { branch: 'master', site_id: 'nancy', id: 'graphite', format: :json }
       assert_media_type(:json)
 
       expect(response.status).to eq 200
-      expect(json['queues']).to eq %w[admin default]
+      expect(json['queues']).to eq %w[default admin]
     end
 
     it 'should return ONLY cluster graphique in nancy without any queues filter' do
@@ -145,48 +145,48 @@ describe ClustersController do
       assert_media_type(:json)
 
       expect(response.status).to eq 200
-      expect(json['queues'] | []).to eq %w[admin default]
+      expect(json['queues'] | []).to eq %w[admin production]
     end
 
-    it 'should return ONLY cluster mbi in nancy' do
-      expected_url = 'http://api-out.local:80/sites/nancy/clusters/mbi?branch=master&queues=production&pretty=yes'
+    it 'should return ONLY cluster grcinq in nancy' do
+      expected_url = 'http://api-out.local:80/sites/nancy/clusters/grcinq?branch=master&queues=production&pretty=yes'
       stub_request(:get, expected_url)
         .with(
           headers: { 'Accept' => api_media_type(:json) }
         )
-        .to_return(body: fixture('reference-repository/data/grid5000/sites/nancy/clusters/mbi/mbi.json'))
-      get :show, params: { branch: 'master', site_id: 'nancy', id: 'mbi', queues: 'production', format: :json }
+        .to_return(body: fixture('reference-repository/data/grid5000/sites/nancy/clusters/grcinq/grcinq.json'))
+      get :show, params: { branch: 'master', site_id: 'nancy', id: 'grcinq', queues: 'production', format: :json }
       assert_media_type(:json)
 
       expect(response.status).to eq 200
       expect(json['queues']).to eq %w[admin production]
     end
 
-    it 'should return ONLY cluster talc in nancy' do
-      expected_url = 'http://api-out.local:80/sites/nancy/clusters/talc?branch=master&queues=default&pretty=yes'
+    it 'should return ONLY cluster graphite in nancy' do
+      expected_url = 'http://api-out.local:80/sites/nancy/clusters/graphite?branch=master&queues=default&pretty=yes'
       stub_request(:get, expected_url)
         .with(
           headers: { 'Accept' => api_media_type(:json) }
         )
-        .to_return(body: fixture('reference-repository/data/grid5000/sites/nancy/clusters/talc/talc.json'))
-      get :show, params: { branch: 'master', site_id: 'nancy', id: 'talc', queues: 'default', format: :json }
+        .to_return(body: fixture('reference-repository/data/grid5000/sites/nancy/clusters/graphite/graphite.json'))
+      get :show, params: { branch: 'master', site_id: 'nancy', id: 'graphite', queues: 'default', format: :json }
       assert_media_type(:json)
 
       expect(response.status).to eq 200
-      expect(json['queues']).to eq %w[admin default]
+      expect(json['queues']).to eq %w[default admin]
     end
 
-    it 'should return NO cluster because talc is NOT production cluster' do
-      expected_url = 'http://api-out.local:80/sites/nancy/clusters/talc?branch=master&queues=production&pretty=yes'
+    it 'should return NO cluster because graphite is NOT production cluster' do
+      expected_url = 'http://api-out.local:80/sites/nancy/clusters/graphite?branch=master&queues=production&pretty=yes'
       stub_request(:get, expected_url)
         .with(
           headers: { 'Accept' => api_media_type(:json) }
         )
-        .to_return(body: fixture('reference-repository/data/grid5000/sites/nancy/clusters/talc/talc.json'))
-      get :show, params: { branch: 'master', site_id: 'nancy', id: 'talc', queues: 'production', format: :json }
+        .to_return(body: fixture('reference-repository/data/grid5000/sites/nancy/clusters/graphite/graphite.json'))
+      get :show, params: { branch: 'master', site_id: 'nancy', id: 'graphite', queues: 'production', format: :json }
 
       expect(response.status).to eq 404
-      expect(response.body).to eq 'Cannot find resource /sites/nancy/clusters/talc'
+      expect(response.body).to eq 'Cannot find resource /sites/nancy/clusters/graphite'
     end
 
     it 'should return 404 if a resource does not exist' do
@@ -197,59 +197,66 @@ describe ClustersController do
 
   describe 'GET /sites/{{site_id}}/clusters' do
     # The following unit tests check the responses at level of all clusters in a site:
-    # 1. Where queues filter is NOT mentioned in request (mbi, talc, graphique)
-    # 2. Where queues filter is specified as 'production' (mbi)
-    # 3. Where queues filter is specified as 'default' (talc graphique)
-    # 4. Where queues filter is 'all' (mbi, talc, graphique)
+    # 1. Where queues filter is NOT mentioned in request (grcinq, graphite, graphique)
+    # 2. Where queues filter is specified as 'production' (grcinq)
+    # 3. Where queues filter is specified as 'default' (graphite graphique)
+    # 4. Where queues filter is 'all' (grcinq, graphite, graphique)
 
     it 'should return ALL clusters in site nancy without any queues param' do
       get :index, params: { branch: 'master', site_id: 'nancy', format: :json }
       assert_media_type(:json)
 
       expect(response.status).to eq 200
-      expect(json['total']).to eq 3
+      expect(json['total']).to eq 13
 
       clusterList = []
       json['items'].each do |cluster|
         clusterList = [cluster['uid']] | clusterList
       end
-      expect(clusterList - %w[graphique mbi talc]).to be_empty
+      expect(clusterList - %w[grvingt grue gros grisou graoully grimoire grimani
+              grele grcinq grappe graffiti graphique grcinq graphite]).to be_empty
     end
 
-    it 'should return ONLY cluster mbi in site nancy' do
+    it 'should return ONLY cluster grcinq in site nancy' do
       expected_url = 'http://api-out.local:80/sites/nancy/clusters?branch=master&queues=production&pretty=yes'
       stub_request(:get, expected_url)
         .with(
           headers: { 'Accept' => api_media_type(:json) }
         )
-        .to_return(body: fixture('reference-repository/data/grid5000/sites/nancy/clusters/mbi/mbi.json'))
+        .to_return(body: fixture('reference-repository/data/grid5000/sites/nancy/clusters/grcinq/grcinq.json'))
       get :index, params: { branch: 'master', site_id: 'nancy', queues: 'production', format: :json }
       assert_media_type(:json)
 
+      clusterList = []
+      json['items'].each do |cluster|
+        clusterList = [cluster['uid']] | clusterList
+        expect(cluster['queues']).to include('production')
+      end
+
+      expect(clusterList - %w[grvingt grue grimani grele grcinq graphique graoully graffiti]).to be_empty
       expect(response.status).to eq 200
-      expect(json['total']).to eq 1
-      expect(json['items'][0]['uid']).to eq 'mbi'
+      expect(json['total']).to eq 8
       expect(json['items'][0]['queues']).to include('production')
     end
 
-    it 'should return ONLY clusters talc & graphique in site nancy' do
+    it 'should return ONLY clusters gros, grisou, grimoire, graphite in site nancy' do
       expected_url = 'http://api-out.local:80/sites/nancy/clusters?branch=master&queues=default&pretty=yes'
       stub_request(:get, expected_url)
         .with(
           headers: { 'Accept' => api_media_type(:json) }
         )
-        .to_return(body: fixture('reference-repository/data/grid5000/sites/nancy/clusters/talc/talc.json'))
+        .to_return(body: fixture('reference-repository/data/grid5000/sites/nancy/clusters/graphite/graphite.json'))
       get :index, params: { branch: 'master', site_id: 'nancy', queues: 'default', format: :json }
       assert_media_type(:json)
 
       expect(response.status).to eq 200
-      expect(json['total']).to eq 2
+      expect(json['total']).to eq 4
       clusterList = []
       json['items'].each do |cluster|
         clusterList = [cluster['uid']] | clusterList
         expect(cluster['queues']).to include('default')
       end
-      expect(clusterList - %w[graphique talc]).to be_empty
+      expect(clusterList - %w[gros grisou grimoire graphite]).to be_empty
     end
 
     it 'should return ALL clusters in site nancy' do
@@ -257,7 +264,7 @@ describe ClustersController do
       assert_media_type(:json)
 
       expect(response.status).to eq 200
-      expect(json['total']).to eq 3
+      expect(json['total']).to eq 13
 
       clusterList = []
       combined_queues = []
@@ -265,9 +272,10 @@ describe ClustersController do
         clusterList = [cluster['uid']] | clusterList
         combined_queues = cluster['queues'] | combined_queues
       end
-      expect(combined_queues).to eq %w[admin default production]
+      expect(combined_queues).to eq %w[admin production default testing]
 
-      expect(clusterList - %w[graphique mbi talc]).to be_empty
+      expect(clusterList - %w[grvingt grue gros grisou graoully grimoire grimani
+              grele grcinq grappe graffiti graphique grcinq graphite]).to be_empty
     end
   end # "GET /sites/{{site_id}}/clusters?branch=master&queues=all&pretty=yes"
 end

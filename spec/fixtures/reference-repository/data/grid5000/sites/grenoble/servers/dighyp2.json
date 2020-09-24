@@ -1,0 +1,23 @@
+{
+  "alias": [
+
+  ],
+  "kind": "physical",
+  "network_adapters": {
+    "adm": {
+      "ip": "172.17.31.8"
+    },
+    "bmc": {
+      "ip": "172.17.30.8",
+      "mac": "D0:94:66:1E:32:47"
+    },
+    "default": {
+      "ip": "172.16.31.8",
+      "mac": "D0:94:66:1E:32:43"
+    }
+  },
+  "serial": "5SQY4M2",
+  "type": "server",
+  "uid": "dighyp2",
+  "warranty": "2024-10-19"
+}

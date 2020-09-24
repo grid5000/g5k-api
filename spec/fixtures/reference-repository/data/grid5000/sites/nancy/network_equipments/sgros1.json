@@ -1,0 +1,1179 @@
+{
+  "backplane_bps": 12800000000000,
+  "channels": {
+    "port-channel1": {
+      "kind": "router",
+      "port": "port-channel2",
+      "rate": 80000000000,
+      "uid": "gw"
+    }
+  },
+  "ip": "172.17.79.208",
+  "kind": "switch",
+  "linecards": [
+    {
+    },
+    {
+      "kavlan_pattern": "ethernet1/1/%PORT%:1",
+      "ports": [
+        {
+        },
+        {
+          "kind": "channel",
+          "snmp_name": "ethernet1/1/1:1",
+          "uid": "port-channel1"
+        },
+        {
+          "kind": "channel",
+          "snmp_name": "ethernet1/1/2:1",
+          "uid": "port-channel1"
+        }
+      ],
+      "rate": 40000000000,
+      "snmp_pattern": "ethernet1/1/%PORT%:1"
+    },
+    {
+    },
+    {
+      "kavlan_pattern": "ethernet1/1/%LINECARD%:%PORT%",
+      "kind": "node",
+      "ports": [
+        {
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "ethernet1/1/3:1",
+          "uid": "gros-117"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "ethernet1/1/3:2",
+          "uid": "gros-118"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "ethernet1/1/3:3",
+          "uid": "gros-119"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "ethernet1/1/3:4",
+          "uid": "gros-120"
+        }
+      ],
+      "rate": 25000000000,
+      "snmp_pattern": "ethernet1/1/%LINECARD%:%PORT%"
+    },
+    {
+    },
+    {
+      "kavlan_pattern": "ethernet1/1/%LINECARD%:%PORT%",
+      "kind": "node",
+      "ports": [
+        {
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "ethernet1/1/5:1",
+          "uid": "gros-113"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "ethernet1/1/5:2",
+          "uid": "gros-114"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "ethernet1/1/5:3",
+          "uid": "gros-115"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "ethernet1/1/5:4",
+          "uid": "gros-116"
+        }
+      ],
+      "rate": 25000000000,
+      "snmp_pattern": "ethernet1/1/%LINECARD%:%PORT%"
+    },
+    {
+    },
+    {
+      "kavlan_pattern": "ethernet1/1/%LINECARD%:%PORT%",
+      "kind": "node",
+      "ports": [
+        {
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "ethernet1/1/7:1",
+          "uid": "gros-109"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "ethernet1/1/7:2",
+          "uid": "gros-110"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "ethernet1/1/7:3",
+          "uid": "gros-111"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "ethernet1/1/7:4",
+          "uid": "gros-112"
+        }
+      ],
+      "rate": 25000000000,
+      "snmp_pattern": "ethernet1/1/%LINECARD%:%PORT%"
+    },
+    {
+    },
+    {
+      "kavlan_pattern": "ethernet1/1/%LINECARD%:%PORT%",
+      "kind": "node",
+      "ports": [
+        {
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "ethernet1/1/9:1",
+          "uid": "gros-105"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "ethernet1/1/9:2",
+          "uid": "gros-106"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "ethernet1/1/9:3",
+          "uid": "gros-107"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "ethernet1/1/9:4",
+          "uid": "gros-108"
+        }
+      ],
+      "rate": 25000000000,
+      "snmp_pattern": "ethernet1/1/%LINECARD%:%PORT%"
+    },
+    {
+    },
+    {
+      "kavlan_pattern": "ethernet1/1/%LINECARD%:%PORT%",
+      "kind": "node",
+      "ports": [
+        {
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "ethernet1/1/11:1",
+          "uid": "gros-101"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "ethernet1/1/11:2",
+          "uid": "gros-102"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "ethernet1/1/11:3",
+          "uid": "gros-103"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "ethernet1/1/11:4",
+          "uid": "gros-104"
+        }
+      ],
+      "rate": 25000000000,
+      "snmp_pattern": "ethernet1/1/%LINECARD%:%PORT%"
+    },
+    {
+    },
+    {
+      "kavlan_pattern": "ethernet1/1/%LINECARD%:%PORT%",
+      "kind": "node",
+      "ports": [
+        {
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "ethernet1/1/13:1",
+          "uid": "gros-97"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "ethernet1/1/13:2",
+          "uid": "gros-98"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "ethernet1/1/13:3",
+          "uid": "gros-99"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "ethernet1/1/13:4",
+          "uid": "gros-100"
+        }
+      ],
+      "rate": 25000000000,
+      "snmp_pattern": "ethernet1/1/%LINECARD%:%PORT%"
+    },
+    {
+    },
+    {
+      "kavlan_pattern": "ethernet1/1/%LINECARD%:%PORT%",
+      "kind": "node",
+      "ports": [
+        {
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "ethernet1/1/15:1",
+          "uid": "gros-61"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "ethernet1/1/15:2",
+          "uid": "gros-62"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "ethernet1/1/15:3",
+          "uid": "gros-63"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "ethernet1/1/15:4",
+          "uid": "gros-64"
+        }
+      ],
+      "rate": 25000000000,
+      "snmp_pattern": "ethernet1/1/%LINECARD%:%PORT%"
+    },
+    {
+    },
+    {
+      "kavlan_pattern": "ethernet1/1/%LINECARD%:%PORT%",
+      "kind": "node",
+      "ports": [
+        {
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "ethernet1/1/17:1",
+          "uid": "gros-65"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "ethernet1/1/17:2",
+          "uid": "gros-66"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "ethernet1/1/17:3",
+          "uid": "gros-67"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "ethernet1/1/17:4",
+          "uid": "gros-68"
+        }
+      ],
+      "rate": 25000000000,
+      "snmp_pattern": "ethernet1/1/%LINECARD%:%PORT%"
+    },
+    {
+    },
+    {
+      "kavlan_pattern": "ethernet1/1/%LINECARD%:%PORT%",
+      "kind": "node",
+      "ports": [
+        {
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "ethernet1/1/19:1",
+          "uid": "gros-69"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "ethernet1/1/19:2",
+          "uid": "gros-70"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "ethernet1/1/19:3",
+          "uid": "gros-71"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "ethernet1/1/19:4",
+          "uid": "gros-72"
+        }
+      ],
+      "rate": 25000000000,
+      "snmp_pattern": "ethernet1/1/%LINECARD%:%PORT%"
+    },
+    {
+    },
+    {
+      "kavlan_pattern": "ethernet1/1/%LINECARD%:%PORT%",
+      "kind": "node",
+      "ports": [
+        {
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "ethernet1/1/21:1",
+          "uid": "gros-73"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "ethernet1/1/21:2",
+          "uid": "gros-74"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "ethernet1/1/21:3",
+          "uid": "gros-75"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "ethernet1/1/21:4",
+          "uid": "gros-76"
+        }
+      ],
+      "rate": 25000000000,
+      "snmp_pattern": "ethernet1/1/%LINECARD%:%PORT%"
+    },
+    {
+    },
+    {
+      "kavlan_pattern": "ethernet1/1/%LINECARD%:%PORT%",
+      "kind": "node",
+      "ports": [
+        {
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "ethernet1/1/23:1",
+          "uid": "gros-25"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "ethernet1/1/23:2",
+          "uid": "gros-26"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "ethernet1/1/23:3",
+          "uid": "gros-27"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "ethernet1/1/23:4",
+          "uid": "gros-28"
+        }
+      ],
+      "rate": 25000000000,
+      "snmp_pattern": "ethernet1/1/%LINECARD%:%PORT%"
+    },
+    {
+    },
+    {
+      "kavlan_pattern": "ethernet1/1/%LINECARD%:%PORT%",
+      "kind": "node",
+      "ports": [
+        {
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "ethernet1/1/25:1",
+          "uid": "gros-29"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "ethernet1/1/25:2",
+          "uid": "gros-30"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "ethernet1/1/25:3",
+          "uid": "gros-31"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "ethernet1/1/25:4",
+          "uid": "gros-32"
+        }
+      ],
+      "rate": 25000000000,
+      "snmp_pattern": "ethernet1/1/%LINECARD%:%PORT%"
+    },
+    {
+    },
+    {
+      "kavlan_pattern": "ethernet1/1/%LINECARD%:%PORT%",
+      "kind": "node",
+      "ports": [
+        {
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "ethernet1/1/27:1",
+          "uid": "gros-33"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "ethernet1/1/27:2",
+          "uid": "gros-34"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "ethernet1/1/27:3",
+          "uid": "gros-35"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "ethernet1/1/27:4",
+          "uid": "gros-36"
+        }
+      ],
+      "rate": 25000000000,
+      "snmp_pattern": "ethernet1/1/%LINECARD%:%PORT%"
+    },
+    {
+    },
+    {
+      "kavlan_pattern": "ethernet1/1/%LINECARD%:%PORT%",
+      "kind": "node",
+      "ports": [
+        {
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "ethernet1/1/29:1",
+          "uid": "gros-37"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "ethernet1/1/29:2",
+          "uid": "gros-38"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "ethernet1/1/29:3",
+          "uid": "gros-39"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "ethernet1/1/29:4",
+          "uid": "gros-40"
+        }
+      ],
+      "rate": 25000000000,
+      "snmp_pattern": "ethernet1/1/%LINECARD%:%PORT%"
+    },
+    {
+    },
+    {
+      "kavlan_pattern": "ethernet1/1/%LINECARD%:%PORT%",
+      "kind": "node",
+      "ports": [
+        {
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "ethernet1/1/31:1",
+          "uid": "gros-5"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "ethernet1/1/31:2",
+          "uid": "gros-6"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "ethernet1/1/31:3",
+          "uid": "gros-7"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "ethernet1/1/31:4",
+          "uid": "gros-8"
+        }
+      ],
+      "rate": 25000000000,
+      "snmp_pattern": "ethernet1/1/%LINECARD%:%PORT%"
+    },
+    {
+    },
+    {
+      "kavlan_pattern": "ethernet1/1/%LINECARD%:%PORT%",
+      "kind": "node",
+      "ports": [
+        {
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "ethernet1/1/33:1",
+          "uid": "gros-121"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "ethernet1/1/33:2",
+          "uid": "gros-122"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "ethernet1/1/33:3",
+          "uid": "gros-123"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "ethernet1/1/33:4",
+          "uid": "gros-124"
+        }
+      ],
+      "rate": 25000000000,
+      "snmp_pattern": "ethernet1/1/%LINECARD%:%PORT%"
+    },
+    {
+    },
+    {
+      "kavlan_pattern": "ethernet1/1/%LINECARD%:%PORT%",
+      "kind": "node",
+      "ports": [
+        {
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "ethernet1/1/35:1",
+          "uid": "gros-77"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "ethernet1/1/35:2",
+          "uid": "gros-78"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "ethernet1/1/35:3",
+          "uid": "gros-79"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "ethernet1/1/35:4",
+          "uid": "gros-80"
+        }
+      ],
+      "rate": 25000000000,
+      "snmp_pattern": "ethernet1/1/%LINECARD%:%PORT%"
+    },
+    {
+    },
+    {
+      "kavlan_pattern": "ethernet1/1/%LINECARD%:%PORT%",
+      "kind": "node",
+      "ports": [
+        {
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "ethernet1/1/37:1",
+          "uid": "gros-81"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "ethernet1/1/37:2",
+          "uid": "gros-82"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "ethernet1/1/37:3",
+          "uid": "gros-83"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "ethernet1/1/37:4",
+          "uid": "gros-84"
+        }
+      ],
+      "rate": 25000000000,
+      "snmp_pattern": "ethernet1/1/%LINECARD%:%PORT%"
+    },
+    {
+    },
+    {
+      "kavlan_pattern": "ethernet1/1/%LINECARD%:%PORT%",
+      "kind": "node",
+      "ports": [
+        {
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "ethernet1/1/39:1",
+          "uid": "gros-85"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "ethernet1/1/39:2",
+          "uid": "gros-86"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "ethernet1/1/39:3",
+          "uid": "gros-87"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "ethernet1/1/39:4",
+          "uid": "gros-88"
+        }
+      ],
+      "rate": 25000000000,
+      "snmp_pattern": "ethernet1/1/%LINECARD%:%PORT%"
+    },
+    {
+    },
+    {
+      "kavlan_pattern": "ethernet1/1/%LINECARD%:%PORT%",
+      "kind": "node",
+      "ports": [
+        {
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "ethernet1/1/41:1",
+          "uid": "gros-89"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "ethernet1/1/41:2",
+          "uid": "gros-90"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "ethernet1/1/41:3",
+          "uid": "gros-91"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "ethernet1/1/41:4",
+          "uid": "gros-92"
+        }
+      ],
+      "rate": 25000000000,
+      "snmp_pattern": "ethernet1/1/%LINECARD%:%PORT%"
+    },
+    {
+    },
+    {
+      "kavlan_pattern": "ethernet1/1/%LINECARD%:%PORT%",
+      "kind": "node",
+      "ports": [
+        {
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "ethernet1/1/43:1",
+          "uid": "gros-93"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "ethernet1/1/43:2",
+          "uid": "gros-94"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "ethernet1/1/43:3",
+          "uid": "gros-95"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "ethernet1/1/43:4",
+          "uid": "gros-96"
+        }
+      ],
+      "rate": 25000000000,
+      "snmp_pattern": "ethernet1/1/%LINECARD%:%PORT%"
+    },
+    {
+    },
+    {
+      "kavlan_pattern": "ethernet1/1/%LINECARD%:%PORT%",
+      "kind": "node",
+      "ports": [
+        {
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "ethernet1/1/45:1",
+          "uid": "gros-57"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "ethernet1/1/45:2",
+          "uid": "gros-58"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "ethernet1/1/45:3",
+          "uid": "gros-59"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "ethernet1/1/45:4",
+          "uid": "gros-60"
+        }
+      ],
+      "rate": 25000000000,
+      "snmp_pattern": "ethernet1/1/%LINECARD%:%PORT%"
+    },
+    {
+    },
+    {
+      "kavlan_pattern": "ethernet1/1/%LINECARD%:%PORT%",
+      "kind": "node",
+      "ports": [
+        {
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "ethernet1/1/47:1",
+          "uid": "gros-53"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "ethernet1/1/47:2",
+          "uid": "gros-54"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "ethernet1/1/47:3",
+          "uid": "gros-55"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "ethernet1/1/47:4",
+          "uid": "gros-56"
+        }
+      ],
+      "rate": 25000000000,
+      "snmp_pattern": "ethernet1/1/%LINECARD%:%PORT%"
+    },
+    {
+    },
+    {
+      "kavlan_pattern": "ethernet1/1/%LINECARD%:%PORT%",
+      "kind": "node",
+      "ports": [
+        {
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "ethernet1/1/49:1",
+          "uid": "gros-49"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "ethernet1/1/49:2",
+          "uid": "gros-50"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "ethernet1/1/49:3",
+          "uid": "gros-51"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "ethernet1/1/49:4",
+          "uid": "gros-52"
+        }
+      ],
+      "rate": 25000000000,
+      "snmp_pattern": "ethernet1/1/%LINECARD%:%PORT%"
+    },
+    {
+    },
+    {
+      "kavlan_pattern": "ethernet1/1/%LINECARD%:%PORT%",
+      "kind": "node",
+      "ports": [
+        {
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "ethernet1/1/51:1",
+          "uid": "gros-45"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "ethernet1/1/51:2",
+          "uid": "gros-46"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "ethernet1/1/51:3",
+          "uid": "gros-47"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "ethernet1/1/51:4",
+          "uid": "gros-48"
+        }
+      ],
+      "rate": 25000000000,
+      "snmp_pattern": "ethernet1/1/%LINECARD%:%PORT%"
+    },
+    {
+    },
+    {
+      "kavlan_pattern": "ethernet1/1/%LINECARD%:%PORT%",
+      "kind": "node",
+      "ports": [
+        {
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "ethernet1/1/53:1",
+          "uid": "gros-41"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "ethernet1/1/53:2",
+          "uid": "gros-42"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "ethernet1/1/53:3",
+          "uid": "gros-43"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "ethernet1/1/53:4",
+          "uid": "gros-44"
+        }
+      ],
+      "rate": 25000000000,
+      "snmp_pattern": "ethernet1/1/%LINECARD%:%PORT%"
+    },
+    {
+    },
+    {
+      "kavlan_pattern": "ethernet1/1/%LINECARD%:%PORT%",
+      "kind": "node",
+      "ports": [
+        {
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "ethernet1/1/55:1",
+          "uid": "gros-21"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "ethernet1/1/55:2",
+          "uid": "gros-22"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "ethernet1/1/55:3",
+          "uid": "gros-23"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "ethernet1/1/55:4",
+          "uid": "gros-24"
+        }
+      ],
+      "rate": 25000000000,
+      "snmp_pattern": "ethernet1/1/%LINECARD%:%PORT%"
+    },
+    {
+    },
+    {
+      "kavlan_pattern": "ethernet1/1/%LINECARD%:%PORT%",
+      "kind": "node",
+      "ports": [
+        {
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "ethernet1/1/57:1",
+          "uid": "gros-17"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "ethernet1/1/57:2",
+          "uid": "gros-18"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "ethernet1/1/57:3",
+          "uid": "gros-19"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "ethernet1/1/57:4",
+          "uid": "gros-20"
+        }
+      ],
+      "rate": 25000000000,
+      "snmp_pattern": "ethernet1/1/%LINECARD%:%PORT%"
+    },
+    {
+    },
+    {
+      "kavlan_pattern": "ethernet1/1/%LINECARD%:%PORT%",
+      "kind": "node",
+      "ports": [
+        {
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "ethernet1/1/59:1",
+          "uid": "gros-13"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "ethernet1/1/59:2",
+          "uid": "gros-14"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "ethernet1/1/59:3",
+          "uid": "gros-15"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "ethernet1/1/59:4",
+          "uid": "gros-16"
+        }
+      ],
+      "rate": 25000000000,
+      "snmp_pattern": "ethernet1/1/%LINECARD%:%PORT%"
+    },
+    {
+    },
+    {
+      "kavlan_pattern": "ethernet1/1/%LINECARD%:%PORT%",
+      "kind": "node",
+      "ports": [
+        {
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "ethernet1/1/61:1",
+          "uid": "gros-9"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "ethernet1/1/61:2",
+          "uid": "gros-10"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "ethernet1/1/61:3",
+          "uid": "gros-11"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "ethernet1/1/61:4",
+          "uid": "gros-12"
+        }
+      ],
+      "rate": 25000000000,
+      "snmp_pattern": "ethernet1/1/%LINECARD%:%PORT%"
+    },
+    {
+    },
+    {
+      "kavlan_pattern": "ethernet1/1/%LINECARD%:%PORT%",
+      "kind": "node",
+      "ports": [
+        {
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "ethernet1/1/63:1",
+          "uid": "gros-1"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "ethernet1/1/63:2",
+          "uid": "gros-2"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "ethernet1/1/63:3",
+          "uid": "gros-3"
+        },
+        {
+          "kind": "node",
+          "port": "eth0",
+          "snmp_name": "ethernet1/1/63:4",
+          "uid": "gros-4"
+        }
+      ],
+      "rate": 25000000000,
+      "snmp_pattern": "ethernet1/1/%LINECARD%:%PORT%"
+    }
+  ],
+  "metrics": [
+    {
+      "description": "Input byte counter for the network device port",
+      "name": "network_ifacein_bytes_total",
+      "period": 3000,
+      "source": {
+        "id": "1.3.6.1.2.1.2.2.1.10.{{ 1.3.6.1.2.1.2.2.1.2 == %SNMP_IFACE% }}",
+        "protocol": "snmp"
+      }
+    },
+    {
+      "description": "Output byte counter for the network device port",
+      "name": "network_ifaceout_bytes_total",
+      "period": 3000,
+      "source": {
+        "id": "1.3.6.1.2.1.2.2.1.16.{{ 1.3.6.1.2.1.2.2.1.2 == %SNMP_IFACE% }}",
+        "protocol": "snmp"
+      }
+    }
+  ],
+  "model": "Dell Z9264F-ON",
+  "role": "production",
+  "site": "nancy",
+  "snmp_community": "public",
+  "type": "network_equipment",
+  "uid": "sgros1",
+  "warranty": "2026-07-11"
+}

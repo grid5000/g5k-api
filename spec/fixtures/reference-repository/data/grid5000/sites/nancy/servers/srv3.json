@@ -1,0 +1,50 @@
+{
+  "alias": [
+    "wattmetre",
+    "adminfront"
+  ],
+  "kind": "physical",
+  "monitoring": {
+    "metric": "power",
+    "wattmeter": "multiple"
+  },
+  "network_adapters": {
+    "adm": {
+      "ip": "172.17.79.19"
+    },
+    "bmc": {
+      "ip": "172.17.79.15",
+      "mac": "54:bf:64:fc:97:42"
+    },
+    "default": {
+      "ip": "172.16.79.15",
+      "mac": "e4:43:4b:83:8a:ec"
+    }
+  },
+  "sensors": {
+    "network": {
+      "available": true,
+      "resolution": 1
+    },
+    "power": {
+      "available": true,
+      "resolution": 1,
+      "via": {
+        "pdu": [
+          {
+            "port": 14,
+            "uid": "gros-pdu7"
+          },
+          {
+            "port": 14,
+            "uid": "gros-pdu8"
+          }
+        ]
+      }
+    }
+  },
+  "serial": "FKHBSY2",
+  "type": "server",
+  "uid": "srv3",
+  "warranty": "2026-07"
+}

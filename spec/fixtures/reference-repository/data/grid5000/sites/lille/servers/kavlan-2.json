@@ -1,0 +1,13 @@
+{
+  "kind": "virtual",
+  "network_adapters": {
+    "adm": {
+      "ip": "172.17.47.132"
+    },
+    "default": {
+      "ip": "172.16.47.132"
+    }
+  },
+  "type": "server",
+  "uid": "kavlan-2"
+}

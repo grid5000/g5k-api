@@ -1,0 +1,10 @@
+{
+  "kind": "virtual",
+  "network_adapters": {
+    "default": {
+      "ip": "172.16.63.125"
+    }
+  },
+  "type": "server",
+  "uid": "kavlan-691"
+}
