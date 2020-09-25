@@ -1,3 +1,10 @@
+g5k-api (3.9.10) unstable; urgency=low
+
+  * b70f5c4 Remove leftovers of environments routes
+  * 59cfaa1 Remove useless route definition
+
+ -- Samir Noir <samir.noir@inria.fr>  Fri, 25 Sep 2020 09:32:16 +0200
+
 g5k-api (3.9.9) unstable; urgency=low
 
   * 728a7e7 Return 404 when a commit or a branch cannot be found
