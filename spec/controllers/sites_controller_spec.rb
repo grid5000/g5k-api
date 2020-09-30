@@ -72,6 +72,7 @@ describe SitesController do
         self
         servers
         status
+        storage
         version
         versions
         vlans
