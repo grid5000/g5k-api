@@ -48,8 +48,17 @@ class SitesController < ResourcesController
       ]
     }
 
-    expected_rtypes = ['node']
-    expected_rtypes.push('disk') if params[:disks] != 'no'
+    rtypes = OAR::Resource.select(:type).distinct.map{ |t| t.type }
+    expected_rtypes = []
+
+    rtypes.each do |oar_type|
+      plural_type = OAR::Resource.api_type(oar_type)
+
+      if params[plural_type] != 'no'
+        expected_rtypes.push(oar_type)
+      end
+    end
+
     result.merge!(OAR::Resource.status(clusters: valid_clusters, network_address: params[:network_address], job_details: params[:job_details], waiting: params[:waiting], types: expected_rtypes))
 
     respond_to do |format|

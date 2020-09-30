@@ -23,6 +23,8 @@ module OAR
     # disable inheritance guessed by Rails because of the "type" column.
     self.inheritance_column = :_type_disabled
 
+    EXCLUDED_TYPES = ['storage', 'metroflux', 'kavlan-topo']
+
     QUERY_ASSIGNED_RESOURCES = 'SELECT moldable_job_id, resource_id FROM assigned_resources WHERE moldable_job_id IN (%MOLDABLE_IDS%)'.freeze
     QUERY_GANTT_JOBS_RESOURCES = 'SELECT moldable_job_id, resource_id FROM gantt_jobs_resources WHERE moldable_job_id IN (%MOLDABLE_IDS%)'.freeze
     def dead?
@@ -45,6 +47,10 @@ module OAR
         network_address
       when 'disk'
         [disk.split('.').first, host].join('.')
+      when /^(kavlan|kavlan-global|kavlan-local)$/
+        vlan
+      when 'subnet'
+        subnet_address + '/' + subnet_prefix.to_s
       else
         resource_id
       end
@@ -52,7 +58,10 @@ module OAR
 
     class << self
       def api_type(oar_type)
-        if oar_type == 'default'
+        case oar_type
+        when /^(kavlan|kavlan-global|kavlan-local)$/
+          'vlans'
+        when 'default'
           'nodes'
         else
           oar_type.pluralize
@@ -60,17 +69,7 @@ module OAR
       end
 
       def list_some(options)
-        # Do OAR resources have a comment column
-        include_comment = columns.find { |c| c.name == 'comment' }
-
-        # Do OAR resources have a disk column
-        include_disk = columns.find { |c| c.name == 'disk' }
-
-        # bug 5106 : we need cluster & core
-        # bug 9230 : we need type, disk and diskpath
-        resources = Resource.select(
-          "resource_id, type, cluster, host, network_address, #{include_disk ? 'disk, diskpath,' : ''} core, state, available_upto#{include_comment ? ', comment' : ''}"
-        )
+        resources = Resource
 
         unless options[:network_address].blank?
           resources = resources.where(
@@ -78,13 +77,13 @@ module OAR
           )
         end
 
-        unless options[:clusters].blank?
+        if options[:clusters].present?
           resources = resources.where(
-            cluster: options[:clusters]
-          )
+            cluster: options[:clusters], type: options[:oar_types]
+          ).or(resources.where(type: options[:oar_types], cluster: nil))
+        else
+          resources = resources.where(type: options[:oar_types])
         end
-
-        resources = resources.where(type: options[:oar_types])
 
         resources
       end
@@ -123,6 +122,7 @@ module OAR
         #   No types requested implies default
         #   and default is returned as nodes
         options[:types] = ['node'] if options[:types].nil?
+        options[:types].reject! { |t| EXCLUDED_TYPES.include?(t) }
 
         options[:oar_types] = options[:types]
         had_node = options[:oar_types].delete('node') == 'node'
@@ -270,6 +270,11 @@ module OAR
         when 'disk'
           h[:soft] = 'free'
           h[:diskpath] = resource.diskpath
+        when /^(kavlan|kavlan-global|kavlan-local)$/
+          h[:soft] = 'free'
+          h[:type] = resource.type
+        else
+          h[:soft] = 'free'
         end
         h
       end
