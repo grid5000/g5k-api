@@ -54,6 +54,20 @@ describe JobsController do
         }
       ]
     end
+
+    it 'should fetch the list of jobs, with their resources' do
+      get :index, params: { site_id: 'rennes', resources: 'yes', format: :json }
+      expect(response.status).to eq 200
+      expect(json['total']).to eq @job_uids.length
+      expect(json['offset']).to eq 0
+      expect(json['items'].length).to eq @job_uids.length
+      expect(json['items'].map { |i| i['uid'] }.sort).to eq @job_uids.sort
+      expect(json['items'].first.has_key?('assigned_nodes')).to be true
+      expect(json['items'].first.has_key?('resources_by_type')).to be true
+      expect(json['items'].first['assigned_nodes']).to eq ['parasilo-3.rennes.grid5000.fr']
+      expect(json['items'].first['resources_by_type']['cores']).to eq ['parasilo-3.rennes.grid5000.fr', 'parasilo-3.rennes.grid5000.fr', 'parasilo-3.rennes.grid5000.fr', 'parasilo-3.rennes.grid5000.fr', 'parasilo-3.rennes.grid5000.fr', 'parasilo-3.rennes.grid5000.fr', 'parasilo-3.rennes.grid5000.fr', 'parasilo-3.rennes.grid5000.fr']
+    end
+
     it 'should correctly deal with pagination filters' do
       get :index, params: { site_id: 'rennes', offset: 11, limit: 5, format: :json }
       expect(response.status).to eq 200
@@ -62,6 +76,7 @@ describe JobsController do
       expect(json['items'].length).to eq 5
       expect(json['items'].map { |i| i['uid'] }).to eq [374_190, 374_189, 374_188, 374_187, 374_186]
     end
+
     it 'should correctly deal with other filters' do
       params = { user: 'crohr', name: 'whatever' }
       expect(OAR::Job).to receive(:list).with(hash_including(params))

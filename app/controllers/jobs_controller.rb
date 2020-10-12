@@ -22,20 +22,35 @@ class JobsController < ApplicationController
 
     offset = [(params[:offset] || 0).to_i, 0].max
     limit = [(params[:limit] || LIMIT).to_i, LIMIT_MAX].min
-
     jobs = OAR::Job.list(params)
     total = jobs.count(:all)
 
+    params[:resources] = 'no' if params[:resources].nil?
+
     jobs = jobs.offset(offset).limit(limit).includes(:job_types, :job_events, :gantt)
+    jobs_extra_hash = {}
 
     jobs.each do |job|
       job.links = links_for_item(job)
+      if params[:resources] != 'no'
+        jobs_extra_hash[job[:job_id]] = {}
+        jobs_extra_hash[job[:job_id]][:resources_by_type] = job.resources_by_type
+        jobs_extra_hash[job[:job_id]][:assigned_nodes] = job.assigned_nodes
+      end
+    end
+
+    jobs_hash = jobs.as_json
+
+    if params[:resources] != 'no'
+      jobs_hash.each do |job|
+        job.merge!(jobs_extra_hash[job[:uid]])
+      end
     end
 
     result = {
       'total' => total,
       'offset' => offset,
-      'items' => jobs,
+      'items' => jobs_hash,
       'links' => links_for_collection
     }
 
@@ -87,8 +102,8 @@ class JobsController < ApplicationController
     else
       response.header['X-Oar-Info'] = begin
                                         (
-                                                JSON.parse(http.body)['oardel_output'] || ''
-                                              ).split("\n").join(' ')
+                                          JSON.parse(http.body)['oardel_output'] || ''
+                                        ).split("\n").join(' ')
                                       rescue StandardError
                                         '-'
                                       end
