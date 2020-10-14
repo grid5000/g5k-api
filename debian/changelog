@@ -1,3 +1,9 @@
+g5k-api (3.9.12) unstable; urgency=low
+
+  * 3df40be Fix missing disk resources on API status.
+
+ -- Samir Noir <samir.noir@inria.fr>  Wed, 14 Oct 2020 16:00:33 +0200
+
 g5k-api (3.9.11) unstable; urgency=low
 
   * 8dfa146 Add storage endpoint
