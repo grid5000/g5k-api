@@ -48,7 +48,10 @@ class SitesController < ResourcesController
       ]
     }
 
+    # Select the possible resources type from database. In disk case, even if
+    # it doesn't exists we want it in the result (as an empty Hash value).
     rtypes = OAR::Resource.select(:type).distinct.map{ |t| t.type }
+    rtypes.push('disk') unless rtypes.include?('disk')
     expected_rtypes = []
 
     rtypes.each do |oar_type|
