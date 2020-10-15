@@ -65,7 +65,7 @@ describe JobsController do
       expect(json['items'].first.has_key?('assigned_nodes')).to be true
       expect(json['items'].first.has_key?('resources_by_type')).to be true
       expect(json['items'].first['assigned_nodes']).to eq ['parasilo-3.rennes.grid5000.fr']
-      expect(json['items'].first['resources_by_type']['cores']).to eq ['parasilo-3.rennes.grid5000.fr', 'parasilo-3.rennes.grid5000.fr', 'parasilo-3.rennes.grid5000.fr', 'parasilo-3.rennes.grid5000.fr', 'parasilo-3.rennes.grid5000.fr', 'parasilo-3.rennes.grid5000.fr', 'parasilo-3.rennes.grid5000.fr', 'parasilo-3.rennes.grid5000.fr']
+      expect(json['items'].first['resources_by_type']['cores']).to eq ['parasilo-3.rennes.grid5000.fr/16', 'parasilo-3.rennes.grid5000.fr/17', 'parasilo-3.rennes.grid5000.fr/18', 'parasilo-3.rennes.grid5000.fr/19', 'parasilo-3.rennes.grid5000.fr/20', 'parasilo-3.rennes.grid5000.fr/21', 'parasilo-3.rennes.grid5000.fr/22', 'parasilo-3.rennes.grid5000.fr/23']
     end
 
     it 'should correctly deal with pagination filters' do
@@ -101,7 +101,7 @@ describe JobsController do
       expect(json['types']).to eq ['deploy']
       expect(json['scheduled_at']).to eq 1_294_395_995
       expect(json['assigned_nodes'].sort).to eq ['paramount-4.rennes.grid5000.fr', 'paramount-30.rennes.grid5000.fr', 'paramount-32.rennes.grid5000.fr', 'paramount-33.rennes.grid5000.fr'].sort
-      expect(json['resources_by_type']['cores'].sort).to eq ['paramount-4.rennes.grid5000.fr', 'paramount-4.rennes.grid5000.fr', 'paramount-4.rennes.grid5000.fr', 'paramount-4.rennes.grid5000.fr', 'paramount-30.rennes.grid5000.fr', 'paramount-30.rennes.grid5000.fr', 'paramount-30.rennes.grid5000.fr', 'paramount-30.rennes.grid5000.fr', 'paramount-32.rennes.grid5000.fr', 'paramount-32.rennes.grid5000.fr', 'paramount-32.rennes.grid5000.fr', 'paramount-32.rennes.grid5000.fr', 'paramount-33.rennes.grid5000.fr', 'paramount-33.rennes.grid5000.fr', 'paramount-33.rennes.grid5000.fr', 'paramount-33.rennes.grid5000.fr'].sort
+      expect(json['resources_by_type']['cores']).to eq ['paramount-4.rennes.grid5000.fr/0', 'paramount-4.rennes.grid5000.fr/1', 'paramount-4.rennes.grid5000.fr/2', 'paramount-4.rennes.grid5000.fr/3', 'paramount-30.rennes.grid5000.fr/0', 'paramount-30.rennes.grid5000.fr/1', 'paramount-30.rennes.grid5000.fr/2', 'paramount-30.rennes.grid5000.fr/3', 'paramount-32.rennes.grid5000.fr/0', 'paramount-32.rennes.grid5000.fr/1', 'paramount-32.rennes.grid5000.fr/2', 'paramount-32.rennes.grid5000.fr/3', 'paramount-33.rennes.grid5000.fr/0', 'paramount-33.rennes.grid5000.fr/1', 'paramount-33.rennes.grid5000.fr/2', 'paramount-33.rennes.grid5000.fr/3']
     end
   end # describe "GET /sites/{{site_id}}/jobs/{{id}}"
 

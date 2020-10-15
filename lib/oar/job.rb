@@ -144,7 +144,11 @@ module OAR
     end
 
     def assigned_nodes
-      (resources_by_type['cores'] || []).uniq
+      if resources_by_type['cores']
+        resources_by_type['cores'].map { |n| n.gsub(/\/([0-9]+)$/, '') }.uniq
+      else
+        []
+      end
     end
 
     def resources_by_type
@@ -153,7 +157,7 @@ module OAR
         case resource.type
         when 'default'
           h['cores'] ||= []
-          h['cores'].push(resource.network_address)
+          h['cores'].push(resource.network_address + '/' + resource.cpuset)
         when /vlan/
           h['vlans'] ||= []
           h['vlans'].push(resource.vlan)
@@ -171,6 +175,21 @@ module OAR
           ].join('.'))
         end
       end
+
+      # Sort by node name and cpuset, to have nodes from a same cluster grouped
+      # and listed in correct order. Also sort cpuset number for a node.
+      if h['cores']
+        h['cores'].sort_by! do |n|
+          [n.gsub(/^([A-z]+)\-.*$/, '\1'),
+           n.gsub(/^([A-z]+)\-([0-9]+).*/, '\2').to_i,
+           n.gsub(/^.*\/([0-9]+)$/, '\1').to_i]
+        end
+      end
+
+      ['vlans', 'disks', 'subnets'].each do |type|
+        h[type].sort if h[type]
+      end
+
       h
     end
 
