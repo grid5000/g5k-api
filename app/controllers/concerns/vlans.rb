@@ -25,8 +25,10 @@ module Vlans
   end
 
   def vlan_exist
-    if params[:vlan_id]
-      raise ApplicationController::NotFound, "Vlan #{params[:vlan_id]} does not exist" unless @kavlan.vlan_exist?(params[:vlan_id])
+    vlan_param = params[:controller] == 'vlans' ? :id : :vlan_id
+
+    if params[vlan_param]
+      raise ApplicationController::NotFound, "Vlan #{params[vlan_param]} does not exist" unless @kavlan.vlan_exist?(params[vlan_param])
     end
   end
 end

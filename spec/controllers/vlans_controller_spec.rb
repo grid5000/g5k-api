@@ -138,6 +138,23 @@ describe VlansController do
       expect(response.status).to eq(404)
       expect(response.body).to eq('Vlan 200 does not exist')
     end
+
+    it 'vlan should be type kavlan-global-remote' do
+      stub_request(:get, File.join(@base_expected_uri, '15')).
+        with(
+          headers: {
+            'Accept'=>'application/json',
+            'Host'=>'api-out.local',
+          }).
+          to_return(status: 200, body: fixture('kavlan-rennes-vlan-remote.json'), headers: @headers_return)
+
+      get :show, params: { site_id: 'rennes', id: '15', format: :json }
+
+
+      expect(response.status).to eq(200)
+      expect(json['uid']).to eq('15')
+      expect(json['type']).to eq('kavlan-global-remote')
+    end
   end
 
   describe 'PUT /vlans/:id/dhcpd' do

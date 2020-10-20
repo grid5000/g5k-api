@@ -30,6 +30,7 @@ class VlansController < ApplicationController
     }
 
     result['items'].each do |item|
+      replace_kavlan_remote(item)
       item['links'] = links_for_item(item)
     end
 
@@ -47,6 +48,7 @@ class VlansController < ApplicationController
     result = @kavlan.vlan(params[:id])
     result.delete('links')
     result['links'] = links_for_item(result)
+    replace_kavlan_remote(result)
 
     respond_to do |format|
       format.g5kitemjson { render json: result }
@@ -153,5 +155,11 @@ class VlansController < ApplicationController
         'type' => api_media_type(:g5kitemjson)
       }
     ]
+  end
+
+  private
+
+  def replace_kavlan_remote(item)
+    item['type'] = 'kavlan-global-remote' if item['type'] == 'kavlan-remote'
   end
 end
