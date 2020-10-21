@@ -54,6 +54,20 @@ describe JobsController do
         }
       ]
     end
+
+    it 'should fetch the list of jobs, with their resources' do
+      get :index, params: { site_id: 'rennes', resources: 'yes', format: :json }
+      expect(response.status).to eq 200
+      expect(json['total']).to eq @job_uids.length
+      expect(json['offset']).to eq 0
+      expect(json['items'].length).to eq @job_uids.length
+      expect(json['items'].map { |i| i['uid'] }.sort).to eq @job_uids.sort
+      expect(json['items'].first.has_key?('assigned_nodes')).to be true
+      expect(json['items'].first.has_key?('resources_by_type')).to be true
+      expect(json['items'].first['assigned_nodes']).to eq ['parasilo-3.rennes.grid5000.fr']
+      expect(json['items'].first['resources_by_type']['cores']).to eq ['parasilo-3.rennes.grid5000.fr/16', 'parasilo-3.rennes.grid5000.fr/17', 'parasilo-3.rennes.grid5000.fr/18', 'parasilo-3.rennes.grid5000.fr/19', 'parasilo-3.rennes.grid5000.fr/20', 'parasilo-3.rennes.grid5000.fr/21', 'parasilo-3.rennes.grid5000.fr/22', 'parasilo-3.rennes.grid5000.fr/23']
+    end
+
     it 'should correctly deal with pagination filters' do
       get :index, params: { site_id: 'rennes', offset: 11, limit: 5, format: :json }
       expect(response.status).to eq 200
@@ -62,6 +76,7 @@ describe JobsController do
       expect(json['items'].length).to eq 5
       expect(json['items'].map { |i| i['uid'] }).to eq [374_190, 374_189, 374_188, 374_187, 374_186]
     end
+
     it 'should correctly deal with other filters' do
       params = { user: 'crohr', name: 'whatever' }
       expect(OAR::Job).to receive(:list).with(hash_including(params))
@@ -86,7 +101,7 @@ describe JobsController do
       expect(json['types']).to eq ['deploy']
       expect(json['scheduled_at']).to eq 1_294_395_995
       expect(json['assigned_nodes'].sort).to eq ['paramount-4.rennes.grid5000.fr', 'paramount-30.rennes.grid5000.fr', 'paramount-32.rennes.grid5000.fr', 'paramount-33.rennes.grid5000.fr'].sort
-      expect(json['resources_by_type']['cores'].sort).to eq ['paramount-4.rennes.grid5000.fr', 'paramount-4.rennes.grid5000.fr', 'paramount-4.rennes.grid5000.fr', 'paramount-4.rennes.grid5000.fr', 'paramount-30.rennes.grid5000.fr', 'paramount-30.rennes.grid5000.fr', 'paramount-30.rennes.grid5000.fr', 'paramount-30.rennes.grid5000.fr', 'paramount-32.rennes.grid5000.fr', 'paramount-32.rennes.grid5000.fr', 'paramount-32.rennes.grid5000.fr', 'paramount-32.rennes.grid5000.fr', 'paramount-33.rennes.grid5000.fr', 'paramount-33.rennes.grid5000.fr', 'paramount-33.rennes.grid5000.fr', 'paramount-33.rennes.grid5000.fr'].sort
+      expect(json['resources_by_type']['cores']).to eq ['paramount-4.rennes.grid5000.fr/0', 'paramount-4.rennes.grid5000.fr/1', 'paramount-4.rennes.grid5000.fr/2', 'paramount-4.rennes.grid5000.fr/3', 'paramount-30.rennes.grid5000.fr/0', 'paramount-30.rennes.grid5000.fr/1', 'paramount-30.rennes.grid5000.fr/2', 'paramount-30.rennes.grid5000.fr/3', 'paramount-32.rennes.grid5000.fr/0', 'paramount-32.rennes.grid5000.fr/1', 'paramount-32.rennes.grid5000.fr/2', 'paramount-32.rennes.grid5000.fr/3', 'paramount-33.rennes.grid5000.fr/0', 'paramount-33.rennes.grid5000.fr/1', 'paramount-33.rennes.grid5000.fr/2', 'paramount-33.rennes.grid5000.fr/3']
     end
   end # describe "GET /sites/{{site_id}}/jobs/{{id}}"
 
