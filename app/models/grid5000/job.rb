@@ -50,7 +50,7 @@ module Grid5000
     def normalize!
       @state&.downcase!
       @message = nil if @message&.empty?
-      if @reservation&.is_a?(String)
+      if @reservation.is_a?(String)
         @reservation = begin
                          Time.parse(@reservation)
                        rescue StandardError

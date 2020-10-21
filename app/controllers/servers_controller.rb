@@ -26,8 +26,4 @@ class ServersController < ResourcesController
       site_servers_path
     end
   end
-
-  def links_for_item(item)
-    super(item)
-  end
 end

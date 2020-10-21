@@ -295,9 +295,6 @@ module Grid5000
 
   module Errors
     class RepositoryError < StandardError
-      def initialize(message)
-        super(message)
-      end
     end
 
     class BranchNotFound < RepositoryError
