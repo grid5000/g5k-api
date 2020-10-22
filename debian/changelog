@@ -1,3 +1,10 @@
+g5k-api (3.9.13) unstable; urgency=low
+
+  * 52a10aa Suffix core resource with cpu set on job API, and sort resources
+  * 6974d7c Add resources param on job controller index
+
+ -- Samir Noir <samir.noir@inria.fr>  Thu, 22 Oct 2020 11:11:45 +0200
+
 g5k-api (3.9.12) unstable; urgency=low
 
   * 3df40be Fix missing disk resources on API status.
