@@ -88,7 +88,7 @@ class VersionsController < ApplicationController
     {
       'uid' => commit.oid,
       'date' => commit.time.httpdate,
-      'message' => commit.message,
+      'message' => commit.message.chomp,
       'author' => commit.author[:name],
       'type' => 'version',
       'links' => [
