@@ -20,7 +20,6 @@ class ApplicationController < ActionController::Base
   protect_from_forgery unless: -> { request.format.json? }
 
   before_action :lookup_credentials
-  before_action :parse_json_payload, only: %i[create update destroy]
   before_action :set_default_format
 
   # additional classes introduced to handle all possible exceptions
@@ -175,16 +174,6 @@ class ApplicationController < ActionController::Base
     else
       raise ServerError, "Request to #{http.uri} failed with unexpected status #{status}: #{http.body} ; could be a TLS problem"
     end
-  end
-
-  # Automatically parse JSON payload when request content type is JSON
-  def parse_json_payload
-    if request.content_type =~ %r{application/.*json}i
-      json = JSON.parse(request.body.read)
-      params.merge!(json)
-    end
-  ensure
-    request.body.rewind
   end
 
   def render_error(exception, options = {})
