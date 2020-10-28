@@ -18,6 +18,9 @@ Api::Application.routes.draw do
   # The priority is based upon order of creation:
   # first created -> highest priority.
 
+  # swagger doc
+  resources :apidocs, only: [:index]
+
   get '/versions' => 'versions#index'
   get '/versions/:id' => 'versions#show'
   get '*resource/versions' => 'versions#index'
