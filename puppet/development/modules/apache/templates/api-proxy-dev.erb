@@ -114,6 +114,15 @@ Listen 8080
     ProxyPreserveHost On
     ProxyPass https://127.0.0.1:880<%= site_index+1 %>/sid/sites/<%= sites[site_index] %>/internal/kadeployapi retry=0
   </Location>
+  <Location /sites/<%= sites[site_index] %>/internal/kavlanapi>
+    RequestHeader unset X-Forwarded-Host
+    RequestHeader unset X-Forwarded-For
+    RequestHeader unset X-Forwarded-Server
+    RequestHeader set X-Api-Version "sid"
+    RequestHeader set Host "api.grid5000.fr"
+    ProxyPreserveHost On
+    ProxyPass https://127.0.0.1:880<%= site_index+1 %>/sid/sites/<%= sites[site_index] %>/internal/kavlanapi retry=0
+  </Location>
   <Location /sites/<%= sites[site_index] %>/public/~/>
     RequestHeader set X-Api-Version "sid"
     RequestHeader set Host "public.<%= sites[site_index] %>.grid5000.fr"

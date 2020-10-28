@@ -18,19 +18,27 @@ Api::Application.routes.draw do
   # The priority is based upon order of creation:
   # first created -> highest priority.
 
-  get '/versions' => 'versions#index', :via => [:get]
-  get '/versions/:id' => 'versions#show', :via => [:get]
-  get '*resource/versions' => 'versions#index', :via => [:get]
-  get '*resource/versions/:id' => 'versions#show', :via => [:get]
+  get '/versions' => 'versions#index'
+  get '/versions/:id' => 'versions#show'
+  get '*resource/versions' => 'versions#index'
+  get '*resource/versions/:id' => 'versions#show'
 
   resources :network_equipments, only: %i[index show]
   resources :sites, only: %i[index show] do
+    resources :vlans, only: %i[index show] do
+      member do
+        put 'dhcpd' => 'vlans#dhcpd'
+        match 'dhcpd' => 'errors#err_method_not_allowed', :via => [:all]
+      end
+    end
+
     member do
       get :status
     end
 
     resources :network_equipments, only: %i[index show]
     resources :pdus, only: %i[index show]
+
     resources :clusters, only: %i[index show] do
       member do
         get :status

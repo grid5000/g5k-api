@@ -60,10 +60,10 @@ class ClustersController < ResourcesController
     links = super(item)
 
     links.push({
-                 'rel' => 'status',
-                 'type' => api_media_type(:g5kitemjson),
-                 'href' => uri_to(File.join(resource_path(item['uid']), 'status'))
-               })
+      'rel' => 'status',
+      'type' => api_media_type(:g5kitemjson),
+      'href' => uri_to(File.join(resource_path(item['uid']), 'status'))
+    })
     links
   end
 end
