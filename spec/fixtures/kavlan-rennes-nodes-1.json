@@ -1,0 +1,1 @@
+{"uid":"nodes","nodes":["parapide-18.rennes.grid5000.fr","parapide-19.rennes.grid5000.fr"],"links":[{"href":"/3.0/sites/rennes/vlans/1/nodes","rel":"self","type":"application/vnd.grid5000.item+json"},{"href":"/3.0/sites/rennes/vlans/1","rel":"parent","type":"application/vnd.grid5000.item+json"}]}

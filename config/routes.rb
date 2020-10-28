@@ -25,6 +25,9 @@ Api::Application.routes.draw do
 
   resources :network_equipments, only: %i[index show]
   resources :sites, only: %i[index show] do
+    get '/vlans/nodes' => 'vlans_nodes_all#index'
+    get '/vlans/nodes/:node_name' => 'vlans_nodes_all#show', node_name: /[^\/]+/
+    post '/vlans/nodes' => 'vlans_nodes_all#vlan_for_nodes'
     get '/vlans/users' => 'vlans_users_all#index'
     get '/vlans/users/:user_id' => 'vlans_users_all#show'
 
@@ -39,6 +42,9 @@ Api::Application.routes.draw do
           put '/' => 'vlans_users#add'
         end
       end
+
+      resources :vlans_nodes, path: '/nodes', only: %i[index]
+      post '/nodes' => 'vlans_nodes#add'
     end
 
     member do
