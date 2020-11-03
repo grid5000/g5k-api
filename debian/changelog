@@ -1,3 +1,16 @@
+g5k-api (3.10.0) unstable; urgency=low
+
+  * 7782a92 Update gems (rails to 6.0.3.4, Rugged to 1.1.0)
+  * c583991 Replace kavlan-remote by kavlan-global-remote in vlan API
+  * b7c9fb8 Add two controllers to glue around Kavlan's nodes API
+  * baacbe6 Add two controllers to glue around Kavlan's users API
+  * 6e811e5 Add root vlan controller for the Kavlan's glue
+  * 4c6ac11 Add Grid5000::Kavlan class to interact with Kavlan's API
+  * 510ab23 Remove useless parse_json_payload method
+  * caee9f1 Remove \n at end of commit messages on versions controller
+
+ -- Samir Noir <samir.noir@inria.fr>  Tue, 03 Nov 2020 15:50:43 +0100
+
 g5k-api (3.9.13) unstable; urgency=low
 
   * 52a10aa Suffix core resource with cpu set on job API, and sort resources
