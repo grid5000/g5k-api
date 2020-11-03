@@ -113,6 +113,8 @@ module Grid5000
                     Net::HTTP::Get.new(uri, headers)
                   when :delete
                     Net::HTTP::Delete.new(uri, headers)
+                  when :put
+                    Net::HTTP::Put.new(uri, headers)
                   else
                     raise "Unknown http method: #{method}"
                   end

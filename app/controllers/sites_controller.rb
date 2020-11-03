@@ -80,16 +80,16 @@ class SitesController < ResourcesController
     links = super(item)
     %w[jobs deployments vlans metrics storage].each do |rel|
       links.push({
-                   'rel' => rel,
-                   'type' => api_media_type(:g5kcollectionjson),
-                   'href' => uri_to(File.join(resource_path(item['uid']), rel))
-                 })
+        'rel' => rel,
+        'type' => api_media_type(:g5kcollectionjson),
+        'href' => uri_to(File.join(resource_path(item['uid']), rel))
+      })
     end
     links.push({
-                 'rel' => 'status',
-                 'type' => api_media_type(:g5kitemjson),
-                 'href' => uri_to(File.join(resource_path(item['uid']), 'status'))
-               })
+      'rel' => 'status',
+      'type' => api_media_type(:g5kitemjson),
+      'href' => uri_to(File.join(resource_path(item['uid']), 'status'))
+    })
     links
   end
 end

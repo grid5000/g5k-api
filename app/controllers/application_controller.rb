@@ -20,7 +20,6 @@ class ApplicationController < ActionController::Base
   protect_from_forgery unless: -> { request.format.json? }
 
   before_action :lookup_credentials
-  before_action :parse_json_payload, only: %i[create update destroy]
   before_action :set_default_format
 
   # additional classes introduced to handle all possible exceptions
@@ -34,6 +33,7 @@ class ApplicationController < ActionController::Base
   class MethodNotAllowed < ClientError; end       # Error code 405
   class NotAcceptable < ClientError; end          # Error code 406
   class PreconditionFailed < ClientError; end     # Error code 412
+  class UnprocessableEntity < ClientError; end    # Error code 422
 
   # class & subclasses to handle server-side exceptions (Error codes 5xx)
   class ServerError < ActionController::ActionControllerError; end
@@ -53,10 +53,11 @@ class ApplicationController < ActionController::Base
   rescue_from MethodNotAllowed, with: :method_not_allowed           # for 405
   rescue_from NotAcceptable, with: :not_acceptable                  # for 406
   rescue_from PreconditionFailed, with: :precondition_failed        # for 412
+  rescue_from UnprocessableEntity, with: :unprocessable_entity      # for 422
 
   # exception-handlers for client-side exceptions
-  rescue_from UnsupportedMediaType, with: :server_error # for 415
   # agreed to send exception to server_error (instead of unsupported_media_type)
+  rescue_from UnsupportedMediaType, with: :server_error             # for 415
   rescue_from ServerError, with: :server_error                      # for 500
   rescue_from BadGateway, with: :bad_gateway                        # for 502
   rescue_from ServerUnavailable, with: :server_unavailable          # for 503
@@ -177,16 +178,6 @@ class ApplicationController < ActionController::Base
     end
   end
 
-  # Automatically parse JSON payload when request content type is JSON
-  def parse_json_payload
-    if request.content_type =~ %r{application/.*json}i
-      json = JSON.parse(request.body.read)
-      params.merge!(json)
-    end
-  ensure
-    request.body.rewind
-  end
-
   def render_error(exception, options = {})
     log_exception(exception)
     message = options[:message] || exception.message
@@ -251,6 +242,12 @@ class ApplicationController < ActionController::Base
   def unsupported_media_type(exception)
     opts = { status: 415 }
     opts[:message] = 'Unsupported Media Type' if exception.message == exception.class.name
+    render_error(exception, opts)
+  end
+
+  def unprocessable_entity(exception)
+    opts = { status: 422 }
+    opts[:message] = 'Unprocessable Entity' if exception.message == exception.class.name
     render_error(exception, opts)
   end
 

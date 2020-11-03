@@ -18,19 +18,42 @@ Api::Application.routes.draw do
   # The priority is based upon order of creation:
   # first created -> highest priority.
 
-  get '/versions' => 'versions#index', :via => [:get]
-  get '/versions/:id' => 'versions#show', :via => [:get]
-  get '*resource/versions' => 'versions#index', :via => [:get]
-  get '*resource/versions/:id' => 'versions#show', :via => [:get]
+  get '/versions' => 'versions#index'
+  get '/versions/:id' => 'versions#show'
+  get '*resource/versions' => 'versions#index'
+  get '*resource/versions/:id' => 'versions#show'
 
   resources :network_equipments, only: %i[index show]
   resources :sites, only: %i[index show] do
+    get '/vlans/nodes' => 'vlans_nodes_all#index'
+    get '/vlans/nodes/:node_name' => 'vlans_nodes_all#show', node_name: /[^\/]+/
+    post '/vlans/nodes' => 'vlans_nodes_all#vlan_for_nodes'
+    get '/vlans/users' => 'vlans_users_all#index'
+    get '/vlans/users/:user_id' => 'vlans_users_all#show'
+
+    resources :vlans, only: %i[index show] do
+      member do
+        put 'dhcpd' => 'vlans#dhcpd'
+        match 'dhcpd' => 'errors#err_method_not_allowed', :via => [:all]
+      end
+
+      resources :vlans_users, path: '/users', only: %i[index show destroy] do
+        member do
+          put '/' => 'vlans_users#add'
+        end
+      end
+
+      resources :vlans_nodes, path: '/nodes', only: %i[index]
+      post '/nodes' => 'vlans_nodes#add'
+    end
+
     member do
       get :status
     end
 
     resources :network_equipments, only: %i[index show]
     resources :pdus, only: %i[index show]
+
     resources :clusters, only: %i[index show] do
       member do
         get :status
