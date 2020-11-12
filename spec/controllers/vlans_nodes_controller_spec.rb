@@ -83,14 +83,14 @@ describe VlansNodesController do
       stub_request(:post, File.join(@base_expected_uri, '1')).
         with(
           headers: {
-            'Accept'=>'application/json',
-            'Host'=>'api-out.local',
+            'Accept' => 'application/json',
+            'Host'   => 'api-out.local',
           },
-          body: {"nodes" => ['paravance-9.rennes.grid5000.fr', 'paravance-10.rennes.grid5000.fr']}
+          body: {'nodes' => ['paravance-9.rennes.grid5000.fr', 'paravance-10.rennes.grid5000.fr', 'parapide-14.rennes.grid5000.fr']}
           ).
           to_return(status: 200,
                     body: '{"paravance-9.rennes.grid5000.fr":"ok",
-                            "paravance-10.rennes.grid5000.fr":"ok"}',
+                            "parapide-14.rennes.grid5000.fr":"unknown_node"}',
                     headers: @headers_return)
 
       authenticate_as('snoir')
@@ -100,14 +100,27 @@ describe VlansNodesController do
                            format: :json,
                            vlan_id: 1,
                            _json: ['paravance-9.rennes.grid5000.fr',
-                                   'paravance-10.rennes.grid5000.fr']
+                                   'paravance-10.rennes.grid5000.fr',
+                                   'parapide-14.rennes.grid5000.fr']
                           }
 
       expect(response.status).to eq(200)
       expect(json).to be_a(Hash)
-      expect(json.length).to eq(2)
-      expect(json).to eq({"paravance-9.rennes.grid5000.fr" => "ok",
-                          "paravance-10.rennes.grid5000.fr" => "ok"})
+      expect(json.length).to eq(3)
+      expect(json).to eq({
+        'paravance-9.rennes.grid5000.fr' => {
+          'status'  => 'success',
+          'message' => 'Successfully added to vlan'
+        },
+        'paravance-10.rennes.grid5000.fr' => {
+          'status'  => 'unchanged',
+          'message' => 'Node already in vlan'
+        },
+        'parapide-14.rennes.grid5000.fr' => {
+          'status'  => 'failure',
+          'message' => 'Unknown node'
+        }
+      })
     end
   end
 end

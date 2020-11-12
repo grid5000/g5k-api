@@ -51,14 +51,32 @@ class VlansNodesController < ApplicationController
       raise UnprocessableEntity, "Missing node list"
     end
 
-    result = @kavlan.update_vlan_nodes(params[:vlan_id], params[:vlans_node][:_json])
-    if result.code.to_i == 403
+    http = @kavlan.update_vlan_nodes(params[:vlan_id], params[:vlans_node][:_json])
+    if http.code.to_i == 403
       raise Forbidden, "Not enough privileges on Kavlan resources"
     end
 
+    result = {}
+    kavlan_result = JSON.parse(http.body)
+
+    params[:vlans_node][:_json].each do |node|
+      result[node] = {}
+
+      if kavlan_result[node] == 'ok'
+        result[node][:status] = 'success'
+        result[node][:message] = 'Successfully added to vlan'
+      elsif kavlan_result[node] == 'unknown_node'
+        result[node][:status] = 'failure'
+        result[node][:message] = 'Unknown node'
+      else
+        result[node][:status] = 'unchanged'
+        result[node][:message] = 'Node already in vlan'
+      end
+    end
+
     respond_to do |format|
-      format.g5kitemjson { render json: result.body }
-      format.json { render json: result.body }
+      format.g5kitemjson { render json: result }
+      format.json { render json: result }
     end
   end
 
