@@ -145,6 +145,16 @@ class VlansController < ApplicationController
   def links_for_collection
     [
       {
+        'rel' => 'nodes',
+        'href' => uri_to(File.join(collection_path, 'nodes')),
+        'type' => api_media_type(:g5kcollectionjson)
+      },
+      {
+        'rel' => 'users',
+        'href' => uri_to(File.join(collection_path, 'users')),
+        'type' => api_media_type(:g5kcollectionjson)
+      },
+      {
         'rel' => 'self',
         'href' => uri_to(collection_path),
         'type' => api_media_type(:g5kcollectionjson)

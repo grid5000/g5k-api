@@ -38,7 +38,7 @@ describe VlansController do
       expect(json['total']).to eq(22)
       expect(json['offset']).to eq(0)
       expect(json['items'].length).to eq(22)
-      expect(json['links'].length).to eq(2)
+      expect(json['links'].length).to eq(4)
       expect(json['items'].first['uid']).to eq('DEFAULT')
       expect(json['items'].map { |i| i['uid'].to_i }.sort).to eq (0..21).to_a.sort
 
@@ -72,6 +72,16 @@ describe VlansController do
         }
       ])
       expect(json['links']).to eq([
+        {
+          'rel' => 'nodes',
+          'href' => '/sites/rennes/vlans/nodes',
+          'type' => api_media_type(:g5kcollectionjson)
+        },
+        {
+          'rel' => 'users',
+          'href' => '/sites/rennes/vlans/users',
+          'type' => api_media_type(:g5kcollectionjson)
+        },
         {
           'rel' => 'self',
           'href' => '/sites/rennes/vlans',
