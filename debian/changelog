@@ -1,3 +1,10 @@
+g5k-api (3.10.1) unstable; urgency=low
+
+  * f8e353b Fix missing user credentials in vlan API
+  * adf0c5d Add users and nodes to collection's links on vlans root
+
+ -- Samir Noir <samir.noir@inria.fr>  Thu, 12 Nov 2020 17:22:49 +0100
+
 g5k-api (3.10.0) unstable; urgency=low
 
   * 7782a92 Update gems (rails to 6.0.3.4, Rugged to 1.1.0)
