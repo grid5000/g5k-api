@@ -131,7 +131,7 @@ module Grid5000
     def call_kavlan(uri, method)
       begin
         headers = { 'Accept' => Mime::Type.lookup_by_extension(:json).to_s,
-                    'X-Remote-Ident' => user }
+                    'X-Api-User-Cn' => user }
         http_request(method, uri, tls_options, 10, headers)
       rescue StandardError
         raise "Unable to contact #{uri}"
@@ -142,7 +142,7 @@ module Grid5000
       begin
         headers = { 'Accept' => Mime::Type.lookup_by_extension(:json).to_s,
                     'Content-Type' => Mime::Type.lookup_by_extension(:json).to_s,
-                    'X-Remote-Ident' => user }
+                    'X-Api-User-Cn' => user }
         http_request(method, uri, tls_options, 10, headers, data.to_json)
       rescue StandardError
         raise "Unable to contact #{uri}"

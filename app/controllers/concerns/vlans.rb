@@ -22,6 +22,7 @@ module Vlans
     @kavlan = Grid5000::Kavlan.new
     @kavlan.tls_options = tls_options_for(:out)
     @kavlan.base_uri = api_path
+    @kavlan.user = @credentials[:cn]
   end
 
   def vlan_exist
