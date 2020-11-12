@@ -21,10 +21,10 @@ class VlansNodesController < ApplicationController
     expires_in 60.seconds
 
     nodes = @kavlan.nodes_vlan(params[:vlan_id])
-    result  = {
+    result = {
       'total' => nodes.length,
       'offset' => 0,
-      'items' => nodes.map { |n| {'uid'=> n} },
+      'items' => nodes.map { |n| { 'uid' => n, 'vlan' => params[:vlan_id] } },
       'links' => links_for_collection
     }
 
@@ -38,7 +38,7 @@ class VlansNodesController < ApplicationController
     end
   end
 
-  # Update the nodes inside a vlan (add only)
+  # Add nodes inside a vlan
   def add
     ensure_authenticated!
     allow :post

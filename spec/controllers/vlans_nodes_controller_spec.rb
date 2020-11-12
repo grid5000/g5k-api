@@ -48,7 +48,9 @@ describe VlansNodesController do
       expect(json['total']).to eq(2)
       expect(json['items']).to be_a(Array)
       expect(json['items'].length).to eq(2)
+      expect(json['items'].first.length).to eq(3)
       expect(json['items'].first['uid']).to eq('parapide-18.rennes.grid5000.fr')
+      expect(json['items'].first['vlan']).to eq('1')
       expect(json['items'].first['links']).to eq([
         {
          'rel'=>'self',
