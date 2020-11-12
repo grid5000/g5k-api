@@ -1,3 +1,10 @@
+g5k-api (3.10.2) unstable; urgency=low
+
+  * ad366b9 Enhance JSON output when adding nodes to a vlan via POST request
+  * 6ac9ef4 Add vlan information to items returned when listing nodes for a vlan
+
+ -- Samir Noir <samir.noir@inria.fr>  Thu, 12 Nov 2020 20:05:00 +0100
+
 g5k-api (3.10.1) unstable; urgency=low
 
   * f8e353b Fix missing user credentials in vlan API
