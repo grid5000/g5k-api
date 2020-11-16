@@ -20,8 +20,13 @@ class ApidocsController < ActionController::Base
         "the single source of truth about sites, clusters, nodes, and network topology."
     end
     tag do
+      key :name, 'version'
+      key :description, 'The version API allows to consult reference-repository history.'
+    end
+
+    tag do
       key :name, 'status'
-      key :description, "Status API allows tu known the state of OAR's resources "\
+      key :description, "Status API allows to known the state of OAR's resources "\
         "(like nodes, disks, vlans, subnets). The current and upcoming "\
         "reservations are also returned by this API."
     end
@@ -76,6 +81,14 @@ class ApidocsController < ActionController::Base
       key :required, false
       key :type, :string
       key :default, 'master'
+    end
+
+    parameter :limit do
+      key :name, :limit
+      key :in, :query
+      key :description, 'Limit the number of items to return.'
+      key :required, false
+      key :type, :integer
     end
 
     parameter :clusterId do
@@ -176,6 +189,7 @@ class ApidocsController < ActionController::Base
     SitesController,
     ClustersController,
     ResourcesController,
+    VersionsController,
     self
   ].freeze
 
