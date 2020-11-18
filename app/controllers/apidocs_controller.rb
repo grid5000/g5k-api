@@ -14,11 +14,13 @@ class ApidocsController < ActionController::Base
         key :name, 'Apache 2.0'
       end
     end
+
     tag do
       key :name, 'reference-api'
       key :description, "Reference-api expose Grid'5000's reference-repository, "\
         "the single source of truth about sites, clusters, nodes, and network topology."
     end
+
     tag do
       key :name, 'version'
       key :description, 'The version API allows to consult reference-repository history.'
@@ -29,6 +31,14 @@ class ApidocsController < ActionController::Base
       key :description, "Status API allows to known the state of OAR's resources "\
         "(like nodes, disks, vlans, subnets). The current and upcoming "\
         "reservations are also returned by this API."
+    end
+
+    tag do
+      key :name, 'job'
+      key :description, "The job API is used to submit a job on Grid'5000 "\
+        "or to manage an existing one. This API use OAR, more informations "\
+        "about job management on Grid'5000 can be found on [the wiki]"\
+        "(https://www.grid5000.fr/w/Advanced_OAR)"
     end
 
     tag do
@@ -238,7 +248,9 @@ class ApidocsController < ActionController::Base
     ResourcesController,
     VersionsController,
     DeploymentsController,
+    JobsController,
     Grid5000::Deployment,
+    Grid5000::Job,
     self
   ].freeze
 

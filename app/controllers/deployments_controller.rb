@@ -69,6 +69,12 @@ class DeploymentsController < ApplicationController
       response 201 do
         content :'plain/text'
         key :description, 'Deployment successfully created.'
+        header :'Location' do
+          key :description, 'Location of the new deployment resource.'
+          schema do
+            key :type, :string
+          end
+        end
       end
     end
   end
