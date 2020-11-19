@@ -14,6 +14,35 @@
 
 class VlansUsersController < ApplicationController
   include Vlans
+  include Swagger::Blocks
+
+  swagger_path "/sites/{siteId}/vlans/{vlanId}/users" do
+    operation :get do
+      key :summary, 'List user for vlan'
+      key :description, 'Fetch list of current users with rights on vlan.'
+      key :tags, ['vlan']
+
+      [:siteId, :vlanId].each do |param|
+        parameter do
+          key :$ref, param
+        end
+      end
+
+      response 200 do
+        key :description, 'Collection of users.'
+        content :'application/json' do
+          schema do
+            key :'$ref', :VlanUserCollection
+          end
+        end
+      end
+
+      response 404 do
+        content :'text/plain'
+        key :description, 'Vlan not found.'
+      end
+    end
+  end
 
   # List users
   def index
@@ -34,6 +63,34 @@ class VlansUsersController < ApplicationController
     end
   end
 
+  swagger_path "/sites/{siteId}/vlans/{vlanId}/users/{userId}" do
+    operation :get do
+      key :summary, 'Get user status for vlan'
+      key :description, 'Fetch user authorization for a vlan.'
+      key :tags, ['vlan']
+
+      [:siteId, :vlanId, :userId].each do |param|
+        parameter do
+          key :$ref, param
+        end
+      end
+
+      response 200 do
+        key :description, "Status of user for Vlan, can be authorized or unauthorized."
+        content :'application/json' do
+          schema do
+            key :'$ref', :VlanUser
+          end
+        end
+      end
+
+      response 404 do
+        content :'text/plain'
+        key :description, 'Vlan not found.'
+      end
+    end
+  end
+
   # Display the rights on a vlan for a user
   def show
     allow :get
@@ -48,7 +105,8 @@ class VlansUsersController < ApplicationController
     end
   end
 
-  # Remove rights for user on a vlan
+  # Remove rights for user on a vlan.
+  # Limited to some users, like OAR, so not documented
   def destroy
     ensure_authenticated!
     allow :delete
@@ -63,7 +121,8 @@ class VlansUsersController < ApplicationController
            status: result.code
   end
 
-  # Add rights for user on a vlan
+  # Add rights for user on a vlan.
+  # Limited to some users, like OAR, so not documented
   def add
     ensure_authenticated!
     allow :put

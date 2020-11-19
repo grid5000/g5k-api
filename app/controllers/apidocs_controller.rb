@@ -6,13 +6,14 @@ class ApidocsController < ActionController::Base
     info do
       key :version, '3.0'
       key :title, "Grid'5000 API"
-      key :description, "Grid'5000 complete API"
+      key :description, "This is the user and developer documentation for the Grid'5000 "\
+        "API. The API allows to facilitate interractions and automation with Grid'5000."
       contact do
         key :name, 'support-staff@lists.grid5000.fr'
       end
-      license do
-        key :name, 'Apache 2.0'
-      end
+    end
+    server do
+      key :url, 'https://api.grid5000.fr/'
     end
 
     tag do
@@ -47,8 +48,13 @@ class ApidocsController < ActionController::Base
         'environment image on the nodes you have reserved. It uses the Kadeploy tool.'
     end
 
-    server do
-      key :url, 'https://api.grid5000.fr/3.0'
+    tag do
+      key :name, 'vlan'
+      key :description, "The vlan API allows to get informations about vlans and to "\
+        "manipulate them. For example, it is possible to put deployed nodes in "\
+        "reserved vlans, to fetch current vlans and nodes status or to start or "\
+        "stop dhcp servers.\nThe associated documentation about Kavlan can be found "\
+        "on [Grid'5000's wiki](https://www.grid5000.fr/w/KaVLAN)"
     end
   end
 
@@ -249,8 +255,14 @@ class ApidocsController < ActionController::Base
     VersionsController,
     DeploymentsController,
     JobsController,
+    VlansController,
+    VlansUsersController,
+    VlansUsersAllController,
+    VlansNodesController,
+    VlansNodesAllController,
     Grid5000::Deployment,
     Grid5000::Job,
+    Grid5000::Kavlan,
     self
   ].freeze
 

@@ -13,7 +13,30 @@
 # limitations under the License.
 
 class VlansController < ApplicationController
+  include Swagger::Blocks
   include Vlans
+
+  swagger_path "/sites/{siteId}/vlans" do
+    operation :get do
+      key :summary, 'List vlans'
+      key :description, 'Fetch the list of all the vlans for site.'
+      key :tags, ['vlan']
+
+      parameter do
+        key :$ref, :siteId
+      end
+
+      response 200 do
+        content :'application/json' do
+          schema do
+            key :'$ref', :VlanCollection
+          end
+        end
+
+        key :description, 'Vlan collection for site.'
+      end
+    end
+  end
 
   # List vlans
   def index
@@ -40,6 +63,36 @@ class VlansController < ApplicationController
     end
   end
 
+  swagger_path "/sites/{siteId}/vlans/{vlanId}" do
+    operation :get do
+      key :summary, 'Get vlan'
+      key :description, 'Fetch the list of all the vlans for site.'
+      key :tags, ['vlan']
+
+      [:siteId, :vlanId].each do |param|
+        parameter do
+          key :$ref, param
+        end
+      end
+
+      response 200 do
+        content :'application/json' do
+          schema do
+            key :'$ref', :Vlan
+          end
+        end
+
+        key :description, 'A specific vlan.'
+      end
+
+      response 404 do
+        content :'text/plain'
+
+        key :description, 'Vlan not found.'
+      end
+    end
+  end
+
   # Display the details of a vlan
   def show
     allow :get
@@ -56,6 +109,57 @@ class VlansController < ApplicationController
     end
   end
 
+  swagger_path "/sites/{siteId}/vlans/{vlanId}/dhcpd" do
+    operation :put do
+      key :summary, 'Start/stop dhcpd'
+      key :description, 'Start or stop dhcp server for vlan.'
+      key :tags, ['vlan']
+
+      [:siteId, :vlanId].each do |param|
+        parameter do
+          key :$ref, param
+        end
+      end
+
+      request_body do
+        key :description, 'dhcp action payload.'
+        key :required, true
+        content 'application/json' do
+          schema do
+            property :action do
+              key :type, :string
+              key :description, "Action to perform, 'start' or 'stop'"
+              key :example, 'start'
+            end
+          end
+        end
+      end
+
+      response 204 do
+        key :description, 'dhcp server successfully started or stopped.'
+      end
+
+      response 403 do
+        content :'text/plain'
+        key :description, 'Not enough privileges on kavlan resource to perform action.'
+      end
+
+      response 404 do
+        content :'text/plain'
+        key :description, 'Vlan not found.'
+      end
+
+      response 415 do
+        content :'text/plain'
+        key :description, 'Content-Type not supported.'
+      end
+
+      response 422 do
+        content :'text/plain'
+        key :description, 'Unprocessable data structure.'
+      end
+    end
+  end
 
   # start/stop dhcpd server for a vlan
   def dhcpd

@@ -14,6 +14,88 @@
 
 class VlansNodesController < ApplicationController
   include Vlans
+  include Swagger::Blocks
+
+  swagger_path "/sites/{siteId}/vlans/{vlanId}/nodes" do
+    operation :get do
+      key :summary, 'List nodes in vlan'
+      key :description, 'Fetch list of current nodes in vlan.'
+      key :tags, ['vlan']
+
+      [:siteId, :vlanId].each do |param|
+        parameter do
+          key :$ref, param
+        end
+      end
+
+      response 200 do
+        key :description, 'Collection of nodes.'
+        content :'application/json' do
+          schema do
+            key :'$ref', :VlanNodeCollection
+          end
+        end
+      end
+
+      response 404 do
+        content :'text/plain'
+        key :description, 'Vlan not found.'
+      end
+    end
+
+    operation :post do
+      key :summary, 'Add nodes to vlan'
+      key :description, 'Add nodes to vlan.'
+      key :tags, ['vlan']
+
+      [:siteId, :vlanId].each do |param|
+        parameter do
+          key :'$ref', param
+        end
+      end
+
+      request_body do
+        key :description, 'Nodes to add payload.'
+        key :required, true
+        content 'application/json' do
+          schema do
+            key :type, :array
+            key :description, "Nodes list."
+            items do
+              key :type, :string
+              key :format, :hostname
+            end
+            key :example, ['dahu-3.grenoble.grid5000.fr',
+                           'dahu-10.grenoble.grid5000.fr']
+          end
+        end
+      end
+
+      response 200 do
+        key :description, 'Vlans added.'
+        content :'application/json' do
+          schema do
+            key :'$ref', :VlanAddResponse
+          end
+        end
+      end
+
+      response 404 do
+        content :'text/plain'
+        key :description, 'Vlan not found.'
+      end
+
+      response 415 do
+        content :'text/plain'
+        key :description, 'Content-Type not supported.'
+      end
+
+      response 422 do
+        content :'text/plain'
+        key :description, 'Unprocessable data structure.'
+      end
+    end
+  end
 
   # Display nodes for a vlan
   def index
