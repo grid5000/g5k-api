@@ -30,6 +30,13 @@ class ApidocsController < ActionController::Base
         "(like nodes, disks, vlans, subnets). The current and upcoming "\
         "reservations are also returned by this API."
     end
+
+    tag do
+      key :name, 'deployment'
+      key :description, 'The deployment API is use if you want to deploy a specific '\
+        'environment image on the nodes you have reserved. It uses the Kadeploy tool.'
+    end
+
     server do
       key :url, 'https://api.grid5000.fr/3.0'
     end
@@ -41,7 +48,7 @@ class ApidocsController < ActionController::Base
       key :in, :query
       key :description, 'Fetch a full view of reference-repository, under this path.'
       key :required, false
-      key :type, :bool
+      key :type, :boolean
     end
 
     parameter :version do
@@ -87,6 +94,14 @@ class ApidocsController < ActionController::Base
       key :name, :limit
       key :in, :query
       key :description, 'Limit the number of items to return.'
+      key :required, false
+      key :type, :integer
+    end
+
+    parameter :offset do
+      key :name, :offset
+      key :in, :query
+      key :description, 'Paginate through the collection with multiple requests.'
       key :required, false
       key :type, :integer
     end
@@ -182,6 +197,38 @@ class ApidocsController < ActionController::Base
       key :pattern, '^(no|yes)$'
       key :default, 'yes'
     end
+
+    schema :BaseApiCollection do
+      key :required, [:total, :offset]
+
+      property :total do
+        key :type, :integer
+        key :description, 'The number of items in collection.'
+      end
+      property :offset do
+        key :type, :integer
+        key :description, 'The offset (for pagination).'
+      end
+    end
+
+    schema :Links do
+      key :required, [:rel, :href, :type]
+      property :rel do
+        key :type, :string
+        key :description, "The relationship's name."
+        key :example, 'parent'
+      end
+      property :href do
+        key :type, :string
+        key :description, "The link to the resource."
+        key :example, '/3.0/sites/grenoble'
+      end
+      property :type do
+        key :type, :string
+        key :description, "The resource's type, can be an item or an item collection."
+        key :example, 'application/vnd.grid5000.item+json'
+      end
+    end
   end
 
   # A list of all classes that have swagger_* declarations.
@@ -190,6 +237,8 @@ class ApidocsController < ActionController::Base
     ClustersController,
     ResourcesController,
     VersionsController,
+    DeploymentsController,
+    Grid5000::Deployment,
     self
   ].freeze
 

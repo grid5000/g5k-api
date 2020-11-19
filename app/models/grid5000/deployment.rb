@@ -18,6 +18,7 @@ require 'fileutils'
 module Grid5000
   # The Deployment class represents a deployment that is launched using the Kadeploy3 tool.
   class Deployment < ActiveRecord::Base
+    include Swagger::Blocks
     include ApplicationHelper
 
     attr_accessor :links
@@ -40,6 +41,240 @@ module Grid5000
         throw(:abort)
       end
       errors.empty?
+    end
+
+    # Swagger doc
+    swagger_component do
+      parameter :deploymentId do
+        key :name, :deploymentId
+        key :in, :path
+        key :description, 'ID of deployment to fetch.'
+        key :required, true
+        key :type, :string
+      end
+
+      parameter :deployReverse do
+        key :name, :reverse
+        key :in, :query
+        key :description, 'Return deployment collection in reversed creation order. '\
+          'By default, deployments are listed in descending creation date order.'
+        key :required, false
+        key :type, :boolean
+      end
+
+      parameter :deployStatus do
+        key :name, :status
+        key :in, :query
+        key :description, 'Filter the deployment collection with a specific deployment '\
+          'state (waiting, processing, canceled, terminated, error).'
+        key :required, false
+        key :type, :string
+      end
+
+      parameter :deployUser do
+        key :name, :user
+        key :in, :query
+        key :description, 'Filter the deployment collection with a specific deployment '\
+          ' owner.'
+        key :required, false
+        key :type, :string
+      end
+
+      schema :DeploymentCollection do
+        allOf do
+          schema do
+            key :'$ref', :BaseApiCollection
+          end
+
+          schema do
+            key :'$ref', :DeploymentItems
+          end
+          schema do
+            property :links do
+              key :type, :array
+              items do
+                key :'$ref', :links
+              end
+              key :example, [{
+                  'rel':'self',
+                  'href':'/3.0/sites/grenoble/deployments',
+                  'type':'application/vnd.grid5000.item+json'
+                },
+                {
+                  'rel':'parent',
+                  'href':'/3.0/sites/grenoble',
+                  'type':'application/vnd.grid5000.item+json'
+                }]
+            end
+          end
+        end
+      end
+
+      schema :DeploymentItems do
+        key :required, [:items]
+        property :items do
+          key :type, :array
+          items do
+            key :'$ref', :Deployment
+          end
+        end
+      end
+
+      schema :Deployment do
+        key :required, [:uid, :site_uid, :user_uid, :environment, :status,
+                        :nodes, :result, :created_at, :updated_at, :links]
+
+        property :uid do
+          key :type, :string
+          key :description, 'The unique identifier (UUID format) of the deployment.'
+          key :example, 'D-967b6741-5bde-4023-a071-a4cf28da4d'
+        end
+        property :site_uid do
+          key :type, :string
+          key :description, 'The site deployment site.'
+          key :example, 'grenoble'
+        end
+        property :user_uid do
+          key :type, :string
+          key :description, 'The deployment owner.'
+          key :example, 'user'
+        end
+        property :environment do
+          key :type, :string
+          key :description, 'The deployed environment.'
+          key :example, 'debian10-x64-std'
+        end
+        property :status do
+          key :type, :string
+          key :description, 'The deployment status (waiting, processing, canceled, '\
+            'terminated, error).'
+          key :example, 'debian10-x64-std'
+        end
+        property :nodes do
+          key :type, :array
+          items do
+            key :type, :string
+            key :format, :hostname
+          end
+
+          key :description, 'An array of nodes FQDN on which deployment is (or was) '\
+            'runnning.'
+          key :example, ['paramount-1.rennes.grid5000.fr',
+                         'paradent-8.rennes.grid5000.fr']
+        end
+        property :result do
+          key :type, :object
+          key :description, 'Results of deployment, for each node.'
+          key :example, {"dahu-9.grenoble.grid5000.fr": {
+                          "macro":nil, "micro":nil, "state":"OK"}
+                        }
+        end
+        property :links do
+          key :type, :array
+          items do
+            key :'$ref', :Links
+          end
+          key :example, [{
+            'rel':'self',
+             'href':'/3.0/sites/grenoble/deployments/D-967b6741-5bde-4023-a071-a4cf28da4d',
+             'type':'application/vnd.grid5000.item+json'
+            },
+            {
+              'rel':'parent',
+              'href':'/3.0/sites/grenoble',
+              'type':'application/vnd.grid5000.item+json'
+            }]
+        end
+      end
+
+      schema :DeploymentSubmit do
+        key :required, [:nodes, :environment]
+
+        property :nodes do
+          key :type, :array
+          items do
+            key :type, :string
+            key :type, :hostname
+          end
+          key :description, 'An array of nodes FQDN on which you want to deploy '\
+            'the new environment image.'
+          key :example, ['paramount-1.rennes.grid5000.fr',
+                         'paradent-8.rennes.grid5000.fr']
+        end
+        property :environment do
+          key :type, :string
+          key :description, 'The name of an environment that belongs to you or '\
+            'whose visibility is public (e.g. debian10-x64-base), OR the name of '\
+            'an environment that is owned by another user but with visibility '\
+            'set to shared (e.g. env-name@user-uid), OR the HTTP or HTTPS URL '\
+            'to a file describing your environment (this has the advantage that '\
+            'you do not need to register it in the kadeploy database).'
+          key :example, 'debian10-x64-min'
+        end
+        property :key do
+          key :type, :string
+          key :description, 'The content of your SSH public key or authorized_key '\
+            'file OR the HTTP URL to your SSH public key. That key will be dropped '\
+            'in the authorized_keys file of the nodes after deployment, so that you '\
+            'can SSH into them as root.'
+          key :example, 'https://public.grenoble.grid5000.fr/~username/deploy_key'
+        end
+        property :version do
+          key :type, :integer
+          key :description, 'Version of the environment to use.'
+          key :example, 1
+        end
+        property :block_device do
+          key :type, :string
+          key :description, 'The block device to deploy on.'
+          key :example, '/dev/sdb'
+        end
+        property :partition_number do
+          key :type, :integer
+          key :description, 'The partition number to deploy on.'
+          key :example, 2
+        end
+        property :vlan do
+          key :type, :integer
+          key :description, "Configure the nodes' vlan."
+          key :example, 3
+        end
+        property :reformat_tmp do
+          key :type, :string
+          key :description, 'Reformat the /tmp partition with the given filesystem type.'
+          key :example, 'ext4'
+        end
+        property :disable_disk_partitioning do
+          key :type, :boolean
+          key :description, 'Disable the disk partioning.'
+          key :default, false
+          key :example, true
+        end
+        property :disable_bootloader_install do
+          key :type, :boolean
+          key :description, 'Disable the automatic installation of a bootloader '\
+            'for a Linux based environment.'
+          key :default, false
+          key :example, true
+        end
+        property :ignore_nodes_deploying do
+          key :type, :boolean
+          key :description, "Don't complain when deploying on nodes tagged as "\
+            "'currently deploying'."
+          key :default, false
+          key :example, true
+        end
+        property :reboot_classical_timeout do
+          key :type, :integer
+          key :description, "Overwrite the default timeout for classical reboots."
+          key :example, 500
+        end
+        property :reboot_kexec_timeout do
+          key :type, :integer
+          key :description, "Overwrite the default timeout for kexec reboots."
+          key :example, 400
+        end
+      end
     end
 
     def to_param
