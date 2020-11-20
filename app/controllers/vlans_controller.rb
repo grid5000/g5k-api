@@ -82,23 +82,6 @@ class VlansController < ApplicationController
            status: result.code
   end
 
-  def vlan_users
-    allow :get
-    expires_in 60.seconds
-
-    result = @kavlan.vlan_users(params[:id], params[:user_id])
-
-    result['items'].each do |item|
-      item['links'] = links_for_item(item)
-    end
-    result['links'] = links_for_collection
-
-    respond_to do |format|
-      format.g5kcollectionjson { render json: result }
-      format.json { render json: result }
-    end
-  end
-
   protected
 
   def collection_path
