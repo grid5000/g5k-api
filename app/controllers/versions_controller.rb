@@ -17,9 +17,13 @@ class VersionsController < ApplicationController
 
   def index
     vary_on :accept; allow :get
+
+    branch = params[:branch] || 'master'
+    branch = ['origin', branch].join('/') unless Rails.env == 'test'
+
     versions = repository.versions_for(
       resource_path,
-      branch: params[:branch],
+      branch: branch,
       offset: params[:offset],
       limit: params[:limit]
     )
