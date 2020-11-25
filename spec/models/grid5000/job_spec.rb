@@ -82,7 +82,8 @@ describe Grid5000::Job do
                                    'command' => '',
                                    'project' => 'default',
                                    'properties' => "(deploy = 'YES') AND desktop_computing = 'NO'",
-                                   'state' => 'running'
+                                   'state' => 'running',
+                                   'workdir' => '/home/grenoble/rchakode'
                                  })
     end
     it 'should export to a hash structure valid for submitting a job to the oarapi' do
