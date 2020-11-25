@@ -1,3 +1,11 @@
+g5k-api (3.10.3) unstable; urgency=low
+
+  * ff0fea0 Add missing workdir parameter when calling OAR's API
+  * 9d0adc4 Fix history on versions controller when branch is not master
+  * 7d53db7 Remove useless method from VlansController
+
+ -- Samir Noir <samir.noir@inria.fr>  Wed, 25 Nov 2020 09:54:23 +0100
+
 g5k-api (3.10.2) unstable; urgency=low
 
   * ad366b9 Enhance JSON output when adding nodes to a vlan via POST request
