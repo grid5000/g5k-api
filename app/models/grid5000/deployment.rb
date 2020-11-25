@@ -93,7 +93,7 @@ module Grid5000
             property :links do
               key :type, :array
               items do
-                key :'$ref', :links
+                key :'$ref', :Links
               end
               key :example, [{
                   'rel':'self',
