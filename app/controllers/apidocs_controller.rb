@@ -16,6 +16,10 @@ class ApidocsController < ActionController::Base
       key :url, 'https://api.grid5000.fr/'
     end
 
+    security do
+      key :BasicAuth, []
+    end
+
     tag do
       key :name, 'reference-api'
       key :description, "Reference-api expose Grid'5000's reference-repository, "\
@@ -244,6 +248,11 @@ class ApidocsController < ActionController::Base
         key :description, "The resource's type, can be an item or an item collection."
         key :example, 'application/vnd.grid5000.item+json'
       end
+    end
+
+    security_scheme :BasicAuth do
+      key :type, :http
+      key :scheme, :basic
     end
   end
 
