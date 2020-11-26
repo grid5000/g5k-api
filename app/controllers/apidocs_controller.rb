@@ -68,7 +68,9 @@ class ApidocsController < ActionController::Base
       key :in, :query
       key :description, 'Fetch a full view of reference-repository, under this path.'
       key :required, false
-      key :type, :boolean
+      schema do
+        key :type, :boolean
+      end
     end
 
     parameter :version do
@@ -78,7 +80,9 @@ class ApidocsController < ActionController::Base
         "This allow to get a specific version of the requested resource, to go back "\
         "in time."
       key :required, false
-      key :type, :string
+      schema do
+        key :type, :string
+      end
     end
 
     parameter :timestamp do
@@ -87,7 +91,9 @@ class ApidocsController < ActionController::Base
       key :description, 'Fetch the version of reference-repository for the ' \
         'specified UNIX timestamp.'
       key :required, false
-      key :type, :integer
+      schema do
+        key :type, :integer
+      end
     end
 
     parameter :date do
@@ -96,8 +102,10 @@ class ApidocsController < ActionController::Base
       key :description, 'Fetch the version of reference-repository for the ' \
         'specified date (ISO_8601 format).'
       key :required, false
-      key :type, :string
-      key :format, :'date-time'
+      schema do
+        key :type, :string
+        key :format, :'date-time'
+      end
     end
 
     parameter :branch do
@@ -106,8 +114,10 @@ class ApidocsController < ActionController::Base
       key :description, "Use a specific branch of reference-repository, for example "\
         "the 'testing' branch contains the resources that are not yet in production."
       key :required, false
-      key :type, :string
-      key :default, 'master'
+      schema do
+        key :type, :string
+        key :default, 'master'
+      end
     end
 
     parameter :limit do
@@ -115,7 +125,9 @@ class ApidocsController < ActionController::Base
       key :in, :query
       key :description, 'Limit the number of items to return.'
       key :required, false
-      key :type, :integer
+      schema do
+        key :type, :integer
+      end
     end
 
     parameter :offset do
@@ -123,7 +135,9 @@ class ApidocsController < ActionController::Base
       key :in, :query
       key :description, 'Paginate through the collection with multiple requests.'
       key :required, false
-      key :type, :integer
+      schema do
+        key :type, :integer
+      end
     end
 
     parameter :clusterId do
@@ -131,7 +145,9 @@ class ApidocsController < ActionController::Base
       key :in, :path
       key :description, 'ID of cluster to fetch.'
       key :required, true
-      key :type, :string
+      schema do
+        key :type, :string
+      end
     end
 
     parameter :siteId do
@@ -139,7 +155,9 @@ class ApidocsController < ActionController::Base
       key :in, :path
       key :description, 'ID of site to fetch.'
       key :required, true
-      key :type, :string
+      schema do
+        key :type, :string
+      end
     end
 
     parameter :nodeId do
@@ -147,7 +165,9 @@ class ApidocsController < ActionController::Base
       key :in, :path
       key :description, 'ID of node to fetch.'
       key :required, true
-      key :type, :string
+      schema do
+        key :type, :string
+      end
     end
 
     parameter :pduId do
@@ -155,7 +175,9 @@ class ApidocsController < ActionController::Base
       key :in, :path
       key :description, 'ID of pdu to fetch.'
       key :required, true
-      key :type, :string
+      schema do
+        key :type, :string
+      end
     end
 
     parameter :serverId do
@@ -163,7 +185,9 @@ class ApidocsController < ActionController::Base
       key :in, :path
       key :description, 'ID of server to fetch.'
       key :required, true
-      key :type, :string
+      schema do
+        key :type, :string
+      end
     end
 
     parameter :networkEquipmentId do
@@ -171,7 +195,9 @@ class ApidocsController < ActionController::Base
       key :in, :path
       key :description, 'ID of network equipment to fetch.'
       key :required, true
-      key :type, :string
+      schema do
+        key :type, :string
+      end
     end
 
     parameter :statusDisks do
@@ -180,9 +206,11 @@ class ApidocsController < ActionController::Base
       key :description, "Enable or disable status of disks in response. "\
         "Should be 'yes' or 'no'."
       key :required, false
-      key :type, :string
-      key :pattern, '^(no|yes)$'
-      key :default, 'yes'
+      schema do
+        key :type, :string
+        key :pattern, '^(no|yes)$'
+        key :default, 'yes'
+      end
     end
 
     parameter :statusNodes do
@@ -191,9 +219,11 @@ class ApidocsController < ActionController::Base
       key :description, "Enable or disable status of nodes in response. "\
         "Should be 'yes' or 'no'."
       key :required, false
-      key :type, :string
-      key :pattern, '^(no|yes)$'
-      key :default, 'yes'
+      schema do
+        key :type, :string
+        key :pattern, '^(no|yes)$'
+        key :default, 'yes'
+      end
     end
 
     parameter :statusVlans do
@@ -202,9 +232,11 @@ class ApidocsController < ActionController::Base
       key :description, "Enable or disable status of vlans in response. "\
         "Should be 'yes' or 'no'."
       key :required, false
-      key :type, :string
-      key :pattern, '^(no|yes)$'
-      key :default, 'yes'
+      schema do
+        key :type, :string
+        key :pattern, '^(no|yes)$'
+        key :default, 'yes'
+      end
     end
 
     parameter :statusSubnets do
@@ -213,9 +245,11 @@ class ApidocsController < ActionController::Base
       key :description, "Enable or disable status of subnets in response. "\
         "Should be 'yes' or 'no'."
       key :required, false
-      key :type, :string
-      key :pattern, '^(no|yes)$'
-      key :default, 'yes'
+      schema do
+        key :type, :string
+        key :pattern, '^(no|yes)$'
+        key :default, 'yes'
+      end
     end
 
     schema :BaseApiCollection do

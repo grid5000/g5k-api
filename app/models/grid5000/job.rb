@@ -41,7 +41,9 @@ module Grid5000
         key :in, :path
         key :description, 'ID of job to fetch.'
         key :required, true
-        key :type, :string
+        schema do
+          key :type, :string
+        end
       end
 
       parameter :jobQueue do
@@ -49,7 +51,9 @@ module Grid5000
         key :in, :path
         key :description, 'Filter jobs with a specific queue.'
         key :required, false
-        key :type, :string
+        schema do
+          key :type, :string
+        end
       end
 
       parameter :jobProject do
@@ -57,7 +61,9 @@ module Grid5000
         key :in, :query
         key :description, 'Filter jobs with a specific project name.'
         key :required, false
-        key :type, :string
+        schema do
+          key :type, :string
+        end
       end
 
       parameter :jobUser do
@@ -65,7 +71,9 @@ module Grid5000
         key :in, :query
         key :description, 'Filter jobs with a specific owner.'
         key :required, false
-        key :type, :string
+        schema do
+          key :type, :string
+        end
       end
 
       parameter :jobName do
@@ -73,7 +81,9 @@ module Grid5000
         key :in, :query
         key :description, 'Filter jobs with a specific name.'
         key :required, false
-        key :type, :string
+        schema do
+          key :type, :string
+        end
       end
 
       parameter :jobState do
@@ -82,7 +92,9 @@ module Grid5000
         key :description, 'Filter jobs by state (waiting, launching, running, '\
           'hold, error, terminated), as a comma-separated list.'
         key :required, false
-        key :type, :string
+        schema do
+          key :type, :string
+        end
       end
 
       parameter :jobResources do
@@ -91,9 +103,11 @@ module Grid5000
         key :description, "Get more details (assigned_nodes and resources_by_types) "\
           "for each job in the list. Should be 'yes' or 'no'."
         key :required, false
-        key :type, :string
-        key :pattern, '^(no|yes)$'
-        key :default, 'no'
+        schema do
+          key :type, :string
+          key :pattern, '^(no|yes)$'
+          key :default, 'no'
+        end
       end
 
       schema :OarEvent do

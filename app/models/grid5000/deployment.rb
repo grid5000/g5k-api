@@ -50,7 +50,9 @@ module Grid5000
         key :in, :path
         key :description, 'ID of deployment to fetch.'
         key :required, true
-        key :type, :string
+        schema do
+          key :type, :string
+        end
       end
 
       parameter :deployReverse do
@@ -59,7 +61,9 @@ module Grid5000
         key :description, 'Return deployment collection in reversed creation order. '\
           'By default, deployments are listed in descending creation date order.'
         key :required, false
-        key :type, :boolean
+        schema do
+          key :type, :boolean
+        end
       end
 
       parameter :deployStatus do
@@ -68,7 +72,9 @@ module Grid5000
         key :description, 'Filter the deployment collection with a specific deployment '\
           'state (waiting, processing, canceled, terminated, error).'
         key :required, false
-        key :type, :string
+        schema do
+          key :type, :string
+        end
       end
 
       parameter :deployUser do
@@ -77,7 +83,9 @@ module Grid5000
         key :description, 'Filter the deployment collection with a specific deployment '\
           ' owner.'
         key :required, false
-        key :type, :string
+        schema do
+          key :type, :string
+        end
       end
 
       schema :DeploymentCollection do

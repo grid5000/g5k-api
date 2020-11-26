@@ -111,7 +111,9 @@ class VersionsController < ApplicationController
       key :in, :path
       key :description, 'ID of version to fetch, as a Git commit hash.'
       key :required, true
-      key :type, :string
+      schema do
+        key :type, :string
+      end
     end
   end
 

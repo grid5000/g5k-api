@@ -30,7 +30,9 @@ module Grid5000
         key :in, :path
         key :description, 'ID of vlan to fetch.'
         key :required, true
-        key :type, :integer
+        schema do
+          key :type, :integer
+        end
       end
 
       parameter :userId do
@@ -38,7 +40,9 @@ module Grid5000
         key :in, :path
         key :description, "ID of Grid'5000 user."
         key :required, true
-        key :type, :string
+        schema do
+          key :type, :string
+        end
       end
 
       schema :Vlan do
