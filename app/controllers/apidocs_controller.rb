@@ -140,63 +140,17 @@ class ApidocsController < ActionController::Base
       end
     end
 
-    parameter :clusterId do
-      key :name, :clusterId
-      key :in, :path
-      key :description, 'ID of cluster to fetch.'
-      key :required, true
-      schema do
-        key :type, :string
-      end
-    end
+    ['cluster', 'site', 'node', 'server', 'pdu', 'network_equipment'].each do |resource|
+      resource_id = (resource + '_id').camelize(:lower)
 
-    parameter :siteId do
-      key :name, :siteId
-      key :in, :path
-      key :description, 'ID of site to fetch.'
-      key :required, true
-      schema do
-        key :type, :string
-      end
-    end
-
-    parameter :nodeId do
-      key :name, :nodeId
-      key :in, :path
-      key :description, 'ID of node to fetch.'
-      key :required, true
-      schema do
-        key :type, :string
-      end
-    end
-
-    parameter :pduId do
-      key :name, :pduId
-      key :in, :path
-      key :description, 'ID of pdu to fetch.'
-      key :required, true
-      schema do
-        key :type, :string
-      end
-    end
-
-    parameter :serverId do
-      key :name, :serverId
-      key :in, :path
-      key :description, 'ID of server to fetch.'
-      key :required, true
-      schema do
-        key :type, :string
-      end
-    end
-
-    parameter :networkEquipmentId do
-      key :name, :networkEquipmentId
-      key :in, :path
-      key :description, 'ID of network equipment to fetch.'
-      key :required, true
-      schema do
-        key :type, :string
+      parameter resource_id.to_sym do
+        key :name, resource_id.to_sym
+        key :in, :path
+        key :description, "#{resource.titleize}'s ID."
+        key :required, true
+        schema do
+          key :type, :string
+        end
       end
     end
 
