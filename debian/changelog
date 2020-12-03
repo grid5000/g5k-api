@@ -1,3 +1,20 @@
+g5k-api (3.10.4) unstable; urgency=low
+
+  * 2911bb1 Add description about media types in specification
+  * 861b8c9 Update responses media type in specification to match reality
+  * d251cf8 Merge branch 'features/#7049' into 'master'
+  * 7ff30d4 Factorize ID parameters generation in specification
+  * 3d5dfa2 Fix OpenApi parameters schema description
+  * 25c450f Add authentification section to OpenAPI spec
+  * 48816c6 Fix unexistants links schemas in swagger spec
+  * ec514b1 Add documentation for Vlan API
+  * 8798f71 Add documentation for jobs API
+  * 3c2d1e6 Add documentation for deployment API
+  * a136d6e Add versions controller documentation
+  * 4bdbc6a Add reference and status API documentation, using Swagger
+
+ -- Samir Noir <samir.noir@inria.fr>  Thu, 03 Dec 2020 11:41:48 +0100
+
 g5k-api (3.10.3) unstable; urgency=low
 
   * ff0fea0 Add missing workdir parameter when calling OAR's API
