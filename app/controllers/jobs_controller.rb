@@ -209,7 +209,7 @@ class JobsController < ApplicationController
     headers = { 'Accept' => api_media_type(:json),
                 'X-Remote-Ident' => @credentials[:cn],
                 'X-Api-User-Cn' => @credentials[:cn] }
-    http = http_request(:delete, uri, tls_options, 10, headers)
+    http = http_request(:delete, uri, tls_options, 20, headers)
 
     continue_if!(http, is: [200, 202, 204, 404])
 
