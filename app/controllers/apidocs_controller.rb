@@ -6,8 +6,18 @@ class ApidocsController < ActionController::Base
     info do
       key :version, '3.0'
       key :title, "Grid'5000 API"
-      key :description, "This is the user and developer documentation for the Grid'5000 "\
-        "API. The API allows to facilitate interractions and automation with Grid'5000."
+      key :description,<<-EOL
+This is the user and developer documentation for the Grid'5000 API. The API allows
+to facilitate interractions and automation with Grid'5000.
+
+Responses are JSON formatted, and two custom media type are used to represent
+the API resources:
+
+* to represent an *item*: `application/vnd.grid5000.item+json`
+* to represent a *collection* (multiple *items*): `application/vnd.grid5000.item+json`
+
+Tutorial of Grid'5000's API can be found on the [wiki](https://www.grid5000.fr/w/API)
+EOL
       contact do
         key :name, 'support-staff@lists.grid5000.fr'
       end
