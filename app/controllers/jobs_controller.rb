@@ -33,7 +33,7 @@ class JobsController < ApplicationController
       end
 
       response 200 do
-        content :'application/json' do
+        content api_media_type(:g5kcollectionjson) do
           schema do
             key :'$ref', :JobCollection
           end
@@ -137,7 +137,7 @@ class JobsController < ApplicationController
       end
 
       response 200 do
-        content :'application/json' do
+        content api_media_type(:g5kitemjson) do
           schema do
             key :'$ref', :Job
           end

@@ -28,7 +28,7 @@ class VlansNodesAllController < ApplicationController
 
       response 200 do
         key :description, 'Collection of nodes.'
-        content :'application/json' do
+        content api_media_type(:g5kcollectionjson) do
           schema do
             key :'$ref', :VlanAllNodeCollection
           end
@@ -63,7 +63,7 @@ class VlansNodesAllController < ApplicationController
 
       response 200 do
         key :description, 'Vlans added.'
-        content :'application/json' do
+        content api_media_type(:g5kcollectionjson) do
           schema do
             key :'$ref', :VlanAllNodeCollection
           end

@@ -30,7 +30,7 @@ class VlansUsersController < ApplicationController
 
       response 200 do
         key :description, 'Collection of users.'
-        content :'application/json' do
+        content api_media_type(:g5kcollectionjson) do
           schema do
             key :'$ref', :VlanUserCollection
           end
@@ -77,7 +77,7 @@ class VlansUsersController < ApplicationController
 
       response 200 do
         key :description, "Status of user for Vlan, can be authorized or unauthorized."
-        content :'application/json' do
+        content api_media_type(:g5kitemjson) do
           schema do
             key :'$ref', :VlanUser
           end

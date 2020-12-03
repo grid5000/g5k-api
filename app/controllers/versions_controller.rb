@@ -32,7 +32,7 @@ class VersionsController < ApplicationController
 
       response 200 do
         key :description, "Grid'5000's reference-repository commit collection."
-        content :'application/json'
+        content api_media_type(:g5kcollectionjson)
       end
     end
   end
@@ -51,7 +51,7 @@ class VersionsController < ApplicationController
 
       response 200 do
         key :description, "Reference-repository's commit item."
-        content :'application/json'
+        content api_media_type(:g5kitemjson)
       end
 
       response 404 do
@@ -76,7 +76,7 @@ class VersionsController < ApplicationController
 
       response 200 do
         key :description, "Grid'5000's reference-repository commit collection."
-        content :'application/json'
+        content api_media_type(:g5kcollectionjson)
       end
     end
   end
@@ -95,7 +95,7 @@ class VersionsController < ApplicationController
 
       response 200 do
         key :description, "Reference-repository's commit item."
-        content :'application/json'
+        content api_media_type(:g5kitemjson)
       end
 
       response 404 do

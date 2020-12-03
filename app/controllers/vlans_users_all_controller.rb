@@ -30,7 +30,7 @@ class VlansUsersAllController < ApplicationController
 
       response 200 do
         key :description, 'Collection of users, with their vlans.'
-        content :'application/json' do
+        content api_media_type(:g5kcollectionjson) do
           schema do
             key :'$ref', :VlanUserAllCollection
           end
@@ -72,7 +72,7 @@ class VlansUsersAllController < ApplicationController
 
       response 200 do
         key :description, 'List of vlan for user.'
-        content :'application/json' do
+        content api_media_type(:g5kitemjson) do
           schema do
             key :'$ref', :VlanUserAll
           end

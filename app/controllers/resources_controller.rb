@@ -35,7 +35,7 @@ class ResourcesController < ApplicationController
 
         response 200 do
           key :description, "Grid'5000 #{resources} collection."
-          content :'application/json'
+          content api_media_type(:g5kcollectionjson)
         end
       end
     end
@@ -58,7 +58,7 @@ class ResourcesController < ApplicationController
 
         response 200 do
           key :description, "The Grid'5000 #{resource} item."
-          content :'application/json'
+          content api_media_type(:g5kitemjson)
         end
 
         response 404 do

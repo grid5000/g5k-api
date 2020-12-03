@@ -42,7 +42,7 @@ class ClustersController < ResourcesController
 
       response 200 do
         key :description, "Grid'5000 cluster's OAR resources status."
-        content :'application/json'
+        content api_media_type(:g5kitemjson)
       end
     end
   end

@@ -32,7 +32,7 @@ class DeploymentsController < ApplicationController
       end
 
       response 200 do
-        content :'application/json' do
+        content api_media_type(:g5kcollectionjson) do
           schema do
             key :'$ref', :DeploymentCollection
           end
@@ -126,7 +126,7 @@ class DeploymentsController < ApplicationController
       end
 
       response 200 do
-        content :'application/json' do
+        content api_media_type(:g5kitemjson) do
           schema do
             key :'$ref', :Deployment
           end

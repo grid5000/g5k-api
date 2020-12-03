@@ -31,7 +31,7 @@ class SitesController < ResourcesController
 
       response 200 do
         key :description, "Grid'5000 sites collection."
-        content :'application/json'
+        content api_media_type(:g5kcollectionjson)
       end
     end
   end
@@ -50,7 +50,7 @@ class SitesController < ResourcesController
 
       response 200 do
         key :description, "The Grid'5000 site item."
-        content :'application/json'
+        content api_media_type(:g5kitemjson)
       end
 
       response 404 do
@@ -74,7 +74,7 @@ class SitesController < ResourcesController
 
       response 200 do
         key :description, "Grid'5000 site's OAR resources status."
-        content :'application/json'
+        content api_media_type(:g5kitemjson)
       end
     end
   end

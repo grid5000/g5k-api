@@ -41,7 +41,7 @@ class NodesController < ResourcesController
 
       response 200 do
         key :description, "Grid'5000 nodes collection."
-        content :'application/json'
+        content api_media_type(:g5kcollectionjson)
       end
     end
   end
@@ -74,7 +74,7 @@ class NodesController < ResourcesController
 
       response 200 do
         key :description, "The Grid'5000 node item."
-        content :'application/json'
+        content api_media_type(:g5kitemjson)
       end
 
       response 404 do

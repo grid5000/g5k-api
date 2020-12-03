@@ -30,7 +30,7 @@ class VlansNodesController < ApplicationController
 
       response 200 do
         key :description, 'Collection of nodes.'
-        content :'application/json' do
+        content api_media_type(:g5kcollectionjson) do
           schema do
             key :'$ref', :VlanNodeCollection
           end
