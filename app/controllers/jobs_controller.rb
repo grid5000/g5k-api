@@ -13,8 +13,72 @@
 # limitations under the License.
 
 class JobsController < ApplicationController
+  include Swagger::Blocks
+
   LIMIT = 50
   LIMIT_MAX = 500
+
+  swagger_path "/sites/{siteId}/jobs" do
+    operation :get do
+      key :summary, 'List jobs'
+      key :description, 'Fetch the list of all jobs for site. Jobs ordering is by ' \
+        'descending date of submission.'
+      key :tags, ['job']
+
+      [:siteId, :offset, :limit, :jobQueue, :jobName, :jobState,
+       :jobUser, :jobResources].each do |param|
+        parameter do
+          key :$ref, param
+        end
+      end
+
+      response 200 do
+        content :'application/json' do
+          schema do
+            key :'$ref', :JobCollection
+          end
+        end
+
+        key :description, 'Deployment collection.'
+      end
+    end
+
+    operation :post do
+      key :summary, 'Submit job'
+      key :description, "Submit a new job."
+      key :tags, ['job']
+
+      parameter do
+        key :$ref, :siteId
+      end
+
+      request_body do
+        key :description, 'Job submission payload.'
+        key :required, true
+        content 'application/json' do
+          schema do
+            key :'$ref', :JobSubmit
+          end
+        end
+        content 'application/x-www-form-urlencoded' do
+          schema do
+            key :'$ref', :JobSubmit
+          end
+        end
+      end
+
+      response 201 do
+        content :'plain/text'
+        key :description, 'Job successfully created.'
+        header :'Location' do
+          key :description, 'Location of the new job.'
+          schema do
+            key :type, :string
+          end
+        end
+      end
+    end
+  end
 
   # List jobs
   def index
@@ -57,6 +121,58 @@ class JobsController < ApplicationController
     respond_to do |format|
       format.g5kcollectionjson { render json: result }
       format.json { render json: result }
+    end
+  end
+
+  swagger_path "/sites/{siteId}/jobs/{jobId}" do
+    operation :get do
+      key :summary, 'Get job'
+      key :description, 'Fetch a specific job.'
+      key :tags, ['job']
+
+      [:siteId, :jobId].each do |param|
+        parameter do
+          key :$ref, param
+        end
+      end
+
+      response 200 do
+        content :'application/json' do
+          schema do
+            key :'$ref', :Job
+          end
+        end
+
+        key :description, 'The job item.'
+      end
+
+      response 404 do
+        content :'text/plain'
+        key :description, 'Job not found.'
+      end
+    end
+
+    operation :delete do
+      key :summary, 'Delete job'
+      key :description, 'Ask for deletion of job.'
+      key :tags, ['job']
+
+      [:siteId, :jobId].each do |param|
+        parameter do
+          key :$ref, param
+        end
+      end
+
+      response 202 do
+        key :description, 'Job deletion accepted. Note that the deletion is not '\
+          'immediate, the job can be poll until error state.'
+        header :'Location' do
+          key :description, 'Location of the job resource'
+          schema do
+            key :type, :string
+          end
+        end
+      end
     end
   end
 

@@ -24,6 +24,8 @@ gem 'erubis', '~> 2.7'
 gem 'sass-rails'
 gem 'uglifier'
 
+gem 'swagger-blocks', '~> 3.0'
+
 group :development do
   # for ruby scripts written to replicate
   # bugs

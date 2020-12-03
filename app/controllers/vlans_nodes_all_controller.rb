@@ -14,6 +14,73 @@
 
 class VlansNodesAllController < ApplicationController
   include Vlans
+  include Swagger::Blocks
+
+  swagger_path "/sites/{siteId}/vlans/nodes" do
+    operation :get do
+      key :summary, 'List nodes with current vlan.'
+      key :description, 'Fetch list of all nodes and their current vlan.'
+      key :tags, ['vlan']
+
+      parameter do
+        key :$ref, :siteId
+      end
+
+      response 200 do
+        key :description, 'Collection of nodes.'
+        content :'application/json' do
+          schema do
+            key :'$ref', :VlanAllNodeCollection
+          end
+        end
+      end
+    end
+
+    operation :post do
+      key :summary, 'Ask vlan for nodes.'
+      key :description, 'Fetch list of asked nodes and their current vlan.'
+      key :tags, ['vlan']
+
+      parameter do
+        key :$ref, :siteId
+      end
+
+      request_body do
+        key :description, 'Asked nodes.'
+        key :required, true
+        content 'application/json' do
+          schema do
+            key :type, :array
+            key :description, "Nodes list."
+            items do
+              key :type, :string
+              key :format, :hostname
+            end
+            key :example, ['dahu-3.grenoble.grid5000.fr']
+          end
+        end
+      end
+
+      response 200 do
+        key :description, 'Vlans added.'
+        content :'application/json' do
+          schema do
+            key :'$ref', :VlanAllNodeCollection
+          end
+        end
+      end
+
+      response 415 do
+        content :'text/plain'
+        key :description, 'Content-Type not supported.'
+      end
+
+      response 422 do
+        content :'text/plain'
+        key :description, 'Unprocessable data structure.'
+      end
+    end
+  end
 
   # Display nodes for a vlan
   def index

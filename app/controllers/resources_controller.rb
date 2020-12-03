@@ -13,7 +13,61 @@
 # limitations under the License.
 
 class ResourcesController < ApplicationController
+  include Swagger::Blocks
+
   MAX_AGE = 60.seconds
+
+  ['cluster', 'server', 'pdu', 'network_equipment'].each do |resource|
+    resource_id = (resource + '_id').camelize(:lower)
+    resources = resource.pluralize
+
+    swagger_path "/sites/{siteId}/#{resources}" do
+      operation :get do
+        key :summary, "List #{resources}"
+        key :description, "Fetch a collection of Grid'5000 #{resources} for a specific site."
+        key :tags, ['reference-api']
+
+        [:siteId, :deep, :branch, :date, :timestamp, :version].each do |param|
+          parameter do
+            key :$ref, param
+          end
+        end
+
+        response 200 do
+          key :description, "Grid'5000 #{resources} collection."
+          content :'application/json'
+        end
+      end
+    end
+
+    swagger_path "/sites/{siteId}/#{resources}/{#{resource_id}}" do
+      operation :get do
+        key :summary, "Get #{resource} description"
+        key :description, "Fetch the description of a specific #{resource}."
+        key :tags, ['reference-api']
+
+        parameter do
+          key :$ref, resource_id.to_sym
+        end
+
+        [:siteId, :deep, :branch, :date, :timestamp, :version].each do |param|
+          parameter do
+            key :$ref, param
+          end
+        end
+
+        response 200 do
+          key :description, "The Grid'5000 #{resource} item."
+          content :'application/json'
+        end
+
+        response 404 do
+          key :description, "Grid'5000 #{resource} not found."
+          content :'text/plain'
+        end
+      end
+    end
+  end
 
   # Return a collection of resources
   def index

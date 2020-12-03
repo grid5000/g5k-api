@@ -14,6 +14,30 @@
 
 class VlansUsersAllController < ApplicationController
   include Vlans
+  include Swagger::Blocks
+
+  swagger_path "/sites/{siteId}/vlans/users" do
+    operation :get do
+      key :summary, 'List users using vlans'
+      key :description, 'Fetch list of all users currently using vlans.'
+      key :tags, ['vlan']
+
+      [:siteId, :vlanId].each do |param|
+        parameter do
+          key :$ref, param
+        end
+      end
+
+      response 200 do
+        key :description, 'Collection of users, with their vlans.'
+        content :'application/json' do
+          schema do
+            key :'$ref', :VlanUserAllCollection
+          end
+        end
+      end
+    end
+  end
 
   # List users
   def index
@@ -30,6 +54,30 @@ class VlansUsersAllController < ApplicationController
     respond_to do |format|
       format.g5kcollectionjson { render json: result }
       format.json { render json: result }
+    end
+  end
+
+
+  swagger_path "/sites/{siteId}/vlans/users/{userId}" do
+    operation :get do
+      key :summary, 'List vlans for user'
+      key :description, 'Fetch vlans for a user.'
+      key :tags, ['vlan']
+
+      [:siteId, :vlanId].each do |param|
+        parameter do
+          key :$ref, param
+        end
+      end
+
+      response 200 do
+        key :description, 'List of vlan for user.'
+        content :'application/json' do
+          schema do
+            key :'$ref', :VlanUserAll
+          end
+        end
+      end
     end
   end
 

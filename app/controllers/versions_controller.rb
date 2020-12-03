@@ -13,7 +13,109 @@
 # limitations under the License.
 
 class VersionsController < ApplicationController
+  include Swagger::Blocks
+
   MAX_AGE = 60.seconds
+
+  swagger_path '/versions' do
+    operation :get do
+      key :summary, 'List reference-repository versions'
+      key :description, 'Fetch a collection of reference-repository git version. '\
+        'A version is a Git commit.'
+      key :tags, ['version']
+
+      [:branch, :limit, :offset].each do |param|
+        parameter do
+          key :$ref, param
+        end
+      end
+
+      response 200 do
+        key :description, "Grid'5000's reference-repository commit collection."
+        content :'application/json'
+      end
+    end
+  end
+
+  swagger_path '/versions/{versionId}' do
+    operation :get do
+      key :summary, 'Get version of reference-repository'
+      key :description, 'Fetch a specific version commit item of reference-repository.'
+      key :tags, ['version']
+
+      [:versionId, :branch, :limit].each do |param|
+        parameter do
+          key :$ref, param
+        end
+      end
+
+      response 200 do
+        key :description, "Reference-repository's commit item."
+        content :'application/json'
+      end
+
+      response 404 do
+        key :description, "Reference-repository's commit not found."
+        content :'text/plain'
+      end
+    end
+  end
+
+  swagger_path '/sites/{siteId}/versions' do
+    operation :get do
+      key :summary, "List sites's reference-repository versions"
+      key :description, 'Fetch a collection of reference-repository git versions '\
+        'for a specific site. A version is a Git commit.'
+      key :tags, ['version']
+
+      [:siteId, :branch, :limit].each do |param|
+        parameter do
+          key :$ref, param
+        end
+      end
+
+      response 200 do
+        key :description, "Grid'5000's reference-repository commit collection."
+        content :'application/json'
+      end
+    end
+  end
+
+  swagger_path '/sites/{siteId}/versions/{versionId}' do
+    operation :get do
+      key :summary, "Get version of site's reference-repository"
+      key :description, 'Fetch a specific version commit item of reference-repository.'
+      key :tags, ['version']
+
+      [:siteId, :versionId, :branch, :limit].each do |param|
+        parameter do
+          key :$ref, param
+        end
+      end
+
+      response 200 do
+        key :description, "Reference-repository's commit item."
+        content :'application/json'
+      end
+
+      response 404 do
+        key :description, "Reference-repository's commit not found."
+        content :'text/plain'
+      end
+    end
+  end
+
+  swagger_component do
+    parameter :versionId do
+      key :name, :versionId
+      key :in, :path
+      key :description, 'ID of version to fetch, as a Git commit hash.'
+      key :required, true
+      schema do
+        key :type, :string
+      end
+    end
+  end
 
   def index
     vary_on :accept; allow :get

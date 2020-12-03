@@ -20,6 +20,33 @@ require 'resources_controller'
 # the ClustersController is a special case of a SitesController,
 # for specific clusters, insofar that this attribute is limited to the status function
 class ClustersController < ResourcesController
+  include Swagger::Blocks
+
+  swagger_path '/sites/{siteId}/clusters/{clusterId}/status' do
+    operation :get do
+      key :summary, 'Get cluster status'
+      key :description, 'Fetch cluster OAR resources status and reservations.'
+      key :tags, ['status']
+
+      parameter do
+        key :$ref, :clusterId
+      end
+
+      parameter do
+        key :$ref, :statusDisks
+      end
+
+      parameter do
+        key :$ref, :statusNodes
+      end
+
+      response 200 do
+        key :description, "Grid'5000 cluster's OAR resources status."
+        content :'application/json'
+      end
+    end
+  end
+
   # method to return status of a specific cluster - bug 5856
   def status
     result = {

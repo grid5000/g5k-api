@@ -19,8 +19,394 @@ module Grid5000
   # Class representing vlans
   class Kavlan
     include ApplicationHelper
+    include Swagger::Blocks
 
     attr_accessor :base_uri, :user, :tls_options
+
+    # Swagger doc
+    swagger_component do
+      parameter :vlanId do
+        key :name, :vlanId
+        key :in, :path
+        key :description, 'ID of vlan to fetch.'
+        key :required, true
+        schema do
+          key :type, :integer
+        end
+      end
+
+      parameter :userId do
+        key :name, :userId
+        key :in, :path
+        key :description, "ID of Grid'5000 user."
+        key :required, true
+        schema do
+          key :type, :string
+        end
+      end
+
+      schema :Vlan do
+        key :required, [:uid, :type, :links]
+
+        property :uid do
+          key :type, :integer
+          key :description, 'The Vlan ID.'
+          key :example, 2
+        end
+
+        property :type do
+          key :type, :string
+          key :description, 'The Vlan type (kavlan, kavlan-global, kavlan-global, '\
+            'kavlan-global-remote).'
+          key :example, 'kavlan-local'
+        end
+
+        property :links do
+          key :type, :array
+          items do
+            key :'$ref', :Links
+          end
+          key :example, [{
+              'rel': 'dhcpd',
+              'type': 'application/vnd.grid5000.item+json',
+              'href': '/3.0/sites/grenoble/vlans/21/dhcpd'
+            },
+            {
+              'rel': 'nodes',
+              'type': 'application/vnd.grid5000.item+json',
+              'href': '/3.0/sites/grenoble/vlans/21/nodes'
+            },
+            {
+              'rel': 'users',
+              'type': 'application/vnd.grid5000.collection+json',
+              'href': '/3.0/sites/grenoble/vlans/21/users'
+            },
+            {
+              'rel': 'self',
+              'href': '/3.0/sites/grenoble/vlans/21',
+              'type': 'application/vnd.grid5000.item+json'
+            },
+            {
+              'rel': 'parent',
+              'href': '/3.0/sites/grenoble/vlans',
+              'type': 'application/vnd.grid5000.collection+json'
+            }]
+        end
+      end
+
+      schema :VlanItems do
+        key :required, [:items]
+        property :items do
+          key :type, :array
+          items do
+            key :'$ref', :Vlan
+          end
+        end
+      end
+
+      schema :VlanCollection do
+        allOf do
+          schema do
+            key :'$ref', :BaseApiCollection
+          end
+
+          schema do
+            key :'$ref', :VlanItems
+          end
+          schema do
+            property :links do
+              key :type, :array
+              items do
+                key :'$ref', :Links
+              end
+              key :example, [{
+                  'rel': 'nodes',
+                  'href': '/sid/sites/grenoble/vlans/nodes',
+                  'type': 'application/vnd.grid5000.collection+json'
+                },
+                {
+                  'rel': 'users',
+                  'href': '/sid/sites/grenoble/vlans/users',
+                  'type': 'application/vnd.grid5000.collection+json'
+                },
+                {
+                  'rel': 'self',
+                  'href': '/sid/sites/grenoble/vlans',
+                  'type': 'application/vnd.grid5000.collection+json'
+                },
+                {
+                  'rel': 'parent',
+                  'href': '/sid/sites/grenoble',
+                  'type': 'application/vnd.grid5000.item+json'
+                }]
+            end
+          end
+        end
+      end
+
+      schema :VlanUserAllCollection do
+        allOf do
+          schema do
+            key :'$ref', :BaseApiCollection
+          end
+
+          schema do
+            key :required, [:items]
+            property :items do
+              key :type, :array
+              items do
+                key :'$ref', :VlanUserAll
+              end
+            end
+          end
+
+          schema do
+            property :links do
+              key :type, :array
+              items do
+                key :'$ref', :Links
+              end
+              key :example, [{
+                  'rel':'self',
+                  'href':'/3.0/sites/grenoble/vlans/users',
+                  'type':'application/vnd.grid5000.collection+json'
+                },
+                {
+                  'rel':'parent',
+                  'href':'/3.0/sites/grenoble/vlans',
+                  'type':'application/vnd.grid5000.collection+json'
+                }]
+            end
+          end
+        end
+      end
+
+      schema :VlanUserCollection do
+        allOf do
+          schema do
+            key :'$ref', :BaseApiCollection
+          end
+
+          schema do
+            key :required, [:items]
+            property :items do
+              key :type, :array
+              items do
+                key :'$ref', :VlanUser
+              end
+            end
+          end
+
+          schema do
+            property :links do
+              key :type, :array
+              items do
+                key :'$ref', :Links
+              end
+              key :example, [{
+                  'rel':'self',
+                  'href':'/3.0/sites/grenoble/4/vlans/users',
+                  'type':'application/vnd.grid5000.collection+json'
+                },
+                {
+                  'rel':'parent',
+                  'href':'/3.0/sites/grenoble/4/vlans',
+                  'type':'application/vnd.grid5000.collection+json'
+                }]
+            end
+          end
+        end
+      end
+
+      schema :VlanUser do
+        property :uid do
+          key :type, :string
+          key :description, "A Grid'5000 user id."
+          key :example, 'auser'
+        end
+
+        property :status do
+          key :type, :string
+          key :description, "Status of user for a vlan, 'authorized' or "\
+            "'unauthorized'."
+          key :example, 'authorized'
+        end
+
+        property :links do
+          key :type, :array
+          items do
+            key :'$ref', :Links
+          end
+          key :example, [{
+            'rel':'self',
+            'href':'/3.0/sites/grenoble/vlans/4/users/auser',
+            'type':'application/vnd.grid5000.item+json'
+          },
+          {
+            'rel':'parent',
+            'href':'/3.0/sites/grenoble/vlans/4/users',
+            'type':'application/vnd.grid5000.collection+json'
+          }]
+        end
+      end
+
+      schema :VlanUserAll do
+        property :uid do
+          key :type, :string
+          key :description, "A Grid'5000 user id."
+          key :example, 'auser'
+        end
+
+        property :vlans do
+          key :type, :array
+          key :description, 'Vlan id on which user has rights.'
+          items do
+            key :type, :integer
+          end
+        end
+
+        property :links do
+          key :type, :array
+          items do
+            key :'$ref', :Links
+          end
+          key :example, [{
+            'rel':'self',
+            'href':'/3.0/sites/grenoble/vlans/users/auser',
+            'type':'application/vnd.grid5000.item+json'
+          },
+          {
+            'rel':'parent',
+            'href':'/3.0/sites/grenoble/vlans/users',
+            'type':'application/vnd.grid5000.collection+json'
+          }]
+        end
+      end
+
+      schema :VlanNode do
+        property :uid do
+          key :type, :string
+          key :format, :hostname
+          key :description, "A Grid'5000 node address."
+          key :example, 'dahu-3.grenoble.grid5000.fr'
+        end
+
+        property :vlan do
+          key :type, :integer
+          key :description, "The vlan id."
+          key :example, '4'
+        end
+
+        property :links do
+          key :type, :array
+          items do
+            key :'$ref', :Links
+          end
+          key :example, [{
+            'rel':'self',
+            'href':'/3.0/sites/grenoble/vlans/nodes/dahu-3.grenoble.grid5000.fr',
+            'type':'application/vnd.grid5000.item+json'
+          },
+          {
+            'rel':'parent',
+            'href':'/3.0/sites/grenoble/vlans/nodes',
+            'type':'application/vnd.grid5000.collection+json'
+          }]
+        end
+      end
+
+      schema :VlanNodeCollection do
+        allOf do
+          schema do
+            key :'$ref', :BaseApiCollection
+          end
+
+          schema do
+            key :required, [:items]
+            property :items do
+              key :type, :array
+              items do
+                key :'$ref', :VlanNode
+              end
+            end
+          end
+
+          schema do
+            property :links do
+              key :type, :array
+              items do
+                key :'$ref', :Links
+              end
+              key :example, [{
+                  'rel':'self',
+                  'href':'/3.0/sites/grenoble/4/nodes',
+                  'type':'application/vnd.grid5000.collection+json'
+                },
+                {
+                  'rel':'parent',
+                  'href':'/3.0/sites/grenoble/4',
+                  'type':'application/vnd.grid5000.item+json'
+                }]
+            end
+          end
+        end
+      end
+
+      schema :VlanAllNodeCollection do
+        allOf do
+          schema do
+            key :'$ref', :BaseApiCollection
+          end
+
+          schema do
+            key :required, [:items]
+            property :items do
+              key :type, :array
+              items do
+                key :'$ref', :VlanNode
+              end
+            end
+          end
+
+          schema do
+            property :links do
+              key :type, :array
+              items do
+                key :'$ref', :Links
+              end
+              key :example, [{
+                  'rel':'self',
+                  'href':'/3.0/sites/grenoble/nodes',
+                  'type':'application/vnd.grid5000.collection+json'
+                },
+                {
+                  'rel':'parent',
+                  'href':'/3.0/sites/grenoble',
+                  'type':'application/vnd.grid5000.item+json'
+                }]
+            end
+          end
+        end
+      end
+
+      #TODO: fix schema
+      schema :VlanAddResponse do
+        key :type, :object
+        property :node_address do
+          key :type, :object
+          property :status do
+            key :type, :string
+            key :description, "The status for node addition to vlan, can be 'success' "\
+              "'failure' or 'unchanged'."
+          end
+
+          property :message do
+            key :type, :string
+            key :description, 'A message about the node addition status.'
+          end
+        end
+      end
+    end
 
     # List all vlans
     def list

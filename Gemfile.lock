@@ -252,6 +252,7 @@ GEM
     state_machines-activerecord (0.6.0)
       activerecord (>= 4.1)
       state_machines-activemodel (>= 0.5.0)
+    swagger-blocks (3.0.0)
     syslogger (1.6.5)
     temple (0.8.2)
     thin (1.7.2)
@@ -310,6 +311,7 @@ DEPENDENCIES
   sass-rails
   simplecov
   state_machines-activerecord
+  swagger-blocks (~> 3.0)
   syslogger
   thin (~> 1.7.0)
   uglifier

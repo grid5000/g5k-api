@@ -13,8 +13,71 @@
 # limitations under the License.
 
 class DeploymentsController < ApplicationController
+  include Swagger::Blocks
+
   LIMIT = 50
   LIMIT_MAX = 500
+
+  swagger_path "/sites/{siteId}/deployments" do
+    operation :get do
+      key :summary, 'List deployments'
+      key :description, 'Fetch the list of all the deployments created for site. '\
+        'By default, the last 50 deployments are returned.'
+      key :tags, ['deployment']
+
+      [:siteId, :offset, :limit, :deployReverse, :deployStatus, :deployUser].each do |param|
+        parameter do
+          key :$ref, param
+        end
+      end
+
+      response 200 do
+        content :'application/json' do
+          schema do
+            key :'$ref', :DeploymentCollection
+          end
+        end
+
+        key :description, 'Deployment collection.'
+      end
+    end
+
+    operation :post do
+      key :summary, 'Submit deployment'
+      key :description, "Submit a new deployment (requires a job deploy reservation)."
+      key :tags, ['deployment']
+
+      parameter do
+        key :$ref, :siteId
+      end
+
+      request_body do
+        key :description, 'Deployment creation object.'
+        key :required, true
+        content 'application/json' do
+          schema do
+            key :'$ref', :DeploymentSubmit
+          end
+        end
+        content 'application/x-www-form-urlencoded' do
+          schema do
+            key :'$ref', :DeploymentSubmit
+          end
+        end
+      end
+
+      response 201 do
+        content :'plain/text'
+        key :description, 'Deployment successfully created.'
+        header :'Location' do
+          key :description, 'Location of the new deployment resource.'
+          schema do
+            key :type, :string
+          end
+        end
+      end
+    end
+  end
 
   # List deployments
   def index
@@ -47,6 +110,57 @@ class DeploymentsController < ApplicationController
     respond_to do |format|
       format.g5kcollectionjson { render json: result }
       format.json { render json: result }
+    end
+  end
+
+  swagger_path "/sites/{siteId}/deployments/{deploymentId}" do
+    operation :get do
+      key :summary, 'Get deployment'
+      key :description, 'Fetch a specific deployment.'
+      key :tags, ['deployment']
+
+      [:siteId, :deploymentId].each do |param|
+        parameter do
+          key :$ref, param
+        end
+      end
+
+      response 200 do
+        content :'application/json' do
+          schema do
+            key :'$ref', :Deployment
+          end
+        end
+
+        key :description, 'The deployment item.'
+      end
+
+      response 404 do
+        content :'text/plain'
+        key :description, 'Deployment not found.'
+      end
+    end
+
+    operation :delete do
+      key :summary, 'Cancel deployment.'
+      key :description, 'Cancel a deployment.'
+      key :tags, ['deployment']
+
+      [:siteId, :deploymentId].each do |param|
+        parameter do
+          key :$ref, param
+        end
+      end
+
+      response 204 do
+        key :description, 'Deployment successfully canceled.'
+        header :'Location' do
+          key :description, 'Location of the new deployment resource'
+          schema do
+            key :type, :string
+          end
+        end
+      end
     end
   end
 

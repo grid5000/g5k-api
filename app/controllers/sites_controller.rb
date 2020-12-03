@@ -15,6 +15,70 @@
 require 'resources_controller'
 
 class SitesController < ResourcesController
+  include Swagger::Blocks
+
+  swagger_path '/sites' do
+    operation :get do
+      key :summary, 'List sites'
+      key :description, "Fetch a collection of Grid'5000 sites."
+      key :tags, ['reference-api']
+
+      [:deep, :branch, :date, :timestamp, :version].each do |param|
+        parameter do
+          key :$ref, param
+        end
+      end
+
+      response 200 do
+        key :description, "Grid'5000 sites collection."
+        content :'application/json'
+      end
+    end
+  end
+
+  swagger_path '/sites/{siteId}' do
+    operation :get do
+      key :summary, 'Get site description'
+      key :description, 'Fetch the description of a specific site.'
+      key :tags, ['reference-api']
+
+      [:siteId, :deep, :branch, :date, :timestamp, :version].each do |param|
+        parameter do
+          key :$ref, param
+        end
+      end
+
+      response 200 do
+        key :description, "The Grid'5000 site item."
+        content :'application/json'
+      end
+
+      response 404 do
+        key :description, "Grid'5000 site not found."
+        content :'text/plain'
+      end
+    end
+  end
+
+  swagger_path '/sites/{siteId}/status' do
+    operation :get do
+      key :summary, 'Get site status'
+      key :description, 'Fetch site OAR resources status and reservations.'
+      key :tags, ['status']
+
+      [:siteId, :statusDisks, :statusNodes, :statusVlans, :statusSubnets].each do |param|
+        parameter do
+          key :$ref, param
+        end
+      end
+
+      response 200 do
+        key :description, "Grid'5000 site's OAR resources status."
+        content :'application/json'
+      end
+    end
+  end
+
   def status
     # fetch valid clusters
     enrich_params(params)
