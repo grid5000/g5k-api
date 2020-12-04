@@ -74,7 +74,11 @@ class SitesController < ResourcesController
 
       response 200 do
         key :description, "Grid'5000 site's OAR resources status."
-        content api_media_type(:g5kitemjson)
+        content api_media_type(:g5kitemjson) do
+          schema do
+            key :'$ref', :SiteStatus
+          end
+        end
       end
     end
   end

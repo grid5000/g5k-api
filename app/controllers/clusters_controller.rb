@@ -28,21 +28,19 @@ class ClustersController < ResourcesController
       key :description, 'Fetch cluster OAR resources status and reservations.'
       key :tags, ['status']
 
-      parameter do
-        key :$ref, :clusterId
-      end
-
-      parameter do
-        key :$ref, :statusDisks
-      end
-
-      parameter do
-        key :$ref, :statusNodes
+      [:siteId, :clusterId, :statusDisks, :statusNodes].each do |param|
+        parameter do
+          key :$ref, param
+        end
       end
 
       response 200 do
         key :description, "Grid'5000 cluster's OAR resources status."
-        content api_media_type(:g5kitemjson)
+        content api_media_type(:g5kitemjson) do
+          schema do
+            key :'$ref', :ClusterStatus
+          end
+        end
       end
     end
   end

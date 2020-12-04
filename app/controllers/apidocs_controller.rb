@@ -248,6 +248,213 @@ EOL
       end
     end
 
+    schema :BaseStatus do
+      property :hard do
+        key :type, :string
+        key :description, <<-EOL
+The hardware state of the resource. Possible values are `dead`, `alive` (running),
+`standby` (nodes only, shutdown to reduce power consumption, but available for jobs),
+`absent`, or `suspected` (unknown state).'
+EOL
+        key :example, 'alive'
+      end
+      property :hard do
+        key :type, :string
+        key :description, <<-EOL
+The system state of the resource. Possible values are `unknown` (when dead or suspected),
+`free` (no job currently running on the resource), `busy` (job is running on the
+resource), `besteffort` (a besteffort job is running on the resource).
+        EOL
+        key :example, 'busy'
+      end
+      property :reservations do
+        key :type, :array
+        items do
+          key :type, :object
+        end
+        key :description, 'The list of current and upcoming jobs on the resource.'
+      end
+    end
+
+    schema :NodeStatus do
+      allOf do
+        schema do
+          key :'$ref', :BaseStatus
+        end
+        schema do
+          property :free_slots do
+            key :type, :integer
+            key :description, 'The number of core available on the node (if the node '\
+              'is not entirely reserved).'
+            key :example, 0
+          end
+        end
+        schema do
+          property :freeable_slots do
+            key :type, :integer
+            key :description, "The node's cores number used in a besteffort job. "\
+              "As they are attached to a besteffort job they can be freed."
+            key :example, 0
+          end
+        end
+        schema do
+          property :busy_slots do
+            key :type, :integer
+            key :description, "The node's cores number used in a job."
+            key :example, 32
+          end
+        end
+      end
+    end
+
+    schema :DiskStatus do
+      allOf do
+        schema do
+          key :'$ref', :BaseStatus
+        end
+        schema do
+          property :diskpath do
+            key :type, :string
+            key :description, 'The block device path on the OS.'
+            key :example, '/dev/disk/by-path/pci-0000:18:00.0-scsi-0:0:3:0'
+          end
+        end
+      end
+    end
+
+    schema :VlanStatus do
+      allOf do
+        schema do
+          key :'$ref', :BaseStatus
+        end
+        schema do
+          property :type do
+            key :type, :string
+            key :description, 'The vlan type, can be `kavlan`, `kavlan-global-remote` '\
+              '`kavlan-local`.'
+            key :example, 'kavlan-local'
+          end
+        end
+      end
+    end
+
+    schema :SubnetStatus do
+      allOf do
+        schema do
+          key :'$ref', :BaseStatus
+        end
+      end
+    end
+
+    schema :ClusterStatus do
+      property :uid do
+        key :type, :integer
+        key :description, 'The timestamp of status.'
+        key :example, 1607016106
+      end
+
+      property :links do
+        key :type, :array
+        items do
+          key :'$ref', :Links
+        end
+        key :example, [{
+          'rel': 'self',
+          'type': 'application/vnd.grid5000.item+json',
+          'href': '/3.0/sites/grenoble/clusters/yeti/status'
+        },
+        {
+          'rel': 'parent',
+          'type': 'application/vnd.grid5000.item+json',
+          'href': '/3.0/sites/grenoble/clusters/yeti'
+        }]
+      end
+
+      property :nodes do
+        key :type, :object
+        key :additionalProperties, {
+          :'$ref' => '#/components/schemas/NodeStatus',
+          :'x-additionalPropertiesName' => 'node_fqdn'
+        }
+        key :example, { 'yeti-1.grenoble.grid5000.fr': {
+                         hard: 'standby',
+                         soft: 'free',
+                         free_slots: 32,
+                         freeable_slots: 0,
+                         busy_slots: 0,
+                         reservations: [] }
+                      }
+      end
+      property :disks do
+        key :type, :object
+        key :additionalProperties, {
+          :'$ref' => '#/components/schemas/DiskStatus',
+          :'x-additionalPropertiesName' => 'disk+node_fqdn'
+        }
+        key :example, { 'sdd.yeti-1.grenoble.grid5000.fr': {
+                         hard: 'alive',
+                         soft: 'free',
+                         diskpath: '/dev/disk/by-path/pci-0000:18:00.0-scsi-0:0:3:0',
+                         reservations: [] }
+                      }
+      end
+    end
+
+    schema :SiteStatus do
+      allOf do
+        schema do
+          key :'$ref', :ClusterStatus
+        end
+        schema do
+          property :links do
+            key :type, :array
+            items do
+              key :'$ref', :Links
+            end
+            key :example, [{
+              'rel': 'self',
+              'type': 'application/vnd.grid5000.item+json',
+              'href': '/3.0/sites/grenoble/status'
+            },
+            {
+              'rel': 'parent',
+              'type': 'application/vnd.grid5000.item+json',
+              'href': '/3.0/sites/grenoble'
+            }]
+          end
+        end
+        schema do
+          property :vlans do
+            key :type, :object
+            key :additionalProperties, {
+              :'$ref' => '#/components/schemas/VlanStatus',
+              :'x-additionalPropertiesName' => 'vlan_id'
+            }
+            key :example, { 1 => {
+              hard: 'alive',
+              soft: 'free',
+              type: 'kavlan-local',
+              reservations: [] }
+            }
+          end
+        end
+        schema do
+          property :subnets do
+            key :type, :object
+            key :additionalProperties, {
+              :'$ref' => '#/components/schemas/SubnetStatus',
+              :'x-additionalPropertiesName' => 'subnet'
+            }
+            key :example, { '10.134.92.0/22': {
+              hard: 'alive',
+              soft: 'free',
+              reservations: [] }
+            }
+          end
+        end
+      end
+    end
+
     security_scheme :BasicAuth do
       key :type, :http
       key :scheme, :basic
