@@ -1,3 +1,11 @@
+g5k-api (3.10.5) unstable; urgency=low
+
+  * 19dcdd4 Add missing status API objects in specification
+  * 77ea3d6 Align OAR Api http request timeout to 20seconds
+  * de1f1d6 Release v3.10.4
+
+ -- Samir Noir <samir.noir@inria.fr>  Tue, 08 Dec 2020 09:31:11 +0100
+
 g5k-api (3.10.4) unstable; urgency=low
 
   * 2911bb1 Add description about media types in specification
