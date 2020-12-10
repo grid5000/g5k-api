@@ -39,7 +39,7 @@ class JobsController < ApplicationController
           end
         end
 
-        key :description, 'Deployment collection.'
+        key :description, 'Job collection.'
       end
     end
 
