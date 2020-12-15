@@ -1,3 +1,10 @@
+g5k-api (3.10.6) unstable; urgency=low
+
+  * bc855f1 Add info logs when performing an http request for easier debugging
+  * a7c8821 Replace mention of Deployment in Job specification
+
+ -- Samir Noir <samir.noir@inria.fr>  Tue, 15 Dec 2020 11:18:13 +0100
+
 g5k-api (3.10.5) unstable; urgency=low
 
   * 19dcdd4 Add missing status API objects in specification
