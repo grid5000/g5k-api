@@ -120,6 +120,9 @@ module Grid5000
                   end
 
         request.body = body if body
+        Rails.logger.info "     Launching http request to #{uri}, with method: #{method}"
+        Rails.logger.info "     headers: #{headers}"
+        Rails.logger.info "     body: #{body}" if body
         http.request(request)
       end
     end
