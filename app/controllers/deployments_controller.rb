@@ -107,10 +107,7 @@ class DeploymentsController < ApplicationController
       'links' => links_for_collection
     }
 
-    respond_to do |format|
-      format.g5kcollectionjson { render json: result }
-      format.json { render json: result }
-    end
+    render_result(result)
   end
 
   swagger_path "/sites/{siteId}/deployments/{deploymentId}" do
@@ -172,10 +169,7 @@ class DeploymentsController < ApplicationController
     item = find_item(params[:id])
     item.links = links_for_item(item)
 
-    respond_to do |format|
-      format.g5kitemjson { render json: item }
-      format.json { render json: item }
-    end
+    render_result(item)
   end
 
   # Delete a deployment. Client must be authenticated and must own the deployment.
@@ -251,10 +245,7 @@ class DeploymentsController < ApplicationController
       location: location_uri,
       status: 201
     }
-    respond_to do |format|
-      format.g5kitemjson { render render_opts.merge(json: dpl) }
-      format.json { render render_opts.merge(json: dpl) }
-    end
+    render_result(dpl, render_opts)
   end
 
   # If the deployment is in the "canceled", "error", or "terminated" state,

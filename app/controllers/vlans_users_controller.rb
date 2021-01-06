@@ -57,10 +57,7 @@ class VlansUsersController < ApplicationController
     end
     result['links'] = links_for_collection
 
-    respond_to do |format|
-      format.g5kcollectionjson { render json: result }
-      format.json { render json: result }
-    end
+    render_result(result)
   end
 
   swagger_path "/sites/{siteId}/vlans/{vlanId}/users/{userId}" do
@@ -99,10 +96,7 @@ class VlansUsersController < ApplicationController
     result = @kavlan.vlan_users(params[:vlan_id], params[:id])
     result['links'] = links_for_collection
 
-    respond_to do |format|
-      format.g5kitemjson { render json: result }
-      format.json { render json: result }
-    end
+    render_result(result)
   end
 
   # Remove rights for user on a vlan.

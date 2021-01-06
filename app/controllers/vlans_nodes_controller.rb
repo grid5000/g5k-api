@@ -114,10 +114,7 @@ class VlansNodesController < ApplicationController
       item['links'] = links_for_item(item)
     end
 
-    respond_to do |format|
-      format.g5kitemjson { render json: result }
-      format.json { render json: result }
-    end
+    render_result(result)
   end
 
   # Add nodes inside a vlan
@@ -156,10 +153,7 @@ class VlansNodesController < ApplicationController
       end
     end
 
-    respond_to do |format|
-      format.g5kitemjson { render json: result }
-      format.json { render json: result }
-    end
+    render_result(result)
   end
 
   protected

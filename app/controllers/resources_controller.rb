@@ -124,14 +124,7 @@ class ResourcesController < ApplicationController
     end
     etag object.hash
 
-    respond_to do |format|
-      if object.has_key?('items')
-        format.g5kcollectionjson { render json: object }
-      else
-        format.g5kitemjson { render json: object }
-      end
-      format.json { render json: object }
-    end
+    render_result(object)
   end
 
   def enrich_params(params)

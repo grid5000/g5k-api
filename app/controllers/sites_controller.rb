@@ -132,10 +132,7 @@ class SitesController < ResourcesController
 
     result.merge!(OAR::Resource.status(clusters: valid_clusters, network_address: params[:network_address], job_details: params[:job_details], waiting: params[:waiting], types: expected_rtypes))
 
-    respond_to do |format|
-      format.g5kitemjson { render json: result }
-      format.json { render json: result }
-    end
+    render_result(result)
   end
 
   protected

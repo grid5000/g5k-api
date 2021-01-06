@@ -151,10 +151,7 @@ class VersionsController < ApplicationController
     etag versions.hash
     expires_in MAX_AGE, public: true
 
-    respond_to do |format|
-      format.g5kcollectionjson { render json: versions }
-      format.json { render json: versions }
-    end
+    render_result(versions)
   end
 
   def show
@@ -178,10 +175,7 @@ class VersionsController < ApplicationController
     etag versions.hash
     expires_in MAX_AGE, public: true
 
-    respond_to do |format|
-      format.g5kitemjson { render json: output }
-      format.json { render json: output }
-    end
+    render_result(output)
   end
 
   protected
