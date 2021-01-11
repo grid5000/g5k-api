@@ -119,6 +119,7 @@ module Grid5000
                     raise "Unknown http method: #{method}"
                   end
 
+        request['User-Agent'] = 'g5k-api'
         request.body = body if body
         Rails.logger.info "     Launching http request to #{uri}, with method: #{method}"
         Rails.logger.info "     headers: #{headers}"
