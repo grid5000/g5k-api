@@ -474,9 +474,11 @@ resource), `besteffort` (a besteffort job is running on the resource).
     VlansUsersAllController,
     VlansNodesController,
     VlansNodesAllController,
+    EnvironmentsController,
     Grid5000::Deployment,
     Grid5000::Job,
     Grid5000::Kavlan,
+    Grid5000::Environments,
     self
   ].freeze
 

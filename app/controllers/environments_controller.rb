@@ -16,6 +16,8 @@
 require 'grid5000/environments'
 
 class EnvironmentsController < ApplicationController
+  include Swagger::Blocks
+
   before_action :load_kadeploy_environments
 
   swagger_path "/sites/{siteId}/environments" do
@@ -108,6 +110,35 @@ class EnvironmentsController < ApplicationController
     respond_to do |format|
       format.g5kcollectionjson { render json: result }
       format.json { render json: result }
+    end
+  end
+
+  swagger_path "/sites/{siteId}/environments/{environmentId}" do
+    operation :get do
+      key :summary, 'Get environment'
+      key :description, 'Fetch a specific environment.'
+      key :tags, ['deployment']
+
+      [:siteId, :environmentId].each do |param|
+        parameter do
+          key :$ref, param
+        end
+      end
+
+      response 200 do
+        content api_media_type(:g5kitemjson) do
+          schema do
+            key :'$ref', :Environment
+          end
+        end
+
+        key :description, 'The environment item.'
+      end
+
+      response 404 do
+        content :'text/plain'
+        key :description, 'Environment not found.'
+      end
     end
   end
 

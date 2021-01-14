@@ -19,6 +19,7 @@ module Grid5000
   # Class representing environments
   class Environments
     include ApplicationHelper
+    include Swagger::Blocks
 
     CPU_ARCH = { 'x64' => 'x86_64', 'ppc64' => 'ppc64le', 'arm64' => 'aarch64' }
 
