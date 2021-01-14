@@ -1,0 +1,31 @@
+[
+  {
+    "name": "debian10-x64-std",
+    "version": 2019122711,
+    "description": "debian 10 (buster) - std",
+    "author": "support-staff@list.grid5000.fr",
+    "visibility": "private",
+    "destructive": false,
+    "os": "linux",
+    "image": {
+      "file": "/home/snoir/env/debian10-x64-std.tar.gz",
+      "kind": "tar",
+      "compression": "gzip"
+    },
+    "postinstalls": [
+      {
+        "archive": "/home/snoir/env/g5k-postinstall.tgz",
+        "compression": "gzip",
+        "script": "g5k-postinstall --net debian-bridged --net hpc --fstab nfs --fstab site-specific --restrict-user std"
+      }
+    ],
+    "boot": {
+      "kernel": "/vmlinuz",
+      "initrd": "/initrd.img"
+    },
+    "filesystem": "ext4",
+    "partition_type": 131,
+    "multipart": false,
+    "user": "snoir"
+  }
+]
