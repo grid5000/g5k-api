@@ -17,12 +17,7 @@ require 'swagger'
 class ApplicationController < ActionController::Base
   include ApplicationHelper
 
-  # Enable forgery request protection only in API
-  # See: https://api.rubyonrails.org/classes/ActionController/RequestForgeryProtection.html
-  protect_from_forgery unless: -> { request.format.json? }
-
   before_action :lookup_credentials
-  before_action :set_default_format
 
   # additional classes introduced to handle all possible exceptions
   # as per status codes https://api.grid5000.fr/doc/stable/reference/spec.html
@@ -71,8 +66,18 @@ class ApplicationController < ActionController::Base
 
   protected
 
-  def set_default_format
-    request.format = :json
+  def render_result(content, render_opts = {})
+    object = render_opts.merge(json: content)
+    respond_to do |format|
+      if object[:json].is_a?(Hash) && object[:json].has_key?('items')
+        format.g5kcollectionjson { render object }
+      else
+        format.g5kitemjson { render object }
+      end
+      format.any do
+        render object.merge(content_type: 'application/json')
+      end
+    end
   end
 
   def lookup_credentials

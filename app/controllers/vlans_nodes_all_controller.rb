@@ -90,10 +90,7 @@ class VlansNodesAllController < ApplicationController
     nodes = @kavlan.nodes
     result = format_nodes(nodes)
 
-    respond_to do |format|
-      format.g5kitemjson { render json: result }
-      format.json { render json: result }
-    end
+    render_result(result)
   end
 
   def show
@@ -107,10 +104,7 @@ class VlansNodesAllController < ApplicationController
 
     result['links'] = links_for_item(result)
 
-    respond_to do |format|
-      format.g5kitemjson { render json: result }
-      format.json { render json: result }
-    end
+    render_result(result)
   end
 
   # Get the vlan for a list of nodes
@@ -133,10 +127,7 @@ class VlansNodesAllController < ApplicationController
 
     result = format_nodes(nodes)
 
-    respond_to do |format|
-      format.g5kitemjson { render json: result }
-      format.json { render json: result }
-    end
+    render_result(result)
   end
 
   protected

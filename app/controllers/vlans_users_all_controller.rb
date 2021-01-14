@@ -51,10 +51,7 @@ class VlansUsersAllController < ApplicationController
     end
     result['links'] = links_for_collection
 
-    respond_to do |format|
-      format.g5kcollectionjson { render json: result }
-      format.json { render json: result }
-    end
+    render_result(result)
   end
 
 
@@ -90,10 +87,7 @@ class VlansUsersAllController < ApplicationController
 
     result['links'] = links_for_item(result)
 
-    respond_to do |format|
-      format.g5kitemjson { render json: result }
-      format.json { render json: result }
-    end
+    render_result(result)
   end
 
   protected

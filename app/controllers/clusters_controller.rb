@@ -67,10 +67,7 @@ class ClustersController < ResourcesController
     expected_rtypes.push('disk') if params[:disks] != 'no'
     result.merge!(OAR::Resource.status(clusters: params[:id], network_address: params[:network_address], job_details: params[:job_details], waiting: params[:waiting], types: expected_rtypes))
 
-    respond_to do |format|
-      format.g5kitemjson { render json: result }
-      format.json { render json: result }
-    end
+    render_result(result)
   end
 
   protected

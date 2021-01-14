@@ -118,10 +118,7 @@ class JobsController < ApplicationController
       'links' => links_for_collection
     }
 
-    respond_to do |format|
-      format.g5kcollectionjson { render json: result }
-      format.json { render json: result }
-    end
+    render_result(result)
   end
 
   swagger_path "/sites/{siteId}/jobs/{jobId}" do
@@ -185,10 +182,7 @@ class JobsController < ApplicationController
     job.links = links_for_item(job)
 
     render_opts = { methods: %i[resources_by_type assigned_nodes] }
-    respond_to do |format|
-      format.g5kitemjson { render render_opts.merge(json: job) }
-      format.json { render render_opts.merge(json: job) }
-    end
+    render_result(job, render_opts)
   end
 
   # Delete a job. Client must be authenticated and must own the job.
@@ -276,10 +270,7 @@ class JobsController < ApplicationController
       location: location_uri,
       status: 201
     }
-    respond_to do |format|
-      format.g5kitemjson { render render_opts.merge(json: job) }
-      format.json { render render_opts.merge(json: job) }
-    end
+    render_result(job, render_opts)
   end
 
   protected
