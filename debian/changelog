@@ -1,3 +1,9 @@
+g5k-api (3.10.9) unstable; urgency=low
+
+  * 6e02e69 Add missing links to environments resources
+
+ -- Samir Noir <samir.noir@inria.fr>  Thu, 21 Jan 2021 16:19:28 +0100
+
 g5k-api (3.10.8) unstable; urgency=low
 
   * 747aaa1 Fix Content-Type in environments controller, by using render_result()
