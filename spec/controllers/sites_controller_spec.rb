@@ -64,6 +64,7 @@ describe SitesController do
       expect(json['links'].map { |l| l['rel'] }.sort).to eq %w[
         clusters
         deployments
+        environments
         jobs
         metrics
         network_equipments
