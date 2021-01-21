@@ -107,10 +107,7 @@ class EnvironmentsController < ApplicationController
       'links' => links_for_collection
     }
 
-    respond_to do |format|
-      format.g5kcollectionjson { render json: result }
-      format.json { render json: result }
-    end
+    render_result(result)
   end
 
   swagger_path "/sites/{siteId}/environments/{environmentId}" do
@@ -156,10 +153,7 @@ class EnvironmentsController < ApplicationController
     item = items.first
     item['links'] ||= links_for_item(item)
 
-    respond_to do |format|
-      format.g5kitemjson { render json: item }
-      format.json { render json: item }
-    end
+    render_result(item)
   end
 
   protected
