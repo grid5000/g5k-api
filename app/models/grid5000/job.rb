@@ -314,6 +314,7 @@ module Grid5000
           key :type, :object
           key :description, "Assigned resources to job, by type ('cores', 'vlans', "\
             "subnets, disks)."
+
           property :cores do
             key :type, :array
             items do

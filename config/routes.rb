@@ -67,6 +67,7 @@ Api::Application.routes.draw do
     resources :servers, only: %i[index show]
     resources :jobs
     resources :deployments
+    resources :environments, only: %i[index show]
   end
 
   # You can have the root of your site routed with "root"
