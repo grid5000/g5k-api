@@ -1,3 +1,13 @@
+g5k-api (3.10.7) unstable; urgency=low
+
+  * 99f27d2 Add rspec test for new Environments controller
+  * 3ef2f9f Add swagger documentation about environments
+  * 9443b2d Add new Environments controller to expose Kadeploy environments
+  * 18511e9 Change the way of handling the differents possible Content-Type
+  * fc894c5 Set User-Agent when making http queries
+
+ -- Samir Noir <samir.noir@inria.fr>  Thu, 21 Jan 2021 14:08:32 +0100
+
 g5k-api (3.10.6) unstable; urgency=low
 
   * bc855f1 Add info logs when performing an http request for easier debugging
