@@ -297,7 +297,13 @@ module Grid5000
     # Determining architecture is a bit of a hack, until Kadeploy included it
     # in it's schema
     def format_environment(env)
-      g5k_arch = env['name'].gsub(/^[A-z0-9]+\-([A-z0-9]+)\-[A-z0-9]+$/, '\1')
+      env_arch = env['name'].gsub(/^[A-z0-9]+\-([A-z0-9]+)\-[A-z0-9]+$/, '\1')
+      g5k_arch = if CPU_ARCH.include?(env_arch)
+                   env_arch
+                 else
+                   'x86_64'
+                 end
+
       env['arch'] = CPU_ARCH.has_key?(g5k_arch) ? CPU_ARCH[g5k_arch] : g5k_arch
       { 'uid' => env['name'] + '_' + env['version'].to_s + '_' + env['user'] }.merge(env)
     end
