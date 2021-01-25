@@ -1,3 +1,9 @@
+g5k-api (3.10.10) unstable; urgency=low
+
+  * b6aac52 Default environments' arch to x86_64
+
+ -- Samir Noir <samir.noir@inria.fr>  Mon, 25 Jan 2021 18:57:35 +0100
+
 g5k-api (3.10.9) unstable; urgency=low
 
   * 6e02e69 Add missing links to environments resources
