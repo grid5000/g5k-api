@@ -1,3 +1,9 @@
+g5k-api (3.10.11) unstable; urgency=low
+
+  * 343dcd5 Fix issue with CSRF token verification
+
+ -- Samir Noir <samir.noir@inria.fr>  Tue, 26 Jan 2021 10:44:44 +0100
+
 g5k-api (3.10.10) unstable; urgency=low
 
   * b6aac52 Default environments' arch to x86_64
