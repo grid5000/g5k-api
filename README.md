@@ -264,7 +264,7 @@ The debian package build is done automatically as a stage in gitlab-ci. See `.gi
 
 ## Maintenance
 
-* <https://www.grid5000.fr/mediawiki/index.php/API_Maintenance>;
+* <https://www.grid5000.fr/w/API_Maintenance>;
 
 ## Authors
 * Cyril Rohr <cyril.rohr@inria.fr>, David Margery <david.margery@inria.fr> and others
