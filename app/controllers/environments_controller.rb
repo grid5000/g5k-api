@@ -18,7 +18,7 @@ require 'grid5000/environments'
 class EnvironmentsController < ApplicationController
   include Swagger::Blocks
 
-  before_action :load_kadeploy_environments
+  before_action :load_kadeploy_environments, :forbid_anonymous_user_param
 
   swagger_path "/sites/{siteId}/environments" do
     operation :get do
@@ -215,5 +215,13 @@ class EnvironmentsController < ApplicationController
     @environments.tls_options = tls_options_for(:out)
     @environments.base_uri = api_path
     @environments.user = @credentials[:cn]
+  end
+
+  # If anonymous and asking for users' environments, we throw a 403
+  def forbid_anonymous_user_param
+    if is_anonymous? && params.has_key?('user')
+      raise Forbidden, 'Not allowed to list other users environments, because '\
+        'you are seen as an anonymous one'
+    end
   end
 end
