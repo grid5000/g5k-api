@@ -54,6 +54,24 @@ describe EnvironmentsController do
       expect(json['items'].first.length).to eq(17)
     end
 
+    it 'should return the list of latest only public environments versions if anonymous' do
+      authenticate_as('anonymous')
+      stub_request(:get, @base_expected_uri + '?last=true').
+        with(
+          headers: {
+            'Accept' => 'application/json',
+            'Host' => 'api-out.local',
+            'X-Api-User-Cn' => 'anonymous'
+          }).
+          to_return(status: 200, body: fixture('environments-grenoble-last.json'), headers: @headers_return)
+
+      get :index, params: { site_id: 'grenoble', format: :json }
+
+      expect(response.status).to eq(200)
+      expect(json['total']).to eq(27)
+      expect(json['items'].length).to eq(27)
+    end
+
     it 'should return all environments versions' do
       authenticate_as('snoir')
       stub_request(:get, @base_expected_uri).
@@ -168,6 +186,16 @@ describe EnvironmentsController do
       expect(json['links'].length).to eq(2)
       expect(json['items'].map { |i| i['name'] } ).to all(eq('debian10-x64-std'))
       expect(json['items'].first.length).to eq(17)
+    end
+
+    it 'should return 403 when asking for env of specified user if anonymous' do
+      authenticate_as('anonymous')
+
+      get :index, params: { site_id: 'grenoble', format: :json, user: 'snoir' }
+
+      expect(response.status).to eq(403)
+      expect(response.body).to eq 'Not allowed to list other users environments, '\
+        'because you are seen as an anonymous one'
     end
   end
 end

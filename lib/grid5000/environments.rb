@@ -258,7 +258,7 @@ module Grid5000
     end
 
     # List all environments. This include public environments, and current user's
-    # environments.
+    # environments. When user is anonymous, only list the public environments.
     def list(params = nil)
       kadeploy_params = {}
       latest_only = (params && params.has_key?('latest_only')) ? params['latest_only'] : 'yes'
@@ -271,7 +271,11 @@ module Grid5000
 
       http = call_kadeploy_environments(kadeploy_params)
 
-      if username
+      # When a username is present in the query's parameters, we only need to
+      # make one request to kadeploy to retrieve the user's environments.
+      # If user is anonymous (from X-Api-User-Cn), we only request kadeploy for
+      # the public environments.
+      if username || user == 'anonymous'
         environments = JSON.parse(http.body)
       else
         environments = JSON.parse(http.body)
