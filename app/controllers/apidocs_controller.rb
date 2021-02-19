@@ -258,7 +258,7 @@ The hardware state of the resource. Possible values are `dead`, `alive` (running
 EOL
         key :example, 'alive'
       end
-      property :hard do
+      property :soft do
         key :type, :string
         key :description, <<-EOL
 The system state of the resource. Possible values are `unknown` (when dead or suspected),
