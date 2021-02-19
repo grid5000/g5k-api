@@ -1,3 +1,11 @@
+g5k-api (3.10.12) unstable; urgency=low
+
+  * f12951d Fix missing definition of "soft" status in documentation
+  * 973b981 Disallow listing of user environments to anonymous
+  * 9416e6b Update wiki urls
+
+ -- Samir Noir <samir.noir@inria.fr>  Fri, 19 Feb 2021 09:56:59 +0100
+
 g5k-api (3.10.11) unstable; urgency=low
 
   * 343dcd5 Fix issue with CSRF token verification
