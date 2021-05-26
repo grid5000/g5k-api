@@ -1,3 +1,10 @@
+g5k-api (3.10.13) unstable; urgency=low
+
+  * 13a0ec2 Update rails to 6.0.3.7 minor version
+  * b1abc1e Raise http read timeout from 20 to 60s in JobsController
+
+ -- Samir Noir <samir.noir@inria.fr>  Wed, 26 May 2021 15:51:13 +0200
+
 g5k-api (3.10.12) unstable; urgency=low
 
   * f12951d Fix missing definition of "soft" status in documentation
