@@ -327,15 +327,10 @@ module OAR
           # At this stage we have the the complete status over all cores in each node (network_address)
           # Now add logic to sum up the status over all cores and push final status to api_status hash table
           if current_data[:busycounter] > 0
-            if current_data[:busycounter] <= current_data[:totalcores] / 2
-              derived_status[:soft] = 'free_busy' # more free cores in node than busy cores
-            elsif current_data[:busycounter] > current_data[:totalcores] / 2 && current_data[:busycounter] < current_data[:totalcores]
-              derived_status[:soft] = 'busy_free' # more busy cores in node than free cores
+            if current_data[:busycounter] < current_data[:totalcores]
+              derived_status[:soft] = 'partial'   # all cores in node are busy
             else
               derived_status[:soft] = 'busy'      # all cores in node are busy
-            end
-            if current_data[:besteffortcounter] > 0
-              derived_status[:soft] += '_besteffort' # add "_besteffort" after status if it is so
             end
           end
 

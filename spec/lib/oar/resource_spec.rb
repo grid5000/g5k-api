@@ -82,22 +82,30 @@ describe OAR::Resource do
         }
       end
 
+      rennes_status_count = {}
+      fixture('grid5000-rennes-status-count')
+        .split("\n").reject { |line| line[0] == '#' || line =~ /^\s*$/ }
+        .uniq.map { |line| line.split(/\s/) }
+        .each do |node, nb_free, nb_busy, nb_busy_best_effort|
+        rennes_status_count[node] = { free_slots: nb_free.to_i,
+                                      freeable_slots: nb_busy.to_i,
+                                      busy_slots: nb_busy_best_effort.to_i }
+      end
       fixture('grid5000-rennes-status')
         .split("\n").reject { |line| line[0] == '#' || line =~ /^\s*$/ }
         .uniq.map { |line| line.split(/\s/) }
         .each do |(job_id, job_queue, job_state, node, _node_state)|
         if job_state =~ /running/i
-          expected_statuses[node][:soft] = (job_queue == 'besteffort' ? /besteffort/ : /busy/)
+          if rennes_status_count[node][:free_slots] == 0
+            expected_statuses[node][:soft] = 'busy'
+          else
+            expected_statuses[node][:soft] = 'partial'
+          end
         end
         expected_statuses[node][:reservations].push(job_id.to_i)
       end
-      fixture('grid5000-rennes-status-count')
-        .split("\n").reject { |line| line[0] == '#' || line =~ /^\s*$/ }
-        .map { |line| line.split(/\s/) }
-        .each do |node, nb_free, nb_busy, nb_busy_best_effort|
-        expected_statuses[node].merge!({ free_slots: nb_free.to_i,
-                                         freeable_slots: nb_busy.to_i,
-                                         busy_slots: nb_busy_best_effort.to_i })
+      expected_statuses.each_key do |node|
+        expected_statuses[node].merge!(rennes_status_count[node]) if rennes_status_count[node].is_a?(Hash)
       end
       OAR::Resource.status['nodes'].each do |node, status|
         expected_status = expected_statuses[node]
@@ -130,18 +138,6 @@ describe OAR::Resource do
       expect(OAR::Resource.status(waiting: 'no', network_address: 'parasilo-5.rennes.grid5000.fr')['nodes'].first[1]['reservations']).to be_nil
     end
 
-    it 'should return a node with status free_busy' do
-      expect(OAR::Resource.status['nodes'].select do |_node, status|
-               status[:soft] == 'free_busy'
-             end.map { |(node, _status)| node }).to eq ['parapluie-54.rennes.grid5000.fr']
-    end
-
-    it 'should return a node with status busy_free' do
-      expect(OAR::Resource.status['nodes'].select do |_node, status|
-               status[:soft] == 'busy_free'
-             end.map { |(node, _status)| node }).to eq ['parapluie-55.rennes.grid5000.fr']
-    end
-
     it 'should return all nodes with status busy' do
       expect(OAR::Resource.status['nodes'].select do |_node, status|
                status[:soft] == 'busy'
@@ -154,22 +150,22 @@ describe OAR::Resource do
              end.map { |(node, _status)| node }.sort).to eq ['paramount-29.rennes.grid5000.fr', 'paramount-28.rennes.grid5000.fr', 'paramount-27.rennes.grid5000.fr', 'paramount-26.rennes.grid5000.fr', 'paramount-24.rennes.grid5000.fr', 'paramount-23.rennes.grid5000.fr', 'paramount-22.rennes.grid5000.fr', 'paramount-19.rennes.grid5000.fr', 'paramount-18.rennes.grid5000.fr', 'paramount-17.rennes.grid5000.fr', 'paramount-16.rennes.grid5000.fr', 'paramount-15.rennes.grid5000.fr', 'paramount-14.rennes.grid5000.fr', 'paramount-13.rennes.grid5000.fr', 'paramount-12.rennes.grid5000.fr', 'paramount-11.rennes.grid5000.fr', 'paramount-10.rennes.grid5000.fr', 'paramount-3.rennes.grid5000.fr', 'paramount-2.rennes.grid5000.fr', 'paramount-1.rennes.grid5000.fr', 'paradent-2.rennes.grid5000.fr', 'paradent-3.rennes.grid5000.fr', 'paradent-4.rennes.grid5000.fr', 'paradent-5.rennes.grid5000.fr', 'paradent-6.rennes.grid5000.fr', 'paradent-7.rennes.grid5000.fr', 'paradent-10.rennes.grid5000.fr', 'paradent-11.rennes.grid5000.fr', 'paradent-12.rennes.grid5000.fr', 'paradent-13.rennes.grid5000.fr', 'paradent-14.rennes.grid5000.fr', 'paradent-15.rennes.grid5000.fr', 'paradent-16.rennes.grid5000.fr', 'paradent-17.rennes.grid5000.fr', 'paradent-18.rennes.grid5000.fr', 'paradent-19.rennes.grid5000.fr', 'paradent-20.rennes.grid5000.fr', 'paradent-21.rennes.grid5000.fr', 'paradent-22.rennes.grid5000.fr', 'paradent-23.rennes.grid5000.fr', 'paradent-24.rennes.grid5000.fr', 'paradent-25.rennes.grid5000.fr', 'paradent-26.rennes.grid5000.fr', 'paradent-27.rennes.grid5000.fr', 'paradent-29.rennes.grid5000.fr', 'paradent-30.rennes.grid5000.fr', 'paradent-36.rennes.grid5000.fr', 'paradent-37.rennes.grid5000.fr', 'paradent-51.rennes.grid5000.fr', 'parapluie-7.rennes.grid5000.fr', 'parapluie-20.rennes.grid5000.fr', 'parapluie-21.rennes.grid5000.fr', 'parapluie-8.rennes.grid5000.fr', 'parapluie-22.rennes.grid5000.fr', 'parapluie-23.rennes.grid5000.fr', 'parapluie-24.rennes.grid5000.fr', 'parapluie-25.rennes.grid5000.fr', 'parapluie-26.rennes.grid5000.fr', 'parapluie-27.rennes.grid5000.fr', 'parapluie-28.rennes.grid5000.fr', 'parapluie-29.rennes.grid5000.fr', 'parapluie-3.rennes.grid5000.fr', 'parapluie-30.rennes.grid5000.fr', 'parapluie-31.rennes.grid5000.fr', 'parapluie-32.rennes.grid5000.fr', 'parapluie-33.rennes.grid5000.fr', 'parapluie-34.rennes.grid5000.fr', 'parapluie-35.rennes.grid5000.fr', 'parapluie-36.rennes.grid5000.fr', 'parapluie-37.rennes.grid5000.fr', 'parapluie-38.rennes.grid5000.fr', 'parapluie-39.rennes.grid5000.fr', 'parapluie-4.rennes.grid5000.fr', 'parapluie-40.rennes.grid5000.fr', 'parapluie-5.rennes.grid5000.fr', 'parapluie-6.rennes.grid5000.fr', 'parapluie-2.rennes.grid5000.fr', 'parapluie-19.rennes.grid5000.fr', 'parapluie-18.rennes.grid5000.fr', 'parapluie-17.rennes.grid5000.fr', 'parapluie-16.rennes.grid5000.fr', 'parapluie-15.rennes.grid5000.fr', 'parapluie-14.rennes.grid5000.fr', 'parapluie-13.rennes.grid5000.fr', 'parapluie-12.rennes.grid5000.fr', 'parapluie-11.rennes.grid5000.fr', 'parapluie-10.rennes.grid5000.fr', 'parapluie-1.rennes.grid5000.fr', 'parasilo-2.rennes.grid5000.fr', 'parasilo-5.rennes.grid5000.fr'].sort
     end
 
-    it 'should return a node with status free_busy_besteffort' do
+    it 'should return a number of nodes with status partial' do
       expect(OAR::Resource.status['nodes'].select do |_node, status|
-               status[:soft] == 'free_busy_besteffort'
-             end.map { |(node, _status)| node }).to eq ['parapluie-51.rennes.grid5000.fr']
+               status[:soft] == 'partial'
+            end.map { |(node, _status)| node }.length).to eq 4
     end
 
-    it 'should return a node with status busy_free_besteffort' do
+    it 'should return multiples node with status partial' do
       expect(OAR::Resource.status['nodes'].select do |_node, status|
-               status[:soft] == 'busy_free_besteffort'
-             end.map { |(node, _status)| node }).to eq ['parapluie-52.rennes.grid5000.fr']
+               status[:soft] == 'partial'
+             end.map { |(node, _status)| node }.first).to eq 'parapluie-51.rennes.grid5000.fr'
     end
 
-    it 'should return a node with status busy_besteffort' do
+    it 'should return a number of nodes with status partial' do
       expect(OAR::Resource.status['nodes'].select do |_node, status|
-               status[:soft] == 'busy_besteffort'
-             end.map { |(node, _status)| node }).to eq ['parapluie-53.rennes.grid5000.fr']
+               status[:soft] == 'partial'
+            end.map { |(node, _status)| node }.length).to eq 4
     end
 
     describe 'standby state' do
