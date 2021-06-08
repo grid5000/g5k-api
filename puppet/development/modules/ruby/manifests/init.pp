@@ -1,7 +1,7 @@
 class ruby {
-  $ruby_packages = ['ruby', 'ruby-dev']
+  $packages = ['ruby', 'ruby-dev', 'build-essential']
 
-  package{$ruby_packages:
+  package{$packages:
     ensure => latest
   }
 
