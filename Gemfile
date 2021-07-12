@@ -6,7 +6,7 @@ gem 'rake'
 # jQuery is the default JavaScript library as from Rails 3.1
 gem 'jquery-rails'
 
-gem 'addressable', '~> 2.2'
+gem 'addressable', '~> 2.8'
 gem 'haml', '~> 5.1.2'
 gem 'mysql2', '~> 0.5.3'
 gem 'nokogiri'
