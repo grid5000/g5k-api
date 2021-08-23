@@ -1,3 +1,9 @@
+g5k-api (3.10.14) unstable; urgency=low
+
+  * 9a72aa0 Align timeout to OAR's API with api-proxy's timeout (180)
+
+ -- Samir Noir <samir.noir@inria.fr>  Mon, 23 Aug 2021 17:57:54 +0200
+
 g5k-api (3.10.13) unstable; urgency=low
 
   * 13a0ec2 Update rails to 6.0.3.7 minor version
