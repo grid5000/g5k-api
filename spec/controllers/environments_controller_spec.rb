@@ -198,4 +198,34 @@ describe EnvironmentsController do
         'because you are seen as an anonymous one'
     end
   end
+
+  describe 'GET /environments/centos7-ppc64-min_2020120219_deploy' do
+    it 'should return one environment' do
+      authenticate_as('snoir')
+      stub_request(:get, @base_expected_uri).
+        with(
+          headers: {
+            'Accept' => 'application/json',
+            'Host' => 'api-out.local',
+            'X-Api-User-Cn' => 'snoir'
+          }).
+          to_return(status: 200, body: fixture('environments-grenoble.json'), headers: @headers_return)
+
+      stub_request(:get, @base_expected_uri + '?username=snoir').
+        with(
+          headers: {
+            'Accept' => 'application/json',
+            'Host' => 'api-out.local',
+            'X-Api-User-Cn' => 'snoir',
+          }).
+          to_return(status: 200, body: fixture('environments-grenoble-sno.json'), headers: @headers_return)
+
+      get :show, params: { site_id: 'grenoble', id: 'centos7-ppc64-min_2020120219_deploy', format: :json }
+
+      expect(response.status).to eq(200)
+      expect(json['links'].length).to eq(2)
+      expect(json['uid']).to eq('centos7-ppc64-min_2020120219_deploy')
+      expect(json.length).to eq(17)
+    end
+  end
 end
