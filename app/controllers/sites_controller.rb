@@ -135,6 +135,11 @@ class SitesController < ResourcesController
     render_result(result)
   end
 
+  # Healthcheck of g5k-api, used to check if the app is running.
+  def health
+    render json: { status: 'OK' }
+  end
+
   protected
 
   def collection_path

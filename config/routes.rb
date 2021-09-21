@@ -52,6 +52,7 @@ Api::Application.routes.draw do
 
     member do
       get :status
+      get :health
     end
 
     resources :network_equipments, only: %i[index show]

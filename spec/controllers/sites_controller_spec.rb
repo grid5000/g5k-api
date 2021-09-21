@@ -265,4 +265,13 @@ describe SitesController do
       expect(json['version']).to eq 'f449f0cb61b0cf5adf1ddbae47c9a409af9652f1'
     end
   end
+
+  describe 'GET /sites/{{id}}/health' do
+    it 'should get a 200 with a simple JSON' do
+      get :health, params: { id: 'rennes' }, format: :json
+      expect(response.status).to eq 200
+      expect(json.length).to eq 1
+      expect(json['status']).to eq 'OK'
+    end
+  end
 end
