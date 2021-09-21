@@ -261,10 +261,15 @@ module Grid5000
     # environments. When user is anonymous, only list the public environments.
     def list(params = nil)
       kadeploy_params = {}
-      latest_only = (params && params.has_key?('latest_only')) ? params['latest_only'] : 'yes'
-      username = params['user'] if params && params.has_key?('user')
-      name = params['name'] if params && params.has_key?('name')
-      arch = params['arch'] if params && params.has_key?('arch')
+      latest_only = if params[:action] == 'show'
+                      'no'
+                    else
+                      params&.has_key?('latest_only') ? params['latest_only'] : 'yes'
+                    end
+
+      username = params['user'] if params&.has_key?('user')
+      name = params['name'] if params&.has_key?('name')
+      arch = params['arch'] if params&.has_key?('arch')
 
       kadeploy_params['last'] = true unless latest_only == 'no' || latest_only == 'false'
       kadeploy_params['username'] = username if username
