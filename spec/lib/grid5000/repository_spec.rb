@@ -57,24 +57,25 @@ describe Grid5000::Repository do
 
     describe 'finding a specific version' do
       it 'should return the latest commit of master if no specific version is given' do
-        commit = @repository.find_commit_for(version: nil)
+        commit = @repository.find_commit_for('data', version: nil)
         expect(commit.oid).to eq(@latest_commit)
       end
 
       it 'should find the commit associated with the given timestamp [timestamp=TS] 1/2' do
         date = Time.parse('2009-03-13 17:24:20 +0100')
-        commit = @repository.find_commit_for(timestamp: date.to_i)
+        commit = @repository.find_commit_for(nil, timestamp: date.to_i)
         expect(commit.oid).to eq('464e6bfc0195deeb4e93f61229857e1e8032bd6b')
       end
 
       it 'should find the commit associated with the given date [date=DATE] 2/2' do
         date = '2009-03-13 17:24:47 +0100'
-        commit = @repository.find_commit_for(date: date)
+        commit = @repository.find_commit_for(nil, date: date)
         expect(commit.oid).to eq('464e6bfc0195deeb4e93f61229857e1e8032bd6b')
       end
 
       it 'should find the commit associated with the given version [version=SHA]' do
         commit = @repository.find_commit_for(
+          nil,
           version: '464e6bfc0195deeb4e93f61229857e1e8032bd6b'
         )
         expect(commit.oid).to eq('464e6bfc0195deeb4e93f61229857e1e8032bd6b')
@@ -83,6 +84,7 @@ describe Grid5000::Repository do
       it 'should return Errors::BranchNotFound when asking for a version from a branch that does not exist' do
         date = Time.parse('Fri Mar 13 17:24:47 2009 +0100')
         expect { @repository.find_commit_for(
+          nil,
           timestamp: date.to_i,
           branch: 'doesnotexist'
         ) }.to raise_error(Grid5000::Errors::BranchNotFound)
@@ -90,6 +92,7 @@ describe Grid5000::Repository do
 
       it 'should return Errors::CommitNotfound if the request version cannot be found' do
         expect { @repository.find_commit_for(
+          nil,
           version: 'aaa895a4b480aaa8e11c35549a97796dcc4a307d',
           branch: 'master'
         ) }.to raise_error(Grid5000::Errors::CommitNotFound)
@@ -98,7 +101,7 @@ describe Grid5000::Repository do
 
     describe 'finding a specific object' do
       before do
-        @commit = @repository.find_commit_for(branch: 'master')
+        @commit = @repository.find_commit_for('data', branch: 'master')
       end
 
       it 'should find a tree object' do

@@ -41,7 +41,7 @@ module Grid5000
       path = full_path(path)
       @commit = nil
       begin
-        @commit = find_commit_for(options)
+        @commit = find_commit_for(path, options)
         return nil if @commit.nil?
         logger.info "    commit = #{@commit} {id: #{@commit.oid}, message: #{@commit.message.chomp}}"
 
@@ -184,7 +184,9 @@ module Grid5000
       result
     end
 
-    def find_commit_for(options = {})
+    def find_commit_for(path, options = {})
+      # path parameter is only used when not requesting a specific version (commit)
+      # or timestamp.
       options[:branch] ||= 'master'
       version, branch, timestamp, date = options.values_at(:version, :branch, :timestamp, :date)
       if version
@@ -212,10 +214,24 @@ module Grid5000
         commits.map! { |commit| commit.oid }
 
         sha = commits.first
-        find_commit_for(options.merge(version: sha))
+        find_commit_for(nil, options.merge(version: sha))
       else
-        raise Errors::BranchNotFound.new(branch) unless instance.branches.exist?(branch)
-        instance.branches[branch].target
+        if path
+          raise Errors::BranchNotFound.new(branch) unless instance.branches.exist?(branch)
+          walker = Rugged::Walker.new(instance)
+          walker.sorting(Rugged::SORT_DATE)
+          walker.push(instance.branches[branch].target.oid)
+          commit = nil
+          walker.each do |c|
+            if c.diff(paths: [path, "#{path}.json"]).size > 0
+              commit = c
+              break
+            end
+          end
+          commit
+        else
+          instance.branches[branch].target
+        end
       end
     end
 

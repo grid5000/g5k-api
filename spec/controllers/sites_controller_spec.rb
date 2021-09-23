@@ -86,7 +86,7 @@ describe SitesController do
       end['href']).to eq '/sites/rennes/clusters'
       expect(json['links'].find do |l|
         l['rel'] == 'version'
-      end['href']).to eq "/sites/rennes/versions/#{@latest_commit}"
+      end['href']).to eq "/sites/rennes/versions/2b95b7f15af7c7170eec4b7c40f1643290593037"
     end
 
     it 'should return link for deployment' do
