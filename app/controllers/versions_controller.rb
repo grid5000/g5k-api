@@ -224,7 +224,11 @@ class VersionsController < ApplicationController
   protected
 
   def resource_path
-    @resource_path ||= params[:resource].gsub(%r{/?platforms}, '')
+    if params[:resource]
+      @resource_path ||= params[:resource].gsub(%r{/?platforms}, '')
+    else
+      ''
+    end
   end
 
   def metadata_for_commit(commit, resource_path)

@@ -302,17 +302,10 @@ module Grid5000
 
       if oid
         walker = Rugged::Walker.new(instance)
-        walker.sorting(Rugged::SORT_DATE)
         walker.push(oid)
 
         commits = walker.select do |commit|
-          commit.diff(paths: [path]).size > 0
-        end
-
-        if commits.empty?
-          commits = walker.select do |commit|
-            commit.diff(paths: [path + '.json']).size > 0
-          end
+          entry_changed?(commit, path)
         end
       end
 
@@ -321,6 +314,41 @@ module Grid5000
         'offset' => offset,
         'items' => commits.slice(offset, limit)
       }
+    end
+
+    # Implementing git log behavior with Walker from libgit2 can results in slow
+    # responses. Filtering on path for each commit is time consuming.
+    # Adapted from: https://github.com/libgit2/rugged/issues/343
+    def entry_changed?(commit, path)
+      parent = commit.parents[0]
+      entry = commit.tree.path(path) rescue nil
+
+      # if at a root commit, consider it changed if we have this file;
+      # i.e. if we added it in the initial commit
+      if !parent
+        return entry != nil
+      end
+
+      parent_entry = begin
+                       parent.tree.path(path)
+                     rescue Rugged::TreeError
+                       begin
+                         parent.tree.path(path + '.json')
+                       rescue Rugged::TreeError
+                         nil
+                       end
+                     end
+
+      # does exist in either, no change
+      if !entry && !parent_entry
+        false
+        # only in one of them, change
+      elsif !entry || !parent_entry
+        true
+        # otherwise it's changed if their ids arent' the same
+      else
+        entry[:oid] != parent_entry[:oid]
+      end
     end
   end
 
