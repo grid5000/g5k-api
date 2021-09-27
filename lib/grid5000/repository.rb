@@ -44,6 +44,21 @@ module Grid5000
         @commit = find_commit_for(path, options)
         return nil if @commit.nil?
         logger.info "    commit = #{@commit} {id: #{@commit.oid}, message: #{@commit.message.chomp}}"
+      rescue Rugged::Error => e
+        logger.debug "#{Time.now}: Got a Rugged exception #{e}"
+        return e
+      end
+      @commit
+    end
+
+    def find_and_expand(path, options = {})
+      begin
+        find(path, options)
+        path = full_path(path)
+
+        if @commit.nil?
+          return nil
+        end
 
         object = find_object_at(path, @commit)
         logger.debug "    object = #{object}"

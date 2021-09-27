@@ -148,7 +148,7 @@ class ResourcesController < ApplicationController
   end
 
   def lookup_path(path, params)
-    object = repository.find(
+    object = repository.find_and_expand(
       path.gsub(%r{/?platforms}, ''),
       branch: params[:branch],
       version: params[:version],

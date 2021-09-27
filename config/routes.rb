@@ -22,8 +22,10 @@ Api::Application.routes.draw do
   resources :apidocs, only: [:index]
 
   get '/versions' => 'versions#index'
+  get '/versions/latest' => 'versions#latest'
   get '/versions/:id' => 'versions#show'
   get '*resource/versions' => 'versions#index'
+  get '*resource/versions/latest' => 'versions#latest'
   get '*resource/versions/:id' => 'versions#show'
 
   resources :network_equipments, only: %i[index show]

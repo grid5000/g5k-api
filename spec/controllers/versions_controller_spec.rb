@@ -56,4 +56,12 @@ describe VersionsController do
       expect(json['author']).to eq('Samir Noir')
     end
   end # describe "GET {{resource}}/versions/{{version_id}}"
+
+  describe 'GET {{resource}}/versions/latest' do
+    it 'should return 307 redirect' do
+      get :latest, params: { resource: '/sites/sophia', format: :json }
+      expect(response.status).to eq(307)
+      expect(response.location).to include('/sites/sophia/versions/206f870c99fbf69b4fb1dbdfd1703947708af611')
+    end
+  end # describe "GET {{resource}}/versions/latest"
 end

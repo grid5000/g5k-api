@@ -43,14 +43,14 @@ describe Grid5000::Repository do
 
     describe 'find' do
       it 'should find / element' do
-        object = @repository.find('grid5000')
+        object = @repository.find_and_expand('grid5000')
         expect(object).to_not be_nil
         expect(object['version']).to eq @latest_commit
       end
 
       it 'should return an exception if Rugged::PathError is raised' do
-        expect(@repository).to receive(:find_commit_for).and_raise(Rugged::RepositoryError)
-        object = @repository.find('grid5000')
+        expect(@repository).to receive(:find).and_raise(Rugged::RepositoryError)
+        object = @repository.find_and_expand('grid5000')
         expect(object).to be_an(Exception)
       end
     end
@@ -152,7 +152,7 @@ describe Grid5000::Repository do
 
     describe 'expanding an object' do
       it 'should expand a tree of blobs into a collection' do
-        result = @repository.find(
+        result = @repository.find_and_expand(
           'grid5000/sites/grenoble/clusters/dahu/nodes'
         )
         expect(result).not_to be_nil
@@ -161,7 +161,7 @@ describe Grid5000::Repository do
         expect(result['items'].map { |i| i['uid'] }.first).to eq('dahu-1')
       end
       it 'should expand a tree of trees into a collection [sites]' do
-        result = @repository.find(
+        result = @repository.find_and_expand(
           'grid5000/sites'
         )
         expect(result['items'].map do |i|
@@ -171,21 +171,21 @@ describe Grid5000::Repository do
         expect(result['offset']).to eq(0)
       end
       it "should expand a tree of blobs and trees into a resource hash resulting from the agregation of the blob's contents only" do
-        result = @repository.find(
+        result = @repository.find_and_expand(
           'grid5000'
         )
         expect(result['uid']).to eq('grid5000')
         expect(result['sites']).to be_nil
       end
       it "should return the blob's content if the object is a blob" do
-        result = @repository.find(
+        result = @repository.find_and_expand(
           'grid5000/sites/grenoble/clusters/dahu/nodes/dahu-1'
         )
         expect(result['uid']).to eq('dahu-1')
       end
       # Hack to test symlink. Here srv-3 is a link to srv-2
       it 'should correctly expand a symlink' do
-        result = @repository.find(
+        result = @repository.find_and_expand(
           'grid5000/sites/nancy/servers/grcinq-srv-3.json'
         )
         expect(result).not_to be_nil

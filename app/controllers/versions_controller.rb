@@ -37,6 +37,24 @@ class VersionsController < ApplicationController
     end
   end
 
+  swagger_path '/versions/latest' do
+    operation :get do
+      key :summary, 'Get the latest version of reference-repository'
+      key :description, 'Fetch the latest version commit item of reference-repository.'
+      key :tags, ['version']
+
+      [:branch].each do |param|
+        parameter do
+          key :$ref, param
+        end
+      end
+
+      response 307 do
+        key :description, "Redirect to latest reference-repository's commit item."
+      end
+    end
+  end
+
   swagger_path '/versions/{versionId}' do
     operation :get do
       key :summary, 'Get version of reference-repository'
@@ -77,6 +95,24 @@ class VersionsController < ApplicationController
       response 200 do
         key :description, "Grid'5000's reference-repository commit collection."
         content api_media_type(:g5kcollectionjson)
+      end
+    end
+  end
+
+  swagger_path '/sites/{siteId}/versions/latest' do
+    operation :get do
+      key :summary, "Get the latest version of site's reference-repository"
+      key :description, "Fetch the latest site's version commit item of reference-repository."
+      key :tags, ['version']
+
+      [:siteId, :branch].each do |param|
+        parameter do
+          key :$ref, param
+        end
+      end
+
+      response 307 do
+        key :description, "Redirect to latest reference-repository's commit item."
       end
     end
   end
@@ -176,6 +212,13 @@ class VersionsController < ApplicationController
     expires_in MAX_AGE, public: true
 
     render_result(output)
+  end
+
+  def latest
+    vary_on :accept; allow :get
+
+    sha = repository.find(resource_path).oid
+    render location: request.fullpath.gsub(/latest(.json)?$/, sha), status: 307, plain: ''
   end
 
   protected
