@@ -43,6 +43,7 @@ test-for-buster: &test-for-buster
     POSTGRES_PASSWORD: oar
     POSTGRES_DB: oar2_test
   script:
+    - echo "deb [ trusted=yes ] http://packages.grid5000.fr/deb/g5k-deb-build-tools/buster /" > /etc/apt/sources.list.d/g5k-deb-build-tools.list
     - apt-get update && apt-get -y --no-install-recommends install devscripts build-essential equivs libssl-dev
     - mk-build-deps -ir -t 'apt-get -y --no-install-recommends'
     - gem install bundler -v 2.1.4
@@ -65,6 +66,7 @@ deb-for-buster: &deb-for-buster
   tags:
   - grid5000-docker
   script:
+    - echo "deb [ trusted=yes ] http://packages.grid5000.fr/deb/g5k-deb-build-tools/buster /" > /etc/apt/sources.list.d/g5k-deb-build-tools.list
     - apt-get update && apt-get -y --no-install-recommends install devscripts build-essential equivs libssl-dev
     - mk-build-deps -ir -t 'apt-get -y --no-install-recommends'
     - gem install bundler -v 2.1.4
