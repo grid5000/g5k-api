@@ -218,7 +218,7 @@ class VersionsController < ApplicationController
     vary_on :accept; allow :get
 
     sha = repository.find(resource_path).oid
-    render location: request.fullpath.gsub(/latest(.json)?$/, sha), status: 307, plain: ''
+    render location: uri_to(request.fullpath.gsub(/latest(.json)?$/, sha)), status: 307, plain: ''
   end
 
   protected
