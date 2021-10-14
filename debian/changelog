@@ -1,3 +1,9 @@
+g5k-api (3.10.16) unstable; urgency=low
+
+  * f5f3c8e Fix a direction issue with the latest endpoint in versions controller
+
+ -- Samir Noir <samir.noir@inria.fr>  Thu, 14 Oct 2021 11:56:29 +0200
+
 g5k-api (3.10.15) unstable; urgency=low
 
   * bde67c1 Better performance for resources' versions listing
