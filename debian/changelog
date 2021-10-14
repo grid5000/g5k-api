@@ -1,3 +1,13 @@
+g5k-api (3.10.15) unstable; urgency=low
+
+  * bde67c1 Better performance for resources' versions listing
+  * 8041022 Add a /latest endpoint to versions controller
+  * 87f559a Return the actual git commit of resource instead of last master commit
+  * 1e89d5c Fix request to kadeployapi when asking for a specific environment
+  * e7f870e Add a health action to sites controller to check g5k-api availability
+
+ -- Samir Noir <samir.noir@inria.fr>  Thu, 14 Oct 2021 10:00:52 +0200
+
 g5k-api (3.10.14) unstable; urgency=low
 
   * 9a72aa0 Align timeout to OAR's API with api-proxy's timeout (180)
