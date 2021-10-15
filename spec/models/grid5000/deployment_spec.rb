@@ -122,7 +122,7 @@ describe Grid5000::Deployment do
     end
 
     it 'should work [optional parameters]' do
-      @deployment.partition_number = 4
+      @deployment.partition_label = 'TMP'
       @deployment.block_device = 'whatever'
       @deployment.vlan = 3
       @deployment.reformat_tmp = 'ext2'
@@ -134,7 +134,7 @@ describe Grid5000::Deployment do
           'name' => 'lenny-x64-base'
         },
         'nodes' => ['paradent-1.rennes.grid5000.fr'],
-        'deploy_part' => '4',
+        'deploy_part' => 'TMP',
         'block_device' => 'whatever',
         'reformat_tmp_partition' => 'ext2',
         'vlan' => '3',

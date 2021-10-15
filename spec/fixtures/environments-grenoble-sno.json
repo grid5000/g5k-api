@@ -1,7 +1,9 @@
 [
   {
-    "name": "debian10-x64-std",
-    "version": 2019122711,
+    "name": "debian10-std",
+    "arch": "x86_64",
+    "alias": "debian10-x64-std",
+    "version": 2021090715,
     "description": "debian 10 (buster) - std",
     "author": "support-staff@list.grid5000.fr",
     "visibility": "private",
