@@ -76,7 +76,7 @@ end
 
 without_bundle_env(options) do
   puts "   Installing vendored #{NAME} dependencies..." if options.verbose
-  system 'bundle install --standalone --no-binstubs --without=development --path bundle '
+  system 'bundle install --standalone --no-binstubs --without=development --without=test --path bundle '
   system 'bundle clean'
   abort 'Error: bundle not installed' unless Dir.exist? 'bundle'
   if options.bundle_bundler
