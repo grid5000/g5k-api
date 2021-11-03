@@ -195,7 +195,7 @@ describe Grid5000::Repository do
 
     describe 'versions_for' do
       it 'find the versions for a resource' do
-        expect(@repository.versions_for('grid5000/sites')['total']).to eq(3057)
+        expect(@repository.versions_for('grid5000/sites')['total']).to eq(3058)
       end
       it 'should return an empty list if the resource does not exist' do
         expect(@repository.versions_for('grid5000/doesnotexist')).to eq({ 'total' => 0, 'offset' => 0, 'items' => [] })

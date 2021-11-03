@@ -1,8 +1,13 @@
-Add a symlink for testing purpose
+[all] update wiki's links
 # Please enter the commit message for your changes. Lines starting
 # with '#' will be ignored, and an empty message aborts the commit.
 #
 # On branch master
 # Changes to be committed:
-#	typechange: grcinq-srv-3.json
+#	modified:   data/grid5000/sites/grenoble/grenoble.json
+#	modified:   data/grid5000/sites/lille/lille.json
+#	modified:   data/grid5000/sites/luxembourg/luxembourg.json
+#	modified:   data/grid5000/sites/lyon/lyon.json
+#	modified:   data/grid5000/sites/nancy/nancy.json
+#	modified:   data/grid5000/sites/sophia/sophia.json
 #

@@ -21,7 +21,7 @@ describe VersionsController do
     it 'should get the list of versions' do
       get :index, params: { resource: '/sites', format: :json }
       expect(response.status).to eq(200)
-      expect(json['total']).to eq(3057)
+      expect(json['total']).to eq(3058)
       expect(json['offset']).to eq(0)
       expect(json['items'].length).to eq(100)
       expect(json['links'].map { |l| l['rel'] }.sort).to eq(%w[parent self])
@@ -59,9 +59,9 @@ describe VersionsController do
 
   describe 'GET {{resource}}/versions/latest' do
     it 'should return 307 redirect' do
-      get :latest, params: { resource: '/sites/sophia', format: :json }
+      get :latest, params: { resource: '/sites/sophia/clusters/uvb', format: :json }
       expect(response.status).to eq(307)
-      expect(response.location).to include('/sites/sophia/versions/206f870c99fbf69b4fb1dbdfd1703947708af611')
+      expect(response.location).to include("/sites/sophia/clusters/uvb/versions/206f870c99fbf69b4fb1dbdfd1703947708af611")
     end
   end # describe "GET {{resource}}/versions/latest"
 end
