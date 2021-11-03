@@ -220,7 +220,7 @@ module Grid5000
         raise Errors::BranchNotFound.new(branch) if instance.branches[branch].nil?
 
         walker = Rugged::Walker.new(instance)
-        walker.sorting(Rugged::SORT_DATE)
+        walker.sorting(Rugged::SORT_NONE)
         walker.push(instance.branches[branch].target.oid)
 
         commits = walker.select do |commit|
@@ -234,7 +234,7 @@ module Grid5000
         if path
           raise Errors::BranchNotFound.new(branch) unless instance.branches.exist?(branch)
           walker = Rugged::Walker.new(instance)
-          walker.sorting(Rugged::SORT_DATE)
+          walker.sorting(Rugged::SORT_NONE)
           walker.push(instance.branches[branch].target.oid)
           commit = nil
           walker.each do |c|
