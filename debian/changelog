@@ -1,3 +1,10 @@
+g5k-api (3.10.18) unstable; urgency=low
+
+  * 322cef1 document "scheduled_at" for the job api
+  * 3d2956c Use Kadeploy native arch support instead of hack
+
+ -- Alexandre MERLIN <alexandre.merlin@inria.fr>  Tue, 23 Nov 2021 13:25:49 +0100
+
 g5k-api (3.10.17) unstable; urgency=low
 
   * 0abc3f0 Fix latest commit retrieval for a resource
