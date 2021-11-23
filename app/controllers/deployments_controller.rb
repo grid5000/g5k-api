@@ -278,8 +278,8 @@ class DeploymentsController < ApplicationController
   protected
 
   def deployment_params
-    params.permit(:environment, :version, :key,
-                  :partition_number, :block_device, :reformat_tmp,
+    params.permit(:environment, :arch, :version, :key,
+                  :partition_label, :block_device, :reformat_tmp,
                   :disable_disk_partitioning, :disable_bootloader_install,
                   :reboot_classical_timeout, :reboot_kexec_timeout,
                   :ignore_nodes_deploying, :vlan, nodes: [])

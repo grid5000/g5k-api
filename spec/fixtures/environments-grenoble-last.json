@@ -1,22 +1,87 @@
 [
   {
-    "name": "centos7-ppc64-min",
-    "version": 2020120219,
-    "description": "centos 7 (7) for ppc64 - min",
+    "name": "centos7-min",
+    "version": 2021090715,
+    "arch": "x86_64",
+    "alias": "centos7-x64-min",
+    "description": "centos 7 (7) for x64 - min",
     "author": "support-staff@lists.grid5000.fr",
     "visibility": "public",
     "destructive": false,
     "os": "linux",
     "image": {
-      "file": "server:///grid5000/images/centos7-ppc64-min-2020120219.tgz",
+      "file": "server:///grid5000/images/centos7-x64-min-2021090715.tar.zst",
       "kind": "tar",
-      "compression": "gzip"
+      "compression": "zstd"
     },
     "postinstalls": [
       {
         "archive": "server:///grid5000/postinstalls/g5k-postinstall.tgz",
         "compression": "gzip",
         "script": "g5k-postinstall --net redhat"
+      }
+    ],
+    "boot": {
+      "kernel": "/vmlinuz",
+      "initrd": "/initramfs.img",
+      "kernel_params": "biosdevname=0 crashkernel=no"
+    },
+    "filesystem": "ext4",
+    "partition_type": 131,
+    "multipart": false,
+    "user": "deploy"
+  },
+  {
+    "name": "centos7-min",
+    "version": 2021090715,
+    "arch": "ppc64le",
+    "alias": "centos7-ppc64-min",
+    "description": "centos 7 (7) for ppc64 - min",
+    "author": "support-staff@lists.grid5000.fr",
+    "visibility": "public",
+    "destructive": false,
+    "os": "linux",
+    "image": {
+      "file": "server:///grid5000/images/centos7-ppc64-min-2021090715.tar.zst",
+      "kind": "tar",
+      "compression": "zstd"
+    },
+    "postinstalls": [
+      {
+        "archive": "server:///grid5000/postinstalls/g5k-postinstall.tgz",
+        "compression": "gzip",
+        "script": "g5k-postinstall --net redhat"
+      }
+    ],
+    "boot": {
+      "kernel": "/vmlinuz",
+      "initrd": "/initramfs.img",
+      "kernel_params": "biosdevname=0 crashkernel=no"
+    },
+    "filesystem": "ext4",
+    "partition_type": 131,
+    "multipart": false,
+    "user": "deploy"
+  },
+  {
+    "name": "centos7-ppc64-min",
+    "version": 2021101312,
+    "arch": "x86_64",
+    "description": "centos 7 (7) for ppc64 - min",
+    "author": "support-staff@lists.grid5000.fr",
+    "visibility": "public",
+    "destructive": false,
+    "os": "linux",
+    "image": {
+      "file": "server:///grid5000/images/centos7-ppc64-min-2021101312.tar.zst",
+      "kind": "tar",
+      "compression": "zstd"
+    },
+    "postinstalls": [
+      {
+        "archive": "server:///grid5000/postinstalls/g5k-postinstall.tgz",
+        "compression": "gzip",
+        "script": "g5k-postinstall --net redhat --disk-aliases"
       }
     ],
     "boot": {
@@ -31,22 +96,23 @@
   },
   {
     "name": "centos7-x64-min",
-    "version": 2020120219,
+    "version": 2021101312,
+    "arch": "x86_64",
     "description": "centos 7 (7) for x64 - min",
     "author": "support-staff@lists.grid5000.fr",
     "visibility": "public",
     "destructive": false,
     "os": "linux",
     "image": {
-      "file": "server:///grid5000/images/centos7-x64-min-2020120219.tgz",
+      "file": "server:///grid5000/images/centos7-x64-min-2021101312.tar.zst",
       "kind": "tar",
-      "compression": "gzip"
+      "compression": "zstd"
     },
     "postinstalls": [
       {
         "archive": "server:///grid5000/postinstalls/g5k-postinstall.tgz",
         "compression": "gzip",
-        "script": "g5k-postinstall --net redhat"
+        "script": "g5k-postinstall --net redhat --disk-aliases"
       }
     ],
     "boot": {
@@ -60,23 +126,88 @@
     "user": "deploy"
   },
   {
-    "name": "centos8-ppc64-min",
-    "version": 2020120219,
-    "description": "centos 8 (8) for ppc64 - min",
+    "name": "centos8-min",
+    "version": 2021052516,
+    "arch": "x86_64",
+    "alias": "centos8-x64-min",
+    "description": "centos 8 (8) for x64 - min",
     "author": "support-staff@lists.grid5000.fr",
     "visibility": "public",
     "destructive": false,
     "os": "linux",
     "image": {
-      "file": "server:///grid5000/images/centos8-ppc64-min-2020120219.tgz",
+      "file": "server:///grid5000/images/centos8-x64-min-2021052516.tar.zst",
       "kind": "tar",
-      "compression": "gzip"
+      "compression": "zstd"
     },
     "postinstalls": [
       {
         "archive": "server:///grid5000/postinstalls/g5k-postinstall.tgz",
         "compression": "gzip",
         "script": "g5k-postinstall --net redhat"
+      }
+    ],
+    "boot": {
+      "kernel": "/vmlinuz",
+      "initrd": "/initramfs.img",
+      "kernel_params": "crashkernel=no"
+    },
+    "filesystem": "ext4",
+    "partition_type": 131,
+    "multipart": false,
+    "user": "deploy"
+  },
+  {
+    "name": "centos8-min",
+    "version": 2021052516,
+    "arch": "ppc64le",
+    "alias": "centos8-ppc64-min",
+    "description": "centos 8 (8) for ppc64 - min",
+    "author": "support-staff@lists.grid5000.fr",
+    "visibility": "public",
+    "destructive": false,
+    "os": "linux",
+    "image": {
+      "file": "server:///grid5000/images/centos8-ppc64-min-2021052516.tar.zst",
+      "kind": "tar",
+      "compression": "zstd"
+    },
+    "postinstalls": [
+      {
+        "archive": "server:///grid5000/postinstalls/g5k-postinstall.tgz",
+        "compression": "gzip",
+        "script": "g5k-postinstall --net redhat"
+      }
+    ],
+    "boot": {
+      "kernel": "/vmlinuz",
+      "initrd": "/initramfs.img",
+      "kernel_params": "crashkernel=no"
+    },
+    "filesystem": "ext4",
+    "partition_type": 131,
+    "multipart": false,
+    "user": "deploy"
+  },
+  {
+    "name": "centos8-ppc64-min",
+    "version": 2021101312,
+    "arch": "x86_64",
+    "description": "centos 8 (8) for ppc64 - min",
+    "author": "support-staff@lists.grid5000.fr",
+    "visibility": "public",
+    "destructive": false,
+    "os": "linux",
+    "image": {
+      "file": "server:///grid5000/images/centos8-ppc64-min-2021101312.tar.zst",
+      "kind": "tar",
+      "compression": "zstd"
+    },
+    "postinstalls": [
+      {
+        "archive": "server:///grid5000/postinstalls/g5k-postinstall.tgz",
+        "compression": "gzip",
+        "script": "g5k-postinstall --net redhat --disk-aliases"
       }
     ],
     "boot": {
@@ -91,22 +222,23 @@
   },
   {
     "name": "centos8-x64-min",
-    "version": 2020120219,
+    "version": 2021101312,
+    "arch": "x86_64",
     "description": "centos 8 (8) for x64 - min",
     "author": "support-staff@lists.grid5000.fr",
     "visibility": "public",
     "destructive": false,
     "os": "linux",
     "image": {
-      "file": "server:///grid5000/images/centos8-x64-min-2020120219.tgz",
+      "file": "server:///grid5000/images/centos8-x64-min-2021101312.tar.zst",
       "kind": "tar",
-      "compression": "gzip"
+      "compression": "zstd"
     },
     "postinstalls": [
       {
         "archive": "server:///grid5000/postinstalls/g5k-postinstall.tgz",
         "compression": "gzip",
-        "script": "g5k-postinstall --net redhat"
+        "script": "g5k-postinstall --net redhat --disk-aliases"
       }
     ],
     "boot": {
@@ -120,17 +252,51 @@
     "user": "deploy"
   },
   {
-    "name": "debian10-ppc64-base",
-    "version": 2020120915,
+    "name": "debian10-base",
+    "version": 2021092018,
+    "arch": "x86_64",
+    "alias": "debian10-x64-base",
+    "description": "debian 10 (buster) for x64 - base",
+    "author": "support-staff@lists.grid5000.fr",
+    "visibility": "public",
+    "destructive": false,
+    "os": "linux",
+    "image": {
+      "file": "server:///grid5000/images/debian10-x64-base-2021092018.tar.zst",
+      "kind": "tar",
+      "compression": "zstd"
+    },
+    "postinstalls": [
+      {
+        "archive": "server:///grid5000/postinstalls/g5k-postinstall.tgz",
+        "compression": "gzip",
+        "script": "g5k-postinstall --net debian"
+      }
+    ],
+    "boot": {
+      "kernel": "/vmlinuz",
+      "initrd": "/initrd.img",
+      "kernel_params": ""
+    },
+    "filesystem": "ext4",
+    "partition_type": 131,
+    "multipart": false,
+    "user": "deploy"
+  },
+  {
+    "name": "debian10-base",
+    "version": 2021092018,
+    "arch": "ppc64le",
+    "alias": "debian10-ppc64-base",
     "description": "debian 10 (buster) for ppc64 - base",
     "author": "support-staff@lists.grid5000.fr",
     "visibility": "public",
     "destructive": false,
     "os": "linux",
     "image": {
-      "file": "server:///grid5000/images/debian10-ppc64-base-2020120915.tgz",
+      "file": "server:///grid5000/images/debian10-ppc64-base-2021092018.tar.zst",
       "kind": "tar",
-      "compression": "gzip"
+      "compression": "zstd"
     },
     "postinstalls": [
       {
@@ -141,7 +307,231 @@
     ],
     "boot": {
       "kernel": "/vmlinux",
-      "initrd": "/initrd.img"
+      "initrd": "/initrd.img",
+      "kernel_params": ""
+    },
+    "filesystem": "ext4",
+    "partition_type": 131,
+    "multipart": false,
+    "user": "deploy"
+  },
+  {
+    "name": "debian10-big",
+    "version": 2021092018,
+    "arch": "ppc64le",
+    "alias": "debian10-ppc64-big",
+    "description": "debian 10 (buster) for ppc64 - big",
+    "author": "support-staff@lists.grid5000.fr",
+    "visibility": "public",
+    "destructive": false,
+    "os": "linux",
+    "image": {
+      "file": "server:///grid5000/images/debian10-ppc64-big-2021092018.tar.zst",
+      "kind": "tar",
+      "compression": "zstd"
+    },
+    "postinstalls": [
+      {
+        "archive": "server:///grid5000/postinstalls/g5k-postinstall.tgz",
+        "compression": "gzip",
+        "script": "g5k-postinstall --net debian --net hpc --fstab nfs --restrict-user current"
+      }
+    ],
+    "boot": {
+      "kernel": "/vmlinux",
+      "initrd": "/initrd.img",
+      "kernel_params": ""
+    },
+    "filesystem": "ext4",
+    "partition_type": 131,
+    "multipart": false,
+    "user": "deploy"
+  },
+  {
+    "name": "debian10-big",
+    "version": 2021092018,
+    "arch": "x86_64",
+    "alias": "debian10-x64-big",
+    "description": "debian 10 (buster) for x64 - big",
+    "author": "support-staff@lists.grid5000.fr",
+    "visibility": "public",
+    "destructive": false,
+    "os": "linux",
+    "image": {
+      "file": "server:///grid5000/images/debian10-x64-big-2021092018.tar.zst",
+      "kind": "tar",
+      "compression": "zstd"
+    },
+    "postinstalls": [
+      {
+        "archive": "server:///grid5000/postinstalls/g5k-postinstall.tgz",
+        "compression": "gzip",
+        "script": "g5k-postinstall --net debian --net hpc --fstab nfs --restrict-user current"
+      }
+    ],
+    "boot": {
+      "kernel": "/vmlinuz",
+      "initrd": "/initrd.img",
+      "kernel_params": ""
+    },
+    "filesystem": "ext4",
+    "partition_type": 131,
+    "multipart": false,
+    "user": "deploy"
+  },
+  {
+    "name": "debian10-min",
+    "version": 2021092018,
+    "arch": "ppc64le",
+    "alias": "debian10-ppc64-min",
+    "description": "debian 10 (buster) for ppc64 - min",
+    "author": "support-staff@lists.grid5000.fr",
+    "visibility": "public",
+    "destructive": false,
+    "os": "linux",
+    "image": {
+      "file": "server:///grid5000/images/debian10-ppc64-min-2021092018.tar.zst",
+      "kind": "tar",
+      "compression": "zstd"
+    },
+    "postinstalls": [
+      {
+        "archive": "server:///grid5000/postinstalls/g5k-postinstall.tgz",
+        "compression": "gzip",
+        "script": "g5k-postinstall --net debian"
+      }
+    ],
+    "boot": {
+      "kernel": "/vmlinux",
+      "initrd": "/initrd.img",
+      "kernel_params": ""
+    },
+    "filesystem": "ext4",
+    "partition_type": 131,
+    "multipart": false,
+    "user": "deploy"
+  },
+  {
+    "name": "debian10-min",
+    "version": 2021092018,
+    "arch": "x86_64",
+    "alias": "debian10-x64-min",
+    "description": "debian 10 (buster) for x64 - min",
+    "author": "support-staff@lists.grid5000.fr",
+    "visibility": "public",
+    "destructive": false,
+    "os": "linux",
+    "image": {
+      "file": "server:///grid5000/images/debian10-x64-min-2021092018.tar.zst",
+      "kind": "tar",
+      "compression": "zstd"
+    },
+    "postinstalls": [
+      {
+        "archive": "server:///grid5000/postinstalls/g5k-postinstall.tgz",
+        "compression": "gzip",
+        "script": "g5k-postinstall --net debian"
+      }
+    ],
+    "boot": {
+      "kernel": "/vmlinuz",
+      "initrd": "/initrd.img",
+      "kernel_params": ""
+    },
+    "filesystem": "ext4",
+    "partition_type": 131,
+    "multipart": false,
+    "user": "deploy"
+  },
+  {
+    "name": "debian10-nfs",
+    "version": 2021092018,
+    "arch": "ppc64le",
+    "alias": "debian10-ppc64-nfs",
+    "description": "debian 10 (buster) for ppc64 - nfs",
+    "author": "support-staff@lists.grid5000.fr",
+    "visibility": "public",
+    "destructive": false,
+    "os": "linux",
+    "image": {
+      "file": "server:///grid5000/images/debian10-ppc64-nfs-2021092018.tar.zst",
+      "kind": "tar",
+      "compression": "zstd"
+    },
+    "postinstalls": [
+      {
+        "archive": "server:///grid5000/postinstalls/g5k-postinstall.tgz",
+        "compression": "gzip",
+        "script": "g5k-postinstall --net debian --fstab nfs --restrict-user current"
+      }
+    ],
+    "boot": {
+      "kernel": "/vmlinux",
+      "initrd": "/initrd.img",
+      "kernel_params": ""
+    },
+    "filesystem": "ext4",
+    "partition_type": 131,
+    "multipart": false,
+    "user": "deploy"
+  },
+  {
+    "name": "debian10-nfs",
+    "version": 2021092018,
+    "arch": "x86_64",
+    "alias": "debian10-x64-nfs",
+    "description": "debian 10 (buster) for x64 - nfs",
+    "author": "support-staff@lists.grid5000.fr",
+    "visibility": "public",
+    "destructive": false,
+    "os": "linux",
+    "image": {
+      "file": "server:///grid5000/images/debian10-x64-nfs-2021092018.tar.zst",
+      "kind": "tar",
+      "compression": "zstd"
+    },
+    "postinstalls": [
+      {
+        "archive": "server:///grid5000/postinstalls/g5k-postinstall.tgz",
+        "compression": "gzip",
+        "script": "g5k-postinstall --net debian --fstab nfs --restrict-user current"
+      }
+    ],
+    "boot": {
+      "kernel": "/vmlinuz",
+      "initrd": "/initrd.img",
+      "kernel_params": ""
+    },
+    "filesystem": "ext4",
+    "partition_type": 131,
+    "multipart": false,
+    "user": "deploy"
+  },
+  {
+    "name": "debian10-ppc64-base",
+    "version": 2021101314,
+    "arch": "x86_64",
+    "description": "debian 10 (buster) for ppc64 - base",
+    "author": "support-staff@lists.grid5000.fr",
+    "visibility": "public",
+    "destructive": false,
+    "os": "linux",
+    "image": {
+      "file": "server:///grid5000/images/debian10-ppc64-base-2021101314.tar.zst",
+      "kind": "tar",
+      "compression": "zstd"
+    },
+    "postinstalls": [
+      {
+        "archive": "server:///grid5000/postinstalls/g5k-postinstall.tgz",
+        "compression": "gzip",
+        "script": "g5k-postinstall --net debian --disk-aliases"
+      }
+    ],
+    "boot": {
+      "kernel": "/vmlinux",
+      "initrd": "/initrd.img",
+      "kernel_params": ""
     },
     "filesystem": "ext4",
     "partition_type": 131,
@@ -150,27 +540,29 @@
   },
   {
     "name": "debian10-ppc64-big",
-    "version": 2020120915,
+    "version": 2021101314,
+    "arch": "x86_64",
     "description": "debian 10 (buster) for ppc64 - big",
     "author": "support-staff@lists.grid5000.fr",
     "visibility": "public",
     "destructive": false,
     "os": "linux",
     "image": {
-      "file": "server:///grid5000/images/debian10-ppc64-big-2020120915.tgz",
+      "file": "server:///grid5000/images/debian10-ppc64-big-2021101314.tar.zst",
       "kind": "tar",
-      "compression": "gzip"
+      "compression": "zstd"
     },
     "postinstalls": [
       {
         "archive": "server:///grid5000/postinstalls/g5k-postinstall.tgz",
         "compression": "gzip",
-        "script": "g5k-postinstall --net debian --net hpc --fstab nfs --fstab site-specific --restrict-user current"
+        "script": "g5k-postinstall --net debian --net hpc --fstab nfs --restrict-user current --disk-aliases"
       }
     ],
     "boot": {
       "kernel": "/vmlinux",
-      "initrd": "/initrd.img"
+      "initrd": "/initrd.img",
+      "kernel_params": ""
     },
     "filesystem": "ext4",
     "partition_type": 131,
@@ -179,27 +571,29 @@
   },
   {
     "name": "debian10-ppc64-min",
-    "version": 2020120915,
+    "version": 2021101314,
+    "arch": "x86_64",
     "description": "debian 10 (buster) for ppc64 - min",
     "author": "support-staff@lists.grid5000.fr",
     "visibility": "public",
     "destructive": false,
     "os": "linux",
     "image": {
-      "file": "server:///grid5000/images/debian10-ppc64-min-2020120915.tgz",
+      "file": "server:///grid5000/images/debian10-ppc64-min-2021101314.tar.zst",
       "kind": "tar",
-      "compression": "gzip"
+      "compression": "zstd"
     },
     "postinstalls": [
       {
         "archive": "server:///grid5000/postinstalls/g5k-postinstall.tgz",
         "compression": "gzip",
-        "script": "g5k-postinstall --net debian"
+        "script": "g5k-postinstall --net debian --disk-aliases"
       }
     ],
     "boot": {
       "kernel": "/vmlinux",
-      "initrd": "/initrd.img"
+      "initrd": "/initrd.img",
+      "kernel_params": ""
     },
     "filesystem": "ext4",
     "partition_type": 131,
@@ -208,27 +602,29 @@
   },
   {
     "name": "debian10-ppc64-nfs",
-    "version": 2020120915,
+    "version": 2021101314,
+    "arch": "x86_64",
     "description": "debian 10 (buster) for ppc64 - nfs",
     "author": "support-staff@lists.grid5000.fr",
     "visibility": "public",
     "destructive": false,
     "os": "linux",
     "image": {
-      "file": "server:///grid5000/images/debian10-ppc64-nfs-2020120915.tgz",
+      "file": "server:///grid5000/images/debian10-ppc64-nfs-2021101314.tar.zst",
       "kind": "tar",
-      "compression": "gzip"
+      "compression": "zstd"
     },
     "postinstalls": [
       {
         "archive": "server:///grid5000/postinstalls/g5k-postinstall.tgz",
         "compression": "gzip",
-        "script": "g5k-postinstall --net debian --fstab nfs --restrict-user current"
+        "script": "g5k-postinstall --net debian --fstab nfs --restrict-user current --disk-aliases"
       }
     ],
     "boot": {
       "kernel": "/vmlinux",
-      "initrd": "/initrd.img"
+      "initrd": "/initrd.img",
+      "kernel_params": ""
     },
     "filesystem": "ext4",
     "partition_type": 131,
@@ -237,27 +633,93 @@
   },
   {
     "name": "debian10-ppc64-std",
-    "version": 2020120915,
+    "version": 2021101314,
+    "arch": "x86_64",
     "description": "debian 10 (buster) for ppc64 - std",
     "author": "support-staff@lists.grid5000.fr",
     "visibility": "public",
     "destructive": false,
     "os": "linux",
     "image": {
-      "file": "server:///grid5000/images/debian10-ppc64-std-2020120915.tgz",
+      "file": "server:///grid5000/images/debian10-ppc64-std-2021101314.tar.zst",
       "kind": "tar",
-      "compression": "gzip"
+      "compression": "zstd"
     },
     "postinstalls": [
       {
         "archive": "server:///grid5000/postinstalls/g5k-postinstall.tgz",
         "compression": "gzip",
-        "script": "g5k-postinstall --net debian-bridged --net hpc --fstab nfs --fstab site-specific --restrict-user std"
+        "script": "g5k-postinstall --net debian-bridged --net hpc --fstab nfs --restrict-user std --disk-aliases"
       }
     ],
     "boot": {
       "kernel": "/vmlinux",
-      "initrd": "/initrd.img"
+      "initrd": "/initrd.img",
+      "kernel_params": ""
+    },
+    "filesystem": "ext4",
+    "partition_type": 131,
+    "multipart": false,
+    "user": "deploy"
+  },
+  {
+    "name": "debian10-std",
+    "version": 2021092018,
+    "arch": "ppc64le",
+    "alias": "debian10-ppc64-std",
+    "description": "debian 10 (buster) for ppc64 - std",
+    "author": "support-staff@lists.grid5000.fr",
+    "visibility": "public",
+    "destructive": false,
+    "os": "linux",
+    "image": {
+      "file": "server:///grid5000/images/debian10-ppc64-std-2021092018.tar.zst",
+      "kind": "tar",
+      "compression": "zstd"
+    },
+    "postinstalls": [
+      {
+        "archive": "server:///grid5000/postinstalls/g5k-postinstall.tgz",
+        "compression": "gzip",
+        "script": "g5k-postinstall --net debian-bridged --net hpc --fstab nfs --restrict-user std"
+      }
+    ],
+    "boot": {
+      "kernel": "/vmlinux",
+      "initrd": "/initrd.img",
+      "kernel_params": ""
+    },
+    "filesystem": "ext4",
+    "partition_type": 131,
+    "multipart": false,
+    "user": "deploy"
+  },
+  {
+    "name": "debian10-std",
+    "version": 2021092018,
+    "arch": "x86_64",
+    "alias": "debian10-x64-std",
+    "description": "debian 10 (buster) for x64 - std",
+    "author": "support-staff@lists.grid5000.fr",
+    "visibility": "public",
+    "destructive": false,
+    "os": "linux",
+    "image": {
+      "file": "server:///grid5000/images/debian10-x64-std-2021092018.tar.zst",
+      "kind": "tar",
+      "compression": "zstd"
+    },
+    "postinstalls": [
+      {
+        "archive": "server:///grid5000/postinstalls/g5k-postinstall.tgz",
+        "compression": "gzip",
+        "script": "g5k-postinstall --net debian-bridged --net hpc --fstab nfs --restrict-user std"
+      }
+    ],
+    "boot": {
+      "kernel": "/vmlinuz",
+      "initrd": "/initrd.img",
+      "kernel_params": ""
     },
     "filesystem": "ext4",
     "partition_type": 131,
@@ -266,27 +728,29 @@
   },
   {
     "name": "debian10-x64-base",
-    "version": 2020120915,
+    "version": 2021101314,
+    "arch": "x86_64",
     "description": "debian 10 (buster) for x64 - base",
     "author": "support-staff@lists.grid5000.fr",
     "visibility": "public",
     "destructive": false,
     "os": "linux",
     "image": {
-      "file": "server:///grid5000/images/debian10-x64-base-2020120915.tgz",
+      "file": "server:///grid5000/images/debian10-x64-base-2021101314.tar.zst",
       "kind": "tar",
-      "compression": "gzip"
+      "compression": "zstd"
     },
     "postinstalls": [
       {
         "archive": "server:///grid5000/postinstalls/g5k-postinstall.tgz",
         "compression": "gzip",
-        "script": "g5k-postinstall --net debian"
+        "script": "g5k-postinstall --net debian --disk-aliases"
       }
     ],
     "boot": {
       "kernel": "/vmlinuz",
-      "initrd": "/initrd.img"
+      "initrd": "/initrd.img",
+      "kernel_params": ""
     },
     "filesystem": "ext4",
     "partition_type": 131,
@@ -295,27 +759,29 @@
   },
   {
     "name": "debian10-x64-big",
-    "version": 2020120915,
+    "version": 2021101314,
+    "arch": "x86_64",
     "description": "debian 10 (buster) for x64 - big",
     "author": "support-staff@lists.grid5000.fr",
     "visibility": "public",
     "destructive": false,
     "os": "linux",
     "image": {
-      "file": "server:///grid5000/images/debian10-x64-big-2020120915.tgz",
+      "file": "server:///grid5000/images/debian10-x64-big-2021101314.tar.zst",
       "kind": "tar",
-      "compression": "gzip"
+      "compression": "zstd"
     },
     "postinstalls": [
       {
         "archive": "server:///grid5000/postinstalls/g5k-postinstall.tgz",
         "compression": "gzip",
-        "script": "g5k-postinstall --net debian --net hpc --fstab nfs --fstab site-specific --restrict-user current"
+        "script": "g5k-postinstall --net debian --net hpc --fstab nfs --restrict-user current --disk-aliases"
       }
     ],
     "boot": {
       "kernel": "/vmlinuz",
-      "initrd": "/initrd.img"
+      "initrd": "/initrd.img",
+      "kernel_params": ""
     },
     "filesystem": "ext4",
     "partition_type": 131,
@@ -324,27 +790,29 @@
   },
   {
     "name": "debian10-x64-min",
-    "version": 2020120915,
+    "version": 2021101314,
+    "arch": "x86_64",
     "description": "debian 10 (buster) for x64 - min",
     "author": "support-staff@lists.grid5000.fr",
     "visibility": "public",
     "destructive": false,
     "os": "linux",
     "image": {
-      "file": "server:///grid5000/images/debian10-x64-min-2020120915.tgz",
+      "file": "server:///grid5000/images/debian10-x64-min-2021101314.tar.zst",
       "kind": "tar",
-      "compression": "gzip"
+      "compression": "zstd"
     },
     "postinstalls": [
       {
         "archive": "server:///grid5000/postinstalls/g5k-postinstall.tgz",
         "compression": "gzip",
-        "script": "g5k-postinstall --net debian"
+        "script": "g5k-postinstall --net debian --disk-aliases"
       }
     ],
     "boot": {
       "kernel": "/vmlinuz",
-      "initrd": "/initrd.img"
+      "initrd": "/initrd.img",
+      "kernel_params": ""
     },
     "filesystem": "ext4",
     "partition_type": 131,
@@ -353,27 +821,29 @@
   },
   {
     "name": "debian10-x64-nfs",
-    "version": 2020120915,
+    "version": 2021101314,
+    "arch": "x86_64",
     "description": "debian 10 (buster) for x64 - nfs",
     "author": "support-staff@lists.grid5000.fr",
     "visibility": "public",
     "destructive": false,
     "os": "linux",
     "image": {
-      "file": "server:///grid5000/images/debian10-x64-nfs-2020120915.tgz",
+      "file": "server:///grid5000/images/debian10-x64-nfs-2021101314.tar.zst",
       "kind": "tar",
-      "compression": "gzip"
+      "compression": "zstd"
     },
     "postinstalls": [
       {
         "archive": "server:///grid5000/postinstalls/g5k-postinstall.tgz",
         "compression": "gzip",
-        "script": "g5k-postinstall --net debian --fstab nfs --restrict-user current"
+        "script": "g5k-postinstall --net debian --fstab nfs --restrict-user current --disk-aliases"
       }
     ],
     "boot": {
       "kernel": "/vmlinuz",
-      "initrd": "/initrd.img"
+      "initrd": "/initrd.img",
+      "kernel_params": ""
     },
     "filesystem": "ext4",
     "partition_type": 131,
@@ -382,27 +852,29 @@
   },
   {
     "name": "debian10-x64-std",
-    "version": 2020120915,
+    "version": 2021101314,
+    "arch": "x86_64",
     "description": "debian 10 (buster) for x64 - std",
     "author": "support-staff@lists.grid5000.fr",
     "visibility": "public",
     "destructive": false,
     "os": "linux",
     "image": {
-      "file": "server:///grid5000/images/debian10-x64-std-2020120915.tgz",
+      "file": "server:///grid5000/images/debian10-x64-std-2021101314.tar.zst",
       "kind": "tar",
-      "compression": "gzip"
+      "compression": "zstd"
     },
     "postinstalls": [
       {
         "archive": "server:///grid5000/postinstalls/g5k-postinstall.tgz",
         "compression": "gzip",
-        "script": "g5k-postinstall --net debian-bridged --net hpc --fstab nfs --fstab site-specific --restrict-user std"
+        "script": "g5k-postinstall --net debian-bridged --net hpc --fstab nfs --restrict-user std --disk-aliases"
       }
     ],
     "boot": {
       "kernel": "/vmlinuz",
-      "initrd": "/initrd.img"
+      "initrd": "/initrd.img",
+      "kernel_params": ""
     },
     "filesystem": "ext4",
     "partition_type": 131,
@@ -411,16 +883,51 @@
   },
   {
     "name": "debian10-x64-xen",
-    "version": 2020120915,
+    "version": 2021101314,
+    "arch": "x86_64",
     "description": "debian 10 (buster) for x64 - xen",
     "author": "support-staff@lists.grid5000.fr",
     "visibility": "public",
     "destructive": false,
     "os": "xen",
     "image": {
-      "file": "server:///grid5000/images/debian10-x64-xen-2020120915.tgz",
+      "file": "server:///grid5000/images/debian10-x64-xen-2021101314.tar.zst",
       "kind": "tar",
-      "compression": "gzip"
+      "compression": "zstd"
+    },
+    "postinstalls": [
+      {
+        "archive": "server:///grid5000/postinstalls/g5k-postinstall.tgz",
+        "compression": "gzip",
+        "script": "g5k-postinstall --net debian-bridged --disk-aliases"
+      }
+    ],
+    "boot": {
+      "kernel": "/vmlinuz",
+      "initrd": "/initrd.img",
+      "kernel_params": "",
+      "hypervisor": "/hypervisor",
+      "hypervisor_params": "dom0_mem=4096M no-bootscrub"
+    },
+    "filesystem": "ext4",
+    "partition_type": 131,
+    "multipart": false,
+    "user": "deploy"
+  },
+  {
+    "name": "debian10-xen",
+    "version": 2021092018,
+    "arch": "x86_64",
+    "alias": "debian10-x64-xen",
+    "description": "debian 10 (buster) for x64 - xen",
+    "author": "support-staff@lists.grid5000.fr",
+    "visibility": "public",
+    "destructive": false,
+    "os": "xen",
+    "image": {
+      "file": "server:///grid5000/images/debian10-x64-xen-2021092018.tar.zst",
+      "kind": "tar",
+      "compression": "zstd"
     },
     "postinstalls": [
       {
@@ -432,6 +939,7 @@
     "boot": {
       "kernel": "/vmlinuz",
       "initrd": "/initrd.img",
+      "kernel_params": "",
       "hypervisor": "/hypervisor",
       "hypervisor_params": "dom0_mem=4096M no-bootscrub"
     },
@@ -441,17 +949,19 @@
     "user": "deploy"
   },
   {
-    "name": "debian9-x64-base",
-    "version": 2020120712,
-    "description": "debian 9 (stretch) for x64 - base",
+    "name": "debian11-base",
+    "version": 2021092316,
+    "arch": "x86_64",
+    "alias": "debian11-x64-base",
+    "description": "debian 11 (bullseye) for x64 - base",
     "author": "support-staff@lists.grid5000.fr",
     "visibility": "public",
     "destructive": false,
     "os": "linux",
     "image": {
-      "file": "server:///grid5000/images/debian9-x64-base-2020120712.tgz",
+      "file": "server:///grid5000/images/debian11-x64-base-2021092316.tar.zst",
       "kind": "tar",
-      "compression": "gzip"
+      "compression": "zstd"
     },
     "postinstalls": [
       {
@@ -462,7 +972,8 @@
     ],
     "boot": {
       "kernel": "/vmlinuz",
-      "initrd": "/initrd.img"
+      "initrd": "/initrd.img",
+      "kernel_params": ""
     },
     "filesystem": "ext4",
     "partition_type": 131,
@@ -470,28 +981,31 @@
     "user": "deploy"
   },
   {
-    "name": "debian9-x64-big",
-    "version": 2020120712,
-    "description": "debian 9 (stretch) for x64 - big",
+    "name": "debian11-base",
+    "version": 2021092316,
+    "arch": "ppc64le",
+    "alias": "debian11-ppc64-base",
+    "description": "debian 11 (bullseye) for ppc64 - base",
     "author": "support-staff@lists.grid5000.fr",
     "visibility": "public",
     "destructive": false,
     "os": "linux",
     "image": {
-      "file": "server:///grid5000/images/debian9-x64-big-2020120712.tgz",
+      "file": "server:///grid5000/images/debian11-ppc64-base-2021092316.tar.zst",
       "kind": "tar",
-      "compression": "gzip"
+      "compression": "zstd"
     },
     "postinstalls": [
       {
         "archive": "server:///grid5000/postinstalls/g5k-postinstall.tgz",
         "compression": "gzip",
-        "script": "g5k-postinstall --net debian --net hpc --fstab nfs --fstab site-specific --restrict-user current"
+        "script": "g5k-postinstall --net debian"
       }
     ],
     "boot": {
-      "kernel": "/vmlinuz",
-      "initrd": "/initrd.img"
+      "kernel": "/vmlinux",
+      "initrd": "/initrd.img",
+      "kernel_params": ""
     },
     "filesystem": "ext4",
     "partition_type": 131,
@@ -499,17 +1013,83 @@
     "user": "deploy"
   },
   {
-    "name": "debian9-x64-min",
-    "version": 2020120712,
-    "description": "debian 9 (stretch) for x64 - min",
+    "name": "debian11-big",
+    "version": 2021092316,
+    "arch": "x86_64",
+    "alias": "debian11-x64-big",
+    "description": "debian 11 (bullseye) for x64 - big",
     "author": "support-staff@lists.grid5000.fr",
     "visibility": "public",
     "destructive": false,
     "os": "linux",
     "image": {
-      "file": "server:///grid5000/images/debian9-x64-min-2020120712.tgz",
+      "file": "server:///grid5000/images/debian11-x64-big-2021092316.tar.zst",
       "kind": "tar",
-      "compression": "gzip"
+      "compression": "zstd"
+    },
+    "postinstalls": [
+      {
+        "archive": "server:///grid5000/postinstalls/g5k-postinstall.tgz",
+        "compression": "gzip",
+        "script": "g5k-postinstall --net debian --net hpc --fstab nfs --restrict-user current"
+      }
+    ],
+    "boot": {
+      "kernel": "/vmlinuz",
+      "initrd": "/initrd.img",
+      "kernel_params": ""
+    },
+    "filesystem": "ext4",
+    "partition_type": 131,
+    "multipart": false,
+    "user": "deploy"
+  },
+  {
+    "name": "debian11-big",
+    "version": 2021092316,
+    "arch": "ppc64le",
+    "alias": "debian11-ppc64-big",
+    "description": "debian 11 (bullseye) for ppc64 - big",
+    "author": "support-staff@lists.grid5000.fr",
+    "visibility": "public",
+    "destructive": false,
+    "os": "linux",
+    "image": {
+      "file": "server:///grid5000/images/debian11-ppc64-big-2021092316.tar.zst",
+      "kind": "tar",
+      "compression": "zstd"
+    },
+    "postinstalls": [
+      {
+        "archive": "server:///grid5000/postinstalls/g5k-postinstall.tgz",
+        "compression": "gzip",
+        "script": "g5k-postinstall --net debian --net hpc --fstab nfs --restrict-user current"
+      }
+    ],
+    "boot": {
+      "kernel": "/vmlinux",
+      "initrd": "/initrd.img",
+      "kernel_params": ""
+    },
+    "filesystem": "ext4",
+    "partition_type": 131,
+    "multipart": false,
+    "user": "deploy"
+  },
+  {
+    "name": "debian11-min",
+    "version": 2021092316,
+    "arch": "x86_64",
+    "alias": "debian11-x64-min",
+    "description": "debian 11 (bullseye) for x64 - min",
+    "author": "support-staff@lists.grid5000.fr",
+    "visibility": "public",
+    "destructive": false,
+    "os": "linux",
+    "image": {
+      "file": "server:///grid5000/images/debian11-x64-min-2021092316.tar.zst",
+      "kind": "tar",
+      "compression": "zstd"
     },
     "postinstalls": [
       {
@@ -520,7 +1100,8 @@
     ],
     "boot": {
       "kernel": "/vmlinuz",
-      "initrd": "/initrd.img"
+      "initrd": "/initrd.img",
+      "kernel_params": ""
     },
     "filesystem": "ext4",
     "partition_type": 131,
@@ -528,17 +1109,83 @@
     "user": "deploy"
   },
   {
-    "name": "debian9-x64-nfs",
-    "version": 2020120712,
-    "description": "debian 9 (stretch) for x64 - nfs",
+    "name": "debian11-min",
+    "version": 2021092316,
+    "arch": "ppc64le",
+    "alias": "debian11-ppc64-min",
+    "description": "debian 11 (bullseye) for ppc64 - min",
     "author": "support-staff@lists.grid5000.fr",
     "visibility": "public",
     "destructive": false,
     "os": "linux",
     "image": {
-      "file": "server:///grid5000/images/debian9-x64-nfs-2020120712.tgz",
+      "file": "server:///grid5000/images/debian11-ppc64-min-2021092316.tar.zst",
       "kind": "tar",
-      "compression": "gzip"
+      "compression": "zstd"
+    },
+    "postinstalls": [
+      {
+        "archive": "server:///grid5000/postinstalls/g5k-postinstall.tgz",
+        "compression": "gzip",
+        "script": "g5k-postinstall --net debian"
+      }
+    ],
+    "boot": {
+      "kernel": "/vmlinux",
+      "initrd": "/initrd.img",
+      "kernel_params": ""
+    },
+    "filesystem": "ext4",
+    "partition_type": 131,
+    "multipart": false,
+    "user": "deploy"
+  },
+  {
+    "name": "debian11-nfs",
+    "version": 2021092316,
+    "arch": "ppc64le",
+    "alias": "debian11-ppc64-nfs",
+    "description": "debian 11 (bullseye) for ppc64 - nfs",
+    "author": "support-staff@lists.grid5000.fr",
+    "visibility": "public",
+    "destructive": false,
+    "os": "linux",
+    "image": {
+      "file": "server:///grid5000/images/debian11-ppc64-nfs-2021092316.tar.zst",
+      "kind": "tar",
+      "compression": "zstd"
+    },
+    "postinstalls": [
+      {
+        "archive": "server:///grid5000/postinstalls/g5k-postinstall.tgz",
+        "compression": "gzip",
+        "script": "g5k-postinstall --net debian --fstab nfs --restrict-user current"
+      }
+    ],
+    "boot": {
+      "kernel": "/vmlinux",
+      "initrd": "/initrd.img",
+      "kernel_params": ""
+    },
+    "filesystem": "ext4",
+    "partition_type": 131,
+    "multipart": false,
+    "user": "deploy"
+  },
+  {
+    "name": "debian11-nfs",
+    "version": 2021092316,
+    "arch": "x86_64",
+    "alias": "debian11-x64-nfs",
+    "description": "debian 11 (bullseye) for x64 - nfs",
+    "author": "support-staff@lists.grid5000.fr",
+    "visibility": "public",
+    "destructive": false,
+    "os": "linux",
+    "image": {
+      "file": "server:///grid5000/images/debian11-x64-nfs-2021092316.tar.zst",
+      "kind": "tar",
+      "compression": "zstd"
     },
     "postinstalls": [
       {
@@ -549,7 +1196,733 @@
     ],
     "boot": {
       "kernel": "/vmlinuz",
-      "initrd": "/initrd.img"
+      "initrd": "/initrd.img",
+      "kernel_params": ""
+    },
+    "filesystem": "ext4",
+    "partition_type": 131,
+    "multipart": false,
+    "user": "deploy"
+  },
+  {
+    "name": "debian11-ppc64-base",
+    "version": 2021101214,
+    "arch": "x86_64",
+    "description": "debian 11 (bullseye) for ppc64 - base",
+    "author": "support-staff@lists.grid5000.fr",
+    "visibility": "public",
+    "destructive": false,
+    "os": "linux",
+    "image": {
+      "file": "server:///grid5000/images/debian11-ppc64-base-2021101214.tar.zst",
+      "kind": "tar",
+      "compression": "zstd"
+    },
+    "postinstalls": [
+      {
+        "archive": "server:///grid5000/postinstalls/g5k-postinstall.tgz",
+        "compression": "gzip",
+        "script": "g5k-postinstall --net debian --disk-aliases"
+      }
+    ],
+    "boot": {
+      "kernel": "/vmlinux",
+      "initrd": "/initrd.img",
+      "kernel_params": ""
+    },
+    "filesystem": "ext4",
+    "partition_type": 131,
+    "multipart": false,
+    "user": "deploy"
+  },
+  {
+    "name": "debian11-ppc64-big",
+    "version": 2021101214,
+    "arch": "x86_64",
+    "description": "debian 11 (bullseye) for ppc64 - big",
+    "author": "support-staff@lists.grid5000.fr",
+    "visibility": "public",
+    "destructive": false,
+    "os": "linux",
+    "image": {
+      "file": "server:///grid5000/images/debian11-ppc64-big-2021101214.tar.zst",
+      "kind": "tar",
+      "compression": "zstd"
+    },
+    "postinstalls": [
+      {
+        "archive": "server:///grid5000/postinstalls/g5k-postinstall.tgz",
+        "compression": "gzip",
+        "script": "g5k-postinstall --net debian --net hpc --fstab nfs --restrict-user current --disk-aliases"
+      }
+    ],
+    "boot": {
+      "kernel": "/vmlinux",
+      "initrd": "/initrd.img",
+      "kernel_params": ""
+    },
+    "filesystem": "ext4",
+    "partition_type": 131,
+    "multipart": false,
+    "user": "deploy"
+  },
+  {
+    "name": "debian11-ppc64-min",
+    "version": 2021101214,
+    "arch": "x86_64",
+    "description": "debian 11 (bullseye) for ppc64 - min",
+    "author": "support-staff@lists.grid5000.fr",
+    "visibility": "public",
+    "destructive": false,
+    "os": "linux",
+    "image": {
+      "file": "server:///grid5000/images/debian11-ppc64-min-2021101214.tar.zst",
+      "kind": "tar",
+      "compression": "zstd"
+    },
+    "postinstalls": [
+      {
+        "archive": "server:///grid5000/postinstalls/g5k-postinstall.tgz",
+        "compression": "gzip",
+        "script": "g5k-postinstall --net debian --disk-aliases"
+      }
+    ],
+    "boot": {
+      "kernel": "/vmlinux",
+      "initrd": "/initrd.img",
+      "kernel_params": ""
+    },
+    "filesystem": "ext4",
+    "partition_type": 131,
+    "multipart": false,
+    "user": "deploy"
+  },
+  {
+    "name": "debian11-ppc64-nfs",
+    "version": 2021101214,
+    "arch": "x86_64",
+    "description": "debian 11 (bullseye) for ppc64 - nfs",
+    "author": "support-staff@lists.grid5000.fr",
+    "visibility": "public",
+    "destructive": false,
+    "os": "linux",
+    "image": {
+      "file": "server:///grid5000/images/debian11-ppc64-nfs-2021101214.tar.zst",
+      "kind": "tar",
+      "compression": "zstd"
+    },
+    "postinstalls": [
+      {
+        "archive": "server:///grid5000/postinstalls/g5k-postinstall.tgz",
+        "compression": "gzip",
+        "script": "g5k-postinstall --net debian --fstab nfs --restrict-user current --disk-aliases"
+      }
+    ],
+    "boot": {
+      "kernel": "/vmlinux",
+      "initrd": "/initrd.img",
+      "kernel_params": ""
+    },
+    "filesystem": "ext4",
+    "partition_type": 131,
+    "multipart": false,
+    "user": "deploy"
+  },
+  {
+    "name": "debian11-ppc64-std",
+    "version": 2021101214,
+    "arch": "x86_64",
+    "description": "debian 11 (bullseye) for ppc64 - std",
+    "author": "support-staff@lists.grid5000.fr",
+    "visibility": "public",
+    "destructive": false,
+    "os": "linux",
+    "image": {
+      "file": "server:///grid5000/images/debian11-ppc64-std-2021101214.tar.zst",
+      "kind": "tar",
+      "compression": "zstd"
+    },
+    "postinstalls": [
+      {
+        "archive": "server:///grid5000/postinstalls/g5k-postinstall.tgz",
+        "compression": "gzip",
+        "script": "g5k-postinstall --net debian-bridged --net hpc --fstab nfs --restrict-user std --disk-aliases"
+      }
+    ],
+    "boot": {
+      "kernel": "/vmlinux",
+      "initrd": "/initrd.img",
+      "kernel_params": ""
+    },
+    "filesystem": "ext4",
+    "partition_type": 131,
+    "multipart": false,
+    "user": "deploy"
+  },
+  {
+    "name": "debian11-std",
+    "version": 2021092316,
+    "arch": "ppc64le",
+    "alias": "debian11-ppc64-std",
+    "description": "debian 11 (bullseye) for ppc64 - std",
+    "author": "support-staff@lists.grid5000.fr",
+    "visibility": "public",
+    "destructive": false,
+    "os": "linux",
+    "image": {
+      "file": "server:///grid5000/images/debian11-ppc64-std-2021092316.tar.zst",
+      "kind": "tar",
+      "compression": "zstd"
+    },
+    "postinstalls": [
+      {
+        "archive": "server:///grid5000/postinstalls/g5k-postinstall.tgz",
+        "compression": "gzip",
+        "script": "g5k-postinstall --net debian-bridged --net hpc --fstab nfs --restrict-user std"
+      }
+    ],
+    "boot": {
+      "kernel": "/vmlinux",
+      "initrd": "/initrd.img",
+      "kernel_params": ""
+    },
+    "filesystem": "ext4",
+    "partition_type": 131,
+    "multipart": false,
+    "user": "deploy"
+  },
+  {
+    "name": "debian11-std",
+    "version": 2021092316,
+    "arch": "x86_64",
+    "alias": "debian11-x64-std",
+    "description": "debian 11 (bullseye) for x64 - std",
+    "author": "support-staff@lists.grid5000.fr",
+    "visibility": "public",
+    "destructive": false,
+    "os": "linux",
+    "image": {
+      "file": "server:///grid5000/images/debian11-x64-std-2021092316.tar.zst",
+      "kind": "tar",
+      "compression": "zstd"
+    },
+    "postinstalls": [
+      {
+        "archive": "server:///grid5000/postinstalls/g5k-postinstall.tgz",
+        "compression": "gzip",
+        "script": "g5k-postinstall --net debian-bridged --net hpc --fstab nfs --restrict-user std"
+      }
+    ],
+    "boot": {
+      "kernel": "/vmlinuz",
+      "initrd": "/initrd.img",
+      "kernel_params": "systemd.unified_cgroup_hierarchy=false systemd.legacy_systemd_cgroup_controller=true"
+    },
+    "filesystem": "ext4",
+    "partition_type": 131,
+    "multipart": false,
+    "user": "deploy"
+  },
+  {
+    "name": "debian11-x64-base",
+    "version": 2021101214,
+    "arch": "x86_64",
+    "description": "debian 11 (bullseye) for x64 - base",
+    "author": "support-staff@lists.grid5000.fr",
+    "visibility": "public",
+    "destructive": false,
+    "os": "linux",
+    "image": {
+      "file": "server:///grid5000/images/debian11-x64-base-2021101214.tar.zst",
+      "kind": "tar",
+      "compression": "zstd"
+    },
+    "postinstalls": [
+      {
+        "archive": "server:///grid5000/postinstalls/g5k-postinstall.tgz",
+        "compression": "gzip",
+        "script": "g5k-postinstall --net debian --disk-aliases"
+      }
+    ],
+    "boot": {
+      "kernel": "/vmlinuz",
+      "initrd": "/initrd.img",
+      "kernel_params": ""
+    },
+    "filesystem": "ext4",
+    "partition_type": 131,
+    "multipart": false,
+    "user": "deploy"
+  },
+  {
+    "name": "debian11-x64-big",
+    "version": 2021101214,
+    "arch": "x86_64",
+    "description": "debian 11 (bullseye) for x64 - big",
+    "author": "support-staff@lists.grid5000.fr",
+    "visibility": "public",
+    "destructive": false,
+    "os": "linux",
+    "image": {
+      "file": "server:///grid5000/images/debian11-x64-big-2021101214.tar.zst",
+      "kind": "tar",
+      "compression": "zstd"
+    },
+    "postinstalls": [
+      {
+        "archive": "server:///grid5000/postinstalls/g5k-postinstall.tgz",
+        "compression": "gzip",
+        "script": "g5k-postinstall --net debian --net hpc --fstab nfs --restrict-user current --disk-aliases"
+      }
+    ],
+    "boot": {
+      "kernel": "/vmlinuz",
+      "initrd": "/initrd.img",
+      "kernel_params": ""
+    },
+    "filesystem": "ext4",
+    "partition_type": 131,
+    "multipart": false,
+    "user": "deploy"
+  },
+  {
+    "name": "debian11-x64-min",
+    "version": 2021101214,
+    "arch": "x86_64",
+    "description": "debian 11 (bullseye) for x64 - min",
+    "author": "support-staff@lists.grid5000.fr",
+    "visibility": "public",
+    "destructive": false,
+    "os": "linux",
+    "image": {
+      "file": "server:///grid5000/images/debian11-x64-min-2021101214.tar.zst",
+      "kind": "tar",
+      "compression": "zstd"
+    },
+    "postinstalls": [
+      {
+        "archive": "server:///grid5000/postinstalls/g5k-postinstall.tgz",
+        "compression": "gzip",
+        "script": "g5k-postinstall --net debian --disk-aliases"
+      }
+    ],
+    "boot": {
+      "kernel": "/vmlinuz",
+      "initrd": "/initrd.img",
+      "kernel_params": ""
+    },
+    "filesystem": "ext4",
+    "partition_type": 131,
+    "multipart": false,
+    "user": "deploy"
+  },
+  {
+    "name": "debian11-x64-nfs",
+    "version": 2021101214,
+    "arch": "x86_64",
+    "description": "debian 11 (bullseye) for x64 - nfs",
+    "author": "support-staff@lists.grid5000.fr",
+    "visibility": "public",
+    "destructive": false,
+    "os": "linux",
+    "image": {
+      "file": "server:///grid5000/images/debian11-x64-nfs-2021101214.tar.zst",
+      "kind": "tar",
+      "compression": "zstd"
+    },
+    "postinstalls": [
+      {
+        "archive": "server:///grid5000/postinstalls/g5k-postinstall.tgz",
+        "compression": "gzip",
+        "script": "g5k-postinstall --net debian --fstab nfs --restrict-user current --disk-aliases"
+      }
+    ],
+    "boot": {
+      "kernel": "/vmlinuz",
+      "initrd": "/initrd.img",
+      "kernel_params": ""
+    },
+    "filesystem": "ext4",
+    "partition_type": 131,
+    "multipart": false,
+    "user": "deploy"
+  },
+  {
+    "name": "debian11-x64-std",
+    "version": 2021101214,
+    "arch": "x86_64",
+    "description": "debian 11 (bullseye) for x64 - std",
+    "author": "support-staff@lists.grid5000.fr",
+    "visibility": "public",
+    "destructive": false,
+    "os": "linux",
+    "image": {
+      "file": "server:///grid5000/images/debian11-x64-std-2021101214.tar.zst",
+      "kind": "tar",
+      "compression": "zstd"
+    },
+    "postinstalls": [
+      {
+        "archive": "server:///grid5000/postinstalls/g5k-postinstall.tgz",
+        "compression": "gzip",
+        "script": "g5k-postinstall --net debian-bridged --net hpc --fstab nfs --restrict-user std --disk-aliases"
+      }
+    ],
+    "boot": {
+      "kernel": "/vmlinuz",
+      "initrd": "/initrd.img",
+      "kernel_params": "systemd.unified_cgroup_hierarchy=false systemd.legacy_systemd_cgroup_controller=true"
+    },
+    "filesystem": "ext4",
+    "partition_type": 131,
+    "multipart": false,
+    "user": "deploy"
+  },
+  {
+    "name": "debian11-x64-xen",
+    "version": 2021101214,
+    "arch": "x86_64",
+    "description": "debian 11 (bullseye) for x64 - xen",
+    "author": "support-staff@lists.grid5000.fr",
+    "visibility": "public",
+    "destructive": false,
+    "os": "xen",
+    "image": {
+      "file": "server:///grid5000/images/debian11-x64-xen-2021101214.tar.zst",
+      "kind": "tar",
+      "compression": "zstd"
+    },
+    "postinstalls": [
+      {
+        "archive": "server:///grid5000/postinstalls/g5k-postinstall.tgz",
+        "compression": "gzip",
+        "script": "g5k-postinstall --net debian-bridged --disk-aliases"
+      }
+    ],
+    "boot": {
+      "kernel": "/vmlinuz",
+      "initrd": "/initrd.img",
+      "kernel_params": "",
+      "hypervisor": "/hypervisor",
+      "hypervisor_params": "dom0_mem=4096M no-bootscrub"
+    },
+    "filesystem": "ext4",
+    "partition_type": 131,
+    "multipart": false,
+    "user": "deploy"
+  },
+  {
+    "name": "debian11-xen",
+    "version": 2021092316,
+    "arch": "x86_64",
+    "alias": "debian11-x64-xen",
+    "description": "debian 11 (bullseye) for x64 - xen",
+    "author": "support-staff@lists.grid5000.fr",
+    "visibility": "public",
+    "destructive": false,
+    "os": "xen",
+    "image": {
+      "file": "server:///grid5000/images/debian11-x64-xen-2021092316.tar.zst",
+      "kind": "tar",
+      "compression": "zstd"
+    },
+    "postinstalls": [
+      {
+        "archive": "server:///grid5000/postinstalls/g5k-postinstall.tgz",
+        "compression": "gzip",
+        "script": "g5k-postinstall --net debian-bridged"
+      }
+    ],
+    "boot": {
+      "kernel": "/vmlinuz",
+      "initrd": "/initrd.img",
+      "kernel_params": "",
+      "hypervisor": "/hypervisor",
+      "hypervisor_params": "dom0_mem=4096M no-bootscrub"
+    },
+    "filesystem": "ext4",
+    "partition_type": 131,
+    "multipart": false,
+    "user": "deploy"
+  },
+  {
+    "name": "debian9-base",
+    "version": 2021090817,
+    "arch": "x86_64",
+    "alias": "debian9-x64-base",
+    "description": "debian 9 (stretch) for x64 - base",
+    "author": "support-staff@lists.grid5000.fr",
+    "visibility": "public",
+    "destructive": false,
+    "os": "linux",
+    "image": {
+      "file": "server:///grid5000/images/debian9-x64-base-2021090817.tar.zst",
+      "kind": "tar",
+      "compression": "zstd"
+    },
+    "postinstalls": [
+      {
+        "archive": "server:///grid5000/postinstalls/g5k-postinstall.tgz",
+        "compression": "gzip",
+        "script": "g5k-postinstall --net debian"
+      }
+    ],
+    "boot": {
+      "kernel": "/vmlinuz",
+      "initrd": "/initrd.img",
+      "kernel_params": ""
+    },
+    "filesystem": "ext4",
+    "partition_type": 131,
+    "multipart": false,
+    "user": "deploy"
+  },
+  {
+    "name": "debian9-big",
+    "version": 2021090817,
+    "arch": "x86_64",
+    "alias": "debian9-x64-big",
+    "description": "debian 9 (stretch) for x64 - big",
+    "author": "support-staff@lists.grid5000.fr",
+    "visibility": "public",
+    "destructive": false,
+    "os": "linux",
+    "image": {
+      "file": "server:///grid5000/images/debian9-x64-big-2021090817.tar.zst",
+      "kind": "tar",
+      "compression": "zstd"
+    },
+    "postinstalls": [
+      {
+        "archive": "server:///grid5000/postinstalls/g5k-postinstall.tgz",
+        "compression": "gzip",
+        "script": "g5k-postinstall --net debian --net hpc --fstab nfs --restrict-user current"
+      }
+    ],
+    "boot": {
+      "kernel": "/vmlinuz",
+      "initrd": "/initrd.img",
+      "kernel_params": ""
+    },
+    "filesystem": "ext4",
+    "partition_type": 131,
+    "multipart": false,
+    "user": "deploy"
+  },
+  {
+    "name": "debian9-min",
+    "version": 2021090817,
+    "arch": "x86_64",
+    "alias": "debian9-x64-min",
+    "description": "debian 9 (stretch) for x64 - min",
+    "author": "support-staff@lists.grid5000.fr",
+    "visibility": "public",
+    "destructive": false,
+    "os": "linux",
+    "image": {
+      "file": "server:///grid5000/images/debian9-x64-min-2021090817.tar.zst",
+      "kind": "tar",
+      "compression": "zstd"
+    },
+    "postinstalls": [
+      {
+        "archive": "server:///grid5000/postinstalls/g5k-postinstall.tgz",
+        "compression": "gzip",
+        "script": "g5k-postinstall --net debian"
+      }
+    ],
+    "boot": {
+      "kernel": "/vmlinuz",
+      "initrd": "/initrd.img",
+      "kernel_params": ""
+    },
+    "filesystem": "ext4",
+    "partition_type": 131,
+    "multipart": false,
+    "user": "deploy"
+  },
+  {
+    "name": "debian9-nfs",
+    "version": 2021090817,
+    "arch": "x86_64",
+    "alias": "debian9-x64-nfs",
+    "description": "debian 9 (stretch) for x64 - nfs",
+    "author": "support-staff@lists.grid5000.fr",
+    "visibility": "public",
+    "destructive": false,
+    "os": "linux",
+    "image": {
+      "file": "server:///grid5000/images/debian9-x64-nfs-2021090817.tar.zst",
+      "kind": "tar",
+      "compression": "zstd"
+    },
+    "postinstalls": [
+      {
+        "archive": "server:///grid5000/postinstalls/g5k-postinstall.tgz",
+        "compression": "gzip",
+        "script": "g5k-postinstall --net debian --fstab nfs --restrict-user current"
+      }
+    ],
+    "boot": {
+      "kernel": "/vmlinuz",
+      "initrd": "/initrd.img",
+      "kernel_params": ""
+    },
+    "filesystem": "ext4",
+    "partition_type": 131,
+    "multipart": false,
+    "user": "deploy"
+  },
+  {
+    "name": "debian9-std",
+    "version": 2021090817,
+    "arch": "x86_64",
+    "alias": "debian9-x64-std",
+    "description": "debian 9 (stretch) for x64 - std",
+    "author": "support-staff@lists.grid5000.fr",
+    "visibility": "public",
+    "destructive": false,
+    "os": "linux",
+    "image": {
+      "file": "server:///grid5000/images/debian9-x64-std-2021090817.tar.zst",
+      "kind": "tar",
+      "compression": "zstd"
+    },
+    "postinstalls": [
+      {
+        "archive": "server:///grid5000/postinstalls/g5k-postinstall.tgz",
+        "compression": "gzip",
+        "script": "g5k-postinstall --net debian-bridged --net hpc --fstab nfs --restrict-user std"
+      }
+    ],
+    "boot": {
+      "kernel": "/vmlinuz",
+      "initrd": "/initrd.img",
+      "kernel_params": "cgroup_enable=memory"
+    },
+    "filesystem": "ext4",
+    "partition_type": 131,
+    "multipart": false,
+    "user": "deploy"
+  },
+  {
+    "name": "debian9-x64-base",
+    "version": 2021100608,
+    "arch": "x86_64",
+    "description": "debian 9 (stretch) for x64 - base",
+    "author": "support-staff@lists.grid5000.fr",
+    "visibility": "public",
+    "destructive": false,
+    "os": "linux",
+    "image": {
+      "file": "server:///grid5000/images/debian9-x64-base-2021100608.tar.zst",
+      "kind": "tar",
+      "compression": "zstd"
+    },
+    "postinstalls": [
+      {
+        "archive": "server:///grid5000/postinstalls/g5k-postinstall.tgz",
+        "compression": "gzip",
+        "script": "g5k-postinstall --net debian"
+      }
+    ],
+    "boot": {
+      "kernel": "/vmlinuz",
+      "initrd": "/initrd.img",
+      "kernel_params": ""
+    },
+    "filesystem": "ext4",
+    "partition_type": 131,
+    "multipart": false,
+    "user": "deploy"
+  },
+  {
+    "name": "debian9-x64-big",
+    "version": 2021100608,
+    "arch": "x86_64",
+    "description": "debian 9 (stretch) for x64 - big",
+    "author": "support-staff@lists.grid5000.fr",
+    "visibility": "public",
+    "destructive": false,
+    "os": "linux",
+    "image": {
+      "file": "server:///grid5000/images/debian9-x64-big-2021100608.tar.zst",
+      "kind": "tar",
+      "compression": "zstd"
+    },
+    "postinstalls": [
+      {
+        "archive": "server:///grid5000/postinstalls/g5k-postinstall.tgz",
+        "compression": "gzip",
+        "script": "g5k-postinstall --net debian --net hpc --fstab nfs --restrict-user current"
+      }
+    ],
+    "boot": {
+      "kernel": "/vmlinuz",
+      "initrd": "/initrd.img",
+      "kernel_params": ""
+    },
+    "filesystem": "ext4",
+    "partition_type": 131,
+    "multipart": false,
+    "user": "deploy"
+  },
+  {
+    "name": "debian9-x64-min",
+    "version": 2021100608,
+    "arch": "x86_64",
+    "description": "debian 9 (stretch) for x64 - min",
+    "author": "support-staff@lists.grid5000.fr",
+    "visibility": "public",
+    "destructive": false,
+    "os": "linux",
+    "image": {
+      "file": "server:///grid5000/images/debian9-x64-min-2021100608.tar.zst",
+      "kind": "tar",
+      "compression": "zstd"
+    },
+    "postinstalls": [
+      {
+        "archive": "server:///grid5000/postinstalls/g5k-postinstall.tgz",
+        "compression": "gzip",
+        "script": "g5k-postinstall --net debian"
+      }
+    ],
+    "boot": {
+      "kernel": "/vmlinuz",
+      "initrd": "/initrd.img",
+      "kernel_params": ""
+    },
+    "filesystem": "ext4",
+    "partition_type": 131,
+    "multipart": false,
+    "user": "deploy"
+  },
+  {
+    "name": "debian9-x64-nfs",
+    "version": 2021100608,
+    "arch": "x86_64",
+    "description": "debian 9 (stretch) for x64 - nfs",
+    "author": "support-staff@lists.grid5000.fr",
+    "visibility": "public",
+    "destructive": false,
+    "os": "linux",
+    "image": {
+      "file": "server:///grid5000/images/debian9-x64-nfs-2021100608.tar.zst",
+      "kind": "tar",
+      "compression": "zstd"
+    },
+    "postinstalls": [
+      {
+        "archive": "server:///grid5000/postinstalls/g5k-postinstall.tgz",
+        "compression": "gzip",
+        "script": "g5k-postinstall --net debian --fstab nfs --restrict-user current"
+      }
+    ],
+    "boot": {
+      "kernel": "/vmlinuz",
+      "initrd": "/initrd.img",
+      "kernel_params": ""
     },
     "filesystem": "ext4",
     "partition_type": 131,
@@ -558,22 +1931,23 @@
   },
   {
     "name": "debian9-x64-std",
-    "version": 2020120712,
+    "version": 2021100608,
+    "arch": "x86_64",
     "description": "debian 9 (stretch) for x64 - std",
     "author": "support-staff@lists.grid5000.fr",
     "visibility": "public",
     "destructive": false,
     "os": "linux",
     "image": {
-      "file": "server:///grid5000/images/debian9-x64-std-2020120712.tgz",
+      "file": "server:///grid5000/images/debian9-x64-std-2021100608.tar.zst",
       "kind": "tar",
-      "compression": "gzip"
+      "compression": "zstd"
     },
     "postinstalls": [
       {
         "archive": "server:///grid5000/postinstalls/g5k-postinstall.tgz",
         "compression": "gzip",
-        "script": "g5k-postinstall --net debian-bridged --net hpc --fstab nfs --fstab site-specific --restrict-user std"
+        "script": "g5k-postinstall --net debian-bridged --net hpc --fstab nfs --restrict-user std"
       }
     ],
     "boot": {
@@ -588,16 +1962,17 @@
   },
   {
     "name": "debian9-x64-xen",
-    "version": 2020120712,
+    "version": 2021100608,
+    "arch": "x86_64",
     "description": "debian 9 (stretch) for x64 - xen",
     "author": "support-staff@lists.grid5000.fr",
     "visibility": "public",
     "destructive": false,
     "os": "xen",
     "image": {
-      "file": "server:///grid5000/images/debian9-x64-xen-2020120712.tgz",
+      "file": "server:///grid5000/images/debian9-x64-xen-2021100608.tar.zst",
       "kind": "tar",
-      "compression": "gzip"
+      "compression": "zstd"
     },
     "postinstalls": [
       {
@@ -609,6 +1984,7 @@
     "boot": {
       "kernel": "/vmlinuz",
       "initrd": "/initrd.img",
+      "kernel_params": "",
       "hypervisor": "/hypervisor",
       "hypervisor_params": "dom0_mem=4096M no-bootscrub"
     },
@@ -618,17 +1994,53 @@
     "user": "deploy"
   },
   {
-    "name": "debiantesting-ppc64-min",
-    "version": 2021011210,
+    "name": "debian9-xen",
+    "version": 2021090817,
+    "arch": "x86_64",
+    "alias": "debian9-x64-xen",
+    "description": "debian 9 (stretch) for x64 - xen",
+    "author": "support-staff@lists.grid5000.fr",
+    "visibility": "public",
+    "destructive": false,
+    "os": "xen",
+    "image": {
+      "file": "server:///grid5000/images/debian9-x64-xen-2021090817.tar.zst",
+      "kind": "tar",
+      "compression": "zstd"
+    },
+    "postinstalls": [
+      {
+        "archive": "server:///grid5000/postinstalls/g5k-postinstall.tgz",
+        "compression": "gzip",
+        "script": "g5k-postinstall --net debian-bridged"
+      }
+    ],
+    "boot": {
+      "kernel": "/vmlinuz",
+      "initrd": "/initrd.img",
+      "kernel_params": "",
+      "hypervisor": "/hypervisor",
+      "hypervisor_params": "dom0_mem=4096M no-bootscrub"
+    },
+    "filesystem": "ext4",
+    "partition_type": 131,
+    "multipart": false,
+    "user": "deploy"
+  },
+  {
+    "name": "debiantesting-min",
+    "version": 2021082413,
+    "arch": "ppc64le",
+    "alias": "debiantesting-ppc64-min",
     "description": "debian X (testing) for ppc64 - min",
     "author": "support-staff@lists.grid5000.fr",
     "visibility": "public",
     "destructive": false,
     "os": "linux",
     "image": {
-      "file": "server:///grid5000/images/debiantesting-ppc64-min-2021011210.tgz",
+      "file": "server:///grid5000/images/debiantesting-ppc64-min-2021082413.tar.zst",
       "kind": "tar",
-      "compression": "gzip"
+      "compression": "zstd"
     },
     "postinstalls": [
       {
@@ -639,7 +2051,8 @@
     ],
     "boot": {
       "kernel": "/boot/vmlinux",
-      "initrd": "/boot/initrd.img"
+      "initrd": "/boot/initrd.img",
+      "kernel_params": ""
     },
     "filesystem": "ext4",
     "partition_type": 131,
@@ -647,17 +2060,19 @@
     "user": "deploy"
   },
   {
-    "name": "debiantesting-x64-min",
-    "version": 2021011210,
+    "name": "debiantesting-min",
+    "version": 2021082413,
+    "arch": "x86_64",
+    "alias": "debiantesting-x64-min",
     "description": "debian X (testing) for x64 - min",
     "author": "support-staff@lists.grid5000.fr",
     "visibility": "public",
     "destructive": false,
     "os": "linux",
     "image": {
-      "file": "server:///grid5000/images/debiantesting-x64-min-2021011210.tgz",
+      "file": "server:///grid5000/images/debiantesting-x64-min-2021082413.tar.zst",
       "kind": "tar",
-      "compression": "gzip"
+      "compression": "zstd"
     },
     "postinstalls": [
       {
@@ -668,7 +2083,8 @@
     ],
     "boot": {
       "kernel": "/vmlinuz",
-      "initrd": "/initrd.img"
+      "initrd": "/initrd.img",
+      "kernel_params": ""
     },
     "filesystem": "ext4",
     "partition_type": 131,
@@ -676,8 +2092,72 @@
     "user": "deploy"
   },
   {
-    "name": "ubuntu1404-x64-min",
+    "name": "debiantesting-ppc64-min",
+    "version": 2021101216,
+    "arch": "x86_64",
+    "description": "debian X (testing) for ppc64 - min",
+    "author": "support-staff@lists.grid5000.fr",
+    "visibility": "public",
+    "destructive": false,
+    "os": "linux",
+    "image": {
+      "file": "server:///grid5000/images/debiantesting-ppc64-min-2021101216.tar.zst",
+      "kind": "tar",
+      "compression": "zstd"
+    },
+    "postinstalls": [
+      {
+        "archive": "server:///grid5000/postinstalls/g5k-postinstall.tgz",
+        "compression": "gzip",
+        "script": "g5k-postinstall --net debian --disk-aliases"
+      }
+    ],
+    "boot": {
+      "kernel": "/boot/vmlinux",
+      "initrd": "/boot/initrd.img",
+      "kernel_params": ""
+    },
+    "filesystem": "ext4",
+    "partition_type": 131,
+    "multipart": false,
+    "user": "deploy"
+  },
+  {
+    "name": "debiantesting-x64-min",
+    "version": 2021101216,
+    "arch": "x86_64",
+    "description": "debian X (testing) for x64 - min",
+    "author": "support-staff@lists.grid5000.fr",
+    "visibility": "public",
+    "destructive": false,
+    "os": "linux",
+    "image": {
+      "file": "server:///grid5000/images/debiantesting-x64-min-2021101216.tar.zst",
+      "kind": "tar",
+      "compression": "zstd"
+    },
+    "postinstalls": [
+      {
+        "archive": "server:///grid5000/postinstalls/g5k-postinstall.tgz",
+        "compression": "gzip",
+        "script": "g5k-postinstall --net debian --disk-aliases"
+      }
+    ],
+    "boot": {
+      "kernel": "/vmlinuz",
+      "initrd": "/initrd.img",
+      "kernel_params": ""
+    },
+    "filesystem": "ext4",
+    "partition_type": 131,
+    "multipart": false,
+    "user": "deploy"
+  },
+  {
+    "name": "ubuntu1404-min",
     "version": 2017050413,
+    "arch": "x86_64",
+    "alias": "ubuntu1404-x64-min",
     "description": "Ubuntu1404 (min)",
     "author": "support-staff@lists.grid5000.fr",
     "visibility": "public",
@@ -697,7 +2177,8 @@
     ],
     "boot": {
       "kernel": "/vmlinuz",
-      "initrd": "/initrd.img"
+      "initrd": "/initrd.img",
+      "kernel_params": ""
     },
     "filesystem": "ext4",
     "partition_type": 131,
@@ -705,17 +2186,19 @@
     "user": "deploy"
   },
   {
-    "name": "ubuntu1804-ppc64-min",
-    "version": 2020113014,
+    "name": "ubuntu1804-min",
+    "version": 2021090715,
+    "arch": "ppc64le",
+    "alias": "ubuntu1804-ppc64-min",
     "description": "ubuntu 18.04 (bionic) for ppc64 - min",
     "author": "support-staff@lists.grid5000.fr",
     "visibility": "public",
     "destructive": false,
     "os": "linux",
     "image": {
-      "file": "server:///grid5000/images/ubuntu1804-ppc64-min-2020113014.tgz",
+      "file": "server:///grid5000/images/ubuntu1804-ppc64-min-2021090715.tar.zst",
       "kind": "tar",
-      "compression": "gzip"
+      "compression": "zstd"
     },
     "postinstalls": [
       {
@@ -726,7 +2209,8 @@
     ],
     "boot": {
       "kernel": "/boot/vmlinux",
-      "initrd": "/boot/initrd.img"
+      "initrd": "/boot/initrd.img",
+      "kernel_params": ""
     },
     "filesystem": "ext4",
     "partition_type": 131,
@@ -734,17 +2218,19 @@
     "user": "deploy"
   },
   {
-    "name": "ubuntu1804-x64-min",
-    "version": 2020113014,
+    "name": "ubuntu1804-min",
+    "version": 2021090715,
+    "arch": "x86_64",
+    "alias": "ubuntu1804-x64-min",
     "description": "ubuntu 18.04 (bionic) for x64 - min",
     "author": "support-staff@lists.grid5000.fr",
     "visibility": "public",
     "destructive": false,
     "os": "linux",
     "image": {
-      "file": "server:///grid5000/images/ubuntu1804-x64-min-2020113014.tgz",
+      "file": "server:///grid5000/images/ubuntu1804-x64-min-2021090715.tar.zst",
       "kind": "tar",
-      "compression": "gzip"
+      "compression": "zstd"
     },
     "postinstalls": [
       {
@@ -755,7 +2241,8 @@
     ],
     "boot": {
       "kernel": "/vmlinuz",
-      "initrd": "/initrd.img"
+      "initrd": "/initrd.img",
+      "kernel_params": ""
     },
     "filesystem": "ext4",
     "partition_type": 131,
@@ -763,17 +2250,81 @@
     "user": "deploy"
   },
   {
-    "name": "ubuntu2004-x64-min",
-    "version": 2020102808,
-    "description": "ubuntu 20.04 (focal) for x64 - min",
-    "author": "support-staff@list.grid5000.fr",
+    "name": "ubuntu1804-ppc64-min",
+    "version": 2021101312,
+    "arch": "x86_64",
+    "description": "ubuntu 18.04 (bionic) for ppc64 - min",
+    "author": "support-staff@lists.grid5000.fr",
     "visibility": "public",
     "destructive": false,
     "os": "linux",
     "image": {
-      "file": "server:///grid5000/images/ubuntu2004-x64-min-2020102808.tgz",
+      "file": "server:///grid5000/images/ubuntu1804-ppc64-min-2021101312.tar.zst",
       "kind": "tar",
-      "compression": "gzip"
+      "compression": "zstd"
+    },
+    "postinstalls": [
+      {
+        "archive": "server:///grid5000/postinstalls/g5k-postinstall.tgz",
+        "compression": "gzip",
+        "script": "g5k-postinstall --net netplan --disk-aliases"
+      }
+    ],
+    "boot": {
+      "kernel": "/boot/vmlinux",
+      "initrd": "/boot/initrd.img",
+      "kernel_params": ""
+    },
+    "filesystem": "ext4",
+    "partition_type": 131,
+    "multipart": false,
+    "user": "deploy"
+  },
+  {
+    "name": "ubuntu1804-x64-min",
+    "version": 2021101312,
+    "arch": "x86_64",
+    "description": "ubuntu 18.04 (bionic) for x64 - min",
+    "author": "support-staff@lists.grid5000.fr",
+    "visibility": "public",
+    "destructive": false,
+    "os": "linux",
+    "image": {
+      "file": "server:///grid5000/images/ubuntu1804-x64-min-2021101312.tar.zst",
+      "kind": "tar",
+      "compression": "zstd"
+    },
+    "postinstalls": [
+      {
+        "archive": "server:///grid5000/postinstalls/g5k-postinstall.tgz",
+        "compression": "gzip",
+        "script": "g5k-postinstall --net netplan --disk-aliases"
+      }
+    ],
+    "boot": {
+      "kernel": "/vmlinuz",
+      "initrd": "/initrd.img",
+      "kernel_params": ""
+    },
+    "filesystem": "ext4",
+    "partition_type": 131,
+    "multipart": false,
+    "user": "deploy"
+  },
+  {
+    "name": "ubuntu2004-min",
+    "version": 2021090111,
+    "arch": "x86_64",
+    "alias": "ubuntu2004-x64-min",
+    "description": "ubuntu 20.04 (focal) for x64 - min",
+    "author": "support-staff@lists.grid5000.fr",
+    "visibility": "public",
+    "destructive": false,
+    "os": "linux",
+    "image": {
+      "file": "server:///grid5000/images/ubuntu2004-x64-min-2021090111.tar.zst",
+      "kind": "tar",
+      "compression": "zstd"
     },
     "postinstalls": [
       {
@@ -784,7 +2335,39 @@
     ],
     "boot": {
       "kernel": "/boot/vmlinuz",
-      "initrd": "/boot/initrd.img"
+      "initrd": "/boot/initrd.img",
+      "kernel_params": ""
+    },
+    "filesystem": "ext4",
+    "partition_type": 131,
+    "multipart": false,
+    "user": "deploy"
+  },
+  {
+    "name": "ubuntu2004-x64-min",
+    "version": 2021101312,
+    "arch": "x86_64",
+    "description": "ubuntu 20.04 (focal) for x64 - min",
+    "author": "support-staff@lists.grid5000.fr",
+    "visibility": "public",
+    "destructive": false,
+    "os": "linux",
+    "image": {
+      "file": "server:///grid5000/images/ubuntu2004-x64-min-2021101312.tar.zst",
+      "kind": "tar",
+      "compression": "zstd"
+    },
+    "postinstalls": [
+      {
+        "archive": "server:///grid5000/postinstalls/g5k-postinstall.tgz",
+        "compression": "gzip",
+        "script": "g5k-postinstall --net netplan --disk-aliases"
+      }
+    ],
+    "boot": {
+      "kernel": "/boot/vmlinuz",
+      "initrd": "/boot/initrd.img",
+      "kernel_params": ""
     },
     "filesystem": "ext4",
     "partition_type": 131,

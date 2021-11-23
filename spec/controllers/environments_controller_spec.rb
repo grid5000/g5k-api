@@ -46,12 +46,12 @@ describe EnvironmentsController do
       get :index, params: { site_id: 'grenoble', format: :json }
 
       expect(response.status).to eq(200)
-      expect(json['total']).to eq(28)
+      expect(json['total']).to eq(76)
       expect(json['offset']).to eq(0)
-      expect(json['items'].length).to eq(28)
+      expect(json['items'].length).to eq(76)
       expect(json['links'].length).to eq(2)
-      expect(json['items'].first['uid']).to eq('centos7-ppc64-min_2020120219_deploy')
-      expect(json['items'].first.length).to eq(17)
+      expect(json['items'].first['uid']).to eq('centos7-min_x86_64_2021090715_deploy')
+      expect(json['items'].first.length).to eq(18)
     end
 
     it 'should return the list of latest only public environments versions if anonymous' do
@@ -68,8 +68,8 @@ describe EnvironmentsController do
       get :index, params: { site_id: 'grenoble', format: :json }
 
       expect(response.status).to eq(200)
-      expect(json['total']).to eq(27)
-      expect(json['items'].length).to eq(27)
+      expect(json['total']).to eq(75)
+      expect(json['items'].length).to eq(75)
     end
 
     it 'should return all environments versions' do
@@ -95,12 +95,12 @@ describe EnvironmentsController do
       get :index, params: { site_id: 'grenoble', format: :json, latest_only: 'no' }
 
       expect(response.status).to eq(200)
-      expect(json['total']).to eq(617)
+      expect(json['total']).to eq(941)
       expect(json['offset']).to eq(0)
-      expect(json['items'].length).to eq(617)
+      expect(json['items'].length).to eq(941)
       expect(json['links'].length).to eq(2)
-      expect(json['items'].first['uid']).to eq('centos7-ppc64-min_2020120219_deploy')
-      expect(json['items'].first.length).to eq(17)
+      expect(json['items'].first['uid']).to eq('centos7-min_x86_64_2021090715_deploy')
+      expect(json['items'].first.length).to eq(18)
     end
 
     it 'should return only envs for ppc64le architecture' do
@@ -126,12 +126,12 @@ describe EnvironmentsController do
       get :index, params: { site_id: 'grenoble', format: :json, arch: 'ppc64le' }
 
       expect(response.status).to eq(200)
-      expect(json['total']).to eq(9)
+      expect(json['total']).to eq(14)
       expect(json['offset']).to eq(0)
-      expect(json['items'].length).to eq(9)
+      expect(json['items'].length).to eq(14)
       expect(json['links'].length).to eq(2)
-      expect(json['items'].first['uid']).to eq('centos7-ppc64-min_2020120219_deploy')
-      expect(json['items'].first.length).to eq(17)
+      expect(json['items'].first['uid']).to eq('centos7-min_ppc64le_2021090715_deploy')
+      expect(json['items'].first.length).to eq(18)
     end
 
     it 'should return only envs for the specified name' do
@@ -154,15 +154,15 @@ describe EnvironmentsController do
           to_return(status: 200, body: fixture('environments-grenoble-sno.json'), headers: @headers_return)
 
       get :index, params: { site_id: 'grenoble', format: :json,
-                            name: 'debian10-x64-base', latest_only: 'no' }
+                            name: 'debian10-base', latest_only: 'no' }
 
       expect(response.status).to eq(200)
-      expect(json['total']).to eq(35)
+      expect(json['total']).to eq(65)
       expect(json['offset']).to eq(0)
-      expect(json['items'].length).to eq(35)
+      expect(json['items'].length).to eq(65)
       expect(json['links'].length).to eq(2)
-      expect(json['items'].map { |i| i['name'] } ).to all(eq('debian10-x64-base'))
-      expect(json['items'].first.length).to eq(17)
+      expect(json['items'].map { |i| i['name'] } ).to all(eq('debian10-base'))
+      expect(json['items'].first.length).to eq(18)
     end
 
     it 'should return only envs for the specified user' do
@@ -184,8 +184,8 @@ describe EnvironmentsController do
       expect(json['offset']).to eq(0)
       expect(json['items'].length).to eq(1)
       expect(json['links'].length).to eq(2)
-      expect(json['items'].map { |i| i['name'] } ).to all(eq('debian10-x64-std'))
-      expect(json['items'].first.length).to eq(17)
+      expect(json['items'].map { |i| i['name'] } ).to all(eq('debian10-std'))
+      expect(json['items'].first.length).to eq(18)
     end
 
     it 'should return 403 when asking for env of specified user if anonymous' do
@@ -199,7 +199,7 @@ describe EnvironmentsController do
     end
   end
 
-  describe 'GET /environments/centos7-ppc64-min_2020120219_deploy' do
+  describe 'GET /environments/debian10-std_x86_64_2021090715_deploy' do
     it 'should return one environment' do
       authenticate_as('snoir')
       stub_request(:get, @base_expected_uri).
@@ -220,12 +220,12 @@ describe EnvironmentsController do
           }).
           to_return(status: 200, body: fixture('environments-grenoble-sno.json'), headers: @headers_return)
 
-      get :show, params: { site_id: 'grenoble', id: 'centos7-ppc64-min_2020120219_deploy', format: :json }
+      get :show, params: { site_id: 'grenoble', id: 'centos7-min_ppc64le_2021090715_deploy', format: :json }
 
       expect(response.status).to eq(200)
       expect(json['links'].length).to eq(2)
-      expect(json['uid']).to eq('centos7-ppc64-min_2020120219_deploy')
-      expect(json.length).to eq(17)
+      expect(json['uid']).to eq('centos7-min_ppc64le_2021090715_deploy')
+      expect(json.length).to eq(18)
     end
   end
 end

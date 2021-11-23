@@ -21,8 +21,6 @@ module Grid5000
     include ApplicationHelper
     include Swagger::Blocks
 
-    CPU_ARCH = { 'x64' => 'x86_64', 'ppc64' => 'ppc64le', 'arm64' => 'aarch64' }
-
     attr_accessor :base_uri, :user, :tls_options
 
     # Swagger doc
@@ -44,8 +42,8 @@ module Grid5000
 
         property :uid do
           key :type, :string
-          key :description, 'The Environment ID, composed of the name and version.'
-          key :example, 'centos7-ppc64-min_2020120219'
+          key :description, 'The Environment ID, composed of the name, the architecture, the version and the owner.'
+          key :example, 'centos7-min_x86_64_2021090715_deploy'
         end
 
         property :arch do
@@ -303,18 +301,9 @@ module Grid5000
     end
 
     # Make some modification to an environment
-    # Determining architecture is a bit of a hack, until Kadeploy included it
-    # in it's schema
     def format_environment(env)
-      env_arch = env['name'].gsub(/^[A-z0-9]+\-([A-z0-9]+)\-[A-z0-9]+$/, '\1')
-      g5k_arch = if CPU_ARCH.include?(env_arch)
-                   env_arch
-                 else
-                   'x86_64'
-                 end
-
-      env['arch'] = CPU_ARCH.has_key?(g5k_arch) ? CPU_ARCH[g5k_arch] : g5k_arch
-      { 'uid' => env['name'] + '_' + env['version'].to_s + '_' + env['user'] }.merge(env)
+      env['uid'] = env.slice('name','arch','version','user').values.join('_')
+      env
     end
 
     private

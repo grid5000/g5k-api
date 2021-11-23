@@ -232,15 +232,20 @@ module Grid5000
           key :description, 'Version of the environment to use.'
           key :example, 1
         end
+        property :arch do
+          key :type, :string
+          key :description, 'Architecture of the environment to use.'
+          key :example, 'x86_64'
+        end
         property :block_device do
           key :type, :string
           key :description, 'The block device to deploy on.'
-          key :example, '/dev/sdb'
+          key :example, 'disk1'
         end
-        property :partition_number do
-          key :type, :integer
-          key :description, 'The partition number to deploy on.'
-          key :example, 2
+        property :partition_label do
+          key :type, :string
+          key :description, 'The partition label to deploy on.'
+          key :example, 'TMP'
         end
         property :vlan do
           key :type, :integer
@@ -503,10 +508,11 @@ module Grid5000
         params['environment'] = { 'name' => env_name }
         params['environment']['user'] = env_user if env_user
         params['environment']['version'] = version.to_s if version
+        params['environment']['arch'] = arch.to_s if arch
       end
       params['ssh_authorized_keys'] = key if key
       params['nodes'] = nodes.dup
-      params['deploy_part'] = partition_number.to_s if partition_number
+      params['deploy_part'] = partition_label.to_s if partition_label
       params['block_device'] = block_device.to_s if block_device
       params['reformat_tmp_partition'] = reformat_tmp.to_s if reformat_tmp
       params['vlan'] = vlan.to_s if vlan

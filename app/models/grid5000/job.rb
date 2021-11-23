@@ -181,7 +181,7 @@ module Grid5000
       schema :Job do
         key :required, [:uid, :user_uid, :user, :walltime, :queue, :state,
                         :project, :name, :types, :mode, :command, :submitted_at,
-                        :started_at, :stopped_at, :message, :properties,
+                        :started_at, :message, :properties,
                         :directory, :events]
 
         property :uid do
@@ -271,6 +271,12 @@ module Grid5000
           key :type, :integer
           key :description, "The job's stop time (if already stopped), as a timestamp."
           key :example, 1605713607
+        end
+
+        property :scheduled_at do
+          key :type, :integer
+          key :description, "The job's scheduled time (if not already started), as a timestamp."
+          key :example, 1605713939
         end
 
         property :message do
