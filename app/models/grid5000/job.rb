@@ -420,10 +420,15 @@ module Grid5000
 
         property :reservation do
           key :type, :string
-          key :description, 'If you want your job to be scheduled at a specific '\
-            'date, as a UNIX timestamp, OR a string containing a date in a '\
-            'reasonable format.'
-          key :example, '2020-19-12 14:35:00 GMT+0100'
+          key :description, 'Request that the job starts (and optionally ends) at ' \
+            'a specified time using the YYYY-MM-DD hh:mm:ss format. ' \
+            'If YYYY-MM-DD is omitted, it defaults to the current day. ' \
+            'In hh:mm:ss, ss and mm can be omitted. When an end date is provided ' \
+            'the job walltime is inferred, unless provided in the resources ' \
+            'request which prevails. ' \
+            'The special keyword now can be used as the start date to request ' \
+            'an advance reservation job that starts just now.'
+          key :example, '2020-19-12 14:35:00, 2020-19-12 17:35:00'
         end
 
         property :types do
@@ -476,14 +481,8 @@ module Grid5000
     def normalize!
       @state&.downcase!
       @message = nil if @message&.empty?
-      if @reservation.is_a?(String)
-        @reservation = begin
-                         Time.parse(@reservation)
-                       rescue StandardError
-                         nil
-                       end
-      end
-      %w[uid signal exit_code checkpoint anterior submitted_at scheduled_at started_at walltime reservation].each do |integer_field|
+
+      %w[uid signal exit_code checkpoint anterior submitted_at scheduled_at started_at walltime].each do |integer_field|
         value = instance_variable_get "@#{integer_field}"
         instance_variable_set "@#{integer_field}", value.to_i unless value.nil?
       end
@@ -498,7 +497,7 @@ module Grid5000
       when 'oar-2.4-submission'
         h['resource'] = resources
         h['script'] = command
-        h['reservation'] = Time.at(reservation).strftime('%Y-%m-%d %H:%M:%S') unless reservation.nil?
+        h['reservation'] = reservation unless reservation.nil?
         h['property'] = properties unless properties.nil? || properties.empty?
         h['type'] = types unless types.nil? || types.empty?
 
@@ -531,6 +530,30 @@ module Grid5000
     def valid?
       @errors = []
       errors << 'you must give a :command to execute on launch' if submission? && command.blank?
+
+      if reservation
+        reservation_start, reservation_end = reservation.split(',')
+
+        # Regexes taken from oarsub source code
+        time_format = "(0?[0-9]|1[0-9]|2[0-3])(?::(0?[0-9]|[1-5][0-9])(?::(0?[0-9]|[1-5][0-9]))?)?"
+        time_format_regex = /^\s*#{time_format}\s*$/
+        date_format_regex = /^\s*(\d{4}\-(?:0?[0-9]|1[0-2])\-(?:0?[1-9]|[1-2][0-9]|3[0-1]))\s+#{time_format}\s*$/
+
+        if reservation_start !~ date_format_regex &&
+            reservation_start !~ time_format_regex &&
+            reservation_start != 'now'
+          errors << "Syntax error in reservation start date, should at least match the format: "\
+            "'YYYY-MM-DD hh:mm:ss'. Please see documentation for available date syntaxes."
+        end
+
+        if reservation_end &&
+            reservation_end !~ date_format_regex &&
+            reservation_end !~ time_format_regex
+          errors << "Syntax error in reservation end date, should at least match the format: "\
+            "'YYYY-MM-DD hh:mm:ss'. Please see documentation for available date syntaxes."
+        end
+      end
+
       @errors.empty?
     end
   end
