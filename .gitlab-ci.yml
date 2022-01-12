@@ -19,6 +19,7 @@ rubocop:
     - grid5000-docker
   script:
     - apt-get update && apt-get -y --no-install-recommends install rubygems build-essential ruby-dev
+    - gem install activesupport -v 6.0.3.7
     - gem install rubocop rubocop-rails
     - rubocop -l --require rubocop-rails
   except:

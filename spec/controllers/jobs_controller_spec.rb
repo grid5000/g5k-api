@@ -152,6 +152,15 @@ describe JobsController do
       expect(response.body).to eq "Request to #{expected_url} failed with status 400: some error"
     end
 
+    it 'should return 400 if an advance reservation is not valid' do
+      authenticate_as('crohr')
+      payload = @valid_job_attributes
+      payload['reservation'] = '1720'
+      post :create, params: { site_id: 'rennes', format: :json }, body: payload.to_json, as: :json
+      expect(response.status).to eq 400
+      expect(response.body).to eq "The job you are trying to submit is not valid: Syntax error in reservation start date, should at least match the format: 'YYYY-MM-DD hh:mm:ss'. Please see documentation for available date syntaxes."
+    end
+
     it 'should return a 400 error if the OAR API returns 400 error code' do
       payload = @valid_job_attributes.merge('resources' => "{ib30g='YES'}/nodes=2")
       authenticate_as('crohr')

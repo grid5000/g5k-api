@@ -17,12 +17,26 @@ require 'spec_helper'
 describe Grid5000::Job do
   describe 'normalization' do
     it 'should transform into integers a few properties' do
-      now = Time.now
+      now = Time.now.strftime('%Y-%m-%d %H:%M:%S')
       job = Grid5000::Job.new(exit_code: '0', submitted_at: '12345', started_at: '6789', reservation: now, signal: '1', uid: '12321', anterior: '34543', scheduled_at: '56765', walltime: '3600', checkpoint: '7200')
       expect(job.exit_code).to eq(0)
       expect(job.submitted_at).to eq(12_345)
       expect(job.started_at).to eq(6789)
-      expect(job.reservation).to eq(now.to_i)
+      expect(job.reservation).to eq(now)
+      expect(job.signal).to eq(1)
+      expect(job.uid).to eq(12_321)
+      expect(job.anterior).to eq(34_543)
+      expect(job.scheduled_at).to eq(56_765)
+      expect(job.walltime).to eq(3600)
+      expect(job.checkpoint).to eq(7200)
+    end
+
+    it "should keep reservation as 'now'" do
+      job = Grid5000::Job.new(exit_code: '0', submitted_at: '12345', started_at: '6789', reservation: 'now', signal: '1', uid: '12321', anterior: '34543', scheduled_at: '56765', walltime: '3600', checkpoint: '7200')
+      expect(job.exit_code).to eq(0)
+      expect(job.submitted_at).to eq(12_345)
+      expect(job.started_at).to eq(6789)
+      expect(job.reservation).to eq('now')
       expect(job.signal).to eq(1)
       expect(job.uid).to eq(12_321)
       expect(job.anterior).to eq(34_543)
@@ -87,7 +101,7 @@ describe Grid5000::Job do
                                  })
     end
     it 'should export to a hash structure valid for submitting a job to the oarapi' do
-      reservation = Time.parse('2009-11-10 15:54:56')
+      reservation = Time.parse('2009-11-10 15:54:56').strftime('%Y-%m-%d %H:%M:%S')
       job = Grid5000::Job.new(resources: '/nodes=1', reservation: reservation, command: 'id', types: %w[deploy idempotent], walltime: 3600, checkpoint: 40)
       expect(job).to be_valid
       expect(job.to_hash(destination: 'oar-2.4-submission')).to eq({
@@ -111,7 +125,7 @@ describe Grid5000::Job do
     end
 
     it 'should copy import-job-key-from-file to a hash structure' do
-      reservation = Time.parse('2009-11-10 15:54:56')
+      reservation = Time.parse('2009-11-10 15:54:56').strftime('%Y-%m-%d %H:%M:%S')
       job = Grid5000::Job.new(resources: '/nodes=1', reservation: reservation, command: 'id', types: %w[deploy idempotent], walltime: 3600, checkpoint: 40, 'import-job-key-from-file': 'file://abcd')
       expect(job).to be_valid
       expect(job.to_hash(destination: 'oar-2.4-submission')).to eq({
@@ -129,27 +143,22 @@ describe Grid5000::Job do
   describe 'Creating for future submission' do
     before do
       @at = (Time.now + 3600).to_i
-      @valid_properties = { resources: '/nodes=1', reservation: @at, walltime: 3600, command: 'id', directory: '/home/crohr' }
+      @now = Time.now.strftime('%Y-%m-%d %H:%M:%S')
+      @valid_properties = { resources: '/nodes=1', reservation: @now, walltime: 3600, command: 'id', directory: '/home/crohr' }
     end
     it 'should correctly define the required entries for a job to be submitted' do
       job = Grid5000::Job.new(@valid_properties)
       expect(job).to be_valid
       expect(job.resources).to eq('/nodes=1')
-      expect(job.reservation).to eq(@at)
+      expect(job.reservation).to eq(@now)
       expect(job.walltime).to eq(3600)
       expect(job.command).to eq('id')
       expect(job.directory).to eq('/home/crohr')
       expect(job.types).to eq(nil)
     end
-    it 'should be valid if the reservation property is a Time' do
-      job = Grid5000::Job.new(@valid_properties.merge(reservation: Time.at(@at)))
-      expect(job).to be_valid
-      expect(job.reservation).to eq(@at)
-    end
-    it 'should be valid if the reservation property is a parseable date' do
+    it 'should not be valid if the reservation property is not in correct format' do
       job = Grid5000::Job.new(@valid_properties.merge(reservation: '2009/11/10 15:45:00 GMT+0100'))
-      expect(job).to be_valid
-      expect(job.reservation).to eq(Time.parse('2009/11/10 15:45:00 GMT+0100').to_i)
+      expect(job).not_to be_valid
     end
     it 'should should be valid if no command is passed, but this is a reservation' do
       job = Grid5000::Job.new(@valid_properties.merge(command: ''))
