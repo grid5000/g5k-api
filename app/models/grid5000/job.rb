@@ -233,7 +233,7 @@ module Grid5000
           key :example, 'My awesome job'
         end
 
-        property :type do
+        property :types do
           key :type, :array
           items do
             key :type, :string
