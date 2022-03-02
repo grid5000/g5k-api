@@ -1,3 +1,10 @@
+g5k-api (3.10.20) unstable; urgency=low
+
+  * 5b978a5 Fix OpenAPI errors in specification, reported by openapi-cli tool
+  * ea0cb4f Fix a typo for types JSON field in a GET response
+
+ -- Samir Noir <samir.noir@inria.fr>  Wed, 02 Mar 2022 12:24:13 +0100
+
 g5k-api (3.10.19) unstable; urgency=low
 
   * bf98607 Correctly handle 'now' and wrong advance reservations in job model
