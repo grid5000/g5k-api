@@ -48,7 +48,7 @@ module Grid5000
 
       parameter :jobQueue do
         key :name, :queue
-        key :in, :path
+        key :in, :query
         key :description, 'Filter jobs with a specific queue.'
         key :required, false
         schema do

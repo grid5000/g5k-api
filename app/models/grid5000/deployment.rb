@@ -202,7 +202,7 @@ module Grid5000
           key :type, :array
           items do
             key :type, :string
-            key :type, :hostname
+            key :format, :hostname
           end
           key :description, 'An array of nodes FQDN on which you want to deploy '\
             'the new environment image.'

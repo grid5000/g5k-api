@@ -22,10 +22,8 @@ class VlansUsersAllController < ApplicationController
       key :description, 'Fetch list of all users currently using vlans.'
       key :tags, ['vlan']
 
-      [:siteId, :vlanId].each do |param|
-        parameter do
-          key :$ref, param
-        end
+      parameter do
+        key :$ref, :siteId
       end
 
       response 200 do
@@ -61,7 +59,7 @@ class VlansUsersAllController < ApplicationController
       key :description, 'Fetch vlans for a user.'
       key :tags, ['vlan']
 
-      [:siteId, :vlanId].each do |param|
+      [:siteId, :userId].each do |param|
         parameter do
           key :$ref, param
         end

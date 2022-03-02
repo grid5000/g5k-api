@@ -23,7 +23,7 @@ EOL
       end
     end
     server do
-      key :url, 'https://api.grid5000.fr/'
+      key :url, 'https://api.grid5000.fr'
     end
 
     security do
