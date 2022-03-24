@@ -221,7 +221,7 @@ module Grid5000
         end
         property :key do
           key :type, :string
-          key :description, 'The content of your SSH public key file or authorized_keys '
+          key :description, 'The content of your SSH public key file or authorized_keys '\
             '(to provide multiple keys). This can also be an HTTP URL to your SSH public '\
             'key. That key will be dropped in the authorized_keys file of the nodes '\
             'after deployment, so that you can SSH into them as root.'
