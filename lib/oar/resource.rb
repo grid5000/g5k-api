@@ -24,6 +24,7 @@ module OAR
     self.inheritance_column = :_type_disabled
 
     EXCLUDED_TYPES = ['storage', 'metroflux', 'kavlan-topo']
+    CONTAINER_TYPES = ['container', 'placeholder=maintenance', 'placeholder=test', 'placeholder=special']
 
     QUERY_ASSIGNED_RESOURCES = 'SELECT moldable_job_id, resource_id FROM assigned_resources WHERE moldable_job_id IN (%MOLDABLE_IDS%)'.freeze
     QUERY_GANTT_JOBS_RESOURCES = 'SELECT moldable_job_id, resource_id FROM gantt_jobs_resources WHERE moldable_job_id IN (%MOLDABLE_IDS%)'.freeze
@@ -284,6 +285,7 @@ module OAR
           if resource.api_type == 'nodes'
             {
               busy_resources: Set.new,
+              busy_not_container_resources: Set.new,
               besteffort_resources: Set.new,
               totalcores: 0,
               busycounter: 0,
@@ -305,6 +307,7 @@ module OAR
         if oar_job.running?
           if api_type == 'nodes'
             current_data[:busy_resources].add(resource_id)
+            current_data[:busy_not_container_resources].add(resource_id) unless CONTAINER_TYPES.any? {|i| oar_job.types.include?(i)}
             current_data[:besteffort_resources].add(resource_id) if oar_job.besteffort?
           else
             current_data[:soft] = 'busy'
@@ -346,6 +349,12 @@ module OAR
             derived_status[:free_slots] = current_data[:totalcores] - current_data[:busycounter]
             derived_status[:freeable_slots] = current_data[:besteffortcounter]
             derived_status[:busy_slots] = current_data[:busycounter] - current_data[:besteffortcounter]
+          end
+
+          if ( current_data[:busy_not_container_resources].length < current_data[:totalcores] )
+            derived_status[:used_exclusively] = false
+          else
+            derived_status[:used_exclusively] = true
           end
         end
         derived_status
