@@ -188,6 +188,7 @@ module OAR
             api_status_data[resource.api_type][resource.api_name] =
               update_with_job(resource.api_type,
                               api_status_data[resource.api_type][resource.api_name],
+                              resource_id,
                               h[:job],
                               job_for_api)
           end
@@ -282,6 +283,8 @@ module OAR
         initial_data =
           if resource.api_type == 'nodes'
             {
+              busy_resources: Set.new,
+              besteffort_resources: Set.new,
               totalcores: 0,
               busycounter: 0,
               besteffortcounter: 0
@@ -298,11 +301,11 @@ module OAR
         current_data
       end
 
-      def update_with_job(api_type, current_data, oar_job, job_for_api)
+      def update_with_job(api_type, current_data, resource_id, oar_job, job_for_api)
         if oar_job.running?
           if api_type == 'nodes'
-            current_data[:busycounter] += 1
-            current_data[:besteffortcounter] += 1 if oar_job.besteffort?
+            current_data[:busy_resources].add(resource_id)
+            current_data[:besteffort_resources].add(resource_id) if oar_job.besteffort?
           else
             current_data[:soft] = 'busy'
           end
@@ -322,6 +325,8 @@ module OAR
         if api_type == 'nodes'
           # At this stage we have the the complete status over all cores in each node (network_address)
           # Now add logic to sum up the status over all cores and push final status to api_status hash table
+          current_data[:busycounter] = current_data[:busy_resources].length
+          current_data[:besteffortcounter] = current_data[:besteffort_resources].length
           if current_data[:busycounter] > 0
             if current_data[:busycounter] <= current_data[:totalcores] / 2
               derived_status[:soft] = 'free_busy' # more free cores in node than busy cores
