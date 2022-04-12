@@ -285,8 +285,9 @@ module OAR
           if resource.api_type == 'nodes'
             {
               busy_resources: Set.new,
-              busy_not_container_resources: Set.new,
               besteffort_resources: Set.new,
+              busy_resources_not_container: Set.new,
+              reservations_not_container: Set.new,
               totalcores: 0,
               busycounter: 0,
               besteffortcounter: 0
@@ -307,8 +308,11 @@ module OAR
         if oar_job.running?
           if api_type == 'nodes'
             current_data[:busy_resources].add(resource_id)
-            current_data[:busy_not_container_resources].add(resource_id) unless CONTAINER_TYPES.any? {|i| oar_job.types.include?(i)}
             current_data[:besteffort_resources].add(resource_id) if oar_job.besteffort?
+            unless CONTAINER_TYPES.any?{|i| oar_job.types.include?(i)}
+              current_data[:busy_resources_not_container].add(resource_id)
+              current_data[:reservations_not_container].add(oar_job.uid)
+            end
           else
             current_data[:soft] = 'busy'
           end
@@ -351,10 +355,10 @@ module OAR
             derived_status[:busy_slots] = current_data[:busycounter] - current_data[:besteffortcounter]
           end
 
-          if ( current_data[:busy_not_container_resources].length < current_data[:totalcores] )
-            derived_status[:used_exclusively] = false
+          if ( current_data[:busy_resources_not_container].length < current_data[:totalcores] || current_data[:reservations_not_container].length > 1 )
+            derived_status[:exclusive_reservation] = nil
           else
-            derived_status[:used_exclusively] = true
+            derived_status[:exclusive_reservation] = current_data[:reservations_not_container].first
           end
         end
         derived_status
