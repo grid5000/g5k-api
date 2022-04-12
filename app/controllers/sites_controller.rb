@@ -66,11 +66,14 @@ class SitesController < ResourcesController
       key :description, 'Fetch site OAR resources status and reservations.'
       key :tags, ['status']
 
-      [:siteId, :statusDisks, :statusNodes, :statusVlans, :statusSubnets].each do |param|
-        parameter do
-          key :$ref, param
-        end
-      end
+      [
+       :siteId, :statusDisks, :statusNodes, :statusVlans, :statusSubnets,
+       :statusWaiting, :statusJobDetails, :statusNetworkAddress
+      ].each do |param|
+         parameter do
+           key :$ref, param
+         end
+       end
 
       response 200 do
         key :description, "Grid'5000 site's OAR resources status."

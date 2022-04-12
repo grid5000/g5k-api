@@ -28,7 +28,10 @@ class ClustersController < ResourcesController
       key :description, 'Fetch cluster OAR resources status and reservations.'
       key :tags, ['status']
 
-      [:siteId, :clusterId, :statusDisks, :statusNodes].each do |param|
+      [
+       :siteId, :clusterId, :statusDisks, :statusNodes, :statusWaiting,
+       :statusJobDetails, :statusNetworkAddress
+      ].each do |param|
         parameter do
           key :$ref, param
         end
