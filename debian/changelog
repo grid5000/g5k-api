@@ -1,3 +1,10 @@
+g5k-api (3.10.22) unstable; urgency=low
+
+  * e01d6ad Don't try to return a deep view when resources is the end of hierarchy
+  * c374ce7 Add missing query parameters for status API in specification
+
+ -- Samir Noir <samir.noir@inria.fr>  Wed, 13 Apr 2022 11:52:24 +0200
+
 g5k-api (3.10.21) unstable; urgency=low
 
   * 0eaa9e9 Be more accurate about the key field in deployment spec
