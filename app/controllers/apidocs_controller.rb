@@ -216,6 +216,42 @@ EOL
       end
     end
 
+    parameter :statusNetworkAddress do
+      key :name, :network_address
+      key :in, :query
+      key :description, "Get status for specified FQDN's resources only."
+      key :required, false
+      schema do
+        key :type, :string
+      end
+    end
+
+    parameter :statusWaiting do
+      key :name, :waiting
+      key :in, :query
+      key :description, "Get upcoming jobs on resources in 'reservations' Array "\
+        "(in addition to current jobs)."
+      key :required, false
+      schema do
+        key :type, :string
+        key :pattern, '^(no|yes)$'
+        key :default, 'yes'
+      end
+    end
+
+    parameter :statusJobDetails do
+      key :name, :job_details
+      key :in, :query
+      key :description, "Get jobs on resources. When disabled, 'reservations' Array " \
+        "will not be present."
+      key :required, false
+      schema do
+        key :type, :string
+        key :pattern, '^(no|yes)$'
+        key :default, 'yes'
+      end
+    end
+
     schema :BaseApiCollection do
       key :required, [:total, :offset]
 
