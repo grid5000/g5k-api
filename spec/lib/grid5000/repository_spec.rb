@@ -160,6 +160,14 @@ describe Grid5000::Repository do
         expect(result['total']).to eq(32)
         expect(result['items'].map { |i| i['uid'] }.first).to eq('dahu-1')
       end
+      it 'should not deep expand when path is a end of hierarchy' do
+        result = @repository.find_and_expand(
+          'grid5000/sites/grenoble/clusters/dahu/nodes/dahu-1',
+          {deep: true}
+        )
+        expect(result).not_to be_nil
+        expect(result['uid']).to eq('dahu-1')
+      end
       it 'should expand a tree of trees into a collection [sites]' do
         result = @repository.find_and_expand(
           'grid5000/sites'
