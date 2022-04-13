@@ -68,7 +68,7 @@ module Grid5000
         return e
       end
 
-      result = if options[:deep]
+      result = if options[:deep] && instance.lookup(object[:oid]).is_a?(Rugged::Tree)
                  deep_expand(object, path, @commit)
                else
                  expand_object(object, path, @commit)
