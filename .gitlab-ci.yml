@@ -12,18 +12,10 @@ include:
     ref: master
     file: '/sonarqube.yml'
 
-rubocop:
-  image: debian:buster
-  stage: lint
-  tags:
-    - grid5000-docker
-  script:
-    - apt-get update && apt-get -y --no-install-recommends install rubygems build-essential ruby-dev
-    - gem install activesupport -v 6.0.3.7
-    - gem install rubocop rubocop-rails
-    - rubocop -l --require rubocop-rails
-  except:
-    - tags
+include:
+  - project: 'grid5000/grid5000-gitlab-templates'
+    ref: master
+    file: '/rubocop-rails.yml'
 
 test-for-buster: &test-for-buster
   image: debian:buster
