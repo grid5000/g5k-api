@@ -1,3 +1,10 @@
+g5k-api (3.10.23) unstable; urgency=low
+
+  * [dbc5dcd] [ci] use rubocop-rails template
+  * [aff1cda] Update max-persitent-conns to 300
+
+ -- Nicolas Perrin <nicolas.perrin@inria.fr>  Tue, 26 Apr 2022 11:06:18 +0200
+
 g5k-api (3.10.22) unstable; urgency=low
 
   * e01d6ad Don't try to return a deep view when resources is the end of hierarchy
