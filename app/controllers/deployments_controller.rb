@@ -21,11 +21,20 @@ class DeploymentsController < ApplicationController
   swagger_path "/sites/{siteId}/deployments" do
     operation :get do
       key :summary, 'List deployments'
-      key :description, 'Fetch the list of all the deployments created for site. '\
-        'By default, the last 50 deployments are returned.'
+      key :description, "Fetch the list of all the deployments created for site. " \
+        "The default pagination will return #{LIMIT} deployments, it is possible to " \
+        "return up to #{LIMIT_MAX} items by using the `limit` parameter. " \
+        "Use the `offset` parameter to paginate through deployments."
       key :tags, ['deployment']
 
-      [:siteId, :offset, :limit, :deployReverse, :deployStatus, :deployUser].each do |param|
+      parameter do
+        key :$ref, :limit
+        schema do
+          key :default, LIMIT
+        end
+      end
+
+      [:siteId, :offset, :deployReverse, :deployStatus, :deployUser].each do |param|
         parameter do
           key :$ref, param
         end

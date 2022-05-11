@@ -21,11 +21,21 @@ class JobsController < ApplicationController
   swagger_path "/sites/{siteId}/jobs" do
     operation :get do
       key :summary, 'List jobs'
-      key :description, 'Fetch the list of all jobs for site. Jobs ordering is by ' \
-        'descending date of submission.'
+      key :description, "Fetch the list of all jobs for site. Jobs ordering is by " \
+        "descending date of submission. " \
+        "The default pagination will return #{LIMIT} jobs, it is possible to " \
+        "return up to #{LIMIT_MAX} items by using the `limit` parameter. " \
+        "Use the `offset` parameter to paginate through jobs."
       key :tags, ['job']
 
-      [:siteId, :offset, :limit, :jobQueue, :jobName, :jobState,
+      parameter do
+        key :$ref, :limit
+        schema do
+          key :default, LIMIT
+        end
+      end
+
+      [:siteId, :offset, :jobQueue, :jobName, :jobState,
        :jobUser, :jobResources].each do |param|
         parameter do
           key :$ref, param

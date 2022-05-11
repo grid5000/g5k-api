@@ -22,11 +22,21 @@ class VersionsController < ApplicationController
   swagger_path '/versions' do
     operation :get do
       key :summary, 'List reference-repository versions'
-      key :description, 'Fetch a collection of reference-repository git version. '\
-        'A version is a Git commit.'
+      key :description, "Fetch a collection of reference-repository git version. " \
+        "A version is a Git commit. " \
+        "The default pagination will return #{LIMIT} versions, it is possible to " \
+        "return up to #{LIMIT_MAX} items by using the `limit` parameter. " \
+        "Use the `offset` parameter to paginate through versions."
       key :tags, ['version']
 
-      [:branch, :limit, :offset].each do |param|
+      parameter do
+        key :$ref, :limit
+        schema do
+          key :default, LIMIT
+        end
+      end
+
+      [:branch, :offset].each do |param|
         parameter do
           key :$ref, param
         end
