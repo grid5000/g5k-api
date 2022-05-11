@@ -15,6 +15,8 @@
 class VersionsController < ApplicationController
   include Swagger::Blocks
 
+  LIMIT = 100
+  LIMIT_MAX = 500
   MAX_AGE = 60.seconds
 
   swagger_path '/versions' do
@@ -163,7 +165,7 @@ class VersionsController < ApplicationController
       resource_path,
       branch: branch,
       offset: params[:offset],
-      limit: params[:limit]
+      limit: [(params[:limit] || LIMIT).to_i, LIMIT_MAX].min
     )
 
     raise NotFound, "#{resource_path} does not exist." if versions['total'] == 0

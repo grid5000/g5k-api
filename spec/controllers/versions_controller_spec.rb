@@ -33,6 +33,25 @@ describe VersionsController do
       get :index, params: { resource: '/does/not/exist', format: :json }
       expect(response.status).to eq(404)
     end
+
+    it 'should correctly deal with pagination filters' do
+      get :index, params: { resource: '/sites', offset: 11, limit: 3, format: :json }
+      expect(response.status).to eq 200
+      expect(json['total']).to eq 3058
+      expect(json['offset']).to eq 11
+      expect(json['items'].length).to eq 3
+      expect(json['items'].map { |i| i['uid'] }).to eq ['934a0c5afbd52c74c888e00f3217493336563c48',
+                                                        '550c137a9d39acc6726ce19cb1f82159029f86ca',
+                                                        '734cccea54a4267c6d947730821ec852dffd51db']
+    end
+
+    it 'should correctly limit the number of returned items' do
+      get :index, params: { resource: '/sites', offset: 11, limit: 502, format: :json }
+      expect(response.status).to eq 200
+      expect(json['total']).to eq 3058
+      expect(json['offset']).to eq 11
+      expect(json['items'].length).to eq 500
+    end
   end # describe "GET {{resource}}/versions"
 
   describe 'GET {{resource}}/versions/{{version_id}}' do

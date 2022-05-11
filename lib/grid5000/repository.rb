@@ -284,7 +284,10 @@ module Grid5000
       branch, offset, limit = options.values_at(:branch, :offset, :limit)
       branch ||= 'master'
       offset = (offset || 0).to_i
-      limit = (limit || 100).to_i
+      # versions_for() is used from VersionsController, which set `limit`
+      # in the options Hash. The following line is kept to ensure it still
+      # works if options doesn't have `limit`.
+      limit = (limit || VersionsController::LIMIT).to_i
       path = full_path(path)
       commits = []
 
