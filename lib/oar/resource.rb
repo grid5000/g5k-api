@@ -215,9 +215,6 @@ module OAR
                                                 options) do
           usefull_jobs
             .each do |job|
-            if job.moldable_id.nil? || job.moldable_id == 0
-              Rails.logger.warn "job ##{job.job_id} has a bad moldable_id. State is #{job.state}, submitted at #{Time.at(job.submission_time)}; last message is: #{job.message}"
-            else
               active_jobs_by_moldable_id[job.moldable_id] = {
                 # using job.resources will generate a query by job,
                 # and eager loading (the :include => [:job_types, :resources]  will not work
@@ -226,7 +223,6 @@ module OAR
                 resources: Set.new,
                 job: job
               }
-            end
           end
         end
         # if there are jobs
