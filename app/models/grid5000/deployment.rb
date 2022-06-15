@@ -130,7 +130,7 @@ module Grid5000
 
       schema :Deployment do
         key :required, [:uid, :site_uid, :user_uid, :environment, :status,
-                        :nodes, :result, :created_at, :updated_at, :links]
+                        :nodes, :result, :created_at, :links]
 
         property :uid do
           key :type, :string
