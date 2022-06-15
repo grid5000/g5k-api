@@ -1,0 +1,13 @@
+{
+   "cmd_output" : "Walltime change request updated for job 1234, it will be handled shortly",
+   "links" : [
+      {
+         "rel" : "self",
+         "href" : "/oarapi/jobs/1234"
+      }
+   ],
+   "status" : "Accepted",
+   "api_timestamp" : 1663147001,
+   "id" : "1234"
+}
+

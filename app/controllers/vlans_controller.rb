@@ -160,8 +160,8 @@ class VlansController < ApplicationController
     ensure_authenticated!
     allow :put
 
-    unless request.content_type == "application/json"
-      raise UnsupportedMediaType, "Content-Type #{request.content_type} not supported"
+    unless request.content_type == 'application/json'
+      raise UnsupportedMediaType, request.content_type
     end
 
     if params[:vlan].nil? || params[:vlan][:action].nil? ||

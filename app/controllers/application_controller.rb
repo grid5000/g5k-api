@@ -13,6 +13,7 @@
 # limitations under the License.
 
 require 'swagger'
+require 'grid5000/oar_api'
 
 class ApplicationController < ActionController::Base
   include ApplicationHelper
@@ -37,7 +38,11 @@ class ApplicationController < ActionController::Base
 
   # class & subclasses to handle server-side exceptions (Error codes 5xx)
   class ServerError < ActionController::ActionControllerError; end
-  class UnsupportedMediaType < ServerError; end   # Error code 415 (moved to server-side)
+  class UnsupportedMediaType < ClientError        # Error code 415 (moved to server-side)
+    def initialize(content_type)
+      super("Content-Type #{content_type} not supported")
+    end
+  end
   class BadGateway < ServerError; end             # Error code 50x (to be refined later)
   class ServerUnavailable < ServerError; end      # Error code 503
 
@@ -66,6 +71,11 @@ class ApplicationController < ActionController::Base
   rescue_from Grid5000::Errors::BranchNotFound, with: :not_found
   rescue_from Grid5000::Errors::CommitNotFound, with: :not_found
   rescue_from Grid5000::Errors::RefNotFound, with: :not_found
+
+  # exception-handlers for custom oarapi errors
+  rescue_from Grid5000::Errors::JobNotFound, with: :not_found
+  rescue_from Grid5000::Errors::JobForbidden, with: :forbidden
+  rescue_from Grid5000::Errors::JobBadRequest, with: :bad_request
 
   protected
 
