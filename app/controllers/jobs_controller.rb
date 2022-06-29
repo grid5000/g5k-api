@@ -17,6 +17,7 @@ class JobsController < ApplicationController
 
   LIMIT = 50
   LIMIT_MAX = 500
+  OAR_API_TIMEOUT = 300
 
   swagger_path "/sites/{siteId}/jobs" do
     operation :get do
@@ -213,7 +214,7 @@ class JobsController < ApplicationController
     headers = { 'Accept' => api_media_type(:json),
                 'X-Remote-Ident' => @credentials[:cn],
                 'X-Api-User-Cn' => @credentials[:cn] }
-    http = http_request(:delete, uri, tls_options, 180, headers)
+    http = http_request(:delete, uri, tls_options, OAR_API_TIMEOUT, headers)
 
     continue_if!(http, is: [200, 202, 204, 404])
 
@@ -262,7 +263,7 @@ class JobsController < ApplicationController
                 'Content-Type' => api_media_type(:json),
                 'Accept' => api_media_type(:json) }
 
-    http = http_request(:post, uri, tls_options, 180, headers, job_to_send.to_json)
+    http = http_request(:post, uri, tls_options, OAR_API_TIMEOUT, headers, job_to_send.to_json)
 
     continue_if!(http, is: [201, 202])
 
