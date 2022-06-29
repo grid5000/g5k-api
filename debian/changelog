@@ -1,3 +1,11 @@
+g5k-api (3.10.25) unstable; urgency=low
+
+  * fc91c78 Raise timeout toward OAR's api to 300s
+  * 59e9732 Remove non existent schema key ':updated_at' from documentation
+  * 2208ff3 Remove workaround about an OAR issue that has been fixed
+
+ -- Samir Noir <samir.noir@inria.fr>  Wed, 29 Jun 2022 10:22:22 +0200
+
 g5k-api (3.10.24) unstable; urgency=low
 
   * 900c383 Document default pagination parameters in controllers
