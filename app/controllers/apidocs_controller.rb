@@ -6,6 +6,8 @@ class ApidocsController < ActionController::Base
     info do
       key :version, '3.0'
       key :title, "Grid'5000 API"
+      key :'x-logo', {url: 'https://www.grid5000.fr/mediawiki/images/Logo_Grid5000.png',
+                      altText: "Grid'5000 logo"}
       key :description,<<-EOL
 This is the user and developer documentation for the Grid'5000 API. The API allows
 to facilitate interractions and automation with Grid'5000.
