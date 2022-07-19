@@ -36,7 +36,7 @@ module Grid5000
       end
 
       schema :Environment do
-        key :required, [:uid, :arch, :name, :version, :description, :author,
+        key :required, [:uid, :arch, :name, :alias, :version, :description, :author,
                         :visibility, :destructive, :os, :image, :postinstalls,
                         :boot, :filesystem, :partition_type, :multipart, :user]
 
@@ -46,10 +46,22 @@ module Grid5000
           key :example, 'centos7-min_x86_64_2021090715_deploy'
         end
 
+        property :name do
+          key :type, :string
+          key :description, 'The Environment name.'
+          key :example, 'centos7-min'
+        end
+
+        property :alias do
+          key :type, :string
+          key :description, 'The Environment alias.'
+          key :example, 'centos7-x64-min'
+        end
+
         property :arch do
           key :type, :string
           key :description, 'The Environment targeted (CPU) architecture.'
-          key :example, 'ppc64le'
+          key :example, 'x86_64'
         end
 
         property :version do
@@ -72,21 +84,21 @@ module Grid5000
 
         property :visibility do
           key :type, :string
-          key :description, 'The Environment visibility in kadeploy/kaenv tools.' \
+          key :description, 'The Environment visibility in kadeploy/kaenv tools. ' \
             'Can be private, shared or public'
           key :example, 'public'
         end
 
         property :destructive do
           key :type, :boolean
-          key :description, 'If the environment has to be re-deployed at the end' \
+          key :description, 'If the environment has to be re-deployed at the end ' \
             'of job.'
           key :example, true
         end
 
         property :os do
           key :type, :string
-          key :description, 'The OS of the environment, on Grid\'5000 generally linux' \
+          key :description, 'The OS of the environment, on Grid\'5000 generally linux ' \
             'or xen.'
           key :example, 'linux'
         end
@@ -105,13 +117,13 @@ module Grid5000
             key :type, :string
             key :description, 'The kind of image.'
             key :example, 'tar'
-            key :pattern, '^(tar|dd|fsa)$'
+            key :enum, ['tar','dd','fsa']
           end
 
           property :compression do
             key :type, :string
             key :description, 'The compression algorithm used to compress the image.'
-            key :example, 'gzip'
+            key :example, 'zstd'
           end
         end
 

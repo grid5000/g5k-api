@@ -150,13 +150,13 @@ module Grid5000
         property :environment do
           key :type, :string
           key :description, 'The deployed environment.'
-          key :example, 'debian10-x64-std'
+          key :example, 'debian11-std'
         end
         property :status do
           key :type, :string
           key :description, 'The deployment status (waiting, processing, canceled, '\
             'terminated, error).'
-          key :example, 'debian10-x64-std'
+          key :example, 'debian11-std'
         end
         property :nodes do
           key :type, :array
@@ -211,13 +211,13 @@ module Grid5000
         end
         property :environment do
           key :type, :string
-          key :description, 'The name of an environment that belongs to you or '\
+          key :description, 'The name (or alias) of an environment that belongs to you or '\
             'whose visibility is public (e.g. debian10-x64-base), OR the name of '\
             'an environment that is owned by another user but with visibility '\
             'set to shared (e.g. env-name@user-uid), OR the HTTP or HTTPS URL '\
             'to a file describing your environment (this has the advantage that '\
             'you do not need to register it in the kadeploy database).'
-          key :example, 'debian10-x64-min'
+          key :example, 'debian10-min'
         end
         property :key do
           key :type, :string
@@ -235,6 +235,7 @@ module Grid5000
         property :arch do
           key :type, :string
           key :description, 'Architecture of the environment to use.'
+          key :enum, ['x86_64', 'ppc64le', 'aarch64']
           key :example, 'x86_64'
         end
         property :block_device do

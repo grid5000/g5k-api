@@ -63,6 +63,12 @@ EOL
     end
 
     tag do
+      key :name, 'environment'
+      key :description, 'The environment API is used to manage environments '\
+        'that can be deploy with the deployment API.'
+    end
+
+    tag do
       key :name, 'vlan'
       key :description, "The vlan API allows to get informations about vlans and to "\
         "manipulate them. For example, it is possible to put deployed nodes in "\
@@ -172,7 +178,7 @@ EOL
       key :required, false
       schema do
         key :type, :string
-        key :pattern, '^(no|yes)$'
+        key :enum, ['no', 'yes']
         key :default, 'yes'
       end
     end
@@ -185,7 +191,7 @@ EOL
       key :required, false
       schema do
         key :type, :string
-        key :pattern, '^(no|yes)$'
+        key :enum, ['no', 'yes']
         key :default, 'yes'
       end
     end
@@ -198,7 +204,7 @@ EOL
       key :required, false
       schema do
         key :type, :string
-        key :pattern, '^(no|yes)$'
+        key :enum, ['no', 'yes']
         key :default, 'yes'
       end
     end
@@ -211,7 +217,7 @@ EOL
       key :required, false
       schema do
         key :type, :string
-        key :pattern, '^(no|yes)$'
+        key :enum, ['no', 'yes']
         key :default, 'yes'
       end
     end
@@ -234,7 +240,7 @@ EOL
       key :required, false
       schema do
         key :type, :string
-        key :pattern, '^(no|yes)$'
+        key :enum, ['no', 'yes']
         key :default, 'yes'
       end
     end
@@ -247,7 +253,7 @@ EOL
       key :required, false
       schema do
         key :type, :string
-        key :pattern, '^(no|yes)$'
+        key :enum, ['no', 'yes']
         key :default, 'yes'
       end
     end
