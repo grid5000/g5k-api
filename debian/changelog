@@ -1,3 +1,10 @@
+g5k-api (3.10.26) unstable; urgency=low
+
+  * [a99f105] Update some dependencies
+  * [d149662] Revert "Update max-persitent-conns to 300"
+
+ -- Nicolas Perrin <nicolas.perrin@inria.fr>  Thu, 21 Jul 2022 15:05:28 +0200
+
 g5k-api (3.10.25) unstable; urgency=low
 
   * fc91c78 Raise timeout toward OAR's api to 300s
