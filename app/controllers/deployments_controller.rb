@@ -239,8 +239,17 @@ class DeploymentsController < ApplicationController
     begin
       dpl.launch || raise(ServerError,
                           dpl.errors.full_messages.join('; ').to_s)
-    rescue Exception => e
-      raise ServerError, "Cannot launch deployment: #{e.message}"
+    rescue => e
+      error_msg_prefix = 'Cannot launch deployment: '
+
+      case e
+      when Grid5000::Errors::KadeployServerError
+        raise ServerError, error_msg_prefix + e.message
+      when Grid5000::Errors::KadeployBadRequest
+        raise BadRequest, error_msg_prefix + e.message
+      else
+        raise ServerError, error_msg_prefix + e.message
+      end
     end
 
     location_uri = uri_to(

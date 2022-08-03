@@ -417,9 +417,10 @@ module Grid5000
       if %w[200 201 202 204].include?(http.code.to_s)
         update_attribute(:uid, JSON.parse(http.body)['wid'])
       else
-        error(get_kaerror(http, http.header))
         # Cannot continue since :uid is not set
-        raise output + "\n"
+        error
+        kaerror_exception, kaerror_msg = get_kaerror(http, http.header)
+        raise kaerror_exception, kaerror_msg
       end
 
       true
@@ -445,9 +446,9 @@ module Grid5000
             uri = File.join(base_uri, uid, 'error')
             http = http_request(:get, uri, tls_options, 15, headers)
           rescue StandardError
-            error(get_kaerror(http, http.header))
+            kaerror_exception, _ = get_kaerror(http, http.header)
             error("Unable to contact #{File.join(base_uri, uid, 'error')}")
-            raise output + "\n"
+            raise kaerror_exception, output
           end
 
           return
@@ -480,14 +481,21 @@ module Grid5000
 
     def get_kaerror(resp, hdr)
       if hdr['X_APPLICATION_ERROR_CODE'] && hdr['X_APPLICATION_ERROR_INFO']
-        "Kadeploy error ##{hdr['X_APPLICATION_ERROR_CODE']}: #{Base64.strict_decode64(hdr['X_APPLICATION_ERROR_INFO'])}"
+        [Errors::KadeployServerError, "Kadeploy error ##{hdr['X_APPLICATION_ERROR_CODE']}: #{Base64.strict_decode64(hdr['X_APPLICATION_ERROR_INFO'])}"]
+      elsif resp.code.to_i == 400
+        [Errors::KadeployBadRequest, resp.body]
       else
-        "HTTP error ##{resp.code}: #{resp.body}"
+        # Before the introduction of KadeployError classes, the controller only responded
+        # with 500 error. This is why this stays the default, new KadeployError types
+        # need to be added if the time come to handle more cases.
+        [Errors::KadeployServerError, resp.body]
       end
     end
 
-    def error(msg)
-      self.output = msg
+    def error(msg = nil)
+      if msg
+        self.output = msg
+      end
 
       # Delete the workflow from the kadeploy server
       cancel_workflow! if uid
@@ -523,5 +531,11 @@ module Grid5000
 
       params
     end
+  end
+
+  module Errors
+    class KadeployError < StandardError ; end
+    class KadeployServerError < KadeployError ; end
+    class KadeployBadRequest < KadeployError ; end
   end
 end
