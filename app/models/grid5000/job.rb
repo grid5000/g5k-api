@@ -532,25 +532,29 @@ module Grid5000
       errors << 'you must give a :command to execute on launch' if submission? && command.blank?
 
       if reservation
-        reservation_start, reservation_end = reservation.split(',')
+        if reservation.is_a?(String)
+          reservation_start, reservation_end = reservation.split(',')
 
-        # Regexes taken from oarsub source code
-        time_format = "(0?[0-9]|1[0-9]|2[0-3])(?::(0?[0-9]|[1-5][0-9])(?::(0?[0-9]|[1-5][0-9]))?)?"
-        time_format_regex = /^\s*#{time_format}\s*$/
-        date_format_regex = /^\s*(\d{4}\-(?:0?[0-9]|1[0-2])\-(?:0?[1-9]|[1-2][0-9]|3[0-1]))\s+#{time_format}\s*$/
+          # Regexes taken from oarsub source code
+          time_format = "(0?[0-9]|1[0-9]|2[0-3])(?::(0?[0-9]|[1-5][0-9])(?::(0?[0-9]|[1-5][0-9]))?)?"
+          time_format_regex = /^\s*#{time_format}\s*$/
+            date_format_regex = /^\s*(\d{4}\-(?:0?[0-9]|1[0-2])\-(?:0?[1-9]|[1-2][0-9]|3[0-1]))\s+#{time_format}\s*$/
 
-        if reservation_start !~ date_format_regex &&
-            reservation_start !~ time_format_regex &&
-            reservation_start != 'now'
+            if reservation_start !~ date_format_regex &&
+              reservation_start !~ time_format_regex &&
+              reservation_start != 'now'
           errors << "Syntax error in reservation start date, should at least match the format: "\
             "'YYYY-MM-DD hh:mm:ss'. Please see documentation for available date syntaxes."
-        end
+            end
 
-        if reservation_end &&
-            reservation_end !~ date_format_regex &&
-            reservation_end !~ time_format_regex
-          errors << "Syntax error in reservation end date, should at least match the format: "\
-            "'YYYY-MM-DD hh:mm:ss'. Please see documentation for available date syntaxes."
+          if reservation_end &&
+              reservation_end !~ date_format_regex &&
+              reservation_end !~ time_format_regex
+            errors << "Syntax error in reservation end date, should at least match the format: "\
+              "'YYYY-MM-DD hh:mm:ss'. Please see documentation for available date syntaxes."
+          end
+        else
+          errors << "`reservation` should be a String."
         end
       end
 
