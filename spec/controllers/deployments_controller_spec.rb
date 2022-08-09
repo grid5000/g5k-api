@@ -122,10 +122,10 @@ describe DeploymentsController do
       post :create, params: { site_id: 'rennes', format: :json }, body: @valid_attributes.to_json, as: :json
 
       expect(response.status).to eq(500)
-      expect(response.body).to eq('Cannot launch deployment: some error message')
+      expect(response.body).to eq('some error message')
     end
 
-    it 'should return 500 if the deploymet cannot be launched' do
+    it 'should return 500 if the deployment cannot be launched' do
       expect(Grid5000::Deployment).to receive(:new).with(@valid_attributes)
                                                    .and_return(@deployment)
 
@@ -166,6 +166,34 @@ describe DeploymentsController do
       dep = Grid5000::Deployment.find_by_uid('kadeploy-api-provided-wid')
       expect(dep).not_to be_nil
       expect(dep.status?(:processing)).to be true
+    end
+
+    it 'should return 400 if the deployment cannot be launched and Kadeploy sent a 400' do
+      authenticate_as('crohr')
+      expected_url = 'http://api-out.local/sites/rennes/internal/kadeployapi/deployment/'
+      stub_request(:post, expected_url)
+        .with(
+          headers: {
+            'Accept' => api_media_type(:json),
+            'Content-Type' => api_media_type(:json),
+            'X-Remote-Ident' => 'crohr',
+            'User-Agent' => 'g5k-api',
+          },
+          body: {"environment": {"name":"sno_test_env", "kind":"database"},
+                 "nodes":["parasilo-1.rennes.grid5000.fr"], "hook":true}.to_json
+        )
+        .to_return(
+          headers: { 'Location' => expected_url },
+          status: [400, 'Bad Request'],
+          body: 'Invalid environment specification -- the environment sno_test_env::: does not exist'
+        )
+
+      post :create, params: { site_id: 'rennes', format: :json },
+        body: {"nodes":["parasilo-1.rennes.grid5000.fr"], "environment":"sno_test_env"}.to_json,
+        as: :json
+
+      expect(response.status).to eq(400)
+      expect(response.body).to eq('Cannot launch deployment: Invalid environment specification -- the environment sno_test_env::: does not exist')
     end
   end # describe "POST /sites/{{site_id}}/deployments"
 
