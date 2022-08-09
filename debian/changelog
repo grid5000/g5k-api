@@ -1,3 +1,10 @@
+g5k-api (3.10.27) unstable; urgency=low
+
+  * 33d0241 Respond with 400 http status when Kadeploy return a BadRequest error
+  * eb6655f Return a 400 with a message if `reservation` field is not a String
+
+ -- Samir Noir <samir.noir@inria.fr>  Tue, 09 Aug 2022 10:15:45 +0200
+
 g5k-api (3.10.26) unstable; urgency=low
 
   * [a99f105] Update some dependencies
