@@ -259,7 +259,7 @@ module Grid5000
         end
         property :disable_disk_partitioning do
           key :type, :boolean
-          key :description, 'Disable the disk partioning.'
+          key :description, 'Disable the disk partitioning.'
           key :default, false
           key :example, true
         end
