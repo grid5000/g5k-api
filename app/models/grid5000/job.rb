@@ -105,7 +105,7 @@ module Grid5000
         key :required, false
         schema do
           key :type, :string
-          key :pattern, '^(no|yes)$'
+          key :enum, ['yes', 'no']
           key :default, 'no'
         end
       end

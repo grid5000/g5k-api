@@ -25,7 +25,7 @@ class EnvironmentsController < ApplicationController
       key :summary, 'List environments'
       key :description, "Fetch the list of all the public and authenticated user's "\
         "environments for site."
-      key :tags, ['deployment']
+      key :tags, ['environment']
 
       [:siteId, :latest_only, :user, :arch, :name].each do |param|
         parameter do
@@ -55,7 +55,7 @@ class EnvironmentsController < ApplicationController
         key :type, :string
         key :default, 'yes'
         key :example, 'no'
-        key :pattern, '^(yes|no)$'
+        key :enum, ['no', 'yes']
       end
     end
 
@@ -75,7 +75,7 @@ class EnvironmentsController < ApplicationController
       key :description, 'Fetch environments with the specified name.'
       schema do
         key :type, :string
-        key :example, 'centos7-ppc64-min'
+        key :example, 'centos8-min'
       end
     end
 
@@ -85,7 +85,7 @@ class EnvironmentsController < ApplicationController
       key :description, 'Fetch environments for a specific CPU architecture.'
       schema do
         key :type, :string
-        key :example, 'ppc64'
+        key :example, 'ppc64le'
       end
     end
   end
@@ -114,7 +114,7 @@ class EnvironmentsController < ApplicationController
     operation :get do
       key :summary, 'Get environment'
       key :description, 'Fetch a specific environment.'
-      key :tags, ['deployment']
+      key :tags, ['environment']
 
       [:siteId, :environmentId].each do |param|
         parameter do

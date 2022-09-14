@@ -6,6 +6,8 @@ class ApidocsController < ActionController::Base
     info do
       key :version, '3.0'
       key :title, "Grid'5000 API"
+      key :'x-logo', {url: 'https://www.grid5000.fr/mediawiki/images/Logo_Grid5000.png',
+                      altText: "Grid'5000 logo"}
       key :description,<<-EOL
 This is the user and developer documentation for the Grid'5000 API. The API allows
 to facilitate interractions and automation with Grid'5000.
@@ -60,6 +62,12 @@ EOL
       key :name, 'deployment'
       key :description, 'The deployment API is use if you want to deploy a specific '\
         'environment image on the nodes you have reserved. It uses the Kadeploy tool.'
+    end
+
+    tag do
+      key :name, 'environment'
+      key :description, 'The environment API is used to manage environments '\
+        'that can be deploy with the deployment API.'
     end
 
     tag do
@@ -172,7 +180,7 @@ EOL
       key :required, false
       schema do
         key :type, :string
-        key :pattern, '^(no|yes)$'
+        key :enum, ['no', 'yes']
         key :default, 'yes'
       end
     end
@@ -185,7 +193,7 @@ EOL
       key :required, false
       schema do
         key :type, :string
-        key :pattern, '^(no|yes)$'
+        key :enum, ['no', 'yes']
         key :default, 'yes'
       end
     end
@@ -198,7 +206,7 @@ EOL
       key :required, false
       schema do
         key :type, :string
-        key :pattern, '^(no|yes)$'
+        key :enum, ['no', 'yes']
         key :default, 'yes'
       end
     end
@@ -211,7 +219,7 @@ EOL
       key :required, false
       schema do
         key :type, :string
-        key :pattern, '^(no|yes)$'
+        key :enum, ['no', 'yes']
         key :default, 'yes'
       end
     end
@@ -234,7 +242,7 @@ EOL
       key :required, false
       schema do
         key :type, :string
-        key :pattern, '^(no|yes)$'
+        key :enum, ['no', 'yes']
         key :default, 'yes'
       end
     end
@@ -247,7 +255,7 @@ EOL
       key :required, false
       schema do
         key :type, :string
-        key :pattern, '^(no|yes)$'
+        key :enum, ['no', 'yes']
         key :default, 'yes'
       end
     end
