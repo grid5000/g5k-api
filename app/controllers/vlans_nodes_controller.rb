@@ -123,7 +123,7 @@ class VlansNodesController < ApplicationController
     allow :post
 
     unless request.content_type == "application/json"
-      raise UnsupportedMediaType, "Content-Type #{request.content_type} not supported"
+      raise UnsupportedMediaType, request.content_type
     end
 
     if params[:vlans_node][:_json].blank? || !params[:vlans_node][:_json].is_a?(Array)

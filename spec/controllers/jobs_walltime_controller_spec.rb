@@ -170,5 +170,19 @@ describe JobsWalltimeController do
                                     "delay_next_jobs, force, whole must be a Boolean"
       end
     end
+
+    it 'should return 415 when changing walltime with a wrong Content-Type' do
+      stub_request(:post, File.join(@base_expected_uri, 'jobs/1234.json')).
+        with(
+          headers: {
+            'Host'=>'api-out.local',
+          }).
+          to_return(status: 202, body: fixture('oarapi-grenoble-job_1234-accepted.json'), headers: {})
+
+      authenticate_as('snoir')
+      post :update, params: { site_id: 'grenoble', id: 1234}, body: { walltime: '+01h' }.to_json
+      expect(response.status).to eq 415
+      expect(response.body).to eq "Content-Type 'application/x-www-form-urlencoded' is not supported"
+    end
   end
 end

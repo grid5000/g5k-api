@@ -40,7 +40,7 @@ class ApplicationController < ActionController::Base
   class ServerError < ActionController::ActionControllerError; end
   class UnsupportedMediaType < ClientError        # Error code 415 (moved to server-side)
     def initialize(content_type)
-      super("Content-Type #{content_type} not supported")
+      super("Content-Type '#{content_type}' is not supported")
     end
   end
   class BadGateway < ServerError; end             # Error code 50x (to be refined later)
@@ -58,11 +58,10 @@ class ApplicationController < ActionController::Base
   rescue_from MethodNotAllowed, with: :method_not_allowed           # for 405
   rescue_from NotAcceptable, with: :not_acceptable                  # for 406
   rescue_from PreconditionFailed, with: :precondition_failed        # for 412
+  rescue_from UnsupportedMediaType, with: :unsupported_media_type   # for 415
   rescue_from UnprocessableEntity, with: :unprocessable_entity      # for 422
 
   # exception-handlers for client-side exceptions
-  # agreed to send exception to server_error (instead of unsupported_media_type)
-  rescue_from UnsupportedMediaType, with: :server_error             # for 415
   rescue_from ServerError, with: :server_error                      # for 500
   rescue_from BadGateway, with: :bad_gateway                        # for 502
   rescue_from ServerUnavailable, with: :server_unavailable          # for 503
