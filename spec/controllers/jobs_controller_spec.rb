@@ -297,7 +297,7 @@ describe JobsController do
         )
       delete :destroy, params: { site_id: 'rennes', id: @job.uid, format: :json }
       expect(response.status).to eq 404
-      expect(response.body).to eq 'Cannot find job#374172 on the OAR server'
+      expect(response.body).to eq "Job id '374172' cannot be found."
     end
 
     it 'should fail if the OAR api does not return 200, 202 or 204' do

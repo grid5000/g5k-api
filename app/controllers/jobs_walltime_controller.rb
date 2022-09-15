@@ -1,9 +1,6 @@
 class JobsWalltimeController < ApplicationController
+  include OarConcern
   include Swagger::Blocks
-
-  OAR_API_TIMEOUT = 300
-
-  before_action :load_oarapi
 
   swagger_path "/sites/{siteId}/jobs/{jobId}/walltime" do
     operation :get do

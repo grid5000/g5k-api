@@ -26,6 +26,8 @@ module Grid5000
 
     def get_job_walltime_change(job_id)
       http = call_oarapi(File.join(base_uri, job_id, 'details.json'), :get)
+      continue_if!(http, is: [200, 404])
+
       if http.code.to_i == 404
         raise Errors::JobNotFound, job_id
       else
@@ -39,6 +41,8 @@ module Grid5000
       payload.delete('errors')
 
       http = call_oarapi(File.join(base_uri, job_id + '.json'), :post, payload.to_json)
+      continue_if!(http, is: [201, 202, 400, 403, 404])
+
       case http.code.to_i
       when 404
         raise Errors::JobNotFound, job_id
@@ -51,12 +55,32 @@ module Grid5000
       end
     end
 
+    def create_job(job)
+      http = call_oarapi(base_uri + '.json', :post, job.to_json)
+      continue_if!(http, is: [201, 202])
+
+      http.body
+    end
+
+    def destroy_job(job_id)
+      http = call_oarapi(File.join(base_uri, job_id) + '.json', :delete)
+      continue_if!(http, is: [200, 202, 204, 404])
+
+      if http.code.to_i == 404
+        raise Errors::JobNotFound, job_id
+      end
+
+      http.body
+    end
+
     private
 
     def call_oarapi(uri, method, payload = nil)
       begin
-        headers = { 'Content-Type' => Mime::Type.lookup_by_extension(:json).to_s,
-                    'X-Api-User-Cn' => user }
+        headers = { 'Content-Type'   => Mime::Type.lookup_by_extension(:json).to_s,
+                    'Accept'         => Mime::Type.lookup_by_extension(:json).to_s,
+                    'X-Remote-Ident' => user,
+                    'X-Api-User-Cn'  => user}
         http_request(method, uri, tls_options, OAR_API_TIMEOUT, headers, payload)
       rescue StandardError
         raise "Unable to contact #{uri}"

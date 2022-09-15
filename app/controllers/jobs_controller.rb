@@ -13,11 +13,11 @@
 # limitations under the License.
 
 class JobsController < ApplicationController
+  include OarConcern
   include Swagger::Blocks
 
   LIMIT = 50
   LIMIT_MAX = 500
-  OAR_API_TIMEOUT = 300
 
   swagger_path "/sites/{siteId}/jobs" do
     operation :get do
@@ -204,41 +204,25 @@ class JobsController < ApplicationController
     job = OAR::Job.find(params[:id])
     authorize!(job.user)
 
-    uri = uri_to(
-      site_path(
-        params[:site_id]
-      ) + "/internal/oarapi/jobs/#{params[:id]}.json",
-      :out
+    result = @oarapi.destroy_job(params[:id])
+
+    response.header['X-Oar-Info'] = begin
+                                      (
+                                        JSON.parse(result)['oardel_output'] || ''
+                                      ).split("\n").join(' ')
+                                    rescue StandardError
+                                      '-'
+                                    end
+
+    location_uri = uri_to(
+      resource_path(params[:id]),
+      :in, :absolute
     )
-    tls_options = tls_options_for(:out)
-    headers = { 'Accept' => api_media_type(:json),
-                'X-Remote-Ident' => @credentials[:cn],
-                'X-Api-User-Cn' => @credentials[:cn] }
-    http = http_request(:delete, uri, tls_options, OAR_API_TIMEOUT, headers)
 
-    continue_if!(http, is: [200, 202, 204, 404])
-
-    if http.code.to_i == 404
-      raise NotFound, "Cannot find job##{params[:id]} on the OAR server"
-    else
-      response.header['X-Oar-Info'] = begin
-                                        (
-                                          JSON.parse(http.body)['oardel_output'] || ''
-                                        ).split("\n").join(' ')
-                                      rescue StandardError
-                                        '-'
-                                      end
-
-      location_uri = uri_to(
-        resource_path(params[:id]),
-        :in, :absolute
-      )
-
-      render  plain: '',
-              head: :ok,
-              location: location_uri,
-              status: 202
-    end
+    render  plain: '',
+      head: :ok,
+      location: location_uri,
+      status: 202
   end
 
   # Create a new Job. Client must be authenticated.
@@ -254,20 +238,9 @@ class JobsController < ApplicationController
     job_to_send = job.to_hash(destination: 'oar-2.4-submission')
     Rails.logger.info "Submitting #{job_to_send.inspect}"
 
-    uri = uri_to(
-      site_path(params[:site_id]) + '/internal/oarapi/jobs.json', :out
-    )
-    tls_options = tls_options_for(:out)
-    headers = { 'X-Remote-Ident' => @credentials[:cn],
-                'X-Api-User-Cn' => @credentials[:cn],
-                'Content-Type' => api_media_type(:json),
-                'Accept' => api_media_type(:json) }
+    result = @oarapi.create_job(job_to_send)
 
-    http = http_request(:post, uri, tls_options, OAR_API_TIMEOUT, headers, job_to_send.to_json)
-
-    continue_if!(http, is: [201, 202])
-
-    job_uid = JSON.parse(http.body)['id']
+    job_uid = JSON.parse(result)['id']
     location_uri = uri_to(
       resource_path(job_uid),
       :in, :absolute
@@ -333,5 +306,17 @@ class JobsController < ApplicationController
         'type' => api_media_type(:g5kitemjson)
       }
     ]
+  end
+
+  private
+
+  def api_path
+    uri_to(
+      File.join(
+        site_path(params[:site_id]),
+        '/internal/oarapi/jobs'
+      ),
+      :out
+    )
   end
 end
