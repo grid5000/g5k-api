@@ -480,6 +480,9 @@ module Grid5000
       end
     end
 
+    # TODO: look at continue_if! helper if it can be used in this model. This
+    # will allow to always return the same HTTP return code as Kadeploy's one,
+    # and make custom treatments when needed.
     def get_kaerror(resp, hdr)
       if hdr['X_APPLICATION_ERROR_CODE'] && hdr['X_APPLICATION_ERROR_INFO']
         [Errors::KadeployServerError, "Kadeploy error ##{hdr['X_APPLICATION_ERROR_CODE']}: #{Base64.strict_decode64(hdr['X_APPLICATION_ERROR_INFO'])}"]
