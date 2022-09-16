@@ -14,6 +14,7 @@
 
 require 'swagger'
 require 'grid5000/oar_api'
+require 'grid5000/kavlan'
 
 class ApplicationController < ActionController::Base
   include ApplicationHelper
@@ -75,6 +76,10 @@ class ApplicationController < ActionController::Base
   rescue_from Grid5000::Errors::OarApi::NotFound, with: :not_found
   rescue_from Grid5000::Errors::OarApi::Forbidden, with: :forbidden
   rescue_from Grid5000::Errors::OarApi::BadRequest, with: :bad_request
+
+  # exception-handlers for custom kavlanapi errors
+  rescue_from Grid5000::Errors::Kavlan::UnknownNode, with: :not_found
+  rescue_from Grid5000::Errors::Kavlan::Forbidden, with: :forbidden
 
   protected
 

@@ -127,16 +127,13 @@ class VlansNodesController < ApplicationController
     end
 
     if params[:vlans_node][:_json].blank? || !params[:vlans_node][:_json].is_a?(Array)
-      raise UnprocessableEntity, "Missing node list"
+      raise UnprocessableEntity, 'Missing node list'
     end
 
-    http = @kavlan.update_vlan_nodes(params[:vlan_id], params[:vlans_node][:_json])
-    if http.code.to_i == 403
-      raise Forbidden, "Not enough privileges on Kavlan resources"
-    end
+    kavlan_result = @kavlan.update_vlan_nodes(params[:vlan_id], params[:vlans_node][:_json])
 
     result = {}
-    kavlan_result = JSON.parse(http.body)
+    kavlan_result = JSON.parse(kavlan_result)
 
     params[:vlans_node][:_json].each do |node|
       result[node] = {}

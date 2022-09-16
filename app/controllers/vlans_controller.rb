@@ -170,14 +170,10 @@ class VlansController < ApplicationController
       raise UnprocessableEntity, "An action ('start' or 'stop') should be provided"
     end
 
-    result = @kavlan.dhcpd(params[:id], params[:vlan])
-
-    if result.code.to_i == 403
-      raise Forbidden, "Not enough privileges on Kavlan resources"
-    end
+    @kavlan.dhcpd(params[:id], params[:vlan])
 
     render plain: '',
-           status: result.code
+           status: 204
   end
 
   protected
