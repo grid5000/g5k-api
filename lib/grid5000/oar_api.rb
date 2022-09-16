@@ -29,7 +29,7 @@ module Grid5000
       continue_if!(http, is: [200, 404])
 
       if http.code.to_i == 404
-        raise Errors::JobNotFound, job_id
+        raise Errors::OarApi::NotFound, job_id
       else
         JSON.parse(http.body)['walltime-change']
       end
@@ -45,11 +45,11 @@ module Grid5000
 
       case http.code.to_i
       when 404
-        raise Errors::JobNotFound, job_id
+        raise Errors::OarApi::NotFound, job_id
       when 403
-        raise Errors::JobForbidden, JSON.parse(http.body)['message']
+        raise Errors::OarApi::Forbidden, JSON.parse(http.body)['message']
       when 400
-        raise Errors::JobBadRequest, JSON.parse(http.body)['message']
+        raise Errors::OarApi::BadRequest, JSON.parse(http.body)['message']
       else
         JSON.parse(http.body)['cmd_output']
       end
@@ -67,7 +67,7 @@ module Grid5000
       continue_if!(http, is: [200, 202, 204, 404])
 
       if http.code.to_i == 404
-        raise Errors::JobNotFound, job_id
+        raise Errors::OarApi::NotFound, job_id
       end
 
       http.body
@@ -89,19 +89,18 @@ module Grid5000
   end
 
   module Errors
-    class OarApiError < StandardError
-    end
-
-    class JobNotFound < OarApiError
-      def initialize(job_id)
-        super("Job id '#{job_id}' cannot be found.")
+    module OarApi
+      class NotFound < StandardError
+        def initialize(job_id)
+          super("Job id '#{job_id}' cannot be found.")
+        end
       end
-    end
 
-    class JobForbidden < OarApiError
-    end
+      class Forbidden < StandardError
+      end
 
-    class JobBadRequest < OarApiError
+      class BadRequest < StandardError
+      end
     end
   end
 end

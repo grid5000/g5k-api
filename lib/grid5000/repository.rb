@@ -208,7 +208,7 @@ module Grid5000
         begin
           instance.lookup(version)
         rescue
-          raise Errors::CommitNotFound.new(version)
+          raise Errors::Repository::CommitNotFound.new(version)
         end
       elsif timestamp || date
         if timestamp
@@ -217,7 +217,7 @@ module Grid5000
           ts = Time.parse(date).to_i
         end
 
-        raise Errors::BranchNotFound.new(branch) if instance.branches[branch].nil?
+        raise Errors::Repository::BranchNotFound.new(branch) if instance.branches[branch].nil?
 
         walker = Rugged::Walker.new(instance)
         walker.sorting(Rugged::SORT_NONE)
@@ -232,7 +232,7 @@ module Grid5000
         find_commit_for(nil, options.merge(version: sha))
       else
         if path
-          raise Errors::BranchNotFound.new(branch) unless instance.branches.exist?(branch)
+          raise Errors::Repository::BranchNotFound.new(branch) unless instance.branches.exist?(branch)
           walker = Rugged::Walker.new(instance)
           walker.sorting(Rugged::SORT_NONE)
           walker.push(instance.branches[branch].target.oid)
@@ -297,7 +297,7 @@ module Grid5000
               begin
                 instance.exists?(branch)
               rescue
-                raise Errors::RefNotFound.new(branch)
+                raise Errors::Repository::RefNotFound.new(branch)
               end
 
               instance.lookup(branch).oid
@@ -356,35 +356,34 @@ module Grid5000
   end
 
   module Errors
-    class RepositoryError < StandardError
-    end
-
-    class BranchNotFound < RepositoryError
-      def initialize(branch = nil)
-        if branch
-          super("Branch '#{branch}' cannot be found.")
-        else
-          super('Branch cannot be found.')
+    module Repository
+      class BranchNotFound < StandardError
+        def initialize(branch = nil)
+          if branch
+            super("Branch '#{branch}' cannot be found.")
+          else
+            super('Branch cannot be found.')
+          end
         end
       end
-    end
 
-    class CommitNotFound < RepositoryError
-      def initialize(commit = nil)
-        if commit
-          super("Commit '#{commit}' cannot be found.")
-        else
-          super('Commit cannot be found.')
+      class CommitNotFound < StandardError
+        def initialize(commit = nil)
+          if commit
+            super("Commit '#{commit}' cannot be found.")
+          else
+            super('Commit cannot be found.')
+          end
         end
       end
-    end
 
-    class RefNotFound < RepositoryError
-      def initialize(ref = nil)
-        if ref
-          super("Reference (branch or commit) '#{ref}' cannot be found.")
-        else
-          super('Reference (branch or commit) cannot be found.')
+      class RefNotFound < StandardError
+        def initialize(ref = nil)
+          if ref
+            super("Reference (branch or commit) '#{ref}' cannot be found.")
+          else
+            super('Reference (branch or commit) cannot be found.')
+          end
         end
       end
     end

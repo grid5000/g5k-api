@@ -67,14 +67,14 @@ class ApplicationController < ActionController::Base
   rescue_from ServerUnavailable, with: :server_unavailable          # for 503
 
   # exception-handlers for custom repository errors
-  rescue_from Grid5000::Errors::BranchNotFound, with: :not_found
-  rescue_from Grid5000::Errors::CommitNotFound, with: :not_found
-  rescue_from Grid5000::Errors::RefNotFound, with: :not_found
+  rescue_from Grid5000::Errors::Repository::BranchNotFound, with: :not_found
+  rescue_from Grid5000::Errors::Repository::CommitNotFound, with: :not_found
+  rescue_from Grid5000::Errors::Repository::RefNotFound, with: :not_found
 
   # exception-handlers for custom oarapi errors
-  rescue_from Grid5000::Errors::JobNotFound, with: :not_found
-  rescue_from Grid5000::Errors::JobForbidden, with: :forbidden
-  rescue_from Grid5000::Errors::JobBadRequest, with: :bad_request
+  rescue_from Grid5000::Errors::OarApi::NotFound, with: :not_found
+  rescue_from Grid5000::Errors::OarApi::Forbidden, with: :forbidden
+  rescue_from Grid5000::Errors::OarApi::BadRequest, with: :bad_request
 
   protected
 
