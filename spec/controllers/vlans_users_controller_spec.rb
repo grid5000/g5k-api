@@ -89,7 +89,18 @@ describe VlansUsersController do
       expect(json.length).to eq(3)
       expect(json['uid']).to eq('snoir')
       expect(json['status']).to eq('authorized')
-      expect(json['links']).to eq([{"rel"=>"self", "href"=>"/sites/rennes/vlans/1/users/snoir", "type"=>"application/vnd.grid5000.item+json"}, {"rel"=>"parent", "href"=>"/sites/rennes/vlans/1/users", "type"=>"application/vnd.grid5000.collection+json"}])
+      expect(json['links']).to eq([
+        {
+         'rel'  => 'self',
+         'href' => '/sites/rennes/vlans/1/users/snoir',
+         'type' => 'application/vnd.grid5000.item+json'
+        },
+        {
+         'rel'  => 'parent',
+         'href' => '/sites/rennes/vlans/1/users',
+         'type' => 'application/vnd.grid5000.collection+json'
+        }
+      ])
     end
 
     it 'should return user as unauthorized' do
@@ -108,7 +119,18 @@ describe VlansUsersController do
       expect(json.length).to eq(3)
       expect(json['uid']).to eq('snoir')
       expect(json['status']).to eq('unauthorized')
-      expect(json['links']).to eq([{"rel"=>"self", "href"=>"/sites/rennes/vlans/5/users/snoir", "type"=>"application/vnd.grid5000.item+json"}, {"rel"=>"parent", "href"=>"/sites/rennes/vlans/5/users", "type"=>"application/vnd.grid5000.collection+json"}])
+      expect(json['links']).to eq([
+        {
+         'rel'  => 'self',
+         'href' => '/sites/rennes/vlans/5/users/snoir',
+         'type' => 'application/vnd.grid5000.item+json'
+        },
+        {
+         'rel'  => 'parent',
+         'href' => '/sites/rennes/vlans/5/users',
+         'type' => 'application/vnd.grid5000.collection+json'
+        }
+      ])
     end
   end
 end

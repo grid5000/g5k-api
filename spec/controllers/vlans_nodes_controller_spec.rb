@@ -122,5 +122,34 @@ describe VlansNodesController do
         }
       })
     end
+
+    it 'should return 403 Forbidden if user does not have right on Kavlan resource' do
+      stub_request(:post, File.join(@base_expected_uri, '1')).
+        with(
+          headers: {
+            'Accept' => 'application/json',
+            'Host'   => 'api-out.local',
+          },
+          body: {'nodes' => ['paravance-9.rennes.grid5000.fr', 'paravance-10.rennes.grid5000.fr', 'parapide-14.rennes.grid5000.fr']}
+          ).
+          to_return(status: 403,
+                    body: '{"paravance-9.rennes.grid5000.fr":"ok",
+                            "parapide-14.rennes.grid5000.fr":"unknown_node"}',
+                    headers: @headers_return)
+
+      authenticate_as('snoir')
+      request.content_type = 'application/json'
+
+      post :add, params: { site_id: 'rennes',
+                           format: :json,
+                           vlan_id: 1,
+                           _json: ['paravance-9.rennes.grid5000.fr',
+                                   'paravance-10.rennes.grid5000.fr',
+                                   'parapide-14.rennes.grid5000.fr']
+                          }
+
+      expect(response.status).to eq(403)
+      expect(response.body).to eq('Not enough privileges on Kavlan resources')
+    end
   end
 end

@@ -100,7 +100,7 @@ class VlansUsersController < ApplicationController
   end
 
   # Remove rights for user on a vlan.
-  # Limited to some users, like OAR, so not documented
+  # Limited to some users, like OAR, so not documented (and not tested)
   def destroy
     ensure_authenticated!
     allow :delete
@@ -116,7 +116,7 @@ class VlansUsersController < ApplicationController
   end
 
   # Add rights for user on a vlan.
-  # Limited to some users, like OAR, so not documented
+  # Limited to some users, like OAR, so not documented (and not tested)
   def add
     ensure_authenticated!
     allow :put
@@ -124,7 +124,7 @@ class VlansUsersController < ApplicationController
     result = @kavlan.add_user(params[:vlan_id], params[:id])
 
     if result.code.to_i == 403
-      raise Forbidden, "Not enough privileges on Kavlan resources"
+      raise Forbidden, 'Not enough privileges on Kavlan resources'
     end
 
     render plain: '',
