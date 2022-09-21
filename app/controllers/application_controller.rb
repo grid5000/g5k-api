@@ -13,6 +13,8 @@
 # limitations under the License.
 
 require 'swagger'
+require 'grid5000/oar_api'
+require 'grid5000/kavlan'
 
 class ApplicationController < ActionController::Base
   include ApplicationHelper
@@ -37,7 +39,11 @@ class ApplicationController < ActionController::Base
 
   # class & subclasses to handle server-side exceptions (Error codes 5xx)
   class ServerError < ActionController::ActionControllerError; end
-  class UnsupportedMediaType < ServerError; end   # Error code 415 (moved to server-side)
+  class UnsupportedMediaType < ClientError        # Error code 415 (moved to server-side)
+    def initialize(content_type)
+      super("Content-Type '#{content_type}' is not supported")
+    end
+  end
   class BadGateway < ServerError; end             # Error code 50x (to be refined later)
   class ServerUnavailable < ServerError; end      # Error code 503
 
@@ -53,19 +59,27 @@ class ApplicationController < ActionController::Base
   rescue_from MethodNotAllowed, with: :method_not_allowed           # for 405
   rescue_from NotAcceptable, with: :not_acceptable                  # for 406
   rescue_from PreconditionFailed, with: :precondition_failed        # for 412
+  rescue_from UnsupportedMediaType, with: :unsupported_media_type   # for 415
   rescue_from UnprocessableEntity, with: :unprocessable_entity      # for 422
 
   # exception-handlers for client-side exceptions
-  # agreed to send exception to server_error (instead of unsupported_media_type)
-  rescue_from UnsupportedMediaType, with: :server_error             # for 415
   rescue_from ServerError, with: :server_error                      # for 500
   rescue_from BadGateway, with: :bad_gateway                        # for 502
   rescue_from ServerUnavailable, with: :server_unavailable          # for 503
 
   # exception-handlers for custom repository errors
-  rescue_from Grid5000::Errors::BranchNotFound, with: :not_found
-  rescue_from Grid5000::Errors::CommitNotFound, with: :not_found
-  rescue_from Grid5000::Errors::RefNotFound, with: :not_found
+  rescue_from Grid5000::Errors::Repository::BranchNotFound, with: :not_found
+  rescue_from Grid5000::Errors::Repository::CommitNotFound, with: :not_found
+  rescue_from Grid5000::Errors::Repository::RefNotFound, with: :not_found
+
+  # exception-handlers for custom oarapi errors
+  rescue_from Grid5000::Errors::OarApi::NotFound, with: :not_found
+  rescue_from Grid5000::Errors::OarApi::Forbidden, with: :forbidden
+  rescue_from Grid5000::Errors::OarApi::BadRequest, with: :bad_request
+
+  # exception-handlers for custom kavlanapi errors
+  rescue_from Grid5000::Errors::Kavlan::UnknownNode, with: :not_found
+  rescue_from Grid5000::Errors::Kavlan::Forbidden, with: :forbidden
 
   protected
 
@@ -110,82 +124,6 @@ class ApplicationController < ActionController::Base
 
   def authorize!(user_id)
     raise Forbidden if user_id != @credentials[:cn]
-  end
-
-  # Analyses the response status of the given HTTP response.
-  #
-  # Raise BadGateway if status is 0.
-  # Raise ServerError if status is not in the expected status codes in options[:is] .
-  def continue_if!(http, options = {})
-    # Allow the list of "non-error" http codes
-    allowed_status = [options[:is] || (200..299).to_a].flatten
-
-    status = http.code.to_i # get the status from the http response
-
-    # HACK: to make rspec tests working, indeed for a unknown reason, http.uri is
-    # nil when running the specs suite
-    http.uri = http.header['Location'] if http.uri.nil?
-
-    if status.between?(400, 599) # error status
-      # http.method always returns nil. Bug?
-      # msg = "#{http.method} #{http.uri} failed with status #{status}"
-      msg = "Request to #{http.uri} failed with status #{status}: #{http.body}"
-      Rails.logger.error msg
-    end
-
-    case status
-    when *allowed_status   # Status codes (200, ..., 299)
-      true
-    when 400
-      raise BadRequest, msg
-    when 401
-      raise AuthorizationRequired, msg
-    when 403
-      raise Forbidden, msg
-    when 404
-      raise NotFound, msg
-    when 405
-      raise MethodNotAllowed, msg
-    when 406
-      raise NotAcceptable, msg
-    when 412
-      raise PreconditionFailed, msg
-    when 415
-      raise UnsupportedMediaType, msg
-    when 502
-      raise BadGateway, msg
-    when 503
-      raise ServerUnavailable, msg
-    else
-      raise ServerError, "Request to #{http.uri} failed with status #{status}: #{http.body}"
-    end
-
-    case status
-    when *allowed_status   # Status codes (200, ..., 299)
-      true
-    when 400
-      raise BadRequest, msg
-    when 401
-      raise AuthorizationRequired, msg
-    when 403
-      raise Forbidden, msg
-    when 404
-      raise NotFound, msg
-    when 405
-      raise MethodNotAllowed, msg
-    when 406
-      raise NotAcceptable, msg
-    when 412
-      raise PreconditionFailed, msg
-    when 415
-      raise UnsupportedMediaType, msg
-    when 502
-      raise BadGateway, msg
-    when 503
-      raise ServerUnavailable, msg
-    else
-      raise ServerError, "Request to #{http.uri} failed with unexpected status #{status}: #{http.body} ; could be a TLS problem"
-    end
   end
 
   def render_error(exception, options = {})

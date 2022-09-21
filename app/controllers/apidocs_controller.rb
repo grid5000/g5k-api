@@ -513,6 +513,7 @@ resource), `besteffort` (a besteffort job is running on the resource).
     VersionsController,
     DeploymentsController,
     JobsController,
+    JobsWalltimeController,
     VlansController,
     VlansUsersController,
     VlansUsersAllController,
@@ -521,6 +522,7 @@ resource), `besteffort` (a besteffort job is running on the resource).
     EnvironmentsController,
     Grid5000::Deployment,
     Grid5000::Job,
+    Grid5000::JobWalltime,
     Grid5000::Kavlan,
     Grid5000::Environments,
     self

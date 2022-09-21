@@ -154,15 +154,15 @@ module Grid5000
                 key :'$ref', :Links
               end
               key :example, [{
-                  'rel':'self',
-                  'href':'/3.0/sites/grenoble/jobs',
-                  'type':'application/vnd.grid5000.item+json'
-                },
-                {
-                  'rel':'parent',
-                  'href':'/3.0/sites/grenoble',
-                  'type':'application/vnd.grid5000.item+json'
-                }]
+                'rel':'self',
+                'href':'/3.0/sites/grenoble/jobs',
+                'type':'application/vnd.grid5000.item+json'
+              },
+              {
+                'rel':'parent',
+                'href':'/3.0/sites/grenoble',
+                'type':'application/vnd.grid5000.item+json'
+              }]
             end
           end
         end

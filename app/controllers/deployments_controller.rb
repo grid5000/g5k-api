@@ -243,9 +243,9 @@ class DeploymentsController < ApplicationController
       error_msg_prefix = 'Cannot launch deployment: '
 
       case e
-      when Grid5000::Errors::KadeployServerError
+      when Grid5000::Errors::Kadeploy::ServerError
         raise ServerError, error_msg_prefix + e.message
-      when Grid5000::Errors::KadeployBadRequest
+      when Grid5000::Errors::Kadeploy::BadRequest
         raise BadRequest, error_msg_prefix + e.message
       else
         raise ServerError, error_msg_prefix + e.message

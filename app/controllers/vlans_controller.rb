@@ -160,8 +160,8 @@ class VlansController < ApplicationController
     ensure_authenticated!
     allow :put
 
-    unless request.content_type == "application/json"
-      raise UnsupportedMediaType, "Content-Type #{request.content_type} not supported"
+    unless request.content_type == 'application/json'
+      raise UnsupportedMediaType, request.content_type
     end
 
     if params[:vlan].nil? || params[:vlan][:action].nil? ||
@@ -170,14 +170,10 @@ class VlansController < ApplicationController
       raise UnprocessableEntity, "An action ('start' or 'stop') should be provided"
     end
 
-    result = @kavlan.dhcpd(params[:id], params[:vlan])
-
-    if result.code.to_i == 403
-      raise Forbidden, "Not enough privileges on Kavlan resources"
-    end
+    @kavlan.dhcpd(params[:id], params[:vlan])
 
     render plain: '',
-           status: result.code
+           status: 204
   end
 
   protected

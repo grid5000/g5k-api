@@ -68,7 +68,12 @@ Api::Application.routes.draw do
     end
 
     resources :servers, only: %i[index show]
-    resources :jobs
+    resources :jobs do
+      member do
+        get  'walltime' => 'jobs_walltime#show'
+        post 'walltime' => 'jobs_walltime#update'
+      end
+    end
     resources :deployments
     resources :environments, only: %i[index show]
   end

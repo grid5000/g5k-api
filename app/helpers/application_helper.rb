@@ -33,6 +33,82 @@ module ApplicationHelper
     Grid5000::Router.http_request(method, uri, tls_options, timeout, headers, body)
   end
 
+  # Analyses the response status of the given HTTP response.
+  #
+  # Raise BadGateway if status is 0.
+  # Raise ServerError if status is not in the expected status codes in options[:is] .
+  def continue_if!(http, options = {})
+    # Allow the list of "non-error" http codes
+    allowed_status = [options[:is] || (200..299).to_a].flatten
+
+    status = http.code.to_i
+
+    # HACK: to make rspec tests working, indeed for a unknown reason, http.uri is
+    # nil when running the specs suite
+    http.uri = http.header['Location'] if http.uri.nil?
+
+    if status.between?(400, 599) # error status
+      # http.method always returns nil. Bug?
+      # msg = "#{http.method} #{http.uri} failed with status #{status}"
+      msg = "Request to #{http.uri} failed with status #{status}: #{http.body}"
+      Rails.logger.error msg
+    end
+
+    case status
+    when *allowed_status   # Status codes (200, ..., 299)
+      true
+    when 400
+      raise ApplicationController::BadRequest, msg
+    when 401
+      raise ApplicationController::AuthorizationRequired, msg
+    when 403
+      raise ApplicationController::Forbidden, msg
+    when 404
+      raise ApplicationController::NotFound, msg
+    when 405
+      raise ApplicationController::MethodNotAllowed, msg
+    when 406
+      raise ApplicationController::NotAcceptable, msg
+    when 412
+      raise ApplicationController::PreconditionFailed, msg
+    when 415
+      raise ApplicationController::UnsupportedMediaType, msg
+    when 502
+      raise ApplicationController::BadGateway, msg
+    when 503
+      raise ApplicationController::ServerUnavailable, msg
+    else
+      raise ApplicationController::ServerError, "Request to #{http.uri} failed with status #{status}: #{http.body}"
+    end
+
+    case status
+    when *allowed_status   # Status codes (200, ..., 299)
+      true
+    when 400
+      raise ApplicationController::BadRequest, msg
+    when 401
+      raise ApplicationController::AuthorizationRequired, msg
+    when 403
+      raise ApplicationController::Forbidden, msg
+    when 404
+      raise ApplicationController::NotFound, msg
+    when 405
+      raise ApplicationController::MethodNotAllowed, msg
+    when 406
+      raise ApplicationController::NotAcceptable, msg
+    when 412
+      raise ApplicationController::PreconditionFailed, msg
+    when 415
+      raise ApplicationController::UnsupportedMediaType, msg
+    when 502
+      raise ApplicationController::BadGateway, msg
+    when 503
+      raise ApplicationController::ServerUnavailable, msg
+    else
+      raise ApplicationController::ServerError, "Request to #{http.uri} failed with unexpected status #{status}: #{http.body} ; could be a TLS problem"
+    end
+  end
+
   def repository
     @repository ||= Grid5000::Repository.new(
       File.expand_path(

@@ -411,6 +411,8 @@ module Grid5000
     # List all vlans
     def list
       http = call_kavlan(base_uri, :get)
+      continue_if!(http, is: [200])
+
       JSON.parse(http.body)['items']
     end
 
@@ -418,6 +420,7 @@ module Grid5000
     def vlan(id)
       uri = File.join(base_uri, id)
       http = call_kavlan(uri, :get)
+      continue_if!(http, is: [200])
 
       JSON.parse(http.body)
     end
@@ -431,14 +434,21 @@ module Grid5000
             end
 
       http = call_kavlan(uri, :get)
+      continue_if!(http, is: [200])
+      result = JSON.parse(http.body)
 
-      JSON.parse(http.body)
+      if result.first[1] == 'unknown'
+        raise Errors::Kavlan::UnknownNode, result.first[0]
+      else
+        result
+      end
     end
 
     # Fetch nodes for a specific vlan
     def nodes_vlan(id)
       uri = File.join(base_uri, id, 'nodes')
       http = call_kavlan(uri, :get)
+      continue_if!(http, is: [200])
 
       JSON.parse(http.body)['nodes']
     end
@@ -454,6 +464,8 @@ module Grid5000
             end
 
       http = call_kavlan(uri, :get)
+      continue_if!(http, is: [200])
+
       JSON.parse(http.body)
     end
 
@@ -466,6 +478,7 @@ module Grid5000
             end
 
       http = call_kavlan(uri, :get)
+      continue_if!(http, is: [200, 404])
 
       if user_id
         if http.code.to_i == 404
@@ -481,13 +494,25 @@ module Grid5000
     # Remove rights for a user on a vlan
     def delete_user(id, user_id)
       uri = File.join(base_uri, id, 'users', user_id)
-      call_kavlan(uri, :delete)
+      http = call_kavlan(uri, :delete)
+      continue_if!(http, is: [204, 403])
+
+      if http.code.to_i == 403
+        raise Errors::Kavlan::Forbidden
+      end
     end
 
     # Add rights for a user on a vlan
+    # NOTE: not working, need to look at kavlan source code to find the correct
+    #       request
     def add_user(id, user_id)
       uri = File.join(base_uri, id, 'users', user_id)
-      call_kavlan(uri, :put)
+      http = call_kavlan(uri, :put)
+      continue_if!(http, is: [200, 201, 202, 203, 204, 403])
+
+      if http.code.to_i == 403
+        raise Errors::Kavlan::Forbidden
+      end
     end
 
     def vlan_exist?(id)
@@ -497,19 +522,38 @@ module Grid5000
     # Stop or start dhcpd for a vlan
     def dhcpd(id, action)
       uri = File.join(base_uri, id, 'dhcpd')
-      call_kavlan_with_data(uri, :put, action)
+      http = call_kavlan_with_data(uri, :put, action)
+      continue_if!(http, is: [204, 403])
+
+      if http.code.to_i == 403
+        raise Errors::Kavlan::Forbidden
+      end
     end
 
     # Add nodes to a vlan
     def update_vlan_nodes(id, nodes)
       uri = File.join(base_uri, id)
-      call_kavlan_with_data(uri, :post, { nodes: nodes })
+      http = call_kavlan_with_data(uri, :post, { nodes: nodes })
+      continue_if!(http, is: [200, 403])
+
+      if http.code.to_i == 403
+        raise Errors::Kavlan::Forbidden
+      end
+
+      http.body
     end
 
     # Return nodes with their associated vlan
     def vlan_for_nodes(nodes)
       uri = File.join(base_uri, 'nodes')
-      call_kavlan_with_data(uri, :post, { nodes: nodes })
+      http = call_kavlan_with_data(uri, :post, { nodes: nodes })
+      continue_if!(http, is: [200, 403])
+
+      if http.code.to_i == 403
+        raise Errors::Kavlan::Forbidden
+      end
+
+      http.body
     end
 
     private
@@ -532,6 +576,22 @@ module Grid5000
         http_request(method, uri, tls_options, 10, headers, data.to_json)
       rescue StandardError
         raise "Unable to contact #{uri}"
+      end
+    end
+  end
+
+  module Errors
+    module Kavlan
+      class UnknownNode < StandardError
+        def initialize(node)
+          super("Unknown node '#{node}'.")
+        end
+      end
+
+      class Forbidden < StandardError
+        def initialize
+          super('Not enough privileges on Kavlan resources')
+        end
       end
     end
   end

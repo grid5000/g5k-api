@@ -480,16 +480,19 @@ module Grid5000
       end
     end
 
+    # TODO: look at continue_if! helper if it can be used in this model. This
+    # will allow to always return the same HTTP return code as Kadeploy's one,
+    # and make custom treatments when needed.
     def get_kaerror(resp, hdr)
       if hdr['X_APPLICATION_ERROR_CODE'] && hdr['X_APPLICATION_ERROR_INFO']
-        [Errors::KadeployServerError, "Kadeploy error ##{hdr['X_APPLICATION_ERROR_CODE']}: #{Base64.strict_decode64(hdr['X_APPLICATION_ERROR_INFO'])}"]
+        [Errors::Kadeploy::ServerError, "Kadeploy error ##{hdr['X_APPLICATION_ERROR_CODE']}: #{Base64.strict_decode64(hdr['X_APPLICATION_ERROR_INFO'])}"]
       elsif resp.code.to_i == 400
-        [Errors::KadeployBadRequest, resp.body]
+        [Errors::Kadeploy::BadRequest, resp.body]
       else
-        # Before the introduction of KadeployError classes, the controller only responded
-        # with 500 error. This is why this stays the default, new KadeployError types
-        # need to be added if the time come to handle more cases.
-        [Errors::KadeployServerError, resp.body]
+        # Before the introduction of Errors::Kadeploy errors module, the controller only responded
+        # with 500 error. This is why this stays the default, new Errors::Kadeploy types need to
+        # be added if the time come to handle more cases.
+        [Errors::Kadeploy::ServerError, resp.body]
       end
     end
 
@@ -535,8 +538,9 @@ module Grid5000
   end
 
   module Errors
-    class KadeployError < StandardError ; end
-    class KadeployServerError < KadeployError ; end
-    class KadeployBadRequest < KadeployError ; end
+    module Kadeploy
+      class ServerError < StandardError; end
+      class BadRequest < StandardError; end
+    end
   end
 end

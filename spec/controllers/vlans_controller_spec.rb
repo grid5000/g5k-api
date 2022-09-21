@@ -168,6 +168,23 @@ describe VlansController do
   end
 
   describe 'PUT /vlans/:id/dhcpd' do
+    it 'should return 403 when user does not have privileges on Kavlan resource' do
+      stub_request(:put, File.join(@base_expected_uri, '1', 'dhcpd')).
+        with(
+          headers: {
+            'Accept'=>'application/json',
+            'Host'=>'api-out.local',
+          }).
+          to_return(status: 403)
+
+      authenticate_as('baduser')
+      request.content_type = 'application/json'
+      put :dhcpd, params: { site_id: 'rennes', id: '1', action: 'start', format: :json }
+
+      expect(response.status).to eq(403)
+      expect(response.body).to eq('Not enough privileges on Kavlan resources')
+    end
+
     it 'should return 422 when wrong or missing dhcpd action' do
       stub_request(:put, File.join(@base_expected_uri, '1', 'dhcpd')).
         with(

@@ -99,9 +99,6 @@ class VlansNodesAllController < ApplicationController
 
     nodes = @kavlan.nodes(params[:node_name])
     result = { 'uid' => nodes.first[0], 'vlan' => nodes.first[1] }
-
-    raise NotFound, 'Unknown node' if result['vlan'] == 'unknown'
-
     result['links'] = links_for_item(result)
 
     render_result(result)
@@ -113,16 +110,16 @@ class VlansNodesAllController < ApplicationController
     allow :post
 
     unless request.content_type == "application/json"
-      raise UnsupportedMediaType, "Content-Type #{request.content_type} not supported"
+      raise UnsupportedMediaType, request.content_type
     end
 
     if params[:vlans_nodes_all][:_json].blank? ||
         !params[:vlans_nodes_all][:_json].is_a?(Array)
-      raise UnprocessableEntity, "Missing node list"
+      raise UnprocessableEntity, 'Missing node list'
     end
 
     nodes = @kavlan.vlan_for_nodes(params[:vlans_nodes_all][:_json])
-    nodes = JSON.parse(nodes.body)
+    nodes = JSON.parse(nodes)
     nodes.delete_if { |_key, value| value == 'unknown_node' }
 
     result = format_nodes(nodes)

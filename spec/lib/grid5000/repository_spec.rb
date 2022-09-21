@@ -87,7 +87,7 @@ describe Grid5000::Repository do
           nil,
           timestamp: date.to_i,
           branch: 'doesnotexist'
-        ) }.to raise_error(Grid5000::Errors::BranchNotFound)
+        ) }.to raise_error(Grid5000::Errors::Repository::BranchNotFound)
       end
 
       it 'should return Errors::CommitNotfound if the request version cannot be found' do
@@ -95,7 +95,7 @@ describe Grid5000::Repository do
           nil,
           version: 'aaa895a4b480aaa8e11c35549a97796dcc4a307d',
           branch: 'master'
-        ) }.to raise_error(Grid5000::Errors::CommitNotFound)
+        ) }.to raise_error(Grid5000::Errors::Repository::CommitNotFound)
       end
     end # describe "finding a specific version"
 
