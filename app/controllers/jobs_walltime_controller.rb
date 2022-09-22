@@ -133,13 +133,6 @@ class JobsWalltimeController < ApplicationController
     )
   end
 
-  def load_oarapi
-    @oarapi = Grid5000::OarApi.new
-    @oarapi.tls_options = tls_options_for(:out)
-    @oarapi.base_uri = api_path
-    @oarapi.user = @credentials[:cn]
-  end
-
   def collection_path
     site_jobs_path(params[:site_id])
   end
