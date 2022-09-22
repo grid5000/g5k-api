@@ -1,3 +1,21 @@
+g5k-api (3.11.0) unstable; urgency=low
+
+  * 4b005b3 Remove load_api method which is now in OarConcern
+  * 125b0e0 Move a part of Vlan API error management to kavlan lib
+  * 67eef17 Add missing tests for Vlan API
+  * 5cca241 Split Grid5000::Errors namespace into multiple modules
+  * 9522819 Add a comment about continue_if! usage possibility in deployment model
+  * 1f6c008 Use OarApi abstraction in Jobs controller
+  * ee603af Return '415 Unsupported Media Type' when input payload is not JSON
+  * eddad36 Implement walltime change through OAR's api
+  * 8caf019 Update rails to 6.0.6
+  * 295521f Update tzinfo (security update)
+  * 67ce92c doc: Add the logo in the documentation
+  * 9b30e0f misc fix in documentation
+  * 5e5aa0f Fix typo in deployment API documentation (partioning -> partitioning)
+
+ -- Samir Noir <samir.noir@inria.fr>  Thu, 22 Sep 2022 10:56:20 +0200
+
 g5k-api (3.10.27) unstable; urgency=low
 
   * 33d0241 Respond with 400 http status when Kadeploy return a BadRequest error
