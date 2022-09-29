@@ -1,3 +1,9 @@
+g5k-api (3.11.1) unstable; urgency=low
+
+  * 146cb1a Use rails api_only mode, since g5k-api only serve as a REST API
+
+ -- Samir Noir <samir.noir@inria.fr>  Thu, 29 Sep 2022 15:19:32 +0200
+
 g5k-api (3.11.0) unstable; urgency=low
 
   * 4b005b3 Remove load_api method which is now in OarConcern
