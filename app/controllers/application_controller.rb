@@ -16,13 +16,11 @@ require 'swagger'
 require 'grid5000/oar_api'
 require 'grid5000/kavlan'
 
-class ApplicationController < ActionController::Base
+class ApplicationController < ActionController::API
+  include ::ActionController::MimeResponds
   include ApplicationHelper
 
   before_action :lookup_credentials
-  # See: https://api.rubyonrails.org/classes/ActionController/RequestForgeryProtection.html
-  # Not needed for an API
-  protect_from_forgery with: :null_session
 
   # additional classes introduced to handle all possible exceptions
   # as per status codes https://api.grid5000.fr/doc/stable/reference/spec.html

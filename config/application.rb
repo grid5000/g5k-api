@@ -43,6 +43,10 @@ module Api
 
     config.load_defaults '6.0'
 
+    # Rails API config
+    config.api_only = true
+    config.debug_exception_response_format = :api
+
     # Custom directories with classes and modules you want to be autoloadable.
     # config.autoload_paths += Dir["#{config.root}/lib/**/"]
     config.autoload_paths += %W[#{config.root}/lib]
