@@ -34,6 +34,14 @@ module Grid5000
     end
 
     class << self
+      def api_version(request)
+        if request.env['HTTP_X_API_VERSION'].blank?
+          nil
+        else
+          File.join('/', (request.env['HTTP_X_API_VERSION'] || ''))
+        end
+      end
+
       def uri_to(request, path, in_or_out = :in, relative_or_absolute = :relative)
         root_path = if request.env['HTTP_X_API_ROOT_PATH'].blank? || in_or_out == :out
                       nil
@@ -41,11 +49,6 @@ module Grid5000
                       File.join('/', (request.env['HTTP_X_API_ROOT_PATH'] || ''))
                     end
 
-        api_version = if request.env['HTTP_X_API_VERSION'].blank?
-                        nil
-                      else
-                        File.join('/', (request.env['HTTP_X_API_VERSION'] || ''))
-                      end
 
         path_prefix = if request.env['HTTP_X_API_PATH_PREFIX'].blank?
                         nil
@@ -62,7 +65,7 @@ module Grid5000
         mounted_path = path
         mounted_path.gsub!(/^#{mount_path}/, '') unless mount_path.nil?
         mounted_path = '/' if mounted_path.blank?
-        uri = File.join('/', *[root_path, api_version, path_prefix, mounted_path].compact)
+        uri = File.join('/', *[root_path, api_version(request), path_prefix, mounted_path].compact)
         uri = '/' if uri.blank?
         # bug ref 7360 - for correct URI construction
         if in_or_out == :out || relative_or_absolute == :absolute
