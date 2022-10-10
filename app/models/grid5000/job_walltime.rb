@@ -161,12 +161,12 @@ module Grid5000
           end
           key :example, [{
             'rel':'self',
-            'href':'/3.0/sites/grenoble/jobs/2153572/walltime',
+            'href':'/%%API_VERSION%%/sites/grenoble/jobs/2153572/walltime',
             'type':'application/vnd.grid5000.item+json'
           },
           {
             'rel':'parent',
-            'href':'/3.0/sites/grenoble/jobs/2153572',
+            'href':'/%%API_VERSION%%/sites/grenoble/jobs/2153572',
             'type':'application/vnd.grid5000.item+json'
           }]
         end

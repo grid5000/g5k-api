@@ -212,12 +212,12 @@ module Grid5000
           key :example, [
             {
               'rel': 'self',
-              'href': '/3.0/sites/grenoble/environments/centos7-ppc64-min_2020120219',
+              'href': '/%%API_VERSION%%/sites/grenoble/environments/centos7-ppc64-min_2020120219',
               'type': 'application/vnd.grid5000.item+json'
             },
             {
               'rel': 'parent',
-              'href': '/3.0/sites/grenoble/environments',
+              'href': '/%%API_VERSION%%/sites/grenoble/environments',
               'type': 'application/vnd.grid5000.collection+json'
             }
           ]
@@ -252,12 +252,12 @@ module Grid5000
               key :example, [
                 {
                   'rel': 'self',
-                  'href': '/3.0/sites/grenoble/environments',
+                  'href': '/%%API_VERSION%%/sites/grenoble/environments',
                   'type': 'application/vnd.grid5000.collection+json'
                 },
                 {
                   'rel': 'parent',
-                  'href': '/3.0/sites/grenoble',
+                  'href': '/%%API_VERSION%%/sites/grenoble',
                   'type': 'application/vnd.grid5000.item+json'
                 }
               ]

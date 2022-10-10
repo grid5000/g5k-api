@@ -69,26 +69,26 @@ module Grid5000
           key :example, [{
               'rel': 'dhcpd',
               'type': 'application/vnd.grid5000.item+json',
-              'href': '/3.0/sites/grenoble/vlans/21/dhcpd'
+              'href': '/%%API_VERSION%%/sites/grenoble/vlans/21/dhcpd'
             },
             {
               'rel': 'nodes',
               'type': 'application/vnd.grid5000.item+json',
-              'href': '/3.0/sites/grenoble/vlans/21/nodes'
+              'href': '/%%API_VERSION%%/sites/grenoble/vlans/21/nodes'
             },
             {
               'rel': 'users',
               'type': 'application/vnd.grid5000.collection+json',
-              'href': '/3.0/sites/grenoble/vlans/21/users'
+              'href': '/%%API_VERSION%%/sites/grenoble/vlans/21/users'
             },
             {
               'rel': 'self',
-              'href': '/3.0/sites/grenoble/vlans/21',
+              'href': '/%%API_VERSION%%/sites/grenoble/vlans/21',
               'type': 'application/vnd.grid5000.item+json'
             },
             {
               'rel': 'parent',
-              'href': '/3.0/sites/grenoble/vlans',
+              'href': '/%%API_VERSION%%/sites/grenoble/vlans',
               'type': 'application/vnd.grid5000.collection+json'
             }]
         end
@@ -168,12 +168,12 @@ module Grid5000
               end
               key :example, [{
                   'rel':'self',
-                  'href':'/3.0/sites/grenoble/vlans/users',
+                  'href':'/%%API_VERSION%%/sites/grenoble/vlans/users',
                   'type':'application/vnd.grid5000.collection+json'
                 },
                 {
                   'rel':'parent',
-                  'href':'/3.0/sites/grenoble/vlans',
+                  'href':'/%%API_VERSION%%/sites/grenoble/vlans',
                   'type':'application/vnd.grid5000.collection+json'
                 }]
             end
@@ -205,12 +205,12 @@ module Grid5000
               end
               key :example, [{
                   'rel':'self',
-                  'href':'/3.0/sites/grenoble/4/vlans/users',
+                  'href':'/%%API_VERSION%%/sites/grenoble/4/vlans/users',
                   'type':'application/vnd.grid5000.collection+json'
                 },
                 {
                   'rel':'parent',
-                  'href':'/3.0/sites/grenoble/4/vlans',
+                  'href':'/%%API_VERSION%%/sites/grenoble/4/vlans',
                   'type':'application/vnd.grid5000.collection+json'
                 }]
             end
@@ -239,12 +239,12 @@ module Grid5000
           end
           key :example, [{
             'rel':'self',
-            'href':'/3.0/sites/grenoble/vlans/4/users/auser',
+            'href':'/%%API_VERSION%%/sites/grenoble/vlans/4/users/auser',
             'type':'application/vnd.grid5000.item+json'
           },
           {
             'rel':'parent',
-            'href':'/3.0/sites/grenoble/vlans/4/users',
+            'href':'/%%API_VERSION%%/sites/grenoble/vlans/4/users',
             'type':'application/vnd.grid5000.collection+json'
           }]
         end
@@ -272,12 +272,12 @@ module Grid5000
           end
           key :example, [{
             'rel':'self',
-            'href':'/3.0/sites/grenoble/vlans/users/auser',
+            'href':'/%%API_VERSION%%/sites/grenoble/vlans/users/auser',
             'type':'application/vnd.grid5000.item+json'
           },
           {
             'rel':'parent',
-            'href':'/3.0/sites/grenoble/vlans/users',
+            'href':'/%%API_VERSION%%/sites/grenoble/vlans/users',
             'type':'application/vnd.grid5000.collection+json'
           }]
         end
@@ -304,12 +304,12 @@ module Grid5000
           end
           key :example, [{
             'rel':'self',
-            'href':'/3.0/sites/grenoble/vlans/nodes/dahu-3.grenoble.grid5000.fr',
+            'href':'/%%API_VERSION%%/sites/grenoble/vlans/nodes/dahu-3.grenoble.grid5000.fr',
             'type':'application/vnd.grid5000.item+json'
           },
           {
             'rel':'parent',
-            'href':'/3.0/sites/grenoble/vlans/nodes',
+            'href':'/%%API_VERSION%%/sites/grenoble/vlans/nodes',
             'type':'application/vnd.grid5000.collection+json'
           }]
         end
@@ -339,12 +339,12 @@ module Grid5000
               end
               key :example, [{
                   'rel':'self',
-                  'href':'/3.0/sites/grenoble/4/nodes',
+                  'href':'/%%API_VERSION%%/sites/grenoble/4/nodes',
                   'type':'application/vnd.grid5000.collection+json'
                 },
                 {
                   'rel':'parent',
-                  'href':'/3.0/sites/grenoble/4',
+                  'href':'/%%API_VERSION%%/sites/grenoble/4',
                   'type':'application/vnd.grid5000.item+json'
                 }]
             end
@@ -376,12 +376,12 @@ module Grid5000
               end
               key :example, [{
                   'rel':'self',
-                  'href':'/3.0/sites/grenoble/nodes',
+                  'href':'/%%API_VERSION%%/sites/grenoble/nodes',
                   'type':'application/vnd.grid5000.collection+json'
                 },
                 {
                   'rel':'parent',
-                  'href':'/3.0/sites/grenoble',
+                  'href':'/%%API_VERSION%%/sites/grenoble',
                   'type':'application/vnd.grid5000.item+json'
                 }]
             end

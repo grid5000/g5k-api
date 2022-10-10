@@ -105,12 +105,12 @@ module Grid5000
               end
               key :example, [{
                   'rel':'self',
-                  'href':'/3.0/sites/grenoble/deployments',
+                  'href':'/%%API_VERSION%%/sites/grenoble/deployments',
                   'type':'application/vnd.grid5000.item+json'
                 },
                 {
                   'rel':'parent',
-                  'href':'/3.0/sites/grenoble',
+                  'href':'/%%API_VERSION%%/sites/grenoble',
                   'type':'application/vnd.grid5000.item+json'
                 }]
             end
@@ -184,12 +184,12 @@ module Grid5000
           end
           key :example, [{
             'rel':'self',
-             'href':'/3.0/sites/grenoble/deployments/D-967b6741-5bde-4023-a071-a4cf28da4d',
+             'href':'/%%API_VERSION%%/sites/grenoble/deployments/D-967b6741-5bde-4023-a071-a4cf28da4d',
              'type':'application/vnd.grid5000.item+json'
             },
             {
               'rel':'parent',
-              'href':'/3.0/sites/grenoble',
+              'href':'/%%API_VERSION%%/sites/grenoble',
               'type':'application/vnd.grid5000.item+json'
             }]
         end
