@@ -38,7 +38,7 @@ module Grid5000
         if request.env['HTTP_X_API_VERSION'].blank?
           nil
         else
-          File.join('/', (request.env['HTTP_X_API_VERSION'] || ''))
+          request.env['HTTP_X_API_VERSION']
         end
       end
 
