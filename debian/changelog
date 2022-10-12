@@ -1,3 +1,9 @@
+g5k-api (3.11.3) unstable; urgency=low
+
+  * 946e9a8 Fix api_version helper which was adding an initial / to the version
+
+ -- Samir Noir <samir.noir@inria.fr>  Wed, 12 Oct 2022 12:27:26 +0200
+
 g5k-api (3.11.2) unstable; urgency=low
 
   * 238c42a Return current api version in OpenAPI spec's links
