@@ -155,12 +155,12 @@ module Grid5000
               end
               key :example, [{
                 'rel':'self',
-                'href':'/3.0/sites/grenoble/jobs',
+                'href':'/%%API_VERSION%%/sites/grenoble/jobs',
                 'type':'application/vnd.grid5000.item+json'
               },
               {
                 'rel':'parent',
-                'href':'/3.0/sites/grenoble',
+                'href':'/%%API_VERSION%%/sites/grenoble',
                 'type':'application/vnd.grid5000.item+json'
               }]
             end
@@ -360,12 +360,12 @@ module Grid5000
           end
           key :example, [{
             'rel':'self',
-             'href':'/3.0/sites/grenoble/jobs/42',
+             'href':'/%%API_VERSION%%/sites/grenoble/jobs/42',
              'type':'application/vnd.grid5000.item+json'
             },
             {
               'rel':'parent',
-              'href':'/3.0/sites/grenoble',
+              'href':'/%%API_VERSION%%/sites/grenoble',
               'type':'application/vnd.grid5000.item+json'
             }]
         end

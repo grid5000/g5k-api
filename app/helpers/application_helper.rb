@@ -33,6 +33,10 @@ module ApplicationHelper
     Grid5000::Router.http_request(method, uri, tls_options, timeout, headers, body)
   end
 
+  def api_version
+    Grid5000::Router.api_version(request)
+  end
+
   # Analyses the response status of the given HTTP response.
   #
   # Raise BadGateway if status is 0.

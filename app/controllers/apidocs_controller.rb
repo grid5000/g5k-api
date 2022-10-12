@@ -1,10 +1,11 @@
 class ApidocsController < ActionController::Base
+  include ApplicationHelper
   include Swagger::Blocks
 
   swagger_root do
     key :openapi, '3.0.0'
     info do
-      key :version, '3.0'
+      key :version, '%%API_VERSION%%'
       key :title, "Grid'5000 API"
       key :'x-logo', {url: 'https://www.grid5000.fr/mediawiki/images/Logo_Grid5000.png',
                       altText: "Grid'5000 logo"}
@@ -283,7 +284,7 @@ EOL
       property :href do
         key :type, :string
         key :description, "The link to the resource."
-        key :example, '/3.0/sites/grenoble'
+        key :example, '/%%API_VERSION%%/sites/grenoble'
       end
       property :type do
         key :type, :string
@@ -405,12 +406,12 @@ resource), `besteffort` (a besteffort job is running on the resource).
         key :example, [{
           'rel': 'self',
           'type': 'application/vnd.grid5000.item+json',
-          'href': '/3.0/sites/grenoble/clusters/yeti/status'
+          'href': '/%%API_VERSION%%/sites/grenoble/clusters/yeti/status'
         },
         {
           'rel': 'parent',
           'type': 'application/vnd.grid5000.item+json',
-          'href': '/3.0/sites/grenoble/clusters/yeti'
+          'href': '/%%API_VERSION%%/sites/grenoble/clusters/yeti'
         }]
       end
 
@@ -458,12 +459,12 @@ resource), `besteffort` (a besteffort job is running on the resource).
             key :example, [{
               'rel': 'self',
               'type': 'application/vnd.grid5000.item+json',
-              'href': '/3.0/sites/grenoble/status'
+              'href': '/%%API_VERSION%%/sites/grenoble/status'
             },
             {
               'rel': 'parent',
               'type': 'application/vnd.grid5000.item+json',
-              'href': '/3.0/sites/grenoble'
+              'href': '/%%API_VERSION%%/sites/grenoble'
             }]
           end
         end
@@ -529,6 +530,29 @@ resource), `besteffort` (a besteffort job is running on the resource).
   ].freeze
 
   def index
-    render json: Swagger::Blocks.build_root_json(SWAGGERED_CLASSES)
+    openapi_json = Swagger::Blocks.build_root_json(SWAGGERED_CLASSES).to_json
+
+    # By default, we use 'devel' as the api version. This is to handle the
+    # case of the development environment which doesn't have a proxy in front
+    # of the web server. In production, the proxy add a header containing the
+    # API version (3.0, stable or sid), which is used by api_version helper.
+    spec_links_api_version = if api_version
+                               api_version
+                             else
+                               'devel'
+                             end
+
+    # We provide two versions of the API spec on Grid'5000, stable (3.0) and
+    # sid.
+    # To be more flexible and have coherent links in the examples showned by
+    # the spec, it makes sense to adapt for each API version.
+    # This is not possible to use api_version helper in swagger blocks, since
+    # we don't have access to Rails stuff (like requests variable which is
+    # necessary to look a the header containing current api version).
+    # The only possible solution is to make a replacement in the Hash of the
+    # JSON generated for the specification. Here we replace '%%API_VERSION%%'
+    # with the current API version.
+
+    render json: openapi_json.gsub(/%%API_VERSION%%/, spec_links_api_version)
   end
 end
