@@ -1,3 +1,10 @@
+g5k-api (3.11.2) unstable; urgency=low
+
+  * 238c42a Return current api version in OpenAPI spec's links
+  * 1bb9e89 Add new helper api_version to get current API version
+
+ -- Samir Noir <samir.noir@inria.fr>  Wed, 12 Oct 2022 11:53:59 +0200
+
 g5k-api (3.11.1) unstable; urgency=low
 
   * 146cb1a Use rails api_only mode, since g5k-api only serve as a REST API
