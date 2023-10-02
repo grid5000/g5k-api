@@ -1,3 +1,9 @@
+g5k-api (3.11.4) unstable; urgency=low
+
+  * b139437 server: switch from thin to puma
+
+ -- Philippe Virouleau <philippe.virouleau@inria.fr>  Mon, 02 Oct 2023 10:10:10 +0200
+
 g5k-api (3.11.3) unstable; urgency=low
 
   * 946e9a8 Fix api_version helper which was adding an initial / to the version
