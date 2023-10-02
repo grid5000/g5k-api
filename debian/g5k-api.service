@@ -6,8 +6,7 @@ After=network.target
 [Service]
 User=g5k-api
 Group=g5k-api
-Environment=PORT=8000
-ExecStart=/usr/bin/g5k-api server -a 127.0.0.1 --max-persistent-conns 200 start
+ExecStart=/usr/bin/g5k-api rails server -b 127.0.0.1 -p 8000 -e production
 Restart=on-failure
 StandardOutput=syslog
 StandardError=syslog

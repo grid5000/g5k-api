@@ -17,6 +17,14 @@ include:
     ref: master
     file: '/rubocop-rails.yml'
 
+.install-deps:
+  before_script:
+    - echo "deb [ trusted=yes ] http://packages.grid5000.fr/deb/g5k-deb-build-tools/buster /" > /etc/apt/sources.list.d/g5k-deb-build-tools.list
+    - apt-get update && apt-get -y --no-install-recommends install devscripts build-essential equivs libssl-dev
+    - mk-build-deps -ir -t 'apt-get -y --no-install-recommends'
+    - gem install bundler -v 2.3.22
+    - bundle config set path 'vendor/bundle'
+
 test-for-buster: &test-for-buster
   image: debian:buster
   stage: test
@@ -35,12 +43,9 @@ test-for-buster: &test-for-buster
     POSTGRES_USER: oar
     POSTGRES_PASSWORD: oar
     POSTGRES_DB: oar2_test
+  before_script: !reference [.install-deps, before_script]
   script:
-    - echo "deb [ trusted=yes ] http://packages.grid5000.fr/deb/g5k-deb-build-tools/buster /" > /etc/apt/sources.list.d/g5k-deb-build-tools.list
-    - apt-get update && apt-get -y --no-install-recommends install devscripts build-essential equivs libssl-dev
-    - mk-build-deps -ir -t 'apt-get -y --no-install-recommends'
-    - gem install bundler -v 2.1.4
-    - bundle install --path vendor/bundle
+    - bundle install -j 4
     - bundle exec rake db:migrate
     - bundle exec rake db:oar:seed
     - bundle exec rspec spec/
@@ -58,11 +63,8 @@ deb-for-buster: &deb-for-buster
   stage: deb
   tags:
   - grid5000-docker
+  before_script: !reference [.install-deps, before_script]
   script:
-    - echo "deb [ trusted=yes ] http://packages.grid5000.fr/deb/g5k-deb-build-tools/buster /" > /etc/apt/sources.list.d/g5k-deb-build-tools.list
-    - apt-get update && apt-get -y --no-install-recommends install devscripts build-essential equivs libssl-dev
-    - mk-build-deps -ir -t 'apt-get -y --no-install-recommends'
-    - gem install bundler -v 2.1.4
     - apt-get install -y curl pkg-config
     - rm -f ../*deb
     - dpkg-buildpackage

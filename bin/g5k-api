@@ -23,18 +23,6 @@ when 'console'
   ARGV.push('production') if ARGV.empty?
   ARGV.unshift('console')
   require 'rails/commands'
-when 'server'
-  require 'thin'
-  ENV['PORT'] ||= '8000'
-  rackup_file = ::File.expand_path('../config.ru', __dir__)
-  argv = ARGV
-  argv << ['-R', rackup_file] unless ARGV.include?('-R')
-  argv << ['-p', ENV['PORT']] unless ARGV.include?('-p')
-  argv << ['--max-persistent-conns', '200'] unless ARGV.include?('--max-persistent-conns')
-  argv << ['-a', '::'] unless ARGV.include?('-a')
-  argv << ['-e', 'production'] unless ARGV.include?('-e')
-  Thin::Runner.new(argv.flatten).run!
-  warn 'Finished running thin'
 else
   warn "You must choose one of the following commands: #{supported_commands.inspect}"
   exit(1)
