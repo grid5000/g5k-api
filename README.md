@@ -122,15 +122,15 @@ You can check the installation by running a few commands to gather information a
 
 * To run the server, just enter:
 
-        $ bundle exec ./bin/g5k-api server start -e development
+        $ bundle exec ./bin/g5k-api rails server -e development
 
 * If you require traces on the shell, use
 
-        $ bundle exec ./bin/g5k-api server -V start -e development
+        $ bundle exec ./bin/g5k-api rails server -V -e development
 
 * If you need to be authenticated for some development, use:
 
-        $ HTTP_X_API_USER_CN=dmargery WHOAMI=rennes bundle exec ./bin/g5k-api server start -e development
+        $ HTTP_X_API_USER_CN=dmargery WHOAMI=rennes bundle exec ./bin/g5k-api rails server -e development
 
 That's it. If you're not too familiar with `rails`, have a look at
 <http://guides.rubyonrails.org/>.

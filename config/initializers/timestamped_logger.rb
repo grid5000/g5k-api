@@ -12,7 +12,6 @@ class TimeStampedFormatter
   def call(severity, timestamp, progname, msg)
     stamp = timestamp.strftime(@timestamp_format)
     stamp += "<Thread #{Thread.current.object_id}>" if @with_thread_id
-    stamp += "[Fiber #{Fiber.current.object_id}]" if @with_fiber_id
     stamp += ' ' if stamp[-1] != ' '
     stamp + @delegate.call(severity, timestamp, progname, msg)
   end
