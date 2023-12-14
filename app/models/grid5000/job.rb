@@ -180,7 +180,7 @@ module Grid5000
 
       schema :Job do
         key :required, [:uid, :user_uid, :user, :walltime, :queue, :state,
-                        :project, :name, :types, :mode, :command, :submitted_at,
+                        :project, :types, :mode, :command, :submitted_at,
                         :started_at, :message, :properties,
                         :directory, :events]
 
@@ -196,7 +196,7 @@ module Grid5000
           key :example, 'user'
         end
 
-        property :user_uid do
+        property :user do
           key :type, :string
           key :description, "The job's owner."
           key :example, 'user'
