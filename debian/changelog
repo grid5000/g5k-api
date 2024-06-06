@@ -1,3 +1,10 @@
+g5k-api (3.11.5) unstable; urgency=low
+
+  * c691d8c Setup CORS headers
+  * 6711ebb Fixed swagger block for jobs API. (Bug 15175)
+
+ -- Philippe Virouleau <philippe.virouleau@inria.fr>  Thu, 06 Jun 2024 09:56:10 +0200
+
 g5k-api (3.11.4) unstable; urgency=low
 
   * b139437 server: switch from thin to puma
