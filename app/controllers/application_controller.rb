@@ -21,6 +21,7 @@ class ApplicationController < ActionController::API
   include ApplicationHelper
 
   before_action :lookup_credentials
+  before_action :setup_cors
 
   # additional classes introduced to handle all possible exceptions
   # as per status codes https://api.grid5000.fr/doc/stable/reference/spec.html
@@ -220,6 +221,12 @@ class ApplicationController < ActionController::API
   # ================
   def allow(*args)
     response.headers['Allow'] = args.flatten.map { |m| m.to_s.upcase }.join(',')
+  end
+
+  def setup_cors
+    headers['Access-Control-Allow-Origin'] = '*'
+    headers['Access-Control-Allow-Methods'] = 'GET'
+    headers['Access-Control-Allow-Headers'] = '*'
   end
 
   def vary_on(*args)
