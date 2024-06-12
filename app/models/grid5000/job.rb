@@ -29,7 +29,7 @@ module Grid5000
 
     # OAR expects these as import-job-key-from-file
     READ_ONLY_UNDERSCORE_ATTRIBUTES = [:import_job_key_from_file].freeze
-    READ_WRITE_ATTRIBUTES = %i[name project workdir].freeze
+    READ_WRITE_ATTRIBUTES = %i[name project workdir notify].freeze
     attr_reader(*READ_ONLY_ATTRIBUTES)
     attr_reader(*READ_ONLY_UNDERSCORE_ATTRIBUTES)
     attr_accessor(*READ_WRITE_ATTRIBUTES)
@@ -460,6 +460,12 @@ module Grid5000
           key :default, 'default'
           key :example, 'production'
         end
+
+        property :notify do
+          key :type, :string
+          key :description, 'Specify a notification method'
+          key :example, 'mail:user@example.com'
+        end
       end
     end
 
@@ -501,7 +507,7 @@ module Grid5000
         h['property'] = properties unless properties.nil? || properties.empty?
         h['type'] = types unless types.nil? || types.empty?
 
-        %w[walltime queue directory name project signal checkpoint stderr stdout workdir].each do |prop|
+        %w[walltime queue directory name project signal checkpoint stderr stdout workdir notify].each do |prop|
           value = instance_variable_get "@#{prop}"
           h[prop] = value unless value.nil?
         end
