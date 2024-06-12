@@ -82,6 +82,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     #!/bin/bash -x
     if ! which pupppet > /dev/null ; then
       sed -i s/httpredir/deb/ /etc/apt/sources.list # faster mirror
+      sed -i '/backports/s|deb.debian.org|archive.debian.org|g' /etc/apt/sources.list
       export DEBIAN_FRONTEND=noninteractive
       cd /tmp && wget -q http://apt.puppetlabs.com/puppet6-release-buster.deb && dpkg -i puppet6-release-buster.deb
       apt-get update
