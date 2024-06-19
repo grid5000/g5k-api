@@ -508,6 +508,7 @@ resource), `besteffort` (a besteffort job is running on the resource).
 
   # A list of all classes that have swagger_* declarations.
   SWAGGERED_CLASSES = [
+    AccessesController,
     SitesController,
     ClustersController,
     ResourcesController,

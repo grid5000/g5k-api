@@ -28,6 +28,8 @@ Api::Application.routes.draw do
   get '*resource/versions/latest' => 'versions#latest'
   get '*resource/versions/:id' => 'versions#show'
 
+  get '/accesses' => 'accesses#all'
+
   resources :network_equipments, only: %i[index show]
   resources :sites, only: %i[index show] do
     get '/vlans/nodes' => 'vlans_nodes_all#index'
