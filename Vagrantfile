@@ -13,7 +13,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # please see the online documentation at vagrantup.com.
 
   # Every Vagrant virtual environment requires a box to build off of.
-  config.vm.box = 'debian/contrib-buster64'
+  config.vm.box = 'debian/bookworm64'
   config.vm.hostname = 'g5k-local'
 
   # Create a forwarded port mapping which allows access to a specific port
@@ -82,11 +82,10 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     #!/bin/bash -x
     if ! which pupppet > /dev/null ; then
       sed -i s/httpredir/deb/ /etc/apt/sources.list # faster mirror
-      sed -i '/backports/s|deb.debian.org|archive.debian.org|g' /etc/apt/sources.list
       export DEBIAN_FRONTEND=noninteractive
-      cd /tmp && wget -q http://apt.puppetlabs.com/puppet6-release-buster.deb && dpkg -i puppet6-release-buster.deb
+      cd /tmp && wget -q http://apt.puppetlabs.com/puppet6-release-bullseye.deb && dpkg -i puppet6-release-bullseye.deb
       apt-get update
-      apt-get -y install --no-install-recommends puppet-agent
+      apt-get -y install --no-install-recommends puppet-agent/bullseye
     fi
   SHELL
 
