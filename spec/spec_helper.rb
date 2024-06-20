@@ -108,6 +108,8 @@ RSpec.configure do |config|
     end
   end
 
+  # config.raise_errors_for_deprecations!
+
   config.around(:each) do |example|
     Rails.logger.debug example.metadata[:full_description]
     ActiveRecord::Base.connection_pool.with_connection do

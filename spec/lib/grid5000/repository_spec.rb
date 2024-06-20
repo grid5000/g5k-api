@@ -25,12 +25,7 @@ describe Grid5000::Repository do
   end
 
   it 'should raise an error if the repository_path is incorrect' do
-    expect(lambda {
-      Grid5000::Repository.new(
-        '/does/not/exist',
-        @repository_path_prefix
-      )
-    }).to raise_error(Rugged::OSError)
+    expect { Grid5000::Repository.new('/does/not/exist', @repository_path_prefix) }.to raise_error(Rugged::OSError)
   end
 
   describe 'with a working repository' do

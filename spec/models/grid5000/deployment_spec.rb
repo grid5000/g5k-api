@@ -251,9 +251,7 @@ describe Grid5000::Deployment do
       expect(@deployment).to receive(:launch_workflow!)
         .and_raise(Exception.new('some error'))
       expect(@deployment.status?(:waiting)).to be true
-      expect(lambda {
-        @deployment.launch!
-      }).to raise_error(Exception, 'some error')
+      expect { @deployment.launch! }.to raise_error(Exception, 'some error')
       expect(@deployment.status?(:processing)).to be false
     end
 
@@ -279,9 +277,7 @@ describe Grid5000::Deployment do
       it 'should not be able to go from processing to canceled if an exception is raised when cancel_workflow' do
         expect(@deployment).to receive(:cancel_workflow!)
           .and_raise(Exception.new('some error'))
-        expect(lambda {
-          @deployment.cancel
-        }).to raise_error(Exception, 'some error')
+        expect { @deployment.cancel }.to raise_error(Exception, 'some error')
         expect(@deployment.status?(:canceled)).to be false
       end
       it 'should be able to go from processing to error' do
