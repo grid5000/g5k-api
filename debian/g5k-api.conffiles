@@ -1,3 +1,3 @@
-opt/g5k-api/config/database.yml
-opt/g5k-api/config/defaults.yml
-opt/g5k-api/config/secrets.yml
+/opt/g5k-api/config/database.yml
+/opt/g5k-api/config/defaults.yml
+/opt/g5k-api/config/secrets.yml

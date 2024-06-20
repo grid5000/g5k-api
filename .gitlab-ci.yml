@@ -19,14 +19,14 @@ include:
 
 .install-deps:
   before_script:
-    - echo "deb [ trusted=yes ] http://packages.grid5000.fr/deb/g5k-deb-build-tools/buster /" > /etc/apt/sources.list.d/g5k-deb-build-tools.list
+    - echo "deb [ trusted=yes ] http://packages.grid5000.fr/deb/g5k-deb-build-tools/bookworm /" > /etc/apt/sources.list.d/g5k-deb-build-tools.list
     - apt-get update && apt-get -y --no-install-recommends install devscripts build-essential equivs libssl-dev
     - mk-build-deps -ir -t 'apt-get -y --no-install-recommends'
     - gem install bundler -v 2.3.22
     - bundle config set path 'vendor/bundle'
 
-test-for-buster: &test-for-buster
-  image: debian:buster
+test-for-bookworm: &test-for-bookworm
+  image: debian:bookworm
   stage: test
   services:
     - name: mariadb:10.3
@@ -58,8 +58,8 @@ test-for-buster: &test-for-buster
   except:
     - tags
 
-deb-for-buster: &deb-for-buster
-  image: debian:buster
+deb-for-bookworm: &deb-for-bookworm
+  image: debian:bookworm
   stage: deb
   tags:
   - grid5000-docker
@@ -80,7 +80,7 @@ deb-for-buster: &deb-for-buster
   echo "Request to push for debian version ${TARGET_DEBIAN_VERSION} for branch ${TARGET_G5K_API_VARIANT}"
   g5k-deploy-files --only-if-tag '^v\d+\.\d+\.\d+' --debian --directory deb/g5k-api/${TARGET_DEBIAN_VERSION}
 
-push-buster-package: &push-buster-package
+push-bookworm-package: &push-bookworm-package
   stage: deploy
   when: manual
   allow_failure: false
@@ -90,8 +90,8 @@ push-buster-package: &push-buster-package
   only: # we only execute this job for tagged commits on the master branch
     - master
   dependencies:
-    - deb-for-buster
+    - deb-for-bookworm
   variables:
-    TARGET_DEBIAN_VERSION: buster
+    TARGET_DEBIAN_VERSION: bookworm
   script:
     - *push-packages-script
