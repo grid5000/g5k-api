@@ -1,3 +1,10 @@
+g5k-api (3.11.6) unstable; urgency=medium
+
+  * 3ae585e Added --notify support to API
+  * 1da8155..d223d71 Misc fixes
+
+ -- Luke Bertot <luke.bertot@inria.fr>  Thu, 20 Jun 2024 17:47:42 +0200
+
 g5k-api (3.11.5) unstable; urgency=low
 
   * c691d8c Setup CORS headers
