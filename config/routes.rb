@@ -29,6 +29,7 @@ Api::Application.routes.draw do
   get '*resource/versions/:id' => 'versions#show'
 
   get '/accesses' => 'accesses#all'
+  get '/refrepo' => 'accesses#refrepo'
 
   resources :network_equipments, only: %i[index show]
   resources :sites, only: %i[index show] do

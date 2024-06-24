@@ -34,6 +34,26 @@ class AccessesController < ApplicationController
     end
   end
 
+  swagger_path '/refrepo' do
+    operation :get do
+      key :summary, 'Get the reference-repository'
+      key :description, "Returns the content of the reference-repository in a "\
+        "single JSON, with selected fields for each element. Primarily used by "\
+        "Resources Explorer."
+      key :tags, ['reference-api']
+
+      [:branch].each do |param|
+        parameter do
+          key :$ref, param
+        end
+      end
+
+      response 200 do
+        key :description, "The reference-repository in a single JSON."
+        content api_media_type(:g5kitemjson)
+      end
+    end
+  end
 
   def all
     all_accesses = repository.find_and_expand(
@@ -43,5 +63,15 @@ class AccessesController < ApplicationController
 
     raise NotFound, "Accesses does not exist." unless all_accesses
     render_result(all_accesses)
+  end
+
+  def refrepo
+    all_refrepo = repository.find_and_expand(
+      '/accesses/refrepo',
+      branch: params[:branch] || 'master',
+    )
+
+    raise NotFound, "Refrepo does not exist." unless all_refrepo
+    render_result(all_refrepo)
   end
 end
