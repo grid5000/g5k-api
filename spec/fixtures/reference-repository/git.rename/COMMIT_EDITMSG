@@ -1,13 +1,12 @@
-[all] update wiki's links
+Add fixtures
+
 # Please enter the commit message for your changes. Lines starting
 # with '#' will be ignored, and an empty message aborts the commit.
 #
+# Date:      Mon Jun 24 14:37:39 2024 +0200
+#
 # On branch master
 # Changes to be committed:
-#	modified:   data/grid5000/sites/grenoble/grenoble.json
-#	modified:   data/grid5000/sites/lille/lille.json
-#	modified:   data/grid5000/sites/luxembourg/luxembourg.json
-#	modified:   data/grid5000/sites/lyon/lyon.json
-#	modified:   data/grid5000/sites/nancy/nancy.json
-#	modified:   data/grid5000/sites/sophia/sophia.json
+#	new file:   accesses/all.json
+#	new file:   accesses/refrepo.json
 #
