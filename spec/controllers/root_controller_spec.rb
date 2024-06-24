@@ -26,6 +26,7 @@ describe RootController do
                          'version' => @latest_commit,
                          'timestamp' => @now.to_i,
                          'links' => [
+                           { 'rel' => 'accesses', 'href' => '/accesses', 'type' => 'application/vnd.grid5000.collection+json' },
                            { 'rel' => 'network_equipments', 'href' => '/network_equipments', 'type' => 'application/vnd.grid5000.collection+json' },
                            { 'rel' => 'sites', 'href' => '/sites', 'type' => 'application/vnd.grid5000.collection+json' },
                            { 'rel' => 'self', 'type' => 'application/vnd.grid5000.item+json', 'href' => '/' },
@@ -47,6 +48,7 @@ describe RootController do
                          'version' => @latest_commit,
                          'timestamp' => @now.to_i,
                          'links' => [
+                           { 'rel' => 'accesses', 'href' => '/sid/accesses', 'type' => 'application/vnd.grid5000.collection+json' },
                            { 'rel' => 'network_equipments', 'href' => '/sid/network_equipments', 'type' => 'application/vnd.grid5000.collection+json' },
                            { 'rel' => 'sites', 'href' => '/sid/sites', 'type' => 'application/vnd.grid5000.collection+json' },
                            { 'rel' => 'self', 'type' => 'application/vnd.grid5000.item+json', 'href' => '/sid/' },
@@ -61,8 +63,8 @@ describe RootController do
   it "should get the correct deep view" do
     get :show, params: { id: 'grid5000', format: :json, deep: true }
     expect(response.status).to eq 200
-    expect(json['total']).to eq 4
-    expect(json['items'].length).to eq 4
+    expect(json['total']).to eq 5
+    expect(json['items'].length).to eq 5
     expect(json['items']['sites']).to be_a(Hash)
   end
 end

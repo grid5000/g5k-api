@@ -89,7 +89,7 @@ RSpec.configure do |config|
   end
 
   config.before(:all) do
-    @latest_commit = 'ce002d9e8110c5361d7e82f0d946d2a031443232'
+    @latest_commit = '5c2355e549ff5579816781b3d8255b35b5a30df0'
     @repository_path_prefix = 'data'
     # INIT TESTING GIT REPOSITORY
     @repository_path = File.expand_path(
