@@ -236,7 +236,9 @@ describe SitesController do
     it "should be the correct version" do
       get :index, params: { format: :json, deep: true }
       expect(response.status).to eq 200
-      expect(json['version']).to eq @latest_commit
+      # @latest_commit didn't change the "sites" path and isn't the correct
+      # commit.
+      expect(json['version']).to eq "ce002d9e8110c5361d7e82f0d946d2a031443232"
     end
   end
 
