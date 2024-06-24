@@ -1,3 +1,10 @@
+g5k-api (3.11.7) unstable; urgency=medium
+
+  * aed7ffd0 Add /refrepo endpoint
+  * fcc29c9 Add /accesses endpoint
+
+ -- Philippe Virouleau <philippe.virouleau@inria.fr>  Mon, 24 Jun 2024 16:19:24 +0200
+
 g5k-api (3.11.6) unstable; urgency=medium
 
   * 3ae585e Added --notify support to API
