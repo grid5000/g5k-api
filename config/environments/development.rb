@@ -11,6 +11,7 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
+require 'active_support/core_ext/integer/time'
 
 Api::Application.configure do
   # Settings specified here will take precedence over those in config/application.rb
