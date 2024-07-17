@@ -40,7 +40,7 @@ class development {
   exec{ "give ownership of oar2 databases to oar":
     user => postgres,
     command => "/bin/echo \"ALTER DATABASE oar2_dev OWNER TO oar; ALTER DATABASE oar2_test OWNER TO oar;\" | /usr/bin/psql ",
-    unless => "/usr/bin/psql -l | grep oar2 | grep oar",
+    unless => "/usr/bin/psql -l | grep oar2 |cut -d'|' -f 2- | grep oar",
     require => Exec["allow connections to postgres for oar"]
   }
 

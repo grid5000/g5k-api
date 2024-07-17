@@ -12,14 +12,14 @@ class postgres {
   }
 
   file{
-    '/etc/postgresql/11/main':
+    '/etc/postgresql/15/main':
       ensure  => directory,
       owner   => postgres,
       group   => postgres,
       mode    => "0700",
       recurse => true,
       require => [Package['postgresql'], User['postgres']];
-    '/etc/postgresql/11/main/pg_hba.conf':
+    '/etc/postgresql/15/main/pg_hba.conf':
       ensure  => present,
       source  => "puppet:///modules/postgres/pg_hba.conf",
       owner   => postgres,
@@ -27,7 +27,7 @@ class postgres {
       mode    => "0700",
       require => Package['postgresql'],
       notify  => Service['postgresql'];
-    '/etc/postgresql/11/main/postgresql.conf':
+    '/etc/postgresql/15/main/postgresql.conf':
       content => template('postgres/postgres.conf.erb'),
       owner   => postgres,
       group   => postgres,

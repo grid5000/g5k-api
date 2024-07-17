@@ -1,3 +1,10 @@
+g5k-api (3.11.8) unstable; urgency=medium
+
+  * Upgrade to rails 6.1
+  * Switch to bookworm
+
+ -- Luke Bertot <luke.bertot@inria.fr>  Tue, 09 Jul 2024 11:19:56 +0200
+
 g5k-api (3.11.7) unstable; urgency=medium
 
   * aed7ffd0 Add /refrepo endpoint

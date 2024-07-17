@@ -1,7 +1,7 @@
 source 'https://rubygems.org'
 
 gem 'bootsnap', require: false
-gem 'rails', '~> 6.0.2'
+gem 'rails', '~> 6.1.4'
 gem 'rake'
 # jQuery is the default JavaScript library as from Rails 3.1
 gem 'jquery-rails'
@@ -37,7 +37,7 @@ group :test do
   gem 'net-ssh-multi'
   gem 'rspec'
   gem 'rspec_junit_formatter', '~> 0.3.0' # for tests generated for Jenkins
-  gem 'rspec-rails'
+  gem 'rspec-rails', '~> 6.1'
   gem 'simplecov'
   gem 'webmock'
 end

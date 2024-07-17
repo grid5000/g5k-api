@@ -70,6 +70,6 @@ module Api
     config.assets.enabled = true
     config.assets.version = '1.0'
 
-    CONFIG = YAML.load_file(File.join(Rails.root, 'config', 'defaults.yml'))[Rails.env]
+    CONFIG = YAML.load_file(File.join(Rails.root, 'config', 'defaults.yml'), aliases: true)[Rails.env]
   end
 end
