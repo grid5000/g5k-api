@@ -1,3 +1,9 @@
+g5k-api (3.11.8-2) stable; urgency=medium
+
+  * Bump package version
+
+ -- Luke Bertot <luke.bertot@inria.fr>  Wed, 17 Jul 2024 12:47:52 +0200
+
 g5k-api (3.11.8) unstable; urgency=medium
 
   * Upgrade to rails 6.1
