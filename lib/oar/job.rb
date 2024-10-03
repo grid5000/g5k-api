@@ -40,7 +40,7 @@ module OAR
     end
 
     def resources
-      query = "
+      query_assigned = "
       (
         SELECT resources.*
         FROM resources
@@ -51,9 +51,8 @@ module OAR
         INNER JOIN moldable_job_descriptions
           ON assigned_resources.moldable_job_id = moldable_job_descriptions.moldable_id
           AND jobs.job_id = moldable_job_descriptions.moldable_job_id
-        ORDER BY resources.network_address ASC
-      )
-      UNION
+      )"
+      query_gantt = "
       (
         SELECT resources.*
         FROM resources
@@ -64,9 +63,9 @@ module OAR
         INNER JOIN moldable_job_descriptions
           ON gantt_jobs_resources.moldable_job_id = moldable_job_descriptions.moldable_id
           AND jobs.job_id = moldable_job_descriptions.moldable_job_id
-        ORDER BY resources.network_address ASC
       )"
-      Resource.find_by_sql(query)
+      # Server-side UNION do not preserve order of records, so we do client side unions.
+      Resource.find_by_sql(query_assigned) | Resource.find_by_sql(query_gantt)
     end
 
     def state
@@ -153,11 +152,14 @@ module OAR
 
     def resources_by_type
       h = {}
+      node_order = []
+      assigned_cores = []
       resources.each do |resource|
         case resource.type
         when 'default'
           h['cores'] ||= []
-          h['cores'].push(resource.network_address + '/' + resource.cpuset)
+          assigned_cores.push("#{resource.network_address}/#{resource.cpuset}")
+          node_order.push(resource.network_address) unless node_order.include?(resource.network_address)
         when /vlan/
           h['vlans'] ||= []
           h['vlans'].push(resource.vlan)
@@ -176,13 +178,14 @@ module OAR
         end
       end
 
-      # Sort by node name and cpuset, to have nodes from a same cluster grouped
-      # and listed in correct order. Also sort cpuset number for a node.
+      # Sort by node name and cpuset, to have nodes from a same cluster grouped.
+      # But keep the order of nodes the same as in the database to preserve the head node.
       if h['cores']
-        h['cores'].sort_by! do |n|
-          [n.gsub(/^([A-z]+)\-.*$/, '\1'),
-           n.gsub(/^([A-z]+)\-([0-9]+).*/, '\2').to_i,
-           n.gsub(/^.*\/([0-9]+)$/, '\1').to_i]
+        node_order.each do |node|
+          h['cores'].concat(
+            assigned_cores.select { |n| n =~ /^#{node}/ }
+            .sort_by { |n| n.gsub(%r{^.*/([0-9]+)$}, '\1').to_i }
+          )
         end
       end
 
