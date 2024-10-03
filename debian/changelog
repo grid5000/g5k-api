@@ -1,3 +1,11 @@
+g5k-api (3.11.10) unstable; urgency=medium
+
+  * 5d07702 [config] Set puma to run in single mode (bug 16167)
+  * d0932df [deb] Removed syslog conf from systemd (bug 16166)
+  * 3e1ac00 [jobs] Preserve node order in assigned_resources (bug 15465)
+
+ -- Luke Bertot <luke.bertot@inria.fr>  Thu, 03 Oct 2024 14:09:15 +0200
+
 g5k-api (3.11.9) unstable; urgency=medium
 
   * Bump package version
