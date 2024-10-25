@@ -1,0 +1,3225 @@
+{
+  "abacus1": {
+    "p1": {
+      "ggas": [
+        "sairpico"
+      ],
+      "sites": [
+        "mc-staff-site",
+        "g5k-staff-site"
+      ]
+    },
+    "p2": {
+      "ggas": [
+        "cidre",
+        "kerdata",
+        "magellan",
+        "myriads",
+        "pacap",
+        "wide"
+      ],
+      "sites": [
+        "mc-rennes"
+      ]
+    },
+    "p3": {
+      "ggas": [
+        "cidre",
+        "kerdata",
+        "magellan",
+        "myriads",
+        "pacap",
+        "wide",
+        "coast",
+        "avalon",
+        "chroma",
+        "emeraude",
+        "maracas",
+        "hive",
+        "inriastartupstudio",
+        "sonaide",
+        "feelim",
+        "iss-idiscover",
+        "iss-manta",
+        "inria-chile",
+        "inria-dsi",
+        "inria-sidf",
+        "swh",
+        "tadaam"
+      ],
+      "sites": [
+        "mc-rennes",
+        "mc-nancy",
+        "mc-lyon",
+        "mc-sophia",
+        "mc-lille",
+        "mc-grenoble",
+        "mc-paris",
+        "mc-saclay",
+        "mc-bordeaux"
+      ]
+    },
+    "p4": {
+      "ggas": [
+        "ls2n",
+        "nantes-misc",
+        "i3s",
+        "sophia-misc",
+        "zenith",
+        "irit",
+        "laas",
+        "toulouse-misc"
+      ],
+      "sites": [
+        "mc-guest",
+        "slices-fr-grenoble",
+        "slices-fr-lille",
+        "slices-fr-lyon",
+        "slices-fr-nancy",
+        "slices-fr-nantes",
+        "slices-fr-rennes",
+        "slices-fr-sophia",
+        "slices-fr-strasbourg",
+        "slices-fr-toulouse"
+      ]
+    }
+  },
+  "abacus10": {
+    "besteffort": {
+      "ggas": [
+        "cidre",
+        "kerdata",
+        "magellan",
+        "myriads",
+        "pacap",
+        "wide",
+        "coast",
+        "avalon",
+        "chroma",
+        "emeraude",
+        "maracas",
+        "hive",
+        "inriastartupstudio",
+        "sonaide",
+        "feelim",
+        "iss-idiscover",
+        "iss-manta",
+        "inria-chile",
+        "inria-dsi",
+        "inria-sidf",
+        "swh",
+        "tadaam",
+        "ls2n",
+        "nantes-misc",
+        "i3s",
+        "sophia-misc",
+        "zenith",
+        "irit",
+        "laas",
+        "toulouse-misc"
+      ],
+      "sites": [
+        "mc-rennes",
+        "mc-nancy",
+        "mc-lyon",
+        "mc-sophia",
+        "mc-lille",
+        "mc-grenoble",
+        "mc-paris",
+        "mc-saclay",
+        "mc-bordeaux",
+        "mc-guest",
+        "slices-fr-grenoble",
+        "slices-fr-lille",
+        "slices-fr-lyon",
+        "slices-fr-nancy",
+        "slices-fr-nantes",
+        "slices-fr-rennes",
+        "slices-fr-sophia",
+        "slices-fr-strasbourg",
+        "slices-fr-toulouse"
+      ]
+    },
+    "p1": {
+      "ggas": [
+        "linkmedia"
+      ],
+      "sites": [
+        "mc-staff-site",
+        "g5k-staff-site"
+      ]
+    }
+  },
+  "abacus11": {
+    "p1": {
+      "ggas": [
+        "intuidoc"
+      ],
+      "sites": [
+        "mc-staff-site",
+        "g5k-staff-site"
+      ]
+    },
+    "p2": {
+      "ggas": [
+        "cidre",
+        "kerdata",
+        "magellan",
+        "myriads",
+        "pacap",
+        "wide"
+      ],
+      "sites": [
+        "mc-rennes"
+      ]
+    },
+    "p3": {
+      "ggas": [
+        "cidre",
+        "kerdata",
+        "magellan",
+        "myriads",
+        "pacap",
+        "wide",
+        "coast",
+        "avalon",
+        "chroma",
+        "emeraude",
+        "maracas",
+        "hive",
+        "inriastartupstudio",
+        "sonaide",
+        "feelim",
+        "iss-idiscover",
+        "iss-manta",
+        "inria-chile",
+        "inria-dsi",
+        "inria-sidf",
+        "swh",
+        "tadaam"
+      ],
+      "sites": [
+        "mc-rennes",
+        "mc-nancy",
+        "mc-lyon",
+        "mc-sophia",
+        "mc-lille",
+        "mc-grenoble",
+        "mc-paris",
+        "mc-saclay",
+        "mc-bordeaux"
+      ]
+    },
+    "p4": {
+      "ggas": [
+        "ls2n",
+        "nantes-misc",
+        "i3s",
+        "sophia-misc",
+        "zenith",
+        "irit",
+        "laas",
+        "toulouse-misc"
+      ],
+      "sites": [
+        "mc-guest",
+        "slices-fr-grenoble",
+        "slices-fr-lille",
+        "slices-fr-lyon",
+        "slices-fr-nancy",
+        "slices-fr-nantes",
+        "slices-fr-rennes",
+        "slices-fr-sophia",
+        "slices-fr-strasbourg",
+        "slices-fr-toulouse"
+      ]
+    }
+  },
+  "abacus12": {
+    "besteffort": {
+      "ggas": [
+        "cidre",
+        "kerdata",
+        "magellan",
+        "myriads",
+        "pacap",
+        "wide",
+        "coast",
+        "avalon",
+        "chroma",
+        "emeraude",
+        "maracas",
+        "hive",
+        "inriastartupstudio",
+        "sonaide",
+        "feelim",
+        "iss-idiscover",
+        "iss-manta",
+        "inria-chile",
+        "inria-dsi",
+        "inria-sidf",
+        "swh",
+        "tadaam",
+        "ls2n",
+        "nantes-misc",
+        "i3s",
+        "sophia-misc",
+        "zenith",
+        "irit",
+        "laas",
+        "toulouse-misc"
+      ],
+      "sites": [
+        "mc-rennes",
+        "mc-nancy",
+        "mc-lyon",
+        "mc-sophia",
+        "mc-lille",
+        "mc-grenoble",
+        "mc-paris",
+        "mc-saclay",
+        "mc-bordeaux",
+        "mc-guest",
+        "slices-fr-grenoble",
+        "slices-fr-lille",
+        "slices-fr-lyon",
+        "slices-fr-nancy",
+        "slices-fr-nantes",
+        "slices-fr-rennes",
+        "slices-fr-sophia",
+        "slices-fr-strasbourg",
+        "slices-fr-toulouse"
+      ]
+    },
+    "p1": {
+      "ggas": [
+        "lacodam"
+      ],
+      "sites": [
+        "mc-staff-site",
+        "g5k-staff-site"
+      ]
+    }
+  },
+  "abacus14": {
+    "p1": {
+      "ggas": [
+        "cidre",
+        "kerdata",
+        "magellan",
+        "myriads",
+        "pacap",
+        "wide"
+      ],
+      "sites": [
+        "mc-rennes",
+        "mc-staff-site",
+        "g5k-staff-site"
+      ]
+    },
+    "p3": {
+      "ggas": [
+        "cidre",
+        "kerdata",
+        "magellan",
+        "myriads",
+        "pacap",
+        "wide",
+        "coast",
+        "avalon",
+        "chroma",
+        "emeraude",
+        "maracas",
+        "hive",
+        "inriastartupstudio",
+        "sonaide",
+        "feelim",
+        "iss-idiscover",
+        "iss-manta",
+        "inria-chile",
+        "inria-dsi",
+        "inria-sidf",
+        "swh",
+        "tadaam"
+      ],
+      "sites": [
+        "mc-rennes",
+        "mc-nancy",
+        "mc-lyon",
+        "mc-sophia",
+        "mc-lille",
+        "mc-grenoble",
+        "mc-paris",
+        "mc-saclay",
+        "mc-bordeaux"
+      ]
+    },
+    "p4": {
+      "ggas": [
+        "ls2n",
+        "nantes-misc",
+        "i3s",
+        "sophia-misc",
+        "zenith",
+        "irit",
+        "laas",
+        "toulouse-misc"
+      ],
+      "sites": [
+        "mc-guest",
+        "slices-fr-grenoble",
+        "slices-fr-lille",
+        "slices-fr-lyon",
+        "slices-fr-nancy",
+        "slices-fr-nantes",
+        "slices-fr-rennes",
+        "slices-fr-sophia",
+        "slices-fr-strasbourg",
+        "slices-fr-toulouse"
+      ]
+    }
+  },
+  "abacus16": {
+    "p1": {
+      "ggas": [
+        "cidre",
+        "kerdata",
+        "magellan",
+        "myriads",
+        "pacap",
+        "wide"
+      ],
+      "sites": [
+        "mc-rennes",
+        "mc-staff-site",
+        "g5k-staff-site"
+      ]
+    },
+    "p3": {
+      "ggas": [
+        "cidre",
+        "kerdata",
+        "magellan",
+        "myriads",
+        "pacap",
+        "wide",
+        "coast",
+        "avalon",
+        "chroma",
+        "emeraude",
+        "maracas",
+        "hive",
+        "inriastartupstudio",
+        "sonaide",
+        "feelim",
+        "iss-idiscover",
+        "iss-manta",
+        "inria-chile",
+        "inria-dsi",
+        "inria-sidf",
+        "swh",
+        "tadaam"
+      ],
+      "sites": [
+        "mc-rennes",
+        "mc-nancy",
+        "mc-lyon",
+        "mc-sophia",
+        "mc-lille",
+        "mc-grenoble",
+        "mc-paris",
+        "mc-saclay",
+        "mc-bordeaux"
+      ]
+    },
+    "p4": {
+      "ggas": [
+        "ls2n",
+        "nantes-misc",
+        "i3s",
+        "sophia-misc",
+        "zenith",
+        "irit",
+        "laas",
+        "toulouse-misc"
+      ],
+      "sites": [
+        "mc-guest",
+        "slices-fr-grenoble",
+        "slices-fr-lille",
+        "slices-fr-lyon",
+        "slices-fr-nancy",
+        "slices-fr-nantes",
+        "slices-fr-rennes",
+        "slices-fr-sophia",
+        "slices-fr-strasbourg",
+        "slices-fr-toulouse"
+      ]
+    }
+  },
+  "abacus17": {
+    "besteffort": {
+      "ggas": [
+        "cidre",
+        "kerdata",
+        "magellan",
+        "myriads",
+        "pacap",
+        "wide",
+        "coast",
+        "avalon",
+        "chroma",
+        "emeraude",
+        "maracas",
+        "hive",
+        "inriastartupstudio",
+        "sonaide",
+        "feelim",
+        "iss-idiscover",
+        "iss-manta",
+        "inria-chile",
+        "inria-dsi",
+        "inria-sidf",
+        "swh",
+        "tadaam",
+        "ls2n",
+        "nantes-misc",
+        "i3s",
+        "sophia-misc",
+        "zenith",
+        "irit",
+        "laas",
+        "toulouse-misc"
+      ],
+      "sites": [
+        "mc-rennes",
+        "mc-nancy",
+        "mc-lyon",
+        "mc-sophia",
+        "mc-lille",
+        "mc-grenoble",
+        "mc-paris",
+        "mc-saclay",
+        "mc-bordeaux",
+        "mc-guest",
+        "slices-fr-grenoble",
+        "slices-fr-lille",
+        "slices-fr-lyon",
+        "slices-fr-nancy",
+        "slices-fr-nantes",
+        "slices-fr-rennes",
+        "slices-fr-sophia",
+        "slices-fr-strasbourg",
+        "slices-fr-toulouse"
+      ]
+    },
+    "p1": {
+      "ggas": [
+        "taran"
+      ],
+      "sites": [
+        "mc-staff-site",
+        "g5k-staff-site"
+      ]
+    }
+  },
+  "abacus18": {
+    "besteffort": {
+      "ggas": [
+        "cidre",
+        "kerdata",
+        "magellan",
+        "myriads",
+        "pacap",
+        "wide",
+        "coast",
+        "avalon",
+        "chroma",
+        "emeraude",
+        "maracas",
+        "hive",
+        "inriastartupstudio",
+        "sonaide",
+        "feelim",
+        "iss-idiscover",
+        "iss-manta",
+        "inria-chile",
+        "inria-dsi",
+        "inria-sidf",
+        "swh",
+        "tadaam",
+        "ls2n",
+        "nantes-misc",
+        "i3s",
+        "sophia-misc",
+        "zenith",
+        "irit",
+        "laas",
+        "toulouse-misc"
+      ],
+      "sites": [
+        "mc-rennes",
+        "mc-nancy",
+        "mc-lyon",
+        "mc-sophia",
+        "mc-lille",
+        "mc-grenoble",
+        "mc-paris",
+        "mc-saclay",
+        "mc-bordeaux",
+        "mc-guest",
+        "slices-fr-grenoble",
+        "slices-fr-lille",
+        "slices-fr-lyon",
+        "slices-fr-nancy",
+        "slices-fr-nantes",
+        "slices-fr-rennes",
+        "slices-fr-sophia",
+        "slices-fr-strasbourg",
+        "slices-fr-toulouse"
+      ]
+    },
+    "p1": {
+      "ggas": [
+        "linkmedia"
+      ],
+      "sites": [
+        "mc-staff-site",
+        "g5k-staff-site"
+      ]
+    }
+  },
+  "abacus19": {
+    "besteffort": {
+      "ggas": [
+        "cidre",
+        "kerdata",
+        "magellan",
+        "myriads",
+        "pacap",
+        "wide",
+        "coast",
+        "avalon",
+        "chroma",
+        "emeraude",
+        "maracas",
+        "hive",
+        "inriastartupstudio",
+        "sonaide",
+        "feelim",
+        "iss-idiscover",
+        "iss-manta",
+        "inria-chile",
+        "inria-dsi",
+        "inria-sidf",
+        "swh",
+        "tadaam",
+        "ls2n",
+        "nantes-misc",
+        "i3s",
+        "sophia-misc",
+        "zenith",
+        "irit",
+        "laas",
+        "toulouse-misc"
+      ],
+      "sites": [
+        "mc-rennes",
+        "mc-nancy",
+        "mc-lyon",
+        "mc-sophia",
+        "mc-lille",
+        "mc-grenoble",
+        "mc-paris",
+        "mc-saclay",
+        "mc-bordeaux",
+        "mc-guest",
+        "slices-fr-grenoble",
+        "slices-fr-lille",
+        "slices-fr-lyon",
+        "slices-fr-nancy",
+        "slices-fr-nantes",
+        "slices-fr-rennes",
+        "slices-fr-sophia",
+        "slices-fr-strasbourg",
+        "slices-fr-toulouse"
+      ]
+    },
+    "p1": {
+      "ggas": [
+        "empenn"
+      ],
+      "sites": [
+        "mc-staff-site",
+        "g5k-staff-site"
+      ]
+    }
+  },
+  "abacus2": {
+    "p1": {
+      "ggas": [
+        "sairpico"
+      ],
+      "sites": [
+        "mc-staff-site",
+        "g5k-staff-site"
+      ]
+    },
+    "p2": {
+      "ggas": [
+        "cidre",
+        "kerdata",
+        "magellan",
+        "myriads",
+        "pacap",
+        "wide"
+      ],
+      "sites": [
+        "mc-rennes"
+      ]
+    },
+    "p3": {
+      "ggas": [
+        "cidre",
+        "kerdata",
+        "magellan",
+        "myriads",
+        "pacap",
+        "wide",
+        "coast",
+        "avalon",
+        "chroma",
+        "emeraude",
+        "maracas",
+        "hive",
+        "inriastartupstudio",
+        "sonaide",
+        "feelim",
+        "iss-idiscover",
+        "iss-manta",
+        "inria-chile",
+        "inria-dsi",
+        "inria-sidf",
+        "swh",
+        "tadaam"
+      ],
+      "sites": [
+        "mc-rennes",
+        "mc-nancy",
+        "mc-lyon",
+        "mc-sophia",
+        "mc-lille",
+        "mc-grenoble",
+        "mc-paris",
+        "mc-saclay",
+        "mc-bordeaux"
+      ]
+    },
+    "p4": {
+      "ggas": [
+        "ls2n",
+        "nantes-misc",
+        "i3s",
+        "sophia-misc",
+        "zenith",
+        "irit",
+        "laas",
+        "toulouse-misc"
+      ],
+      "sites": [
+        "mc-guest",
+        "slices-fr-grenoble",
+        "slices-fr-lille",
+        "slices-fr-lyon",
+        "slices-fr-nancy",
+        "slices-fr-nantes",
+        "slices-fr-rennes",
+        "slices-fr-sophia",
+        "slices-fr-strasbourg",
+        "slices-fr-toulouse"
+      ]
+    }
+  },
+  "abacus20": {
+    "besteffort": {
+      "ggas": [
+        "cidre",
+        "kerdata",
+        "magellan",
+        "myriads",
+        "pacap",
+        "wide",
+        "coast",
+        "avalon",
+        "chroma",
+        "emeraude",
+        "maracas",
+        "hive",
+        "inriastartupstudio",
+        "sonaide",
+        "feelim",
+        "iss-idiscover",
+        "iss-manta",
+        "inria-chile",
+        "inria-dsi",
+        "inria-sidf",
+        "swh",
+        "tadaam",
+        "ls2n",
+        "nantes-misc",
+        "i3s",
+        "sophia-misc",
+        "zenith",
+        "irit",
+        "laas",
+        "toulouse-misc"
+      ],
+      "sites": [
+        "mc-rennes",
+        "mc-nancy",
+        "mc-lyon",
+        "mc-sophia",
+        "mc-lille",
+        "mc-grenoble",
+        "mc-paris",
+        "mc-saclay",
+        "mc-bordeaux",
+        "mc-guest",
+        "slices-fr-grenoble",
+        "slices-fr-lille",
+        "slices-fr-lyon",
+        "slices-fr-nancy",
+        "slices-fr-nantes",
+        "slices-fr-rennes",
+        "slices-fr-sophia",
+        "slices-fr-strasbourg",
+        "slices-fr-toulouse"
+      ]
+    },
+    "p1": {
+      "ggas": [
+        "sirocco"
+      ],
+      "sites": [
+        "mc-staff-site",
+        "g5k-staff-site"
+      ]
+    }
+  },
+  "abacus21": {
+    "besteffort": {
+      "ggas": [
+        "cidre",
+        "kerdata",
+        "magellan",
+        "myriads",
+        "pacap",
+        "wide",
+        "coast",
+        "avalon",
+        "chroma",
+        "emeraude",
+        "maracas",
+        "hive",
+        "inriastartupstudio",
+        "sonaide",
+        "feelim",
+        "iss-idiscover",
+        "iss-manta",
+        "inria-chile",
+        "inria-dsi",
+        "inria-sidf",
+        "swh",
+        "tadaam",
+        "ls2n",
+        "nantes-misc",
+        "i3s",
+        "sophia-misc",
+        "zenith",
+        "irit",
+        "laas",
+        "toulouse-misc"
+      ],
+      "sites": [
+        "mc-rennes",
+        "mc-nancy",
+        "mc-lyon",
+        "mc-sophia",
+        "mc-lille",
+        "mc-grenoble",
+        "mc-paris",
+        "mc-saclay",
+        "mc-bordeaux",
+        "mc-guest",
+        "slices-fr-grenoble",
+        "slices-fr-lille",
+        "slices-fr-lyon",
+        "slices-fr-nancy",
+        "slices-fr-nantes",
+        "slices-fr-rennes",
+        "slices-fr-sophia",
+        "slices-fr-strasbourg",
+        "slices-fr-toulouse"
+      ]
+    },
+    "p1": {
+      "ggas": [
+        "linkmedia"
+      ],
+      "sites": [
+        "mc-staff-site",
+        "g5k-staff-site"
+      ]
+    }
+  },
+  "abacus22-A": {
+    "besteffort": {
+      "ggas": [
+        "cidre",
+        "kerdata",
+        "magellan",
+        "myriads",
+        "pacap",
+        "wide",
+        "coast",
+        "avalon",
+        "chroma",
+        "emeraude",
+        "maracas",
+        "hive",
+        "inriastartupstudio",
+        "sonaide",
+        "feelim",
+        "iss-idiscover",
+        "iss-manta",
+        "inria-chile",
+        "inria-dsi",
+        "inria-sidf",
+        "swh",
+        "tadaam",
+        "ls2n",
+        "nantes-misc",
+        "i3s",
+        "sophia-misc",
+        "zenith",
+        "irit",
+        "laas",
+        "toulouse-misc"
+      ],
+      "sites": [
+        "mc-rennes",
+        "mc-nancy",
+        "mc-lyon",
+        "mc-sophia",
+        "mc-lille",
+        "mc-grenoble",
+        "mc-paris",
+        "mc-saclay",
+        "mc-bordeaux",
+        "mc-guest",
+        "slices-fr-grenoble",
+        "slices-fr-lille",
+        "slices-fr-lyon",
+        "slices-fr-nancy",
+        "slices-fr-nantes",
+        "slices-fr-rennes",
+        "slices-fr-sophia",
+        "slices-fr-strasbourg",
+        "slices-fr-toulouse"
+      ]
+    },
+    "p1": {
+      "ggas": [
+        "sirocco"
+      ],
+      "sites": [
+        "mc-staff-site",
+        "g5k-staff-site"
+      ]
+    }
+  },
+  "abacus22-B": {
+    "besteffort": {
+      "ggas": [
+        "cidre",
+        "kerdata",
+        "magellan",
+        "myriads",
+        "pacap",
+        "wide",
+        "coast",
+        "avalon",
+        "chroma",
+        "emeraude",
+        "maracas",
+        "hive",
+        "inriastartupstudio",
+        "sonaide",
+        "feelim",
+        "iss-idiscover",
+        "iss-manta",
+        "inria-chile",
+        "inria-dsi",
+        "inria-sidf",
+        "swh",
+        "tadaam",
+        "ls2n",
+        "nantes-misc",
+        "i3s",
+        "sophia-misc",
+        "zenith",
+        "irit",
+        "laas",
+        "toulouse-misc"
+      ],
+      "sites": [
+        "mc-rennes",
+        "mc-nancy",
+        "mc-lyon",
+        "mc-sophia",
+        "mc-lille",
+        "mc-grenoble",
+        "mc-paris",
+        "mc-saclay",
+        "mc-bordeaux",
+        "mc-guest",
+        "slices-fr-grenoble",
+        "slices-fr-lille",
+        "slices-fr-lyon",
+        "slices-fr-nancy",
+        "slices-fr-nantes",
+        "slices-fr-rennes",
+        "slices-fr-sophia",
+        "slices-fr-strasbourg",
+        "slices-fr-toulouse"
+      ]
+    },
+    "p1": {
+      "ggas": [
+        "cidre"
+      ],
+      "sites": [
+        "mc-staff-site",
+        "g5k-staff-site"
+      ]
+    }
+  },
+  "abacus25": {
+    "p1": {
+      "ggas": [
+        "cidre",
+        "kerdata",
+        "magellan",
+        "myriads",
+        "pacap",
+        "wide"
+      ],
+      "sites": [
+        "mc-rennes",
+        "mc-staff-site",
+        "g5k-staff-site"
+      ]
+    },
+    "p3": {
+      "ggas": [
+        "cidre",
+        "kerdata",
+        "magellan",
+        "myriads",
+        "pacap",
+        "wide",
+        "coast",
+        "avalon",
+        "chroma",
+        "emeraude",
+        "maracas",
+        "hive",
+        "inriastartupstudio",
+        "sonaide",
+        "feelim",
+        "iss-idiscover",
+        "iss-manta",
+        "inria-chile",
+        "inria-dsi",
+        "inria-sidf",
+        "swh",
+        "tadaam"
+      ],
+      "sites": [
+        "mc-rennes",
+        "mc-nancy",
+        "mc-lyon",
+        "mc-sophia",
+        "mc-lille",
+        "mc-grenoble",
+        "mc-paris",
+        "mc-saclay",
+        "mc-bordeaux"
+      ]
+    },
+    "p4": {
+      "ggas": [
+        "ls2n",
+        "nantes-misc",
+        "i3s",
+        "sophia-misc",
+        "zenith",
+        "irit",
+        "laas",
+        "toulouse-misc"
+      ],
+      "sites": [
+        "mc-guest",
+        "slices-fr-grenoble",
+        "slices-fr-lille",
+        "slices-fr-lyon",
+        "slices-fr-nancy",
+        "slices-fr-nantes",
+        "slices-fr-rennes",
+        "slices-fr-sophia",
+        "slices-fr-strasbourg",
+        "slices-fr-toulouse"
+      ]
+    }
+  },
+  "abacus3": {
+    "besteffort": {
+      "ggas": [
+        "cidre",
+        "kerdata",
+        "magellan",
+        "myriads",
+        "pacap",
+        "wide",
+        "coast",
+        "avalon",
+        "chroma",
+        "emeraude",
+        "maracas",
+        "hive",
+        "inriastartupstudio",
+        "sonaide",
+        "feelim",
+        "iss-idiscover",
+        "iss-manta",
+        "inria-chile",
+        "inria-dsi",
+        "inria-sidf",
+        "swh",
+        "tadaam",
+        "ls2n",
+        "nantes-misc",
+        "i3s",
+        "sophia-misc",
+        "zenith",
+        "irit",
+        "laas",
+        "toulouse-misc"
+      ],
+      "sites": [
+        "mc-rennes",
+        "mc-nancy",
+        "mc-lyon",
+        "mc-sophia",
+        "mc-lille",
+        "mc-grenoble",
+        "mc-paris",
+        "mc-saclay",
+        "mc-bordeaux",
+        "mc-guest",
+        "slices-fr-grenoble",
+        "slices-fr-lille",
+        "slices-fr-lyon",
+        "slices-fr-nancy",
+        "slices-fr-nantes",
+        "slices-fr-rennes",
+        "slices-fr-sophia",
+        "slices-fr-strasbourg",
+        "slices-fr-toulouse"
+      ]
+    },
+    "p1": {
+      "ggas": [
+        "linkmedia"
+      ],
+      "sites": [
+        "mc-staff-site",
+        "g5k-staff-site"
+      ]
+    }
+  },
+  "abacus4": {
+    "p1": {
+      "ggas": [
+        "cidre",
+        "kerdata",
+        "magellan",
+        "myriads",
+        "pacap",
+        "wide"
+      ],
+      "sites": [
+        "mc-rennes",
+        "mc-staff-site",
+        "g5k-staff-site"
+      ]
+    },
+    "p3": {
+      "ggas": [
+        "cidre",
+        "kerdata",
+        "magellan",
+        "myriads",
+        "pacap",
+        "wide",
+        "coast",
+        "avalon",
+        "chroma",
+        "emeraude",
+        "maracas",
+        "hive",
+        "inriastartupstudio",
+        "sonaide",
+        "feelim",
+        "iss-idiscover",
+        "iss-manta",
+        "inria-chile",
+        "inria-dsi",
+        "inria-sidf",
+        "swh",
+        "tadaam"
+      ],
+      "sites": [
+        "mc-rennes",
+        "mc-nancy",
+        "mc-lyon",
+        "mc-sophia",
+        "mc-lille",
+        "mc-grenoble",
+        "mc-paris",
+        "mc-saclay",
+        "mc-bordeaux"
+      ]
+    },
+    "p4": {
+      "ggas": [
+        "ls2n",
+        "nantes-misc",
+        "i3s",
+        "sophia-misc",
+        "zenith",
+        "irit",
+        "laas",
+        "toulouse-misc"
+      ],
+      "sites": [
+        "mc-guest",
+        "slices-fr-grenoble",
+        "slices-fr-lille",
+        "slices-fr-lyon",
+        "slices-fr-nancy",
+        "slices-fr-nantes",
+        "slices-fr-rennes",
+        "slices-fr-sophia",
+        "slices-fr-strasbourg",
+        "slices-fr-toulouse"
+      ]
+    }
+  },
+  "abacus5": {
+    "besteffort": {
+      "ggas": [
+        "cidre",
+        "kerdata",
+        "magellan",
+        "myriads",
+        "pacap",
+        "wide",
+        "coast",
+        "avalon",
+        "chroma",
+        "emeraude",
+        "maracas",
+        "hive",
+        "inriastartupstudio",
+        "sonaide",
+        "feelim",
+        "iss-idiscover",
+        "iss-manta",
+        "inria-chile",
+        "inria-dsi",
+        "inria-sidf",
+        "swh",
+        "tadaam",
+        "ls2n",
+        "nantes-misc",
+        "i3s",
+        "sophia-misc",
+        "zenith",
+        "irit",
+        "laas",
+        "toulouse-misc"
+      ],
+      "sites": [
+        "mc-rennes",
+        "mc-nancy",
+        "mc-lyon",
+        "mc-sophia",
+        "mc-lille",
+        "mc-grenoble",
+        "mc-paris",
+        "mc-saclay",
+        "mc-bordeaux",
+        "mc-guest",
+        "slices-fr-grenoble",
+        "slices-fr-lille",
+        "slices-fr-lyon",
+        "slices-fr-nancy",
+        "slices-fr-nantes",
+        "slices-fr-rennes",
+        "slices-fr-sophia",
+        "slices-fr-strasbourg",
+        "slices-fr-toulouse"
+      ]
+    },
+    "p1": {
+      "ggas": [
+        "sirocco"
+      ],
+      "sites": [
+        "mc-staff-site",
+        "g5k-staff-site"
+      ]
+    }
+  },
+  "abacus8": {
+    "p1": {
+      "ggas": [
+        "cidre",
+        "kerdata",
+        "magellan",
+        "myriads",
+        "pacap",
+        "wide"
+      ],
+      "sites": [
+        "mc-rennes",
+        "mc-staff-site",
+        "g5k-staff-site"
+      ]
+    },
+    "p3": {
+      "ggas": [
+        "cidre",
+        "kerdata",
+        "magellan",
+        "myriads",
+        "pacap",
+        "wide",
+        "coast",
+        "avalon",
+        "chroma",
+        "emeraude",
+        "maracas",
+        "hive",
+        "inriastartupstudio",
+        "sonaide",
+        "feelim",
+        "iss-idiscover",
+        "iss-manta",
+        "inria-chile",
+        "inria-dsi",
+        "inria-sidf",
+        "swh",
+        "tadaam"
+      ],
+      "sites": [
+        "mc-rennes",
+        "mc-nancy",
+        "mc-lyon",
+        "mc-sophia",
+        "mc-lille",
+        "mc-grenoble",
+        "mc-paris",
+        "mc-saclay",
+        "mc-bordeaux"
+      ]
+    },
+    "p4": {
+      "ggas": [
+        "ls2n",
+        "nantes-misc",
+        "i3s",
+        "sophia-misc",
+        "zenith",
+        "irit",
+        "laas",
+        "toulouse-misc"
+      ],
+      "sites": [
+        "mc-guest",
+        "slices-fr-grenoble",
+        "slices-fr-lille",
+        "slices-fr-lyon",
+        "slices-fr-nancy",
+        "slices-fr-nantes",
+        "slices-fr-rennes",
+        "slices-fr-sophia",
+        "slices-fr-strasbourg",
+        "slices-fr-toulouse"
+      ]
+    }
+  },
+  "abacus9": {
+    "p1": {
+      "ggas": [
+        "cidre",
+        "kerdata",
+        "magellan",
+        "myriads",
+        "pacap",
+        "wide"
+      ],
+      "sites": [
+        "mc-rennes",
+        "mc-staff-site",
+        "g5k-staff-site"
+      ]
+    },
+    "p3": {
+      "ggas": [
+        "cidre",
+        "kerdata",
+        "magellan",
+        "myriads",
+        "pacap",
+        "wide",
+        "coast",
+        "avalon",
+        "chroma",
+        "emeraude",
+        "maracas",
+        "hive",
+        "inriastartupstudio",
+        "sonaide",
+        "feelim",
+        "iss-idiscover",
+        "iss-manta",
+        "inria-chile",
+        "inria-dsi",
+        "inria-sidf",
+        "swh",
+        "tadaam"
+      ],
+      "sites": [
+        "mc-rennes",
+        "mc-nancy",
+        "mc-lyon",
+        "mc-sophia",
+        "mc-lille",
+        "mc-grenoble",
+        "mc-paris",
+        "mc-saclay",
+        "mc-bordeaux"
+      ]
+    },
+    "p4": {
+      "ggas": [
+        "ls2n",
+        "nantes-misc",
+        "i3s",
+        "sophia-misc",
+        "zenith",
+        "irit",
+        "laas",
+        "toulouse-misc"
+      ],
+      "sites": [
+        "mc-guest",
+        "slices-fr-grenoble",
+        "slices-fr-lille",
+        "slices-fr-lyon",
+        "slices-fr-nancy",
+        "slices-fr-nantes",
+        "slices-fr-rennes",
+        "slices-fr-sophia",
+        "slices-fr-strasbourg",
+        "slices-fr-toulouse"
+      ]
+    }
+  },
+  "graffiti": {
+    "p1": {
+      "ggas": [
+        "larsen",
+        "multispeech"
+      ],
+      "sites": [
+        "mc-staff-site",
+        "g5k-staff-site"
+      ]
+    },
+    "p2": {
+      "ggas": [
+        "coast"
+      ],
+      "sites": [
+        "mc-nancy"
+      ]
+    },
+    "p3": {
+      "ggas": [
+        "cidre",
+        "kerdata",
+        "magellan",
+        "myriads",
+        "pacap",
+        "wide",
+        "coast",
+        "avalon",
+        "chroma",
+        "emeraude",
+        "maracas",
+        "hive",
+        "inriastartupstudio",
+        "sonaide",
+        "feelim",
+        "iss-idiscover",
+        "iss-manta",
+        "inria-chile",
+        "inria-dsi",
+        "inria-sidf",
+        "swh",
+        "tadaam"
+      ],
+      "sites": [
+        "mc-rennes",
+        "mc-nancy",
+        "mc-lyon",
+        "mc-sophia",
+        "mc-lille",
+        "mc-grenoble",
+        "mc-paris",
+        "mc-saclay",
+        "mc-bordeaux"
+      ]
+    },
+    "p4": {
+      "ggas": [
+        "ls2n",
+        "nantes-misc",
+        "i3s",
+        "sophia-misc",
+        "zenith",
+        "irit",
+        "laas",
+        "toulouse-misc"
+      ],
+      "sites": [
+        "mc-guest",
+        "slices-fr-grenoble",
+        "slices-fr-lille",
+        "slices-fr-lyon",
+        "slices-fr-nancy",
+        "slices-fr-nantes",
+        "slices-fr-rennes",
+        "slices-fr-sophia",
+        "slices-fr-strasbourg",
+        "slices-fr-toulouse"
+      ]
+    }
+  },
+  "grappe": {
+    "p1": {
+      "ggas": [
+        "capsid"
+      ],
+      "sites": [
+        "mc-staff-site",
+        "g5k-staff-site"
+      ]
+    },
+    "p2": {
+      "ggas": [
+        "coast"
+      ],
+      "sites": [
+        "mc-nancy"
+      ]
+    },
+    "p3": {
+      "ggas": [
+        "cidre",
+        "kerdata",
+        "magellan",
+        "myriads",
+        "pacap",
+        "wide",
+        "coast",
+        "avalon",
+        "chroma",
+        "emeraude",
+        "maracas",
+        "hive",
+        "inriastartupstudio",
+        "sonaide",
+        "feelim",
+        "iss-idiscover",
+        "iss-manta",
+        "inria-chile",
+        "inria-dsi",
+        "inria-sidf",
+        "swh",
+        "tadaam"
+      ],
+      "sites": [
+        "mc-rennes",
+        "mc-nancy",
+        "mc-lyon",
+        "mc-sophia",
+        "mc-lille",
+        "mc-grenoble",
+        "mc-paris",
+        "mc-saclay",
+        "mc-bordeaux"
+      ]
+    },
+    "p4": {
+      "ggas": [
+        "ls2n",
+        "nantes-misc",
+        "i3s",
+        "sophia-misc",
+        "zenith",
+        "irit",
+        "laas",
+        "toulouse-misc"
+      ],
+      "sites": [
+        "mc-guest",
+        "slices-fr-grenoble",
+        "slices-fr-lille",
+        "slices-fr-lyon",
+        "slices-fr-nancy",
+        "slices-fr-nantes",
+        "slices-fr-rennes",
+        "slices-fr-sophia",
+        "slices-fr-strasbourg",
+        "slices-fr-toulouse"
+      ]
+    }
+  },
+  "grat": {
+    "p1": {
+      "ggas": [
+        "capsid"
+      ],
+      "sites": [
+        "mc-staff-site",
+        "g5k-staff-site"
+      ]
+    },
+    "p2": {
+      "ggas": [
+        "coast"
+      ],
+      "sites": [
+        "mc-nancy"
+      ]
+    },
+    "p3": {
+      "ggas": [
+        "cidre",
+        "kerdata",
+        "magellan",
+        "myriads",
+        "pacap",
+        "wide",
+        "coast",
+        "avalon",
+        "chroma",
+        "emeraude",
+        "maracas",
+        "hive",
+        "inriastartupstudio",
+        "sonaide",
+        "feelim",
+        "iss-idiscover",
+        "iss-manta",
+        "inria-chile",
+        "inria-dsi",
+        "inria-sidf",
+        "swh",
+        "tadaam"
+      ],
+      "sites": [
+        "mc-rennes",
+        "mc-nancy",
+        "mc-lyon",
+        "mc-sophia",
+        "mc-lille",
+        "mc-grenoble",
+        "mc-paris",
+        "mc-saclay",
+        "mc-bordeaux"
+      ]
+    },
+    "p4": {
+      "ggas": [
+        "ls2n",
+        "nantes-misc",
+        "i3s",
+        "sophia-misc",
+        "zenith",
+        "irit",
+        "laas",
+        "toulouse-misc"
+      ],
+      "sites": [
+        "mc-guest",
+        "slices-fr-grenoble",
+        "slices-fr-lille",
+        "slices-fr-lyon",
+        "slices-fr-nancy",
+        "slices-fr-nantes",
+        "slices-fr-rennes",
+        "slices-fr-sophia",
+        "slices-fr-strasbourg",
+        "slices-fr-toulouse"
+      ]
+    }
+  },
+  "grele": {
+    "p1": {
+      "ggas": [
+        "multispeech",
+        "capsid"
+      ],
+      "sites": [
+        "mc-staff-site",
+        "g5k-staff-site"
+      ]
+    },
+    "p2": {
+      "ggas": [
+        "coast"
+      ],
+      "sites": [
+        "mc-nancy"
+      ]
+    },
+    "p3": {
+      "ggas": [
+        "cidre",
+        "kerdata",
+        "magellan",
+        "myriads",
+        "pacap",
+        "wide",
+        "coast",
+        "avalon",
+        "chroma",
+        "emeraude",
+        "maracas",
+        "hive",
+        "inriastartupstudio",
+        "sonaide",
+        "feelim",
+        "iss-idiscover",
+        "iss-manta",
+        "inria-chile",
+        "inria-dsi",
+        "inria-sidf",
+        "swh",
+        "tadaam"
+      ],
+      "sites": [
+        "mc-rennes",
+        "mc-nancy",
+        "mc-lyon",
+        "mc-sophia",
+        "mc-lille",
+        "mc-grenoble",
+        "mc-paris",
+        "mc-saclay",
+        "mc-bordeaux"
+      ]
+    },
+    "p4": {
+      "ggas": [
+        "ls2n",
+        "nantes-misc",
+        "i3s",
+        "sophia-misc",
+        "zenith",
+        "irit",
+        "laas",
+        "toulouse-misc"
+      ],
+      "sites": [
+        "mc-guest",
+        "slices-fr-grenoble",
+        "slices-fr-lille",
+        "slices-fr-lyon",
+        "slices-fr-nancy",
+        "slices-fr-nantes",
+        "slices-fr-rennes",
+        "slices-fr-sophia",
+        "slices-fr-strasbourg",
+        "slices-fr-toulouse"
+      ]
+    }
+  },
+  "grosminet": {
+    "p1": {
+      "ggas": [
+        "caramba"
+      ],
+      "sites": [
+        "mc-staff-site",
+        "g5k-staff-site"
+      ]
+    },
+    "p2": {
+      "ggas": [
+        "coast"
+      ],
+      "sites": [
+        "mc-nancy"
+      ]
+    },
+    "p3": {
+      "ggas": [
+        "cidre",
+        "kerdata",
+        "magellan",
+        "myriads",
+        "pacap",
+        "wide",
+        "coast",
+        "avalon",
+        "chroma",
+        "emeraude",
+        "maracas",
+        "hive",
+        "inriastartupstudio",
+        "sonaide",
+        "feelim",
+        "iss-idiscover",
+        "iss-manta",
+        "inria-chile",
+        "inria-dsi",
+        "inria-sidf",
+        "swh",
+        "tadaam"
+      ],
+      "sites": [
+        "mc-rennes",
+        "mc-nancy",
+        "mc-lyon",
+        "mc-sophia",
+        "mc-lille",
+        "mc-grenoble",
+        "mc-paris",
+        "mc-saclay",
+        "mc-bordeaux"
+      ]
+    },
+    "p4": {
+      "ggas": [
+        "ls2n",
+        "nantes-misc",
+        "i3s",
+        "sophia-misc",
+        "zenith",
+        "irit",
+        "laas",
+        "toulouse-misc"
+      ],
+      "sites": [
+        "mc-guest",
+        "slices-fr-grenoble",
+        "slices-fr-lille",
+        "slices-fr-lyon",
+        "slices-fr-nancy",
+        "slices-fr-nantes",
+        "slices-fr-rennes",
+        "slices-fr-sophia",
+        "slices-fr-strasbourg",
+        "slices-fr-toulouse"
+      ]
+    }
+  },
+  "grostiti": {
+    "p1": {
+      "ggas": [
+        "caramba"
+      ],
+      "sites": [
+        "mc-staff-site",
+        "g5k-staff-site"
+      ]
+    },
+    "p2": {
+      "ggas": [
+        "coast"
+      ],
+      "sites": [
+        "mc-nancy"
+      ]
+    },
+    "p3": {
+      "ggas": [
+        "cidre",
+        "kerdata",
+        "magellan",
+        "myriads",
+        "pacap",
+        "wide",
+        "coast",
+        "avalon",
+        "chroma",
+        "emeraude",
+        "maracas",
+        "hive",
+        "inriastartupstudio",
+        "sonaide",
+        "feelim",
+        "iss-idiscover",
+        "iss-manta",
+        "inria-chile",
+        "inria-dsi",
+        "inria-sidf",
+        "swh",
+        "tadaam"
+      ],
+      "sites": [
+        "mc-rennes",
+        "mc-nancy",
+        "mc-lyon",
+        "mc-sophia",
+        "mc-lille",
+        "mc-grenoble",
+        "mc-paris",
+        "mc-saclay",
+        "mc-bordeaux"
+      ]
+    },
+    "p4": {
+      "ggas": [
+        "ls2n",
+        "nantes-misc",
+        "i3s",
+        "sophia-misc",
+        "zenith",
+        "irit",
+        "laas",
+        "toulouse-misc"
+      ],
+      "sites": [
+        "mc-guest",
+        "slices-fr-grenoble",
+        "slices-fr-lille",
+        "slices-fr-lyon",
+        "slices-fr-nancy",
+        "slices-fr-nantes",
+        "slices-fr-rennes",
+        "slices-fr-sophia",
+        "slices-fr-strasbourg",
+        "slices-fr-toulouse"
+      ]
+    }
+  },
+  "grue": {
+    "p1": {
+      "ggas": [
+        "larsen",
+        "multispeech"
+      ],
+      "sites": [
+        "mc-staff-site",
+        "g5k-staff-site"
+      ]
+    },
+    "p2": {
+      "ggas": [
+        "coast"
+      ],
+      "sites": [
+        "mc-nancy"
+      ]
+    },
+    "p3": {
+      "ggas": [
+        "cidre",
+        "kerdata",
+        "magellan",
+        "myriads",
+        "pacap",
+        "wide",
+        "coast",
+        "avalon",
+        "chroma",
+        "emeraude",
+        "maracas",
+        "hive",
+        "inriastartupstudio",
+        "sonaide",
+        "feelim",
+        "iss-idiscover",
+        "iss-manta",
+        "inria-chile",
+        "inria-dsi",
+        "inria-sidf",
+        "swh",
+        "tadaam"
+      ],
+      "sites": [
+        "mc-rennes",
+        "mc-nancy",
+        "mc-lyon",
+        "mc-sophia",
+        "mc-lille",
+        "mc-grenoble",
+        "mc-paris",
+        "mc-saclay",
+        "mc-bordeaux"
+      ]
+    },
+    "p4": {
+      "ggas": [
+        "ls2n",
+        "nantes-misc",
+        "i3s",
+        "sophia-misc",
+        "zenith",
+        "irit",
+        "laas",
+        "toulouse-misc"
+      ],
+      "sites": [
+        "mc-guest",
+        "slices-fr-grenoble",
+        "slices-fr-lille",
+        "slices-fr-lyon",
+        "slices-fr-nancy",
+        "slices-fr-nantes",
+        "slices-fr-rennes",
+        "slices-fr-sophia",
+        "slices-fr-strasbourg",
+        "slices-fr-toulouse"
+      ]
+    }
+  },
+  "gruss": {
+    "p1": {
+      "ggas": [
+        "multispeech",
+        "tangram",
+        "capsid"
+      ],
+      "sites": [
+        "mc-staff-site",
+        "g5k-staff-site"
+      ]
+    },
+    "p2": {
+      "ggas": [
+        "coast"
+      ],
+      "sites": [
+        "mc-nancy"
+      ]
+    },
+    "p3": {
+      "ggas": [
+        "cidre",
+        "kerdata",
+        "magellan",
+        "myriads",
+        "pacap",
+        "wide",
+        "coast",
+        "avalon",
+        "chroma",
+        "emeraude",
+        "maracas",
+        "hive",
+        "inriastartupstudio",
+        "sonaide",
+        "feelim",
+        "iss-idiscover",
+        "iss-manta",
+        "inria-chile",
+        "inria-dsi",
+        "inria-sidf",
+        "swh",
+        "tadaam"
+      ],
+      "sites": [
+        "mc-rennes",
+        "mc-nancy",
+        "mc-lyon",
+        "mc-sophia",
+        "mc-lille",
+        "mc-grenoble",
+        "mc-paris",
+        "mc-saclay",
+        "mc-bordeaux"
+      ]
+    },
+    "p4": {
+      "ggas": [
+        "ls2n",
+        "nantes-misc",
+        "i3s",
+        "sophia-misc",
+        "zenith",
+        "irit",
+        "laas",
+        "toulouse-misc"
+      ],
+      "sites": [
+        "mc-guest",
+        "slices-fr-grenoble",
+        "slices-fr-lille",
+        "slices-fr-lyon",
+        "slices-fr-nancy",
+        "slices-fr-nantes",
+        "slices-fr-rennes",
+        "slices-fr-sophia",
+        "slices-fr-strasbourg",
+        "slices-fr-toulouse"
+      ]
+    }
+  },
+  "grvingt": {
+    "p1": {
+      "ggas": [
+        "caramba"
+      ],
+      "sites": [
+        "mc-staff-site",
+        "g5k-staff-site"
+      ]
+    },
+    "p2": {
+      "ggas": [
+        "coast"
+      ],
+      "sites": [
+        "mc-nancy"
+      ]
+    },
+    "p3": {
+      "ggas": [
+        "cidre",
+        "kerdata",
+        "magellan",
+        "myriads",
+        "pacap",
+        "wide",
+        "coast",
+        "avalon",
+        "chroma",
+        "emeraude",
+        "maracas",
+        "hive",
+        "inriastartupstudio",
+        "sonaide",
+        "feelim",
+        "iss-idiscover",
+        "iss-manta",
+        "inria-chile",
+        "inria-dsi",
+        "inria-sidf",
+        "swh",
+        "tadaam"
+      ],
+      "sites": [
+        "mc-rennes",
+        "mc-nancy",
+        "mc-lyon",
+        "mc-sophia",
+        "mc-lille",
+        "mc-grenoble",
+        "mc-paris",
+        "mc-saclay",
+        "mc-bordeaux"
+      ]
+    },
+    "p4": {
+      "ggas": [
+        "ls2n",
+        "nantes-misc",
+        "i3s",
+        "sophia-misc",
+        "zenith",
+        "irit",
+        "laas",
+        "toulouse-misc"
+      ],
+      "sites": [
+        "mc-guest",
+        "slices-fr-grenoble",
+        "slices-fr-lille",
+        "slices-fr-lyon",
+        "slices-fr-nancy",
+        "slices-fr-nantes",
+        "slices-fr-rennes",
+        "slices-fr-sophia",
+        "slices-fr-strasbourg",
+        "slices-fr-toulouse"
+      ]
+    }
+  },
+  "roazhon1": {
+    "p1": {
+      "ggas": [
+        "wide"
+      ],
+      "sites": [
+        "mc-staff-site",
+        "g5k-staff-site"
+      ]
+    },
+    "p2": {
+      "ggas": [
+        "cidre",
+        "kerdata",
+        "magellan",
+        "myriads",
+        "pacap",
+        "wide"
+      ],
+      "sites": [
+        "mc-rennes"
+      ]
+    },
+    "p3": {
+      "ggas": [
+        "cidre",
+        "kerdata",
+        "magellan",
+        "myriads",
+        "pacap",
+        "wide",
+        "coast",
+        "avalon",
+        "chroma",
+        "emeraude",
+        "maracas",
+        "hive",
+        "inriastartupstudio",
+        "sonaide",
+        "feelim",
+        "iss-idiscover",
+        "iss-manta",
+        "inria-chile",
+        "inria-dsi",
+        "inria-sidf",
+        "swh",
+        "tadaam"
+      ],
+      "sites": [
+        "mc-rennes",
+        "mc-nancy",
+        "mc-lyon",
+        "mc-sophia",
+        "mc-lille",
+        "mc-grenoble",
+        "mc-paris",
+        "mc-saclay",
+        "mc-bordeaux"
+      ]
+    },
+    "p4": {
+      "ggas": [
+        "ls2n",
+        "nantes-misc",
+        "i3s",
+        "sophia-misc",
+        "zenith",
+        "irit",
+        "laas",
+        "toulouse-misc"
+      ],
+      "sites": [
+        "mc-guest",
+        "slices-fr-grenoble",
+        "slices-fr-lille",
+        "slices-fr-lyon",
+        "slices-fr-nancy",
+        "slices-fr-nantes",
+        "slices-fr-rennes",
+        "slices-fr-sophia",
+        "slices-fr-strasbourg",
+        "slices-fr-toulouse"
+      ]
+    }
+  },
+  "roazhon10": {
+    "p1": {
+      "ggas": [
+        "cidre",
+        "kerdata",
+        "magellan",
+        "myriads",
+        "pacap",
+        "wide"
+      ],
+      "sites": [
+        "mc-rennes",
+        "mc-staff-site",
+        "g5k-staff-site"
+      ]
+    },
+    "p3": {
+      "ggas": [
+        "cidre",
+        "kerdata",
+        "magellan",
+        "myriads",
+        "pacap",
+        "wide",
+        "coast",
+        "avalon",
+        "chroma",
+        "emeraude",
+        "maracas",
+        "hive",
+        "inriastartupstudio",
+        "sonaide",
+        "feelim",
+        "iss-idiscover",
+        "iss-manta",
+        "inria-chile",
+        "inria-dsi",
+        "inria-sidf",
+        "swh",
+        "tadaam"
+      ],
+      "sites": [
+        "mc-rennes",
+        "mc-nancy",
+        "mc-lyon",
+        "mc-sophia",
+        "mc-lille",
+        "mc-grenoble",
+        "mc-paris",
+        "mc-saclay",
+        "mc-bordeaux"
+      ]
+    },
+    "p4": {
+      "ggas": [
+        "ls2n",
+        "nantes-misc",
+        "i3s",
+        "sophia-misc",
+        "zenith",
+        "irit",
+        "laas",
+        "toulouse-misc"
+      ],
+      "sites": [
+        "mc-guest",
+        "slices-fr-grenoble",
+        "slices-fr-lille",
+        "slices-fr-lyon",
+        "slices-fr-nancy",
+        "slices-fr-nantes",
+        "slices-fr-rennes",
+        "slices-fr-sophia",
+        "slices-fr-strasbourg",
+        "slices-fr-toulouse"
+      ]
+    }
+  },
+  "roazhon11": {
+    "p1": {
+      "ggas": [
+        "cidre",
+        "kerdata",
+        "magellan",
+        "myriads",
+        "pacap",
+        "wide"
+      ],
+      "sites": [
+        "mc-rennes",
+        "mc-staff-site",
+        "g5k-staff-site"
+      ]
+    },
+    "p3": {
+      "ggas": [
+        "cidre",
+        "kerdata",
+        "magellan",
+        "myriads",
+        "pacap",
+        "wide",
+        "coast",
+        "avalon",
+        "chroma",
+        "emeraude",
+        "maracas",
+        "hive",
+        "inriastartupstudio",
+        "sonaide",
+        "feelim",
+        "iss-idiscover",
+        "iss-manta",
+        "inria-chile",
+        "inria-dsi",
+        "inria-sidf",
+        "swh",
+        "tadaam"
+      ],
+      "sites": [
+        "mc-rennes",
+        "mc-nancy",
+        "mc-lyon",
+        "mc-sophia",
+        "mc-lille",
+        "mc-grenoble",
+        "mc-paris",
+        "mc-saclay",
+        "mc-bordeaux"
+      ]
+    },
+    "p4": {
+      "ggas": [
+        "ls2n",
+        "nantes-misc",
+        "i3s",
+        "sophia-misc",
+        "zenith",
+        "irit",
+        "laas",
+        "toulouse-misc"
+      ],
+      "sites": [
+        "mc-guest",
+        "slices-fr-grenoble",
+        "slices-fr-lille",
+        "slices-fr-lyon",
+        "slices-fr-nancy",
+        "slices-fr-nantes",
+        "slices-fr-rennes",
+        "slices-fr-sophia",
+        "slices-fr-strasbourg",
+        "slices-fr-toulouse"
+      ]
+    }
+  },
+  "roazhon12": {
+    "p1": {
+      "ggas": [
+        "cidre",
+        "kerdata",
+        "magellan",
+        "myriads",
+        "pacap",
+        "wide"
+      ],
+      "sites": [
+        "mc-rennes",
+        "mc-staff-site",
+        "g5k-staff-site"
+      ]
+    },
+    "p3": {
+      "ggas": [
+        "cidre",
+        "kerdata",
+        "magellan",
+        "myriads",
+        "pacap",
+        "wide",
+        "coast",
+        "avalon",
+        "chroma",
+        "emeraude",
+        "maracas",
+        "hive",
+        "inriastartupstudio",
+        "sonaide",
+        "feelim",
+        "iss-idiscover",
+        "iss-manta",
+        "inria-chile",
+        "inria-dsi",
+        "inria-sidf",
+        "swh",
+        "tadaam"
+      ],
+      "sites": [
+        "mc-rennes",
+        "mc-nancy",
+        "mc-lyon",
+        "mc-sophia",
+        "mc-lille",
+        "mc-grenoble",
+        "mc-paris",
+        "mc-saclay",
+        "mc-bordeaux"
+      ]
+    },
+    "p4": {
+      "ggas": [
+        "ls2n",
+        "nantes-misc",
+        "i3s",
+        "sophia-misc",
+        "zenith",
+        "irit",
+        "laas",
+        "toulouse-misc"
+      ],
+      "sites": [
+        "mc-guest",
+        "slices-fr-grenoble",
+        "slices-fr-lille",
+        "slices-fr-lyon",
+        "slices-fr-nancy",
+        "slices-fr-nantes",
+        "slices-fr-rennes",
+        "slices-fr-sophia",
+        "slices-fr-strasbourg",
+        "slices-fr-toulouse"
+      ]
+    }
+  },
+  "roazhon13": {
+    "p1": {
+      "ggas": [
+        "cidre",
+        "kerdata",
+        "magellan",
+        "myriads",
+        "pacap",
+        "wide"
+      ],
+      "sites": [
+        "mc-rennes",
+        "mc-staff-site",
+        "g5k-staff-site"
+      ]
+    },
+    "p3": {
+      "ggas": [
+        "cidre",
+        "kerdata",
+        "magellan",
+        "myriads",
+        "pacap",
+        "wide",
+        "coast",
+        "avalon",
+        "chroma",
+        "emeraude",
+        "maracas",
+        "hive",
+        "inriastartupstudio",
+        "sonaide",
+        "feelim",
+        "iss-idiscover",
+        "iss-manta",
+        "inria-chile",
+        "inria-dsi",
+        "inria-sidf",
+        "swh",
+        "tadaam"
+      ],
+      "sites": [
+        "mc-rennes",
+        "mc-nancy",
+        "mc-lyon",
+        "mc-sophia",
+        "mc-lille",
+        "mc-grenoble",
+        "mc-paris",
+        "mc-saclay",
+        "mc-bordeaux"
+      ]
+    },
+    "p4": {
+      "ggas": [
+        "ls2n",
+        "nantes-misc",
+        "i3s",
+        "sophia-misc",
+        "zenith",
+        "irit",
+        "laas",
+        "toulouse-misc"
+      ],
+      "sites": [
+        "mc-guest",
+        "slices-fr-grenoble",
+        "slices-fr-lille",
+        "slices-fr-lyon",
+        "slices-fr-nancy",
+        "slices-fr-nantes",
+        "slices-fr-rennes",
+        "slices-fr-sophia",
+        "slices-fr-strasbourg",
+        "slices-fr-toulouse"
+      ]
+    }
+  },
+  "roazhon2": {
+    "p1": {
+      "ggas": [
+        "hycomes"
+      ],
+      "sites": [
+        "mc-staff-site",
+        "g5k-staff-site"
+      ]
+    },
+    "p2": {
+      "ggas": [
+        "cidre",
+        "kerdata",
+        "magellan",
+        "myriads",
+        "pacap",
+        "wide"
+      ],
+      "sites": [
+        "mc-rennes"
+      ]
+    },
+    "p3": {
+      "ggas": [
+        "cidre",
+        "kerdata",
+        "magellan",
+        "myriads",
+        "pacap",
+        "wide",
+        "coast",
+        "avalon",
+        "chroma",
+        "emeraude",
+        "maracas",
+        "hive",
+        "inriastartupstudio",
+        "sonaide",
+        "feelim",
+        "iss-idiscover",
+        "iss-manta",
+        "inria-chile",
+        "inria-dsi",
+        "inria-sidf",
+        "swh",
+        "tadaam"
+      ],
+      "sites": [
+        "mc-rennes",
+        "mc-nancy",
+        "mc-lyon",
+        "mc-sophia",
+        "mc-lille",
+        "mc-grenoble",
+        "mc-paris",
+        "mc-saclay",
+        "mc-bordeaux"
+      ]
+    },
+    "p4": {
+      "ggas": [
+        "ls2n",
+        "nantes-misc",
+        "i3s",
+        "sophia-misc",
+        "zenith",
+        "irit",
+        "laas",
+        "toulouse-misc"
+      ],
+      "sites": [
+        "mc-guest",
+        "slices-fr-grenoble",
+        "slices-fr-lille",
+        "slices-fr-lyon",
+        "slices-fr-nancy",
+        "slices-fr-nantes",
+        "slices-fr-rennes",
+        "slices-fr-sophia",
+        "slices-fr-strasbourg",
+        "slices-fr-toulouse"
+      ]
+    }
+  },
+  "roazhon3": {
+    "p1": {
+      "ggas": [
+        "cidre",
+        "kerdata",
+        "magellan",
+        "myriads",
+        "pacap",
+        "wide"
+      ],
+      "sites": [
+        "mc-rennes",
+        "mc-staff-site",
+        "g5k-staff-site"
+      ]
+    },
+    "p3": {
+      "ggas": [
+        "cidre",
+        "kerdata",
+        "magellan",
+        "myriads",
+        "pacap",
+        "wide",
+        "coast",
+        "avalon",
+        "chroma",
+        "emeraude",
+        "maracas",
+        "hive",
+        "inriastartupstudio",
+        "sonaide",
+        "feelim",
+        "iss-idiscover",
+        "iss-manta",
+        "inria-chile",
+        "inria-dsi",
+        "inria-sidf",
+        "swh",
+        "tadaam"
+      ],
+      "sites": [
+        "mc-rennes",
+        "mc-nancy",
+        "mc-lyon",
+        "mc-sophia",
+        "mc-lille",
+        "mc-grenoble",
+        "mc-paris",
+        "mc-saclay",
+        "mc-bordeaux"
+      ]
+    },
+    "p4": {
+      "ggas": [
+        "ls2n",
+        "nantes-misc",
+        "i3s",
+        "sophia-misc",
+        "zenith",
+        "irit",
+        "laas",
+        "toulouse-misc"
+      ],
+      "sites": [
+        "mc-guest",
+        "slices-fr-grenoble",
+        "slices-fr-lille",
+        "slices-fr-lyon",
+        "slices-fr-nancy",
+        "slices-fr-nantes",
+        "slices-fr-rennes",
+        "slices-fr-sophia",
+        "slices-fr-strasbourg",
+        "slices-fr-toulouse"
+      ]
+    }
+  },
+  "roazhon4": {
+    "p1": {
+      "ggas": [
+        "cidre",
+        "kerdata",
+        "magellan",
+        "myriads",
+        "pacap",
+        "wide"
+      ],
+      "sites": [
+        "mc-rennes",
+        "mc-staff-site",
+        "g5k-staff-site"
+      ]
+    },
+    "p3": {
+      "ggas": [
+        "cidre",
+        "kerdata",
+        "magellan",
+        "myriads",
+        "pacap",
+        "wide",
+        "coast",
+        "avalon",
+        "chroma",
+        "emeraude",
+        "maracas",
+        "hive",
+        "inriastartupstudio",
+        "sonaide",
+        "feelim",
+        "iss-idiscover",
+        "iss-manta",
+        "inria-chile",
+        "inria-dsi",
+        "inria-sidf",
+        "swh",
+        "tadaam"
+      ],
+      "sites": [
+        "mc-rennes",
+        "mc-nancy",
+        "mc-lyon",
+        "mc-sophia",
+        "mc-lille",
+        "mc-grenoble",
+        "mc-paris",
+        "mc-saclay",
+        "mc-bordeaux"
+      ]
+    },
+    "p4": {
+      "ggas": [
+        "ls2n",
+        "nantes-misc",
+        "i3s",
+        "sophia-misc",
+        "zenith",
+        "irit",
+        "laas",
+        "toulouse-misc"
+      ],
+      "sites": [
+        "mc-guest",
+        "slices-fr-grenoble",
+        "slices-fr-lille",
+        "slices-fr-lyon",
+        "slices-fr-nancy",
+        "slices-fr-nantes",
+        "slices-fr-rennes",
+        "slices-fr-sophia",
+        "slices-fr-strasbourg",
+        "slices-fr-toulouse"
+      ]
+    }
+  },
+  "roazhon5": {
+    "p1": {
+      "ggas": [
+        "empenn"
+      ],
+      "sites": [
+        "mc-staff-site",
+        "g5k-staff-site"
+      ]
+    },
+    "p2": {
+      "ggas": [
+        "cidre",
+        "kerdata",
+        "magellan",
+        "myriads",
+        "pacap",
+        "wide"
+      ],
+      "sites": [
+        "mc-rennes"
+      ]
+    },
+    "p3": {
+      "ggas": [
+        "cidre",
+        "kerdata",
+        "magellan",
+        "myriads",
+        "pacap",
+        "wide",
+        "coast",
+        "avalon",
+        "chroma",
+        "emeraude",
+        "maracas",
+        "hive",
+        "inriastartupstudio",
+        "sonaide",
+        "feelim",
+        "iss-idiscover",
+        "iss-manta",
+        "inria-chile",
+        "inria-dsi",
+        "inria-sidf",
+        "swh",
+        "tadaam"
+      ],
+      "sites": [
+        "mc-rennes",
+        "mc-nancy",
+        "mc-lyon",
+        "mc-sophia",
+        "mc-lille",
+        "mc-grenoble",
+        "mc-paris",
+        "mc-saclay",
+        "mc-bordeaux"
+      ]
+    },
+    "p4": {
+      "ggas": [
+        "ls2n",
+        "nantes-misc",
+        "i3s",
+        "sophia-misc",
+        "zenith",
+        "irit",
+        "laas",
+        "toulouse-misc"
+      ],
+      "sites": [
+        "mc-guest",
+        "slices-fr-grenoble",
+        "slices-fr-lille",
+        "slices-fr-lyon",
+        "slices-fr-nancy",
+        "slices-fr-nantes",
+        "slices-fr-rennes",
+        "slices-fr-sophia",
+        "slices-fr-strasbourg",
+        "slices-fr-toulouse"
+      ]
+    }
+  },
+  "roazhon6": {
+    "p1": {
+      "ggas": [
+        "cidre",
+        "kerdata",
+        "magellan",
+        "myriads",
+        "pacap",
+        "wide"
+      ],
+      "sites": [
+        "mc-rennes",
+        "mc-staff-site",
+        "g5k-staff-site"
+      ]
+    },
+    "p3": {
+      "ggas": [
+        "cidre",
+        "kerdata",
+        "magellan",
+        "myriads",
+        "pacap",
+        "wide",
+        "coast",
+        "avalon",
+        "chroma",
+        "emeraude",
+        "maracas",
+        "hive",
+        "inriastartupstudio",
+        "sonaide",
+        "feelim",
+        "iss-idiscover",
+        "iss-manta",
+        "inria-chile",
+        "inria-dsi",
+        "inria-sidf",
+        "swh",
+        "tadaam"
+      ],
+      "sites": [
+        "mc-rennes",
+        "mc-nancy",
+        "mc-lyon",
+        "mc-sophia",
+        "mc-lille",
+        "mc-grenoble",
+        "mc-paris",
+        "mc-saclay",
+        "mc-bordeaux"
+      ]
+    },
+    "p4": {
+      "ggas": [
+        "ls2n",
+        "nantes-misc",
+        "i3s",
+        "sophia-misc",
+        "zenith",
+        "irit",
+        "laas",
+        "toulouse-misc"
+      ],
+      "sites": [
+        "mc-guest",
+        "slices-fr-grenoble",
+        "slices-fr-lille",
+        "slices-fr-lyon",
+        "slices-fr-nancy",
+        "slices-fr-nantes",
+        "slices-fr-rennes",
+        "slices-fr-sophia",
+        "slices-fr-strasbourg",
+        "slices-fr-toulouse"
+      ]
+    }
+  },
+  "roazhon7": {
+    "p1": {
+      "ggas": [
+        "sairpico"
+      ],
+      "sites": [
+        "mc-staff-site",
+        "g5k-staff-site"
+      ]
+    },
+    "p2": {
+      "ggas": [
+        "cidre",
+        "kerdata",
+        "magellan",
+        "myriads",
+        "pacap",
+        "wide"
+      ],
+      "sites": [
+        "mc-rennes"
+      ]
+    },
+    "p3": {
+      "ggas": [
+        "cidre",
+        "kerdata",
+        "magellan",
+        "myriads",
+        "pacap",
+        "wide",
+        "coast",
+        "avalon",
+        "chroma",
+        "emeraude",
+        "maracas",
+        "hive",
+        "inriastartupstudio",
+        "sonaide",
+        "feelim",
+        "iss-idiscover",
+        "iss-manta",
+        "inria-chile",
+        "inria-dsi",
+        "inria-sidf",
+        "swh",
+        "tadaam"
+      ],
+      "sites": [
+        "mc-rennes",
+        "mc-nancy",
+        "mc-lyon",
+        "mc-sophia",
+        "mc-lille",
+        "mc-grenoble",
+        "mc-paris",
+        "mc-saclay",
+        "mc-bordeaux"
+      ]
+    },
+    "p4": {
+      "ggas": [
+        "ls2n",
+        "nantes-misc",
+        "i3s",
+        "sophia-misc",
+        "zenith",
+        "irit",
+        "laas",
+        "toulouse-misc"
+      ],
+      "sites": [
+        "mc-guest",
+        "slices-fr-grenoble",
+        "slices-fr-lille",
+        "slices-fr-lyon",
+        "slices-fr-nancy",
+        "slices-fr-nantes",
+        "slices-fr-rennes",
+        "slices-fr-sophia",
+        "slices-fr-strasbourg",
+        "slices-fr-toulouse"
+      ]
+    }
+  },
+  "roazhon8": {
+    "p1": {
+      "ggas": [
+        "sairpico"
+      ],
+      "sites": [
+        "mc-staff-site",
+        "g5k-staff-site"
+      ]
+    },
+    "p2": {
+      "ggas": [
+        "cidre",
+        "kerdata",
+        "magellan",
+        "myriads",
+        "pacap",
+        "wide"
+      ],
+      "sites": [
+        "mc-rennes"
+      ]
+    },
+    "p3": {
+      "ggas": [
+        "cidre",
+        "kerdata",
+        "magellan",
+        "myriads",
+        "pacap",
+        "wide",
+        "coast",
+        "avalon",
+        "chroma",
+        "emeraude",
+        "maracas",
+        "hive",
+        "inriastartupstudio",
+        "sonaide",
+        "feelim",
+        "iss-idiscover",
+        "iss-manta",
+        "inria-chile",
+        "inria-dsi",
+        "inria-sidf",
+        "swh",
+        "tadaam"
+      ],
+      "sites": [
+        "mc-rennes",
+        "mc-nancy",
+        "mc-lyon",
+        "mc-sophia",
+        "mc-lille",
+        "mc-grenoble",
+        "mc-paris",
+        "mc-saclay",
+        "mc-bordeaux"
+      ]
+    },
+    "p4": {
+      "ggas": [
+        "ls2n",
+        "nantes-misc",
+        "i3s",
+        "sophia-misc",
+        "zenith",
+        "irit",
+        "laas",
+        "toulouse-misc"
+      ],
+      "sites": [
+        "mc-guest",
+        "slices-fr-grenoble",
+        "slices-fr-lille",
+        "slices-fr-lyon",
+        "slices-fr-nancy",
+        "slices-fr-nantes",
+        "slices-fr-rennes",
+        "slices-fr-sophia",
+        "slices-fr-strasbourg",
+        "slices-fr-toulouse"
+      ]
+    }
+  },
+  "roazhon9": {
+    "p1": {
+      "ggas": [
+        "cidre",
+        "kerdata",
+        "magellan",
+        "myriads",
+        "pacap",
+        "wide"
+      ],
+      "sites": [
+        "mc-rennes",
+        "mc-staff-site",
+        "g5k-staff-site"
+      ]
+    },
+    "p3": {
+      "ggas": [
+        "cidre",
+        "kerdata",
+        "magellan",
+        "myriads",
+        "pacap",
+        "wide",
+        "coast",
+        "avalon",
+        "chroma",
+        "emeraude",
+        "maracas",
+        "hive",
+        "inriastartupstudio",
+        "sonaide",
+        "feelim",
+        "iss-idiscover",
+        "iss-manta",
+        "inria-chile",
+        "inria-dsi",
+        "inria-sidf",
+        "swh",
+        "tadaam"
+      ],
+      "sites": [
+        "mc-rennes",
+        "mc-nancy",
+        "mc-lyon",
+        "mc-sophia",
+        "mc-lille",
+        "mc-grenoble",
+        "mc-paris",
+        "mc-saclay",
+        "mc-bordeaux"
+      ]
+    },
+    "p4": {
+      "ggas": [
+        "ls2n",
+        "nantes-misc",
+        "i3s",
+        "sophia-misc",
+        "zenith",
+        "irit",
+        "laas",
+        "toulouse-misc"
+      ],
+      "sites": [
+        "mc-guest",
+        "slices-fr-grenoble",
+        "slices-fr-lille",
+        "slices-fr-lyon",
+        "slices-fr-nancy",
+        "slices-fr-nantes",
+        "slices-fr-rennes",
+        "slices-fr-sophia",
+        "slices-fr-strasbourg",
+        "slices-fr-toulouse"
+      ]
+    }
+  }
+}
