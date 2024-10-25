@@ -56,13 +56,14 @@ class AccessesController < ApplicationController
   end
 
   def all
-    all_accesses = repository.find_and_expand(
-      '/accesses/all',
-      branch: params[:branch] || 'master',
+    nodesets = repository.find_and_expand(
+      '/accesses/nodesets.json',
+      branch: params[:branch] || 'master'
     )
+    raise NotFound, 'Accesses does not exist.' unless nodesets
 
-    raise NotFound, "Accesses does not exist." unless all_accesses
-    render_result(all_accesses)
+    accesses = Accesses.build_accesses(nodesets)
+    render_result(accesses)
   end
 
   def refrepo
