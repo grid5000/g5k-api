@@ -69,11 +69,11 @@ module Accesses
         groups = groups_hash['ggas']
 
         groups_hash['sites'].each do |site|
-          if ums.site_exists?(site)
-            groups.concat ums.expand_site(site)
-          else
-            warn.push("Unable to expand #{site}: no site by that name")
+          unless ums.site_exists?(site)
+            raise "Unable to expand site '#{site}': no site by that name (error: ACCESS_NOSITE)"
           end
+
+          groups.concat ums.expand_site(site)
         end
         groups.uniq
       end
