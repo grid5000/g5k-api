@@ -19,11 +19,16 @@ describe AccessesController do
 
   describe 'GET all' do
     it 'should get all sites and ggas' do
+      stub_request(:get, 'https://public-api.grid5000.fr/stable/users/ggas_and_sites')
+        .with(headers: { 'Host' => 'public-api.grid5000.fr' })
+        .to_return(status: 200, body: fixture('ums-ggas_and_sites.json'))
+
       get :all, format: :json
+
       expect(response.status).to eq(200)
       expect(json).to be_a(Hash)
       # Just a simple smoke test to make sure the json is correctly populated.
-      expect(json["atilf"]["abacus1"]["label"]).to eq "p3"
+      expect(json['atilf']['abacus1']['label']).to eq 'p3'
     end
   end
 

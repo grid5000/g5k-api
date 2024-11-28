@@ -172,6 +172,16 @@ repository and copy the new one:
     $ rm -rf spec/fixtures/reference-repository
     $ cp -r ~/git/reference-repository/data/
 
+-----
+
+**As far as I can tell the follwing section on data reduction doesn't work anymore the
+`git-filter-repo` tool doesn't exist anymore (And is probably now part of a standard git command)
+and the `git gc --aggressive` will break the subrepo.**
+
+**You should only try these steps in a separated commit.**
+
+-----
+
 The repository can be quite heavy, so to limit the import size into g5k-api we
 can only keep the `data` directory and rewrite the git history.
 
@@ -181,6 +191,12 @@ used to do that:
     $ cd spec/fixtures/reference-repository
     $ /usr/libexec/git-core/git-filter-repo --path data
     $ git gc --aggressive
+
+-----
+
+** End of broken section **
+
+----
 
 Some rspec tests require to add a symlink inside the repository, because this
 aspect is not used inside our reference-repository (we don't use links at all).
