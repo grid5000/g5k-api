@@ -1,3 +1,10 @@
+g5k-api (3.11.12) unstable; urgency=medium
+
+  * 91f060e [spec][access] Updated fixtures for dynamicaly generated accesses
+  * a5b6943 [accesses] Dynamically generate accesses page
+
+ -- Luke Bertot <luke.bertot@inria.fr>  Thu, 28 Nov 2024 12:44:20 +0100
+
 g5k-api (3.11.11) unstable; urgency=medium
 
   * 265e1e9 Setup CORS with rack-cors
