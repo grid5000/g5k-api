@@ -1,3 +1,9 @@
+g5k-api (3.11.13) unstable; urgency=medium
+
+  * 9cfad8f upgrade gem version
+
+ -- Alexandre MERLIN <alexandre.merlin@inria.fr>  Tue, 18 Mar 2025 10:13:13 +0100
+
 g5k-api (3.11.12) unstable; urgency=medium
 
   * 91f060e [spec][access] Updated fixtures for dynamicaly generated accesses
